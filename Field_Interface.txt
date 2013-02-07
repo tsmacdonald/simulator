@@ -1,0 +1,16 @@
+Field:
+The most straightforward approach to implementing Field is to make it a generic class. This way, there will be no trouble determining the field type.
+
+Example Field Class Stub:
+public class Field<T> {
+
+    private T value;
+    private String name;
+
+    public Field(String name) {
+        this.name = name;
+    }
+
+    public T getValue() { return value; }
+    public void setValue(T value) { this.value = value; }
+}
