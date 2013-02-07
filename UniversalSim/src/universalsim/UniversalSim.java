@@ -1,13 +1,12 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * UniversalSim Class
+ * 
+ * Written by Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
+ * 
+ * 
  */
 package universalsim;
 
-/**
- *
- * @author Simon
- */
 public class UniversalSim {
 
     /**

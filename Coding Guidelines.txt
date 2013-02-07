@@ -1,0 +1,2 @@
+For all intents and purposes, I'm using "standard" coding guidelines in addition to the NetBeans IDE suggested guidelines. I will try to keep things commented but I have a hard time with that.
+-Simon

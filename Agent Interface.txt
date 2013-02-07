@@ -25,4 +25,4 @@ Methods:
 -boolean addTrigger(Trigger t)
 -boolean removeTrigger(Trigger t)
 
-In addition, Agent needs several helper classes as well (Field and Trigger). These can be either inner classes or seperate classes. For simplicity, these classes should be public so the input form, for example, can make a new instance.
+In addition, Agent needs several helper classes (Field and Trigger). These can be either inner classes or seperate classes. For encapsulation purposes, these classes should be private.
