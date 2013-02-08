@@ -1,7 +1,7 @@
-/*
+/**
  * UniversalSim Class
  * 
- * Written by Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
+ * @author Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
  * 
  * 
  */

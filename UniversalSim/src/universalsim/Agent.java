@@ -1,7 +1,7 @@
-/*
+/**
  * Agent Class
  * 
- * Written by Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
+ * @author Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
  * 
  * Agents model actors in the simulation's Environment.
  */
@@ -25,7 +25,7 @@ public class Agent implements Cloneable {
     private ArrayList<Trigger> triggers;
     
     /**
-     * The list of all children of this Agent, if it's a prototype agent. Will always be null, otherwise.
+     * The list of all children of this Agent if it's a prototype agent. Will always be null, otherwise.
      */
     private ArrayList<Agent> children;
     
@@ -63,7 +63,10 @@ public class Agent implements Cloneable {
                 break;
             }
         }
-        toDo.fire();
+        
+        if(toDo != null) {
+        	toDo.fire();
+        }
     }
     
     /**
@@ -155,6 +158,7 @@ public class Agent implements Cloneable {
      */
     public void removeTrigger(int priority) {
         triggers.remove(triggers.get(priority));
+        Collections.sort(triggers);
         if(children != null) {
             for(Agent a : children) {
                 a.removeTrigger(priority);
