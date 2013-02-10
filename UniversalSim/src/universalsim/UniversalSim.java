@@ -2,8 +2,9 @@
  * UniversalSim.java
  * 
  * @author Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
- * Wheaton College, CSCI 345, Spring 2013
+ * Wheaton College, CSCI 335, Spring 2013
  */
+
 package universalsim;
 
 public class UniversalSim {

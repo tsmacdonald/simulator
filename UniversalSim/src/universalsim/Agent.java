@@ -1,17 +1,17 @@
 /**
  * Agent.java
  *
- * Agents model actors in the simulation's Environment.
+ * Agents model actors in the simulation's Grid.
  * 
  * @author Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
- * Wheaton College, CSCI 345, Spring 2013
+ * Wheaton College, CSCI 335, Spring 2013
  */
+
 package universalsim;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-
 
 public class Agent implements Cloneable {
     
