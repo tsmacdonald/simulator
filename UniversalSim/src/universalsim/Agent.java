@@ -1,16 +1,17 @@
 /**
- * Agent Class
+ * Agent.java
+ *
+ * Agents model actors in the simulation's Grid.
  * 
  * @author Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
- * 
- * Agents model actors in the simulation's Environment.
+ * Wheaton College, CSCI 335, Spring 2013
  */
+
 package universalsim;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-
 
 public class Agent implements Cloneable {
     
@@ -32,17 +33,17 @@ public class Agent implements Cloneable {
     /**
      * A pointer to the environment so new Agents can be added or removed.
      */
-    private Environment environment;
+    private Grid grid;
     
     /**
      * Constructor.
      * @param e The environment this Agent acts within.
      * @param isPrototype Is this a prototype agent from which all other agents of this type are made?
      */
-    public Agent(Environment e, boolean isPrototype) {
+    public Agent(Grid g, boolean isPrototype) {
         fields = new ArrayList<>();
         triggers = new ArrayList<>();
-        environment = e;
+        grid = g;
         if(isPrototype) {
             children = new ArrayList<>();
         }
@@ -73,14 +74,14 @@ public class Agent implements Cloneable {
      * Clones this Agent and puts it in the environment's list of Agents.
      */
     private void cloneAgent() {
-        environment.addAgent(clone());
+        grid.addAgent(clone());
     }
     
     /**
      * Removes this Agent from the environment's list.
      */
     private void die() {
-        environment.removeAgent(this);
+        grid.removeAgent(this);
     }
     
     /**
