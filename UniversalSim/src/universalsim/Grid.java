@@ -7,6 +7,6 @@
  */
 package universalsim;
 
-public class Environment {
+public class Grid {
     
 }
