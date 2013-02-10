@@ -1,9 +1,10 @@
 /**
- * Agent Class
+ * Agent.java
+ *
+ * Agents model actors in the simulation's Environment.
  * 
  * @author Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
- * 
- * Agents model actors in the simulation's Environment.
+ * Wheaton College, CSCI 345, Spring 2013
  */
 package universalsim;
 
