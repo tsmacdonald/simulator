@@ -18,6 +18,11 @@ public class BoolExpressionOperator extends BoolExpression {
 	private String op; 
 	
 	/**
+	 * Hold references to this agent and an arbitary agent "other", as this will be required for some trigger conditions
+	 */
+	private Agent me, other; 
+	
+	/**
 	 * The two boolean expressions that are evaluated using the stored boolean operator
 	 */
 	private BoolExpression right, left; 

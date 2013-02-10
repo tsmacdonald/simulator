@@ -19,6 +19,11 @@ public class BoolExpression {
 	private boolean value; 
 	
 	/**
+	 * Hold references to this agent and an arbitary agent "other", as this will be required for some trigger conditions
+	 */
+	private Agent me, other;
+	
+	/**
 	 * Default constructor
 	 */
 	public BoolExpression(){}
@@ -28,7 +33,17 @@ public class BoolExpression {
 	 * @param value The value this boolean expression will represent
 	 */
 	public BoolExpression(boolean value){
-		this.value = value; 
+		this.value = value;
+		me = null; 
+		other = null; 
+	}
+	
+	public void setMe(Agent me){
+		this.me = me; 
+	}
+	
+	public void setOther(Agent other){
+		this.other = other; 
 	}
 	
 	/**
