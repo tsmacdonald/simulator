@@ -14,7 +14,7 @@ public class Grid {
     /**
      * The grid of all slots containing all agents
      */
-    Slot[][] grid;
+    private Slot[][] grid;
     
     /**
      * Creates a grid with the given width and height specifications
