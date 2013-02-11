@@ -7,7 +7,7 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package universalsim;
+package edu.wheaton.universalsim.agent;
 
 public class Trigger {
 
@@ -21,7 +21,12 @@ public class Trigger {
 	 */
 	private String conditions; 
 	
-	private BoolExpression expression; 
+	private BoolExpression expression;
+	
+	/**
+	 * The Agent for which this Trigger will fire.
+	 */
+	private Agent owner;
 	
 	/**
 	 * Constructor
@@ -32,6 +37,24 @@ public class Trigger {
 		this.priority = priority; 
 		this.conditions = conditions; 
 		expression = generate(); 
+	}
+	
+	/**
+	 * Clone Constructor. Creates a deep copy of the object (new instance variables, not just references).
+	 * @param parent The trigger from which to clone.
+	 */
+	public Trigger(Trigger parent) {
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * Clone Constructor required for referring to new agent.
+	 * @param parent The trigger from which to clone.
+	 * @param owner A reference to the Agent to which this trigger belongs.
+	 */
+	public Trigger(Trigger parent, Agent owner) {
+		this(parent);
+		this.owner = owner;
 	}
 	
 	/**

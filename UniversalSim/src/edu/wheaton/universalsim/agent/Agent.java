@@ -7,18 +7,23 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package universalsim;
+package edu.wheaton.universalsim.agent;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
-public class Agent implements Cloneable {
+import edu.wheaton.universalsim.Grid;
+
+public class Agent {
     
     /**
      * The list of all fields (variables) associated with this agent.
      */
-    private ArrayList<Field> fields;
+    private HashMap<String, String> fields;
     
     /**
      * The list of all triggers/events associated with this agent.
@@ -41,7 +46,7 @@ public class Agent implements Cloneable {
      * @param isPrototype Is this a prototype agent from which all other agents of this type are made?
      */
     public Agent(Grid g, boolean isPrototype) {
-        fields = new ArrayList<>();
+        fields = new HashMap<>();
         triggers = new ArrayList<>();
         grid = g;
         if(isPrototype) {
@@ -53,13 +58,39 @@ public class Agent implements Cloneable {
     }
     
     /**
+     * Clone constructor. Will create a deep clone with every instance variable copied, not just references.
+     * @param parent The parent from which to clone.
+     */
+    public Agent(Agent parent, boolean isPrototype) {
+    	fields = new HashMap<>();
+    	triggers = new ArrayList<>();
+    	
+    	Set<Entry<String, String>> entrySet = parent.fields.entrySet();
+    	for(Entry<String, String> e : entrySet) {
+    		fields.put(e.getKey(), e.getValue());
+    	}
+    	
+    	for(Trigger t : parent.triggers) {
+    		triggers.add(new Trigger(t, this));
+    	}
+    	
+    	if(isPrototype) {
+    		children = new ArrayList<>();
+    	}
+    	else {
+    		children = null;
+    	}
+    	grid = parent.grid;
+    }
+    
+    /**
      * Causes this Agent to perform 1 action.
      * The first trigger with valid conditions will fire.
      */
     public void act() {
         Trigger toDo;
         for(Trigger t : triggers) {
-            if(t.root.evaluate()) {
+            if(t.evaluate()) {
                 toDo = t;
                 break;
             }
@@ -71,10 +102,17 @@ public class Agent implements Cloneable {
     }
     
     /**
-     * Clones this Agent and puts it in the environment's list of Agents.
+     * Clones this agent and puts it in the environment's list of agents.
      */
     private void cloneAgent() {
-        grid.addAgent(clone());
+        grid.addAgent(new Agent(this, false));
+    }
+    
+    /**
+     * Clones this agent and prepares it to be a prototype agent.
+     */
+    private void cloneAgentPrototype() {
+    	grid.addAgent(new Agent(this, true));
     }
     
     /**

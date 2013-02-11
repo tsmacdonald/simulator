@@ -5,7 +5,7 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package universalsim;
+package edu.wheaton.universalsim;
 
 public class UniversalSim {
 

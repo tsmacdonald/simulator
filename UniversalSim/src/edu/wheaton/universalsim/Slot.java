@@ -1,3 +1,7 @@
+package edu.wheaton.universalsim;
+
+import edu.wheaton.universalsim.agent.Agent;
+
 /**
  * Slot.java
  * 
