@@ -17,13 +17,15 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import edu.wheaton.universalsim.Grid;
+import edu.wheaton.universalsim.exceptions.ElementAlreadyContainedException;
+import edu.wheaton.universalsim.exceptions.StringFormatMismatchException;
 
 public class Agent {
     
     /**
      * The list of all fields (variables) associated with this agent.
      */
-    private HashMap<String, String> fields;
+    private ArrayList<Field> fields;
     
     /**
      * The list of all triggers/events associated with this agent.
@@ -46,7 +48,7 @@ public class Agent {
      * @param isPrototype Is this a prototype agent from which all other agents of this type are made?
      */
     public Agent(Grid g, boolean isPrototype) {
-        fields = new HashMap<>();
+        fields = new ArrayList<>();
         triggers = new ArrayList<>();
         grid = g;
         if(isPrototype) {
@@ -62,16 +64,15 @@ public class Agent {
      * @param parent The parent from which to clone.
      */
     public Agent(Agent parent, boolean isPrototype) {
-    	fields = new HashMap<>();
+    	fields = new ArrayList<>();
     	triggers = new ArrayList<>();
     	
-    	Set<Entry<String, String>> entrySet = parent.fields.entrySet();
-    	for(Entry<String, String> e : entrySet) {
-    		fields.put(e.getKey(), e.getValue());
+    	for(Field f : parent.fields) {
+    		fields.add(new Field(f)); //copy all fields
     	}
     	
     	for(Trigger t : parent.triggers) {
-    		triggers.add(new Trigger(t, this));
+    		triggers.add(new Trigger(t, this)); //copy all triggers
     	}
     	
     	if(isPrototype) {
@@ -109,7 +110,8 @@ public class Agent {
     }
     
     /**
-     * Clones this agent and prepares it to be a prototype agent.
+     * Clones this agent and puts it in the environment's list of agents,
+     * then prepares it to be a prototype agent.
      */
     private void cloneAgentPrototype() {
     	grid.addAgent(new Agent(this, true));
@@ -124,37 +126,31 @@ public class Agent {
     
     /**
      * Parses the input string for a field, then adds that field.
-     * Will throw an IOException if the input string is not formatted properly.
      * The input string should be in the format: "Name=...\nType=...\nValue=..." There should be no spaces present in the input string.
+     * Note that if a field already exists for this agent with the same name as the new candidate, it won't be added and will instead throw an exception.
      * @param s The text representation of this field.
+     * @throws ElementAlreadyContainedException 
+     * @throws StringFormatMismatchException 
      */
-    public void addField(String s) throws IOException {
+    public void addField(String s) throws ElementAlreadyContainedException, StringFormatMismatchException {
         String[] lines = s.split("\n");
         if(lines.length != 3 || !lines[0].substring(0, 5).equals("Name=") || !lines[1].substring(0, 5).equals("Type=") || !lines[2].substring(0, 6).equals("Value=")) {
-            throw new IOException();
+            throw new StringFormatMismatchException();
         }
         String name = lines[0].substring(5, lines[0].length());
         String type = lines[1].substring(5, lines[1].length());
         String value = lines[2].substring(6, lines[2].length());
-        try {
-            switch(type) {
-                case "int":
-                    fields.add(new Field<Integer>(name, Integer.parseInt(value)));
-                    break;
-                case "double":
-                    fields.add(new Field<Double>(name, Double.parseDouble(value)));
-                    break;
-                case "char":
-                    fields.add(new Field<Character>(name, value.charAt(0)));
-                    break;
-                case "String":
-                    fields.add(new Field<String>(name, value));
-                    break;
-            }
+        
+        //Check to see if it's contained.
+        Field contained = null;
+        for(Field f : fields) {
+        	if (f.getName().equals(name)) {
+        		contained = f;
+        		break;
+        	}
         }
-        catch(Exception e) {
-            throw new IOException();
-        }
+        if(contained != null) throw new ElementAlreadyContainedException();
+        fields.add(new Field(name, type, value));
     }
     
     /**
@@ -162,7 +158,12 @@ public class Agent {
      * @param name 
      */
     public void removeField(String name) {
-        throw new UnsupportedOperationException();
+        for(Field f : fields) {
+        	if (f.getName().equals(name)) {
+        		fields.remove(f);
+        		break;
+        	}
+        }
     }
     
     /**

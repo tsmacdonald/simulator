@@ -1,6 +1,6 @@
 package edu.wheaton.universalsim.agent;
 
-import com.sun.corba.se.impl.io.TypeMismatchException;
+import edu.wheaton.universalsim.exceptions.StringFormatMismatchException;
 
 /**
  * Field class for modeling variables.
@@ -39,8 +39,9 @@ public class Field {
 	 * Constructor.
 	 * @param type Type of variable. Should be int, double, char, or String.
 	 * @param value Value of variable. Should match the type; an exception will be thrown if not.
+	 * @throws StringFormatMismatchException 
 	 */
-	public Field(String name, String type, String value) {
+	public Field(String name, String type, String value) throws StringFormatMismatchException {
 		this.name = name;
 		switch(type.toUpperCase()) {
 			case "INT":
@@ -60,12 +61,23 @@ public class Field {
 				this.value = value;
 				break;
 			default:
-				throw new TypeMismatchException();
+				throw new StringFormatMismatchException();
 		}
 		
 		this.value = value;
 	}
 	
+	/**
+	 * Clone constructor
+	 * @param parent Parent field
+	 */
+	public Field(Field parent) {
+		name = parent.name;
+		type = parent.type;
+		value = parent.value;
+		
+	}
+ 	
 	/**
 	 * @return True if int, false otherwise.
 	 */
@@ -100,10 +112,11 @@ public class Field {
 	
 	/**
 	 * @return The int value of this field, if possible.
+	 * @throws StringFormatMismatchException 
 	 */
-	public int intValue() {
+	public int intValue() throws StringFormatMismatchException {
 		int toReturn;
-		if(type == Type.STRING || type == Type.DOUBLE) throw new TypeMismatchException();
+		if(type == Type.STRING || type == Type.DOUBLE) throw new StringFormatMismatchException();
 		else if(type == Type.CHAR) {
 			toReturn = value.charAt(0);
 		}
@@ -115,10 +128,11 @@ public class Field {
 	
 	/**
 	 * @return The double value of this field, if possible.
+	 * @throws StringFormatMismatchException 
 	 */
-	public double doubleValue() {
+	public double doubleValue() throws StringFormatMismatchException {
 		double toReturn;
-		if(type == Type.STRING) throw new TypeMismatchException();
+		if(type == Type.STRING) throw new StringFormatMismatchException();
 		else if(type == Type.CHAR) {
 			toReturn = value.charAt(0);
 		}
@@ -130,9 +144,10 @@ public class Field {
 	
 	/**
 	 * @return The char value of this field, if possible.
+	 * @throws StringFormatMismatchException 
 	 */
-	public char charValue() {
-		if(type == Type.STRING || type == Type.DOUBLE || type == Type.INT) throw new TypeMismatchException();
+	public char charValue() throws StringFormatMismatchException {
+		if(type == Type.STRING || type == Type.DOUBLE || type == Type.INT) throw new StringFormatMismatchException();
 		return value.charAt(0);
 	}
 	
@@ -145,49 +160,53 @@ public class Field {
 	
 	/**
 	 * @param s The new String value to set this field to.
+	 * @throws StringFormatMismatchException 
 	 */
-	public void setValue(String s) {
+	public void setValue(String s) throws StringFormatMismatchException {
 		if(type == Type.STRING) {
 			value = s;
 		}
 		else {
-			throw new TypeMismatchException();
+			throw new StringFormatMismatchException();
 		}
 	}
 	
 	/**
 	 * @param s The new double value to set this field to.
+	 * @throws StringFormatMismatchException 
 	 */
-	public void setValue(double d) {
+	public void setValue(double d) throws StringFormatMismatchException {
 		if(type == Type.DOUBLE) {
 			value = d + "";
 		}
 		else {
-			throw new TypeMismatchException();
+			throw new StringFormatMismatchException();
 		}
 	}
 	
 	/**
 	 * @param s The new int value to set this field to.
+	 * @throws StringFormatMismatchException 
 	 */
-	public void setValue(int i) {
+	public void setValue(int i) throws StringFormatMismatchException {
 		if(type == Type.INT) {
 			value = i + "";
 		}
 		else {
-			throw new TypeMismatchException();
+			throw new StringFormatMismatchException();
 		}
 	}
 	
 	/**
 	 * @param s The new char value to set this field to.
+	 * @throws StringFormatMismatchException 
 	 */
-	public void setValue(char c) {
+	public void setValue(char c) throws StringFormatMismatchException {
 		if(type == Type.CHAR) {
 			value = c + "";
 		}
 		else {
-			throw new TypeMismatchException();
+			throw new StringFormatMismatchException();
 		}
 	}
 	
