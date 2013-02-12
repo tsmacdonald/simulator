@@ -54,4 +54,13 @@ public class BoolExpression {
 	public boolean evaluate() throws Exception{
 		return value; 
 	}
+
+	/**
+	 * Parses string input and turns it into the tree representation of the boolean expression.
+	 * @param s The string to parse.
+	 * @return The boolean expression tree.
+	 */
+	public static BoolExpression parseExpression(String s) {
+		throw new UnsupportedOperationException();
+	}
 }

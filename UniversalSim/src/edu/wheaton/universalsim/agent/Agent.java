@@ -12,9 +12,6 @@ package edu.wheaton.universalsim.agent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import edu.wheaton.universalsim.Grid;
 import edu.wheaton.universalsim.exceptions.ElementAlreadyContainedException;
@@ -87,25 +84,31 @@ public class Agent {
     /**
      * Causes this Agent to perform 1 action.
      * The first trigger with valid conditions will fire.
+     * @throws Exception 
      */
     public void act() {
-        Trigger toDo;
-        for(Trigger t : triggers) {
-            if(t.evaluate()) {
-                toDo = t;
-                break;
-            }
-        }
-        
-        if(toDo != null) {
-        	toDo.fire();
-        }
+    	try {
+    		Trigger toDo = null;
+    		for(Trigger t : triggers) {
+    			if(t.evaluate()) {
+	                toDo = t;
+	                break;
+	            }
+	        }
+	        
+	        if(toDo != null) {
+	        	toDo.fire();
+	        }
+    	}
+    	catch(Exception e) {
+    		System.err.println(e);
+    	}
     }
     
     /**
      * Clones this agent and puts it in the environment's list of agents.
      */
-    private void cloneAgent() {
+    public void cloneAgent() {
         grid.addAgent(new Agent(this, false));
     }
     
@@ -113,14 +116,14 @@ public class Agent {
      * Clones this agent and puts it in the environment's list of agents,
      * then prepares it to be a prototype agent.
      */
-    private void cloneAgentPrototype() {
+    public void cloneAgentPrototype() {
     	grid.addAgent(new Agent(this, true));
     }
     
     /**
      * Removes this Agent from the environment's list.
      */
-    private void die() {
+    public void die() {
         grid.removeAgent(this);
     }
     
@@ -169,26 +172,19 @@ public class Agent {
     /**
      * Parses the input string for a trigger, then adds that trigger.
      * Will throw an IOException if the input string is not formatted properly.
-     * The input string should be in the format: "Condition=...\nResult=..." There should be no spaces present in the input string.
+     * The input string should be in the format: "Priority=...\nCondition=...\nResult=..." There should be no spaces present in the input string.
      * @param s The text representation of this trigger.
      */
     public void addTrigger(String s) throws IOException {
         String[] lines = s.split("\n");
-        if(lines.length != 2 || !lines[0].substring(0, 10).equals("Condition=") || !lines[1].substring(0, 7).equals("Result=")) {
+        if(lines.length != 3 || !lines[0].substring(0, 9).equals("Priority=") || !lines[1].substring(0, 10).equals("Condition=") || !lines[2].substring(0, 7).equals("Result=")) {
             throw new IOException();
         }
-        Trigger.BooleanExpression be = Trigger.BooleanExpression.parseExpression(lines[0].substring(10, lines[0].length()));
-        Trigger.Result result = Trigger.Result.parseResult(lines[1].substring(7, lines[1].length()));
-        triggers.add(new Trigger(be, result));
+        int priority = Integer.parseInt(lines[0].substring(9, lines[0].length()));
+        BoolExpression be = BoolExpression.parseExpression(lines[0].substring(10, lines[0].length()));
+        Result result = Result.parseResult(lines[1].substring(7, lines[1].length()));
+        triggers.add(new Trigger(priority, be, result));
         Collections.sort(triggers);
-    }
-    
-    /**
-     * Removes a trigger with the given name. May not be implemented depending on if we give triggers names or not.
-     * @param s The name of the trigger to remove.
-     */
-    public void removeTrigger(String name) {
-        throw new UnsupportedOperationException();
     }
     
     /**

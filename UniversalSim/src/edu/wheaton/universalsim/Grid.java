@@ -88,6 +88,22 @@ public class Grid {
     private int getHumidity(int x, int y){
         return grid[x][y].getHumidity();
     }
+
+    /**
+     * Removes the given agent from the grid.
+     * @param agent The agent to remove.
+     */
+	public void removeAgent(Agent agent) {
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Adds the given agent to the grid.
+	 * @param agent The agent to add.
+	 */
+	public void addAgent(Agent agent) {
+		throw new UnsupportedOperationException();
+	}
     
     
 }
