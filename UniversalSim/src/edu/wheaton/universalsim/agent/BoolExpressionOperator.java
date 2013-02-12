@@ -25,15 +25,15 @@ public class BoolExpressionOperator extends BoolExpression {
 	/**
 	 * The two boolean expressions that are evaluated using the stored boolean operator
 	 */
-	private BoolExpression right, left; 
+	private BoolExpression left, right; 
 	
 	/**
 	 * Default constructor
 	 */
 	public BoolExpressionOperator(){
 		op = null; 
-		right = null; 
 		left = null; 
+		right = null;
 	}
 	
 	/**
@@ -44,8 +44,8 @@ public class BoolExpressionOperator extends BoolExpression {
 	 */
 	public BoolExpressionOperator(String op, BoolExpression right, BoolExpression left){
 		this.op = op; 
-		this.right = right; 
 		this.left = left; 
+		this.right = right;
 	}
 	
 	/**

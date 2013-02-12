@@ -11,6 +11,8 @@
 
 package edu.wheaton.universalsim.agent;
 
+import java.util.Stack;
+
 public class BoolExpression {
 
 	/**
@@ -19,7 +21,7 @@ public class BoolExpression {
 	private boolean value; 
 	
 	/**
-	 * Hold references to this agent and an arbitary agent "other", as this will be required for some trigger conditions
+	 * Hold references to this agent and an arbitary agent "other", as this will be required for some trigger conditions.
 	 */
 	private Agent me, other;
 	
@@ -51,12 +53,15 @@ public class BoolExpression {
 	 * @return the evaluation
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
-	public boolean evaluate() throws Exception{
-		return value; 
+	public boolean evaluate() throws StringFormatMismatchException {
+		return value;
 	}
 
 	/**
 	 * Parses string input and turns it into the tree representation of the boolean expression.
+	 * Every operation should be of the form (x op y) and parenthesized.
+	 * All variables must be "Primitive" (no booleans).
+	 * Examples: ((x op y) op (z op k)), (((x op y) op z) op k).
 	 * @param s The string to parse.
 	 * @return The boolean expression tree.
 	 */

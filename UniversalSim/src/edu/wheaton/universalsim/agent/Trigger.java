@@ -38,6 +38,12 @@ public class Trigger implements Comparable<Trigger> {
 	private Agent owner;
 	
 	/**
+	 * The "other" agent which caused this trigger to evaluate true.
+	 * Needed so that we may pass it to the result.
+	 */
+	private Agent other;
+	
+	/**
 	 * Constructor
 	 * @param priority Triggers are checked in order of priority, with lower numbers coming first
 	 * @param conditions String encoding the boolean expression this trigger represents
@@ -46,6 +52,8 @@ public class Trigger implements Comparable<Trigger> {
 		this.priority = priority;
 		this.conditions = conditions;
 		expression = generate();
+		owner = null;
+		other = null;
 	}
 	
 	/**
@@ -53,17 +61,24 @@ public class Trigger implements Comparable<Trigger> {
 	 * @param priority Priority for this trigger.
 	 * @param conditions Tree representing this trigger's fire conditions.
 	 * @param result Models the outcome of the trigger being fired.
+	 * @param owner The agent who owns this Trigger.
 	 */
-	public Trigger(int priority, BoolExpression conditions, Result result) {
-		throw new UnsupportedOperationException();
+	public Trigger(int priority, BoolExpression conditions, Result result, Agent owner) {
+		this.priority = priority;
+		expression = conditions;
+		this.result = result;
+		this.owner = owner;
+		other = null;
 	}
 	
 	/**
-	 * Clone Constructor. Creates a deep copy of the object (new instance variables, not just references).
+	 * Clone Constructor. Deep copy is not necessary at this point.
 	 * @param parent The trigger from which to clone.
 	 */
 	public Trigger(Trigger parent) {
-		throw new UnsupportedOperationException();
+		priority = parent.priority;
+		expression = parent.expression;
+		result = parent.result;
 	}
 	
 	/**
@@ -77,19 +92,27 @@ public class Trigger implements Comparable<Trigger> {
 	}
 	
 	/**
-	 * Evaluates the boolean expression represented by this object
-	 * @return true/false indicating if the trigger was activated
-	 * @throws Exception if the expression was invalid
+	 * Evaluates the boolean expression represented by this object.
+	 * If the expression is true, will return the "other" agent it's true for.
+	 * If no "other" was used for the expression, will result the "owner" agent of this trigger.
+	 * @return The agent that caused this trigger to be true.
+	 * @throws StringFormatMismatchException if the expression was invalid
 	 */
-	public boolean evaluate() throws Exception{
-		return expression.evaluate(); 
+	public boolean evaluate() throws StringFormatMismatchException {
+		other = expression.evaluate();
+		if(other == null) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 	
 	/**
 	 * Get this trigger's priority
 	 * @return the priority
 	 */
-	public int priority(){
+	public int getPriority(){
 		return priority; 
 	}
 	
@@ -97,7 +120,7 @@ public class Trigger implements Comparable<Trigger> {
 	 * Get the String representation of this trigger's firing condition
 	 * @return the firing condition
 	 */
-	public String conditions(){
+	public String getConditions(){
 		return conditions; 
 	}
 
@@ -114,7 +137,7 @@ public class Trigger implements Comparable<Trigger> {
 	 * Fires the trigger. Will depend on the Result object for this trigger.
 	 */
 	public void fire() {
-		throw new UnsupportedOperationException();
+		result.fire();
 	}
 	
 	/**

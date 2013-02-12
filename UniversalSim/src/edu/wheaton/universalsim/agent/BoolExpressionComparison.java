@@ -20,27 +20,27 @@ public class BoolExpressionComparison extends BoolExpression {
 	/**
 	 * The two PrimitiveExpression's that are evaluated using the stored boolean comparison operator
 	 */
-	private PrimitiveExpression right, left; 
+	private PrimitiveExpression left, right; 
 	
 	/**
 	 * Default constructor
 	 */
 	public BoolExpressionComparison(){
 		op = null; 
-		right = null; 
 		left = null; 
+		right = null; 
 	}
 	
 	/**
 	 * Constructor
 	 * @param op The operator contained in this class (==, !=, >, <, =>, =<). Represented as a string. 
-	 * @param right The first of two PrimitiveExpression's that are evaluated using the stored boolean comparison operator
+	 * @param left The first of two PrimitiveExpression's that are evaluated using the stored boolean comparison operator
 	 * @param left The second of two PrimitiveExpression's that are evaluated using the stored boolean comparison operator
 	 */
-	public BoolExpressionComparison(String op, PrimitiveExpression right, PrimitiveExpression left){
+	public BoolExpressionComparison(String op, PrimitiveExpression left, PrimitiveExpression right){
 		this.op = op; 
-		this.right = right; 
 		this.left = left; 
+		this.right = right; 
 	}
 	
 	/**
@@ -49,22 +49,22 @@ public class BoolExpressionComparison extends BoolExpression {
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
 	public boolean evaluate() throws Exception{
-		PrimitiveExpression rightEval = right.evaluate();
-		PrimitiveExpression leftEval = left.evaluate(); 
+		PrimitiveExpression leftEval = left.evaluate();
+		PrimitiveExpression rightEval = left.evaluate(); 
 		
 		switch(op){
 		case "==": 
-			return rightEval.toString().equals(leftEval.toString()); 
+			return leftEval.toString().equals(rightEval.toString()); 
 		case "!=": 
-			return !rightEval.toString().equals(leftEval.toString()); 
+			return !leftEval.toString().equals(rightEval.toString()); 
 		case ">": 
-			return rightEval.toInt() > leftEval.toInt();
+			return leftEval.toInt() > rightEval.toInt();
 		case "<": 
-			return rightEval.toInt() < leftEval.toInt();
+			return leftEval.toInt() < rightEval.toInt();
 		case ">=": 
-			return rightEval.toInt() >= leftEval.toInt();
+			return leftEval.toInt() >= rightEval.toInt();
 		case "<=": 
-			return rightEval.toInt() <= leftEval.toInt();
+			return leftEval.toInt() <= rightEval.toInt();
 		default: 
 			System.out.println("BooleanExpressionComparison evaluate() error: op not recognized");
 			throw new Exception(); 

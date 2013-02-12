@@ -1,54 +1,143 @@
-/**
- * PrimitiveExpression Class
- * 
- * Contains a primitive value (String or number)  
- * 
- * @author Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
- * Wheaton College, CSCI 335, Spring 2013
- */
-
 package edu.wheaton.universalsim.agent;
 
+
 public class PrimitiveExpression {
-	
 	/**
-	 * The value contained in this object
+	 * Enum for variable type.
+	 * @author Simon Swenson
+	 *
 	 */
-	private String value; 
-	
-	/**
-	 * Default constructor
-	 */
-	public PrimitiveExpression(){}
-	
-	/**
-	 * Constructor
-	 * @param val The val this object will represent (Stored as a string by calling .toString())
-	 */
-	public PrimitiveExpression(Object val){
-		value = val.toString(); 
+	protected enum Type { INT, DOUBLE, CHAR, STRING;
+		
 	}
 	
 	/**
-	 * Get this object's value as a String
+	 * The type of this field (int, double, char, String).
 	 */
-	public String toString(){
-		return value; 
+	protected Type type;
+	
+	/**
+	 * The value of this field.
+	 */
+	protected String value;
+	
+	/**
+	 * Constructor.
+	 * @param type Type of variable. Should be int, double, char, or String.
+	 * @param value Value of variable. Should match the type; an exception will be thrown if not.
+	 * @throws StringFormatMismatchException 
+	 */
+	public PrimitiveExpression(String type, String value) throws StringFormatMismatchException {
+		switch(type.toUpperCase()) {
+			case "INT":
+				this.type = Type.INT;
+				this.value = Integer.parseInt(value) + "";
+				break;
+			case "DOUBLE":
+				this.type = Type.DOUBLE;
+				this.value = Double.parseDouble(value) + "";
+				break;
+			case "CHAR":
+				this.type = Type.CHAR;
+				this.value = value.charAt(0) + "";
+				break;
+			case "STRING":
+				this.type = Type.STRING;
+				this.value = value;
+				break;
+			default:
+				throw new StringFormatMismatchException();
+		}
+		
+		this.value = value;
 	}
 	
 	/**
-	 * Get this object's value as an int
+	 * Clone constructor
+	 * @param parent Parent field
 	 */
-	public int toInt(){
-		return Integer.parseInt(value); 
+	public PrimitiveExpression(PrimitiveExpression parent) {
+		type = parent.type;
+		value = parent.value;
+	}
+ 	
+	/**
+	 * @return True if int, false otherwise.
+	 */
+	public boolean isInt() {
+		if (type == Type.INT) return true;
+		else return false;
 	}
 	
 	/**
-	 * Evaluate this object and return a PrimitiveExpression
-	 * In this case, that is simply this object
-	 * @throws Exception if the expression is invalid
+	 * @return True if double, false otherwise.
 	 */
-	public PrimitiveExpression evaluate() throws Exception{
-		return this; 
+	public boolean isDouble() {
+		if(type == Type.DOUBLE) return true;
+		else return false;
+	}
+	
+	/**
+	 * @return True if char, false otherwise.
+	 */
+	public boolean isChar() {
+		if(type == Type.DOUBLE) return true;
+		else return false;
+	}
+	
+	/**
+	 * @return True if String, false otherwise.
+	 */
+	public boolean isString() {
+		if(type == Type.DOUBLE) return true;
+		else return false;
+	}
+	
+	/**
+	 * @return The int value of this field, if possible.
+	 * @throws StringFormatMismatchException 
+	 */
+	public int intValue() throws StringFormatMismatchException {
+		int toReturn;
+		if(type == Type.STRING || type == Type.DOUBLE) throw new StringFormatMismatchException();
+		else if(type == Type.CHAR) {
+			toReturn = value.charAt(0);
+		}
+		else {
+			toReturn = Integer.parseInt(value);
+		}
+		return toReturn;
+	}
+	
+	/**
+	 * @return The double value of this field, if possible.
+	 * @throws StringFormatMismatchException 
+	 */
+	public double doubleValue() throws StringFormatMismatchException {
+		double toReturn;
+		if(type == Type.STRING) throw new StringFormatMismatchException();
+		else if(type == Type.CHAR) {
+			toReturn = value.charAt(0);
+		}
+		else {
+			toReturn = Double.parseDouble(value);
+		}
+		return toReturn;
+	}
+	
+	/**
+	 * @return The char value of this field, if possible.
+	 * @throws StringFormatMismatchException 
+	 */
+	public char charValue() throws StringFormatMismatchException {
+		if(type != Type.CHAR) throw new StringFormatMismatchException();
+		return value.charAt(0);
+	}
+	
+	/**
+	 * @return The String value of this field.
+	 */
+	public String stringValue() {
+		return value;
 	}
 }
