@@ -12,27 +12,26 @@ package edu.wheaton.universalsim.agent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import edu.wheaton.universalsim.Grid;
-import edu.wheaton.universalsim.exceptions.ElementAlreadyContainedException;
-import edu.wheaton.universalsim.exceptions.StringFormatMismatchException;
 
 public class Agent {
     
     /**
      * The list of all fields (variables) associated with this agent.
      */
-    private ArrayList<Field> fields;
+    private List<Field> fields;
     
     /**
      * The list of all triggers/events associated with this agent.
      */
-    private ArrayList<Trigger> triggers;
+    private List<Trigger> triggers;
     
     /**
      * The list of all children of this Agent if it's a prototype agent. Will always be null, otherwise.
      */
-    private ArrayList<Agent> children;
+    private List<Agent> children;
     
     /**
      * A pointer to the environment so new Agents can be added or removed.

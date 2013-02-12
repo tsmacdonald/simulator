@@ -1,6 +1,5 @@
 package edu.wheaton.universalsim.agent;
 
-import edu.wheaton.universalsim.exceptions.StringFormatMismatchException;
 
 /**
  * Field class for modeling variables.
@@ -147,7 +146,7 @@ public class Field {
 	 * @throws StringFormatMismatchException 
 	 */
 	public char charValue() throws StringFormatMismatchException {
-		if(type == Type.STRING || type == Type.DOUBLE || type == Type.INT) throw new StringFormatMismatchException();
+		if(type != Type.CHAR) throw new StringFormatMismatchException();
 		return value.charAt(0);
 	}
 	
@@ -222,6 +221,10 @@ public class Field {
 		return toReturn;
 	}
 
+	/**
+	 * 
+	 * @return This field's name.
+	 */
 	public String getName() {
 		return name;
 	}

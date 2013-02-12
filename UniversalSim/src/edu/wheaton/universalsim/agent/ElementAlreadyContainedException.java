@@ -1,4 +1,4 @@
-package edu.wheaton.universalsim.exceptions;
+package edu.wheaton.universalsim.agent;
 
 public class ElementAlreadyContainedException extends Exception {
 
