@@ -9,101 +9,68 @@
  */
 package edu.wheaton.universalsim;
 
-import edu.wheaton.universalsim.agent.Agent;
+import edu.wheaton.universalsim.gridentities.Agent;
+import edu.wheaton.universalsim.gridentities.GridEntity;
+import edu.wheaton.universalsim.gridentities.Slot;
 
 public class Grid {
-    
-    /**
-     * The grid of all slots containing all agents
-     */
-    private Slot[][] grid;
-    
-    /**
-     * Creates a grid with the given width and height specifications
-     */
-    public Grid(int width, int height){
-        grid = new Slot[width][height];
-    }
-    
-    
-    /**
-     * Causes all agents in the grid to act()
-     */
-    private void updateAgents(){
-        for(Slot[] sArr: grid)
-            for(Slot s: sArr)
-                s.getAgent().act();
-    }
 
-     /**
-     * Adds an agent to the slot at the given coordinates
-     * Returns a boolean based on whether or not it was successful
-     */
-    private boolean addAgent(Agent a, int x, int y){
-        return grid[x][y].addAgent(a);
-    }
-    
-    /**
-     * Returns the agent in the slot at the given coordinates
-     */
-    private Agent getAgent(int x, int y){
-        return grid[x][y].getAgent();
-    }
-    
-    /**
-     * Removes an agent from the slot at the given coordinates
-     * Returns a boolean based on whether or not it was successful
-     */
-    private boolean removeAgent(int x, int y){
-        return grid[x][y].removeAgent();
-    }
-    
-    
-    /**
-     * Sets the temperature at the slot at the given coordinates
-     * TODO: Have this changed temperature affect surrounding slot temperatures
-     */
-    private void setTemperature(int temp, int x, int y){
-        grid[x][y].setTemperature(temp);
-    }
-    
-    /**
-     * Returns the temperature of the slot at the given coordinates
-     */
-    private int getTemperature(int x, int y){
-        return grid[x][y].getTemperature();
-    }
-    
-    /**
-     * Sets the humidity at the slot at the given coordinates
-     * TODO: Have this changed humidity affect surrounding slot humidities
-     */
-    private void setHumidity(int hum, int x, int y){
-        grid[x][y].setHumidity(hum);
-    }
-    
-    /**
-     * Returns the humidity of the slot at the given coordinates
-     */
-    private int getHumidity(int x, int y){
-        return grid[x][y].getHumidity();
-    }
+	/**
+	 * The grid of all slots containing all GridEntity objects
+	 */
+	private Slot[][] grid;
 
+	/**
+	 * Creates a grid with the given width and height specifications
+	 */
+	public Grid(int width, int height){
+		grid = new Slot[width][height];
+	}
+
+	/**
+	 * Causes all entities in the grid to act()
+	 */
+	private void updateEntities(){
+		for(Slot[] sArr: grid)
+			for(Slot s: sArr)
+				s.getEntity().act();
+	}
+
+	/**
+	 * Adds an entity to the slot at the given coordinates
+	 */
+	private void addEntity(GridEntity a, int x, int y){
+		grid[x][y].setEntity(a);
+	}
+
+	/**
+	 * Returns the GridEntity in the slot at the given coordinates
+	 */
+	private GridEntity getEntity(int x, int y){
+		return grid[x][y].getEntity();
+	}
+
+	/**
+	 * Removes a GridEntity from the slot at the given coordinates
+	 */
+	private void removeEntity(int x, int y){
+		grid[x][y].setEntity(null);
+	}
+	
     /**
-     * Removes the given agent from the grid.
-     * @param agent The agent to remove.
+     * Removes the given entity from the grid.
+     * @param ge The GridEntity to remove.
      */
-	public void removeAgent(Agent agent) {
+	public void removeEntity(GridEntity ge) {
 		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 * Adds the given agent to the grid.
-	 * @param agent The agent to add.
+	 * Adds the given entity to the grid.
+	 * @param ge The GridEntity to add.
 	 */
-	public void addAgent(Agent agent) {
+	public void addEntity(GridEntity ge) {
 		throw new UnsupportedOperationException();
 	}
-    
-    
+
 }

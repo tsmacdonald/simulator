@@ -1,4 +1,4 @@
-package edu.wheaton.universalsim.agent;
+package edu.wheaton.universalsim.gridentities;
 
 /**
  * Models a result for a particular trigger.

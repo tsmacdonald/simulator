@@ -7,8 +7,9 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.universalsim.agent;
+package edu.wheaton.universalsim.gridentities;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,12 +17,7 @@ import java.util.List;
 
 import edu.wheaton.universalsim.Grid;
 
-public class Agent {
-    
-    /**
-     * The list of all fields (variables) associated with this agent.
-     */
-    private List<Field> fields;
+public class Agent extends GridEntity {
     
     /**
      * The list of all triggers/events associated with this agent.
@@ -34,19 +30,17 @@ public class Agent {
     private List<Agent> children;
     
     /**
-     * A pointer to the environment so new Agents can be added or removed.
-     */
-    private Grid grid;
-    
-    /**
      * Constructor.
-     * @param e The environment this Agent acts within.
+     * @param g The grid (passed to super constructor)
+     * @param c The color of this agent (passed to super constructor)
      * @param isPrototype Is this a prototype agent from which all other agents of this type are made?
      */
-    public Agent(Grid g, boolean isPrototype) {
-        fields = new ArrayList<>();
+    public Agent(Grid g, Color c, boolean isPrototype) {
+    	super(g, c);
+    	
+		fields = new ArrayList<>();
         triggers = new ArrayList<>();
-        grid = g;
+        
         if(isPrototype) {
             children = new ArrayList<>();
         }
@@ -60,7 +54,9 @@ public class Agent {
      * @param parent The parent from which to clone.
      */
     public Agent(Agent parent, boolean isPrototype) {
-    	fields = new ArrayList<>();
+    	super(parent.grid, parent.color, parent.design);
+
+		fields = new ArrayList<>();
     	triggers = new ArrayList<>();
     	
     	for(Field f : parent.fields) {
@@ -77,7 +73,6 @@ public class Agent {
     	else {
     		children = null;
     	}
-    	grid = parent.grid;
     }
     
     /**
@@ -105,10 +100,10 @@ public class Agent {
     }
     
     /**
-     * Clones this agent and puts it in the environment's list of agents.
+     * Clones this agent and puts it in the Grid's list of agents.
      */
     public void cloneAgent() {
-        grid.addAgent(new Agent(this, false));
+        grid.addEntity(new Agent(this, false));
     }
     
     /**
@@ -116,56 +111,14 @@ public class Agent {
      * then prepares it to be a prototype agent.
      */
     public void cloneAgentPrototype() {
-    	grid.addAgent(new Agent(this, true));
+    	grid.addEntity(new Agent(this, true));
     }
     
     /**
      * Removes this Agent from the environment's list.
      */
     public void die() {
-        grid.removeAgent(this);
-    }
-    
-    /**
-     * Parses the input string for a field, then adds that field.
-     * The input string should be in the format: "Name=...\nType=...\nValue=..." There should be no spaces present in the input string.
-     * Note that if a field already exists for this agent with the same name as the new candidate, it won't be added and will instead throw an exception.
-     * @param s The text representation of this field.
-     * @throws ElementAlreadyContainedException 
-     * @throws StringFormatMismatchException 
-     */
-    public void addField(String s) throws ElementAlreadyContainedException, StringFormatMismatchException {
-        String[] lines = s.split("\n");
-        if(lines.length != 3 || !lines[0].substring(0, 5).equals("Name=") || !lines[1].substring(0, 5).equals("Type=") || !lines[2].substring(0, 6).equals("Value=")) {
-            throw new StringFormatMismatchException();
-        }
-        String name = lines[0].substring(5, lines[0].length());
-        String type = lines[1].substring(5, lines[1].length());
-        String value = lines[2].substring(6, lines[2].length());
-        
-        //Check to see if it's contained.
-        Field contained = null;
-        for(Field f : fields) {
-        	if (f.getName().equals(name)) {
-        		contained = f;
-        		break;
-        	}
-        }
-        if(contained != null) throw new ElementAlreadyContainedException();
-        fields.add(new Field(name, type, value));
-    }
-    
-    /**
-     * Removes a field from this Agent.
-     * @param name 
-     */
-    public void removeField(String name) {
-        for(Field f : fields) {
-        	if (f.getName().equals(name)) {
-        		fields.remove(f);
-        		break;
-        	}
-        }
+        grid.removeEntity(this);
     }
     
     /**

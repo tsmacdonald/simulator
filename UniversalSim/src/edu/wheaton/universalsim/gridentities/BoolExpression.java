@@ -9,7 +9,7 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.universalsim.agent;
+package edu.wheaton.universalsim.gridentities;
 
 import java.util.Stack;
 

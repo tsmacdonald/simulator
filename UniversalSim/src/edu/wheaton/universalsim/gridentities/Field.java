@@ -1,5 +1,4 @@
-package edu.wheaton.universalsim.agent;
-
+package edu.wheaton.universalsim.gridentities;
 
 /**
  * Field class for modeling variables.
