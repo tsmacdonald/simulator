@@ -18,11 +18,6 @@ public class BoolExpressionOperator extends BoolExpression {
 	private String op; 
 	
 	/**
-	 * Hold references to this agent and an arbitary agent "other", as this will be required for some trigger conditions
-	 */
-	private Agent me, other; 
-	
-	/**
 	 * The two boolean expressions that are evaluated using the stored boolean operator
 	 */
 	private BoolExpression left, right; 
@@ -53,9 +48,9 @@ public class BoolExpressionOperator extends BoolExpression {
 	 * @return the evaluation
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
-	public boolean evaluate() throws Exception{
-		boolean rightEval = right.evaluate();
-		boolean leftEval = left.evaluate(); 
+	public boolean evaluate(Agent me, Agent other) throws Exception{
+		boolean rightEval = right.evaluate(me, other);
+		boolean leftEval = left.evaluate(me, other); 
 		
 		switch(op){
 		case "&&": 

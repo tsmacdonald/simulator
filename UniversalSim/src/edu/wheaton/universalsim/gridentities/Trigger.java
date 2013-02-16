@@ -96,16 +96,10 @@ public class Trigger implements Comparable<Trigger> {
 	 * If the expression is true, will return the "other" agent it's true for.
 	 * If no "other" was used for the expression, will result the "owner" agent of this trigger.
 	 * @return The agent that caused this trigger to be true.
-	 * @throws StringFormatMismatchException if the expression was invalid
+	 * @throws Exception if the expression was invalid
 	 */
-	public boolean evaluate() throws StringFormatMismatchException {
-		other = expression.evaluate();
-		if(other == null) {
-			return false;
-		}
-		else {
-			return true;
-		}
+	public Agent evaluate() throws Exception {
+		throw new UnsupportedOperationException(); 
 	}
 	
 	/**

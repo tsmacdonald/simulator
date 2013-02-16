@@ -39,19 +39,19 @@ public class PrimitiveExpressionOperator extends PrimitiveExpression {
 	 * @return the evaluation
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
-	public PrimitiveExpression evaluate() throws Exception{
-		PrimitiveExpression rightEval = right.evaluate();
-		PrimitiveExpression leftEval = left.evaluate(); 
+	public PrimitiveExpression evaluate(Agent me, Agent other) throws Exception{
+		PrimitiveExpression rightEval = right.evaluate(me, other);
+		PrimitiveExpression leftEval = left.evaluate(me, other); 
 		
 		switch(op){
 		case "+": 
-			return new PrimitiveExpression(rightEval.toInt() + leftEval.toInt());
+			return new PrimitiveExpression("int", String.valueOf(rightEval.intValue() + leftEval.intValue()));
 		case "-": 
-			return new PrimitiveExpression(rightEval.toInt() - leftEval.toInt());
+			return new PrimitiveExpression("int", String.valueOf(rightEval.intValue() - leftEval.intValue()));
 		case "*": 
-			return new PrimitiveExpression(rightEval.toInt() * leftEval.toInt());
+			return new PrimitiveExpression("int", String.valueOf(rightEval.intValue() * leftEval.intValue()));
 		case "/": 
-			return new PrimitiveExpression(rightEval.toInt() / leftEval.toInt());
+			return new PrimitiveExpression("int", String.valueOf(rightEval.intValue() / leftEval.intValue()));
 		default: 
 			System.out.println("PrimitiveExpressionOperator evaluate() error: op not recognized");
 			throw new Exception(); 

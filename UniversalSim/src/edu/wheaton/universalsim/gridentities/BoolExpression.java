@@ -21,11 +21,6 @@ public class BoolExpression {
 	private boolean value; 
 	
 	/**
-	 * Hold references to this agent and an arbitary agent "other", as this will be required for some trigger conditions.
-	 */
-	private Agent me, other;
-	
-	/**
 	 * Default constructor
 	 */
 	public BoolExpression(){}
@@ -36,16 +31,6 @@ public class BoolExpression {
 	 */
 	public BoolExpression(boolean value){
 		this.value = value;
-		me = null; 
-		other = null; 
-	}
-	
-	public void setMe(Agent me){
-		this.me = me; 
-	}
-	
-	public void setOther(Agent other){
-		this.other = other; 
 	}
 	
 	/**
@@ -53,7 +38,7 @@ public class BoolExpression {
 	 * @return the evaluation
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
-	public boolean evaluate() throws StringFormatMismatchException {
+	public boolean evaluate(Agent me, Agent other) throws Exception {
 		return value;
 	}
 

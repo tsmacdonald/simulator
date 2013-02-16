@@ -48,9 +48,9 @@ public class BoolExpressionComparison extends BoolExpression {
 	 * @return the evaluation
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
-	public boolean evaluate() throws Exception{
-		PrimitiveExpression leftEval = left.evaluate();
-		PrimitiveExpression rightEval = left.evaluate(); 
+	public boolean evaluate(Agent me, Agent other) throws Exception{
+		PrimitiveExpression leftEval = left.evaluate(me, other);
+		PrimitiveExpression rightEval = left.evaluate(me, other); 
 		
 		switch(op){
 		case "==": 
@@ -58,13 +58,13 @@ public class BoolExpressionComparison extends BoolExpression {
 		case "!=": 
 			return !leftEval.toString().equals(rightEval.toString()); 
 		case ">": 
-			return leftEval.toInt() > rightEval.toInt();
+			return leftEval.intValue() > rightEval.intValue();
 		case "<": 
-			return leftEval.toInt() < rightEval.toInt();
+			return leftEval.intValue() < rightEval.intValue();
 		case ">=": 
-			return leftEval.toInt() >= rightEval.toInt();
+			return leftEval.intValue() >= rightEval.intValue();
 		case "<=": 
-			return leftEval.toInt() <= rightEval.toInt();
+			return leftEval.intValue() <= rightEval.intValue();
 		default: 
 			System.out.println("BooleanExpressionComparison evaluate() error: op not recognized");
 			throw new Exception(); 

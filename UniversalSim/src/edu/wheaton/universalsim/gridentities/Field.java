@@ -97,6 +97,10 @@ public class Field extends PrimitiveExpression{
 		toReturn += "  VALUE=" + value + "\n";
 		return toReturn;
 	}
+	
+	public Type getType(){
+		return this.type; 
+	}
 
 	/**
 	 * 

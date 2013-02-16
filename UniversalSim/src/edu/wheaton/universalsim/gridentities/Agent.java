@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Dictionary;
 import java.util.List;
 
 import edu.wheaton.universalsim.Grid;
@@ -52,8 +53,9 @@ public class Agent extends GridEntity {
     /**
      * Clone constructor. Will create a deep clone with every instance variable copied, not just references.
      * @param parent The parent from which to clone.
+     * @throws StringFormatMismatchException 
      */
-    public Agent(Agent parent, boolean isPrototype) {
+    public Agent(Agent parent, boolean isPrototype) throws StringFormatMismatchException {
     	super(parent.grid, parent.color, parent.design);
 
 		fields = new ArrayList<>();
@@ -101,16 +103,18 @@ public class Agent extends GridEntity {
     
     /**
      * Clones this agent and puts it in the Grid's list of agents.
+     * @throws StringFormatMismatchException 
      */
-    public void cloneAgent() {
+    public void cloneAgent() throws StringFormatMismatchException {
         grid.addEntity(new Agent(this, false));
     }
     
     /**
      * Clones this agent and puts it in the environment's list of agents,
      * then prepares it to be a prototype agent.
+     * @throws StringFormatMismatchException 
      */
-    public void cloneAgentPrototype() {
+    public void cloneAgentPrototype() throws StringFormatMismatchException {
     	grid.addEntity(new Agent(this, true));
     }
     
@@ -135,7 +139,7 @@ public class Agent extends GridEntity {
         int priority = Integer.parseInt(lines[0].substring(9, lines[0].length()));
         BoolExpression be = BoolExpression.parseExpression(lines[0].substring(10, lines[0].length()));
         Result result = Result.parseResult(lines[1].substring(7, lines[1].length()));
-        triggers.add(new Trigger(priority, be, result));
+        triggers.add(new Trigger(priority, be, result, this));
         Collections.sort(triggers);
     }
     
@@ -153,4 +157,15 @@ public class Agent extends GridEntity {
             }
         }
     }
+    
+    /**
+     * Access a given field of this agent
+     * @param name The name of the field to access
+     * @return The value in the specified field
+     */
+    public Object getField(String name){
+    	//Return the value of the Field identified by name
+    	return null; 
+    }
+    
 }

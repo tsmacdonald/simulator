@@ -1,18 +1,15 @@
 package edu.wheaton.universalsim.gridentities;
 
-
 public class PrimitiveExpression {
 	/**
 	 * Enum for variable type.
 	 * @author Simon Swenson
 	 *
 	 */
-	protected enum Type { INT, DOUBLE, CHAR, STRING;
-		
-	}
+	protected enum Type { INT, DOUBLE, CHAR, STRING }
 	
 	/**
-	 * The type of this field (int, double, char, String).
+	 * The type of this field (int, double, char, String, AgentID).
 	 */
 	protected Type type;
 	
@@ -22,8 +19,16 @@ public class PrimitiveExpression {
 	protected String value;
 	
 	/**
+	 * Default constructor
+	 */
+	public PrimitiveExpression(){
+		type = null; 
+		value = ""; 
+	}
+	
+	/**
 	 * Constructor.
-	 * @param type Type of variable. Should be int, double, char, or String.
+	 * @param type Type of variable. Should be int, double, char, or String or Agent ID (index in the array of all agents held by the grid)
 	 * @param value Value of variable. Should match the type; an exception will be thrown if not.
 	 * @throws StringFormatMismatchException 
 	 */
@@ -59,6 +64,10 @@ public class PrimitiveExpression {
 	public PrimitiveExpression(PrimitiveExpression parent) {
 		type = parent.type;
 		value = parent.value;
+	}
+	
+	public PrimitiveExpression evaluate(Agent me, Agent other) throws Exception{
+		return this; 
 	}
  	
 	/**
