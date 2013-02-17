@@ -86,7 +86,7 @@ public class Agent extends GridEntity {
     	try {
     		Trigger toDo = null;
     		for(Trigger t : triggers) {
-    			if(t.evaluate()) {
+    			if(t.evaluate() != null) {
 	                toDo = t;
 	                break;
 	            }
@@ -138,7 +138,7 @@ public class Agent extends GridEntity {
         }
         int priority = Integer.parseInt(lines[0].substring(9, lines[0].length()));
         BoolExpression be = BoolExpression.parseExpression(lines[0].substring(10, lines[0].length()));
-        Result result = Result.parseResult(lines[1].substring(7, lines[1].length()));
+        Behavior result = Behavior.parseBehavior(lines[1].substring(7, lines[1].length()));
         triggers.add(new Trigger(priority, be, result, this));
         Collections.sort(triggers);
     }
@@ -167,5 +167,4 @@ public class Agent extends GridEntity {
     	//Return the value of the Field identified by name
     	return null; 
     }
-    
 }

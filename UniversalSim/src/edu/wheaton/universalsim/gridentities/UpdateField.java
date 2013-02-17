@@ -14,8 +14,8 @@ public class UpdateField extends Behavior {
 	private Field field; 
 	private String updateVal;
 	
-	public UpdateField(Agent owner, String name, Field field, String updateVal) {
-		super(owner, name);
+	public UpdateField(Agent target, String name, Field field, String updateVal) {
+		super(target, name);
 		this.field = field;
 		this.updateVal = updateVal; 
 	}
@@ -24,7 +24,7 @@ public class UpdateField extends Behavior {
 	 * Update this Actor's Field to updateVal
 	 */
 	public void execute(){
-		//Set this.field to updateVal
+		//Set target.field to updateVal
 	}
 
 }

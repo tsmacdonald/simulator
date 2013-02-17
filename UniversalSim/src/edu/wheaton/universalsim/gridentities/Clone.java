@@ -11,8 +11,8 @@ package edu.wheaton.universalsim.gridentities;
 
 public class Clone extends Behavior {
 
-	public Clone(Agent owner, String name) {
-		super(owner, name);
+	public Clone(Agent target, String name) {
+		super(target, name);
 	}
 
 	/**
@@ -21,5 +21,4 @@ public class Clone extends Behavior {
 	public void execute() {
 		//Clone this Actor, add a new copy to the Grid
 	}
-
 }

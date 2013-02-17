@@ -28,11 +28,6 @@ public class Trigger implements Comparable<Trigger> {
 	private BoolExpression expression;
 	
 	/**
-	 * The result/outcome for this trigger.
-	 */
-	private Result result;
-	
-	/**
 	 * The Agent for which this Trigger will fire.
 	 */
 	private Agent owner;
@@ -44,29 +39,35 @@ public class Trigger implements Comparable<Trigger> {
 	private Agent other;
 	
 	/**
+	 * The behavior that is executed when the trigger condition is met
+	 */
+	private Behavior behavior; 
+	
+	/**
 	 * Constructor
 	 * @param priority Triggers are checked in order of priority, with lower numbers coming first
 	 * @param conditions String encoding the boolean expression this trigger represents
 	 */
-	public Trigger(int priority, String conditions){
+	public Trigger(int priority, String conditions, Behavior behavior){
 		this.priority = priority;
 		this.conditions = conditions;
+		this.behavior = behavior; 
 		expression = generate();
 		owner = null;
 		other = null;
 	}
 	
 	/**
-	 * Contructor.
+	 * Constructor
 	 * @param priority Priority for this trigger.
 	 * @param conditions Tree representing this trigger's fire conditions.
 	 * @param result Models the outcome of the trigger being fired.
 	 * @param owner The agent who owns this Trigger.
 	 */
-	public Trigger(int priority, BoolExpression conditions, Result result, Agent owner) {
+	public Trigger(int priority, BoolExpression conditions, Behavior behavior, Agent owner) {
 		this.priority = priority;
 		expression = conditions;
-		this.result = result;
+		this.behavior = behavior; 
 		this.owner = owner;
 		other = null;
 	}
@@ -78,7 +79,7 @@ public class Trigger implements Comparable<Trigger> {
 	public Trigger(Trigger parent) {
 		priority = parent.priority;
 		expression = parent.expression;
-		result = parent.result;
+		behavior = parent.behavior;
 	}
 	
 	/**
@@ -128,10 +129,10 @@ public class Trigger implements Comparable<Trigger> {
 	}
 	
 	/**
-	 * Fires the trigger. Will depend on the Result object for this trigger.
+	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
 	public void fire() {
-		result.fire();
+		behavior.execute(); 
 	}
 	
 	/**

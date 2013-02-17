@@ -3,8 +3,7 @@ package edu.wheaton.universalsim;
 public class AgentDemo {
 
 	public static void main(String[] args){
-		//Create a new Agent
-		
+		//Create a new Agent		
 		
 		//Add a field to this Agent
 		
