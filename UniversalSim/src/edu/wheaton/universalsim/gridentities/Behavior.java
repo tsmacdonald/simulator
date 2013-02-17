@@ -23,11 +23,12 @@ public abstract class Behavior {
 	
 	/**
 	 * Use an input string to create a new Behavior object
-	 * @param s String containing the specificiations for the behavior
+	 * @param s String containing the specifications for the behavior
 	 * @return The created Behavior object
 	 */
 	public static Behavior parseBehavior(String s){
-		throw new UnsupportedOperationException();
+		//Generate a Behavior object based on the input string
+		return null; 
 	}
 	
 }

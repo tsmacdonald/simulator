@@ -51,6 +51,7 @@ public class BoolExpression {
 	 * @return The boolean expression tree.
 	 */
 	public static BoolExpression parseExpression(String s) {
-		throw new UnsupportedOperationException();
+		//Parse the string and create a BoolExpression
+		return null;
 	}
 }

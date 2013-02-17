@@ -8,7 +8,6 @@
  */
 
 package edu.wheaton.universalsim.gridentities;
-
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -128,12 +127,12 @@ public class Agent extends GridEntity {
     /**
      * Parses the input string for a trigger, then adds that trigger.
      * Will throw an IOException if the input string is not formatted properly.
-     * The input string should be in the format: "Priority=...\nCondition=...\nResult=..." There should be no spaces present in the input string.
+     * The input string should be in the format: "Priority=...\nCondition=...\nBehavior=..." There should be no spaces present in the input string.
      * @param s The text representation of this trigger.
      */
     public void addTrigger(String s) throws IOException {
         String[] lines = s.split("\n");
-        if(lines.length != 3 || !lines[0].substring(0, 9).equals("Priority=") || !lines[1].substring(0, 10).equals("Condition=") || !lines[2].substring(0, 7).equals("Result=")) {
+        if(lines.length != 3 || !lines[0].substring(0, 9).equals("Priority=") || !lines[1].substring(0, 10).equals("Condition=") || !lines[2].substring(0, 9).equals("Behavior=")) {
             throw new IOException();
         }
         int priority = Integer.parseInt(lines[0].substring(9, lines[0].length()));
