@@ -8,7 +8,7 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.universalsim.gridentities;
+package edu.wheaton.simulator.gridentities;
 
 public class PrimitiveExpressionOperator extends PrimitiveExpression {
 	
@@ -43,18 +43,16 @@ public class PrimitiveExpressionOperator extends PrimitiveExpression {
 		PrimitiveExpression rightEval = right.evaluate(me, other);
 		PrimitiveExpression leftEval = left.evaluate(me, other); 
 		
-		switch(op){
-		case "+": 
-			return new PrimitiveExpression("int", String.valueOf(rightEval.intValue() + leftEval.intValue()));
-		case "-": 
-			return new PrimitiveExpression("int", String.valueOf(rightEval.intValue() - leftEval.intValue()));
-		case "*": 
-			return new PrimitiveExpression("int", String.valueOf(rightEval.intValue() * leftEval.intValue()));
-		case "/": 
-			return new PrimitiveExpression("int", String.valueOf(rightEval.intValue() / leftEval.intValue()));
-		default: 
-			System.out.println("PrimitiveExpressionOperator evaluate() error: op not recognized");
-			throw new Exception(); 
-		}
+		if (op.equals("+"))
+			return new PrimitiveExpression(Type.INT, String.valueOf(rightEval.intValue() + leftEval.intValue()));
+		if (op.equals("-"))
+			return new PrimitiveExpression(Type.INT, String.valueOf(rightEval.intValue() - leftEval.intValue()));
+		if (op.equals("*"))
+			return new PrimitiveExpression(Type.INT, String.valueOf(rightEval.intValue() * leftEval.intValue()));
+		if (op.equals("/"))
+			return new PrimitiveExpression(Type.INT, String.valueOf(rightEval.intValue() / leftEval.intValue()));
+
+		System.out.println("PrimitiveExpressionOperator evaluate() error: op not recognized");
+		throw new Exception(); 
 	}
 }

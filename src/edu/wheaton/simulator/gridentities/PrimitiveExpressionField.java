@@ -7,9 +7,8 @@
 	 * Wheaton College, CSCI 335, Spring 2013
 	 */
 
-package edu.wheaton.universalsim.gridentities;
+package edu.wheaton.simulator.gridentities;
 
-import edu.wheaton.universalsim.gridentities.PrimitiveExpression.Type;
 
 public class PrimitiveExpressionField  extends PrimitiveExpression {
 
@@ -47,6 +46,6 @@ public class PrimitiveExpressionField  extends PrimitiveExpression {
 		else
 			val = String.valueOf(other.getField(String.valueOf(field)));
 		
-		return new PrimitiveExpression(String.valueOf(this.type), val);
+		return new PrimitiveExpression(this.type, val);
 	}
 }

@@ -1,4 +1,4 @@
-package edu.wheaton.universalsim.gridentities;
+package edu.wheaton.simulator.gridentities;
 
 /**
  * Field class for modeling variables.
@@ -20,7 +20,7 @@ public class Field extends PrimitiveExpression{
 	 * @param value Value of variable. Should match the type; an exception will be thrown if not.
 	 * @throws StringFormatMismatchException 
 	 */
-	public Field(String name, String type, String value) throws StringFormatMismatchException {
+	public Field(String name, Type type, String value) throws Exception {
 		super(type, value);
 		this.name = name;
 	}
@@ -30,8 +30,8 @@ public class Field extends PrimitiveExpression{
 	 * @param parent Parent field
 	 * @throws StringFormatMismatchException 
 	 */
-	public Field(Field parent) throws StringFormatMismatchException {
-		this(parent.name, parent.type.toString(), parent.value);
+	public Field(Field parent) throws Exception {
+		this(parent.name, parent.type, parent.value);
 	}
 	
 	/**

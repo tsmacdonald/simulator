@@ -8,7 +8,7 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.universalsim.gridentities;
+package edu.wheaton.simulator.gridentities;
 
 public class Trigger implements Comparable<Trigger> {
 

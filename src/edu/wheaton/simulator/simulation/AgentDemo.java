@@ -8,15 +8,14 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.universalsim;
+package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
 import java.io.IOException;
 import java.util.Scanner;
 
-import edu.wheaton.universalsim.gridentities.Agent;
-import edu.wheaton.universalsim.gridentities.ElementAlreadyContainedException;
-import edu.wheaton.universalsim.gridentities.StringFormatMismatchException;
+import edu.wheaton.simulator.gridentities.Agent;
+import edu.wheaton.simulator.gridentities.ElementAlreadyContainedException;
 
 public class AgentDemo {
 
@@ -50,7 +49,7 @@ public class AgentDemo {
 			} catch (ElementAlreadyContainedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (StringFormatMismatchException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 

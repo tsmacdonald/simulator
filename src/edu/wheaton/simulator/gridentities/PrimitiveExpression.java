@@ -1,4 +1,4 @@
-package edu.wheaton.universalsim.gridentities;
+package edu.wheaton.simulator.gridentities;
 
 public class PrimitiveExpression {
 	/**
@@ -6,7 +6,25 @@ public class PrimitiveExpression {
 	 * @author Simon Swenson
 	 *
 	 */
-	protected enum Type { INT, DOUBLE, CHAR, STRING }
+	protected enum Type { 
+		INT,
+		DOUBLE,
+		CHAR,
+		STRING;
+
+		public static Type parseString(String typeString) {
+			if (typeString.toUpperCase().equals("INT"))
+				return INT;
+			else if (typeString.toUpperCase().equals("DOUBLE"))
+				return DOUBLE;
+			else if (typeString.toUpperCase().equals("CHAR"))
+				return CHAR;
+			else if (typeString.toUpperCase().equals("STRING"))
+				return STRING;
+			else
+				return null;
+		}
+	}
 	
 	/**
 	 * The type of this field (int, double, char, String, AgentID).
@@ -30,30 +48,10 @@ public class PrimitiveExpression {
 	 * Constructor.
 	 * @param type Type of variable. Should be int, double, char, or String or Agent ID (index in the array of all agents held by the grid)
 	 * @param value Value of variable. Should match the type; an exception will be thrown if not.
-	 * @throws StringFormatMismatchException 
+	 * @throws Exception 
 	 */
-	public PrimitiveExpression(String type, String value) throws StringFormatMismatchException {
-		switch(type.toUpperCase()) {
-			case "INT":
-				this.type = Type.INT;
-				this.value = Integer.parseInt(value) + "";
-				break;
-			case "DOUBLE":
-				this.type = Type.DOUBLE;
-				this.value = Double.parseDouble(value) + "";
-				break;
-			case "CHAR":
-				this.type = Type.CHAR;
-				this.value = value.charAt(0) + "";
-				break;
-			case "STRING":
-				this.type = Type.STRING;
-				this.value = value;
-				break;
-			default:
-				throw new StringFormatMismatchException();
-		}
-		
+	public PrimitiveExpression(Type type, String value) throws Exception {
+		this.type = type;
 		this.value = value;
 	}
 	

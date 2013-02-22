@@ -1,4 +1,4 @@
-package edu.wheaton.universalsim.gridentities;
+package edu.wheaton.simulator.gridentities;
 
 public class StringFormatMismatchException extends Exception {
 

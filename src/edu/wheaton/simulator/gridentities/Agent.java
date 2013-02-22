@@ -7,15 +7,14 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.universalsim.gridentities;
+package edu.wheaton.simulator.gridentities;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Dictionary;
 import java.util.List;
 
-import edu.wheaton.universalsim.Grid;
+import edu.wheaton.simulator.simulation.Grid;
 
 public class Agent extends GridEntity {
     
@@ -38,11 +37,11 @@ public class Agent extends GridEntity {
     public Agent(Grid g, Color c, boolean isPrototype) {
     	super(g, c);
     	
-		fields = new ArrayList<>();
-        triggers = new ArrayList<>();
+		fields = new ArrayList<Field>();
+        triggers = new ArrayList<Trigger>();
         
         if(isPrototype) {
-            children = new ArrayList<>();
+            children = new ArrayList<Agent>();
         }
         else {
             children = null;
@@ -54,11 +53,11 @@ public class Agent extends GridEntity {
      * @param parent The parent from which to clone.
      * @throws StringFormatMismatchException 
      */
-    public Agent(Agent parent, boolean isPrototype) throws StringFormatMismatchException {
+    public Agent(Agent parent, boolean isPrototype) throws Exception {
     	super(parent.grid, parent.color, parent.design);
 
-		fields = new ArrayList<>();
-    	triggers = new ArrayList<>();
+		fields = new ArrayList<Field>();
+    	triggers = new ArrayList<Trigger>();
     	
     	for(Field f : parent.fields) {
     		fields.add(new Field(f)); //copy all fields
@@ -69,7 +68,7 @@ public class Agent extends GridEntity {
     	}
     	
     	if(isPrototype) {
-    		children = new ArrayList<>();
+    		children = new ArrayList<Agent>();
     	}
     	else {
     		children = null;
@@ -104,7 +103,7 @@ public class Agent extends GridEntity {
      * Clones this agent and puts it in the Grid's list of agents.
      * @throws StringFormatMismatchException 
      */
-    public void cloneAgent() throws StringFormatMismatchException {
+    public void cloneAgent() throws Exception {
         grid.addEntity(new Agent(this, false));
     }
     
@@ -113,7 +112,7 @@ public class Agent extends GridEntity {
      * then prepares it to be a prototype agent.
      * @throws StringFormatMismatchException 
      */
-    public void cloneAgentPrototype() throws StringFormatMismatchException {
+    public void cloneAgentPrototype() throws Exception {
     	grid.addEntity(new Agent(this, true));
     }
     

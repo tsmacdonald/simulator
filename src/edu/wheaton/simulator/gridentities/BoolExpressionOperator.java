@@ -8,14 +8,19 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.universalsim.gridentities;
+package edu.wheaton.simulator.gridentities;
 
 public class BoolExpressionOperator extends BoolExpression {
 
 	/**
 	 * The operator contained in this class. Represented as a string. Can be "&&", "||" or "!" (Note: If using "!", supply the same boolean expression as the right and leave the left null)
 	 */
-	private String op; 
+	private ExpressionOp op;
+	public enum ExpressionOp {
+		AND,
+		OR,
+		NOT
+	}
 	
 	/**
 	 * The two boolean expressions that are evaluated using the stored boolean operator
@@ -37,8 +42,8 @@ public class BoolExpressionOperator extends BoolExpression {
 	 * @param right The first of two boolean expressions that are evaluated using the stored boolean operator
 	 * @param left The second of two boolean expressions that are evaluated using the stored boolean operator
 	 */
-	public BoolExpressionOperator(String op, BoolExpression right, BoolExpression left){
-		this.op = op; 
+	public BoolExpressionOperator(ExpressionOp op, BoolExpression right, BoolExpression left){
+		this.op = op;
 		this.left = left; 
 		this.right = right;
 	}
@@ -53,11 +58,11 @@ public class BoolExpressionOperator extends BoolExpression {
 		boolean leftEval = left.evaluate(me, other); 
 		
 		switch(op){
-		case "&&": 
+		case AND: 
 			return rightEval && leftEval; 
-		case "||": 
+		case OR: 
 			return rightEval || leftEval; 
-		case "!": 
+		case NOT: 
 			return !rightEval; 
 		default: 
 			System.out.println("Boolean Expression evaluate() error: op not recognized");

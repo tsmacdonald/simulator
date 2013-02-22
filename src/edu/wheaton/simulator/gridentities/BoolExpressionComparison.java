@@ -8,15 +8,23 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.universalsim.gridentities;
+package edu.wheaton.simulator.gridentities;
 
 public class BoolExpressionComparison extends BoolExpression {
 
 	/**
-	 * The operator contained in this class (==, !=, >, <, =>, =<). Represented as a string. 
+	 * The operator contained in this class (==, !=, >, <, =>, =<) 
 	 */
-	private String op; 
-	
+	private ComparisonOp op;
+
+	public enum ComparisonOp {
+		EQUAL,
+		NOT_EQUAL,
+		GREATER_THAN,
+		LESS_THAN,
+		GREATER_THAN_OR_EQUAL,
+		LESS_THAN_OR_EQUAL
+	}
 	/**
 	 * The two PrimitiveExpression's that are evaluated using the stored boolean comparison operator
 	 */
@@ -25,7 +33,7 @@ public class BoolExpressionComparison extends BoolExpression {
 	/**
 	 * Default constructor
 	 */
-	public BoolExpressionComparison(){
+	public BoolExpressionComparison() {
 		op = null; 
 		left = null; 
 		right = null; 
@@ -37,7 +45,7 @@ public class BoolExpressionComparison extends BoolExpression {
 	 * @param left The first of two PrimitiveExpression's that are evaluated using the stored boolean comparison operator
 	 * @param left The second of two PrimitiveExpression's that are evaluated using the stored boolean comparison operator
 	 */
-	public BoolExpressionComparison(String op, PrimitiveExpression left, PrimitiveExpression right){
+	public BoolExpressionComparison(ComparisonOp op, PrimitiveExpression left, PrimitiveExpression right){
 		this.op = op; 
 		this.left = left; 
 		this.right = right; 
@@ -53,19 +61,19 @@ public class BoolExpressionComparison extends BoolExpression {
 		PrimitiveExpression rightEval = left.evaluate(me, other); 
 		
 		switch(op){
-		case "==": 
+		case EQUAL: 
 			return leftEval.toString().equals(rightEval.toString()); 
-		case "!=": 
+		case NOT_EQUAL: 
 			return !leftEval.toString().equals(rightEval.toString()); 
-		case ">": 
+		case GREATER_THAN: 
 			return leftEval.intValue() > rightEval.intValue();
-		case "<": 
+		case LESS_THAN: 
 			return leftEval.intValue() < rightEval.intValue();
-		case ">=": 
+		case GREATER_THAN_OR_EQUAL: 
 			return leftEval.intValue() >= rightEval.intValue();
-		case "<=": 
+		case LESS_THAN_OR_EQUAL: 
 			return leftEval.intValue() <= rightEval.intValue();
-		default: 
+		default:
 			System.out.println("BooleanExpressionComparison evaluate() error: op not recognized");
 			throw new Exception(); 
 		}

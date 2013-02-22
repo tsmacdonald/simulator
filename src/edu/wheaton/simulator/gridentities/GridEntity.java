@@ -7,14 +7,13 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.universalsim.gridentities;
+package edu.wheaton.simulator.gridentities;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import edu.wheaton.universalsim.Grid;
+import edu.wheaton.simulator.gridentities.PrimitiveExpression.Type;
+import edu.wheaton.simulator.simulation.Grid;
 
 public abstract class GridEntity {
 
@@ -74,13 +73,13 @@ public abstract class GridEntity {
 	 * @throws ElementAlreadyContainedException 
 	 * @throws StringFormatMismatchException 
 	 */
-	public void addField(String s) throws ElementAlreadyContainedException, StringFormatMismatchException {
+	public void addField(String s) throws ElementAlreadyContainedException, Exception {
 		String[] lines = s.split("\n");
 		if(lines.length != 3 || !lines[0].substring(0, 5).equals("Name=") || !lines[1].substring(0, 5).equals("Type=") || !lines[2].substring(0, 6).equals("Value=")) {
 			throw new StringFormatMismatchException();
 		}
 		String name = lines[0].substring(5, lines[0].length());
-		String type = lines[1].substring(5, lines[1].length());
+		String typeString = lines[1].substring(5, lines[1].length());
 		String value = lines[2].substring(6, lines[2].length());
 
 		//Check to see if it's contained.
@@ -92,6 +91,7 @@ public abstract class GridEntity {
 			}
 		}
 		if(contained != null) throw new ElementAlreadyContainedException();
+		Type type = Type.parseString(typeString);
 		fields.add(new Field(name, type, value));
 	}
 

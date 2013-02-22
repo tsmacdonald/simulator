@@ -7,11 +7,11 @@
  * 
  * Wheaton College, CSCI 335, Spring 2013
  */
-package edu.wheaton.universalsim;
+package edu.wheaton.simulator.simulation;
 
-import edu.wheaton.universalsim.gridentities.Agent;
-import edu.wheaton.universalsim.gridentities.GridEntity;
-import edu.wheaton.universalsim.gridentities.Slot;
+import edu.wheaton.simulator.gridentities.Agent;
+import edu.wheaton.simulator.gridentities.GridEntity;
+import edu.wheaton.simulator.gridentities.Slot;
 
 public class Grid {
 

@@ -1,13 +1,13 @@
 /**
- * UniversalSim.java
+ * Simulator.java
  * 
  * @author Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.universalsim;
+package edu.wheaton.simulator.simulation;
 
-public class UniversalSim {
+public class Simulator {
 
     /**
      * @param args the command line arguments

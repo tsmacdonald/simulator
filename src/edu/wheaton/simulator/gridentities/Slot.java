@@ -1,9 +1,6 @@
-package edu.wheaton.universalsim.gridentities;
+package edu.wheaton.simulator.gridentities;
 
-import edu.wheaton.universalsim.gridentities.Agent;
-import edu.wheaton.universalsim.gridentities.GridEntity;
-
-import edu.wheaton.universalsim.Grid;
+import edu.wheaton.simulator.simulation.Grid;
 
 /**
  * Slot.java
