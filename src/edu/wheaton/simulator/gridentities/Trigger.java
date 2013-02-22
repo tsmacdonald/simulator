@@ -140,6 +140,7 @@ public class Trigger implements Comparable<Trigger> {
 	 * @param other The other trigger to compare to.
 	 * @return -1 if less, 0 if same, 1 if greater.
 	 */
+	@Override
 	public int compareTo(Trigger other) {
 		if(priority == other.priority) {
 			return 0;

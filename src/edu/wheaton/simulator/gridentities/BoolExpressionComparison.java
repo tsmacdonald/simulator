@@ -56,6 +56,7 @@ public class BoolExpressionComparison extends BoolExpression {
 	 * @return the evaluation
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
+	@Override
 	public boolean evaluate(Agent me, Agent other) throws Exception{
 		PrimitiveExpression leftEval = left.evaluate(me, other);
 		PrimitiveExpression rightEval = left.evaluate(me, other); 

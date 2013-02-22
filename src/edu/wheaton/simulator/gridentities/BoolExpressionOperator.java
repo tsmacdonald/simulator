@@ -53,6 +53,7 @@ public class BoolExpressionOperator extends BoolExpression {
 	 * @return the evaluation
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
+	@Override
 	public boolean evaluate(Agent me, Agent other) throws Exception{
 		boolean rightEval = right.evaluate(me, other);
 		boolean leftEval = left.evaluate(me, other); 

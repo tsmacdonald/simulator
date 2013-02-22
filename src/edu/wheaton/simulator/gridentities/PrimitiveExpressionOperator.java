@@ -39,6 +39,7 @@ public class PrimitiveExpressionOperator extends PrimitiveExpression {
 	 * @return the evaluation
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
+	@Override
 	public PrimitiveExpression evaluate(Agent me, Agent other) throws Exception{
 		PrimitiveExpression rightEval = right.evaluate(me, other);
 		PrimitiveExpression leftEval = left.evaluate(me, other); 

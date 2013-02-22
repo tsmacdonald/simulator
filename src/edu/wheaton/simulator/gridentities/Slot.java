@@ -47,6 +47,7 @@ public class Slot extends GridEntity {
 	/**
 	 * Empty act method, since slots do not act
 	 */
+	@Override
 	public void act() {}
 
 }

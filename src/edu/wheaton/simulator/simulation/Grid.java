@@ -9,7 +9,6 @@
  */
 package edu.wheaton.simulator.simulation;
 
-import edu.wheaton.simulator.gridentities.Agent;
 import edu.wheaton.simulator.gridentities.GridEntity;
 import edu.wheaton.simulator.gridentities.Slot;
 
