@@ -1,11 +1,4 @@
 bin/
 *.class
 
-# Package Files #
-*.jar
-*.war
-*.ear
-
-/UniversalSim/nbproject/private/
-
 .DS_Store
