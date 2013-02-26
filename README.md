@@ -3,6 +3,17 @@ Phase 2
 
 Software Development, Spring 2013, Phase 2
 
+GUI Team
+=========
+Simon Swenson  
+Brandon Garcia  
+Jonathan Barbalas  
+Sean Power  
+
+Agent Team 1
+=============
+
+
 To add the project to Eclipse:  
 File -> Import -> General -> Existing Projects into Workspace  
 Select the repository directory, then click "Finish"  
