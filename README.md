@@ -31,6 +31,9 @@ Daniel Gill
 Nico Lasta   
 Akonwi Ngoh   
 
+
+Eclipse Details
+===============
 To add the project to Eclipse:  
 File -> Import -> General -> Existing Projects into Workspace  
 Select the repository directory, then click "Finish"  
