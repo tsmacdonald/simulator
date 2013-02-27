@@ -21,6 +21,8 @@ public class BoolExpression {
 	
 	/**
 	 * Default constructor
+	 * 
+	 * TODO Default constructor stub
 	 */
 	public BoolExpression(){}
 	

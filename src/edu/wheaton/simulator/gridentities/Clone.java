@@ -17,6 +17,8 @@ public class Clone extends Behavior {
 
 	/**
 	 * Clone this Actor
+	 * 
+	 * TODO Method stub
 	 */
 	@Override
 	public void execute() {

@@ -17,6 +17,8 @@ public class Die extends Behavior {
 
 	/**
 	 * Remove this Actor (the owner) from the Grid
+	 * 
+	 * TODO Method stub
 	 */
 	@Override
 	public void execute() {
