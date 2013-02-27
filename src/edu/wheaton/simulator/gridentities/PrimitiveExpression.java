@@ -13,6 +13,8 @@ public class PrimitiveExpression {
 		STRING;
 
 		public static Type parseString(String typeString) {
+			// TODO Should final else throw an exception rather than return null?
+			
 			if (typeString.toUpperCase().equals("INT"))
 				return INT;
 			else if (typeString.toUpperCase().equals("DOUBLE"))
@@ -65,6 +67,7 @@ public class PrimitiveExpression {
 	}
 	
 	public PrimitiveExpression evaluate(Agent me, Agent other) throws Exception{
+		// TODO Method stub
 		return this; 
 	}
  	
@@ -72,32 +75,36 @@ public class PrimitiveExpression {
 	 * @return True if int, false otherwise.
 	 */
 	public boolean isInt() {
-		if (type == Type.INT) return true;
-		else return false;
+		if (type == Type.INT) 
+			return true;
+		return false;
 	}
 	
 	/**
 	 * @return True if double, false otherwise.
 	 */
 	public boolean isDouble() {
-		if(type == Type.DOUBLE) return true;
-		else return false;
+		if(type == Type.DOUBLE) 
+			return true;
+		return false;
 	}
 	
 	/**
 	 * @return True if char, false otherwise.
 	 */
 	public boolean isChar() {
-		if(type == Type.DOUBLE) return true;
-		else return false;
+		if(type == Type.DOUBLE) 
+			return true;
+		return false;
 	}
 	
 	/**
 	 * @return True if String, false otherwise.
 	 */
 	public boolean isString() {
-		if(type == Type.DOUBLE) return true;
-		else return false;
+		if(type == Type.DOUBLE) 
+			return true;
+		return false;
 	}
 	
 	/**

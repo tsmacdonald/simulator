@@ -28,7 +28,10 @@ public class BoolExpressionComparison extends BoolExpression {
 	/**
 	 * The two PrimitiveExpression's that are evaluated using the stored boolean comparison operator
 	 */
-	private PrimitiveExpression left, right; 
+	private PrimitiveExpression left;
+	
+	// TODO Unused field: BoolExpressionComparison.right
+	private PrimitiveExpression right; 
 	
 	/**
 	 * Default constructor

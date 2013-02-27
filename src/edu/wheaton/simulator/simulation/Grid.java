@@ -28,6 +28,8 @@ public class Grid {
 
 	/**
 	 * Causes all entities in the grid to act()
+	 * 
+	 * TODO Private method is never used locally
 	 */
 	private void updateEntities(){
 		for(Slot[] sArr: grid)
@@ -37,6 +39,8 @@ public class Grid {
 
 	/**
 	 * Adds an entity to the slot at the given coordinates
+	 * 
+	 * TODO Private method is never used locally
 	 */
 	private void addEntity(GridEntity a, int x, int y){
 		grid[x][y].setEntity(a);
@@ -44,6 +48,8 @@ public class Grid {
 
 	/**
 	 * Returns the GridEntity in the slot at the given coordinates
+	 * 
+	 * TODO Private method is never used locally
 	 */
 	private GridEntity getEntity(int x, int y){
 		return grid[x][y].getEntity();
@@ -51,6 +57,8 @@ public class Grid {
 
 	/**
 	 * Removes a GridEntity from the slot at the given coordinates
+	 * 
+	 * TODO Private method is never used locally
 	 */
 	private void removeEntity(int x, int y){
 		grid[x][y].setEntity(null);
@@ -61,6 +69,7 @@ public class Grid {
      * @param ge The GridEntity to remove.
      */
 	public void removeEntity(GridEntity ge) {
+		// TODO Method stub
 		throw new UnsupportedOperationException();
 	}
 
@@ -69,6 +78,7 @@ public class Grid {
 	 * @param ge The GridEntity to add.
 	 */
 	public void addEntity(GridEntity ge) {
+		// TODO Method stub
 		throw new UnsupportedOperationException();
 	}
 

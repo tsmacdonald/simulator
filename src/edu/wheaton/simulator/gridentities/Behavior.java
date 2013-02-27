@@ -11,7 +11,10 @@ package edu.wheaton.simulator.gridentities;
 
 public abstract class Behavior {
 
-	private Agent target; 
+	// TODO Unused field: Behavior.target
+	private Agent target;
+	
+	// TODO Unused field: Behavior.name
 	private String name;
 	
 	public Behavior(Agent owner, String name){
@@ -28,6 +31,7 @@ public abstract class Behavior {
 	 */
 	public static Behavior parseBehavior(String s){
 		//Generate a Behavior object based on the input string
+		// TODO Method stub
 		return null; 
 	}
 	

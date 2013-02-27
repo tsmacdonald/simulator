@@ -38,6 +38,7 @@ public class BoolExpression {
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
 	public boolean evaluate(Agent me, Agent other) throws Exception {
+		//TODO Method stub
 		return value;
 	}
 
@@ -51,6 +52,7 @@ public class BoolExpression {
 	 */
 	public static BoolExpression parseExpression(String s) {
 		//Parse the string and create a BoolExpression
+		// TODO Method stub
 		return null;
 	}
 }

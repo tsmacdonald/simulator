@@ -11,7 +11,10 @@ package edu.wheaton.simulator.gridentities;
 
 public class UpdateField extends Behavior {
 
+	// TODO Unused field: UpdateField.field
 	private Field field; 
+	
+	// TODO Unused field: UpdateField.updateVal
 	private String updateVal;
 	
 	public UpdateField(Agent target, String name, Field field, String updateVal) {
