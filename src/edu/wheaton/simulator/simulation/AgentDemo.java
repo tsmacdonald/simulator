@@ -47,10 +47,8 @@ public class AgentDemo {
 			try {
 				dog.addField(input);
 			} catch (ElementAlreadyContainedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
 		}
@@ -76,7 +74,6 @@ public class AgentDemo {
 			try {
 				dog.addTrigger(input);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}		
