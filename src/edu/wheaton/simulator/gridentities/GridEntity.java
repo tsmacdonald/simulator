@@ -10,7 +10,9 @@
 package edu.wheaton.simulator.gridentities;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import edu.wheaton.simulator.gridentities.PrimitiveExpression.Type;
 import edu.wheaton.simulator.simulation.Grid;
@@ -28,11 +30,6 @@ public abstract class GridEntity {
 	protected List<Field> fields;
 
 	/**
-	 * Represents the default color of the object
-	 */
-	protected Color color;
-
-	/**
 	 * Bitmask for storing an entity's customized appearance, initially set 
 	 */
 	protected byte[] design;
@@ -41,10 +38,14 @@ public abstract class GridEntity {
 	 * Constructor
 	 * @param g The grid object
 	 * @param c This entity's defaut color
+	 * @throws Exception 
 	 */
-	public GridEntity(Grid g, Color c) {
+	public GridEntity(Grid g, Color c) throws Exception {
 		grid = g;
-		color = c;
+		fields = new ArrayList<Field>();
+		fields.add(new Field("colorRed", PrimitiveExpression.Type.INT, c.getRed() + ""));
+		fields.add(new Field("colorBlue", PrimitiveExpression.Type.INT, c.getBlue() + ""));
+		fields.add(new Field("colorGreen", PrimitiveExpression.Type.INT, c.getGreen() + ""));
 
 		design = new byte[8]; 
 		for(int i = 0; i < 8; i++) 
@@ -56,10 +57,15 @@ public abstract class GridEntity {
 	 * @param g The grid object
 	 * @param c This entity's defaut color
 	 * @param d The bitmask design chosen by the user
+	 * @throws Exception 
 	 */
-	public GridEntity(Grid g, Color c, byte[] d) {
+	public GridEntity(Grid g, Color c, byte[] d) throws Exception {
 		grid = g;
-		color = c;
+		fields = new ArrayList<Field>();
+		fields.add(new Field("colorRed", PrimitiveExpression.Type.INT, c.getRed() + ""));
+		fields.add(new Field("colorBlue", PrimitiveExpression.Type.INT, c.getBlue() + ""));
+		fields.add(new Field("colorGreen", PrimitiveExpression.Type.INT, c.getGreen() + ""));
+		
 		design = d;
 	} 
 	
@@ -110,9 +116,10 @@ public abstract class GridEntity {
 
 	/**
 	 * Returns the object's default color
+	 * @throws StringFormatMismatchException 
 	 */
-	public Color getColor() { 
-		return color; 
+	public Color getColor() throws StringFormatMismatchException { 
+		return new Color(getField("colorRed").intValue(), getField("colorGreen").intValue(), getField("colorBlue").intValue()); 
 	}
 
 	/**
@@ -129,4 +136,12 @@ public abstract class GridEntity {
 		return design;
 	}
 
+    public Field getField(String name){
+    	for(Field f : fields) {
+    		if(f.getName().equals(name)) {
+    			return f;
+    		}
+    	}
+    	throw new NoSuchElementException();
+    }
 }

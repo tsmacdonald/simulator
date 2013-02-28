@@ -33,11 +33,11 @@ public class Agent extends GridEntity {
      * @param g The grid (passed to super constructor)
      * @param c The color of this agent (passed to super constructor)
      * @param isPrototype Is this a prototype agent from which all other agents of this type are made?
+     * @throws Exception 
      */
-    public Agent(Grid g, Color c, boolean isPrototype) {
+    public Agent(Grid g, Color c, boolean isPrototype) throws Exception {
     	super(g, c);
     	
-		fields = new ArrayList<Field>();
         triggers = new ArrayList<Trigger>();
         
         if(isPrototype) {
@@ -49,14 +49,15 @@ public class Agent extends GridEntity {
     }
     
     /**
+     * @throws Exception 
+     * @throws StringFormatMismatchException 
      * Clone constructor. Will create a deep clone with every instance variable copied, not just references.
      * @param parent The parent from which to clone.
-     * @throws StringFormatMismatchException 
+     * @throws 
      */
-    public Agent(Agent parent, boolean isPrototype) throws Exception {
-    	super(parent.grid, parent.color, parent.design);
+    public Agent(Agent parent, boolean isPrototype) throws StringFormatMismatchException, Exception {
+    	super(parent.grid, parent.getColor(), parent.design);
 
-		fields = new ArrayList<Field>();
     	triggers = new ArrayList<Trigger>();
     	
     	for(Field f : parent.fields) {
@@ -80,7 +81,6 @@ public class Agent extends GridEntity {
      * The first trigger with valid conditions will fire.
      * @throws Exception 
      */
-    @Override
 	public void act() {
     	try {
     		Trigger toDo = null;
@@ -155,16 +155,5 @@ public class Agent extends GridEntity {
                 a.removeTrigger(priority);
             }
         }
-    }
-    
-    /**
-     * Access a given field of this agent
-     * @param name The name of the field to access
-     * @return The value in the specified field
-     */
-    public Object getField(String name){
-    	//Return the value of the Field identified by name
-    	// TODO Method stub
-    	return null; 
     }
 }

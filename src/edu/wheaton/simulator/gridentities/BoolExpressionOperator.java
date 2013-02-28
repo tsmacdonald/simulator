@@ -25,16 +25,7 @@ public class BoolExpressionOperator extends BoolExpression {
 	/**
 	 * The two boolean expressions that are evaluated using the stored boolean operator
 	 */
-	private BoolExpression left, right; 
-	
-	/**
-	 * Default constructor
-	 */
-	public BoolExpressionOperator(){
-		op = null; 
-		left = null; 
-		right = null;
-	}
+	private BoolExpression left, right;
 	
 	/**
 	 * Constructor
