@@ -1,11 +1,11 @@
-	/**
-	 * Behavior class
-	 * 
-	 * Behavior subclass. Kill the Actor. 
-	 * 
-	 * @author Grant Hensel
-	 * Wheaton College, CSCI 335, Spring 2013
-	 */
+/**
+ * Behavior class
+ * 
+ * Behavior subclass. Kill the Actor. 
+ * 
+ * @author Grant Hensel
+ * Wheaton College, CSCI 335, Spring 2013
+ */
 
 package edu.wheaton.simulator.gridentities;
 
@@ -22,7 +22,7 @@ public class Die extends Behavior {
 	 */
 	@Override
 	public void execute() {
-		//Remove this Actor (owner) from the Grid
+		// Remove this Actor (owner) from the Grid
 	}
 	
 }

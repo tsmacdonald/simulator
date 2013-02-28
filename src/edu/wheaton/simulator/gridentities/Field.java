@@ -1,13 +1,14 @@
-package edu.wheaton.simulator.gridentities;
-
 /**
  * Field class for modeling variables.
- * The name and type of the field will not be changeable throughout the life of the field.
- * The value of the field will be changeable.
- * @author Simon Swenson
+ * The name and type of the field will not be changeable throughout the 
+ * life of the field. The value of the field will be changeable.
  *
+ * @author Simon Swenson
  */
-public class Field extends PrimitiveExpression{
+
+package edu.wheaton.simulator.gridentities;
+
+public class Field extends PrimitiveExpression {
 	
 	/**
 	 * The name for this field.
@@ -17,7 +18,8 @@ public class Field extends PrimitiveExpression{
 	/**
 	 * Constructor.
 	 * @param type Type of variable. Should be int, double, char, or String.
-	 * @param value Value of variable. Should match the type; an exception will be thrown if not.
+	 * @param value Value of variable. Should match the type; an exception 
+     * will be thrown if not.
 	 * @throws StringFormatMismatchException 
 	 */
 	public Field(String name, Type type, String value) throws Exception {
@@ -39,10 +41,9 @@ public class Field extends PrimitiveExpression{
 	 * @throws StringFormatMismatchException 
 	 */
 	public void setValue(String s) throws StringFormatMismatchException {
-		if(type == Type.STRING) {
+		if (type == Type.STRING) {
 			value = s;
-		}
-		else {
+		} else {
 			throw new StringFormatMismatchException();
 		}
 	}
@@ -52,10 +53,9 @@ public class Field extends PrimitiveExpression{
 	 * @throws StringFormatMismatchException 
 	 */
 	public void setValue(double d) throws StringFormatMismatchException {
-		if(type == Type.DOUBLE) {
+		if (type == Type.DOUBLE) {
 			value = d + "";
-		}
-		else {
+		} else {
 			throw new StringFormatMismatchException();
 		}
 	}
@@ -65,10 +65,9 @@ public class Field extends PrimitiveExpression{
 	 * @throws StringFormatMismatchException 
 	 */
 	public void setValue(int i) throws StringFormatMismatchException {
-		if(type == Type.INT) {
+		if (type == Type.INT) {
 			value = i + "";
-		}
-		else {
+		} else {
 			throw new StringFormatMismatchException();
 		}
 	}
@@ -78,10 +77,9 @@ public class Field extends PrimitiveExpression{
 	 * @throws StringFormatMismatchException 
 	 */
 	public void setValue(char c) throws StringFormatMismatchException {
-		if(type == Type.CHAR) {
+		if (type == Type.CHAR) {
 			value = c + "";
-		}
-		else {
+		} else {
 			throw new StringFormatMismatchException();
 		}
 	}
@@ -99,7 +97,7 @@ public class Field extends PrimitiveExpression{
 		return toReturn;
 	}
 	
-	public Type getType(){
+	public Type getType() {
 		return this.type; 
 	}
 
@@ -110,4 +108,5 @@ public class Field extends PrimitiveExpression{
 	public String getName() {
 		return name;
 	}
+
 }
