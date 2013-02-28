@@ -12,9 +12,7 @@ public class PrimitiveExpression {
 		CHAR,
 		STRING;
 
-		public static Type parseString(String typeString) {
-			// TODO Should final else throw an exception rather than return null?
-			
+		public static Type parseString(String typeString) throws Exception {
 			if (typeString.toUpperCase().equals("INT"))
 				return INT;
 			else if (typeString.toUpperCase().equals("DOUBLE"))
@@ -24,7 +22,7 @@ public class PrimitiveExpression {
 			else if (typeString.toUpperCase().equals("STRING"))
 				return STRING;
 			else
-				return null;
+				throw new IllegalArgumentException();
 		}
 	}
 	
