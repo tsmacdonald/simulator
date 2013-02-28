@@ -10,7 +10,7 @@
 
 package edu.wheaton.simulator.gridentities;
 
-public class BoolExpressionComparison extends BoolExpression {
+public class BoolExpressionComparison implements BooleanExpression {
 
 	/**
 	 * The operator contained in this class (==, !=, >, <, =>, =<) 
@@ -59,7 +59,6 @@ public class BoolExpressionComparison extends BoolExpression {
 	 * @return the evaluation
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
-	@Override
 	public boolean evaluate(Agent me, Agent other) throws Exception{
 		PrimitiveExpression leftEval = left.evaluate(me, other);
 		PrimitiveExpression rightEval = left.evaluate(me, other); 
@@ -81,5 +80,11 @@ public class BoolExpressionComparison extends BoolExpression {
 			System.out.println("BooleanExpressionComparison evaluate() error: op not recognized");
 			throw new Exception(); 
 		}
+	}
+
+	@Override
+	public boolean evaluate(GridEntity me, GridEntity other) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

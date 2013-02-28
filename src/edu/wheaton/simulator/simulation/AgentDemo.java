@@ -19,7 +19,7 @@ import edu.wheaton.simulator.gridentities.ElementAlreadyContainedException;
 
 public class AgentDemo {
 
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception{
 		Grid grid = new Grid(100, 100); 
 		Scanner S = new Scanner(System.in); 
 		

@@ -20,11 +20,11 @@ public class BoolExpression {
 	private boolean value; 
 	
 	/**
-	 * Default constructor
-	 * 
-	 * TODO Default constructor stub
+	 * Constructor
 	 */
-	public BoolExpression(){}
+	public BoolExpression() {
+		// TODO maybe take this out in lieu of an interface; it's needed for subclasses.
+	}
 	
 	/**
 	 * Constructor
@@ -40,7 +40,6 @@ public class BoolExpression {
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
 	public boolean evaluate(Agent me, Agent other) throws Exception {
-		//TODO Method stub
 		return value;
 	}
 
