@@ -20,13 +20,13 @@ public class EntityPrototype {
 	 * @return A FieldType Enum representing the type of that field. 
 	 * @throws NoSuchFieldException If the field does not exist.
 	 */
-	FieldType getFieldType(String fieldname) throws NoSuchFieldException {
+	public FieldType getFieldType(String fieldname) throws NoSuchFieldException {
 		if (!fields.containsKey(fieldname))
 			throw new NoSuchFieldException();
 		return fields.get(fieldname);
 	}
 	
-	String getName() { 
+	public String getName() { 
 		return categoryName;
 	}
 }
