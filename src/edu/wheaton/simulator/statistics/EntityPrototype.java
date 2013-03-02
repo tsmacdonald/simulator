@@ -8,25 +8,29 @@ import java.util.HashMap;
  */
 public class EntityPrototype {
 
-	//TODO: Annoy the Agent team about this. 
-	private String categoryName; 
-	
-	//TODO: Document this. 
+	// TODO: Annoy the Agent team about this.
+	private String categoryName;
+
+	// TODO: Document this.
 	private HashMap<String, FieldType> fields;
-	
+
 	/**
 	 * Determine the type of the field associated with this String.
-	 * @param fieldname The name of the field. 
-	 * @return A FieldType Enum representing the type of that field. 
-	 * @throws NoSuchFieldException If the field does not exist.
+	 * 
+	 * @param fieldname
+	 *            The name of the field.
+	 * @return A FieldType Enum representing the type of that field.
+	 * @throws NoSuchFieldException
+	 *             If the field does not exist.
 	 */
-	public FieldType getFieldType(String fieldname) throws NoSuchFieldException {
+	public FieldType getFieldType(String fieldname)
+			throws NoSuchFieldException {
 		if (!fields.containsKey(fieldname))
 			throw new NoSuchFieldException();
 		return fields.get(fieldname);
 	}
-	
-	public String getName() { 
+
+	public String getName() {
 		return categoryName;
 	}
 }
