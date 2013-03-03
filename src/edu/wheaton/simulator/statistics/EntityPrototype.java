@@ -1,36 +1,33 @@
 package edu.wheaton.simulator.statistics;
 
-import java.util.HashMap;
+import java.util.Map;
+
+import com.google.common.collect.ImmutableMap;
 
 /**
- * 
+ * Represents a category of agent at a particular moment in time. 
  * @author Daniel Gill, Akon Ngoh
  */
 public class EntityPrototype {
 
-	// TODO: Annoy the Agent team about this.
-	private String categoryName;
-
-	// TODO: Document this.
-	private HashMap<String, FieldType> fields;
+	/**
+	 * The name of this category of agent. 
+	 */
+	public final String categoryName;
 
 	/**
-	 * Determine the type of the field associated with this String.
-	 * 
-	 * @param fieldname
-	 *            The name of the field.
-	 * @return A FieldType Enum representing the type of that field.
-	 * @throws NoSuchFieldException
-	 *             If the field does not exist.
+	 * The default field values for agents of this category. 
 	 */
-	public FieldType getFieldType(String fieldname)
-			throws NoSuchFieldException {
-		if (!fields.containsKey(fieldname))
-			throw new NoSuchFieldException();
-		return fields.get(fieldname);
+	public final ImmutableMap<String, FieldSnapshot> defaultFields;
+	
+	/**
+	 * Constructor. 
+	 * @param categoryName The name of the category of agent. 
+	 * @param defaultFields The default fields for this category of agent. 
+	 */
+	public EntityPrototype(String categoryName, Map<String, FieldSnapshot> defaultFields) { 
+		this.categoryName = categoryName; 
+		this.defaultFields = new ImmutableMap.Builder<String, FieldSnapshot>().putAll(defaultFields).build();
 	}
-
-	public String getName() {
-		return categoryName;
-	}
+	
 }
