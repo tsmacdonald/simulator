@@ -18,7 +18,7 @@ public class Grid {
 	 * The grid of all slots containing all GridEntity objects
 	 */
 	private Slot[][] grid;
-
+	
 	/**
 	 * Creates a grid with the given width and height specifications
 	 */
@@ -33,8 +33,9 @@ public class Grid {
 	 */
 	private void updateEntities(){
 		for(Slot[] sArr: grid)
-			for(Slot s: sArr)
+			for(Slot s: sArr) {
 				s.getEntity().act();
+			}
 	}
 
 	/**
