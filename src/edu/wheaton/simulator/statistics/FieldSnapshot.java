@@ -6,10 +6,19 @@ package edu.wheaton.simulator.statistics;
  */
 public class FieldSnapshot {
 	
+	/**
+	 * The name of this particular field. 
+	 */
 	public final String name; 
 	
+	/**
+	 * The type of this field. 
+	 */
 	public final Type type; 
 	
+	/**
+	 * A string representation of the field's value.
+	 */
 	public final String value; 
 	
 	/**
