@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import edu.wheaton.simulator.gridentities.PrimitiveExpression.Type;
+import edu.wheaton.simulator.gridentities.Primitive.Type;
 import edu.wheaton.simulator.simulation.Grid;
 
 public abstract class GridEntity {
@@ -43,9 +43,11 @@ public abstract class GridEntity {
 	public GridEntity(Grid g, Color c) throws Exception {
 		grid = g;
 		fields = new ArrayList<Field>();
-		fields.add(new Field("colorRed", PrimitiveExpression.Type.INT, c.getRed() + ""));
-		fields.add(new Field("colorBlue", PrimitiveExpression.Type.INT, c.getBlue() + ""));
-		fields.add(new Field("colorGreen", PrimitiveExpression.Type.INT, c.getGreen() + ""));
+		fields.add(new Field("colorRed", Primitive.Type.INT, c.getRed() + ""));
+		fields.add(new Field("colorBlue", Primitive.Type.INT, c.getBlue() + ""));
+		fields.add(new Field("colorGreen", Primitive.Type.INT, c.getGreen() + ""));
+		fields.add(new Field("x", Primitive.Type.INT, 0 + ""));
+		fields.add(new Field("y", Primitive.Type.INT, 0 + ""));
 
 		design = new byte[8]; 
 		for(int i = 0; i < 8; i++) 
@@ -62,9 +64,9 @@ public abstract class GridEntity {
 	public GridEntity(Grid g, Color c, byte[] d) throws Exception {
 		grid = g;
 		fields = new ArrayList<Field>();
-		fields.add(new Field("colorRed", PrimitiveExpression.Type.INT, c.getRed() + ""));
-		fields.add(new Field("colorBlue", PrimitiveExpression.Type.INT, c.getBlue() + ""));
-		fields.add(new Field("colorGreen", PrimitiveExpression.Type.INT, c.getGreen() + ""));
+		fields.add(new Field("colorRed", Primitive.Type.INT, c.getRed() + ""));
+		fields.add(new Field("colorBlue", Primitive.Type.INT, c.getBlue() + ""));
+		fields.add(new Field("colorGreen", Primitive.Type.INT, c.getGreen() + ""));
 		
 		design = d;
 	} 

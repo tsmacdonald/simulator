@@ -10,7 +10,7 @@
 
 package edu.wheaton.simulator.gridentities;
 
-public class PrimitiveExpressionOperator extends PrimitiveExpression {
+public class PrimitiveExpressionOperator extends Primitive {
 	
 	/**
 	 * The operator stored in this object (+, -, /, *)
@@ -20,7 +20,7 @@ public class PrimitiveExpressionOperator extends PrimitiveExpression {
 	/**
 	 * The two PrimitiveExpression's that are evaluated using the stored operator
 	 */
-	private PrimitiveExpression right, left; 
+	private Primitive right, left; 
 	
 	/**
 	 * Constructor
@@ -28,7 +28,7 @@ public class PrimitiveExpressionOperator extends PrimitiveExpression {
 	 * @param right The first of two PrimitiveExpression's that are evaluated using the stored boolean comparison operator
 	 * @param left The second of two PrimitiveExpression's that are evaluated using the stored boolean comparison operator
 	 */
-	public PrimitiveExpressionOperator(String op, PrimitiveExpression right, PrimitiveExpression left){
+	public PrimitiveExpressionOperator(String op, Primitive right, Primitive left){
 		this.op = op; 
 		this.right = right; 
 		this.left = left; 
@@ -40,18 +40,18 @@ public class PrimitiveExpressionOperator extends PrimitiveExpression {
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
 	@Override
-	public PrimitiveExpression evaluate(Agent me, Agent other) throws Exception{
-		PrimitiveExpression rightEval = right.evaluate(me, other);
-		PrimitiveExpression leftEval = left.evaluate(me, other); 
+	public Primitive evaluate(Agent me, Agent other) throws Exception{
+		Primitive rightEval = right.evaluate(me, other);
+		Primitive leftEval = left.evaluate(me, other); 
 		
 		if (op.equals("+"))
-			return new PrimitiveExpression(Type.INT, String.valueOf(rightEval.intValue() + leftEval.intValue()));
+			return new Primitive(Type.INT, String.valueOf(rightEval.intValue() + leftEval.intValue()));
 		if (op.equals("-"))
-			return new PrimitiveExpression(Type.INT, String.valueOf(rightEval.intValue() - leftEval.intValue()));
+			return new Primitive(Type.INT, String.valueOf(rightEval.intValue() - leftEval.intValue()));
 		if (op.equals("*"))
-			return new PrimitiveExpression(Type.INT, String.valueOf(rightEval.intValue() * leftEval.intValue()));
+			return new Primitive(Type.INT, String.valueOf(rightEval.intValue() * leftEval.intValue()));
 		if (op.equals("/"))
-			return new PrimitiveExpression(Type.INT, String.valueOf(rightEval.intValue() / leftEval.intValue()));
+			return new Primitive(Type.INT, String.valueOf(rightEval.intValue() / leftEval.intValue()));
 
 		System.out.println("PrimitiveExpressionOperator evaluate() error: op not recognized");
 		throw new Exception(); 

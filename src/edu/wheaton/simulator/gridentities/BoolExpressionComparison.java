@@ -28,10 +28,10 @@ public class BoolExpressionComparison implements BooleanExpression {
 	/**
 	 * The two PrimitiveExpression's that are evaluated using the stored boolean comparison operator
 	 */
-	private PrimitiveExpression left;
+	private Primitive left;
 	
 	// TODO Unused field: BoolExpressionComparison.right
-	private PrimitiveExpression right; 
+	private Primitive right; 
 	
 	/**
 	 * Default constructor
@@ -48,7 +48,7 @@ public class BoolExpressionComparison implements BooleanExpression {
 	 * @param left The first of two PrimitiveExpression's that are evaluated using the stored boolean comparison operator
 	 * @param left The second of two PrimitiveExpression's that are evaluated using the stored boolean comparison operator
 	 */
-	public BoolExpressionComparison(ComparisonOp op, PrimitiveExpression left, PrimitiveExpression right){
+	public BoolExpressionComparison(ComparisonOp op, Primitive left, Primitive right){
 		this.op = op; 
 		this.left = left; 
 		this.right = right; 
@@ -60,8 +60,8 @@ public class BoolExpressionComparison implements BooleanExpression {
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
 	public boolean evaluate(Agent me, Agent other) throws Exception{
-		PrimitiveExpression leftEval = left.evaluate(me, other);
-		PrimitiveExpression rightEval = left.evaluate(me, other); 
+		Primitive leftEval = left.evaluate(me, other);
+		Primitive rightEval = left.evaluate(me, other); 
 		
 		switch(op){
 		case EQUAL: 
