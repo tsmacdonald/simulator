@@ -1,6 +1,6 @@
 package edu.wheaton.simulator.gridentities;
 
-public class PrimitiveExpression {
+public class Primitive {
 	/**
 	 * Enum for variable type.
 	 * @author Simon Swenson
@@ -39,7 +39,7 @@ public class PrimitiveExpression {
 	/**
 	 * Default constructor
 	 */
-	public PrimitiveExpression(){
+	public Primitive(){
 		type = null; 
 		value = ""; 
 	}
@@ -50,7 +50,7 @@ public class PrimitiveExpression {
 	 * @param value Value of variable. Should match the type; an exception will be thrown if not.
 	 * @throws Exception 
 	 */
-	public PrimitiveExpression(Type type, String value) throws Exception {
+	public Primitive(Type type, String value) throws Exception {
 		this.type = type;
 		this.value = value;
 	}
@@ -59,12 +59,12 @@ public class PrimitiveExpression {
 	 * Clone constructor
 	 * @param parent Parent field
 	 */
-	public PrimitiveExpression(PrimitiveExpression parent) {
+	public Primitive(Primitive parent) {
 		type = parent.type;
 		value = parent.value;
 	}
 	
-	public PrimitiveExpression evaluate(Agent me, Agent other) throws Exception{
+	public Primitive evaluate(Agent me, Agent other) throws Exception{
 		// TODO Method stub
 		return this; 
 	}

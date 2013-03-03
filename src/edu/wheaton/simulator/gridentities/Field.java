@@ -7,7 +7,7 @@ package edu.wheaton.simulator.gridentities;
  * @author Simon Swenson
  *
  */
-public class Field extends PrimitiveExpression{
+public class Field extends Primitive{
 	
 	/**
 	 * The name for this field.

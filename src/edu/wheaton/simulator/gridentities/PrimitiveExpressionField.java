@@ -10,7 +10,7 @@
 package edu.wheaton.simulator.gridentities;
 
 
-public class PrimitiveExpressionField  extends PrimitiveExpression {
+public class PrimitiveExpressionField  extends Primitive {
 
 	/**
 	 * The field whose value we are storing
@@ -40,13 +40,13 @@ public class PrimitiveExpressionField  extends PrimitiveExpression {
 	 * @return A primitive expression containing the value in the field specified in the constructor in this Agent or an arbitrary other Agent
 	 */
 	@Override
-	public PrimitiveExpression evaluate(Agent me, Agent other) throws Exception{
+	public Primitive evaluate(Agent me, Agent other) throws Exception{
 		String val;
 		if(internalCondition)
 			val = String.valueOf(me.getField(String.valueOf(field))); 
 		else
 			val = String.valueOf(other.getField(String.valueOf(field)));
 		
-		return new PrimitiveExpression(this.type, val);
+		return new Primitive(this.type, val);
 	}
 }
