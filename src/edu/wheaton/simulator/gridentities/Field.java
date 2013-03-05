@@ -21,8 +21,9 @@ public class Field extends Primitive{
 	 * @throws StringFormatMismatchException 
 	 */
 	public Field(String name, Type type, String value) throws Exception {
-		super(type, value);
 		this.name = name;
+		this.type = type;
+		this.value = value;
 	}
 	
 	/**

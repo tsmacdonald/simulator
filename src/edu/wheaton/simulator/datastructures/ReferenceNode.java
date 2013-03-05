@@ -1,7 +1,7 @@
 package edu.wheaton.simulator.datastructures;
 
-import edu.wheaton.simulator.datastructures.PrimitiveEvaluatable.Concerns;
 import edu.wheaton.simulator.gridentities.GridEntity;
+import edu.wheaton.simulator.gridentities.Primitive;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class ReferenceNode implements PrimitiveEvaluatable {
@@ -17,6 +17,7 @@ public class ReferenceNode implements PrimitiveEvaluatable {
 		this.fieldName = fieldName;
 		this.concerns = concerns;
 	}
+	
 	@Override
 	public Primitive evaluate(GridEntity me, GridEntity other,
 			GridEntity local, Grid global) {
@@ -29,7 +30,7 @@ public class ReferenceNode implements PrimitiveEvaluatable {
 		else if(concerns == Concerns.LOCAL) {
 			return local.getField(fieldName);
 		}
-		else if(concerns == Concerns.GLOBAL) {
+		else { //global
 			return global.getField(fieldName);
 		}
 	}

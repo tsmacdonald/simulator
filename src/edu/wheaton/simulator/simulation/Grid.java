@@ -9,6 +9,7 @@
  */
 package edu.wheaton.simulator.simulation;
 
+import edu.wheaton.simulator.gridentities.Field;
 import edu.wheaton.simulator.gridentities.GridEntity;
 import edu.wheaton.simulator.gridentities.Slot;
 
@@ -80,6 +81,11 @@ public class Grid {
 	 */
 	public void addEntity(GridEntity ge) {
 		// TODO Method stub
+		throw new UnsupportedOperationException();
+	}
+
+	public Field getField(String fieldName) {
+		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
 
