@@ -41,5 +41,4 @@ public abstract class EntitySnapshot {
 		this.step = step;
 		this.prototype = prototype;
 	}
-
 }
