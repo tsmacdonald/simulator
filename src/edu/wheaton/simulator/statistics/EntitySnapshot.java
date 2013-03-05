@@ -41,4 +41,8 @@ public abstract class EntitySnapshot {
 		this.step = step;
 		this.prototype = prototype;
 	}
+	
+	public void id() {
+		System.out.print(id.name + " " + id.id);
+	}
 }
