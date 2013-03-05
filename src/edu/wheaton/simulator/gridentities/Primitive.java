@@ -2,11 +2,11 @@ package edu.wheaton.simulator.gridentities;
 
 public class Primitive {
 	/**
-	 * Enum for variable type.
+	 * Enum for variable type. It's public so other classes can access it.
 	 * @author Simon Swenson
 	 *
 	 */
-	protected enum Type { 
+	public enum Type { 
 		INT,
 		DOUBLE,
 		CHAR,
@@ -50,7 +50,7 @@ public class Primitive {
 	 * @param value Value of variable. Should match the type; an exception will be thrown if not.
 	 * @throws Exception 
 	 */
-	public Primitive(Type type, String value) throws Exception {
+	public Primitive(Type type, String value) {
 		this.type = type;
 		this.value = value;
 	}
@@ -62,11 +62,6 @@ public class Primitive {
 	public Primitive(Primitive parent) {
 		type = parent.type;
 		value = parent.value;
-	}
-	
-	public Primitive evaluate(Agent me, Agent other) throws Exception{
-		// TODO Method stub
-		return this; 
 	}
  	
 	/**
