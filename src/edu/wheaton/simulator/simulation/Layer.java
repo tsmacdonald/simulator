@@ -18,7 +18,7 @@ public class Layer {
 	/**
 	 * The single instance of this Layer
 	 */
-	private static Layer layer;
+	private static Layer layer = null;
 
 	/**
 	 * The name of the field being represented by this layer
@@ -41,38 +41,50 @@ public class Layer {
 	private Field min;
 
 	/**
-	 * Constructor
-	 * @param fieldName The name of this layer's field
-	 * @param c
+	 * Get the instance of the layer
+	 * @return
 	 */
-	private Layer(String fieldName, Color c) {
-		this.fieldName = fieldName;
-		fieldColor = new HSBColor(c);
-	}
-
-	private static Layer getInstance() {
+	public static Layer getInstance() {
+		if(layer == null)
+			layer = new Layer();	
 		return layer;
 	}
 
 	/**
 	 * Returns the name of the field being represented
 	 */
-	private String getFieldName() {
+	public String getFieldName() {
 		return fieldName;
+	}
+	
+	/**
+	 * Sets the fieldName for the layer
+	 * @param fieldName
+	 */
+	public void setFieldName(String fieldName){
+		this.fieldName = fieldName;
 	}
 
 	/**
 	 * Changes the value of max
 	 */
-	private void setMax(Field max) {
+	public void setMax(Field max) {
 		this.max = max;
 	}
 
 	/**
 	 * Changes the value of min
 	 */
-	private void setMin(Field min) {
+	public void setMin(Field min) {
 		this.min = min;
+	}
+	
+	/**
+	 * Set color for the layer
+	 * @param c
+	 */
+	public void setColor(Color c){
+		this.fieldColor = new HSBColor(c);
 	}
 
 	/**
