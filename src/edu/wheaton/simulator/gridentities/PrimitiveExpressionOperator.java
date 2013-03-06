@@ -10,6 +10,8 @@
 
 package edu.wheaton.simulator.gridentities;
 
+import edu.wheaton.simulator.datastructures.InvalidExpressionException;
+
 public class PrimitiveExpressionOperator extends Primitive {
 	
 	/**
@@ -39,20 +41,24 @@ public class PrimitiveExpressionOperator extends Primitive {
 	 * @return the evaluation
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
-	public Primitive evaluate(Agent me, Agent other) throws Exception{
-		Primitive rightEval = right.evaluate(me, other);
-		Primitive leftEval = left.evaluate(me, other); 
-		
-		if (op.equals("+"))
-			return new Primitive(Type.INT, String.valueOf(rightEval.intValue() + leftEval.intValue()));
-		if (op.equals("-"))
-			return new Primitive(Type.INT, String.valueOf(rightEval.intValue() - leftEval.intValue()));
-		if (op.equals("*"))
-			return new Primitive(Type.INT, String.valueOf(rightEval.intValue() * leftEval.intValue()));
-		if (op.equals("/"))
-			return new Primitive(Type.INT, String.valueOf(rightEval.intValue() / leftEval.intValue()));
-
-		System.out.println("PrimitiveExpressionOperator evaluate() error: op not recognized");
-		throw new Exception(); 
+	public Primitive evaluate(Agent me, Agent other) throws InvalidExpressionException{
+		//TODO Method "PrimitiveExpressionOperator.evaluate" only handles one value type
+		try{
+			if (op.equals("+"))
+				return new Primitive(Type.INT, String.valueOf(right.intValue() + left.intValue()));
+			else if (op.equals("-"))
+				return new Primitive(Type.INT, String.valueOf(right.intValue() - left.intValue()));
+			else if (op.equals("*"))
+				return new Primitive(Type.INT, String.valueOf(right.intValue() * left.intValue()));
+			else if (op.equals("/"))
+				return new Primitive(Type.INT, String.valueOf(right.intValue() / left.intValue()));
+			else{
+				System.out.println("PrimitiveExpressionOperator evaluate() error: op not recognized");
+				throw new InvalidExpressionException(); 
+			}
+		}
+		catch(StringFormatMismatchException e){
+			throw new InvalidExpressionException();
+		}
 	}
 }
