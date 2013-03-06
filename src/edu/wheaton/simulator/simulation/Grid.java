@@ -10,12 +10,13 @@
 package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
+import java.util.Iterator;
 
 import edu.wheaton.simulator.datastructures.Field;
 import edu.wheaton.simulator.gridentities.GridEntity;
 import edu.wheaton.simulator.gridentities.Slot;
 
-public class Grid {
+public class Grid implements Iterable<Slot>{
 
 	/**
 	 * The grid of all slots containing all GridEntity objects
@@ -100,6 +101,38 @@ public class Grid {
 		Layer.getInstance().setFieldName(fieldName);
 		Layer.getInstance().setColor(c);
 		Layer.getInstance().resetMinMax();
+	}
+
+    /**
+	 * Returns an iterator that goes through the Slots in the Grid
+	 * @return Iterator<Slot>
+	 */
+	public Iterator<Slot> iterator() {
+		return new Iterator<Slot>() {
+			
+			int x = 0;
+			int y = 0;
+			
+			public boolean hasNext() {
+				return y < grid.length;
+			}
+
+            public Slot next() {
+                Slot toReturn = grid[x][y];
+                if(x < grid.length - 1) {
+                    x++;
+                } else {
+                    x = 0;
+                    y++;
+                }
+                return toReturn;
+            }
+
+			public void remove() {
+				throw new UnsupportedOperationException();
+			}
+			
+		};
 	}
 
 }
