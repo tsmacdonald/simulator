@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * A class representing all the information to track from agents in the game.
  * 
- * @author akonwi
+ * @author Akon
  * 
  */
 public class AgentSnapshot extends EntitySnapshot {
