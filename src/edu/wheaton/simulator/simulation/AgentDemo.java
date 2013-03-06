@@ -14,8 +14,8 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.Scanner;
 
+import edu.wheaton.simulator.datastructures.ElementAlreadyContainedException;
 import edu.wheaton.simulator.gridentities.Agent;
-import edu.wheaton.simulator.gridentities.ElementAlreadyContainedException;
 
 public class AgentDemo {
 

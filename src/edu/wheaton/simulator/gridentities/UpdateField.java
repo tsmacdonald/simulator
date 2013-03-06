@@ -9,6 +9,8 @@
 
 package edu.wheaton.simulator.gridentities;
 
+import edu.wheaton.simulator.datastructures.Field;
+
 public class UpdateField extends Behavior {
 
 	// TODO Unused field: UpdateField.field

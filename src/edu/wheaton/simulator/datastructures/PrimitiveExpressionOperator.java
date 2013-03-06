@@ -8,9 +8,9 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.simulator.gridentities;
+package edu.wheaton.simulator.datastructures;
 
-import edu.wheaton.simulator.datastructures.InvalidExpressionException;
+import edu.wheaton.simulator.gridentities.Agent;
 
 public class PrimitiveExpressionOperator extends Primitive {
 	

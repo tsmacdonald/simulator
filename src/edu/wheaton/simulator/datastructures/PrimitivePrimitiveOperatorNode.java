@@ -1,9 +1,6 @@
 package edu.wheaton.simulator.datastructures;
 
 import edu.wheaton.simulator.gridentities.GridEntity;
-import edu.wheaton.simulator.gridentities.Primitive;
-import edu.wheaton.simulator.gridentities.StringFormatMismatchException;
-import edu.wheaton.simulator.gridentities.Type;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class PrimitivePrimitiveOperatorNode implements PrimitiveEvaluatable{

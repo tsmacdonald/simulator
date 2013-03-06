@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.wheaton.simulator.datastructures.BoolExpression;
+import edu.wheaton.simulator.datastructures.Field;
+import edu.wheaton.simulator.datastructures.StringFormatMismatchException;
+import edu.wheaton.simulator.datastructures.Type;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class Agent extends GridEntity {

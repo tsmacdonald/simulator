@@ -14,8 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import edu.wheaton.simulator.gridentities.Primitive;
-import edu.wheaton.simulator.gridentities.Type;
+import edu.wheaton.simulator.datastructures.ElementAlreadyContainedException;
+import edu.wheaton.simulator.datastructures.Field;
+import edu.wheaton.simulator.datastructures.Primitive;
+import edu.wheaton.simulator.datastructures.StringFormatMismatchException;
+import edu.wheaton.simulator.datastructures.Type;
 import edu.wheaton.simulator.simulation.Grid;
 
 public abstract class GridEntity {

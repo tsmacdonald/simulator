@@ -9,8 +9,8 @@
 
 package edu.wheaton.simulator.simulation;
 
-import edu.wheaton.simulator.gridentities.Field;
-import edu.wheaton.simulator.gridentities.StringFormatMismatchException;
+import edu.wheaton.simulator.datastructures.Field;
+import edu.wheaton.simulator.datastructures.StringFormatMismatchException;
 import java.awt.Color;
 
 public class Layer {

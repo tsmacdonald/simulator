@@ -1,4 +1,5 @@
-package edu.wheaton.simulator.gridentities;
+package edu.wheaton.simulator.datastructures;
+
 
 /**
  * Field class for modeling variables.

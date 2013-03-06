@@ -1,4 +1,4 @@
-package edu.wheaton.simulator.gridentities;
+package edu.wheaton.simulator.datastructures;
 
 /**
  * Enum for variable type. It's public so other classes can access it.

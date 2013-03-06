@@ -8,7 +8,7 @@
 
 package edu.wheaton.simulator.simulation;
 
-import edu.wheaton.simulator.gridentities.BoolExpression;
+import edu.wheaton.simulator.datastructures.BoolExpression;
 
 public class SimulationEnder {
 

@@ -1,7 +1,6 @@
 package edu.wheaton.simulator.datastructures;
 
 import edu.wheaton.simulator.gridentities.GridEntity;
-import edu.wheaton.simulator.gridentities.Primitive;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class ReferenceNode implements PrimitiveEvaluatable {
