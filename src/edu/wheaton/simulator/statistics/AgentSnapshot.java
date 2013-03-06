@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * A class representing all the information to track from agents in the game.
  * 
- * @author akonwi
+ * @author Akon
  * 
  */
 public class AgentSnapshot extends EntitySnapshot {
@@ -30,7 +30,7 @@ public class AgentSnapshot extends EntitySnapshot {
 	 * @param interaction
 	 *            the interaction details for this snapshot
 	 */
-	public AgentSnapshot(EntityID id, HashMap<String, Object> fields,
+	public AgentSnapshot(EntityID id, HashMap<String, FieldSnapshot> fields,
 			Integer step, EntityPrototype prototype,
 			InteractionDescription interaction) {
 		super(id, fields, step, prototype);
