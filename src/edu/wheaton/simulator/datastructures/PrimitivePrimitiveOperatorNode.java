@@ -8,8 +8,8 @@ import edu.wheaton.simulator.simulation.Grid;
 
 public class PrimitivePrimitiveOperatorNode implements PrimitiveEvaluatable{
 
-	public enum Sign { ADD, SUBTRACT, MULTIPLY, DIVIDE, MODULUS;
-		
+	public enum Sign { 
+		ADD, SUBTRACT, MULTIPLY, DIVIDE, MODULUS;
 	}
 	
 	private Sign sign;
@@ -33,83 +33,122 @@ public class PrimitivePrimitiveOperatorNode implements PrimitiveEvaluatable{
 		Primitive leftEval = left.evaluate(me, other, local, global);
 		Primitive rightEval = right.evaluate(me, other, local, global);
 		if(sign.equals(Sign.ADD)) {
-			try {
-				return new Primitive(Type.CHAR, (char)(leftEval.charValue() + rightEval.charValue()) + "");
-			}
-			catch(StringFormatMismatchException e) {
-				try {
-					return new Primitive(Type.INT, leftEval.intValue() + rightEval.intValue() + "");
-				} catch (StringFormatMismatchException e1) {
-					try {
-						return new Primitive(Type.DOUBLE, leftEval.doubleValue() + rightEval.doubleValue() + "");
-					} catch (StringFormatMismatchException e2) {
-						return new Primitive(Type.STRING, leftEval.stringValue() + rightEval.stringValue());
-					}
-				}
-			}
+			return evaluateAddition(leftEval,rightEval);
 		}
 		else if(sign.equals(Sign.SUBTRACT)) {
 			try {
-				return new Primitive(Type.CHAR, (char)(leftEval.charValue() - rightEval.charValue()) + "");
-			}
-			catch(StringFormatMismatchException e) {
-				try {
-					return new Primitive(Type.INT, leftEval.intValue() - rightEval.intValue() + "");
-				} catch (StringFormatMismatchException e1) {
-					try {
-						return new Primitive(Type.DOUBLE, leftEval.doubleValue() - rightEval.doubleValue() + "");
-					} catch (StringFormatMismatchException e2) {
-						return null;
-					}
-				}
+				return evaluateSubtraction(leftEval,rightEval);
+			} catch (StringFormatMismatchException e) {
+				//TODO replace null return with thrown exception
+				return null;
 			}
 		}
 		else if(sign.equals(Sign.MULTIPLY)) {
 			try {
-				return new Primitive(Type.CHAR, (char)(leftEval.charValue() * rightEval.charValue()) + "");
-			}
-			catch(StringFormatMismatchException e) {
-				try {
-					return new Primitive(Type.INT, leftEval.intValue() * rightEval.intValue() + "");
-				} catch (StringFormatMismatchException e1) {
-					try {
-						return new Primitive(Type.DOUBLE, leftEval.doubleValue() * rightEval.doubleValue() + "");
-					} catch (StringFormatMismatchException e2) {
-						return null;
-					}
-				}
+				return evaluateMultiplication(leftEval,rightEval);
+			} catch (StringFormatMismatchException e) {
+				//TODO replace null return with thrown exception
+				return null;
 			}
 		}
 		else if(sign.equals(Sign.DIVIDE)) {
 			try {
-				return new Primitive(Type.CHAR, (char)(leftEval.charValue() / rightEval.charValue()) + "");
-			}
-			catch(StringFormatMismatchException e) {
-				try {
-					return new Primitive(Type.INT, leftEval.intValue() / rightEval.intValue() + "");
-				} catch (StringFormatMismatchException e1) {
-					try {
-						return new Primitive(Type.DOUBLE, leftEval.doubleValue() / rightEval.doubleValue() + "");
-					} catch (StringFormatMismatchException e2) {
-						return null;
-					}
-				}
+				return evaluateDivision(leftEval,rightEval);
+			} catch (StringFormatMismatchException e) {
+				//TODO replace null return with thrown exception
+				return null;
 			}
 		}
 		else if(sign.equals(Sign.MODULUS)) {
 			try {
-				return new Primitive(Type.CHAR, (char)(leftEval.charValue() % rightEval.charValue()) + "");
-			}
-			catch(StringFormatMismatchException e) {
-				try {
-					return new Primitive(Type.INT, leftEval.intValue() % rightEval.intValue() + "");
-				} catch (StringFormatMismatchException e1) {
-					return null;
-				}
+				return evaluateModulus(leftEval,rightEval);
+			} catch (StringFormatMismatchException e) {
+				//TODO replace null return with thrown exception
+				return null;
 			}
 		}
+		//TODO replace null return with thrown exception
 		return null;
 	}
 	
+	private Primitive evaluateAddition(Primitive leftEval, Primitive rightEval){
+		try {
+			return new Primitive(Type.CHAR, (char)(leftEval.charValue() + rightEval.charValue()) + "");
+		}
+		catch(StringFormatMismatchException e) {
+			try {
+				return new Primitive(Type.INT, leftEval.intValue() + rightEval.intValue() + "");
+			} catch (StringFormatMismatchException e1) {
+				try {
+					return new Primitive(Type.DOUBLE, leftEval.doubleValue() + rightEval.doubleValue() + "");
+				} catch (StringFormatMismatchException e2) {
+					return new Primitive(Type.STRING, leftEval.stringValue() + rightEval.stringValue());
+				}
+			}
+		}
+	}
 	
+	private Primitive evaluateSubtraction(Primitive leftEval, Primitive rightEval) throws StringFormatMismatchException{
+		try {
+			return new Primitive(Type.CHAR, (char)(leftEval.charValue() - rightEval.charValue()) + "");
+		}
+		catch(StringFormatMismatchException e) {
+			try {
+				return new Primitive(Type.INT, leftEval.intValue() - rightEval.intValue() + "");
+			} catch (StringFormatMismatchException e1) {
+				try {
+					return new Primitive(Type.DOUBLE, leftEval.doubleValue() - rightEval.doubleValue() + "");
+				} catch (StringFormatMismatchException e2) {
+					throw e2;
+				}
+			}
+		}
+	}
+	
+	private Primitive evaluateMultiplication(Primitive leftEval, Primitive rightEval) throws StringFormatMismatchException{
+		try {
+			return new Primitive(Type.CHAR, (char)(leftEval.charValue() * rightEval.charValue()) + "");
+		}
+		catch(StringFormatMismatchException e) {
+			try {
+				return new Primitive(Type.INT, leftEval.intValue() * rightEval.intValue() + "");
+			} catch (StringFormatMismatchException e1) {
+				try {
+					return new Primitive(Type.DOUBLE, leftEval.doubleValue() * rightEval.doubleValue() + "");
+				} catch (StringFormatMismatchException e2) {
+					throw e2;
+				}
+			}
+		}
+	}
+	
+	private Primitive evaluateDivision(Primitive leftEval, Primitive rightEval) throws StringFormatMismatchException{
+		try {
+			return new Primitive(Type.CHAR, (char)(leftEval.charValue() / rightEval.charValue()) + "");
+		}
+		catch(StringFormatMismatchException e) {
+			try {
+				return new Primitive(Type.INT, leftEval.intValue() / rightEval.intValue() + "");
+			} catch (StringFormatMismatchException e1) {
+				try {
+					return new Primitive(Type.DOUBLE, leftEval.doubleValue() / rightEval.doubleValue() + "");
+				} catch (StringFormatMismatchException e2) {
+					throw e2;
+				}
+			}
+		}
+	}
+	
+	private Primitive evaluateModulus(Primitive leftEval, Primitive rightEval) throws StringFormatMismatchException{
+		try {
+			return new Primitive(Type.CHAR, (char)(leftEval.charValue() % rightEval.charValue()) + "");
+		}
+		catch(StringFormatMismatchException e) {
+			try {
+				return new Primitive(Type.INT, leftEval.intValue() % rightEval.intValue() + "");
+			} catch (StringFormatMismatchException e1) {
+				throw e1;
+			}
+		}
+	}
 }

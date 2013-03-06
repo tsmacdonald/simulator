@@ -5,8 +5,8 @@ import edu.wheaton.simulator.simulation.Grid;
 
 public class BooleanBooleanOperatorNode implements BooleanEvaluatable {
 
-	public enum Sign { AND, OR, NOT;
-		
+	public enum Sign { 
+		AND, OR, NOT;
 	}
 	
 	private Sign sign;
@@ -24,14 +24,11 @@ public class BooleanBooleanOperatorNode implements BooleanEvaluatable {
 			Grid global) {
 		boolean leftEval = left.evaluate(me, other, local, global);
 		boolean rightEval = right.evaluate(me, other, local, global);
-		if(sign.equals(Sign.AND)) {
+		if(sign.equals(Sign.AND))
 			return leftEval && rightEval;
-		}
-		else if(sign.equals(Sign.OR)) {
+		else if(sign.equals(Sign.OR))
 			return leftEval || rightEval;
-		}
-		else { //not. ASSUMING RIGHT SUBTREE IS THE OPERAND.
+		else //not. ASSUMING RIGHT SUBTREE IS THE OPERAND.
 			return !rightEval;
-		}
 	}
 }

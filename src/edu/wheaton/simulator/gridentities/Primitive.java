@@ -106,13 +106,12 @@ public class Primitive {
 	 */
 	public int intValue() throws StringFormatMismatchException {
 		int toReturn;
-		if(type == Type.STRING || type == Type.DOUBLE) throw new StringFormatMismatchException();
-		else if(type == Type.CHAR) {
+		if(type == Type.STRING || type == Type.DOUBLE) 
+			throw new StringFormatMismatchException();
+		else if(type == Type.CHAR)
 			toReturn = value.charAt(0);
-		}
-		else {
+		else
 			toReturn = Integer.parseInt(value);
-		}
 		return toReturn;
 	}
 	
@@ -122,13 +121,12 @@ public class Primitive {
 	 */
 	public double doubleValue() throws StringFormatMismatchException {
 		double toReturn;
-		if(type == Type.STRING) throw new StringFormatMismatchException();
-		else if(type == Type.CHAR) {
+		if(type == Type.STRING) 
+			throw new StringFormatMismatchException();
+		else if(type == Type.CHAR)
 			toReturn = value.charAt(0);
-		}
-		else {
+		else 
 			toReturn = Double.parseDouble(value);
-		}
 		return toReturn;
 	}
 	
@@ -137,7 +135,8 @@ public class Primitive {
 	 * @throws StringFormatMismatchException 
 	 */
 	public char charValue() throws StringFormatMismatchException {
-		if(type != Type.CHAR) throw new StringFormatMismatchException();
+		if(type != Type.CHAR) 
+			throw new StringFormatMismatchException();
 		return value.charAt(0);
 	}
 	
