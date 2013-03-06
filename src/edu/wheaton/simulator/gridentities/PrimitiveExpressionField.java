@@ -39,7 +39,6 @@ public class PrimitiveExpressionField  extends Primitive {
 	 * @param other The other Agent being processed
 	 * @return A primitive expression containing the value in the field specified in the constructor in this Agent or an arbitrary other Agent
 	 */
-	@Override
 	public Primitive evaluate(Agent me, Agent other) throws Exception{
 		String val;
 		if(internalCondition)

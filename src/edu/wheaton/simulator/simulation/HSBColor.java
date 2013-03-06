@@ -91,6 +91,7 @@ public class HSBColor {
         return new Color(Color.HSBtoRGB(hsb[0], degree, hsb[2]));
     }
 
+    @Override
     public String toString() {
         return "HSLColor\n" + 
             "Hue: " + hsb[0] +
