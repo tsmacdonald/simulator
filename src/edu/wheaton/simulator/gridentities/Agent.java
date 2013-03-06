@@ -82,6 +82,7 @@ public class Agent extends GridEntity {
      * The first trigger with valid conditions will fire.
      * @throws Exception 
      */
+    @Override
 	public void act() {
     	try {
     		Trigger toDo = null;

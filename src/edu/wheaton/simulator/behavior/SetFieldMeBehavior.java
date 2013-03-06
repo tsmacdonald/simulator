@@ -18,8 +18,6 @@ public class SetFieldMeBehavior implements Behavable {
 	 */
 	private PrimitiveOperationTree parameters;
 	
-	public 
-	
 	@Override
 	public void act(GridEntity me, GridEntity other, GridEntity local,
 			Grid global) {

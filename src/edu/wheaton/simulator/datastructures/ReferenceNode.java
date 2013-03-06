@@ -8,7 +8,7 @@ public class ReferenceNode implements PrimitiveEvaluatable {
 	
 	private enum Concerns {
 		ME, OTHER, LOCAL, GLOBAL
-	};
+	}
 	
 	private String fieldName;
 	private Concerns concerns;

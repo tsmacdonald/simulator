@@ -76,6 +76,8 @@ public class AgentDemo {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}		
+		}
+		
+		S.close();
 	}	
 }
