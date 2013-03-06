@@ -42,7 +42,7 @@ public class Agent extends GridEntity {
         
         if(isPrototype) {
             children = new ArrayList<Agent>();
-            fields.add(new Field("spawnCondition", Primitive.Type.STRING, "random"));
+            fields.add(new Field("spawnCondition", Type.STRING, "random"));
         }
         else {
             children = null;
