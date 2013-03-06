@@ -69,17 +69,10 @@ public abstract class GridEntity {
 	public GridEntity(Grid g, Color c, byte[] d) throws Exception {
 		grid = g;
 		fields = new ArrayList<Field>();
-<<<<<<< HEAD
 		fields.add(new Field("colorRed", Type.INT, c.getRed() + ""));
 		fields.add(new Field("colorBlue", Type.INT, c.getBlue() + ""));
 		fields.add(new Field("colorGreen", Type.INT, c.getGreen() + ""));
-		
-=======
-		fields.add(new Field("colorRed", Primitive.Type.INT, c.getRed() + ""));
-		fields.add(new Field("colorBlue", Primitive.Type.INT, c.getBlue() + ""));
-		fields.add(new Field("colorGreen", Primitive.Type.INT, c.getGreen() + ""));
 
->>>>>>> Integrated layers into the simulator a little more
 		design = d;
 	} 
 
