@@ -8,7 +8,7 @@ package edu.wheaton.simulator.datastructures;
  * @author Simon Swenson
  *
  */
-public class Field extends Primitive{
+public class Field extends Primitive {
 	
 	/**
 	 * The name for this field.

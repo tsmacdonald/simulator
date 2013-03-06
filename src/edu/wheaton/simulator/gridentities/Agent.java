@@ -33,6 +33,16 @@ public class Agent extends GridEntity {
     private List<Agent> children;
     
     /**
+     * The x position of this Agent
+     */
+    private int x;
+    
+    /**
+     * The y position of this Agent
+     */
+    private int y;
+    
+    /**
      * Constructor.
      * @param g The grid (passed to super constructor)
      * @param c The color of this agent (passed to super constructor)
@@ -161,5 +171,21 @@ public class Agent extends GridEntity {
                 a.removeTrigger(priority);
             }
         }
+    }
+    
+    /**
+     * Gets the current x position of this agent
+     * @return x
+     */
+    public int getX() {
+    	return x;
+    }
+    
+    /**
+     * Gets the current y position of this agent
+     * @return y
+     */
+    public int getY() {
+    	return y;
     }
 }

@@ -9,7 +9,13 @@
  */
 package edu.wheaton.simulator.simulation;
 
+<<<<<<< HEAD
 import edu.wheaton.simulator.datastructures.Field;
+=======
+import java.awt.Color;
+
+import edu.wheaton.simulator.gridentities.Field;
+>>>>>>> Integrated layers into the simulator a little more
 import edu.wheaton.simulator.gridentities.GridEntity;
 import edu.wheaton.simulator.gridentities.Slot;
 
@@ -87,6 +93,17 @@ public class Grid {
 	public Field getField(String fieldName) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * Makes a new Layer.
+	 * @param fieldName The name of the Field that the Layer will represent
+	 * @param c The Color that will be shaded differently to represent Field values
+	 */
+	public void newLayer(String fieldName, Color c) {
+		Layer.getInstance().setFieldName(fieldName);
+		Layer.getInstance().setColor(c);
+		Layer.getInstance().resetMinMax();
 	}
 
 }

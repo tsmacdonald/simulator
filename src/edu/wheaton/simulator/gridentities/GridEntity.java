@@ -20,6 +20,7 @@ import edu.wheaton.simulator.datastructures.Primitive;
 import edu.wheaton.simulator.datastructures.StringFormatMismatchException;
 import edu.wheaton.simulator.datastructures.Type;
 import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.simulation.Layer;
 
 public abstract class GridEntity {
 
@@ -57,7 +58,7 @@ public abstract class GridEntity {
 		for(int i = 0; i < 8; i++) 
 			design[i] = 127; // sets design to a solid image
 	}
-	
+
 	/**
 	 * Constructor
 	 * @param g The grid object
@@ -68,14 +69,21 @@ public abstract class GridEntity {
 	public GridEntity(Grid g, Color c, byte[] d) throws Exception {
 		grid = g;
 		fields = new ArrayList<Field>();
+<<<<<<< HEAD
 		fields.add(new Field("colorRed", Type.INT, c.getRed() + ""));
 		fields.add(new Field("colorBlue", Type.INT, c.getBlue() + ""));
 		fields.add(new Field("colorGreen", Type.INT, c.getGreen() + ""));
 		
+=======
+		fields.add(new Field("colorRed", Primitive.Type.INT, c.getRed() + ""));
+		fields.add(new Field("colorBlue", Primitive.Type.INT, c.getBlue() + ""));
+		fields.add(new Field("colorGreen", Primitive.Type.INT, c.getGreen() + ""));
+
+>>>>>>> Integrated layers into the simulator a little more
 		design = d;
 	} 
-	
-    public abstract void act();
+
+	public abstract void act();
 
 	/**
 	 * Parses the input string for a field, then adds that field.
@@ -129,6 +137,20 @@ public abstract class GridEntity {
 	}
 
 	/**
+	 * Gets a color for the entity based on the Field being examined by the Layer 
+	 * object. Returns null if the entity does not contain the Field.
+	 * @return The specific Color to represent the value of this entity's Field
+	 * @throws StringFormatMismatchException
+	 */
+	public Color getLayerColor() throws StringFormatMismatchException {
+		for(Field current : fields) {
+			if (current.getName().equals(Layer.getInstance().getFieldName()))
+				return Layer.getInstance().newShade(current);
+		}
+		return null;
+	}
+
+	/**
 	 * Sets the image bitmask array to a new design
 	 */
 	public void setDesign(byte[] design) {
@@ -142,12 +164,12 @@ public abstract class GridEntity {
 		return design;
 	}
 
-    public Field getField(String name){
-    	for(Field f : fields) {
-    		if(f.getName().equals(name)) {
-    			return f;
-    		}
-    	}
-    	throw new NoSuchElementException();
-    }
+	public Field getField(String name){
+		for(Field f : fields) {
+			if(f.getName().equals(name)) {
+				return f;
+			}
+		}
+		throw new NoSuchElementException();
+	}
 }

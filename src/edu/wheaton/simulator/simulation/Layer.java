@@ -4,7 +4,7 @@
  * A singleton class to give a colored representation of a specific
  * field.
  *
- * @author Elliot Penson
+ * @author Chris Anderson and Elliot Penson
  */
 
 package edu.wheaton.simulator.simulation;
@@ -80,6 +80,14 @@ public class Layer {
 	}
 	
 	/**
+	 * Sets the max and min variables to null.
+	 */
+	public void resetMinMax() {
+		max = null;
+		min = null;
+	}
+	
+	/**
 	 * Set color for the layer
 	 * @param c
 	 */
@@ -93,8 +101,7 @@ public class Layer {
 	 * @return A new Color with a different brightness value
 	 * @throws StringFormatMismatchException
 	 */
-	private Color newShade(Field f) throws StringFormatMismatchException {
-
+	public Color newShade(Field f) throws StringFormatMismatchException {
 		float degree = 0.0f;
 		if(f.isInt()) 
 			degree = (f.intValue() - min.intValue()) / (max.intValue() - min.intValue());
@@ -111,7 +118,12 @@ public class Layer {
 	 * @param Value of an agent's field
 	 * @throws StringFormatMismatchException
 	 */
-	private void setExtremes(Field f) throws StringFormatMismatchException {
+	public void setExtremes(Field f) throws StringFormatMismatchException {
+		if(min == null && max == null) {
+			min = f;
+			max = f;
+			return;
+		}
 		if(f.isInt()){
 			if(f.intValue() < this.min.intValue())
 				this.min = f;
