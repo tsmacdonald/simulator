@@ -37,12 +37,11 @@ public class PrimitiveBooleanOperatorNode implements BooleanEvaluatable {
 				return leftEval.intValue() > rightEval.intValue();
 			}
 			catch(StringFormatMismatchException e) {
-			}
-			try {
-				return leftEval.doubleValue() > rightEval.doubleValue();
-			}
-			catch(StringFormatMismatchException e) {
-				
+				try {
+					return leftEval.doubleValue() > rightEval.doubleValue();
+				} catch (StringFormatMismatchException e1) {
+					return false;
+				}
 			}
 		}
 		else if(sign.equals(Sign.LESS)) {
@@ -50,12 +49,11 @@ public class PrimitiveBooleanOperatorNode implements BooleanEvaluatable {
 				return leftEval.intValue() < rightEval.intValue();
 			}
 			catch(StringFormatMismatchException e) {
-			}
-			try {
-				return leftEval.doubleValue() < rightEval.doubleValue();
-			}
-			catch(StringFormatMismatchException e) {
-				
+				try {
+					return leftEval.doubleValue() < rightEval.doubleValue();
+				} catch (StringFormatMismatchException e1) {
+					return false;
+				}
 			}
 		}
 		else if(sign.equals(Sign.GREATER_OR_EQUAL)) {
@@ -63,12 +61,11 @@ public class PrimitiveBooleanOperatorNode implements BooleanEvaluatable {
 				return leftEval.intValue() >= rightEval.intValue();
 			}
 			catch(StringFormatMismatchException e) {
-			}
-			try {
-				return leftEval.doubleValue() >= rightEval.doubleValue();
-			}
-			catch(StringFormatMismatchException e) {
-				
+				try {
+					return leftEval.doubleValue() >= rightEval.doubleValue();
+				} catch (StringFormatMismatchException e1) {
+					return false;
+				}
 			}
 		}
 		else if(sign.equals(Sign.LESS_OR_EQUAL)) {
@@ -76,12 +73,11 @@ public class PrimitiveBooleanOperatorNode implements BooleanEvaluatable {
 				return leftEval.intValue() <= rightEval.intValue();
 			}
 			catch(StringFormatMismatchException e) {
-			}
-			try {
-				return leftEval.doubleValue() <= rightEval.doubleValue();
-			}
-			catch(StringFormatMismatchException e) {
-				
+				try {
+					return leftEval.doubleValue() <= rightEval.doubleValue();
+				} catch (StringFormatMismatchException e1) {
+					return false;
+				}
 			}
 		}
 		return false;

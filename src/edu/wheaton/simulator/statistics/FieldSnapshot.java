@@ -1,5 +1,7 @@
 package edu.wheaton.simulator.statistics;
 
+import edu.wheaton.simulator.gridentities.Type;
+
 /**
  * Represents a snapshot of a particular field of an agent in time. 
  * @author Daniel Gill
