@@ -9,13 +9,9 @@
  */
 package edu.wheaton.simulator.simulation;
 
-<<<<<<< HEAD
-import edu.wheaton.simulator.datastructures.Field;
-=======
 import java.awt.Color;
 
-import edu.wheaton.simulator.gridentities.Field;
->>>>>>> Integrated layers into the simulator a little more
+import edu.wheaton.simulator.datastructures.Field;
 import edu.wheaton.simulator.gridentities.GridEntity;
 import edu.wheaton.simulator.gridentities.Slot;
 
