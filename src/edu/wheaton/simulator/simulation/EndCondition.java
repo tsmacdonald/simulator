@@ -22,6 +22,7 @@ public abstract class EndCondition {
 	 */
 	public EndCondition(Grid grid){
 		this.grid = grid; 
+		Simulator.getStepNum(); 
 	}
 	
 	/**
