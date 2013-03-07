@@ -22,12 +22,12 @@ public abstract class EndCondition {
 	 */
 	public EndCondition(Grid grid){
 		this.grid = grid; 
-		Simulator.getStepNum(); 
+		
 	}
 	
 	/**
 	 * Determine if the simulation ending condition has been met
 	 * @return true/false
 	 */
-	abstract boolean evaluate(); 
+	public abstract boolean evaluate(); 
 }
