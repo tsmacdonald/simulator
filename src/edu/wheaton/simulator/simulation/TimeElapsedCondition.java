@@ -2,6 +2,7 @@
  * TimeElapsedCondition.java
  *
  * Encapsulates an ending condition based on the number of simulation steps completed
+ * Example: End the simulation after 100 steps
  *
  * @author Grant Hensel
  */

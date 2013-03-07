@@ -14,7 +14,7 @@ public abstract class EndCondition {
 	/**
 	 * Reference to the Grid. Used to check the state of the simulation and determine if the ending condition has been met
 	 */
-	private Grid grid; 
+	protected Grid grid; 
 	
 	/**
 	 * Constructor
