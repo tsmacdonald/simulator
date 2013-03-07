@@ -8,20 +8,18 @@
 
 package edu.wheaton.simulator.simulation;
 
-import edu.wheaton.simulator.datastructures.BoolExpression;
-
 public class SimulationEnder {
 
 	/**
 	 * A BoolExpression object containing the conditions under which the simulation ends
 	 */
-	private BoolExpression endCondition; 
+	private EndCondition endCondition; 
 	
 	/**
 	 * Constructor
 	 * @param endCondition The conditions under which the simulation is to finish
 	 */
-	public SimulationEnder(BoolExpression endCondition){
+	public SimulationEnder(EndCondition endCondition){
 		this.endCondition = endCondition; 
 	}
 	
@@ -30,7 +28,6 @@ public class SimulationEnder {
 	 * @return true or false
 	 */
 	public boolean simulationFinished(){
-		//TODO: Determine the arguments for evaluate(), if any
 		return endCondition.evaluate(); 
 	}
 	
