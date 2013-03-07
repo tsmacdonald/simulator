@@ -18,7 +18,7 @@ public class AgentPopulationCondition extends EndCondition {
 	/**
 	 * The name of the Agent who's population we are monitoring to determine if the simulation should end
 	 */
-	private String target; 
+	private String agentName; 
 	
 	/**
 	 * The population limit for the 'target' agent. If reached, the simulation will end.
@@ -32,9 +32,9 @@ public class AgentPopulationCondition extends EndCondition {
 	 * @param target The name of the Agent who's population we are monitoring to determine if the simulation should end
 	 * @param populationLimit The population limit for the 'target' agent. If reached, the simulation will end
 	 */
-	public AgentPopulationCondition(Grid grid, String target, int populationLimit) {
+	public AgentPopulationCondition(Grid grid, String agentName, int populationLimit) {
 		super(grid);
-		this.target = target; 
+		this.agentName = agentName; 
 		this.populationLimit = populationLimit; 
 	}
 
@@ -50,7 +50,7 @@ public class AgentPopulationCondition extends EndCondition {
 		
 		//TODO: Get the Agent team to add names to Agents
 		while(it.hasNext()){	
-			if(it.next().getEntity().name().equals(target))
+			if(it.next().getEntity().name().equals(agentName))
 				count++;
 			
 			if(count >= populationLimit)
