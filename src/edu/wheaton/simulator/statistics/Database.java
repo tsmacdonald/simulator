@@ -1,11 +1,19 @@
 package edu.wheaton.simulator.statistics;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Iterator;
+
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.TreeBasedTable;
+import com.sun.org.apache.bcel.internal.classfile.Field;
+
+import edu.wheaton.simulator.gridentities.GridEntity;
 
 /**
+ * This class is an abstraction of a database which is represented by
+ * a Table, provided by the Guava libraries
+ * 
  * @author akonwi
  */
  
@@ -28,10 +36,11 @@ public class Database {
 		 * the following is a foobar EntitySnapshot and details
 		 */
 		EntityID id = new EntityID("akon", 1);
-		Map<String, FieldSnapshot> defaults = new HashMap<String, FieldSnapshot>();
-		EntityPrototype pro = new EntityPrototype("agent", defaults);
-		InteractionDescription inter = new InteractionDescription();
-		EntitySnapshot snap = new AgentSnapshot(id, new HashMap<String, Object>(), 1, pro, inter);
+		HashMap<String, FieldSnapshot> defaults = new HashMap<String, FieldSnapshot>();
+		HashMap<String, FieldSnapshot> fields = new HashMap<String, FieldSnapshot>();
+		EntityPrototype prototype = new EntityPrototype("agent", defaults);
+		InteractionDescription interaction = new InteractionDescription();
+		EntitySnapshot snap = new AgentSnapshot(id, fields, 1, prototype, interaction);
 		
 		treeTable.put(id, 1, snap); // put snapshot into table
 		
@@ -45,5 +54,41 @@ public class Database {
 	
 	public static void main(String[] args) {
 		Database db = new Database();
+	}	
+	
+	public void putEntity(GridEntity entity, int step) {
+		EntityID id = entity.getID();
+		
+		/**
+		 * all the fields of the agent
+		 */
+		ArrayList<Field> entityFields = entity.getFields();
+		
+		/*
+		 * map of the fields to save in entitySnapShot
+		 */
+		HashMap<String, FieldSnapshot> fieldsForSnap = new HashMap<String, FieldSnapshot>();
+		
+		/*
+		 * fill the fieldsForSnap		
+		 */
+		Iterator<Field> it = entityFields.iterator();
+		while(it.hasNext()) {
+			Field current = it.next();
+			FieldSnapshot snap = new FieldSnapshot(current.getName(), current.getType(), current.getValue());
+			fieldsForSnap.put(current.getName(), snap);
+		}
+		
+		/*
+		 * Create protoype
+		 * Because this requires me having the initial set of fields,
+		 * I think the Observer class should record those on when the
+		 * user defines them. Then have a getter method that returns
+		 * the 'default fields'
+		 * 
+		 * Observer class could also possibly create a prototype
+		 * because it will have first access to the 'categoryName' and
+		 * with the Fields, it can make a map<String, FieldSnapshot>
+		 */
 	}
 }
