@@ -30,8 +30,4 @@ public final class BinaryOperator {
 	public String toString(){
 		return mStr;
 	}
-	
-	public Expression makeExpression(Expression lhs, Expression rhs){
-		return new Expression("(" + lhs + " " + this + " " + rhs + ")");
-	}
 }

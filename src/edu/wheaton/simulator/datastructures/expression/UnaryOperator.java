@@ -17,8 +17,4 @@ public final class UnaryOperator {
 	public String toString(){
 		return mStr;
 	}
-	
-	public Expression makeExpression(Expression expr){
-		return new Expression("(" + this + expr +")");
-	}
 }

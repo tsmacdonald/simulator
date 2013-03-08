@@ -7,20 +7,31 @@ import net.sourceforge.jeval.Evaluator;
 public final class Expression {
 	private String mStr;
 	
-	protected Expression(String str){
-		if(str==null || str.isEmpty())
-			throw new IllegalArgumentException();
-		
-		mStr = str;
+	private Expression(String str){
+		setString(str);
 	}
 	
 	public Expression(Primitive val){
-		mStr = val.toString();
+		setString(val.toString());
+	}
+	
+	public Expression(BinaryOperator op, Expression lhs, Expression rhs){
+		setString("(" + lhs + " " + op + " " + rhs + ")");
+	}
+	
+	public Expression(UnaryOperator op, Expression expr){
+		setString("(" + op + expr +")");
 	}
 	
 	@Override
 	public String toString(){
 		return mStr;
+	}
+	
+	private void setString(String str){
+		if(str==null || str.isEmpty())
+			throw new IllegalArgumentException();
+		mStr = str;
 	}
 	
 	public boolean getBool() throws EvaluationException{
