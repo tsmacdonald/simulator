@@ -7,7 +7,7 @@ import net.sourceforge.jeval.Evaluator;
 public final class Expression {
 	private String mStr;
 	
-	private Expression(String str){
+	public Expression(String str){
 		setString(str);
 	}
 	

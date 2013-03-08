@@ -25,7 +25,7 @@ public class Trigger implements Comparable<Trigger> {
 	private String conditions; 
 	
 	/**
-	 * The tree representing the conditions of whether or not the trigger fires.
+	 * Represents the conditions of whether or not the trigger fires.
 	 */
 	private BoolExpression expression;
 	

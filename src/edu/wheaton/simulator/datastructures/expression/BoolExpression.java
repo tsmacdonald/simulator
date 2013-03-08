@@ -42,7 +42,6 @@ public class BoolExpression {
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
 	public boolean evaluate(Agent me, Agent other) throws Exception {
-		//TODO Method stub?
 		return value;
 	}
 
