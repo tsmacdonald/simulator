@@ -8,8 +8,12 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.simulator.datastructures;
+package edu.wheaton.simulator.datastructures.expression;
 
+import net.sourceforge.jeval.EvaluationException;
+import edu.wheaton.simulator.datastructures.Primitive;
+import edu.wheaton.simulator.datastructures.StringFormatMismatchException;
+import edu.wheaton.simulator.datastructures.Type;
 import edu.wheaton.simulator.gridentities.Agent;
 
 public class PrimitiveExpressionOperator extends Primitive {
@@ -17,7 +21,7 @@ public class PrimitiveExpressionOperator extends Primitive {
 	/**
 	 * The operator stored in this object (+, -, /, *)
 	 */
-	private String op; 
+	private BinaryOperator op; 
 	
 	/**
 	 * The two PrimitiveExpression's that are evaluated using the stored operator
@@ -30,7 +34,7 @@ public class PrimitiveExpressionOperator extends Primitive {
 	 * @param right The first of two PrimitiveExpression's that are evaluated using the stored boolean comparison operator
 	 * @param left The second of two PrimitiveExpression's that are evaluated using the stored boolean comparison operator
 	 */
-	public PrimitiveExpressionOperator(String op, Primitive right, Primitive left){
+	public PrimitiveExpressionOperator(BinaryOperator op, Primitive right, Primitive left){
 		this.op = op; 
 		this.right = right; 
 		this.left = left; 
@@ -39,26 +43,11 @@ public class PrimitiveExpressionOperator extends Primitive {
 	/**
 	 * Evaluate this boolean expression
 	 * @return the evaluation
-	 * @throws Exception if the expression is incorrectly constructed
+	 * @throws EvaluationException 
+	 *
 	 */
-	public Primitive evaluate(Agent me, Agent other) throws InvalidExpressionException{
-		//TODO Method "PrimitiveExpressionOperator.evaluate" only handles one value type
-		try{
-			if (op.equals("+"))
-				return new Primitive(Type.INT, String.valueOf(right.intValue() + left.intValue()));
-			else if (op.equals("-"))
-				return new Primitive(Type.INT, String.valueOf(right.intValue() - left.intValue()));
-			else if (op.equals("*"))
-				return new Primitive(Type.INT, String.valueOf(right.intValue() * left.intValue()));
-			else if (op.equals("/"))
-				return new Primitive(Type.INT, String.valueOf(right.intValue() / left.intValue()));
-			else{
-				System.out.println("PrimitiveExpressionOperator evaluate() error: op not recognized");
-				throw new InvalidExpressionException(); 
-			}
-		}
-		catch(StringFormatMismatchException e){
-			throw new InvalidExpressionException();
-		}
+	public Primitive evaluate(Agent me, Agent other) throws EvaluationException{
+		Expression expr = new Expression(op,left.toString(),right.toString());
+		return new Primitive(Type.DOUBLE,expr.getDouble().toString());
 	}
 }

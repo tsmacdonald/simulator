@@ -1,6 +1,7 @@
 package edu.wheaton.simulator.datastructures;
 
 
+
 /**
  * Field class for modeling variables.
  * The name and type of the field will not be changeable throughout the life of the field.
@@ -14,6 +15,8 @@ public class Field extends Primitive {
 	 * The name for this field.
 	 */
 	private String name;
+	private String value;
+	private Type type;
 	
 	/**
 	 * Constructor.

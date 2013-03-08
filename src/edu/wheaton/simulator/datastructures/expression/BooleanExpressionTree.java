@@ -1,4 +1,4 @@
-package edu.wheaton.simulator.datastructures;
+package edu.wheaton.simulator.datastructures.expression;
 
 public class BooleanExpressionTree {
 

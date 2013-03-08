@@ -9,8 +9,9 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.simulator.datastructures;
+package edu.wheaton.simulator.datastructures.expression;
 
+import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.gridentities.Agent;
 
 
@@ -19,7 +20,7 @@ public class BoolExpression {
 	/**
 	 * Value contained in this boolean expression
 	 */
-	private boolean value; 
+	private Boolean value; 
 	
 	/**
 	 * Constructor
@@ -32,7 +33,7 @@ public class BoolExpression {
 	 * Constructor
 	 * @param value The value this boolean expression will represent
 	 */
-	public BoolExpression(boolean value){
+	public BoolExpression(Boolean value){
 		this.value = value;
 	}
 	
@@ -41,8 +42,7 @@ public class BoolExpression {
 	 * @return the evaluation
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
-	public boolean evaluate(Agent me, Agent other) throws Exception {
-		//TODO Method stub?
+	public Boolean evaluate(Agent me, Agent other) throws EvaluationException {
 		return value;
 	}
 

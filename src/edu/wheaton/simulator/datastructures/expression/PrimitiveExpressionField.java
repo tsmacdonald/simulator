@@ -7,8 +7,11 @@
 	 * Wheaton College, CSCI 335, Spring 2013
 	 */
 
-package edu.wheaton.simulator.datastructures;
+package edu.wheaton.simulator.datastructures.expression;
 
+import edu.wheaton.simulator.datastructures.Field;
+import edu.wheaton.simulator.datastructures.Primitive;
+import edu.wheaton.simulator.datastructures.Type;
 import edu.wheaton.simulator.gridentities.Agent;
 
 
@@ -17,22 +20,23 @@ public class PrimitiveExpressionField  extends Primitive {
 	/**
 	 * The field whose value we are storing
 	 */
-	private Field field; 
+	private Field field;
+	private Type type;
 	
 	/**
 	 * Is this field in the Agent that owns this Trigger (true) or an arbitrary other Agent (false)?
 	 */
-	private boolean internalCondition; 
+	private Boolean internalCondition; 
 	
 	/**
 	 * Constructor
 	 * @param field The field whose value we are storing
 	 * @param internalCondition Is this field in the Agent that owns this Trigger (true) or an arbitrary other Agent (false)?
 	 */
-	public PrimitiveExpressionField(Field field, boolean internalCondition){
+	public PrimitiveExpressionField(Field field, Boolean internalCondition){
 		this.field = field; 
 		this.internalCondition = internalCondition; 
-		this.type = field.type; 
+		this.type = field.type(); 
 	}
 	
 	/**
@@ -49,5 +53,10 @@ public class PrimitiveExpressionField  extends Primitive {
 			val = String.valueOf(other.getField(String.valueOf(field)));
 		
 		return new Primitive(this.type, val);
+	}
+	
+	@Override
+	public Type type(){
+		return type;
 	}
 }
