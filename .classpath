@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="libs/gson-2.2.2-sources.jar"/>
 	<classpathentry kind="lib" path="libs/gson-2.2.2.jar" sourcepath="libs/gson-2.2.2-sources.jar"/>
 	<classpathentry kind="lib" path="libs/guava-14.0-rc1.jar"/>
+	<classpathentry kind="lib" path="libs/jeval.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
