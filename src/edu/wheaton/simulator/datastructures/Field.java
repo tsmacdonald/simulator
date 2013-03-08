@@ -112,4 +112,13 @@ public class Field extends Primitive {
 	public String getName() {
 		return name;
 	}
+	
+	/**
+	 * @return This field's value
+	 */
+	public String getValue(){
+		return this.value;	
+	}
+
+	
 }

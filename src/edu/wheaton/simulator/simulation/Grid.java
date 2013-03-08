@@ -20,6 +20,7 @@ public class Grid implements Iterable<Slot>{
 
 	/**
 	 * The grid of all slots containing all GridEntity objects
+	 * Total # slots = Width x Height
 	 */
 	private Slot[][] grid;
 	
@@ -130,8 +131,7 @@ public class Grid implements Iterable<Slot>{
 
 			public void remove() {
 				throw new UnsupportedOperationException();
-			}
-			
+			}	
 		};
 	}
 
