@@ -1,5 +1,7 @@
 package edu.wheaton.simulator.datastructures;
 
+import edu.wheaton.simulator.datastructures.expression.Primitive;
+
 
 /**
  * Field class for modeling variables.
@@ -14,6 +16,8 @@ public class Field extends Primitive {
 	 * The name for this field.
 	 */
 	private String name;
+	private String value;
+	private Type type;
 	
 	/**
 	 * Constructor.

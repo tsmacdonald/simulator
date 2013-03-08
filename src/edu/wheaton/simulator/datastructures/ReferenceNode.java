@@ -1,5 +1,7 @@
 package edu.wheaton.simulator.datastructures;
 
+import edu.wheaton.simulator.datastructures.expression.Primitive;
+import edu.wheaton.simulator.datastructures.expression.PrimitiveEvaluatable;
 import edu.wheaton.simulator.gridentities.GridEntity;
 import edu.wheaton.simulator.simulation.Grid;
 

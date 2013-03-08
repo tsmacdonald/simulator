@@ -1,6 +1,6 @@
 package edu.wheaton.simulator.behavior;
 
-import edu.wheaton.simulator.datastructures.PrimitiveExpressionTree;
+import edu.wheaton.simulator.datastructures.expression.PrimitiveExpressionTree;
 import edu.wheaton.simulator.gridentities.GridEntity;
 import edu.wheaton.simulator.simulation.Grid;
 
