@@ -46,7 +46,7 @@ public class Primitive {
 	/**
 	 * @return True if int, false otherwise.
 	 */
-	public boolean isInt() {
+	public Boolean isInt() {
 		if (type == Type.INT) 
 			return true;
 		return false;
@@ -55,7 +55,7 @@ public class Primitive {
 	/**
 	 * @return True if double, false otherwise.
 	 */
-	public boolean isDouble() {
+	public Boolean isDouble() {
 		if(type == Type.DOUBLE) 
 			return true;
 		return false;
@@ -64,7 +64,7 @@ public class Primitive {
 	/**
 	 * @return True if char, false otherwise.
 	 */
-	public boolean isChar() {
+	public Boolean isChar() {
 		if(type == Type.DOUBLE) 
 			return true;
 		return false;
@@ -73,7 +73,7 @@ public class Primitive {
 	/**
 	 * @return True if String, false otherwise.
 	 */
-	public boolean isString() {
+	public Boolean isString() {
 		if(type == Type.DOUBLE) 
 			return true;
 		return false;
@@ -83,12 +83,12 @@ public class Primitive {
 	 * @return The int value of this field, if possible.
 	 * @throws StringFormatMismatchException 
 	 */
-	public int intValue() throws StringFormatMismatchException {
-		int toReturn;
+	public Integer intValue() throws StringFormatMismatchException {
+		Integer toReturn;
 		if(type == Type.STRING || type == Type.DOUBLE) 
 			throw new StringFormatMismatchException();
 		else if(type == Type.CHAR)
-			toReturn = value.charAt(0);
+			toReturn = (int) value.charAt(0);
 		else
 			toReturn = Integer.parseInt(value);
 		return toReturn;
@@ -98,12 +98,12 @@ public class Primitive {
 	 * @return The double value of this field, if possible.
 	 * @throws StringFormatMismatchException 
 	 */
-	public double doubleValue() throws StringFormatMismatchException {
-		double toReturn;
+	public Double doubleValue() throws StringFormatMismatchException {
+		Double toReturn;
 		if(type == Type.STRING) 
 			throw new StringFormatMismatchException();
 		else if(type == Type.CHAR)
-			toReturn = value.charAt(0);
+			toReturn = (double) value.charAt(0);
 		else 
 			toReturn = Double.parseDouble(value);
 		return toReturn;
@@ -113,7 +113,7 @@ public class Primitive {
 	 * @return The char value of this field, if possible.
 	 * @throws StringFormatMismatchException 
 	 */
-	public char charValue() throws StringFormatMismatchException {
+	public Character charValue() throws StringFormatMismatchException {
 		if(type != Type.CHAR) 
 			throw new StringFormatMismatchException();
 		return value.charAt(0);

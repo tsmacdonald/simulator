@@ -10,6 +10,7 @@
 
 package edu.wheaton.simulator.datastructures.expression;
 
+import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.gridentities.Agent;
 
 public class BoolExpressionOperator extends BoolExpression {
@@ -17,12 +18,8 @@ public class BoolExpressionOperator extends BoolExpression {
 	/**
 	 * The operator contained in this class. Represented as a string. Can be "&&", "||" or "!" (Note: If using "!", supply the same boolean expression as the right and leave the left null)
 	 */
-	private ExpressionOp op;
-	public enum ExpressionOp {
-		AND,
-		OR,
-		NOT
-	}
+	private Operator op;
+	private Boolean isBinary;
 	
 	/**
 	 * The two boolean expressions that are evaluated using the stored boolean operator
@@ -35,8 +32,16 @@ public class BoolExpressionOperator extends BoolExpression {
 	 * @param right The first of two boolean expressions that are evaluated using the stored boolean operator
 	 * @param left The second of two boolean expressions that are evaluated using the stored boolean operator
 	 */
-	public BoolExpressionOperator(ExpressionOp op, BoolExpression right, BoolExpression left){
+	public BoolExpressionOperator(BinaryOperator op, BoolExpression right, BoolExpression left){
 		this.op = op;
+		this.isBinary = true;
+		this.left = left; 
+		this.right = right;
+	}
+	
+	public BoolExpressionOperator(UnaryOperator op, BoolExpression right, BoolExpression left){
+		this.op = op;
+		this.isBinary = false;
 		this.left = left; 
 		this.right = right;
 	}
@@ -47,20 +52,15 @@ public class BoolExpressionOperator extends BoolExpression {
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
 	@Override
-	public boolean evaluate(Agent me, Agent other) throws Exception{
-		boolean rightEval = right.evaluate(me, other);
-		boolean leftEval = left.evaluate(me, other); 
+	public Boolean evaluate(Agent me, Agent other) throws EvaluationException{
+		Boolean rightEval = right.evaluate(me, other);
+		Boolean leftEval = left.evaluate(me, other);
 		
-		switch(op){
-		case AND: 
-			return rightEval && leftEval; 
-		case OR: 
-			return rightEval || leftEval; 
-		case NOT: 
-			return !rightEval; 
-		default: 
-			System.out.println("Boolean Expression evaluate() error: op not recognized");
-			throw new Exception(); 
+		if(isBinary){
+			Expression expr = new Expression( (BinaryOperator) op,leftEval.toString(),rightEval.toString());
+			return expr.getBool();
 		}
+		Expression expr = new Expression( (UnaryOperator) op,rightEval.toString());
+		return expr.getBool();
 	}
 }

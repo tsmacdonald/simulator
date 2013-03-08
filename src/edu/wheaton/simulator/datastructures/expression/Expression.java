@@ -7,19 +7,15 @@ import net.sourceforge.jeval.Evaluator;
 public final class Expression {
 	private String mStr;
 	
-	public Expression(String str){
-		setString(str);
+	public Expression(Object str){
+		setString(str.toString());
 	}
 	
-	public Expression(Primitive val){
-		setString(val.toString());
-	}
-	
-	public Expression(BinaryOperator op, Expression lhs, Expression rhs){
+	public Expression(BinaryOperator op, Object lhs, Object rhs){
 		setString("(" + lhs + " " + op + " " + rhs + ")");
 	}
 	
-	public Expression(UnaryOperator op, Expression expr){
+	public Expression(UnaryOperator op, Object expr){
 		setString("(" + op + expr +")");
 	}
 	
@@ -34,7 +30,7 @@ public final class Expression {
 		mStr = str;
 	}
 	
-	public boolean getBool() throws EvaluationException{
+	public Boolean getBool() throws EvaluationException{
 		Evaluator evaluator = new Evaluator();
 		return evaluator.getBooleanResult(this.toString());
 	}

@@ -26,14 +26,14 @@ public class PrimitiveExpressionField  extends Primitive {
 	/**
 	 * Is this field in the Agent that owns this Trigger (true) or an arbitrary other Agent (false)?
 	 */
-	private boolean internalCondition; 
+	private Boolean internalCondition; 
 	
 	/**
 	 * Constructor
 	 * @param field The field whose value we are storing
 	 * @param internalCondition Is this field in the Agent that owns this Trigger (true) or an arbitrary other Agent (false)?
 	 */
-	public PrimitiveExpressionField(Field field, boolean internalCondition){
+	public PrimitiveExpressionField(Field field, Boolean internalCondition){
 		this.field = field; 
 		this.internalCondition = internalCondition; 
 		this.type = field.type(); 

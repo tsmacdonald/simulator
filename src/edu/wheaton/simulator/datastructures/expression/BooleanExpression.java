@@ -4,5 +4,5 @@ import edu.wheaton.simulator.gridentities.GridEntity;
 
 public interface BooleanExpression {
 
-	public boolean evaluate(GridEntity me, GridEntity other);
+	public Boolean evaluate(GridEntity me, GridEntity other);
 }

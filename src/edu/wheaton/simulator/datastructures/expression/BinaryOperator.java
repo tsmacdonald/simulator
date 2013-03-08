@@ -1,7 +1,7 @@
 package edu.wheaton.simulator.datastructures.expression;
 
-public final class BinaryOperator {
-	public static final BinaryOperator EQUAL = new BinaryOperator("==");
+public final class BinaryOperator implements Operator {
+	public static final BinaryOperator EQUALS = new BinaryOperator("==");
 	public static final BinaryOperator NOT_EQUAL = new BinaryOperator("!=");
 	public static final BinaryOperator GREATER_THAN = new BinaryOperator(">");
 	public static final BinaryOperator LESS_THAN = new BinaryOperator("<");
