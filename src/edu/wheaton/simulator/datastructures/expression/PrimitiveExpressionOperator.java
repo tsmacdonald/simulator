@@ -44,7 +44,7 @@ public class PrimitiveExpressionOperator extends Primitive {
 	 * @return the evaluation
 	 * @throws Exception if the expression is incorrectly constructed
 	 */
-	public Primitive evaluate(Agent me, Agent other) throws InvalidExpressionException{
+	public Primitive evaluate(Agent me, Agent other) throws Exception{
 		//TODO Method "PrimitiveExpressionOperator.evaluate" only handles one value type
 		try{
 			if (op.equals("+"))
@@ -57,11 +57,11 @@ public class PrimitiveExpressionOperator extends Primitive {
 				return new Primitive(Type.INT, String.valueOf(right.intValue() / left.intValue()));
 			else{
 				System.out.println("PrimitiveExpressionOperator evaluate() error: op not recognized");
-				throw new InvalidExpressionException(); 
+				throw new Exception(); 
 			}
 		}
 		catch(StringFormatMismatchException e){
-			throw new InvalidExpressionException();
+			throw new Exception();
 		}
 	}
 }
