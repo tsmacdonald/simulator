@@ -124,8 +124,8 @@ public class Database {
 			return database.get(id, step);
 		} catch (Exception e) {
 			System.out.println("The database has not been finalized");
+			return null;
 		}
-		return null;
 	}
 }
 
