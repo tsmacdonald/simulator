@@ -118,8 +118,7 @@ public class Database {
 	 *            the turn in the game or column to query
 	 * @return EntitySnapshot at given row(id) and column(step)
 	 */
-	public EntitySnapshot getSnapshot(EntityID id, int step)
-			throws Exception {
+	public EntitySnapshot getSnapshot(EntityID id, int step) throws Exception {
 		try {
 			return database.get(id, step);
 		} catch (Exception e) {
@@ -127,9 +126,10 @@ public class Database {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Get the size of the database
+	 * 
 	 * @return size of database
 	 */
 	public int getSize() {
