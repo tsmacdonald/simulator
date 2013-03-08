@@ -1,5 +1,6 @@
 package edu.wheaton.simulator.datastructures.expression;
 
+import edu.wheaton.simulator.datastructures.Primitive;
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
 

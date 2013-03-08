@@ -1,6 +1,5 @@
 package edu.wheaton.simulator.datastructures;
 
-import edu.wheaton.simulator.datastructures.expression.Primitive;
 
 
 /**

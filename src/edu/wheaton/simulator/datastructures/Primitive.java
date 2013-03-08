@@ -1,18 +1,19 @@
 package edu.wheaton.simulator.datastructures;
 
 
+
 public class Primitive {
 	
 	
 	/**
 	 * The type of this field (int, double, char, String, AgentID).
 	 */
-	protected Type type;
+	private Type type;
 	
 	/**
 	 * The value of this field.
 	 */
-	protected String value;
+	private String value;
 	
 	/**
 	 * Default constructor
@@ -122,6 +123,15 @@ public class Primitive {
 	 * @return The String value of this field.
 	 */
 	public String stringValue() {
+		return toString();
+	}
+	
+	public Type type(){
+		return type;
+	}
+	
+	@Override
+	public String toString(){
 		return value;
 	}
 }
