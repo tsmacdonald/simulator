@@ -124,8 +124,16 @@ public class Database {
 			return database.get(id, step);
 		} catch (Exception e) {
 			System.out.println("The database has not been finalized");
+			return null;
 		}
-		return null;
+	}
+	
+	/**
+	 * Get the size of the database
+	 * @return size of database
+	 */
+	public int getSize() {
+		return database.size();
 	}
 }
 
