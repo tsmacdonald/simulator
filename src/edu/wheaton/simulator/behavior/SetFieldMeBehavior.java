@@ -1,6 +1,6 @@
 package edu.wheaton.simulator.behavior;
 
-import edu.wheaton.simulator.datastructures.expression.PrimitiveExpressionTree;
+import edu.wheaton.simulator.datastructures.expression.Expression;
 import edu.wheaton.simulator.gridentities.GridEntity;
 import edu.wheaton.simulator.simulation.Grid;
 
@@ -17,7 +17,7 @@ public class SetFieldMeBehavior implements Behavable {
 	 * Informal parameter given when user creates this
 	 * behavior.
 	 */
-	private PrimitiveExpressionTree parameters;
+	private Expression parameters;
 	
 	@Override
 	public void act(GridEntity me, GridEntity other, GridEntity local,

@@ -17,7 +17,7 @@ import java.util.List;
 import edu.wheaton.simulator.datastructures.Field;
 import edu.wheaton.simulator.datastructures.StringFormatMismatchException;
 import edu.wheaton.simulator.datastructures.Type;
-import edu.wheaton.simulator.datastructures.expression.BoolExpression;
+import edu.wheaton.simulator.datastructures.expression.Expression;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class Agent extends GridEntity {
@@ -152,7 +152,7 @@ public class Agent extends GridEntity {
             throw new IOException();
         }
         int priority = Integer.parseInt(lines[0].substring(9, lines[0].length()));
-        BoolExpression be = BoolExpression.parseExpression(lines[0].substring(10, lines[0].length()));
+        Expression be = new Expression(lines[0].substring(10, lines[0].length()));
         Behavior result = Behavior.parseBehavior(lines[1].substring(7, lines[1].length()));
         triggers.add(new Trigger(priority, be, result, this));
         Collections.sort(triggers);
