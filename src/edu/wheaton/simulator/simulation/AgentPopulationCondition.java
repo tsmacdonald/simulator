@@ -50,7 +50,7 @@ public class AgentPopulationCondition extends EndCondition {
 		
 		//TODO: Get the Agent team to add names to Agents
 		while(it.hasNext()){	
-			if(it.next().getEntity().name().equals(agentName))
+			if(it.next().getEntity().getName().equals(agentName))
 				count++;
 			
 			if(count >= populationLimit)

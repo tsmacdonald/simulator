@@ -1,4 +1,4 @@
-package edu.wheaton.simulator.datastructures.expression;
+package edu.wheaton.simulator.datastructures;
 
 public class Value{
 	private Object mX;

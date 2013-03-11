@@ -3,6 +3,8 @@ package edu.wheaton.simulator.statistics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.TreeBasedTable;
 
@@ -56,7 +58,7 @@ public class Database {
 		/**
 		 * all the fields of the agent
 		 */
-		ArrayList<Field> entityFields = entity.getFields();
+		List<Field> entityFields = entity.getFields();
 
 		/*
 		 * map of the fields to save in entitySnapShot

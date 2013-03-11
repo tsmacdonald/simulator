@@ -21,6 +21,7 @@ import edu.wheaton.simulator.datastructures.StringFormatMismatchException;
 import edu.wheaton.simulator.datastructures.Type;
 import edu.wheaton.simulator.simulation.Grid;
 import edu.wheaton.simulator.simulation.Layer;
+import edu.wheaton.simulator.statistics.EntityID;
 
 public abstract class GridEntity {
 
@@ -164,5 +165,17 @@ public abstract class GridEntity {
 			}
 		}
 		throw new NoSuchElementException();
+	}
+	
+	public List<Field> getFields(){
+		return fields;
+	}
+	
+	public String getName(){
+		throw new UnsupportedOperationException();
+	}
+	
+	public EntityID getID(){
+		throw new UnsupportedOperationException();
 	}
 }
