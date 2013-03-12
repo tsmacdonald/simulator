@@ -1,7 +1,5 @@
 package edu.wheaton.simulator.datastructures;
 
-import java.security.InvalidParameterException;
-
 import edu.wheaton.simulator.gridentities.GridEntity;
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;

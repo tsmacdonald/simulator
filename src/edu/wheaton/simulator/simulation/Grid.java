@@ -108,17 +108,20 @@ public class Grid implements Iterable<Slot>{
 	 * Returns an iterator that goes through the Slots in the Grid
 	 * @return Iterator<Slot>
 	 */
+	@Override
 	public Iterator<Slot> iterator() {
 		return new Iterator<Slot>() {
 			
 			int x = 0;
 			int y = 0;
 			
+			@Override
 			public boolean hasNext() {
 				return y < grid.length;
 			}
 
-            public Slot next() {
+            @Override
+			public Slot next() {
                 Slot toReturn = grid[x][y];
                 if(x < grid.length - 1) {
                     x++;
@@ -129,6 +132,7 @@ public class Grid implements Iterable<Slot>{
                 return toReturn;
             }
 
+			@Override
 			public void remove() {
 				throw new UnsupportedOperationException();
 			}	

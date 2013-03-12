@@ -105,6 +105,7 @@ public class Database {
 	 * responsible for calling this method to initialize the ImmutableTable
 	 * which will be publicly available via get methods
 	 */
+	@Override
 	public void finalize() {
 		database = new ImmutableTable.Builder<EntityID, Integer, EntitySnapshot>()
 				.putAll(treeTable).build();

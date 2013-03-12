@@ -11,7 +11,6 @@ package edu.wheaton.simulator.simulation;
 
 import edu.wheaton.simulator.datastructures.Expression;
 import edu.wheaton.simulator.datastructures.Field;
-import edu.wheaton.simulator.datastructures.StringFormatMismatchException;
 import edu.wheaton.simulator.datastructures.Value;
 
 import java.awt.Color;
@@ -116,7 +115,7 @@ public class Layer {
 	 * When called for each agent in a string, this sets the min and max values for the field
 	 * @param Value of an agent's field
 	 * @throws EvaluationException 
-	 * @throws StringFormatMismatchException
+	 * 
 	 */
 	public void setExtremes(Field f) throws EvaluationException{
 		if(min == null && max == null) {
