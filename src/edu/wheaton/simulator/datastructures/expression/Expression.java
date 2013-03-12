@@ -26,8 +26,7 @@ public final class Expression {
 	}
 	
 	public Boolean getBoolean() throws EvaluationException{
-		Evaluator evaluator = new Evaluator();
-		return evaluator.getBooleanResult(this.toString());
+		return getValue().getBoolean();
 	}
 	
 	public Value getValue() throws EvaluationException{
@@ -42,5 +41,35 @@ public final class Expression {
 	public Expression evaluate(GridEntity xThis, GridEntity xOther, GridEntity xLocal, GridEntity xGlobal) throws EvaluationException{
 		Evaluator evaluator = new Evaluator();
 		return new Expression(evaluator.evaluate(this.toString()));
+	}
+	
+	private static String resolveVariable(String _varStr, GridEntity xThis, GridEntity xOther, GridEntity xLocal, GridEntity xGlobal){
+		String varStr = removeWhiteSpace(_varStr);
+		String targetName = extractTargetName(varStr);
+		String fieldName = extractFieldName(varStr);
+		GridEntity target = resolveTarget(targetName,xThis,xOther,xLocal,xGlobal);
+		return target.getField(fieldName).getValue();
+	}
+
+	private static GridEntity resolveTarget(String targetName,
+			GridEntity xThis, GridEntity xOther, GridEntity xLocal,
+			GridEntity xGlobal) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private static String extractFieldName(String varStr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private static String extractTargetName(String varStr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private static String removeWhiteSpace(String str) {
+		//TODO not implemented (does nothing)
+		return str;
 	}
 }
