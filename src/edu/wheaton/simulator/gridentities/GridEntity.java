@@ -18,7 +18,7 @@ import edu.wheaton.simulator.datastructures.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructures.Field;
 import edu.wheaton.simulator.datastructures.Primitive;
 import edu.wheaton.simulator.datastructures.StringFormatMismatchException;
-import edu.wheaton.simulator.datastructures.Type;
+import edu.wheaton.simulator.datastructures.*;
 import edu.wheaton.simulator.simulation.Grid;
 import edu.wheaton.simulator.simulation.Layer;
 import edu.wheaton.simulator.statistics.EntityID;
@@ -49,11 +49,11 @@ public abstract class GridEntity {
 	public GridEntity(Grid g, Color c) throws Exception {
 		grid = g;
 		fields = new ArrayList<Field>();
-		fields.add(new Field("colorRed", Type.INT, c.getRed() + ""));
-		fields.add(new Field("colorBlue", Type.INT, c.getBlue() + ""));
-		fields.add(new Field("colorGreen", Type.INT, c.getGreen() + ""));
-		fields.add(new Field("x", Type.INT, 0 + ""));
-		fields.add(new Field("y", Type.INT, 0 + ""));
+		fields.add(new Field("colorRed", Primitive.Type.INT, c.getRed() + ""));
+		fields.add(new Field("colorBlue", Primitive.Type.INT, c.getBlue() + ""));
+		fields.add(new Field("colorGreen", Primitive.Type.INT, c.getGreen() + ""));
+		fields.add(new Field("x", Primitive.Type.INT, 0 + ""));
+		fields.add(new Field("y", Primitive.Type.INT, 0 + ""));
 
 		design = new byte[8]; 
 		for(int i = 0; i < 8; i++) 
@@ -70,9 +70,9 @@ public abstract class GridEntity {
 	public GridEntity(Grid g, Color c, byte[] d) throws Exception {
 		grid = g;
 		fields = new ArrayList<Field>();
-		fields.add(new Field("colorRed", Type.INT, c.getRed() + ""));
-		fields.add(new Field("colorBlue", Type.INT, c.getBlue() + ""));
-		fields.add(new Field("colorGreen", Type.INT, c.getGreen() + ""));
+		fields.add(new Field("colorRed", Primitive.Type.INT, c.getRed() + ""));
+		fields.add(new Field("colorBlue", Primitive.Type.INT, c.getBlue() + ""));
+		fields.add(new Field("colorGreen", Primitive.Type.INT, c.getGreen() + ""));
 
 		design = d;
 	} 
@@ -105,7 +105,7 @@ public abstract class GridEntity {
 			}
 		}
 		if(contained != null) throw new ElementAlreadyContainedException();
-		Type type = Type.parseString(typeString);
+		Primitive.Type type = Primitive.Type.parseString(typeString);
 		fields.add(new Field(name, type, value));
 	}
 

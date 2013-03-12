@@ -14,10 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.wheaton.simulator.datastructures.Expression;
-import edu.wheaton.simulator.datastructures.Field;
-import edu.wheaton.simulator.datastructures.StringFormatMismatchException;
-import edu.wheaton.simulator.datastructures.Type;
+import edu.wheaton.simulator.datastructures.*;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class Agent extends GridEntity {
@@ -56,7 +53,7 @@ public class Agent extends GridEntity {
         
         if(isPrototype) {
             children = new ArrayList<Agent>();
-            fields.add(new Field("spawnCondition", Type.STRING, "random"));
+            fields.add(new Field("spawnCondition", Primitive.Type.STRING, "random"));
         }
         else {
             children = null;
