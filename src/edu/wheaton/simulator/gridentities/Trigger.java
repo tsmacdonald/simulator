@@ -10,7 +10,7 @@
 
 package edu.wheaton.simulator.gridentities;
 
-import edu.wheaton.simulator.datastructures.expression.Expression;
+import edu.wheaton.simulator.datastructures.Expression;
 
 public class Trigger implements Comparable<Trigger> {
 

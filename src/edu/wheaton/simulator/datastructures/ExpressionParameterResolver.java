@@ -1,4 +1,4 @@
-package edu.wheaton.simulator.datastructures.expression;
+package edu.wheaton.simulator.datastructures;
 
 import java.security.InvalidParameterException;
 
