@@ -12,16 +12,20 @@ public class Value{
 		return mX.toString();
 	}
 	
-	public Boolean getBoolean(){
+	public Boolean toBool(){
 		return Boolean.valueOf(toString());
 	}
 	
-	public Double getDouble(){
+	public Double toDouble(){
 		return Double.valueOf(toString());
 	}
 	
-	public String getString(){
-		return toString();
+	public Integer toInt(){
+		return Integer.valueOf(toString());
+	}
+	
+	public Character toChar(){
+		return Character.valueOf(toString().charAt(0));
 	}
 
 	@Override

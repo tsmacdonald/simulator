@@ -14,14 +14,9 @@ public class FieldSnapshot {
 	public final String name; 
 	
 	/**
-	 * The type of this field. 
-	 */
-	public final Primitive.Type type; 
-	
-	/**
 	 * A string representation of the field's value.
 	 */
-	public final String value; 
+	public final Value value; 
 	
 	/**
 	 * Constructor. 
@@ -29,9 +24,8 @@ public class FieldSnapshot {
 	 * @param type The type of the field. 
 	 * @param value A string representation of the field's value.
 	 */
-	public FieldSnapshot(String name, Primitive.Type type, String value) {
+	public FieldSnapshot(String name, Value value) {
 		this.name = name; 
-		this.type = type; 
 		this.value = value; 
 	}
 	

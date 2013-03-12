@@ -10,8 +10,8 @@ import net.sourceforge.jeval.VariableResolver;
 public final class Expression {
 	private Value mVal;
 	
-	public Expression(Object fx){
-		setValue(fx);
+	public Expression(Object fxVal){
+		setValue(fxVal);
 	}
 	
 	@Override
@@ -20,31 +20,20 @@ public final class Expression {
 	}
 	
 	private void setValue(Object fx){
-		String str = fx.toString();
-		if(str==null || str.isEmpty())
-			throw new IllegalArgumentException();
 		mVal = new Value(fx);
 	}
 	
-	public Boolean getBoolean() throws EvaluationException{
-		return getValue().getBoolean();
-	}
-	
-	public Value getValue() throws EvaluationException{
-		return new Value(getString());
-	}
-	
-	public String getString() throws EvaluationException{
-		Evaluator evaluator = new Evaluator();
-		return evaluator.evaluate(this.toString());
-	}
-	
-	public Expression evaluate(GridEntity xThis, GridEntity xOther, GridEntity xLocal, GridEntity xGlobal) throws EvaluationException{
+	public Value evaluate(GridEntity xThis, GridEntity xOther, GridEntity xLocal, GridEntity xGlobal) throws EvaluationException{
 		Evaluator evaluator = new Evaluator();
 		
 		VariableResolver varRes = new ExpressionParameterResolver(xThis,xOther,xLocal,xGlobal);
 		evaluator.setVariableResolver(varRes);
 		
-		return new Expression(evaluator.evaluate(this.toString()));
+		return new Value(evaluator.evaluate(this.toString()));
+	}
+	
+	public static Value evaluate(String expr) throws EvaluationException{
+		Evaluator evaluator = new Evaluator();
+		return new Value(evaluator.evaluate(expr));
 	}
 }

@@ -27,7 +27,7 @@ public class ExpressionParameterResolver implements VariableResolver {
 		String fieldName = paramSegments[1];
 		
 		GridEntity target = resolveTarget(targetName);
-		return target.getField(fieldName).getValue();
+		return target.getField(fieldName).value().toString();
 	}
 
 	private GridEntity resolveTarget(String targetName) {

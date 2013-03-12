@@ -9,25 +9,28 @@ package edu.wheaton.simulator.datastructures;
  * @author Simon Swenson
  *
  */
-public class Field extends Primitive {
+public class Field {
 	
 	/**
 	 * The name for this field.
 	 */
 	private String name;
-	private String value;
-	private Type type;
+	private Value value;
 	
 	/**
 	 * Constructor.
 	 * @param type Type of variable. Should be int, double, char, or String.
 	 * @param value Value of variable. Should match the type; an exception will be thrown if not.
-	 * @throws StringFormatMismatchException 
+	 *
 	 */
-	public Field(String name, Type type, String value) throws Exception {
+	public Field(Object name, Object value){
+		this.name = name.toString();
+		this.value = new Value(value);
+	}
+	
+	public Field(String name, String value){
 		this.name = name;
-		this.type = type;
-		this.value = value;
+		this.value = new Value(value);
 	}
 	
 	/**
@@ -36,59 +39,15 @@ public class Field extends Primitive {
 	 * @throws StringFormatMismatchException 
 	 */
 	public Field(Field parent) throws Exception {
-		this(parent.name, parent.type, parent.value);
+		this(parent.name, parent.value);
 	}
 	
 	/**
 	 * @param s The new String value to set this field to.
 	 * @throws StringFormatMismatchException 
 	 */
-	public void setValue(String s) throws StringFormatMismatchException {
-		if(type == Type.STRING) {
-			value = s;
-		}
-		else {
-			throw new StringFormatMismatchException();
-		}
-	}
-	
-	/**
-	 * @param s The new double value to set this field to.
-	 * @throws StringFormatMismatchException 
-	 */
-	public void setValue(double d) throws StringFormatMismatchException {
-		if(type == Type.DOUBLE) {
-			value = d + "";
-		}
-		else {
-			throw new StringFormatMismatchException();
-		}
-	}
-	
-	/**
-	 * @param s The new int value to set this field to.
-	 * @throws StringFormatMismatchException 
-	 */
-	public void setValue(int i) throws StringFormatMismatchException {
-		if(type == Type.INT) {
-			value = i + "";
-		}
-		else {
-			throw new StringFormatMismatchException();
-		}
-	}
-	
-	/**
-	 * @param s The new char value to set this field to.
-	 * @throws StringFormatMismatchException 
-	 */
-	public void setValue(char c) throws StringFormatMismatchException {
-		if(type == Type.CHAR) {
-			value = c + "";
-		}
-		else {
-			throw new StringFormatMismatchException();
-		}
+	public void setValue(Value v){
+		value = v;
 	}
 	
 	/**
@@ -99,28 +58,23 @@ public class Field extends Primitive {
 		String toReturn = "";
 		toReturn += "FIELD:\n";
 		toReturn += "  NAME=" + name + "\n";
-		toReturn += "  TYPE=" + type.toString() + "\n";
 		toReturn += "  VALUE=" + value + "\n";
 		return toReturn;
-	}
-	
-	public Type getType(){
-		return this.type; 
 	}
 
 	/**
 	 * 
 	 * @return This field's name.
 	 */
-	public String getName() {
+	public String name() {
 		return name;
 	}
 	
 	/**
 	 * @return This field's value
 	 */
-	public String getValue(){
-		return this.value;	
+	public Value value(){
+		return value;
 	}
 
 	

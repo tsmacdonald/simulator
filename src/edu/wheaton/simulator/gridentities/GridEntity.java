@@ -14,10 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import edu.wheaton.simulator.datastructures.ElementAlreadyContainedException;
-import edu.wheaton.simulator.datastructures.Field;
-import edu.wheaton.simulator.datastructures.Primitive;
-import edu.wheaton.simulator.datastructures.StringFormatMismatchException;
+import net.sourceforge.jeval.EvaluationException;
+
 import edu.wheaton.simulator.datastructures.*;
 import edu.wheaton.simulator.simulation.Grid;
 import edu.wheaton.simulator.simulation.Layer;
@@ -49,11 +47,11 @@ public abstract class GridEntity {
 	public GridEntity(Grid g, Color c) throws Exception {
 		grid = g;
 		fields = new ArrayList<Field>();
-		fields.add(new Field("colorRed", Primitive.Type.INT, c.getRed() + ""));
-		fields.add(new Field("colorBlue", Primitive.Type.INT, c.getBlue() + ""));
-		fields.add(new Field("colorGreen", Primitive.Type.INT, c.getGreen() + ""));
-		fields.add(new Field("x", Primitive.Type.INT, 0 + ""));
-		fields.add(new Field("y", Primitive.Type.INT, 0 + ""));
+		fields.add(new Field("colorRed", c.getRed()));
+		fields.add(new Field("colorBlue", c.getBlue()));
+		fields.add(new Field("colorGreen", c.getGreen()));
+		fields.add(new Field("x", 0));
+		fields.add(new Field("y", 0));
 
 		design = new byte[8]; 
 		for(int i = 0; i < 8; i++) 
@@ -70,9 +68,9 @@ public abstract class GridEntity {
 	public GridEntity(Grid g, Color c, byte[] d) throws Exception {
 		grid = g;
 		fields = new ArrayList<Field>();
-		fields.add(new Field("colorRed", Primitive.Type.INT, c.getRed() + ""));
-		fields.add(new Field("colorBlue", Primitive.Type.INT, c.getBlue() + ""));
-		fields.add(new Field("colorGreen", Primitive.Type.INT, c.getGreen() + ""));
+		fields.add(new Field("colorRed", c.getRed()));
+		fields.add(new Field("colorBlue", c.getBlue()));
+		fields.add(new Field("colorGreen", c.getGreen()));
 
 		design = d;
 	} 
@@ -99,14 +97,14 @@ public abstract class GridEntity {
 		//Check to see if it's contained.
 		Field contained = null;
 		for(Field f : fields) {
-			if (f.getName().equals(name)) {
+			if (f.name().equals(name)) {
 				contained = f;
 				break;
 			}
 		}
-		if(contained != null) throw new ElementAlreadyContainedException();
-		Primitive.Type type = Primitive.Type.parseString(typeString);
-		fields.add(new Field(name, type, value));
+		if(contained != null)
+			throw new ElementAlreadyContainedException();
+		fields.add(new Field(name, value));
 	}
 
 	/**
@@ -115,7 +113,7 @@ public abstract class GridEntity {
 	 */
 	public void removeField(String name) {
 		for(Field f : fields) {
-			if (f.getName().equals(name)) {
+			if (f.name().equals(name)) {
 				fields.remove(f);
 				break;
 			}
@@ -124,21 +122,21 @@ public abstract class GridEntity {
 
 	/**
 	 * Returns the object's default color
-	 * @throws StringFormatMismatchException 
+	 * 
 	 */
-	public Color getColor() throws StringFormatMismatchException { 
-		return new Color(getField("colorRed").intValue(), getField("colorGreen").intValue(), getField("colorBlue").intValue()); 
+	public Color getColor() { 
+		return new Color(getField("colorRed").value().toInt(), getField("colorGreen").value().toInt(), getField("colorBlue").value().toInt()); 
 	}
 
 	/**
 	 * Gets a color for the entity based on the Field being examined by the Layer 
 	 * object. Returns null if the entity does not contain the Field.
 	 * @return The specific Color to represent the value of this entity's Field
-	 * @throws StringFormatMismatchException
+	 * @throws EvaluationException 
 	 */
-	public Color getLayerColor() throws StringFormatMismatchException {
+	public Color getLayerColor() throws EvaluationException {
 		for(Field current : fields) {
-			if (current.getName().equals(Layer.getInstance().getFieldName()))
+			if (current.name().equals(Layer.getInstance().getFieldName()))
 				return Layer.getInstance().newShade(current);
 		}
 		return null;
@@ -160,7 +158,7 @@ public abstract class GridEntity {
 
 	public Field getField(String name){
 		for(Field f : fields) {
-			if(f.getName().equals(name)) {
+			if(f.name().equals(name)) {
 				return f;
 			}
 		}
