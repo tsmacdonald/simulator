@@ -36,9 +36,8 @@ public class Field {
 	/**
 	 * Clone constructor
 	 * @param parent Parent field
-	 * @throws StringFormatMismatchException 
 	 */
-	public Field(Field parent) throws Exception {
+	public Field(Field parent) {
 		this(parent.name, parent.value);
 	}
 	

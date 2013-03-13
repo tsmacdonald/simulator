@@ -44,9 +44,8 @@ public class Agent extends GridEntity {
      * @param g The grid (passed to super constructor)
      * @param c The color of this agent (passed to super constructor)
      * @param isPrototype Is this a prototype agent from which all other agents of this type are made?
-     * @throws Exception 
      */
-    public Agent(Grid g, Color c, boolean isPrototype) throws Exception {
+    public Agent(Grid g, Color c, boolean isPrototype) {
     	super(g, c);
     	
         triggers = new ArrayList<Trigger>();
@@ -61,13 +60,10 @@ public class Agent extends GridEntity {
     }
     
     /**
-     * @throws Exception 
-     * @throws StringFormatMismatchException 
      * Clone constructor. Will create a deep clone with every instance variable copied, not just references.
      * @param parent The parent from which to clone.
-     * @throws 
      */
-    public Agent(Agent parent, boolean isPrototype) throws StringFormatMismatchException, Exception {
+    public Agent(Agent parent, boolean isPrototype) {
     	super(parent.grid, parent.getColor(), parent.design);
 
     	triggers = new ArrayList<Trigger>();
@@ -115,18 +111,16 @@ public class Agent extends GridEntity {
     
     /**
      * Clones this agent and puts it in the Grid's list of agents.
-     * @throws StringFormatMismatchException 
      */
-    public void cloneAgent() throws Exception {
+    public void cloneAgent() {
         grid.addEntity(new Agent(this, false));
     }
     
     /**
      * Clones this agent and puts it in the environment's list of agents,
      * then prepares it to be a prototype agent.
-     * @throws StringFormatMismatchException 
      */
-    public void cloneAgentPrototype() throws Exception {
+    public void cloneAgentPrototype() {
     	grid.addEntity(new Agent(this, true));
     }
     

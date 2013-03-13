@@ -42,9 +42,8 @@ public abstract class GridEntity {
 	 * Constructor
 	 * @param g The grid object
 	 * @param c This entity's defaut color
-	 * @throws Exception 
 	 */
-	public GridEntity(Grid g, Color c) throws Exception {
+	public GridEntity(Grid g, Color c) {
 		grid = g;
 		fields = new ArrayList<Field>();
 		fields.add(new Field("colorRed", c.getRed()));
@@ -63,9 +62,8 @@ public abstract class GridEntity {
 	 * @param g The grid object
 	 * @param c This entity's defaut color
 	 * @param d The bitmask design chosen by the user
-	 * @throws Exception 
 	 */
-	public GridEntity(Grid g, Color c, byte[] d) throws Exception {
+	public GridEntity(Grid g, Color c, byte[] d) {
 		grid = g;
 		fields = new ArrayList<Field>();
 		fields.add(new Field("colorRed", c.getRed()));
@@ -91,7 +89,6 @@ public abstract class GridEntity {
 			throw new StringFormatMismatchException();
 		}
 		String name = lines[0].substring(5, lines[0].length());
-		String typeString = lines[1].substring(5, lines[1].length());
 		String value = lines[2].substring(6, lines[2].length());
 
 		//Check to see if it's contained.

@@ -4,7 +4,6 @@ import java.security.InvalidParameterException;
 
 import edu.wheaton.simulator.gridentities.GridEntity;
 import net.sourceforge.jeval.VariableResolver;
-import net.sourceforge.jeval.function.FunctionException;
 
 public class ExpressionParameterResolver implements VariableResolver {
 
@@ -21,7 +20,7 @@ public class ExpressionParameterResolver implements VariableResolver {
 	}
 	
 	@Override
-	public String resolveVariable(String varStr) throws FunctionException {
+	public String resolveVariable(String varStr) {
 		String[] paramSegments = varStr.split(".");
 		String targetName = paramSegments[0];
 		String fieldName = paramSegments[1];

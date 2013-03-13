@@ -23,12 +23,28 @@ public class Grid implements Iterable<Slot>{
 	 * Total # slots = Width x Height
 	 */
 	private Slot[][] grid;
+	private Integer width;
+	private Integer height;
 	
 	/**
 	 * Creates a grid with the given width and height specifications
 	 */
 	public Grid(int width, int height){
-		grid = new Slot[width][height];
+		this.width = width;
+		this.height = height;
+		grid = new Slot[height()][width()];
+	}
+	
+	public Integer width(){
+		return width;
+	}
+	
+	public Integer height(){
+		return height();
+	}
+	
+	public Slot getSlot(int x, int y){
+		return grid[y][x];
 	}
 
 	/**
@@ -49,7 +65,7 @@ public class Grid implements Iterable<Slot>{
 	 * TODO Private method is never used locally
 	 */
 	private void addEntity(GridEntity a, int x, int y){
-		grid[x][y].setEntity(a);
+		getSlot(x,y).setEntity(a);
 	}
 
 	/**
@@ -58,7 +74,7 @@ public class Grid implements Iterable<Slot>{
 	 * TODO Private method is never used locally
 	 */
 	private GridEntity getEntity(int x, int y){
-		return grid[x][y].getEntity();
+		return getSlot(x,y).getEntity();
 	}
 
 	/**
@@ -67,7 +83,7 @@ public class Grid implements Iterable<Slot>{
 	 * TODO Private method is never used locally
 	 */
 	private void removeEntity(int x, int y){
-		grid[x][y].setEntity(null);
+		getSlot(x,y).setEntity(null);
 	}
 	
     /**
@@ -117,13 +133,13 @@ public class Grid implements Iterable<Slot>{
 			
 			@Override
 			public boolean hasNext() {
-				return y < grid.length;
+				return y < height();
 			}
 
             @Override
 			public Slot next() {
-                Slot toReturn = grid[x][y];
-                if(x < grid.length - 1) {
+                Slot toReturn = getSlot(x,y);
+                if(x < width() - 1) {
                     x++;
                 } else {
                     x = 0;

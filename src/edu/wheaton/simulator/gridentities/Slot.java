@@ -23,9 +23,8 @@ public class Slot extends GridEntity {
 	 * Sets up the Grid and makes the color object null, since slots will not be represented
 	 * on the simulation with a color. 
 	 * @param g The Grid object
-	 * @throws Exception 
 	 */
-	public Slot(Grid g) throws Exception {
+	public Slot(Grid g) {
 		super(g, null);
 	}
 
