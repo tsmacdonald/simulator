@@ -51,14 +51,11 @@ public class Field {
 	
 	/**
 	 * @return The string representation of this field.
+	 * Note: easily parsed with toString().split(":")
 	 */
 	@Override
 	public String toString() {
-		String toReturn = "";
-		toReturn += "FIELD:\n";
-		toReturn += "  NAME=" + name + "\n";
-		toReturn += "  VALUE=" + value + "\n";
-		return toReturn;
+		return "Field:" + name() + ":" + value();
 	}
 
 	/**
