@@ -40,7 +40,7 @@ public class Grid implements Iterable<Slot>{
 	}
 	
 	public Integer height(){
-		return height();
+		return height;
 	}
 	
 	public Slot getSlot(int x, int y){
