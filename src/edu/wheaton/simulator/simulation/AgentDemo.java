@@ -11,11 +11,12 @@
 package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.Scanner;
 
 import edu.wheaton.simulator.datastructures.ElementAlreadyContainedException;
+import edu.wheaton.simulator.datastructures.Expression;
 import edu.wheaton.simulator.gridentities.Agent;
+import edu.wheaton.simulator.gridentities.Behavior;
 
 public class AgentDemo {
 
@@ -31,21 +32,17 @@ public class AgentDemo {
 		System.out.println("Specify Agent Fields:"); 
 		while(true){
 			System.out.println("Name="); 
-			String input = S.nextLine(); 
+			String name = S.nextLine().trim(); 
 			
-			if(input.equals("done")) 
+			if(name.equals("done")) 
 				break;
 			
-			input = "Name=" + input; 
 			
-			System.out.println("Type="); 
-			input += "\nType=" + S.nextLine();
-			
-			System.out.println("Value="); 
-			input += "\nValue=" + S.nextLine(); 
+			System.out.println("Value=");
+			String value = S.nextLine().trim();
 			
 			try {
-				dog.addField(input);
+				dog.addField(name,value);
 			} catch (ElementAlreadyContainedException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
@@ -57,25 +54,18 @@ public class AgentDemo {
 		System.out.println("Specify Agent Triggers:"); 
 		while(true){
 			System.out.println("Priority="); 
-			String input = S.nextLine();
+			String priority = S.nextLine().trim();
 			
-			if(input.equals("done")) 
+			if(priority.equals("done")) 
 				break;
 			
-			input = "Priority=" + input; 
-		
-			
 			System.out.println("Condition="); 
-			input += "\nCondition=" + S.nextLine();
+			String condition = S.nextLine().trim();
 			
 			System.out.println("Behavior="); 
-			input += "\nBehavior=" + S.nextLine(); 
+			String behavior = S.nextLine().trim(); 
 			
-			try {
-				dog.addTrigger(input);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			dog.addTrigger(Integer.valueOf(priority),new Expression(condition),Behavior.constructType(behavior));
 		}
 		
 		S.close();

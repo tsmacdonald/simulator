@@ -19,8 +19,8 @@ public class UpdateField extends Behavior {
 	// TODO Unused field: UpdateField.updateVal
 	private String updateVal;
 	
-	public UpdateField(Agent target, String name, Field field, String updateVal) {
-		super(target, name);
+	public UpdateField(String name, Agent target, Field field, String updateVal) {
+		super(name,target);
 		this.field = field;
 		this.updateVal = updateVal; 
 	}

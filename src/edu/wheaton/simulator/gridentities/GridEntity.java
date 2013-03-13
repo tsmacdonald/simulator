@@ -83,13 +83,7 @@ public abstract class GridEntity {
 	 * @throws ElementAlreadyContainedException 
 	 * @throws StringFormatMismatchException 
 	 */
-	public void addField(String s) throws ElementAlreadyContainedException, Exception {
-		String[] lines = s.split("\n");
-		if(lines.length != 3 || !lines[0].substring(0, 5).equals("Name=") || !lines[1].substring(0, 5).equals("Type=") || !lines[2].substring(0, 6).equals("Value=")) {
-			throw new StringFormatMismatchException();
-		}
-		String name = lines[0].substring(5, lines[0].length());
-		String value = lines[2].substring(6, lines[2].length());
+	public void addField(String name, String value) throws ElementAlreadyContainedException, Exception {
 
 		//Check to see if it's contained.
 		Field contained = null;

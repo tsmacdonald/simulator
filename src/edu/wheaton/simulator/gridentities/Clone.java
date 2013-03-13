@@ -11,8 +11,8 @@ package edu.wheaton.simulator.gridentities;
 
 public class Clone extends Behavior {
 
-	public Clone(Agent target, String name) {
-		super(target, name);
+	public Clone(String name, Agent target) {
+		super(name,target);
 	}
 
 	/**

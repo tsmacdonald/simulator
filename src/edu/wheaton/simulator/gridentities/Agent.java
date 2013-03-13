@@ -9,7 +9,6 @@
 
 package edu.wheaton.simulator.gridentities;
 import java.awt.Color;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -131,21 +130,8 @@ public class Agent extends GridEntity {
         grid.removeEntity(this);
     }
     
-    /**
-     * Parses the input string for a trigger, then adds that trigger.
-     * Will throw an IOException if the input string is not formatted properly.
-     * The input string should be in the format: "Priority=...\nCondition=...\nBehavior=..." There should be no spaces present in the input string.
-     * @param s The text representation of this trigger.
-     */
-    public void addTrigger(String s) throws IOException {
-        String[] lines = s.split("\n");
-        if(lines.length != 3 || !lines[0].substring(0, 9).equals("Priority=") || !lines[1].substring(0, 10).equals("Condition=") || !lines[2].substring(0, 9).equals("Behavior=")) {
-            throw new IOException();
-        }
-        int priority = Integer.parseInt(lines[0].substring(9, lines[0].length()));
-        Expression be = new Expression(lines[0].substring(10, lines[0].length()));
-        Behavior result = Behavior.parseBehavior(lines[1].substring(7, lines[1].length()));
-        triggers.add(new Trigger(priority, be, result, this));
+    public void addTrigger(int priority, Expression conditions, Behavior result){
+        triggers.add(new Trigger(priority,conditions, result, this));
         Collections.sort(triggers);
     }
     
@@ -168,7 +154,7 @@ public class Agent extends GridEntity {
      * Gets the current x position of this agent
      * @return x
      */
-    public int getX() {
+    public int xPos() {
     	return x;
     }
     
@@ -176,7 +162,7 @@ public class Agent extends GridEntity {
      * Gets the current y position of this agent
      * @return y
      */
-    public int getY() {
+    public int yPos() {
     	return y;
     }
 }

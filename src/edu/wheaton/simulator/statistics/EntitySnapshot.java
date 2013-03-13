@@ -11,7 +11,6 @@ import com.google.common.collect.ImmutableMap;
  */
 public abstract class EntitySnapshot {
 
-	// TODO: Implement an EntityID class or interface.
 	public final EntityID id;
 
 	/**
@@ -49,6 +48,6 @@ public abstract class EntitySnapshot {
 	}
 	
 	public void id() {
-		System.out.print(id.name + " " + id.id);
+		System.out.print(id.name() + " " + id.id());
 	}
 }

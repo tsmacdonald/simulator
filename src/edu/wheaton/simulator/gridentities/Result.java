@@ -10,12 +10,7 @@ public class Result {
 	/**
 	 * Constructor.
 	 */
-	public Result() {
-		// TODO Method stub
-		throw new UnsupportedOperationException();
-	}
-
-	public static Result parseResult(String s) {
+	public Result(String expression) {
 		// TODO Method stub
 		throw new UnsupportedOperationException();
 	}

@@ -11,28 +11,43 @@ package edu.wheaton.simulator.gridentities;
 
 public abstract class Behavior {
 
-	// TODO Unused field: Behavior.target
+	private String name;
 	private Agent target;
 	
-	// TODO Unused field: Behavior.name
-	private String name;
-	
-	public Behavior(Agent owner, String name){
-		this.target = owner; 
+	public Behavior(String strRepresentation){
+		String[] params = strRepresentation.split(":");
+		this.name = params[1].trim();
+		this.target = resolveTarget(params[2].trim());
+	}
+
+	public Behavior(String name, Agent target){
 		this.name = name; 
+		this.target = target;
+	}
+	
+	public String name(){
+		return name;
+	}
+	
+	public Agent target(){
+		return target;
+	}
+	
+	@Override
+	public String toString(){
+		return "Behavior:" + name() + ":" + target();
 	}
 	
 	public abstract void execute();
 	
-	/**
-	 * Use an input string to create a new Behavior object
-	 * @param s String containing the specifications for the behavior
-	 * @return The created Behavior object
-	 */
-	public static Behavior parseBehavior(String s){
-		//Generate a Behavior object based on the input string
-		// TODO Method stub
-		return null; 
+	private Agent resolveTarget(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static Behavior constructType(String type) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

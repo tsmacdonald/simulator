@@ -11,8 +11,8 @@ package edu.wheaton.simulator.gridentities;
 
 public class Die extends Behavior {
 
-	public Die(Agent target, String name) {
-		super(target, name);
+	public Die(String name, Agent target) {
+		super(name,target);
 	}
 
 	/**

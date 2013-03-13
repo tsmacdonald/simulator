@@ -28,9 +28,10 @@ public class Field {
 		this.value = new Value(value);
 	}
 	
-	public Field(String name, String value){
-		this.name = name;
-		this.value = new Value(value);
+	public Field(String strRepresentation){
+		String[] params = strRepresentation.split(":");
+		this.name = params[1];
+		this.value = new Value(params[2]);
 	}
 	
 	/**
