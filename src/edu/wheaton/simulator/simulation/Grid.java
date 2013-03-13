@@ -12,14 +12,14 @@ package edu.wheaton.simulator.simulation;
 import java.awt.Color;
 import java.util.Iterator;
 
-import edu.wheaton.simulator.datastructures.Field;
-import edu.wheaton.simulator.gridentities.GridEntity;
-import edu.wheaton.simulator.gridentities.Slot;
+import edu.wheaton.simulator.datastructure.Field;
+import edu.wheaton.simulator.entity.Entity;
+import edu.wheaton.simulator.entity.Slot;
 
 public class Grid implements Iterable<Slot>{
 
 	/**
-	 * The grid of all slots containing all GridEntity objects
+	 * The grid of all slots containing all Entity objects
 	 * Total # slots = Width x Height
 	 */
 	private Slot[][] grid;
@@ -64,21 +64,21 @@ public class Grid implements Iterable<Slot>{
 	 * 
 	 * TODO Private method is never used locally
 	 */
-	private void addEntity(GridEntity a, int x, int y){
+	private void addEntity(Entity a, int x, int y){
 		getSlot(x,y).setEntity(a);
 	}
 
 	/**
-	 * Returns the GridEntity in the slot at the given coordinates
+	 * Returns the Entity in the slot at the given coordinates
 	 * 
 	 * TODO Private method is never used locally
 	 */
-	private GridEntity getEntity(int x, int y){
+	private Entity getEntity(int x, int y){
 		return getSlot(x,y).getEntity();
 	}
 
 	/**
-	 * Removes a GridEntity from the slot at the given coordinates
+	 * Removes a Entity from the slot at the given coordinates
 	 * 
 	 * TODO Private method is never used locally
 	 */
@@ -88,18 +88,18 @@ public class Grid implements Iterable<Slot>{
 	
     /**
      * Removes the given entity from the grid.
-     * @param ge The GridEntity to remove.
+     * @param ge The Entity to remove.
      */
-	public void removeEntity(GridEntity ge) {
+	public void removeEntity(Entity ge) {
 		// TODO Method stub
 		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * Adds the given entity to the grid.
-	 * @param ge The GridEntity to add.
+	 * @param ge The Entity to add.
 	 */
-	public void addEntity(GridEntity ge) {
+	public void addEntity(Entity ge) {
 		// TODO Method stub
 		throw new UnsupportedOperationException();
 	}

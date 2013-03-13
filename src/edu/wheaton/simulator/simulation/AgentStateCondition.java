@@ -10,7 +10,8 @@
 package edu.wheaton.simulator.simulation;
 
 import java.util.Iterator;
-import edu.wheaton.simulator.gridentities.Slot;
+
+import edu.wheaton.simulator.entity.Slot;
 
 
 public class AgentStateCondition extends EndCondition {

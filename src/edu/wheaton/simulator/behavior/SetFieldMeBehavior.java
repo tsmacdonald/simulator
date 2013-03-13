@@ -1,7 +1,7 @@
 package edu.wheaton.simulator.behavior;
 
-import edu.wheaton.simulator.datastructures.Expression;
-import edu.wheaton.simulator.gridentities.GridEntity;
+import edu.wheaton.simulator.datastructure.Expression;
+import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class SetFieldMeBehavior implements Behavable {
@@ -20,7 +20,7 @@ public class SetFieldMeBehavior implements Behavable {
 	private Expression parameters;
 	
 	@Override
-	public void act(GridEntity me, GridEntity other, GridEntity local,
+	public void act(Entity me, Entity other, Entity local,
 			Grid global) {
 		// TODO Auto-generated method stub
 		

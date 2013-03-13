@@ -22,7 +22,7 @@ public class AgentSnapshot extends EntitySnapshot {
 	 * @param id
 	 *            The ID of the Agent associated with this snapshot.
 	 * @param fields
-	 *            The current values of the fields of the GridEntity
+	 *            The current values of the fields of the Entity
 	 * @param step
 	 *            The step in the simulation associated with this snapshot.
 	 * @param prototype

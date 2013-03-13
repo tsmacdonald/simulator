@@ -7,7 +7,7 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.simulator.gridentities;
+package edu.wheaton.simulator.entity;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -16,12 +16,12 @@ import java.util.NoSuchElementException;
 
 import net.sourceforge.jeval.EvaluationException;
 
-import edu.wheaton.simulator.datastructures.*;
+import edu.wheaton.simulator.datastructure.*;
 import edu.wheaton.simulator.simulation.Grid;
 import edu.wheaton.simulator.simulation.Layer;
 import edu.wheaton.simulator.statistics.EntityID;
 
-public abstract class GridEntity {
+public abstract class Entity {
 
 	/**
 	 * A pointer to the environment so new Agents can be added or removed.
@@ -43,7 +43,7 @@ public abstract class GridEntity {
 	 * @param g The grid object
 	 * @param c This entity's defaut color
 	 */
-	public GridEntity(Grid g, Color c) {
+	public Entity(Grid g, Color c) {
 		grid = g;
 		fields = new ArrayList<Field>();
 		fields.add(new Field("colorRed", c.getRed()));
@@ -63,7 +63,7 @@ public abstract class GridEntity {
 	 * @param c This entity's defaut color
 	 * @param d The bitmask design chosen by the user
 	 */
-	public GridEntity(Grid g, Color c, byte[] d) {
+	public Entity(Grid g, Color c, byte[] d) {
 		grid = g;
 		fields = new ArrayList<Field>();
 		fields.add(new Field("colorRed", c.getRed()));

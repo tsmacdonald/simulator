@@ -8,9 +8,9 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.simulator.gridentities;
+package edu.wheaton.simulator.entity;
 
-import edu.wheaton.simulator.datastructures.Expression;
+import edu.wheaton.simulator.datastructure.Expression;
 
 public class Trigger implements Comparable<Trigger> {
 

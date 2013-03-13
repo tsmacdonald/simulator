@@ -1,18 +1,18 @@
-package edu.wheaton.simulator.datastructures;
+package edu.wheaton.simulator.datastructure;
 
 import java.security.InvalidParameterException;
 
-import edu.wheaton.simulator.gridentities.GridEntity;
+import edu.wheaton.simulator.entity.Entity;
 import net.sourceforge.jeval.VariableResolver;
 
 public class ExpressionParameterResolver implements VariableResolver {
 
-	private GridEntity xThis;
-	private GridEntity xOther;
-	private GridEntity xLocal;
-	private GridEntity xGlobal;
+	private Entity xThis;
+	private Entity xOther;
+	private Entity xLocal;
+	private Entity xGlobal;
 
-	public ExpressionParameterResolver(GridEntity xThis, GridEntity xOther, GridEntity xLocal, GridEntity xGlobal){
+	public ExpressionParameterResolver(Entity xThis, Entity xOther, Entity xLocal, Entity xGlobal){
 		this.xThis = xThis;
 		this.xOther = xOther;
 		this.xLocal = xLocal;
@@ -25,11 +25,11 @@ public class ExpressionParameterResolver implements VariableResolver {
 		String targetName = paramSegments[0];
 		String fieldName = paramSegments[1];
 		
-		GridEntity target = resolveTarget(targetName);
+		Entity target = resolveTarget(targetName);
 		return target.getField(fieldName).value().toString();
 	}
 
-	private GridEntity resolveTarget(String targetName) {
+	private Entity resolveTarget(String targetName) {
 		if(targetName.equals("this"))
 				return xThis;
 		else if(targetName.equals("other"))

@@ -9,9 +9,9 @@
 
 package edu.wheaton.simulator.simulation;
 
-import edu.wheaton.simulator.datastructures.Expression;
-import edu.wheaton.simulator.datastructures.Field;
-import edu.wheaton.simulator.datastructures.Value;
+import edu.wheaton.simulator.datastructure.Expression;
+import edu.wheaton.simulator.datastructure.Field;
+import edu.wheaton.simulator.datastructure.Value;
 
 import java.awt.Color;
 

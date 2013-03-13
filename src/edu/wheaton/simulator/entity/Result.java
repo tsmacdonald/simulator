@@ -1,4 +1,4 @@
-package edu.wheaton.simulator.gridentities;
+package edu.wheaton.simulator.entity;
 
 /**
  * Models a result for a particular trigger.

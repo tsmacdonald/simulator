@@ -7,9 +7,9 @@
 	 * Wheaton College, CSCI 335, Spring 2013
 	 */
 
-package edu.wheaton.simulator.gridentities;
+package edu.wheaton.simulator.entity;
 
-import edu.wheaton.simulator.datastructures.Field;
+import edu.wheaton.simulator.datastructure.Field;
 
 public class UpdateField extends Behavior {
 

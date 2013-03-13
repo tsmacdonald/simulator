@@ -1,6 +1,6 @@
-package edu.wheaton.simulator.datastructures;
+package edu.wheaton.simulator.datastructure;
 
-import edu.wheaton.simulator.gridentities.GridEntity;
+import edu.wheaton.simulator.entity.Entity;
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
 import net.sourceforge.jeval.VariableResolver;
@@ -21,7 +21,7 @@ public final class Expression {
 		mVal = new Value(fx);
 	}
 	
-	public Value evaluate(GridEntity xThis, GridEntity xOther, GridEntity xLocal, GridEntity xGlobal) throws EvaluationException{
+	public Value evaluate(Entity xThis, Entity xOther, Entity xLocal, Entity xGlobal) throws EvaluationException{
 		Evaluator evaluator = new Evaluator();
 		
 		VariableResolver varRes = new ExpressionParameterResolver(xThis,xOther,xLocal,xGlobal);

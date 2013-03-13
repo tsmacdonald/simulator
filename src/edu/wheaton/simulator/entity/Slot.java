@@ -1,4 +1,4 @@
-package edu.wheaton.simulator.gridentities;
+package edu.wheaton.simulator.entity;
 
 import edu.wheaton.simulator.simulation.Grid;
 
@@ -11,12 +11,12 @@ import edu.wheaton.simulator.simulation.Grid;
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-public class Slot extends GridEntity {
+public class Slot extends Entity {
 
 	/**
-	 * The GridEntity currently in this slot
+	 * The Entity currently in this slot
 	 */
-	private GridEntity entity;
+	private Entity entity;
 
 	/**
 	 * Constructor
@@ -29,10 +29,10 @@ public class Slot extends GridEntity {
 	}
 
 	/**
-	 * Adds a different GridEntity to this slot
+	 * Adds a different Entity to this slot
 	 * @param a The new entity
 	 */
-	public void setEntity(GridEntity ge) {
+	public void setEntity(Entity ge) {
 		entity = ge;
 	}
 
@@ -40,7 +40,7 @@ public class Slot extends GridEntity {
 	 * Returns the agent currently in this slot
 	 * @return The Agent reference
 	 */
-	public GridEntity getEntity() {
+	public Entity getEntity() {
 		return entity;
 	}
 	

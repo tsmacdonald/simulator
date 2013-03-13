@@ -1,6 +1,6 @@
 package edu.wheaton.simulator.statistics;
 
-import edu.wheaton.simulator.datastructures.*;
+import edu.wheaton.simulator.datastructure.*;
 
 /**
  * Represents a snapshot of a particular field of an agent in time. 

@@ -7,16 +7,16 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.simulator.gridentities;
+package edu.wheaton.simulator.entity;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.wheaton.simulator.datastructures.*;
+import edu.wheaton.simulator.datastructure.*;
 import edu.wheaton.simulator.simulation.Grid;
 
-public class Agent extends GridEntity {
+public class Agent extends Entity {
     
     /**
      * The list of all triggers/events associated with this agent.

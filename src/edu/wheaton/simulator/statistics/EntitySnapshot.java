@@ -4,7 +4,7 @@ import java.util.HashMap;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * A class representing all the information to track from each GridEntity in
+ * A class representing all the information to track from each Entity in
  * the game.
  * 
  * @author Daniel Gill, Akon Ngoh
@@ -24,14 +24,14 @@ public abstract class EntitySnapshot {
 	public final Integer step;
 
 	/**
-	 * The present prototype for the category of this GridEntity. 
+	 * The present prototype for the category of this Entity. 
 	 */
 	public final EntityPrototype prototype;
 
 	/**
 	 * Constructor.
-	 * @param id The ID of the GridEntity associated with this snapshot.
-	 * @param fields The current values of the fields of the GridEntity.
+	 * @param id The ID of the Entity associated with this snapshot.
+	 * @param fields The current values of the fields of the Entity.
 	 * @param step The step in the simulation associated with this snapshot.
 	 * @param prototype The prototype for this category of Entity.
 	 */

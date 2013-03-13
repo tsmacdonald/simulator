@@ -8,9 +8,9 @@ import java.util.List;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.TreeBasedTable;
 
-import edu.wheaton.simulator.datastructures.Field;
-import edu.wheaton.simulator.gridentities.Agent;
-import edu.wheaton.simulator.gridentities.GridEntity;
+import edu.wheaton.simulator.datastructure.Field;
+import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.Entity;
 
 /**
  * This class is an abstraction of a database which is represented by a Table,
@@ -52,7 +52,7 @@ public class Database {
 	 *            the int representing this turn and will be used as a column
 	 *            index in the database(table)
 	 */
-	public void putEntity(GridEntity entity, int step) {
+	public void putEntity(Entity entity, int step) {
 		EntityID id = entity.getID();
 
 		/**

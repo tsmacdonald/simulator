@@ -7,7 +7,7 @@
 	 * Wheaton College, CSCI 335, Spring 2013
 	 */
 
-package edu.wheaton.simulator.gridentities;
+package edu.wheaton.simulator.entity;
 
 public class Clone extends Behavior {
 
