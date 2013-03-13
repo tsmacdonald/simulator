@@ -20,54 +20,55 @@ import edu.wheaton.simulator.entity.Behavior;
 
 public class AgentDemo {
 
-	public static void main(String[] args){
-		Grid grid = new Grid(100, 100); 
-		Scanner S = new Scanner(System.in); 
-		
-		//Create a new Agent		
-		System.out.println("Creating a new Agent"); 
+	public static void main(String[] args) {
+		Grid grid = new Grid(100, 100);
+		Scanner S = new Scanner(System.in);
+
+		// Create a new Agent
+		System.out.println("Creating a new Agent");
 		Agent dog = new Agent(grid, Color.RED, true);
-		
-		//Add a field to this Agent
-		System.out.println("Specify Agent Fields:"); 
-		while(true){
-			System.out.println("Name="); 
-			String name = S.nextLine().trim(); 
-			
-			if(name.equals("done")) 
+
+		// Add a field to this Agent
+		System.out.println("Specify Agent Fields:");
+		while (true) {
+			System.out.println("Name=");
+			String name = S.nextLine().trim();
+
+			if (name.equals("done"))
 				break;
-			
-			
+
 			System.out.println("Value=");
 			String value = S.nextLine().trim();
-			
+
 			try {
-				dog.addField(name,value);
+				dog.addField(name, value);
 			} catch (ElementAlreadyContainedException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
-			} 
+			}
 		}
-		
-		//Add a trigger condition to this Agent
-		System.out.println("Specify Agent Triggers:"); 
-		while(true){
-			System.out.println("Priority="); 
+
+		// Add a trigger condition to this Agent
+		System.out.println("Specify Agent Triggers:");
+		while (true) {
+			System.out.println("Priority=");
 			String priority = S.nextLine().trim();
-			
-			if(priority.equals("done")) 
+
+			if (priority.equals("done"))
 				break;
-			
-			System.out.println("Condition="); 
+
+			System.out.println("Condition=");
 			String condition = S.nextLine().trim();
-			
-			System.out.println("Behavior="); 
-			String behavior = S.nextLine().trim(); 
-			
-			dog.addTrigger(Integer.valueOf(priority),new Expression(condition),Behavior.constructType(behavior));
+
+			System.out.println("Behavior=");
+			String behavior = S.nextLine().trim();
+
+			dog.addTrigger(Integer.valueOf(priority),
+					new Expression(condition),
+					Behavior.constructType(behavior));
 		}
-		
+
 		S.close();
-	}	
+	}
 }

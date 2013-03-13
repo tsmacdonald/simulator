@@ -13,33 +13,33 @@ public abstract class Behavior {
 
 	private String name;
 	private Agent target;
-	
-	public Behavior(String strRepresentation){
+
+	public Behavior(String strRepresentation) {
 		String[] params = strRepresentation.split(":");
 		this.name = params[1].trim();
 		this.target = resolveTarget(params[2].trim());
 	}
 
-	public Behavior(String name, Agent target){
-		this.name = name; 
+	public Behavior(String name, Agent target) {
+		this.name = name;
 		this.target = target;
 	}
-	
-	public String name(){
+
+	public String name() {
 		return name;
 	}
-	
-	public Agent target(){
+
+	public Agent target() {
 		return target;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return "Behavior:" + name() + ":" + target();
 	}
-	
+
 	public abstract void execute();
-	
+
 	private Agent resolveTarget(String string) {
 		// TODO Auto-generated method stub
 		return null;
@@ -49,5 +49,5 @@ public abstract class Behavior {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }

@@ -16,34 +16,34 @@ import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.entity.Slot;
 
-public class Grid implements Iterable<Slot>{
+public class Grid implements Iterable<Slot> {
 
 	/**
-	 * The grid of all slots containing all Entity objects
-	 * Total # slots = Width x Height
+	 * The grid of all slots containing all Entity objects Total # slots =
+	 * Width x Height
 	 */
 	private Slot[][] grid;
 	private Integer width;
 	private Integer height;
-	
+
 	/**
 	 * Creates a grid with the given width and height specifications
 	 */
-	public Grid(int width, int height){
+	public Grid(int width, int height) {
 		this.width = width;
 		this.height = height;
 		grid = new Slot[height()][width()];
 	}
-	
-	public Integer width(){
+
+	public Integer width() {
 		return width;
 	}
-	
-	public Integer height(){
+
+	public Integer height() {
 		return height;
 	}
-	
-	public Slot getSlot(int x, int y){
+
+	public Slot getSlot(int x, int y) {
 		return grid[y][x];
 	}
 
@@ -52,9 +52,9 @@ public class Grid implements Iterable<Slot>{
 	 * 
 	 * TODO Private method is never used locally
 	 */
-	private void updateEntities(){
-		for(Slot[] sArr: grid)
-			for(Slot s: sArr) {
+	private void updateEntities() {
+		for (Slot[] sArr : grid)
+			for (Slot s : sArr) {
 				s.getEntity().act();
 			}
 	}
@@ -64,8 +64,8 @@ public class Grid implements Iterable<Slot>{
 	 * 
 	 * TODO Private method is never used locally
 	 */
-	private void addEntity(Entity a, int x, int y){
-		getSlot(x,y).setEntity(a);
+	private void addEntity(Entity a, int x, int y) {
+		getSlot(x, y).setEntity(a);
 	}
 
 	/**
@@ -73,8 +73,8 @@ public class Grid implements Iterable<Slot>{
 	 * 
 	 * TODO Private method is never used locally
 	 */
-	private Entity getEntity(int x, int y){
-		return getSlot(x,y).getEntity();
+	private Entity getEntity(int x, int y) {
+		return getSlot(x, y).getEntity();
 	}
 
 	/**
@@ -82,14 +82,16 @@ public class Grid implements Iterable<Slot>{
 	 * 
 	 * TODO Private method is never used locally
 	 */
-	private void removeEntity(int x, int y){
-		getSlot(x,y).setEntity(null);
+	private void removeEntity(int x, int y) {
+		getSlot(x, y).setEntity(null);
 	}
-	
-    /**
-     * Removes the given entity from the grid.
-     * @param ge The Entity to remove.
-     */
+
+	/**
+	 * Removes the given entity from the grid.
+	 * 
+	 * @param ge
+	 *            The Entity to remove.
+	 */
 	public void removeEntity(Entity ge) {
 		// TODO Method stub
 		throw new UnsupportedOperationException();
@@ -97,7 +99,9 @@ public class Grid implements Iterable<Slot>{
 
 	/**
 	 * Adds the given entity to the grid.
-	 * @param ge The Entity to add.
+	 * 
+	 * @param ge
+	 *            The Entity to add.
 	 */
 	public void addEntity(Entity ge) {
 		// TODO Method stub
@@ -108,11 +112,15 @@ public class Grid implements Iterable<Slot>{
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
-	
+
 	/**
 	 * Makes a new Layer.
-	 * @param fieldName The name of the Field that the Layer will represent
-	 * @param c The Color that will be shaded differently to represent Field values
+	 * 
+	 * @param fieldName
+	 *            The name of the Field that the Layer will represent
+	 * @param c
+	 *            The Color that will be shaded differently to represent Field
+	 *            values
 	 */
 	public void newLayer(String fieldName, Color c) {
 		Layer.getInstance().setFieldName(fieldName);
@@ -120,38 +128,39 @@ public class Grid implements Iterable<Slot>{
 		Layer.getInstance().resetMinMax();
 	}
 
-    /**
+	/**
 	 * Returns an iterator that goes through the Slots in the Grid
+	 * 
 	 * @return Iterator<Slot>
 	 */
 	@Override
 	public Iterator<Slot> iterator() {
 		return new Iterator<Slot>() {
-			
+
 			int x = 0;
 			int y = 0;
-			
+
 			@Override
 			public boolean hasNext() {
 				return y < height();
 			}
 
-            @Override
+			@Override
 			public Slot next() {
-                Slot toReturn = getSlot(x,y);
-                if(x < width() - 1) {
-                    x++;
-                } else {
-                    x = 0;
-                    y++;
-                }
-                return toReturn;
-            }
+				Slot toReturn = getSlot(x, y);
+				if (x < width() - 1) {
+					x++;
+				} else {
+					x = 0;
+					y++;
+				}
+				return toReturn;
+			}
 
 			@Override
 			public void remove() {
 				throw new UnsupportedOperationException();
-			}	
+			}
 		};
 	}
 

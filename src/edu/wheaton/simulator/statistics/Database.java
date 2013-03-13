@@ -1,9 +1,9 @@
 package edu.wheaton.simulator.statistics;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observer;
 
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.TreeBasedTable;
@@ -71,7 +71,8 @@ public class Database {
 		Iterator<Field> it = entityFields.iterator();
 		while (it.hasNext()) {
 			Field current = it.next();
-			FieldSnapshot snap = new FieldSnapshot(current.name(),current.value());
+			FieldSnapshot snap = new FieldSnapshot(current.name(),
+					current.value());
 			fieldsForSnap.put(current.name(), snap);
 		}
 

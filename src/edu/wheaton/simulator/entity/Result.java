@@ -2,11 +2,12 @@ package edu.wheaton.simulator.entity;
 
 /**
  * Models a result for a particular trigger.
+ * 
  * @author Simon Swenson
- *
+ * 
  */
 public class Result {
-	
+
 	/**
 	 * Constructor.
 	 */

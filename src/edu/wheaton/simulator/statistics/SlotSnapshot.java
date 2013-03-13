@@ -36,8 +36,7 @@ public class SlotSnapshot extends EntitySnapshot {
 			Integer step, EntityPrototype prototype, Set<EntityID> agents) {
 		super(id, fields, step, prototype);
 
-		ImmutableSet.Builder<EntityID> builder = 
-				new ImmutableSet.Builder<EntityID>();
+		ImmutableSet.Builder<EntityID> builder = new ImmutableSet.Builder<EntityID>();
 
 		builder.addAll(agents);
 		this.agents = builder.build();

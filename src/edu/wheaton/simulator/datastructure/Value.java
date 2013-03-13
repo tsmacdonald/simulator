@@ -1,30 +1,30 @@
 package edu.wheaton.simulator.datastructure;
 
-public class Value{
+public class Value {
 	private Object mX;
-	
-	public Value(Object x){
+
+	public Value(Object x) {
 		mX = x;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return mX.toString();
 	}
-	
-	public Boolean toBool(){
+
+	public Boolean toBool() {
 		return Boolean.valueOf(toString());
 	}
-	
-	public Double toDouble(){
+
+	public Double toDouble() {
 		return Double.valueOf(toString());
 	}
-	
-	public Integer toInt(){
+
+	public Integer toInt() {
 		return Integer.valueOf(toString());
 	}
-	
-	public Character toChar(){
+
+	public Character toChar() {
 		return Character.valueOf(toString().charAt(0));
 	}
 

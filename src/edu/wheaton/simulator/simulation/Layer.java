@@ -9,13 +9,12 @@
 
 package edu.wheaton.simulator.simulation;
 
-import edu.wheaton.simulator.datastructure.Expression;
-import edu.wheaton.simulator.datastructure.Field;
-import edu.wheaton.simulator.datastructure.Value;
-
 import java.awt.Color;
 
 import net.sourceforge.jeval.EvaluationException;
+import edu.wheaton.simulator.datastructure.Expression;
+import edu.wheaton.simulator.datastructure.Field;
+import edu.wheaton.simulator.datastructure.Value;
 
 public class Layer {
 
@@ -37,7 +36,7 @@ public class Layer {
 	/**
 	 * Maximum value the represented field can have
 	 */
-	private Field max; 
+	private Field max;
 
 	/**
 	 * Minimum value the represented field can have
@@ -46,11 +45,12 @@ public class Layer {
 
 	/**
 	 * Get the instance of the layer
+	 * 
 	 * @return
 	 */
 	public static Layer getInstance() {
-		if(layer == null)
-			layer = new Layer();	
+		if (layer == null)
+			layer = new Layer();
 		return layer;
 	}
 
@@ -60,12 +60,13 @@ public class Layer {
 	public String getFieldName() {
 		return fieldName;
 	}
-	
+
 	/**
 	 * Sets the fieldName for the layer
+	 * 
 	 * @param fieldName
 	 */
-	public void setFieldName(String fieldName){
+	public void setFieldName(String fieldName) {
 		this.fieldName = fieldName;
 	}
 
@@ -82,7 +83,7 @@ public class Layer {
 	public void setMin(Field min) {
 		this.min = min;
 	}
-	
+
 	/**
 	 * Sets the max and min variables to null.
 	 */
@@ -90,43 +91,52 @@ public class Layer {
 		max = null;
 		min = null;
 	}
-	
+
 	/**
 	 * Set color for the layer
+	 * 
 	 * @param c
 	 */
-	public void setColor(Color c){
+	public void setColor(Color c) {
 		this.fieldColor = new HSBColor(c);
 	}
 
 	/**
-	 * Translates the given generic value into a brightness degree from 0.0 to 1.0.
-	 * @param Value of an agent's field
+	 * Translates the given generic value into a brightness degree from 0.0 to
+	 * 1.0.
+	 * 
+	 * @param Value
+	 *            of an agent's field
 	 * @return A new Color with a different brightness value
-	 * @throws EvaluationException 
+	 * @throws EvaluationException
 	 */
 	public Color newShade(Field f) throws EvaluationException {
 		Value degree = new Value(0.0);
-		degree = Expression.evaluate("("+f.value()+" - "+min.value()+") / ("+max.value()+" - "+min.value()+")");
+		degree = Expression.evaluate("(" + f.value() + " - " + min.value()
+				+ ") / (" + max.value() + " - " + min.value() + ")");
 		return fieldColor.newBrightness(degree.toDouble().floatValue());
 	}
 
 	/**
-	 * When called for each agent in a string, this sets the min and max values for the field
-	 * @param Value of an agent's field
-	 * @throws EvaluationException 
+	 * When called for each agent in a string, this sets the min and max values
+	 * for the field
+	 * 
+	 * @param Value
+	 *            of an agent's field
+	 * @throws EvaluationException
 	 * 
 	 */
-	public void setExtremes(Field f) throws EvaluationException{
-		if(min == null && max == null) {
+	public void setExtremes(Field f) throws EvaluationException {
+		if (min == null && max == null) {
 			min = f;
 			max = f;
 			return;
 		}
 
-		if(Expression.evaluate(f.value()+ "<" + this.min.value()).toBool())
+		if (Expression.evaluate(f.value() + "<" + this.min.value()).toBool())
 			this.min = f;
-		else if(Expression.evaluate(f.value()+">"+this.max.value()).toBool())
+		else if (Expression.evaluate(f.value() + ">" + this.max.value())
+				.toBool())
 			this.max = f;
 	}
 

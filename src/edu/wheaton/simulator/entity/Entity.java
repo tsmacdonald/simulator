@@ -15,8 +15,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import net.sourceforge.jeval.EvaluationException;
-
-import edu.wheaton.simulator.datastructure.*;
+import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
+import edu.wheaton.simulator.datastructure.Field;
+import edu.wheaton.simulator.datastructure.StringFormatMismatchException;
 import edu.wheaton.simulator.simulation.Grid;
 import edu.wheaton.simulator.simulation.Layer;
 import edu.wheaton.simulator.statistics.EntityID;
@@ -34,14 +35,17 @@ public abstract class Entity {
 	protected List<Field> fields;
 
 	/**
-	 * Bitmask for storing an entity's customized appearance, initially set 
+	 * Bitmask for storing an entity's customized appearance, initially set
 	 */
 	protected byte[] design;
 
 	/**
 	 * Constructor
-	 * @param g The grid object
-	 * @param c This entity's defaut color
+	 * 
+	 * @param g
+	 *            The grid object
+	 * @param c
+	 *            This entity's defaut color
 	 */
 	public Entity(Grid g, Color c) {
 		grid = g;
@@ -52,16 +56,20 @@ public abstract class Entity {
 		fields.add(new Field("x", 0));
 		fields.add(new Field("y", 0));
 
-		design = new byte[8]; 
-		for(int i = 0; i < 8; i++) 
+		design = new byte[8];
+		for (int i = 0; i < 8; i++)
 			design[i] = 127; // sets design to a solid image
 	}
 
 	/**
 	 * Constructor
-	 * @param g The grid object
-	 * @param c This entity's defaut color
-	 * @param d The bitmask design chosen by the user
+	 * 
+	 * @param g
+	 *            The grid object
+	 * @param c
+	 *            This entity's defaut color
+	 * @param d
+	 *            The bitmask design chosen by the user
 	 */
 	public Entity(Grid g, Color c, byte[] d) {
 		grid = g;
@@ -71,39 +79,45 @@ public abstract class Entity {
 		fields.add(new Field("colorGreen", c.getGreen()));
 
 		design = d;
-	} 
+	}
 
 	public abstract void act();
 
 	/**
-	 * Parses the input string for a field, then adds that field.
-	 * The input string should be in the format: "Name=...\nType=...\nValue=..." There should be no spaces present in the input string.
-	 * Note that if a field already exists for this agent with the same name as the new candidate, it won't be added and will instead throw an exception.
-	 * @param s The text representation of this field.
-	 * @throws ElementAlreadyContainedException 
-	 * @throws StringFormatMismatchException 
+	 * Parses the input string for a field, then adds that field. The input
+	 * string should be in the format: "Name=...\nType=...\nValue=..." There
+	 * should be no spaces present in the input string. Note that if a field
+	 * already exists for this agent with the same name as the new candidate,
+	 * it won't be added and will instead throw an exception.
+	 * 
+	 * @param s
+	 *            The text representation of this field.
+	 * @throws ElementAlreadyContainedException
+	 * @throws StringFormatMismatchException
 	 */
-	public void addField(String name, String value) throws ElementAlreadyContainedException, Exception {
+	public void addField(String name, String value)
+			throws ElementAlreadyContainedException, Exception {
 
-		//Check to see if it's contained.
+		// Check to see if it's contained.
 		Field contained = null;
-		for(Field f : fields) {
+		for (Field f : fields) {
 			if (f.name().equals(name)) {
 				contained = f;
 				break;
 			}
 		}
-		if(contained != null)
+		if (contained != null)
 			throw new ElementAlreadyContainedException();
 		fields.add(new Field(name, value));
 	}
 
 	/**
 	 * Removes a field from this Agent.
-	 * @param name 
+	 * 
+	 * @param name
 	 */
 	public void removeField(String name) {
-		for(Field f : fields) {
+		for (Field f : fields) {
 			if (f.name().equals(name)) {
 				fields.remove(f);
 				break;
@@ -115,18 +129,21 @@ public abstract class Entity {
 	 * Returns the object's default color
 	 * 
 	 */
-	public Color getColor() { 
-		return new Color(getField("colorRed").value().toInt(), getField("colorGreen").value().toInt(), getField("colorBlue").value().toInt()); 
+	public Color getColor() {
+		return new Color(getField("colorRed").value().toInt(), getField(
+				"colorGreen").value().toInt(), getField("colorBlue").value()
+				.toInt());
 	}
 
 	/**
-	 * Gets a color for the entity based on the Field being examined by the Layer 
-	 * object. Returns null if the entity does not contain the Field.
+	 * Gets a color for the entity based on the Field being examined by the
+	 * Layer object. Returns null if the entity does not contain the Field.
+	 * 
 	 * @return The specific Color to represent the value of this entity's Field
-	 * @throws EvaluationException 
+	 * @throws EvaluationException
 	 */
 	public Color getLayerColor() throws EvaluationException {
-		for(Field current : fields) {
+		for (Field current : fields) {
 			if (current.name().equals(Layer.getInstance().getFieldName()))
 				return Layer.getInstance().newShade(current);
 		}
@@ -138,7 +155,7 @@ public abstract class Entity {
 	 */
 	public void setDesign(byte[] design) {
 		this.design = design;
-	} 
+	}
 
 	/**
 	 * Returns the image bitmask array
@@ -147,24 +164,24 @@ public abstract class Entity {
 		return design;
 	}
 
-	public Field getField(String name){
-		for(Field f : fields) {
-			if(f.name().equals(name)) {
+	public Field getField(String name) {
+		for (Field f : fields) {
+			if (f.name().equals(name)) {
 				return f;
 			}
 		}
 		throw new NoSuchElementException();
 	}
-	
-	public List<Field> getFields(){
+
+	public List<Field> getFields() {
 		return fields;
 	}
-	
-	public String getName(){
+
+	public String getName() {
 		throw new UnsupportedOperationException();
 	}
-	
-	public EntityID getID(){
+
+	public EntityID getID() {
 		throw new UnsupportedOperationException();
 	}
 }
