@@ -148,7 +148,8 @@ public abstract class Entity {
 			if (current.name().equals(Layer.getInstance().getFieldName()))
 				return Layer.getInstance().newShade(current);
 		}
-		throw new Exception("Entity.getLayerColor() could not find a valid field for return");
+		throw new Exception(
+				"Entity.getLayerColor() could not find a valid field for return");
 	}
 
 	/**
@@ -183,7 +184,7 @@ public abstract class Entity {
 	}
 
 	public EntityID getID() {
-		//TODO method stub
+		// TODO method stub
 		throw new UnsupportedOperationException();
 	}
 }

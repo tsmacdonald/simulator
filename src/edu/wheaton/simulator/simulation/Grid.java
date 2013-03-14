@@ -50,13 +50,13 @@ public class Grid implements Iterable<Slot> {
 	/**
 	 * Causes all entities in the grid to act()
 	 * 
-	 * TODO Private method is never used locally
-	 * TODO parameters sent to method "act" are not valid
+	 * TODO Private method is never used locally TODO parameters sent to method
+	 * "act" are not valid
 	 */
 	private void updateEntities() {
 		for (Slot[] sArr : grid)
 			for (Slot s : sArr) {
-				s.getEntity().act(null,null);
+				s.getEntity().act(null, null);
 			}
 	}
 
@@ -160,7 +160,7 @@ public class Grid implements Iterable<Slot> {
 
 			@Override
 			public void remove() {
-				//TODO method stub
+				// TODO method stub
 				throw new UnsupportedOperationException();
 			}
 		};

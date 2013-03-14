@@ -103,11 +103,11 @@ public class Agent extends Entity {
 			for (Trigger t : triggers) {
 				Agent triggerer = t.evaluate(this, grid, local, global);
 				if (triggerer != null) {
-					if(triggerer == this)
-						t.fire(this,null,local,global);
+					if (triggerer == this)
+						t.fire(this, null, local, global);
 					else
 						t.fire(this, triggerer, local, global);
-					
+
 					break;
 				}
 			}

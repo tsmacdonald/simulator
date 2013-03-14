@@ -38,7 +38,8 @@ public abstract class Behavior {
 		return "Behavior:" + name() + ":" + target();
 	}
 
-	public abstract void execute(Entity xThis, Entity xOther, Entity xLocal, Entity xGlobal);
+	public abstract void execute(Entity xThis, Entity xOther, Entity xLocal,
+			Entity xGlobal);
 
 	public static Behavior constructBehavior(String behavior) {
 		// TODO Auto-generated method stub

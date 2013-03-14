@@ -120,7 +120,7 @@ public class Database {
 	 * @param step
 	 *            the turn in the game or column to query
 	 * @return EntitySnapshot at given row(id) and column(step)
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public EntitySnapshot getSnapshot(EntityID id, int step) throws Exception {
 		try {

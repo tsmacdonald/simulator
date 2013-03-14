@@ -19,7 +19,8 @@ public class UpdateField extends Behavior {
 	// TODO Unused field: UpdateField.updateVal
 	private String updateVal;
 
-	public UpdateField(String name, String target, Field field, String updateVal) {
+	public UpdateField(String name, String target, Field field,
+			String updateVal) {
 		super(name, target);
 		this.field = field;
 		this.updateVal = updateVal;
@@ -31,7 +32,8 @@ public class UpdateField extends Behavior {
 	 * TODO Method stub
 	 */
 	@Override
-	public void execute(Entity xThis, Entity xOther, Entity xLocal, Entity xGlobal) {
+	public void execute(Entity xThis, Entity xOther, Entity xLocal,
+			Entity xGlobal) {
 		// Set target.field to updateVal
 	}
 
