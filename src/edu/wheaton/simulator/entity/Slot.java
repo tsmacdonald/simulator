@@ -54,7 +54,7 @@ public class Slot extends Entity {
 	 * 
 	 */
 	@Override
-	public void act() {
+	public void act(Entity local, Entity global) {
 		// TODO Possible refactoring opportunity: empty method inherited from
 		// super class
 	}

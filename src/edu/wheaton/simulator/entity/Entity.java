@@ -81,7 +81,7 @@ public abstract class Entity {
 		design = d;
 	}
 
-	public abstract void act();
+	public abstract void act(Entity local, Entity global);
 
 	/**
 	 * Parses the input string for a field, then adds that field. The input
@@ -140,14 +140,15 @@ public abstract class Entity {
 	 * Layer object. Returns null if the entity does not contain the Field.
 	 * 
 	 * @return The specific Color to represent the value of this entity's Field
+	 * @throws Exception
 	 * @throws EvaluationException
 	 */
-	public Color getLayerColor() throws EvaluationException {
+	public Color getLayerColor() throws EvaluationException, Exception {
 		for (Field current : fields) {
 			if (current.name().equals(Layer.getInstance().getFieldName()))
 				return Layer.getInstance().newShade(current);
 		}
-		return null;
+		throw new Exception("Entity.getLayerColor() could not find a valid field for return");
 	}
 
 	/**
@@ -182,6 +183,7 @@ public abstract class Entity {
 	}
 
 	public EntityID getID() {
+		//TODO method stub
 		throw new UnsupportedOperationException();
 	}
 }

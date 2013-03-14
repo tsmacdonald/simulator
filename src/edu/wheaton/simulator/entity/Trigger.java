@@ -10,7 +10,9 @@
 
 package edu.wheaton.simulator.entity;
 
+import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.datastructure.Expression;
+import edu.wheaton.simulator.simulation.Grid;
 
 public class Trigger implements Comparable<Trigger> {
 
@@ -24,21 +26,6 @@ public class Trigger implements Comparable<Trigger> {
 	 * Represents the conditions of whether or not the trigger fires.
 	 */
 	private Expression conditions;
-
-	/**
-	 * The Agent for which this Trigger will fire.
-	 * 
-	 * TODO Unused field: Trigger.owner
-	 */
-	private Agent owner;
-
-	/**
-	 * The "other" agent which caused this trigger to evaluate true. Needed so
-	 * that we may pass it to the result.
-	 * 
-	 * TODO Unused field: Trigger.other
-	 */
-	private Agent other;
 
 	/**
 	 * The behavior that is executed when the trigger condition is met
@@ -58,29 +45,6 @@ public class Trigger implements Comparable<Trigger> {
 		this.priority = priority;
 		this.conditions = conditions;
 		this.behavior = behavior;
-		owner = null;
-		other = null;
-	}
-
-	/**
-	 * Constructor
-	 * 
-	 * @param priority
-	 *            Priority for this trigger.
-	 * @param be
-	 *            Tree representing this trigger's fire conditions.
-	 * @param result
-	 *            Models the outcome of the trigger being fired.
-	 * @param owner
-	 *            The agent who owns this Trigger.
-	 */
-	public Trigger(int priority, Expression conditions, Behavior behavior,
-			Agent owner) {
-		this.priority = priority;
-		this.conditions = conditions;
-		this.behavior = behavior;
-		this.owner = owner;
-		other = null;
 	}
 
 	/**
@@ -96,30 +60,18 @@ public class Trigger implements Comparable<Trigger> {
 	}
 
 	/**
-	 * Clone Constructor required for referring to new agent.
+	 * Evaluates the boolean expression represented by this object. 
 	 * 
-	 * @param parent
-	 *            The trigger from which to clone.
-	 * @param owner
-	 *            A reference to the Agent to which this trigger belongs.
-	 */
-	public Trigger(Trigger parent, Agent owner) {
-		this(parent);
-		this.owner = owner;
-	}
-
-	/**
-	 * Evaluates the boolean expression represented by this object. If the
-	 * expression is true, will return the "other" agent it's true for. If no
-	 * "other" was used for the expression, will result the "owner" agent of
-	 * this trigger.
-	 * 
-	 * @return The agent that caused this trigger to be true.
-	 * @throws Exception
+	 * @return Boolean
+	 * @throws EvaluationException
 	 *             if the expression was invalid
 	 */
-	public Agent evaluate() throws Exception {
-		// TODO Method stub
+	public Agent evaluate(Entity xThis, Grid grid, Entity xLocal, Entity xGlobal) throws EvaluationException {
+		//TODO not sure how to go about implementing this function
+		Entity xOther = null;
+		Boolean passedConditions = conditions.evaluate(xThis, xOther, xLocal, xGlobal).toBool();
+		if(!passedConditions)
+			return null;
 		throw new UnsupportedOperationException();
 	}
 
@@ -144,8 +96,8 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
-	public void fire() {
-		behavior.execute();
+	public void fire(Entity xThis, Entity xOther, Entity xLocal, Entity xGlobal) {
+		behavior.execute(xThis,xOther,xLocal,xGlobal);
 	}
 
 	/**

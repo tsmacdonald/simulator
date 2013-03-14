@@ -12,15 +12,15 @@ package edu.wheaton.simulator.entity;
 public abstract class Behavior {
 
 	private String name;
-	private Agent target;
+	private String target;
 
 	public Behavior(String strRepresentation) {
 		String[] params = strRepresentation.split(":");
 		this.name = params[1].trim();
-		this.target = resolveTarget(params[2].trim());
+		this.target = params[2].trim();
 	}
 
-	public Behavior(String name, Agent target) {
+	public Behavior(String name, String target) {
 		this.name = name;
 		this.target = target;
 	}
@@ -29,7 +29,7 @@ public abstract class Behavior {
 		return name;
 	}
 
-	public Agent target() {
+	public String target() {
 		return target;
 	}
 
@@ -38,16 +38,10 @@ public abstract class Behavior {
 		return "Behavior:" + name() + ":" + target();
 	}
 
-	public abstract void execute();
+	public abstract void execute(Entity xThis, Entity xOther, Entity xLocal, Entity xGlobal);
 
-	private Agent resolveTarget(String string) {
+	public static Behavior constructBehavior(String behavior) {
 		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
-
-	public static Behavior constructType(String type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

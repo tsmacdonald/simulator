@@ -11,7 +11,7 @@ package edu.wheaton.simulator.entity;
 
 public class Clone extends Behavior {
 
-	public Clone(String name, Agent target) {
+	public Clone(String name, String target) {
 		super(name, target);
 	}
 
@@ -21,7 +21,7 @@ public class Clone extends Behavior {
 	 * TODO Method stub
 	 */
 	@Override
-	public void execute() {
+	public void execute(Entity xThis,Entity xOther,Entity xLocal,Entity xGlobal) {
 		// Clone this Actor, add a new copy to the Grid
 	}
 }

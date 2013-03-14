@@ -17,6 +17,7 @@ import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Expression;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Behavior;
+import edu.wheaton.simulator.entity.Trigger;
 
 public class AgentDemo {
 
@@ -64,9 +65,10 @@ public class AgentDemo {
 			System.out.println("Behavior=");
 			String behavior = S.nextLine().trim();
 
-			dog.addTrigger(Integer.valueOf(priority),
+			Trigger trigger = new Trigger(Integer.valueOf(priority),
 					new Expression(condition),
-					Behavior.constructType(behavior));
+					Behavior.constructBehavior(behavior));
+			dog.addTrigger(trigger);
 		}
 
 		S.close();

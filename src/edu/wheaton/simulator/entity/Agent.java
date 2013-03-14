@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.wheaton.simulator.datastructure.Expression;
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.simulation.Grid;
 
@@ -82,7 +81,7 @@ public class Agent extends Entity {
 		}
 
 		for (Trigger t : parent.triggers) {
-			triggers.add(new Trigger(t, this)); // copy all triggers
+			triggers.add(new Trigger(t)); // copy all triggers
 		}
 
 		if (isPrototype) {
@@ -99,18 +98,18 @@ public class Agent extends Entity {
 	 * @throws Exception
 	 */
 	@Override
-	public void act() {
+	public void act(Entity local, Entity global) {
 		try {
-			Trigger toDo = null;
 			for (Trigger t : triggers) {
-				if (t.evaluate() != null) {
-					toDo = t;
+				Agent triggerer = t.evaluate(this, grid, local, global);
+				if (triggerer != null) {
+					if(triggerer == this)
+						t.fire(this,null,local,global);
+					else
+						t.fire(this, triggerer, local, global);
+					
 					break;
 				}
-			}
-
-			if (toDo != null) {
-				toDo.fire();
 			}
 		} catch (Exception e) {
 			System.err.println(e);
@@ -139,8 +138,8 @@ public class Agent extends Entity {
 		grid.removeEntity(this);
 	}
 
-	public void addTrigger(int priority, Expression conditions, Behavior result) {
-		triggers.add(new Trigger(priority, conditions, result, this));
+	public void addTrigger(Trigger trigger) {
+		triggers.add(trigger);
 		Collections.sort(triggers);
 	}
 

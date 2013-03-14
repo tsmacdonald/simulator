@@ -11,7 +11,7 @@ package edu.wheaton.simulator.entity;
 
 public class Die extends Behavior {
 
-	public Die(String name, Agent target) {
+	public Die(String name, String target) {
 		super(name, target);
 	}
 
@@ -21,7 +21,7 @@ public class Die extends Behavior {
 	 * TODO Method stub
 	 */
 	@Override
-	public void execute() {
+	public void execute(Entity xThis, Entity xOther, Entity xLocal, Entity xGlobal) {
 		// Remove this Actor (owner) from the Grid
 	}
 
