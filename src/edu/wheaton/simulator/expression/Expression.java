@@ -1,8 +1,9 @@
-package edu.wheaton.simulator.datastructure;
+package edu.wheaton.simulator.expression;
 
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
 import net.sourceforge.jeval.VariableResolver;
+import edu.wheaton.simulator.datastructure.Value;
 import edu.wheaton.simulator.entity.Entity;
 
 public final class Expression {
@@ -25,7 +26,7 @@ public final class Expression {
 			Entity xGlobal) throws EvaluationException {
 		Evaluator evaluator = new Evaluator();
 
-		VariableResolver varRes = new ExpressionParameterResolver(xThis,
+		VariableResolver varRes = new ParameterResolver(xThis,
 				xOther, xLocal, xGlobal);
 		evaluator.setVariableResolver(varRes);
 

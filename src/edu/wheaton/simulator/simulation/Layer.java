@@ -12,9 +12,9 @@ package edu.wheaton.simulator.simulation;
 import java.awt.Color;
 
 import net.sourceforge.jeval.EvaluationException;
-import edu.wheaton.simulator.datastructure.Expression;
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.datastructure.Value;
+import edu.wheaton.simulator.expression.Expression;
 
 public class Layer {
 

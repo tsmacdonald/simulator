@@ -1,7 +1,7 @@
 package edu.wheaton.simulator.behavior;
 
-import edu.wheaton.simulator.datastructure.Expression;
 import edu.wheaton.simulator.entity.Entity;
+import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class SetFieldMeBehavior implements Behavable {

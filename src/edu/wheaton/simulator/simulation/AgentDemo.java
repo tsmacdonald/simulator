@@ -14,10 +14,10 @@ import java.awt.Color;
 import java.util.Scanner;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
-import edu.wheaton.simulator.datastructure.Expression;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Behavior;
 import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.expression.Expression;
 
 public class AgentDemo {
 

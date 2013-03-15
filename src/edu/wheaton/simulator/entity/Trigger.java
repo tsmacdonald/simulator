@@ -11,7 +11,7 @@
 package edu.wheaton.simulator.entity;
 
 import net.sourceforge.jeval.EvaluationException;
-import edu.wheaton.simulator.datastructure.Expression;
+import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class Trigger implements Comparable<Trigger> {

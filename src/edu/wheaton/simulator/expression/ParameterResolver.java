@@ -1,18 +1,18 @@
-package edu.wheaton.simulator.datastructure;
+package edu.wheaton.simulator.expression;
 
 import java.security.InvalidParameterException;
 
 import net.sourceforge.jeval.VariableResolver;
 import edu.wheaton.simulator.entity.Entity;
 
-public class ExpressionParameterResolver implements VariableResolver {
+public class ParameterResolver implements VariableResolver {
 
 	private Entity xThis;
 	private Entity xOther;
 	private Entity xLocal;
 	private Entity xGlobal;
 
-	public ExpressionParameterResolver(Entity xThis, Entity xOther,
+	public ParameterResolver(Entity xThis, Entity xOther,
 			Entity xLocal, Entity xGlobal) {
 		this.xThis = xThis;
 		this.xOther = xOther;
