@@ -18,7 +18,11 @@ public class FunctionalExpression implements Function {
 	@Override
 	public FunctionResult execute(Evaluator evaluator, String args)
 			throws FunctionException {
-		// TODO Auto-generated method stub
+		
+		String[] params = args.split(",");
+		for(int i=0; i<params.length; ++i)
+			params[i] = params[i].trim();
+		
 		return null;
 	}
 

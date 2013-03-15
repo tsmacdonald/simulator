@@ -1,40 +1,33 @@
 package edu.wheaton.simulator.expression;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
 import net.sourceforge.jeval.VariableResolver;
+import net.sourceforge.jeval.function.Function;
 import edu.wheaton.simulator.datastructure.Value;
 import edu.wheaton.simulator.entity.Entity;
 
 public final class Expression {
-	private Value mVal;
-
-	public Expression(Object fxVal) {
-		setValue(fxVal);
-	}
-
-	@Override
-	public String toString() {
-		return mVal.toString();
-	}
-
-	private void setValue(Object fx) {
-		mVal = new Value(fx);
-	}
-
-	public Value evaluate(Entity xThis, Entity xOther, Entity xLocal,
-			Entity xGlobal) throws EvaluationException {
+	
+	public static Value evaluate(String expr, List<Function> functions, Map<String,Entity> entities, Map<String,Value> values) throws EvaluationException{
 		Evaluator evaluator = new Evaluator();
-
-		VariableResolver varRes = new ParameterResolver(xThis,
-				xOther, xLocal, xGlobal);
+		
+		VariableResolver varRes = new EntityResolver(entities);
 		evaluator.setVariableResolver(varRes);
-
-		return new Value(evaluator.evaluate(this.toString()));
-	}
-
-	public static Value evaluate(String expr) throws EvaluationException {
-		Evaluator evaluator = new Evaluator();
+		
+		for(Function f : functions)
+			evaluator.putFunction(f);
+		
+		Set<Map.Entry<String,Value>> valueMapSet = values.entrySet();
+		for( Map.Entry<String,Value> entry : valueMapSet ){
+			evaluator.putVariable(entry.getKey(), entry.getValue().toString());
+		}
+	
 		return new Value(evaluator.evaluate(expr));
 	}
+	
 }
