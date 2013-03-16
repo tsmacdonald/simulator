@@ -87,15 +87,13 @@ public class ExpressionEvaluationTest {
 	}
 	
 	@Test
-	public void testEntityFieldReference(){
+	public void testEntityFieldExpression(){
 		Entity entity = new Entity();
 		try {
 			entity.addField("name", "'mmmhmmmhm'");
 		} catch (ElementAlreadyContainedException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
