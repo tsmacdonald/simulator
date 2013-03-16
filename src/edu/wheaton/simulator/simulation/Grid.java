@@ -13,7 +13,7 @@ import java.awt.Color;
 import java.util.Iterator;
 
 import edu.wheaton.simulator.datastructure.Field;
-import edu.wheaton.simulator.entity.Entity;
+import edu.wheaton.simulator.entity.GridEntity;
 import edu.wheaton.simulator.entity.Slot;
 
 public class Grid implements Iterable<Slot> {
@@ -65,7 +65,7 @@ public class Grid implements Iterable<Slot> {
 	 * 
 	 * TODO Private method is never used locally
 	 */
-	private void addEntity(Entity a, int x, int y) {
+	private void addEntity(GridEntity a, int x, int y) {
 		getSlot(x, y).setEntity(a);
 	}
 
@@ -74,7 +74,7 @@ public class Grid implements Iterable<Slot> {
 	 * 
 	 * TODO Private method is never used locally
 	 */
-	private Entity getEntity(int x, int y) {
+	private GridEntity getEntity(int x, int y) {
 		return getSlot(x, y).getEntity();
 	}
 
@@ -93,7 +93,7 @@ public class Grid implements Iterable<Slot> {
 	 * @param ge
 	 *            The Entity to remove.
 	 */
-	public void removeEntity(Entity ge) {
+	public void removeEntity(GridEntity ge) {
 		// TODO Method stub
 		throw new UnsupportedOperationException();
 	}
@@ -104,7 +104,7 @@ public class Grid implements Iterable<Slot> {
 	 * @param ge
 	 *            The Entity to add.
 	 */
-	public void addEntity(Entity ge) {
+	public void addEntity(GridEntity ge) {
 		// TODO Method stub
 		throw new UnsupportedOperationException();
 	}

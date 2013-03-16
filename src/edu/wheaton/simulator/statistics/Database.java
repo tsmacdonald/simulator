@@ -10,7 +10,7 @@ import com.google.common.collect.TreeBasedTable;
 
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.entity.Entity;
+import edu.wheaton.simulator.entity.GridEntity;
 
 /**
  * This class is an abstraction of a database which is represented by a Table,
@@ -52,7 +52,7 @@ public class Database {
 	 *            the int representing this turn and will be used as a column
 	 *            index in the database(table)
 	 */
-	public void putEntity(Entity entity, int step) {
+	public void putEntity(GridEntity entity, int step) {
 		EntityID id = entity.getID();
 
 		/**

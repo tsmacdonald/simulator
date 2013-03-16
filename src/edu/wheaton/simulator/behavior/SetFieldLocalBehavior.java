@@ -1,12 +1,12 @@
 package edu.wheaton.simulator.behavior;
 
-import edu.wheaton.simulator.entity.Entity;
+import edu.wheaton.simulator.entity.GridEntity;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class SetFieldLocalBehavior implements Behavable {
 
 	@Override
-	public void act(Entity me, Entity other, Entity local, Grid global) {
+	public void act(GridEntity me, GridEntity other, GridEntity local, Grid global) {
 		// TODO Auto-generated method stub
 
 	}

@@ -11,12 +11,12 @@ import edu.wheaton.simulator.simulation.Grid;
  *         Wheaton College, CSCI 335, Spring 2013
  */
 
-public class Slot extends Entity {
+public class Slot extends GridEntity {
 
 	/**
 	 * The Entity currently in this slot
 	 */
-	private Entity entity;
+	private GridEntity entity;
 
 	/**
 	 * Constructor Sets up the Grid and makes the color object null, since
@@ -35,7 +35,7 @@ public class Slot extends Entity {
 	 * @param a
 	 *            The new entity
 	 */
-	public void setEntity(Entity ge) {
+	public void setEntity(GridEntity ge) {
 		entity = ge;
 	}
 
@@ -44,7 +44,7 @@ public class Slot extends Entity {
 	 * 
 	 * @return The Agent reference
 	 */
-	public Entity getEntity() {
+	public GridEntity getEntity() {
 		return entity;
 	}
 
@@ -54,7 +54,7 @@ public class Slot extends Entity {
 	 * 
 	 */
 	@Override
-	public void act(Entity local, Entity global) {
+	public void act(GridEntity local, GridEntity global) {
 		// TODO Possible refactoring opportunity: empty method inherited from
 		// super class
 	}

@@ -21,8 +21,8 @@ public class Die extends Behavior {
 	 * TODO Method stub
 	 */
 	@Override
-	public void execute(Entity xThis, Entity xOther, Entity xLocal,
-			Entity xGlobal) {
+	public void execute(GridEntity xThis, GridEntity xOther, GridEntity xLocal,
+			GridEntity xGlobal) {
 		// Remove this Actor (owner) from the Grid
 	}
 

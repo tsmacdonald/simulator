@@ -17,7 +17,7 @@ import java.util.List;
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.simulation.Grid;
 
-public class Agent extends Entity {
+public class Agent extends GridEntity {
 
 	/**
 	 * The list of all triggers/events associated with this agent.
@@ -58,7 +58,7 @@ public class Agent extends Entity {
 
 		if (isPrototype) {
 			children = new ArrayList<Agent>();
-			fields.add(new Field("spawnCondition", "random"));
+			getFields().add(new Field("spawnCondition", "random"));
 		} else {
 			children = null;
 		}
@@ -72,12 +72,12 @@ public class Agent extends Entity {
 	 *            The parent from which to clone.
 	 */
 	public Agent(Agent parent, boolean isPrototype) {
-		super(parent.grid, parent.getColor(), parent.design);
+		super(parent.getGrid(), parent.getColor(), parent.design);
 
 		triggers = new ArrayList<Trigger>();
 
-		for (Field f : parent.fields) {
-			fields.add(new Field(f)); // copy all fields
+		for (Field f : parent.getFields()) {
+			getFields().add(new Field(f)); // copy all fields
 		}
 
 		for (Trigger t : parent.triggers) {
@@ -98,10 +98,10 @@ public class Agent extends Entity {
 	 * @throws Exception
 	 */
 	@Override
-	public void act(Entity local, Entity global) {
+	public void act(GridEntity local, GridEntity global) {
 		try {
 			for (Trigger t : triggers) {
-				Agent triggerer = t.evaluate(this, grid, local, global);
+				Agent triggerer = t.evaluate(this, getGrid(), local, global);
 				if (triggerer != null) {
 					if (triggerer == this)
 						t.fire(this, null, local, global);
@@ -120,7 +120,7 @@ public class Agent extends Entity {
 	 * Clones this agent and puts it in the Grid's list of agents.
 	 */
 	public void cloneAgent() {
-		grid.addEntity(new Agent(this, false));
+		getGrid().addEntity(new Agent(this, false));
 	}
 
 	/**
@@ -128,14 +128,14 @@ public class Agent extends Entity {
 	 * prepares it to be a prototype agent.
 	 */
 	public void cloneAgentPrototype() {
-		grid.addEntity(new Agent(this, true));
+		getGrid().addEntity(new Agent(this, true));
 	}
 
 	/**
 	 * Removes this Agent from the environment's list.
 	 */
 	public void die() {
-		grid.removeEntity(this);
+		getGrid().removeEntity(this);
 	}
 
 	public void addTrigger(Trigger trigger) {

@@ -66,10 +66,10 @@ public class Trigger implements Comparable<Trigger> {
 	 * @throws EvaluationException
 	 *             if the expression was invalid
 	 */
-	public Agent evaluate(Entity xThis, Grid grid, Entity xLocal,
-			Entity xGlobal) throws EvaluationException {
+	public Agent evaluate(GridEntity xThis, Grid grid, GridEntity xLocal,
+			GridEntity xGlobal) throws EvaluationException {
 		// TODO not sure how to go about implementing this function
-		Entity xOther = null;
+		GridEntity xOther = null;
 		Boolean passedConditions = conditions.evaluate(xThis, xOther, xLocal,
 				xGlobal).toBool();
 		if (!passedConditions)
@@ -98,7 +98,7 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
-	public void fire(Entity xThis, Entity xOther, Entity xLocal, Entity xGlobal) {
+	public void fire(GridEntity xThis, GridEntity xOther, GridEntity xLocal, GridEntity xGlobal) {
 		behavior.execute(xThis, xOther, xLocal, xGlobal);
 	}
 

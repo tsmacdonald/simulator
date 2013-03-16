@@ -17,6 +17,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
+import edu.wheaton.simulator.entity.Entity;
+
 public class ExpressionEvaluationTest {
 
 	/*
@@ -71,10 +74,6 @@ public class ExpressionEvaluationTest {
 		}
 	}
 	
-	/*
-	 * This is how I understand the addVariable function to eventually work.
-	 * Right now, the overridden resolveVariable method simply throws an exception.
-	 */
 	@Test
 	public void testAddVariables(){
 		Expression testExpression = new Expression("#{three} < #{ten}");
@@ -84,6 +83,29 @@ public class ExpressionEvaluationTest {
 			Assert.assertTrue(testExpression.evaluateBool());
 		} catch (EvaluationException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testEntityFieldReference(){
+		Entity entity = new Entity();
+		try {
+			entity.addField("name", "'mmmhmmmhm'");
+		} catch (ElementAlreadyContainedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		Expression testExpression = new Expression("#{entity.name}");
+		testExpression.addEntity("entity", entity);
+		
+		try {
+			Assert.assertEquals("'mmmhmmmhm'", testExpression.evaluateString());
+		} catch (EvaluationException e) {
+			System.err.println("##testEntityFieldReference() failed##");
 		}
 	}
 }
