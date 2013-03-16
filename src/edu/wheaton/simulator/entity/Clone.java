@@ -21,8 +21,8 @@ public class Clone extends Behavior {
 	 * TODO Method stub
 	 */
 	@Override
-	public void execute(GridEntity xThis, GridEntity xOther, GridEntity xLocal,
-			GridEntity xGlobal) {
+	public void execute(GridEntity xThis, GridEntity xOther,
+			GridEntity xLocal, GridEntity xGlobal) {
 		// Clone this Actor, add a new copy to the Grid
 	}
 }

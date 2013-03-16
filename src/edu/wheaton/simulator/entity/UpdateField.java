@@ -32,8 +32,8 @@ public class UpdateField extends Behavior {
 	 * TODO Method stub
 	 */
 	@Override
-	public void execute(GridEntity xThis, GridEntity xOther, GridEntity xLocal,
-			GridEntity xGlobal) {
+	public void execute(GridEntity xThis, GridEntity xOther,
+			GridEntity xLocal, GridEntity xGlobal) {
 		// Set target.field to updateVal
 	}
 

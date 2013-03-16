@@ -18,7 +18,8 @@ public class SetFieldMeBehavior implements Behavable {
 	private Expression parameters;
 
 	@Override
-	public void act(GridEntity me, GridEntity other, GridEntity local, Grid global) {
+	public void act(GridEntity me, GridEntity other, GridEntity local,
+			Grid global) {
 		// TODO Auto-generated method stub
 
 	}

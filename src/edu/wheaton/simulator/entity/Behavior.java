@@ -38,8 +38,8 @@ public abstract class Behavior {
 		return "Behavior:" + name() + ":" + target();
 	}
 
-	public abstract void execute(GridEntity xThis, GridEntity xOther, GridEntity xLocal,
-			GridEntity xGlobal);
+	public abstract void execute(GridEntity xThis, GridEntity xOther,
+			GridEntity xLocal, GridEntity xGlobal);
 
 	public static Behavior constructBehavior(String behavior) {
 		// TODO Auto-generated method stub

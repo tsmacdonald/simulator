@@ -98,7 +98,8 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
-	public void fire(GridEntity xThis, GridEntity xOther, GridEntity xLocal, GridEntity xGlobal) {
+	public void fire(GridEntity xThis, GridEntity xOther, GridEntity xLocal,
+			GridEntity xGlobal) {
 		behavior.execute(xThis, xOther, xLocal, xGlobal);
 	}
 

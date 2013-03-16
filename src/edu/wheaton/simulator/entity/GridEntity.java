@@ -113,12 +113,11 @@ public abstract class GridEntity extends Entity {
 		return design;
 	}
 
-
 	public String getName() {
 		throw new UnsupportedOperationException();
 	}
-	
-	protected Grid getGrid(){
+
+	protected Grid getGrid() {
 		return grid;
 	}
 }
