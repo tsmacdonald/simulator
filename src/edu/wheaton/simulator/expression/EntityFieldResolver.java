@@ -28,8 +28,7 @@ public class EntityFieldResolver implements VariableResolver {
 	@Override
 	public String resolveVariable(String variableName)
 			throws FunctionException {
-		// TODO method stub
-		throw new FunctionException(variableName);
+		return null;
 	}
 
 	public void addEntity(String alias, Entity entity) {

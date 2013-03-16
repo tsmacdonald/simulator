@@ -63,9 +63,9 @@ public class ExpressionEvaluationTest {
 	}
 	@Test
 	public void testStringEvaluation(){
-		Expression testExpression = new Expression("'car' + 'ring'");
+		Expression testExpression = new Expression("'car' + 'ing'");
 		try {
-			Assert.assertEquals("caring", testExpression.evaluateString());
+			Assert.assertEquals("'caring'", testExpression.evaluateString());
 		} catch (EvaluationException e) {
 			e.printStackTrace();
 		}
