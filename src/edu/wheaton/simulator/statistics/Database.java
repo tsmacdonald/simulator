@@ -10,6 +10,7 @@ import com.google.common.collect.TreeBasedTable;
 
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.GridEntity;
 
 /**

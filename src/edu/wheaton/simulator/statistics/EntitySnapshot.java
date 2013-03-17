@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import com.google.common.collect.ImmutableMap;
 
+import edu.wheaton.simulator.entity.EntityID;
+
 /**
  * A class representing all the information to track from each Entity in the
  * game.
