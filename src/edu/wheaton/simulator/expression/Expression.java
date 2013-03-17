@@ -34,8 +34,9 @@ public final class Expression {
 		evaluator.setVariableResolver(resolver);
 		setString(expr.expr);
 	}
-	
-	public Expression clone(){
+
+	@Override
+	public Expression clone() {
 		return new Expression(this);
 	}
 

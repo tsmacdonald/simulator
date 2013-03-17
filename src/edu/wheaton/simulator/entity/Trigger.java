@@ -41,7 +41,8 @@ public class Trigger implements Comparable<Trigger> {
 	 * @param conditions
 	 *            boolean expression this trigger represents
 	 */
-	public Trigger(int priority, Expression conditionExpression, Behavior behavior) {
+	public Trigger(int priority, Expression conditionExpression,
+			Behavior behavior) {
 		this.priority = priority;
 		this.conditionExpression = conditionExpression;
 		this.behavior = behavior;
@@ -68,20 +69,20 @@ public class Trigger implements Comparable<Trigger> {
 	 */
 	public Agent evaluate(GridEntity xThis, Grid grid, GridEntity xLocal,
 			GridEntity xGlobal) throws EvaluationException {
-		
+
 		// TODO not sure how to go about implementing this function
 		GridEntity xOther = null;
-		
+
 		Expression expr = conditionExpression.clone();
-		
+
 		expr.addEntity("this", xThis);
 		expr.addEntity("other", xOther);
 		expr.addEntity("local", xLocal);
 		expr.addEntity("global", xGlobal);
-		
+
 		if (expr.evaluateBool())
 			return null;
-		
+
 		throw new UnsupportedOperationException();
 	}
 

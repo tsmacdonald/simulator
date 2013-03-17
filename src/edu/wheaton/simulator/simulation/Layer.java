@@ -111,8 +111,9 @@ public class Layer {
 	 */
 	public Color newShade(Field f) throws EvaluationException {
 		Double degree = 0.0;
-		degree = Expression.evaluateDouble("(" + f.getValue() + " - " + min.getValue()
-				+ ") / (" + max.getValue() + " - " + min.getValue() + ")");
+		degree = Expression.evaluateDouble("(" + f.getValue() + " - "
+				+ min.getValue() + ") / (" + max.getValue() + " - "
+				+ min.getValue() + ")");
 		return fieldColor.newBrightness(degree.floatValue());
 	}
 
@@ -134,7 +135,8 @@ public class Layer {
 
 		if (Expression.evaluateBool(f.getValue() + "<" + this.min.getValue()))
 			this.min = f;
-		else if (Expression.evaluateBool(f.getValue() + ">" + this.max.getValue()))
+		else if (Expression.evaluateBool(f.getValue() + ">"
+				+ this.max.getValue()))
 			this.max = f;
 	}
 

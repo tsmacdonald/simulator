@@ -34,8 +34,8 @@ public abstract class EndCondition {
 	 * @return true/false
 	 */
 	public abstract boolean evaluate();
-	
-	protected Grid getGrid(){
+
+	protected Grid getGrid() {
 		return getGrid;
 	}
 }

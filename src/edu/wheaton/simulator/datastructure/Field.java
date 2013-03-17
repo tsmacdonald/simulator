@@ -79,25 +79,25 @@ public class Field {
 	public String getValue() {
 		return value;
 	}
-	
+
 	/**
 	 * @return Integer.valueOf(getValue())
 	 */
-	public Integer getIntValue(){
+	public Integer getIntValue() {
 		return Integer.valueOf(getValue());
 	}
-	
+
 	/**
 	 * @return Integer.valueOf(getValue())
 	 */
-	public Double getDoubleValue(){
+	public Double getDoubleValue() {
 		return Double.valueOf(getValue());
 	}
-	
+
 	/**
 	 * @return Boolean.valueOf(getValue())
 	 */
-	public Boolean getBoolValue(){
+	public Boolean getBoolValue() {
 		return Boolean.valueOf(getValue());
 	}
 }
