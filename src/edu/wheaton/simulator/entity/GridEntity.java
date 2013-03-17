@@ -77,9 +77,8 @@ public abstract class GridEntity extends Entity {
 	 * 
 	 */
 	public Color getColor() {
-		return new Color(getField("colorRed").getValue().toInt(), getField(
-				"colorGreen").getValue().toInt(), getField("colorBlue").getValue()
-				.toInt());
+		return new Color(getField("colorRed").getIntValue(), getField(
+				"colorGreen").getIntValue(), getField("colorBlue").getIntValue());
 	}
 
 	/**
