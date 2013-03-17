@@ -71,9 +71,9 @@ public class Database {
 		Iterator<Field> it = entityFields.iterator();
 		while (it.hasNext()) {
 			Field current = it.next();
-			FieldSnapshot snap = new FieldSnapshot(current.name(),
-					current.value());
-			fieldsForSnap.put(current.name(), snap);
+			FieldSnapshot snap = new FieldSnapshot(current.getName(),
+					current.getValue());
+			fieldsForSnap.put(current.getName(), snap);
 		}
 
 		/*

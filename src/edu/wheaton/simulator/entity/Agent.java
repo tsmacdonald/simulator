@@ -72,7 +72,7 @@ public class Agent extends GridEntity {
 	 *            The parent from which to clone.
 	 */
 	public Agent(Agent parent, boolean isPrototype) {
-		super(parent.getGrid(), parent.getColor(), parent.design);
+		super(parent.getGrid(), parent.getColor(), parent.getDesign());
 
 		triggers = new ArrayList<Trigger>();
 
@@ -165,7 +165,7 @@ public class Agent extends GridEntity {
 	 * 
 	 * @return x
 	 */
-	public int xPos() {
+	public int getPosX() {
 		return x;
 	}
 
@@ -174,7 +174,7 @@ public class Agent extends GridEntity {
 	 * 
 	 * @return y
 	 */
-	public int yPos() {
+	public int getPosY() {
 		return y;
 	}
 }

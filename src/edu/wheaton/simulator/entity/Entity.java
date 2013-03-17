@@ -36,7 +36,7 @@ public class Entity {
 		// Check to see if it's contained.
 		Field contained = null;
 		for (Field f : fields) {
-			if (f.name().equals(name)) {
+			if (f.getName().equals(name)) {
 				contained = f;
 				break;
 			}
@@ -53,7 +53,7 @@ public class Entity {
 	 */
 	public void removeField(String name) {
 		for (Field f : fields) {
-			if (f.name().equals(name)) {
+			if (f.getName().equals(name)) {
 				fields.remove(f);
 				break;
 			}
@@ -62,7 +62,7 @@ public class Entity {
 
 	public Field getField(String name) {
 		for (Field f : fields) {
-			if (f.name().equals(name)) {
+			if (f.getName().equals(name)) {
 				return f;
 			}
 		}

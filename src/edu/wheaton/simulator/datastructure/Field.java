@@ -62,21 +62,21 @@ public class Field {
 	 */
 	@Override
 	public String toString() {
-		return "Field:" + name() + ":" + value();
+		return "Field:" + getName() + ":" + getValue();
 	}
 
 	/**
 	 * 
 	 * @return This field's name.
 	 */
-	public String name() {
+	public String getName() {
 		return name;
 	}
 
 	/**
 	 * @return This field's value
 	 */
-	public Value value() {
+	public Value getValue() {
 		return value;
 	}
 

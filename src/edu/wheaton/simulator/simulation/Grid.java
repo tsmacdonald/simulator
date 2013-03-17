@@ -32,14 +32,14 @@ public class Grid implements Iterable<Slot> {
 	public Grid(int width, int height) {
 		this.width = width;
 		this.height = height;
-		grid = new Slot[height()][width()];
+		grid = new Slot[getHeight()][getWidth()];
 	}
 
-	public Integer width() {
+	public Integer getWidth() {
 		return width;
 	}
 
-	public Integer height() {
+	public Integer getHeight() {
 		return height;
 	}
 
@@ -143,13 +143,13 @@ public class Grid implements Iterable<Slot> {
 
 			@Override
 			public boolean hasNext() {
-				return y < height();
+				return y < getHeight();
 			}
 
 			@Override
 			public Slot next() {
 				Slot toReturn = getSlot(x, y);
-				if (x < width() - 1) {
+				if (x < getWidth() - 1) {
 					x++;
 				} else {
 					x = 0;

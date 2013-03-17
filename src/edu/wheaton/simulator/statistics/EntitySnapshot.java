@@ -52,7 +52,7 @@ public abstract class EntitySnapshot {
 		this.fields = builder.build();
 	}
 
-	public void id() {
-		System.out.print(id.name() + " " + id.id());
-	}
+//	public void getId() {
+//		System.out.print(id.name() + " " + id.id());
+//	}
 }
