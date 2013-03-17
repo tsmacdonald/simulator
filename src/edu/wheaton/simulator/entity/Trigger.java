@@ -25,7 +25,7 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Represents the conditions of whether or not the trigger fires.
 	 */
-	private Expression conditions;
+	private Expression conditionExpression;
 
 	/**
 	 * The behavior that is executed when the trigger condition is met
@@ -41,9 +41,9 @@ public class Trigger implements Comparable<Trigger> {
 	 * @param conditions
 	 *            boolean expression this trigger represents
 	 */
-	public Trigger(int priority, Expression conditions, Behavior behavior) {
+	public Trigger(int priority, Expression conditionExpression, Behavior behavior) {
 		this.priority = priority;
-		this.conditions = conditions;
+		this.conditionExpression = conditionExpression;
 		this.behavior = behavior;
 	}
 
@@ -55,7 +55,7 @@ public class Trigger implements Comparable<Trigger> {
 	 */
 	public Trigger(Trigger parent) {
 		priority = parent.priority;
-		conditions = parent.conditions;
+		conditionExpression = parent.conditionExpression;
 		behavior = parent.behavior;
 	}
 
@@ -68,12 +68,20 @@ public class Trigger implements Comparable<Trigger> {
 	 */
 	public Agent evaluate(GridEntity xThis, Grid grid, GridEntity xLocal,
 			GridEntity xGlobal) throws EvaluationException {
+		
 		// TODO not sure how to go about implementing this function
 		GridEntity xOther = null;
-		Boolean passedConditions = conditions.evaluate(xThis, xOther, xLocal,
-				xGlobal).toBool();
-		if (!passedConditions)
+		
+		Expression expr = conditionExpression.clone();
+		
+		expr.addEntity("this", xThis);
+		expr.addEntity("other", xOther);
+		expr.addEntity("local", xLocal);
+		expr.addEntity("global", xGlobal);
+		
+		if (expr.evaluateBool())
 			return null;
+		
 		throw new UnsupportedOperationException();
 	}
 
@@ -92,7 +100,7 @@ public class Trigger implements Comparable<Trigger> {
 	 * @return the firing condition
 	 */
 	public Expression getConditions() {
-		return conditions;
+		return conditionExpression;
 	}
 
 	/**
