@@ -61,13 +61,14 @@ public class Trigger implements Comparable<Trigger> {
 	}
 
 	/**
-	 * Evaluates the boolean expression represented by this object.
+	 * Evaluates the boolean expression represented by this object and fires if
+	 * all conditions evaluate to true.
 	 * 
 	 * @return Boolean
 	 * @throws EvaluationException
 	 *             if the expression was invalid
 	 */
-	public Agent evaluate(GridEntity xThis, Grid grid, GridEntity xLocal,
+	public void evaluate(GridEntity xThis, Grid grid, GridEntity xLocal,
 			GridEntity xGlobal) throws EvaluationException {
 
 		// TODO not sure how to go about implementing this function
@@ -81,8 +82,7 @@ public class Trigger implements Comparable<Trigger> {
 		expr.addEntity("global", xGlobal);
 
 		if (expr.evaluateBool())
-			return null;
-
+			fire(xThis, xOther, xLocal, xGlobal);
 		throw new UnsupportedOperationException();
 	}
 
