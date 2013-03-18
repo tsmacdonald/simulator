@@ -17,19 +17,19 @@ public class Entity {
 	 */
 	private List<Field> fields;
 	private EntityID id;
-	private static Map<EntityID,Entity> database = new HashMap<EntityID,Entity>();
+	private static Map<EntityID, Entity> database = new HashMap<EntityID, Entity>();
 
 	public Entity() {
 		id = EntityID.genID(this);
 		fields = new ArrayList<Field>();
 		database.put(id, this);
 	}
-	
-	public static synchronized Entity getEntity(EntityID id){
+
+	public static synchronized Entity getEntity(EntityID id) {
 		return database.get(id);
 	}
-	
-	public static synchronized Entity removeEntity(EntityID id){
+
+	public static synchronized Entity removeEntity(EntityID id) {
 		return database.remove(id);
 	}
 

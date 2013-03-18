@@ -122,8 +122,7 @@ public class Database {
 	 *            the turn in the game or column to query
 	 * @return EntitySnapshot at given row(id) and column(step)
 	 * @throws Exception
-	 *             if the database hasn't been finalized or if
-	 *             the query fails
+	 *             if the database hasn't been finalized or if the query fails
 	 */
 	public EntitySnapshot getSnapshot(EntityID id, int step) throws Exception {
 		if (database == null)

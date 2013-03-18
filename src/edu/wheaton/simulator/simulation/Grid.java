@@ -50,13 +50,13 @@ public class Grid implements Iterable<Slot> {
 	/**
 	 * Causes all entities in the grid to act()
 	 * 
-	 * TODO parameters sent to method
-	 * "act" are not valid
+	 * TODO parameters sent to method "act" are not valid
 	 */
 	public void updateEntities() {
 		for (Slot[] sArr : grid)
-			for (Slot s : sArr) 
-				if(s.getEntity() != null) s.getEntity().act(null, null);
+			for (Slot s : sArr)
+				if (s.getEntity() != null)
+					s.getEntity().act(null, null);
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class Grid implements Iterable<Slot> {
 	}
 
 	/**
-	 * Adds the given entity at the closest free spot to the spawn position. 
+	 * Adds the given entity at the closest free spot to the spawn position.
 	 * The search for an open spot begins at the given x/y and then spirals
 	 * outwards.
 	 * 
@@ -82,35 +82,34 @@ public class Grid implements Iterable<Slot> {
 	 *            Central x location for spawn
 	 * @param spawnY
 	 *            Central y location for spawn
-	 * @return
-	 *            true if successful (entity added), false otherwise
+	 * @return true if successful (entity added), false otherwise
 	 */
 	public boolean spawnEntity(GridEntity ge, int spawnX, int spawnY) {
 
-		for(int distance = 0; distance < height || distance < width; distance++) {
+		for (int distance = 0; distance < height || distance < width; distance++) {
 			int x = spawnX - distance;
 			int y = spawnY - distance;
-			if(emptySlot(x, y)) {
+			if (emptySlot(x, y)) {
 				addEntity(ge, x, y);
 				return true;
 			}
-			for( ; x < spawnX + distance; x++)
-				if(emptySlot(x, y)) {
+			for (; x < spawnX + distance; x++)
+				if (emptySlot(x, y)) {
 					addEntity(ge, x, y);
 					return true;
 				}
-			for( ; y < spawnY + distance; y++) 
-				if(emptySlot(x, y)) {
+			for (; y < spawnY + distance; y++)
+				if (emptySlot(x, y)) {
 					addEntity(ge, x, y);
 					return true;
 				}
-			for( ; x > spawnX - distance; x--)
-				if(emptySlot(x, y)) {
+			for (; x > spawnX - distance; x--)
+				if (emptySlot(x, y)) {
 					addEntity(ge, x, y);
 					return true;
 				}
-			for( ; y > spawnY - distance; y--)
-				if(emptySlot(x, y)) {
+			for (; y > spawnY - distance; y--)
+				if (emptySlot(x, y)) {
 					addEntity(ge, x, y);
 					return true;
 				}
@@ -120,17 +119,17 @@ public class Grid implements Iterable<Slot> {
 	}
 
 	/**
-	 * Returns true if a slot is empty, false otherwise. Also returns false
-	 * if invalid x, y values are given.
+	 * Returns true if a slot is empty, false otherwise. Also returns false if
+	 * invalid x, y values are given.
 	 * 
-	 * @param x 
+	 * @param x
 	 * @param y
-	 * @return 
-	 *             Whether or not the particular slot is empty
+	 * @return Whether or not the particular slot is empty
 	 */
 	private boolean emptySlot(int x, int y) {
-		if(x < 0 || y < 0 || x > height || y > height) return false;
-		if(getEntity(x, y) == null)
+		if (x < 0 || y < 0 || x > height || y > height)
+			return false;
+		if (getEntity(x, y) == null)
 			return true;
 		return false;
 	}
@@ -142,8 +141,8 @@ public class Grid implements Iterable<Slot> {
 	 *            The Entity to add.
 	 */
 	public boolean spawnEntity(GridEntity ge) {
-		int randomX = (int)(Math.random() * width);
-		int randomY = (int)(Math.random() * height);
+		int randomX = (int) (Math.random() * width);
+		int randomY = (int) (Math.random() * height);
 		return spawnEntity(ge, randomX, randomY);
 	}
 
@@ -176,7 +175,7 @@ public class Grid implements Iterable<Slot> {
 	public void removeEntity(GridEntity ge) {
 		for (Slot[] sArr : grid)
 			for (Slot s : sArr)
-				if(s.getEntity() == ge)
+				if (s.getEntity() == ge)
 					s.setEntity(null);
 	}
 
