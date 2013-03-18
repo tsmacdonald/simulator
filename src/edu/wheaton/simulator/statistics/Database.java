@@ -122,12 +122,17 @@ public class Database {
 	 *            the turn in the game or column to query
 	 * @return EntitySnapshot at given row(id) and column(step)
 	 * @throws Exception
+	 *             if the database hasn't been finalized or if
+	 *             the query fails
 	 */
 	public EntitySnapshot getSnapshot(EntityID id, int step) throws Exception {
+		if (database == null)
+			throw new Exception("The database has not been finalized");
 		try {
 			return database.get(id, step);
 		} catch (Exception e) {
-			throw new Exception("The database has not been finalized");
+			System.out.println(e);
+			throw e;
 		}
 	}
 
