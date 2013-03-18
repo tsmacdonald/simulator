@@ -120,7 +120,7 @@ public class Agent extends GridEntity {
 	 * Clones this agent and puts it in the Grid's list of agents.
 	 */
 	public void cloneAgent() {
-		getGrid().addEntity(new Agent(this, false));
+		getGrid().spawnEntity(new Agent(this, false));
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class Agent extends GridEntity {
 	 * prepares it to be a prototype agent.
 	 */
 	public void cloneAgentPrototype() {
-		getGrid().addEntity(new Agent(this, true));
+		getGrid().spawnEntity(new Agent(this, true));
 	}
 
 	/**
