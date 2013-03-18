@@ -15,14 +15,14 @@ public class EntityFieldResolver implements VariableResolver {
 	/*
 	 * default constructor
 	 */
-	public EntityFieldResolver() {
+	protected EntityFieldResolver() {
 		entityMap = new HashMap<String, Entity>();
 	}
 
 	/*
 	 * copy constructor
 	 */
-	public EntityFieldResolver(EntityFieldResolver resolver) {
+	protected EntityFieldResolver(EntityFieldResolver resolver) {
 		entityMap.putAll(resolver.entityMap);
 	}
 
@@ -45,7 +45,7 @@ public class EntityFieldResolver implements VariableResolver {
 			return null;
 		}
 		try {
-			String toReturn = target.getField(fieldName).value().toString();
+			String toReturn = target.getField(fieldName).getValue().toString();
 			return toReturn;
 		} catch (NoSuchElementException e) {
 			System.err.println("##NoSuchElementException thrown##");
@@ -53,8 +53,11 @@ public class EntityFieldResolver implements VariableResolver {
 		}
 	}
 
-	public void addEntity(String alias, Entity entity) {
-		entityMap.put(alias, entity);
+	protected void addEntity(String name, Entity entity) {
+		entityMap.put(name, entity);
 	}
 
+	public Entity getEntity(String name){
+		return entityMap.get(name);
+	}
 }

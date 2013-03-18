@@ -15,7 +15,7 @@ public abstract class EndCondition {
 	 * Reference to the Grid. Used to check the state of the simulation and
 	 * determine if the ending condition has been met
 	 */
-	protected Grid grid;
+	private Grid getGrid;
 
 	/**
 	 * Constructor
@@ -24,7 +24,7 @@ public abstract class EndCondition {
 	 *            The main simulation grid
 	 */
 	public EndCondition(Grid grid) {
-		this.grid = grid;
+		this.getGrid = grid;
 
 	}
 
@@ -34,4 +34,8 @@ public abstract class EndCondition {
 	 * @return true/false
 	 */
 	public abstract boolean evaluate();
+
+	protected Grid getGrid() {
+		return getGrid;
+	}
 }

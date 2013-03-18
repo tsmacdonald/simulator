@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import com.google.common.collect.ImmutableMap;
 
+import edu.wheaton.simulator.entity.EntityID;
+
 /**
  * A class representing all the information to track from each Entity in the
  * game.
@@ -52,7 +54,7 @@ public abstract class EntitySnapshot {
 		this.fields = builder.build();
 	}
 
-	public void id() {
-		System.out.print(id.name() + " " + id.id());
-	}
+	// public void getId() {
+	// System.out.print(id.name() + " " + id.id());
+	// }
 }

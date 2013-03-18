@@ -25,17 +25,17 @@ public abstract class Behavior {
 		this.target = target;
 	}
 
-	public String name() {
+	public String getName() {
 		return name;
 	}
 
-	public String target() {
+	public String getTarget() {
 		return target;
 	}
 
 	@Override
 	public String toString() {
-		return "Behavior:" + name() + ":" + target();
+		return "Behavior:" + getName() + ":" + getTarget();
 	}
 
 	public abstract void execute(GridEntity xThis, GridEntity xOther,

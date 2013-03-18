@@ -26,7 +26,7 @@ public abstract class GridEntity extends Entity {
 	/**
 	 * Bitmask for storing an entity's customized appearance, initially set
 	 */
-	protected byte[] design;
+	private byte[] design;
 
 	/**
 	 * Constructor
@@ -77,9 +77,9 @@ public abstract class GridEntity extends Entity {
 	 * 
 	 */
 	public Color getColor() {
-		return new Color(getField("colorRed").value().toInt(), getField(
-				"colorGreen").value().toInt(), getField("colorBlue").value()
-				.toInt());
+		return new Color(getField("colorRed").getIntValue(), getField(
+				"colorGreen").getIntValue(), getField("colorBlue")
+				.getIntValue());
 	}
 
 	/**
@@ -92,7 +92,7 @@ public abstract class GridEntity extends Entity {
 	 */
 	public Color getLayerColor() throws EvaluationException, Exception {
 		for (Field current : getFields()) {
-			if (current.name().equals(Layer.getInstance().getFieldName()))
+			if (current.getName().equals(Layer.getInstance().getFieldName()))
 				return Layer.getInstance().newShade(current);
 		}
 		throw new Exception(

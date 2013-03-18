@@ -1,7 +1,5 @@
 package edu.wheaton.simulator.statistics;
 
-import edu.wheaton.simulator.datastructure.Value;
-
 /**
  * Represents a snapshot of a particular field of an agent in time.
  * 
@@ -17,7 +15,7 @@ public class FieldSnapshot {
 	/**
 	 * A string representation of the field's value.
 	 */
-	public final Value value;
+	public final String value;
 
 	/**
 	 * Constructor.
@@ -29,7 +27,7 @@ public class FieldSnapshot {
 	 * @param value
 	 *            A string representation of the field's value.
 	 */
-	public FieldSnapshot(String name, Value value) {
+	public FieldSnapshot(String name, String value) {
 		this.name = name;
 		this.value = value;
 	}

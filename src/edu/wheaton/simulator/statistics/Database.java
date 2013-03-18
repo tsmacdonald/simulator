@@ -10,6 +10,7 @@ import com.google.common.collect.TreeBasedTable;
 
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.GridEntity;
 
 /**
@@ -71,9 +72,9 @@ public class Database {
 		Iterator<Field> it = entityFields.iterator();
 		while (it.hasNext()) {
 			Field current = it.next();
-			FieldSnapshot snap = new FieldSnapshot(current.name(),
-					current.value());
-			fieldsForSnap.put(current.name(), snap);
+			FieldSnapshot snap = new FieldSnapshot(current.getName(),
+					current.getValue());
+			fieldsForSnap.put(current.getName(), snap);
 		}
 
 		/*
@@ -121,12 +122,17 @@ public class Database {
 	 *            the turn in the game or column to query
 	 * @return EntitySnapshot at given row(id) and column(step)
 	 * @throws Exception
+	 *             if the database hasn't been finalized or if
+	 *             the query fails
 	 */
 	public EntitySnapshot getSnapshot(EntityID id, int step) throws Exception {
+		if (database == null)
+			throw new Exception("The database has not been finalized");
 		try {
 			return database.get(id, step);
 		} catch (Exception e) {
-			throw new Exception("The database has not been finalized");
+			System.out.println(e);
+			throw e;
 		}
 	}
 

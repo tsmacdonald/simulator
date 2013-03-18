@@ -26,13 +26,18 @@ public final class Expression {
 	/*
 	 * Copy constructor
 	 */
-	public Expression(Expression expr) {
+	private Expression(Expression expr) {
 		evaluator = new Evaluator();
 		evaluator.setFunctions(expr.evaluator.getFunctions());
 		evaluator.setVariables(expr.evaluator.getVariables());
 		resolver = new EntityFieldResolver(expr.resolver);
 		evaluator.setVariableResolver(resolver);
 		setString(expr.expr);
+	}
+
+	@Override
+	public Expression clone() {
+		return new Expression(this);
 	}
 
 	public void setString(Object exprStr) {

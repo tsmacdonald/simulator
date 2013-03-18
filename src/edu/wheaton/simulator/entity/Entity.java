@@ -1,13 +1,14 @@
 package edu.wheaton.simulator.entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.datastructure.StringFormatMismatchException;
-import edu.wheaton.simulator.statistics.EntityID;
 
 public class Entity {
 
@@ -15,9 +16,21 @@ public class Entity {
 	 * The list of all fields (variables) associated with this agent.
 	 */
 	private List<Field> fields;
+	private EntityID id;
+	private static Map<EntityID,Entity> database = new HashMap<EntityID,Entity>();
 
 	public Entity() {
+		id = EntityID.genID(this);
 		fields = new ArrayList<Field>();
+		database.put(id, this);
+	}
+	
+	public static synchronized Entity getEntity(EntityID id){
+		return database.get(id);
+	}
+	
+	public static synchronized Entity removeEntity(EntityID id){
+		return database.remove(id);
 	}
 
 	/**
@@ -36,7 +49,7 @@ public class Entity {
 		// Check to see if it's contained.
 		Field contained = null;
 		for (Field f : fields) {
-			if (f.name().equals(name)) {
+			if (f.getName().equals(name)) {
 				contained = f;
 				break;
 			}
@@ -53,7 +66,7 @@ public class Entity {
 	 */
 	public void removeField(String name) {
 		for (Field f : fields) {
-			if (f.name().equals(name)) {
+			if (f.getName().equals(name)) {
 				fields.remove(f);
 				break;
 			}
@@ -62,7 +75,7 @@ public class Entity {
 
 	public Field getField(String name) {
 		for (Field f : fields) {
-			if (f.name().equals(name)) {
+			if (f.getName().equals(name)) {
 				return f;
 			}
 		}
@@ -74,7 +87,6 @@ public class Entity {
 	}
 
 	public EntityID getID() {
-		// TODO method stub
-		throw new UnsupportedOperationException();
+		return id;
 	}
 }

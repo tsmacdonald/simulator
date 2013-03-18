@@ -2,6 +2,8 @@ package edu.wheaton.simulator.statistics;
 
 import java.util.HashMap;
 
+import edu.wheaton.simulator.entity.EntityID;
+
 /**
  * A class representing all the information to track from agents in the game.
  * 

@@ -14,7 +14,7 @@ public class Field {
 	 * The name for this field.
 	 */
 	private String name;
-	private Value value;
+	private String value;
 
 	/**
 	 * Constructor.
@@ -28,13 +28,13 @@ public class Field {
 	 */
 	public Field(Object name, Object value) {
 		this.name = name.toString();
-		this.value = new Value(value);
+		this.value = value.toString();
 	}
 
 	public Field(String strRepresentation) {
 		String[] params = strRepresentation.split(":");
 		this.name = params[1];
-		this.value = new Value(params[2]);
+		this.value = params[2];
 	}
 
 	/**
@@ -52,8 +52,8 @@ public class Field {
 	 *            The new String value to set this field to.
 	 * @throws StringFormatMismatchException
 	 */
-	public void setValue(Value v) {
-		value = v;
+	public void setValue(Object v) {
+		value = v.toString();
 	}
 
 	/**
@@ -62,22 +62,42 @@ public class Field {
 	 */
 	@Override
 	public String toString() {
-		return "Field:" + name() + ":" + value();
+		return "Field:" + getName() + ":" + getValue();
 	}
 
 	/**
 	 * 
 	 * @return This field's name.
 	 */
-	public String name() {
+	public String getName() {
 		return name;
 	}
 
 	/**
 	 * @return This field's value
 	 */
-	public Value value() {
+	public String getValue() {
 		return value;
 	}
 
+	/**
+	 * @return Integer.valueOf(getValue())
+	 */
+	public Integer getIntValue() {
+		return Integer.valueOf(getValue());
+	}
+
+	/**
+	 * @return Integer.valueOf(getValue())
+	 */
+	public Double getDoubleValue() {
+		return Double.valueOf(getValue());
+	}
+
+	/**
+	 * @return Boolean.valueOf(getValue())
+	 */
+	public Boolean getBoolValue() {
+		return Boolean.valueOf(getValue());
+	}
 }

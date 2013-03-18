@@ -5,6 +5,8 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
+import edu.wheaton.simulator.entity.EntityID;
+
 /**
  * A class representing all the information to track from slots in the game.
  * 

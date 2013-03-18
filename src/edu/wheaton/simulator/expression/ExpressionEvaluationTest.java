@@ -9,6 +9,11 @@
 package edu.wheaton.simulator.expression;
 
 import net.sourceforge.jeval.EvaluationException;
+import net.sourceforge.jeval.Evaluator;
+import net.sourceforge.jeval.function.Function;
+import net.sourceforge.jeval.function.FunctionConstants;
+import net.sourceforge.jeval.function.FunctionException;
+import net.sourceforge.jeval.function.FunctionResult;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -106,5 +111,72 @@ public class ExpressionEvaluationTest {
 		} catch (EvaluationException e) {
 			System.err.println("##testEntityFieldReference() failed##");
 		}
+	}
+	
+	@Test
+	public void testComplicatedEntityFieldExpression() throws Exception{
+		Entity xThis = new Entity();
+		Entity xOther = new Entity();
+		
+		xThis.addField("x","5");
+		xThis.addField("y", "0");
+		
+		xOther.addField("x","0");
+		xOther.addField("y", "0");
+		
+		Expression distanceExpression = new Expression("sqrt(pow(#{this.x}-#{other.x},2) + pow(#{this.y}-#{other.y},2))");
+		distanceExpression.addEntity("this", xThis);
+		distanceExpression.addEntity("other",xOther);
+		
+		Assert.assertEquals(new Double(5.0), distanceExpression.evaluateDouble());
+	}
+	
+	@Test
+	public void testCustomFunctionExpression() throws Exception{
+		Entity xThis = new Entity();
+		Entity xOther = new Entity();
+		
+		xThis.addField("x","5");
+		xThis.addField("y", "0");
+		
+		xOther.addField("x","0");
+		xOther.addField("y", "0");
+		
+		Expression testExpression = new Expression("distance('this','other')");
+		testExpression.addEntity("this", xThis);
+		testExpression.addEntity("other",xOther);
+		
+		testExpression.addFunctions(
+				new Function(){
+
+					@Override
+					public FunctionResult execute(Evaluator evaluator,
+							String arguments) throws FunctionException {
+						arguments = arguments.replaceAll("'", "");
+						String[] args = arguments.split(",");
+						EntityFieldResolver resolver = (EntityFieldResolver) evaluator.getVariableResolver();
+						Entity arg0 = resolver.getEntity(args[0]);
+						Entity arg1 = resolver.getEntity(args[1]);
+						
+						Expression genericDistanceExpression = new Expression("sqrt(pow(#{arg0.x}-#{arg1.x},2) + pow(#{arg0.y}-#{arg1.y},2))");
+						
+						genericDistanceExpression.addEntity("arg0", arg0);
+						genericDistanceExpression.addEntity("arg1", arg1);
+						try {
+							return new FunctionResult(genericDistanceExpression.evaluateString(),FunctionConstants.FUNCTION_RESULT_TYPE_NUMERIC);
+						} catch (EvaluationException e) {
+							throw new FunctionException(e);
+						}
+					}
+
+					@Override
+					public String getName() {
+						return "distance";
+					}
+					
+				}
+				);
+		
+		Assert.assertEquals(new Double(5.0), testExpression.evaluateDouble());
 	}
 }

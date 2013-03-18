@@ -89,7 +89,7 @@ public class HSBColor {
 	/**
 	 * Adjusts the brightness (or luminance)
 	 * 
-	 * @param hue
+	 * @param bri
 	 *            percentage from 0.0 to 1.0
 	 */
 	public void setBrightness(float bri) {

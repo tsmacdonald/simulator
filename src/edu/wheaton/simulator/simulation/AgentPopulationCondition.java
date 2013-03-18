@@ -55,7 +55,7 @@ public class AgentPopulationCondition extends EndCondition {
 	public boolean evaluate() {
 		int count = 0;
 
-		Iterator<Slot> it = this.grid.iterator();
+		Iterator<Slot> it = this.getGrid().iterator();
 
 		// TODO: Get the Agent team to add names to Agents
 		while (it.hasNext()) {
