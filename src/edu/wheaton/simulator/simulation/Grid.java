@@ -12,7 +12,6 @@ package edu.wheaton.simulator.simulation;
 import java.awt.Color;
 import java.util.Iterator;
 
-import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.GridEntity;
 import edu.wheaton.simulator.entity.Slot;
 
