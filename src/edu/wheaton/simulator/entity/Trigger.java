@@ -10,6 +10,8 @@
 
 package edu.wheaton.simulator.entity;
 
+import java.util.ArrayList;
+
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.Grid;
@@ -30,7 +32,7 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * The behavior that is executed when the trigger condition is met
 	 */
-	private Behavior behavior;
+	private ArrayList<Behavior> behaviorList;
 
 	/**
 	 * Constructor
@@ -45,7 +47,7 @@ public class Trigger implements Comparable<Trigger> {
 			Behavior behavior) {
 		this.priority = priority;
 		this.conditionExpression = conditionExpression;
-		this.behavior = behavior;
+		this.behaviorList.add(behavior);
 	}
 
 	/**
@@ -57,7 +59,7 @@ public class Trigger implements Comparable<Trigger> {
 	public Trigger(Trigger parent) {
 		priority = parent.priority;
 		conditionExpression = parent.conditionExpression;
-		behavior = parent.behavior;
+		behaviorList = parent.behaviorList;
 	}
 
 	/**
@@ -109,7 +111,8 @@ public class Trigger implements Comparable<Trigger> {
 	 */
 	public void fire(GridEntity xThis, GridEntity xOther, GridEntity xLocal,
 			GridEntity xGlobal) {
-		behavior.execute(xThis, xOther, xLocal, xGlobal);
+		for( Behavior b : behaviorList)
+			b.execute(xThis, xOther, xLocal, xGlobal);
 	}
 
 	/**
@@ -128,5 +131,12 @@ public class Trigger implements Comparable<Trigger> {
 		} else {
 			return -1;
 		}
+	}
+	/**
+	 * Adds a behavior to the end of the list of behaviors.
+	 * @param behavior Behavior to be added to list
+	 */
+	public void addBehavior(Behavior behavior){
+		behaviorList.add(behavior);
 	}
 }
