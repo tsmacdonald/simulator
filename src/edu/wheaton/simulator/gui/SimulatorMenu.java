@@ -29,12 +29,22 @@ public class SimulatorMenu extends JFrame {
 	public SimulatorMenu() {
 		super("Simulator");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		//continued frame setup
+		this.setExtendedState(MAXIMIZED_BOTH);
 		
 		//create and add screens to HashMap
-		//example: screens.add("title", new TitleScreen());
+		screens = new HashMap<String, Screen>();
+		screens.put("title", new TitleScreen(this));
+		screens.put("editSim", new EditSimScreen(this));
+		screens.put("fields", new FieldScreen(this));
+		screens.put("editField", new EditFieldScreen(this));
+		screens.put("entities", new EntityScreen(this));
+		screens.put("editEntity", new EditEntityScreen(this));
+		screens.put("spawning", new SpawningScreen(this));
+		screens.put("viewSim", new ViewSimScreen(this));
+		screens.put("statistics", new StatisticsScreen(this));
 		
-		//setContentPane to the title/welcome screen
+		this.setContentPane(screens.get("title"));
+		this.setVisible(true);
 		
 	}
 	
@@ -42,5 +52,10 @@ public class SimulatorMenu extends JFrame {
 		return screens.get(s);
 	}
 	
-	//getter methods for facades?
+	public void setScreen(Screen s) {
+		this.setContentPane(s);
+		this.setVisible(true);
+	}
+	
+	//getter methods for facades? or public methods to handle them?
 }
