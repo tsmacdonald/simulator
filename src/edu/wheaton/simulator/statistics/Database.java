@@ -3,8 +3,10 @@ package edu.wheaton.simulator.statistics;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Observer;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.TreeBasedTable;
 
@@ -86,7 +88,7 @@ public class Database {
 		 * Observer class could also possibly create a prototype because it
 		 * will have first access to the 'categoryName' and with the Fields, it
 		 * can make a map<String, FieldSnapshot> getPrototype(String name)
-		 * could be a class method that returns a prototype from a Map<String,
+		 * could be a static method that returns a prototype from a Map<String,
 		 * EntityPrototype>
 		 */
 		EntityPrototype prototype = Observer.getPrototype(entity.getName());
@@ -136,7 +138,61 @@ public class Database {
 	}
 
 	/**
-	 * Get the size of the database
+	 * Get all the Snapshots from a current step returned in a map using the
+	 * EntityID as the key and Snapshot as the value. Will be immutable in
+	 * order to prevent altering the contents.
+	 * 
+	 * @param step
+	 *            to query for
+	 * @return an ImmutableMap<EntityID, EntitySnapshot>
+	 */
+	public ImmutableMap<EntityID, EntitySnapshot> getSnapshotsAt(int step) {
+		Map<EntityID, EntitySnapshot> results = database.column(step);
+		return new ImmutableMap.Builder<EntityID, EntitySnapshot>().putAll(
+				results).build();
+	}
+
+	/**
+	 * Get all the Snapshots of a specific GridEntity throughout the game
+	 * returned in a map using the step number as the key and Snapshot as the
+	 * value. Will be immutable in order to prevent altering the contents.
+	 * 
+	 * @param id
+	 *            the EntityID of GridEntity to query for
+	 * @return an ImmutableMap<Integer, EntitySnapshot>
+	 */
+	public ImmutableMap<Integer, EntitySnapshot> getAllSnapshotsOf(EntityID id) {
+		Map<Integer, EntitySnapshot> results = database.row(id);
+		return new ImmutableMap.Builder<Integer, EntitySnapshot>().putAll(
+				results).build();
+	}
+
+	/**
+	 * Does the table have records for the given Entity?
+	 * 
+	 * @param id
+	 *            GridEntity to query for
+	 * @return true or false depending on whether the table has a row for the
+	 *         given id
+	 */
+	public boolean containsEntity(EntityID id) {
+		return database.containsRow(id);
+	}
+
+	/**
+	 * Does the table have records at the given step?
+	 * 
+	 * @param step
+	 *            to query for
+	 * @return true or false depending on whether the table has a column for
+	 *         the given step
+	 */
+	public boolean containsStep(int step) {
+		return database.containsColumn(step);
+	}
+
+	/**
+	 * Get the number of values(Snapshots) in the table
 	 * 
 	 * @return size of database
 	 */
