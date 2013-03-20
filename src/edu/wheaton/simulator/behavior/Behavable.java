@@ -5,6 +5,6 @@ import edu.wheaton.simulator.simulation.Grid;
 
 public interface Behavable {
 
-	public void act(GridEntity me, GridEntity other, GridEntity local,
-			Grid global);
+	public void act() throws Exception;
+	
 }

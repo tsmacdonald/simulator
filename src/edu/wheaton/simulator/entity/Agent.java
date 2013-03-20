@@ -177,4 +177,9 @@ public class Agent extends GridEntity {
 	public int getPosY() {
 		return y;
 	}
+	
+	public void setPos(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 }
