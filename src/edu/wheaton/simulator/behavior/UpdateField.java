@@ -1,7 +1,6 @@
 package edu.wheaton.simulator.behavior;
 
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.datastructure.Field;
 
 public class UpdateField implements Behavable {
 	

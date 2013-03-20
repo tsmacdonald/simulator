@@ -11,7 +11,7 @@ public final class Expression {
 	private EntityFieldResolver resolver;
 	private Object expr;
 
-	/*
+	/**
 	 * Default constructor
 	 * 
 	 * The expression string is retrieved by calling expr.toString()
@@ -23,7 +23,7 @@ public final class Expression {
 		evaluator.setVariableResolver(resolver);
 	}
 
-	/*
+	/**
 	 * Copy constructor
 	 */
 	private Expression(Expression expr) {
@@ -44,7 +44,7 @@ public final class Expression {
 		this.expr = exprStr;
 	}
 
-	/*
+	/**
 	 * @Param name Do not format this String as you must do when creating an
 	 * expression String. Simply pass the desired variable name.
 	 * 
@@ -55,7 +55,7 @@ public final class Expression {
 		evaluator.putVariable(name, value);
 	}
 
-	/*
+	/**
 	 * @Param aliasName The name used to refer to the Entity in the expression
 	 * String ("this", "other", etc.)
 	 */
@@ -68,7 +68,7 @@ public final class Expression {
 			evaluator.putFunction(f);
 	}
 
-	/*
+	/**
 	 * Formats the passed variable name into the format required by the parser.
 	 * 
 	 * Variables contained in an expression string must be properly formatted
@@ -83,7 +83,7 @@ public final class Expression {
 		return "#{" + name + "}";
 	}
 
-	/*
+	/**
 	 * Formats the passed String value into the format required by the parser.
 	 * 
 	 * Values that are intended to be parsed as type String require a special
@@ -97,14 +97,14 @@ public final class Expression {
 		return "'" + value + "'";
 	}
 
-	/*
+	/**
 	 * clear all added variables
 	 */
 	public void clearVariables() {
 		evaluator.clearVariables();
 	}
 
-	/*
+	/**
 	 * clear all added functions
 	 */
 	public void clearFunctions() {
