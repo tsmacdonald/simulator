@@ -4,14 +4,12 @@ import edu.wheaton.simulator.entity.Agent;
 
 public class Die implements Behavable {
 
-	private Agent target;
 	
-	public Die(Agent target) {
-		this.target = target;
+	public Die() {
 	}
 	
 	@Override
-	public void act() {
+	public void act(Agent target) {
 		target.die();
 		
 	}

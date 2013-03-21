@@ -1,24 +1,23 @@
 package edu.wheaton.simulator.behavior;
 
+import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.expression.Expression;
 
 public class UpdateField implements Behavable {
-	
-	private String newString;
-	
-	private Agent target;
-		
+				
 	private String fieldName;
 	
-	public UpdateField(Agent target, String fieldName, String newString) {
-		this.target = target;
+	private Expression inputExpr;
+	
+	public UpdateField(String fieldName, Expression inputExpr) {
 		this.fieldName = fieldName;
-		this.newString = newString;
+		this.inputExpr = inputExpr;
 	}
 	
 	@Override
-	public void act() {
-		target.getField(fieldName).setValue(newString);
+	public void act(Agent target) throws EvaluationException {
+		target.getField(fieldName).setValue(inputExpr.evaluateString());
 
 	}
 

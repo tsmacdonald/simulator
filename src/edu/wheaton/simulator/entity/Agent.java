@@ -178,8 +178,13 @@ public class Agent extends GridEntity {
 		return getField("y").getIntValue();
 	}
 	
+	/**
+	 * Sets the Agent's new position
+	 * @param x
+	 * @param y
+	 */
 	public void setPos(int x, int y) {
-		this.x = x;
-		this.y = y;
+		getField("x").setValue(x);
+		getField("y").setValue(y);
 	}
 }
