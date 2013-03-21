@@ -2,5 +2,7 @@ edu.wheaton.simulator.behavior
 edu.wheaton.simulator.datastructure
 edu.wheaton.simulator.entity
 edu.wheaton.simulator.expression
+edu.wheaton.simulator.gui
 edu.wheaton.simulator.simulation
+edu.wheaton.simulator.simulation.end
 edu.wheaton.simulator.statistics
