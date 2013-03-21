@@ -10,23 +10,15 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.FlowLayout;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class TitleScreen extends Screen {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4901621402376078633L;
-
-	private JLabel label;
 
 	private JButton newSim;
 
@@ -57,8 +49,8 @@ public class TitleScreen extends Screen {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equalsIgnoreCase("New Simulation")) {
-			sm.update(sm.getScreen("newSimulation"));
-		} else if (e.getActionCommand().equalsIgnoreCase("load")) {
+			sm.update(sm.getScreen("New Simulation"));
+		} else if (e.getActionCommand().equalsIgnoreCase("Load Simulation")) {
 			// TODO
 		}
 	}

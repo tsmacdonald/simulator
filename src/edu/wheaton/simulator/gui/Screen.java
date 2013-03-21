@@ -12,10 +12,9 @@ package edu.wheaton.simulator.gui;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.JLabel;
 
 /**
  * Each window will have its own subclass of this abstract class, and one
@@ -31,6 +30,7 @@ public abstract class Screen extends JComponent implements ActionListener {
 	protected LayoutManager layout;
 	protected ScreenManager sm;
 	protected JComponent[] components;
+	protected JLabel label;
 	
 	public Screen(ScreenManager sm){
 		this.sm = sm;

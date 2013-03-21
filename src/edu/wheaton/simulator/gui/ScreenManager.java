@@ -12,8 +12,6 @@ public class ScreenManager {
 		screens = new HashMap<String, Screen>();
 		this.dm = dm;
 		/**
-		screens.put("editSim", new EditSimScreen(menu));
-		screens.put("fields", new FieldScreen(menu));
 		screens.put("editField", new EditFieldScreen(menu));
 		screens.put("entities", new EntityScreen(menu));
 		screens.put("editEntity", new EditEntityScreen(menu));
@@ -21,8 +19,10 @@ public class ScreenManager {
 		screens.put("viewSim", new ViewSimScreen(menu));
 		screens.put("statistics", new StatisticsScreen(menu));
 		*/
-		screens.put("title", new TitleScreen(this));
-		screens.put("newSimulation", new NewSimulationScreen(this));
+		screens.put("Title", new TitleScreen(this));
+		screens.put("New Simulation", new NewSimulationScreen(this));
+		screens.put("Edit Simulation", new EditSimScreen(this));
+		screens.put("Fields", new FieldScreen(this));
 	}
 	
 	public Screen getScreen(String screenName){
