@@ -11,73 +11,66 @@
 package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.Scanner;
 
-import edu.wheaton.simulator.gridentities.Agent;
-import edu.wheaton.simulator.gridentities.ElementAlreadyContainedException;
+import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
+import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.Behavior;
+import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.expression.Expression;
 
 public class AgentDemo {
 
-	public static void main(String[] args) throws Exception{
-		Grid grid = new Grid(100, 100); 
-		Scanner S = new Scanner(System.in); 
-		
-		//Create a new Agent		
-		System.out.println("Creating a new Agent"); 
+	public static void main(String[] args) {
+		Grid grid = new Grid(100, 100);
+		Scanner S = new Scanner(System.in);
+
+		// Create a new Agent
+		System.out.println("Creating a new Agent");
 		Agent dog = new Agent(grid, Color.RED, true);
-		
-		//Add a field to this Agent
-		System.out.println("Specify Agent Fields:"); 
-		while(true){
-			System.out.println("Name="); 
-			String input = S.nextLine(); 
-			
-			if(input.equals("done")) 
+
+		// Add a field to this Agent
+		System.out.println("Specify Agent Fields:");
+		while (true) {
+			System.out.println("Name=");
+			String name = S.nextLine().trim();
+
+			if (name.equals("done"))
 				break;
-			
-			input = "Name=" + input; 
-			
-			System.out.println("Type="); 
-			input += "\nType=" + S.nextLine();
-			
-			System.out.println("Value="); 
-			input += "\nValue=" + S.nextLine(); 
-			
+
+			System.out.println("Value=");
+			String value = S.nextLine().trim();
+
 			try {
-				dog.addField(input);
+				dog.addField(name, value);
 			} catch (ElementAlreadyContainedException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
-			} 
-		}
-		
-		//Add a trigger condition to this Agent
-		System.out.println("Specify Agent Triggers:"); 
-		while(true){
-			System.out.println("Priority="); 
-			String input = S.nextLine();
-			
-			if(input.equals("done")) 
-				break;
-			
-			input = "Priority=" + input; 
-		
-			
-			System.out.println("Condition="); 
-			input += "\nCondition=" + S.nextLine();
-			
-			System.out.println("Behavior="); 
-			input += "\nBehavior=" + S.nextLine(); 
-			
-			try {
-				dog.addTrigger(input);
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
-		
+
+		// Add a trigger condition to this Agent
+		System.out.println("Specify Agent Triggers:");
+		while (true) {
+			System.out.println("Priority=");
+			String priority = S.nextLine().trim();
+
+			if (priority.equals("done"))
+				break;
+
+			System.out.println("Condition=");
+			String condition = S.nextLine().trim();
+
+			System.out.println("Behavior=");
+			String behavior = S.nextLine().trim();
+
+			Trigger trigger = new Trigger(Integer.valueOf(priority),
+					new Expression(condition),
+					Behavior.constructBehavior(behavior));
+			dog.addTrigger(trigger);
+		}
+
 		S.close();
-	}	
+	}
 }

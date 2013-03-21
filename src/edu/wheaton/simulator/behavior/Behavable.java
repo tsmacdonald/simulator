@@ -1,9 +1,9 @@
 package edu.wheaton.simulator.behavior;
 
-import edu.wheaton.simulator.gridentities.GridEntity;
-import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.entity.Agent;
 
 public interface Behavable {
 
-	public void act(GridEntity me, GridEntity other, GridEntity local, Grid global);
+	public void act(Agent target) throws Exception;
+
 }

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Set;
 import com.google.common.collect.ImmutableSet;
 
+import edu.wheaton.simulator.entity.EntityID;
+
 /**
  * A class representing all the information to track from slots in the game.
  * 
@@ -23,7 +25,7 @@ public class SlotSnapshot extends EntitySnapshot {
 	 * @param id
 	 *            The ID of the Slot associated with this snapshot.
 	 * @param fields
-	 *            The current values of the fields of the GridEntity
+	 *            The current values of the fields of the Entity
 	 * @param step
 	 *            The step in the simulation associated with this snapshot.
 	 * @param prototype
@@ -35,8 +37,7 @@ public class SlotSnapshot extends EntitySnapshot {
 			Integer step, EntityPrototype prototype, Set<EntityID> agents) {
 		super(id, fields, step, prototype);
 
-		ImmutableSet.Builder<EntityID> builder = 
-				new ImmutableSet.Builder<EntityID>();
+		ImmutableSet.Builder<EntityID> builder = new ImmutableSet.Builder<EntityID>();
 
 		builder.addAll(agents);
 		this.agents = builder.build();
