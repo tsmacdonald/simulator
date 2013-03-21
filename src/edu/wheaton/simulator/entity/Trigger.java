@@ -13,7 +13,7 @@ package edu.wheaton.simulator.entity;
 import java.util.ArrayList;
 
 import net.sourceforge.jeval.EvaluationException;
-import edu.wheaton.simulator.expression.Expression;
+import edu.wheaton.simulator.expression.ExpressionEvaluator;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class Trigger implements Comparable<Trigger> {
@@ -27,7 +27,7 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Represents the conditions of whether or not the trigger fires.
 	 */
-	private Expression conditionExpression;
+	private ExpressionEvaluator conditionExpression;
 
 	/**
 	 * The behavior that is executed when the trigger condition is met
@@ -43,7 +43,7 @@ public class Trigger implements Comparable<Trigger> {
 	 * @param conditions
 	 *            boolean expression this trigger represents
 	 */
-	public Trigger(int priority, Expression conditionExpression,
+	public Trigger(int priority, ExpressionEvaluator conditionExpression,
 			Behavior behavior) {
 		this.priority = priority;
 		this.conditionExpression = conditionExpression;
@@ -76,7 +76,7 @@ public class Trigger implements Comparable<Trigger> {
 		// TODO not sure how to go about implementing this function
 		GridEntity xOther = null;
 
-		Expression expr = conditionExpression.clone();
+		ExpressionEvaluator expr = conditionExpression.clone();
 
 		expr.importEntity("this", xThis);
 		expr.importEntity("other", xOther);
@@ -102,7 +102,7 @@ public class Trigger implements Comparable<Trigger> {
 	 * 
 	 * @return the firing condition
 	 */
-	public Expression getConditions() {
+	public ExpressionEvaluator getConditions() {
 		return conditionExpression;
 	}
 

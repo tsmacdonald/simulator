@@ -10,7 +10,7 @@ import net.sourceforge.jeval.VariableResolver;
 import net.sourceforge.jeval.function.FunctionException;
 import edu.wheaton.simulator.entity.Entity;
 
-public class Expression {
+public class Expression implements ExpressionEvaluator {
 	
 	private class EntityFieldResolver implements VariableResolver {
 
@@ -95,10 +95,11 @@ public class Expression {
 	}
 
 	@Override
-	public Expression clone() {
+	public ExpressionEvaluator clone() {
 		return new Expression(this);
 	}
 
+	@Override
 	public void setString(Object exprStr) {
 		this.expr = exprStr;
 	}
@@ -108,6 +109,7 @@ public class Expression {
 	 *        expression String. Simply pass the desired variable name.
 	 * 
 	 */
+	@Override
 	public void importVariable(String name, String value) {
 		evaluator.putVariable(name, value);
 	}
@@ -116,20 +118,24 @@ public class Expression {
 	 * @Param aliasName The name used to refer to the Entity in the expression
 	 *        String ("this", "other", etc.)
 	 */
+	@Override
 	public void importEntity(String aliasName, Entity entity) {
 		resolver.setEntity(aliasName, entity);
 	}
 
-	public void importFunctions(ExpressionFunction... functions) {
-		for (ExpressionFunction f : functions)
+	@Override
+	public void importFunctions(AbstractExpressionFunction... functions) {
+		for (AbstractExpressionFunction f : functions)
 			evaluator.putFunction(f.toJEvalFunction());
 	}
 
-	protected Entity getEntity(String aliasName) {
+	@Override
+	public Entity getEntity(String aliasName) {
 		return resolver.getEntity(aliasName);
 	}
 
-	protected String getVariableValue(String variableName)
+	@Override
+	public String getVariableValue(String variableName)
 			throws EvaluationException {
 		// TODO Auto-generated method stub
 		return evaluator.getVariableValue(variableName);
@@ -138,6 +144,7 @@ public class Expression {
 	/**
 	 * clear all added variables
 	 */
+	@Override
 	public void clearVariables() {
 		evaluator.clearVariables();
 	}
@@ -145,18 +152,22 @@ public class Expression {
 	/**
 	 * clear all added functions
 	 */
+	@Override
 	public void clearFunctions() {
 		evaluator.clearFunctions();
 	}
 
+	@Override
 	public Boolean evaluateBool() throws EvaluationException {
 		return evaluator.getBooleanResult(expr.toString());
 	}
 
+	@Override
 	public Double evaluateDouble() throws EvaluationException {
 		return evaluator.getNumberResult(expr.toString());
 	}
 
+	@Override
 	public String evaluateString() throws EvaluationException {
 		return evaluator.evaluate(expr.toString());
 	}
