@@ -1,19 +1,10 @@
 package edu.wheaton.simulator.statistics;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Observer;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.TreeBasedTable;
-
-import edu.wheaton.simulator.datastructure.Field;
-import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.EntityID;
-import edu.wheaton.simulator.entity.GridEntity;
 
 /**
  * This class is an abstraction of a database which is represented by a Table,

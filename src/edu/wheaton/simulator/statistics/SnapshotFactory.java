@@ -2,17 +2,23 @@ package edu.wheaton.simulator.statistics;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Observer;
 
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.GridEntity;
 
+/**
+ * This class will create the Snapshots to be put into the Database
+ * 
+ * @author akonwi and Daniel Gill
+ */
+
 public class SnapshotFactory {
-	
-	private SnapshotFactory() {}
-	
+
+	private SnapshotFactory() {
+	}
+
 	/**
 	 * This method will put the given entity into an editable database
 	 * 
@@ -22,7 +28,7 @@ public class SnapshotFactory {
 	 *            the int representing this turn and will be used as a column
 	 *            index in the database(table)
 	 */
-	public static void createEntity(GridEntity entity, int step) {
+	public static EntitySnapshot createEntity(GridEntity entity, int step) {
 		EntityID id = entity.getID();
 
 		/**
@@ -35,7 +41,7 @@ public class SnapshotFactory {
 		 */
 		HashMap<String, FieldSnapshot> fieldsForSnap = new HashMap<String, FieldSnapshot>();
 
-		for (Field currentField : entityFields) { 
+		for (Field currentField : entityFields) {
 			FieldSnapshot snap = new FieldSnapshot(currentField.getName(),
 					currentField.getValue());
 			fieldsForSnap.put(currentField.getName(), snap);
@@ -53,13 +59,16 @@ public class SnapshotFactory {
 		 * could be a static method that returns a prototype from a Map<String,
 		 * EntityPrototype>
 		 */
-		EntityPrototypeSnapshot prototype = Observer.getPrototype(entity.getName()); //TODO: Annoy angent team about making Arbiter. 
+		EntityPrototypeSnapshot prototype = EntityObserver.getPrototype(entity
+				.getName()); // TODO: Annoy angent team about making Arbiter.
 		EntitySnapshot snap;
 		// determine class of Entity and create snapshot accordingly
 		if (entity.getClass() == Agent.class)
 			snap = new AgentSnapshot(id, fieldsForSnap, step, prototype, null);
 		else
 			snap = new SlotSnapshot(id, fieldsForSnap, step, prototype, null);
+		
+		return snap;
 	}
-	
+
 }
