@@ -9,9 +9,11 @@
 
 package edu.wheaton.simulator.gui;
 
+import java.awt.FlowLayout;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  * This class will act as the singular JFrame window for the interface, with
@@ -22,6 +24,8 @@ public class SimulatorMenu extends JFrame {
 	
 	private HashMap<String, Screen> screens;
 	
+	private JPanel panel;
+	
 	private boolean simulationIsRunning;
 	
 	//references to facades for internal code
@@ -29,8 +33,12 @@ public class SimulatorMenu extends JFrame {
 	public SimulatorMenu() {
 		super("Simulator");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setExtendedState(MAXIMIZED_BOTH);
-		
+		this.setSize(1200, 800);
+		this.setLayout(new FlowLayout(FlowLayout.CENTER));
+		this.setLocation(100, 100);
+		//this.setExtendedState(MAXIMIZED_BOTH);
+		panel = new JPanel();
+		this.add(panel);
 		//create and add screens to HashMap
 		screens = new HashMap<String, Screen>();
 		screens.put("title", new TitleScreen(this));
@@ -43,7 +51,10 @@ public class SimulatorMenu extends JFrame {
 		screens.put("viewSim", new ViewSimScreen(this));
 		screens.put("statistics", new StatisticsScreen(this));
 		
-		this.setContentPane(screens.get("title"));
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		panel.add(screens.get("title"));
+		screens.get("title").addComponents(panel);
+		panel.setVisible(true);
 		this.setVisible(true);
 		
 	}

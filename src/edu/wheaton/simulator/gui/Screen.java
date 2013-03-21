@@ -9,7 +9,11 @@
 
 package edu.wheaton.simulator.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 /**
  * Each window will have its own subclass of this abstract class, and one 
@@ -18,8 +22,12 @@ import javax.swing.JComponent;
  * handling things like loading information for objects to be edited, as well
  * as instance variables to hold those objects, if necessary.
  */
-public abstract class Screen extends JComponent {
+public abstract class Screen extends JComponent implements ActionListener {
 
 	public SimulatorMenu menu;
+	
+	public abstract void addComponents(JPanel panel);
+	
+	public abstract void actionPerformed(ActionEvent e);
 	
 }

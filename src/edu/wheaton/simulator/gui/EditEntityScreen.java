@@ -11,15 +11,21 @@
 package edu.wheaton.simulator.gui;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class EditEntityScreen extends Screen {
 
+	private JLabel label;
 	public EditEntityScreen(SimulatorMenu m) {
 		this.menu = m;
-		
 		//placeholder screen components
-		this.add(new JLabel("Entities"));
+		label = new JLabel("Entities");
 		this.setVisible(true);
+	}
+
+	@Override
+	public void addComponents(JPanel panel) {
+		panel.add(label);
 	}
 
 }
