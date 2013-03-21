@@ -31,16 +31,6 @@ public class Agent extends GridEntity {
 	private List<Agent> children;
 
 	/**
-	 * The x position of this Agent
-	 */
-	// private int x;
-
-	/**
-	 * The y position of this Agent
-	 */
-	// private int y;
-
-	/**
 	 * Constructor.
 	 * 
 	 * @param g
