@@ -33,6 +33,8 @@ public class StatisticsScreen extends Screen {
 		label.setPreferredSize(new Dimension(300, 150));
 		JPanel panel = new JPanel();
 		JButton finishButton = new JButton("Finish");
+	}
+		/**
 		finishButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -44,7 +46,7 @@ public class StatisticsScreen extends Screen {
 		this.add(panel, BorderLayout.CENTER);
 		this.setVisible(true);
 	}
-
+*/
 	@Override
 	public void addComponents(JPanel panel) {
 		// TODO Auto-generated method stub
@@ -55,6 +57,12 @@ public class StatisticsScreen extends Screen {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void sendInfo() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

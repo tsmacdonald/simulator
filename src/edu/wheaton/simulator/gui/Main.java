@@ -18,7 +18,11 @@ public class Main {
 		SwingUtilities.invokeLater(new Thread(new Runnable() {
 			@Override
 			public void run() {
-				new SimulatorMenu();
+				DisplayManager dm = DisplayManager.getInstance(new Display());
+				if(dm == null)
+					System.exit(0);
+				ScreenManager sm = new ScreenManager(dm);
+				sm.update(sm.getScreen("title"));
 			}
 		}));
 

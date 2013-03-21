@@ -9,9 +9,12 @@
 
 package edu.wheaton.simulator.gui;
 
+import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -29,31 +32,32 @@ public class TitleScreen extends Screen {
 
 	private JButton loadSim;
 
-	public TitleScreen(SimulatorMenu m) {
-		this.menu = m;
-		this.label = new JLabel("Welcome to the Simulator!",
+	public TitleScreen(ScreenManager sm) {
+		super(sm);
+		label = new JLabel("Welcome to the Simulator!",
 				SwingConstants.CENTER);
 		label.setHorizontalTextPosition(SwingConstants.CENTER);
-		this.newSim = new JButton("New Simulation");
-		ActionEvent ns = new ActionEvent(newSim, 1, "new");
-		this.loadSim = new JButton("Load a saved Simulation");
-		loadSim.setEnabled(false); // since serialization is not yet
-									// implemented
-		// remaining setup, including adding components and defining layout
-		ActionEvent ls = new ActionEvent(loadSim, 2, "load");
+		newSim = new JButton("New Simulation");
+		newSim.addActionListener(this);
+		loadSim = new JButton("Load a saved Simulation");
+		// Since serialization is not yet implemented.
+		loadSim.setEnabled(false);
+		loadSim.addActionListener(this);
+		layout = new FlowLayout();
+		components = new JComponent[3];
+		components[0] = label;
+		components[1] = newSim;
+		components[2] = loadSim;
 	}
-
-	@Override
-	public void addComponents(JPanel panel) {
-		panel.add(label);
-		panel.add(newSim);
-		panel.add(loadSim);
+	
+	public void sendInfo(){
+		return;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equalsIgnoreCase("new")) {
-			// TODO
+		if (e.getActionCommand().equalsIgnoreCase("New Simulation")) {
+			sm.update(sm.getScreen("newSimulation"));
 		} else if (e.getActionCommand().equalsIgnoreCase("load")) {
 			// TODO
 		}

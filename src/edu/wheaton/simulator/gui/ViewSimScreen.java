@@ -33,12 +33,14 @@ public class ViewSimScreen extends Screen {
 		JPanel panel = new JPanel();
 		JButton pauseButton = new JButton("Pause");
 		JButton backButton = new JButton("Back");
+		/**
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				menu.setScreen(menu.getScreen("editSim"));
 			}
 		});
+		*/
 		panel.add(pauseButton);
 		panel.add(backButton);
 		this.add(label, BorderLayout.NORTH);
@@ -56,6 +58,12 @@ public class ViewSimScreen extends Screen {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void sendInfo() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

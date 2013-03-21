@@ -30,4 +30,10 @@ public class EditSimScreen extends Screen {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void sendInfo() {
+		// TODO Auto-generated method stub
+		
+	}
 }

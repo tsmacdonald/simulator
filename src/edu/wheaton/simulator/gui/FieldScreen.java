@@ -42,4 +42,10 @@ public class FieldScreen extends Screen {
 
 	}
 
+	@Override
+	public void sendInfo() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
