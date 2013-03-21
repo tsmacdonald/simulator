@@ -9,7 +9,7 @@ import com.google.common.collect.ImmutableMap;
  * 
  * @author Daniel Gill, Akon Ngoh
  */
-public class EntityPrototype {
+public class EntityPrototypeSnapshot {
 
 	/**
 	 * The name of this category of agent.
@@ -29,7 +29,7 @@ public class EntityPrototype {
 	 * @param defaultFields
 	 *            The default fields for this category of agent.
 	 */
-	public EntityPrototype(String categoryName,
+	public EntityPrototypeSnapshot(String categoryName,
 			Map<String, FieldSnapshot> defaultFields) {
 		this.categoryName = categoryName;
 		this.defaultFields = new ImmutableMap.Builder<String, FieldSnapshot>()

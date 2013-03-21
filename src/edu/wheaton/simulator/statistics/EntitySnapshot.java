@@ -29,7 +29,7 @@ public abstract class EntitySnapshot {
 	/**
 	 * The present prototype for the category of this Entity.
 	 */
-	public final EntityPrototype prototype;
+	public final EntityPrototypeSnapshot prototype;
 
 	/**
 	 * Constructor.
@@ -44,7 +44,7 @@ public abstract class EntitySnapshot {
 	 *            The prototype for this category of Entity.
 	 */
 	public EntitySnapshot(EntityID id, HashMap<String, FieldSnapshot> fields,
-			Integer step, EntityPrototype prototype) {
+			Integer step, EntityPrototypeSnapshot prototype) {
 		this.id = id;
 		this.step = step;
 		this.prototype = prototype;
