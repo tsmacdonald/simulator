@@ -81,6 +81,6 @@ public class EditSimScreen extends Screen {
 	@Override
 	public void sendInfo() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

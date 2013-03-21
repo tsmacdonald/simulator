@@ -6,7 +6,7 @@
  * 
  * @autor Emmanuel Pederson
  */
-package edu.wheaton.simulator.expression;
+package edu.wheaton.simulator.test.expression;
 
 import net.sourceforge.jeval.EvaluationException;
 
@@ -17,6 +17,9 @@ import org.junit.Test;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Entity;
+import edu.wheaton.simulator.expression.AbstractExpressionFunction;
+import edu.wheaton.simulator.expression.Expression;
+import edu.wheaton.simulator.expression.ExpressionEvaluator;
 
 public class ExpressionEvaluationTest {
 
@@ -74,7 +77,8 @@ public class ExpressionEvaluationTest {
 
 	@Test
 	public void testAddVariables() {
-		ExpressionEvaluator testExpression = new Expression("#{three} < #{ten}");
+		ExpressionEvaluator testExpression = new Expression(
+				"#{three} < #{ten}");
 		testExpression.importVariable("three", "3");
 		testExpression.importVariable("ten", "10");
 		try {

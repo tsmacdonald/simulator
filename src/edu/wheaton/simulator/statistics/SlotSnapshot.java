@@ -34,7 +34,8 @@ public class SlotSnapshot extends EntitySnapshot {
 	 *            the number of agents occupying this slot
 	 */
 	public SlotSnapshot(EntityID id, HashMap<String, FieldSnapshot> fields,
-			Integer step, EntityPrototypeSnapshot prototype, Set<EntityID> agents) {
+			Integer step, EntityPrototypeSnapshot prototype,
+			Set<EntityID> agents) {
 		super(id, fields, step, prototype);
 
 		ImmutableSet.Builder<EntityID> builder = new ImmutableSet.Builder<EntityID>();

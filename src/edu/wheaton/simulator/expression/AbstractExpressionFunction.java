@@ -19,13 +19,12 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 
 	@Override
 	public abstract String getName();
-	
+
 	@Override
 	public abstract int getResultType();
-	
+
 	@Override
-	public abstract String execute(String[] args)
-			throws EvaluationException;
+	public abstract String execute(String[] args) throws EvaluationException;
 
 	@Override
 	public Entity resolveEntity(ExpressionEvaluator expr, String aliasName) {

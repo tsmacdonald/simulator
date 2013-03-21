@@ -38,7 +38,7 @@ public class Database {
 	}
 
 	public void putEntity(EntitySnapshot entity, int step) {
-		treeTable.put(entity.id, entity.step, entity); 
+		treeTable.put(entity.id, entity.step, entity);
 	}
 
 	/**

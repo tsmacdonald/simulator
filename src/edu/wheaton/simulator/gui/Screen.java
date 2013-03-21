@@ -26,22 +26,24 @@ import javax.swing.JLabel;
 public abstract class Screen extends JComponent implements ActionListener {
 
 	private static final long serialVersionUID = -720613104216646508L;
-	
+
 	protected LayoutManager layout;
 	protected ScreenManager sm;
 	protected JComponent[] components;
 	protected JLabel label;
 	
-	public Screen(ScreenManager sm){
+	public Screen(ScreenManager sm) {
 		this.sm = sm;
 	}
-	
-	public JComponent[] getComponents(){
+
+	public JComponent[] getComponents() {
 		return components;
 	}
-	public LayoutManager getLayout(){
+
+	public LayoutManager getLayout() {
 		return layout;
 	}
+
 	public abstract void sendInfo();
 
 	@Override
