@@ -19,6 +19,17 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 
 	@Override
 	public abstract String getName();
+	
+	/**
+	 * May only return one of the three static constants defined in this class
+	 * 
+	 */
+	@Override
+	public abstract int getResultType();
+	
+	@Override
+	public abstract String execute(String[] args)
+			throws EvaluationException;
 
 	@Override
 	public Entity resolveEntity(ExpressionEvaluator expr, String aliasName) {
@@ -30,13 +41,6 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 			throws EvaluationException {
 		return expr.getVariableValue(variableName);
 	}
-
-	/**
-	 * May only return one of the three static constants defined in this class
-	 * 
-	 */
-	@Override
-	public abstract int getResultType();
 
 	@Override
 	public Function toJEvalFunction() {
@@ -64,8 +68,4 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 
 		};
 	}
-
-	@Override
-	public abstract String execute(String[] args)
-			throws EvaluationException;
 }
