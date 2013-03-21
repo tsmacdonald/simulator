@@ -141,7 +141,7 @@ public class ExpressionEvaluationTest {
 		testExpression.importEntity("this", xThis);
 		testExpression.importEntity("other", xOther);
 
-		testExpression.importFunctions(new AbstractExpressionFunction() {
+		testExpression.importFunction(new AbstractExpressionFunction() {
 
 			@Override
 			public String getName() {

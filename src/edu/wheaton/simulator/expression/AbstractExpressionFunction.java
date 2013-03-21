@@ -20,10 +20,6 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	@Override
 	public abstract String getName();
 	
-	/**
-	 * May only return one of the three static constants defined in this class
-	 * 
-	 */
 	@Override
 	public abstract int getResultType();
 	

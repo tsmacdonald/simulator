@@ -124,9 +124,8 @@ public class Expression implements ExpressionEvaluator {
 	}
 
 	@Override
-	public void importFunctions(AbstractExpressionFunction... functions) {
-		for (AbstractExpressionFunction f : functions)
-			evaluator.putFunction(f.toJEvalFunction());
+	public void importFunction(AbstractExpressionFunction function) {
+		evaluator.putFunction(function.toJEvalFunction());
 	}
 
 	@Override

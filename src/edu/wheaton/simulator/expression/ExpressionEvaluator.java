@@ -13,7 +13,7 @@ public interface ExpressionEvaluator {
 
 	public void importEntity(String aliasName, Entity entity);
 
-	public void importFunctions(AbstractExpressionFunction... functions);
+	public void importFunction(AbstractExpressionFunction function);
 
 	public Entity getEntity(String aliasName);
 
