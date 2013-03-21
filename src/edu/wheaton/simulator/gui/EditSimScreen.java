@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 
 public class EditSimScreen extends Screen {
 
-	
 	/**
 	 * 
 	 */
@@ -15,20 +14,20 @@ public class EditSimScreen extends Screen {
 
 	public EditSimScreen(SimulatorMenu m) {
 		this.menu = m;
-		
-		//placeholder screen components
+
+		// placeholder screen components
 		this.add(new JLabel("edit simulation"));
 	}
 
 	@Override
 	public void addComponents(JPanel panel) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

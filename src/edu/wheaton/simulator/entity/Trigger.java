@@ -78,10 +78,10 @@ public class Trigger implements Comparable<Trigger> {
 
 		Expression expr = conditionExpression.clone();
 
-		expr.setEntity("this", xThis);
-		expr.setEntity("other", xOther);
-		expr.setEntity("local", xLocal);
-		expr.setEntity("global", xGlobal);
+		expr.importEntity("this", xThis);
+		expr.importEntity("other", xOther);
+		expr.importEntity("local", xLocal);
+		expr.importEntity("global", xGlobal);
 
 		if (expr.evaluateBool())
 			fire(xThis, xOther, xLocal, xGlobal);
@@ -111,7 +111,7 @@ public class Trigger implements Comparable<Trigger> {
 	 */
 	public void fire(GridEntity xThis, GridEntity xOther, GridEntity xLocal,
 			GridEntity xGlobal) {
-		for( Behavior b : behaviorList)
+		for (Behavior b : behaviorList)
 			b.execute(xThis, xOther, xLocal, xGlobal);
 	}
 
@@ -132,11 +132,14 @@ public class Trigger implements Comparable<Trigger> {
 			return -1;
 		}
 	}
+
 	/**
 	 * Adds a behavior to the end of the list of behaviors.
-	 * @param behavior Behavior to be added to list
+	 * 
+	 * @param behavior
+	 *            Behavior to be added to list
 	 */
-	public void addBehavior(Behavior behavior){
+	public void addBehavior(Behavior behavior) {
 		behaviorList.add(behavior);
 	}
 }

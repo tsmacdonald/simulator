@@ -44,7 +44,8 @@ public class ExpressionEvaluationTest {
 	@Test
 	public void testComplexBooleanEvaluation() {
 		try {
-			Assert.assertFalse(Expression.evaluateBool("(1+2) > (2*2) && (3/2) < 3"));
+			Assert.assertFalse(Expression
+					.evaluateBool("(1+2) > (2*2) && (3/2) < 3"));
 		} catch (EvaluationException e) {
 			e.printStackTrace();
 		}
@@ -64,7 +65,8 @@ public class ExpressionEvaluationTest {
 	@Test
 	public void testStringEvaluation() {
 		try {
-			Assert.assertEquals("'tenants'", Expression.evaluateString("'ten' + 'ants'"));
+			Assert.assertEquals("'tenants'",
+					Expression.evaluateString("'ten' + 'ants'"));
 		} catch (EvaluationException e) {
 			e.printStackTrace();
 		}
@@ -73,8 +75,8 @@ public class ExpressionEvaluationTest {
 	@Test
 	public void testAddVariables() {
 		Expression testExpression = new Expression("#{three} < #{ten}");
-		testExpression.setVariable("three", "3");
-		testExpression.setVariable("ten", "10");
+		testExpression.importVariable("three", "3");
+		testExpression.importVariable("ten", "10");
 		try {
 			Assert.assertTrue(testExpression.evaluateBool());
 		} catch (EvaluationException e) {
@@ -94,7 +96,7 @@ public class ExpressionEvaluationTest {
 		}
 
 		Expression testExpression = new Expression("#{entity.name}");
-		testExpression.setEntity("entity", entity);
+		testExpression.importEntity("entity", entity);
 
 		try {
 			Assert.assertEquals("'mmmhmmmhm'", testExpression.evaluateString());
@@ -116,8 +118,8 @@ public class ExpressionEvaluationTest {
 
 		Expression distanceExpression = new Expression(
 				"sqrt(pow(#{this.x}-#{other.x},2) + pow(#{this.y}-#{other.y},2))");
-		distanceExpression.setEntity("this", xThis);
-		distanceExpression.setEntity("other", xOther);
+		distanceExpression.importEntity("this", xThis);
+		distanceExpression.importEntity("other", xOther);
 
 		Assert.assertEquals(new Double(5.0),
 				distanceExpression.evaluateDouble());
@@ -134,12 +136,13 @@ public class ExpressionEvaluationTest {
 		xOther.addField("x", "0");
 		xOther.addField("y", "0");
 
-		final Expression testExpression = new Expression("distance('this','other')");
-		testExpression.setEntity("this", xThis);
-		testExpression.setEntity("other", xOther);
+		final Expression testExpression = new Expression(
+				"distance('this','other')");
+		testExpression.importEntity("this", xThis);
+		testExpression.importEntity("other", xOther);
 
 		testExpression.importFunctions(new ExpressionFunction() {
-			
+
 			@Override
 			public String getName() {
 				return "distance";
@@ -152,17 +155,17 @@ public class ExpressionEvaluationTest {
 
 			@Override
 			protected String execute(String[] args) throws EvaluationException {
-				for(int i=0; i<args.length; ++i)
+				for (int i = 0; i < args.length; ++i)
 					args[i] = args[i].replaceAll("'", "");
-				
-				Entity arg0 = getEntity(testExpression,args[0]);
-				Entity arg1 = getEntity(testExpression,args[1]);
+
+				Entity arg0 = getEntity(testExpression, args[0]);
+				Entity arg1 = getEntity(testExpression, args[1]);
 
 				Expression genericDistanceExpression = new Expression(
 						"sqrt(pow(#{arg0.x}-#{arg1.x},2) + pow(#{arg0.y}-#{arg1.y},2))");
 
-				genericDistanceExpression.setEntity("arg0", arg0);
-				genericDistanceExpression.setEntity("arg1", arg1);
+				genericDistanceExpression.importEntity("arg0", arg0);
+				genericDistanceExpression.importEntity("arg1", arg1);
 				return genericDistanceExpression.evaluateString();
 			}
 		});

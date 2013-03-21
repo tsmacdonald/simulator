@@ -45,20 +45,18 @@ public final class Expression {
 
 	/**
 	 * @Param name Do not format this String as you must do when creating an
-	 * expression String. Simply pass the desired variable name.
+	 *        expression String. Simply pass the desired variable name.
 	 * 
-	 * @Param valueIsString Denotes whether the value should be interpreted as
-	 * a String rather than of Numeric or Boolean type
 	 */
-	public void setVariable(String name, String value) {
+	public void importVariable(String name, String value) {
 		evaluator.putVariable(name, value);
 	}
 
 	/**
 	 * @Param aliasName The name used to refer to the Entity in the expression
-	 * String ("this", "other", etc.)
+	 *        String ("this", "other", etc.)
 	 */
-	public void setEntity(String aliasName, Entity entity) {
+	public void importEntity(String aliasName, Entity entity) {
 		resolver.setEntity(aliasName, entity);
 	}
 
@@ -66,43 +64,15 @@ public final class Expression {
 		for (ExpressionFunction f : functions)
 			evaluator.putFunction(f.toJEvalFunction());
 	}
-	
-	protected Entity getEntity(String aliasName){
+
+	protected Entity getEntity(String aliasName) {
 		return resolver.getEntity(aliasName);
 	}
-	
-	protected String getVariableValue(String variableName) throws EvaluationException {
+
+	protected String getVariableValue(String variableName)
+			throws EvaluationException {
 		// TODO Auto-generated method stub
 		return evaluator.getVariableValue(variableName);
-	}
-
-	/**
-	 * Formats the passed variable name into the format required by the parser.
-	 * 
-	 * Variables contained in an expression string must be properly formatted
-	 * in order to be correctly evaluated by the parser. Do not use this
-	 * function on the 'name' parameter passed to the method 'addVariable(...)'
-	 * 
-	 * @Param name The variable's name
-	 * 
-	 * @Return The formatted string
-	 */
-	public static String formatName(String name) {
-		return "#{" + name + "}";
-	}
-
-	/**
-	 * Formats the passed String value into the format required by the parser.
-	 * 
-	 * Values that are intended to be parsed as type String require a special
-	 * format
-	 * 
-	 * @Param value
-	 * 
-	 * @Return The formatted string
-	 */
-	public static String formatString(String value) {
-		return "'" + value + "'";
 	}
 
 	/**

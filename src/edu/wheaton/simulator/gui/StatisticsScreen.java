@@ -33,14 +33,12 @@ public class StatisticsScreen extends Screen {
 		label.setPreferredSize(new Dimension(300, 150));
 		JPanel panel = new JPanel();
 		JButton finishButton = new JButton("Finish");
-		finishButton.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						menu.setScreen(menu.getScreen("editSim"));
-					}
-				}
-				);
+		finishButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menu.setScreen(menu.getScreen("editSim"));
+			}
+		});
 		panel.add(finishButton);
 		this.add(label, BorderLayout.NORTH);
 		this.add(panel, BorderLayout.CENTER);
@@ -50,13 +48,13 @@ public class StatisticsScreen extends Screen {
 	@Override
 	public void addComponents(JPanel panel) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

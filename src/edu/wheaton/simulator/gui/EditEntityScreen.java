@@ -22,9 +22,10 @@ public class EditEntityScreen extends Screen {
 	 */
 	private static final long serialVersionUID = 4021299442173260142L;
 	private JLabel label;
+
 	public EditEntityScreen(SimulatorMenu m) {
 		this.menu = m;
-		//placeholder screen components
+		// placeholder screen components
 		label = new JLabel("Entities");
 		this.setVisible(true);
 	}
@@ -37,7 +38,7 @@ public class EditEntityScreen extends Screen {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -24,8 +24,8 @@ public class SpawningScreen extends Screen {
 
 	public SpawningScreen(SimulatorMenu m) {
 		this.menu = m;
-		
-		//placeholder screen components
+
+		// placeholder screen components
 		this.add(new JLabel("Spawning"));
 		this.setVisible(true);
 	}
@@ -33,13 +33,13 @@ public class SpawningScreen extends Screen {
 	@Override
 	public void addComponents(JPanel panel) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

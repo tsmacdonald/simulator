@@ -33,12 +33,12 @@ public class Agent extends GridEntity {
 	/**
 	 * The x position of this Agent
 	 */
-	//private int x;
+	// private int x;
 
 	/**
 	 * The y position of this Agent
 	 */
-	//private int y;
+	// private int y;
 
 	/**
 	 * Constructor.
@@ -177,9 +177,10 @@ public class Agent extends GridEntity {
 	public int getPosY() {
 		return getField("y").getIntValue();
 	}
-	
+
 	/**
 	 * Sets the Agent's new position
+	 * 
 	 * @param x
 	 * @param y
 	 */
