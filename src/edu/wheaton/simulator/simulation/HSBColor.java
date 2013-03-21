@@ -8,6 +8,7 @@
  * HUE is a value from 0-360 representing the color.
  * SATURATION is a percentage (from 0.0-1.0) of color purity.
  * BRIGHTNESS is a percentage (from 0.0-1.0) of color luminance.
+ *    - a lower percentage is darker
  * 
  * @author Elliot Penson
  */
@@ -54,7 +55,7 @@ public class HSBColor {
 	 *            the Color object
 	 */
 	public void addColor(Color rgb) {
-		Color.RGBtoHSB(rgb.getRed(), rgb.getGreen(), rgb.getBlue(), hsb);
+		hsb = Color.RGBtoHSB(rgb.getRed(), rgb.getGreen(), rgb.getBlue(), null);
 	}
 
 	/**
@@ -95,6 +96,16 @@ public class HSBColor {
 	public void setBrightness(float bri) {
 		hsb[2] = bri;
 	}
+	
+	/**
+	 * Gives the brightness (or luminance)
+	 * 
+	 * @return
+	 *            a brightness value from 0.0 to 1.0
+	 */
+	public float getBrightness() {
+		return hsb[2];
+	}
 
 	/**
 	 * Gets a new Color with a different brightness from this.
@@ -104,13 +115,13 @@ public class HSBColor {
 	 * @return a Color with an adjusted degree of brightness.
 	 */
 	public Color newBrightness(float degree) {
-		return new Color(Color.HSBtoRGB(hsb[0], degree, hsb[2]));
+		return new Color(Color.HSBtoRGB(hsb[0], hsb[1], degree));
 	}
 
 	@Override
 	public String toString() {
-		return "HSLColor\n" + "Hue: " + hsb[0] + "Saturation:" + hsb[1]
-				+ "Brightness:" + hsb[2];
+		return "HSLColor\n" + "Hue: " + hsb[0] + " Saturation:" + hsb[1]
+				+ " Brightness:" + hsb[2];
 	}
 
 }
