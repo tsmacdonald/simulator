@@ -14,8 +14,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class TitleScreen extends Screen {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4901621402376078633L;
 
 	private JLabel label;
 	
@@ -25,8 +31,8 @@ public class TitleScreen extends Screen {
 	
 	public TitleScreen(SimulatorMenu m) {
 		this.menu = m;
-		this.label = new JLabel("Welcome to the Simulator!", JLabel.CENTER);
-		label.setHorizontalTextPosition(JLabel.CENTER);
+		this.label = new JLabel("Welcome to the Simulator!", SwingConstants.CENTER);
+		label.setHorizontalTextPosition(SwingConstants.CENTER);
 		this.newSim = new JButton("New Simulation");
 		ActionEvent ns = new ActionEvent(newSim, 1, "new");
 		this.loadSim = new JButton("Load a saved Simulation");
@@ -35,12 +41,14 @@ public class TitleScreen extends Screen {
 		ActionEvent ls = new ActionEvent(loadSim, 2, "load");
 	}
 	
+	@Override
 	public void addComponents(JPanel panel){
 		panel.add(label);
 		panel.add(newSim);
 		panel.add(loadSim);
 	}
 	
+	@Override
 	public void actionPerformed(ActionEvent e){
 		if(e.getActionCommand().equalsIgnoreCase("new")){
 			//TODO

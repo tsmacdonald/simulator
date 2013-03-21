@@ -10,11 +10,17 @@
 
 package edu.wheaton.simulator.gui;
 
+import java.awt.event.ActionEvent;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class EditEntityScreen extends Screen {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4021299442173260142L;
 	private JLabel label;
 	public EditEntityScreen(SimulatorMenu m) {
 		this.menu = m;
@@ -26,6 +32,12 @@ public class EditEntityScreen extends Screen {
 	@Override
 	public void addComponents(JPanel panel) {
 		panel.add(label);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

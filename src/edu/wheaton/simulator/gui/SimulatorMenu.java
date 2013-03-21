@@ -22,6 +22,11 @@ import javax.swing.JPanel;
  */
 public class SimulatorMenu extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8240039325787217431L;
+
 	private HashMap<String, Screen> screens;
 	
 	private JPanel panel;

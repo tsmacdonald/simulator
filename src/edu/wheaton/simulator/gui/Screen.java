@@ -24,10 +24,15 @@ import javax.swing.JPanel;
  */
 public abstract class Screen extends JComponent implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -720613104216646508L;
 	public SimulatorMenu menu;
 	
 	public abstract void addComponents(JPanel panel);
 	
+	@Override
 	public abstract void actionPerformed(ActionEvent e);
 	
 }
