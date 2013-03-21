@@ -21,12 +21,12 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	public abstract String getName();
 
 	@Override
-	public Entity getEntity(ExpressionEvaluator expr, String aliasName) {
+	public Entity resolveEntity(ExpressionEvaluator expr, String aliasName) {
 		return expr.getEntity(aliasName);
 	}
 
 	@Override
-	public String getVariableValue(ExpressionEvaluator expr, String variableName)
+	public String resolveVariable(ExpressionEvaluator expr, String variableName)
 			throws EvaluationException {
 		return expr.getVariableValue(variableName);
 	}

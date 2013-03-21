@@ -158,8 +158,8 @@ public class ExpressionEvaluationTest {
 				for (int i = 0; i < args.length; ++i)
 					args[i] = args[i].replaceAll("'", "");
 
-				Entity arg0 = getEntity(testExpression, args[0]);
-				Entity arg1 = getEntity(testExpression, args[1]);
+				Entity arg0 = resolveEntity(testExpression, args[0]);
+				Entity arg1 = resolveEntity(testExpression, args[1]);
 
 				ExpressionEvaluator genericDistanceExpression = new Expression(
 						"sqrt(pow(#{arg0.x}-#{arg1.x},2) + pow(#{arg0.y}-#{arg1.y},2))");

@@ -7,16 +7,16 @@ import edu.wheaton.simulator.entity.Entity;
 public interface ExpressionFunction {
 
 	public String getName();
+	
+	public int getResultType();
+	
+	public String execute(String[] args) throws EvaluationException;
 
-	public Entity getEntity(ExpressionEvaluator expr, String aliasName);
+	public Entity resolveEntity(ExpressionEvaluator expr, String aliasName);
 
-	public String getVariableValue(ExpressionEvaluator expr, String variableName)
+	public String resolveVariable(ExpressionEvaluator expr, String variableName)
 			throws EvaluationException;
 
-	public int getResultType();
-
 	public Function toJEvalFunction();
-
-	public String execute(String[] args) throws EvaluationException;
 
 }
