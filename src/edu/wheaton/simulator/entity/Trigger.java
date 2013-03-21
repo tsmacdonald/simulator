@@ -78,10 +78,10 @@ public class Trigger implements Comparable<Trigger> {
 
 		Expression expr = conditionExpression.clone();
 
-		expr.addEntity("this", xThis);
-		expr.addEntity("other", xOther);
-		expr.addEntity("local", xLocal);
-		expr.addEntity("global", xGlobal);
+		expr.setEntity("this", xThis);
+		expr.setEntity("other", xOther);
+		expr.setEntity("local", xLocal);
+		expr.setEntity("global", xGlobal);
 
 		if (expr.evaluateBool())
 			fire(xThis, xOther, xLocal, xGlobal);

@@ -1,5 +1,7 @@
 package edu.wheaton.simulator.expression;
 
+import edu.wheaton.simulator.entity.Entity;
+import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
 import net.sourceforge.jeval.function.Function;
 import net.sourceforge.jeval.function.FunctionConstants;
@@ -16,23 +18,35 @@ public abstract class ExpressionFunction {
 	
 	public abstract String getName();
 	
+	protected Entity getEntity(Expression expr, String aliasName){
+		return expr.getEntity(aliasName);
+	}
+	
+	protected String getVariableValue(Expression expr, String variableName) throws EvaluationException{
+		return expr.getVariableValue(variableName);
+	}
+	
 	/**
 	 * May only return one of the three static constants defined in this class
 	 * 
 	 */
 	protected abstract int getResultType();
 	
-	protected Function makeJEvalFunction(){
+	protected Function toJEvalFunction(){
 		final ExpressionFunction xEnclosingWrapper = this;
 		return new Function(){
 
-			private final ExpressionFunction enclosingWrapper = xEnclosingWrapper;
+			protected final ExpressionFunction enclosingWrapper = xEnclosingWrapper;
 			
 			@Override
 			public FunctionResult execute(Evaluator evaluator, String arguments)
 					throws FunctionException {
 				String[] args = arguments.split(",");
-				return new FunctionResult(enclosingWrapper.execute(args),enclosingWrapper.getResultType());
+				try {
+					return new FunctionResult(enclosingWrapper.execute(args),enclosingWrapper.getResultType());
+				} catch (EvaluationException e) {
+					throw new FunctionException(arguments);
+				}
 			}
 
 			@Override
@@ -43,5 +57,5 @@ public abstract class ExpressionFunction {
 		};
 	}
 
-	protected abstract String execute(String[] args);
+	protected abstract String execute(String[] args) throws EvaluationException;
 }

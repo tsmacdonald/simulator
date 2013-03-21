@@ -53,11 +53,11 @@ public class EntityFieldResolver implements VariableResolver {
 		}
 	}
 
-	protected void addEntity(String name, Entity entity) {
+	protected void setEntity(String name, Entity entity) {
 		entityMap.put(name, entity);
 	}
 
-	public Entity getEntity(String name) {
+	protected Entity getEntity(String name) {
 		return entityMap.get(name);
 	}
 }

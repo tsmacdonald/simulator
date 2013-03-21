@@ -2,7 +2,6 @@ package edu.wheaton.simulator.expression;
 
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
-import net.sourceforge.jeval.function.Function;
 import edu.wheaton.simulator.entity.Entity;
 
 public final class Expression {
@@ -51,7 +50,7 @@ public final class Expression {
 	 * @Param valueIsString Denotes whether the value should be interpreted as
 	 * a String rather than of Numeric or Boolean type
 	 */
-	public void addVariable(String name, String value) {
+	public void setVariable(String name, String value) {
 		evaluator.putVariable(name, value);
 	}
 
@@ -59,13 +58,22 @@ public final class Expression {
 	 * @Param aliasName The name used to refer to the Entity in the expression
 	 * String ("this", "other", etc.)
 	 */
-	public void addEntity(String aliasName, Entity entity) {
-		resolver.addEntity(aliasName, entity);
+	public void setEntity(String aliasName, Entity entity) {
+		resolver.setEntity(aliasName, entity);
 	}
 
-	public void addFunctions(Function... functions) {
-		for (Function f : functions)
-			evaluator.putFunction(f);
+	public void importFunctions(ExpressionFunction... functions) {
+		for (ExpressionFunction f : functions)
+			evaluator.putFunction(f.toJEvalFunction());
+	}
+	
+	protected Entity getEntity(String aliasName){
+		return resolver.getEntity(aliasName);
+	}
+	
+	protected String getVariableValue(String variableName) throws EvaluationException {
+		// TODO Auto-generated method stub
+		return evaluator.getVariableValue(variableName);
 	}
 
 	/**
