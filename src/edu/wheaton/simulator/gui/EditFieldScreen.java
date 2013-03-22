@@ -12,8 +12,11 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class EditFieldScreen extends Screen {
 
@@ -22,15 +25,38 @@ public class EditFieldScreen extends Screen {
 	 */
 	private static final long serialVersionUID = 8001531208716520432L;
 
-	public EditFieldScreen(SimulatorMenu m) {
-		this.menu = m;
-
-		// placeholder screen components
-		this.add(new JLabel("Edit a field"));
-		this.setVisible(true);
+	private JPanel panel;
+	
+	private JTextField nameField;
+	
+	private String[] typeNames =  {"Integer", "Double", "String"};
+	
+	private JComboBox fieldType;
+	
+	private JTextField initValue;
+	
+	private JTextField xLoc;
+	
+	private JTextField yLoc;
+	
+	private JButton cancelButton;
+	
+	private JButton finishButton;
+	
+	public EditFieldScreen(ScreenManager sm) {
+		super(sm);
+		//TODO finish this
+		panel = new JPanel();
+		nameField = new JTextField();
+		fieldType = new JComboBox(typeNames);
+		initValue = new JTextField();
+		xLoc = new JTextField();
+		yLoc = new JTextField();
+		cancelButton = new JButton("Cancel");
+		finishButton = new JButton("Finish");
 	}
 
-	@Override
+
 	public void addComponents(JPanel panel) {
 		// TODO Auto-generated method stub
 

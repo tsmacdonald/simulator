@@ -22,15 +22,12 @@ public class EntityScreen extends Screen {
 	 */
 	private static final long serialVersionUID = 8471925846048875713L;
 
-	public EntityScreen(SimulatorMenu m) {
-		this.menu = m;
-
-		// placeholder screen components
-		this.add(new JLabel("Fields"));
-		this.setVisible(true);
+	public EntityScreen(ScreenManager sm) {
+		super(sm);
+		//TODO finish this
 	}
 
-	@Override
+
 	public void addComponents(JPanel panel) {
 		// TODO Auto-generated method stub
 

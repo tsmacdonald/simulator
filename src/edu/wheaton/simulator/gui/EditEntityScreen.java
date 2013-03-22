@@ -104,6 +104,7 @@ public class EditEntityScreen extends Screen {
 	public EditEntityScreen(ScreenManager sm) {
 		super(sm);
 		tabs = new JTabbedPane();
+		lowerPanel = new JPanel();
 		generalPanel = new JPanel();
 		fieldPanel = new JPanel();
 		fieldPanel2 = new JPanel();
@@ -137,6 +138,10 @@ public class EditEntityScreen extends Screen {
 		fieldDeleteButtons = new ArrayList<JButton>();
 		fieldDeleteButtons.add(new JButton("Delete"));
 		addFieldButton = new JButton("Add Field");
+		triggerNameLabel = new JLabel("Trigger Name");
+		triggerPriorityLabel = new JLabel("Trigger Priority");
+		triggerConditionLabel = new JLabel("Trigger Condition");
+		triggerResultLabel = new JLabel("Trigger Result");
 		triggerNames = new ArrayList<JTextField>();
 		triggerNames.add(new JTextField());
 		triggerPriorities = new ArrayList<JTextField>();
@@ -148,6 +153,7 @@ public class EditEntityScreen extends Screen {
 		triggerResults.add(new JTextField());
 		triggerDeleteButtons = new ArrayList<JButton>();
 		triggerDeleteButtons.add(new JButton("Delete"));
+		addTriggerButton = new JButton("Add Trigger");
 		cancelButton = new JButton("Cancel");
 		finishButton = new JButton("Finish");
 		
@@ -189,7 +195,7 @@ public class EditEntityScreen extends Screen {
 		components[1] = lowerPanel;
 	}
 
-	@Override
+
 	public void addComponents(JPanel panel) {
 		panel.add(label);
 	}

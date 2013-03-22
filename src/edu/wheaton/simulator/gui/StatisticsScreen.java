@@ -25,8 +25,8 @@ public class StatisticsScreen extends Screen {
 	 */
 	private static final long serialVersionUID = 714636604315959167L;
 
-	public StatisticsScreen(SimulatorMenu m) {
-		this.menu = m;
+	public StatisticsScreen(ScreenManager sm) {
+		super(sm);
 		this.setLayout(new BorderLayout());
 		JLabel label = new JLabel("Statistics", SwingConstants.CENTER);
 		label.setPreferredSize(new Dimension(300, 150));
@@ -42,7 +42,7 @@ public class StatisticsScreen extends Screen {
 	 *           panel.add(finishButton); this.add(label, BorderLayout.NORTH);
 	 *           this.add(panel, BorderLayout.CENTER); this.setVisible(true); }
 	 */
-	@Override
+
 	public void addComponents(JPanel panel) {
 		// TODO Auto-generated method stub
 
