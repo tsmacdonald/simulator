@@ -25,60 +25,18 @@ public class Agent extends GridEntity {
 	private List<Trigger> triggers;
 
 	/**
-	 * The list of all children of this Agent if it's a prototype agent. Will
-	 * always be null, otherwise.
-	 */
-	private List<Agent> children;
-
-	/**
 	 * Constructor.
 	 * 
 	 * @param g
 	 *            The grid (passed to super constructor)
 	 * @param c
 	 *            The color of this agent (passed to super constructor)
-	 * @param isPrototype
-	 *            Is this a prototype agent from which all other agents of this
-	 *            type are made?
+	 * @param d
+	 *            The design for this agent (passed to super constructor)
 	 */
-	public Agent(Grid g, Color c, boolean isPrototype) {
-		super(g, c);
-
+	public Agent(Grid g, Color c, byte[] d) {
+		super(g, c, d);
 		triggers = new ArrayList<Trigger>();
-
-		if (isPrototype) {
-			children = new ArrayList<Agent>();
-			getFields().add(new Field("spawnCondition", "random"));
-		} else {
-			children = null;
-		}
-	}
-
-	/**
-	 * Clone constructor. Will create a deep clone with every instance variable
-	 * copied, not just references.
-	 * 
-	 * @param parent
-	 *            The parent from which to clone.
-	 */
-	public Agent(Agent parent, boolean isPrototype) {
-		super(parent.getGrid(), parent.getColor(), parent.getDesign());
-
-		triggers = new ArrayList<Trigger>();
-
-		for (Field f : parent.getFields()) {
-			getFields().add(new Field(f)); // copy all fields
-		}
-
-		for (Trigger t : parent.triggers) {
-			triggers.add(new Trigger(t)); // copy all triggers
-		}
-
-		if (isPrototype) {
-			children = new ArrayList<Agent>();
-		} else {
-			children = null;
-		}
 	}
 
 	/**
@@ -87,7 +45,6 @@ public class Agent extends GridEntity {
 	 * 
 	 * @throws Exception
 	 */
-	@Override
 	public void act(GridEntity local, GridEntity global) {
 		try {
 			for (Trigger t : triggers) {
@@ -107,35 +64,25 @@ public class Agent extends GridEntity {
 	}
 
 	/**
-	 * Clones this agent and puts it in the Grid's list of agents.
-	 */
-	public void cloneAgent() {
-		getGrid().spawnEntity(new Agent(this, false));
-	}
-
-	/**
-	 * Clones this agent and puts it in the environment's list of agents, then
-	 * prepares it to be a prototype agent.
-	 */
-	public void cloneAgentPrototype() {
-		getGrid().spawnEntity(new Agent(this, true));
-	}
-
-	/**
 	 * Removes this Agent from the environment's list.
 	 */
 	public void die() {
 		getGrid().removeEntity(this);
 	}
 
+	/**
+	 * Adds to the Agent's list of triggers
+	 * 
+	 * @param trigger
+	 *            The trigger to add
+	 */
 	public void addTrigger(Trigger trigger) {
 		triggers.add(trigger);
 		Collections.sort(triggers);
 	}
 
 	/**
-	 * Removes a trigger with the given priority (index in array list). If this
-	 * is the prototype Agent, will also remove the trigger from all children.
+	 * Removes a trigger with the given priority (index in array list)
 	 * 
 	 * @param priority
 	 *            The priority of the given trigger to remove.
@@ -143,11 +90,6 @@ public class Agent extends GridEntity {
 	public void removeTrigger(int priority) {
 		triggers.remove(triggers.get(priority));
 		Collections.sort(triggers);
-		if (children != null) {
-			for (Agent a : children) {
-				a.removeTrigger(priority);
-			}
-		}
 	}
 
 	/**

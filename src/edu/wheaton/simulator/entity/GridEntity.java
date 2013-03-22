@@ -70,8 +70,6 @@ public abstract class GridEntity extends Entity {
 		design = d;
 	}
 
-	public abstract void act(GridEntity local, GridEntity global);
-
 	/**
 	 * Returns the object's default color
 	 * 

@@ -15,6 +15,7 @@ import java.util.Iterator;
 import net.sourceforge.jeval.EvaluationException;
 
 import edu.wheaton.simulator.datastructure.Field;
+import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.GridEntity;
 import edu.wheaton.simulator.entity.Slot;
 
@@ -58,7 +59,7 @@ public class Grid implements Iterable<Slot> {
 		for (Slot[] sArr : grid)
 			for (Slot s : sArr)
 				if (s.getEntity() != null)
-					s.getEntity().act(null, null);
+					((Agent)(s.getEntity())).act(null, null);
 	}
 
 	/**

@@ -16,6 +16,7 @@ import java.util.Scanner;
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Behavior;
+import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
 
@@ -27,7 +28,7 @@ public class AgentDemo {
 
 		// Create a new Agent
 		System.out.println("Creating a new Agent");
-		Agent dog = new Agent(grid, Color.RED, true);
+		Prototype dog = new Prototype(grid, Color.RED);
 
 		// Add a field to this Agent
 		System.out.println("Specify Agent Fields:");

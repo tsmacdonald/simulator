@@ -48,15 +48,4 @@ public class Slot extends GridEntity {
 		return entity;
 	}
 
-	/**
-	 * Empty act method, since slots do not act
-	 * 
-	 * 
-	 */
-	@Override
-	public void act(GridEntity local, GridEntity global) {
-		// TODO Possible refactoring opportunity: empty method inherited from
-		// super class
-	}
-
 }
