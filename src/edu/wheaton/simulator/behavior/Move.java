@@ -48,9 +48,9 @@ public class Move implements Behavable {
 	public void act(Agent target) throws Exception {
 		int x = (int) (xExpr.evaluateDouble() + 0.5);
 		int y = (int) (yExpr.evaluateDouble() + 0.5);
-		if (global.getSlot(x, y).getEntity() == null) {
-			global.getSlot(x, y).setEntity(target);
-			global.getSlot(target.getPosX(), target.getPosY()).setEntity(null);
+		if (global.getSlot(x, y).getAgent() == null) {
+			global.getSlot(x, y).setAgent(target);
+			global.getSlot(target.getPosX(), target.getPosY()).setAgent(null);
 			target.setPos(x, y);
 		} else
 			throw new FullSlotException();

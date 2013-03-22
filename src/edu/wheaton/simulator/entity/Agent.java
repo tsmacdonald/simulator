@@ -19,6 +19,8 @@ import edu.wheaton.simulator.simulation.Grid;
 
 public class Agent extends GridEntity {
 
+	private AgentID id;
+	
 	/**
 	 * The list of all triggers/events associated with this agent.
 	 */
@@ -37,6 +39,7 @@ public class Agent extends GridEntity {
 	public Agent(Grid g, Color c, byte[] d) {
 		super(g, c, d);
 		triggers = new ArrayList<Trigger>();
+		id = new AgentID();
 	}
 
 	/**
@@ -67,7 +70,7 @@ public class Agent extends GridEntity {
 	 * Removes this Agent from the environment's list.
 	 */
 	public void die() {
-		getGrid().removeEntity(this);
+		getGrid().removeAgent(this);
 	}
 
 	/**
@@ -119,5 +122,9 @@ public class Agent extends GridEntity {
 	public void setPos(int x, int y) {
 		updateField("x", x);
 		updateField("y", y);
+	}
+	
+	public AgentID getID(){
+		return id;
 	}
 }

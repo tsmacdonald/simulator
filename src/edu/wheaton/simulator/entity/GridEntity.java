@@ -123,7 +123,7 @@ public abstract class GridEntity extends Entity {
 		return design;
 	}
 
-	public String getCategoryName() {
+	public String getProtypeName() {
 		// TODO: implement this.
 		throw new UnsupportedOperationException();
 	}

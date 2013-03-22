@@ -135,5 +135,13 @@ public class Prototype extends GridEntity {
 			a.removeTrigger(priority);
 		}
 	}
+	
+	/**
+	 * Provides a number of this children this prototype currently has.
+	 * @return The size of the children List
+	 */
+	public int childPopulation() {
+		return children.size();
+	}
 
 }

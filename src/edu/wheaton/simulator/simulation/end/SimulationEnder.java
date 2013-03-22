@@ -1,6 +1,10 @@
 package edu.wheaton.simulator.simulation.end;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.TreeMap;
+
+import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Slot;
@@ -15,7 +19,7 @@ public class SimulationEnder {
 
 	private static int TIME_CONDITION = 0;
 	private static int NO_AGENTS_CONDITION = 1;
-	private static int MSC_CONDITIONS = 2;
+	private static int POPULATION_CONDITIONS = 2;
 
 	private EndCondition[] conditions;
 
@@ -28,8 +32,7 @@ public class SimulationEnder {
 		NoAgentsCondition counter = new NoAgentsCondition();
 		conditions[TIME_CONDITION] = timer;
 		conditions[NO_AGENTS_CONDITION] = counter;
-		conditions[MSC_CONDITIONS] = new ConditionOrList(
-				new HashSet<EndCondition>());
+		conditions[POPULATION_CONDITIONS] = new AgentPopulationCondition(); 
 	}
 
 	public void setStepLimit(int maxSteps) {
@@ -85,7 +88,7 @@ public class SimulationEnder {
 		@Override
 		public boolean evaluate(int step, Grid grid) {
 			for (Slot s : grid) {
-				if (s.getEntity() != null)
+				if (s.getAgent() != null)
 					return false;
 			}
 			return true;
@@ -99,68 +102,61 @@ public class SimulationEnder {
 	 * @author daniel.gill
 	 */
 	private final class AgentPopulationCondition implements EndCondition {
+		//TODO: Change this to Prototype ID's after those exist. 
 		/**
-		 * The population which that category must not exceed.
+		 * The map where the names of prototypes 
 		 */
-		private int maxPop;
+		private TreeMap<String, Integer> popLimits; 
+
+		/**
+		 * Constructor. 
+		 */
+		public AgentPopulationCondition() { 
+			popLimits = new TreeMap<String, Integer>();
+		}
 		
 		/**
-		 * The name of the type or category of Agent.
+		 * Add a new population limit to the simulation. 
+		 * @param typeName The name of the category of agent. 
+		 * @param maxPop The population that category must not exceed. 
 		 */
-		private String typeName;
-
+		public void addPopLimit(String typeName, int maxPop) { 
+			popLimits.put(typeName, Integer.valueOf(maxPop)); 
+		}
+		
 		/**
-		 * Constructor.
-		 * 
-		 * @param typeName
-		 *            The name of the type or category of Agent.
-		 * @param maxPop
-		 *            The population which that category must not exceed.
+		 * Return a immutable map of 
+		 * @return
 		 */
-		public AgentPopulationCondition(String typeName, int maxPop) {
-			this.maxPop = maxPop;
-			this.typeName = typeName;
+		public ImmutableMap<String, Integer> getTypeMaxes() {
+			return new ImmutableMap.Builder<String, Integer>().putAll(popLimits).build();
 		}
 
-		// TODO: Implement this better so that it checks all categories simultaniously for each slot.
 		@Override
 		public boolean evaluate(int step, Grid grid) {
-			int pop = 0;
-			for (Slot s : grid) {
-				Agent a;
-				if ((a = (Agent) s.getEntity()) != null)
-					if (a.getCategoryName() == typeName)
-						pop++;
+			if (popLimits.size() < 1)
+				return false; 
+			
+			TreeMap<String, Integer> currentPopulations = 
+					new TreeMap<String, Integer>();
+			for (String currentCategory : popLimits.keySet())
+				currentPopulations.put(currentCategory, Integer.valueOf(0));
+			
+			for (Slot currentSlot : grid) { 
+				Agent currentAgent; 
+				if ((currentAgent = (Agent) currentSlot.getAgent()) != null) { 
+					String currentCategory = currentAgent.getProtypeName();
+					Integer currentLimit; 
+					if ((currentLimit = currentPopulations.get(currentCategory)) != null)
+						currentPopulations.put(currentCategory, currentLimit + 1); 
+				}
 			}
-			return pop >= maxPop;
+			
+			for (String currentCategory : currentPopulations.keySet())
+				if (currentPopulations.get(currentCategory) >= popLimits.get(currentCategory))
+					return true; 
+			
+			return false; 
 		}
-	}
-
-	/**
-	 * Abstractly represents a set of EndConditions as a Single set.
-	 * 
-	 * @author daniel.gill
-	 */
-	private final class ConditionOrList implements EndCondition {
-		private Iterable<EndCondition> conditions;
-
-		/**
-		 * Constructor.
-		 * 
-		 * @param conditions
-		 *            An iterable collection of conditions.
-		 */
-		public ConditionOrList(Iterable<EndCondition> conditions) {
-			this.conditions = conditions;
-		}
-
-		@Override
-		public boolean evaluate(int step, Grid grid) {
-			for (EndCondition condition : conditions)
-				if (condition.evaluate(step, grid))
-					return true;
-			return false;
-		}
-
 	}
 }
