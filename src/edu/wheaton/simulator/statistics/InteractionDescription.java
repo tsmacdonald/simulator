@@ -7,4 +7,6 @@ public class InteractionDescription {
 	public InteractionDescription() {
 		deets = "I did something";
 	}
+	
+
 }
