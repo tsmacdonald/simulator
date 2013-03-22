@@ -25,8 +25,8 @@ public class ViewSimScreen extends Screen {
 	 */
 	private static final long serialVersionUID = -6872689283286800861L;
 
-	public ViewSimScreen(SimulatorMenu m) {
-		this.menu = m;
+	public ViewSimScreen(ScreenManager sm) {
+		super(sm);
 		this.setLayout(new BorderLayout());
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 		JPanel panel = new JPanel();
@@ -45,7 +45,7 @@ public class ViewSimScreen extends Screen {
 		this.setVisible(true);
 	}
 
-	@Override
+
 	public void addComponents(JPanel panel) {
 		// TODO Auto-generated method stub
 

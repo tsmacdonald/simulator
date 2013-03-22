@@ -45,20 +45,20 @@ public class SimulatorMenu extends JFrame {
 		panel = new JPanel();
 		this.add(panel);
 		// create and add screens to HashMap
-		screens = new HashMap<String, Screen>();
-		screens.put("title", new TitleScreen(this));
-		screens.put("editSim", new EditSimScreen(this));
-		screens.put("fields", new FieldScreen(this));
-		screens.put("editField", new EditFieldScreen(this));
-		screens.put("entities", new EntityScreen(this));
-		screens.put("editEntity", new EditEntityScreen(this));
-		screens.put("spawning", new SpawningScreen(this));
-		screens.put("viewSim", new ViewSimScreen(this));
-		screens.put("statistics", new StatisticsScreen(this));
+//		screens = new HashMap<String, Screen>();
+//		screens.put("title", new TitleScreen(this));
+//		screens.put("editSim", new EditSimScreen(this));
+//		screens.put("fields", new FieldScreen(this));
+//		screens.put("editField", new EditFieldScreen(this));
+//		screens.put("entities", new EntityScreen(this));
+//		screens.put("editEntity", new EditEntityScreen(this));
+//		screens.put("spawning", new SpawningScreen(this));
+//		screens.put("viewSim", new ViewSimScreen(this));
+//		screens.put("statistics", new StatisticsScreen(this));
 
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		panel.add(screens.get("title"));
-		screens.get("title").addComponents(panel);
+		//screens.get("title").addComponents(panel);
 		panel.setVisible(true);
 		this.setVisible(true);
 
