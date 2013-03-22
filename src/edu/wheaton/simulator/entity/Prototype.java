@@ -135,5 +135,13 @@ public class Prototype extends GridEntity {
 			a.removeTrigger(priority);
 		}
 	}
+	
+	/**
+	 * Provides a list of this prototype's children
+	 * @return A list of Agents
+	 */
+	public List<Agent> getChildren() {
+		return children;
+	}
 
 }
