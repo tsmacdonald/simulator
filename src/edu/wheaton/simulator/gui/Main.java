@@ -11,6 +11,7 @@
 package edu.wheaton.simulator.gui;
 
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 public class Main {
 
@@ -18,6 +19,14 @@ public class Main {
 		SwingUtilities.invokeLater(new Thread(new Runnable() {
 			@Override
 			public void run() {
+				try {
+					UIManager.setLookAndFeel(
+						UIManager.getSystemLookAndFeelClassName());
+				}
+				catch(Exception e) {
+					System.err.println("L&F trouble.");
+					e.printStackTrace();
+				}
 				DisplayManager dm = DisplayManager.getInstance(new Display());
 				if (dm == null)
 					System.exit(0);
