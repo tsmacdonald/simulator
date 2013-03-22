@@ -42,17 +42,16 @@ public abstract class GridEntity extends Entity {
 	public GridEntity(Grid g, Color c) {
 		super();
 		grid = g;
-		
+
 		try {
 			addField("colorRed", new Integer(c.getRed()));
 			addField("colorBlue", new Integer(c.getBlue()));
 			addField("colorGreen", new Integer(c.getGreen()));
-			addField("x",0);
-			addField("y",0);
+			addField("x", 0);
+			addField("y", 0);
+		} catch (ElementAlreadyContainedException e) {
+			e.printStackTrace();
 		}
-	    catch (ElementAlreadyContainedException e) {
-	    	e.printStackTrace();
-	    }
 
 		design = new byte[8];
 		for (int i = 0; i < 8; i++)
@@ -72,15 +71,14 @@ public abstract class GridEntity extends Entity {
 	public GridEntity(Grid g, Color c, byte[] d) {
 		super();
 		grid = g;
-		
+
 		try {
 			addField("colorRed", new Integer(c.getRed()));
 			addField("colorBlue", new Integer(c.getBlue()));
 			addField("colorGreen", new Integer(c.getGreen()));
+		} catch (ElementAlreadyContainedException e) {
+			e.printStackTrace();
 		}
-	    catch (ElementAlreadyContainedException e) {
-	    	e.printStackTrace();
-	    }
 
 		design = d;
 	}
@@ -100,13 +98,14 @@ public abstract class GridEntity extends Entity {
 	 * Layer object. Returns null if the entity does not contain the Field.
 	 * 
 	 * @return The specific Color to represent the value of this entity's Field
-	 * @throws EvaluationException 
+	 * @throws EvaluationException
 	 */
 	public Color getLayerColor() throws EvaluationException {
-		
+
 		Field field = getField(Layer.getInstance().getFieldName());
-		if(field==null)
-			throw new NoSuchElementException("Entity.getLayerColor() could not find a valid field for return");
+		if (field == null)
+			throw new NoSuchElementException(
+					"Entity.getLayerColor() could not find a valid field for return");
 		return Layer.getInstance().newShade(field);
 	}
 
@@ -125,8 +124,8 @@ public abstract class GridEntity extends Entity {
 	}
 
 	public String getCategoryName() {
-		//TODO: implement this. 
-		throw new UnsupportedOperationException(); 
+		// TODO: implement this.
+		throw new UnsupportedOperationException();
 	}
 
 	protected Grid getGrid() {

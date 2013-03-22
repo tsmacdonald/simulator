@@ -36,7 +36,7 @@ public class GUIToAgentFacade {
 	}
 
 	/**
-	 * Adds a Prototype to the 
+	 * Adds a Prototype to the
 	 * 
 	 * @param n
 	 * @param g
@@ -57,7 +57,7 @@ public class GUIToAgentFacade {
 	public void createPrototype(String n, Grid g, Color c, byte[] d) {
 		Prototype.addPrototype(n, new Prototype(g, c, d));
 	}
-	
+
 	/**
 	 * Returns the Prototype that corresponds to the given string.
 	 * 
@@ -67,7 +67,7 @@ public class GUIToAgentFacade {
 	public Prototype getPrototype(String n) {
 		return Prototype.getPrototype(n);
 	}
-	
+
 	/**
 	 * Gets a Set of the prototype names
 	 * 
@@ -76,14 +76,14 @@ public class GUIToAgentFacade {
 	public Set<String> prototypeNames() {
 		return Prototype.prototypeNames();
 	}
-	
+
 	/**
 	 * Causes all entities in the grid to act()
 	 */
 	public void updateEntities() {
 		grid.updateEntities();
 	}
-	
+
 	/**
 	 * Adds the given entity at the closest free spot to the spawn position.
 	 * The search for an open spot begins at the given x/y and then spirals
@@ -101,7 +101,7 @@ public class GUIToAgentFacade {
 		Agent toAdd = getPrototype(prototypeName).clonePrototype();
 		return grid.spawnEntity(toAdd, spawnX, spawnY);
 	}
-	
+
 	/**
 	 * Adds the given entity to a random (but free) position.
 	 * 
@@ -112,7 +112,7 @@ public class GUIToAgentFacade {
 		Agent toAdd = getPrototype(prototypeName).clonePrototype();
 		return grid.spawnEntity(toAdd);
 	}
-	
+
 	/**
 	 * Returns the Entity in the slot at the given coordinates
 	 * 
@@ -122,7 +122,7 @@ public class GUIToAgentFacade {
 	public GridEntity getEntity(int x, int y) {
 		return grid.getEntity(x, y);
 	}
-	
+
 	/**
 	 * Removes a Entity from the slot at the given coordinates
 	 * 
@@ -132,7 +132,7 @@ public class GUIToAgentFacade {
 	public void removeEntity(int x, int y) {
 		grid.removeEntity(x, y);
 	}
-	
+
 	/**
 	 * Removes the given entity from the grid.
 	 * 
@@ -155,18 +155,19 @@ public class GUIToAgentFacade {
 	public void newLayer(String fieldName, Color c) {
 		grid.newLayer(fieldName, c);
 	}
-	
+
 	/**
-	 * Loops through the grid and set's the Layer's min/max values. This must be done
-	 * before a Layer is shown. Usually every step if the Layer is being displayed.
-	 * PRECONDITION: The newLayer method has been called to setup a layer
+	 * Loops through the grid and set's the Layer's min/max values. This must
+	 * be done before a Layer is shown. Usually every step if the Layer is
+	 * being displayed. PRECONDITION: The newLayer method has been called to
+	 * setup a layer
 	 * 
 	 * @throws EvaluationException
 	 */
 	public void setLayerExtremes() throws EvaluationException {
 		grid.setLayerExtremes();
 	}
-	
+
 	/**
 	 * TODO GUI Team: feel free to add method stubs and we will implement them.
 	 */

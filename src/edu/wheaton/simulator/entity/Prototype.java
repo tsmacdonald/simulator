@@ -57,14 +57,14 @@ public class Prototype extends GridEntity {
 	 * @param c
 	 *            The color of this prototype (passed to super constructor)
 	 * @param d
-	 * 			  The bitmask of this prototype (passed to super constructor)
+	 *            The bitmask of this prototype (passed to super constructor)
 	 */
 	public Prototype(Grid g, Color c, byte[] d) {
 		super(g, c, d);
 		triggers = new ArrayList<Trigger>();
 		children = new ArrayList<Agent>();
 	}
-	
+
 	/**
 	 * Adds a Prototype to the HashMap
 	 * 
@@ -75,7 +75,7 @@ public class Prototype extends GridEntity {
 	public static void addPrototype(String n, Prototype p) {
 		prototypes.put(n, p);
 	}
-	
+
 	/**
 	 * Returns the Prototype that corresponds to the given string.
 	 * 
@@ -85,7 +85,7 @@ public class Prototype extends GridEntity {
 	public static Prototype getPrototype(String n) {
 		return prototypes.get(n);
 	}
-	
+
 	/**
 	 * Gets a Set of the prototype names
 	 * 
@@ -97,8 +97,8 @@ public class Prototype extends GridEntity {
 
 	/**
 	 * Does a deep clone of this prototype and returns it as an Agent.
-	 * @return
-	 * 			  The clone of this prototype
+	 * 
+	 * @return The clone of this prototype
 	 */
 	public Agent clonePrototype() {
 		Agent clone = new Agent(getGrid(), getColor(), getDesign());
@@ -106,9 +106,9 @@ public class Prototype extends GridEntity {
 		// copy all fields
 		clone.getFieldMap().putAll(this.getFieldMap());
 
-        // copy all triggers
-		for (Trigger t : triggers) 
-			clone.addTrigger(new Trigger(t)); 
+		// copy all triggers
+		for (Trigger t : triggers)
+			clone.addTrigger(new Trigger(t));
 
 		children.add(clone);
 		return clone;

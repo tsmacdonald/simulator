@@ -59,7 +59,7 @@ public class Grid implements Iterable<Slot> {
 		for (Slot[] sArr : grid)
 			for (Slot s : sArr)
 				if (s.getEntity() != null)
-					((Agent)(s.getEntity())).act(null, null);
+					((Agent) (s.getEntity())).act(null, null);
 	}
 
 	/**
