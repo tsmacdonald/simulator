@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -90,14 +91,17 @@ public class NewSimulationScreen extends Screen {
 			heightInt = Integer.parseInt(height.getText());
 			widthInt = Integer.parseInt(width.getText());
 			JPanel[][] grid = new JPanel[heightInt][widthInt];
+			/*
+			 * Grid is formatted like the first quadrant of the Cartesian Plane. So bottom left corner is (0,0) 
+			 */
 			for (int j = 0; j < widthInt; j++)
 	            for (int i = 0; i < heightInt; i++) {
 	                grid[i][j] = new JPanel();
-	                grid[i][j].setBackground(Color.WHITE);
+	                grid[i][j].setOpaque(false);
+	                grid[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
 	            }
-			grid[2][2].setBackground(Color.BLACK);
-			grid[3][1].setBackground(Color.BLUE);
-			grid[1][1].setBackground(Color.YELLOW);
+			grid[4][4].setOpaque(true);
+			grid[4][4].setBackground(Color.BLACK);
 
 			sm.setGrid(grid);
 			((ViewSimScreen)sm.getScreen("View Simulation")).createGrid(grid);
