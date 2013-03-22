@@ -12,7 +12,9 @@ package edu.wheaton.simulator.entity;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import edu.wheaton.simulator.simulation.Grid;
 
@@ -22,6 +24,11 @@ public class Prototype extends GridEntity {
 	 * The list of all Agent children of this Prototype
 	 */
 	private List<Agent> children;
+
+	/**
+	 * HashMap of Prototypes with associated names
+	 */
+	private static HashMap<String, Prototype> prototypes = new HashMap<String, Prototype>();;
 
 	/**
 	 * The list of all triggers/events associated with this prototype.
@@ -57,6 +64,36 @@ public class Prototype extends GridEntity {
 		triggers = new ArrayList<Trigger>();
 		children = new ArrayList<Agent>();
 	}
+	
+	/**
+	 * Adds a Prototype to the HashMap
+	 * 
+	 * @param n
+	 * @param g
+	 * @param c
+	 */
+	public static void addPrototype(String n, Prototype p) {
+		prototypes.put(n, p);
+	}
+	
+	/**
+	 * Returns the Prototype that corresponds to the given string.
+	 * 
+	 * @param n
+	 * @return
+	 */
+	public static Prototype getPrototype(String n) {
+		return prototypes.get(n);
+	}
+	
+	/**
+	 * Gets a Set of the prototype names
+	 * 
+	 * @return
+	 */
+	public static Set<String> prototypeNames() {
+		return prototypes.keySet();
+	}
 
 	/**
 	 * Does a deep clone of this prototype and returns it as an Agent.
@@ -64,16 +101,17 @@ public class Prototype extends GridEntity {
 	 * 			  The clone of this prototype
 	 */
 	public Agent clonePrototype() {
-		Agent toReturn = new Agent(getGrid(), getColor(), getDesign());
-		
-		// copy all fields
-		toReturn.getFieldMap().putAll(this.getFieldMap());
+		Agent clone = new Agent(getGrid(), getColor(), getDesign());
 
-		for (Trigger t : triggers) {
-			toReturn.addTrigger(new Trigger(t)); // copy all triggers
-		}
-		
-		return toReturn;
+		// copy all fields
+		clone.getFieldMap().putAll(this.getFieldMap());
+
+        // copy all triggers
+		for (Trigger t : triggers) 
+			clone.addTrigger(new Trigger(t)); 
+
+		children.add(clone);
+		return clone;
 	}
 
 	public void addTrigger(Trigger trigger) {

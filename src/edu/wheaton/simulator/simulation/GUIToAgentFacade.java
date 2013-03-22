@@ -9,8 +9,6 @@
 package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Set;
 
 import net.sourceforge.jeval.EvaluationException;
@@ -19,19 +17,13 @@ import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.GridEntity;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.entity.Slot;
 
-public class GUIToAgentFacade implements Iterable<String>{
+public class GUIToAgentFacade {
 
 	/**
 	 * The Grid to hold all the Agents
 	 */
 	private Grid grid;
-
-	/**
-	 * HashMap of Prototypes with associated names
-	 */
-	private HashMap<String, Prototype> prototypes;
 
 	/**
 	 * Constructor.
@@ -41,18 +33,17 @@ public class GUIToAgentFacade implements Iterable<String>{
 	 */
 	public GUIToAgentFacade(int gridX, int gridY) {
 		grid = new Grid(gridX, gridY);
-		prototypes = new HashMap<String, Prototype>();
 	}
 
 	/**
-	 * Adds a Prototype to the HashMap
+	 * Adds a Prototype to the 
 	 * 
 	 * @param n
 	 * @param g
 	 * @param c
 	 */
-	public void addPrototype(String n, Grid g, Color c) {
-		prototypes.put(n, new Prototype(g, c));
+	public void createPrototype(String n, Grid g, Color c) {
+		Prototype.addPrototype(n, new Prototype(g, c));
 	}
 
 	/**
@@ -63,8 +54,8 @@ public class GUIToAgentFacade implements Iterable<String>{
 	 * @param c
 	 * @param d
 	 */
-	public void addPrototype(String n, Grid g, Color c, byte[] d) {
-		prototypes.put(n, new Prototype(g, c, d));
+	public void createPrototype(String n, Grid g, Color c, byte[] d) {
+		Prototype.addPrototype(n, new Prototype(g, c, d));
 	}
 	
 	/**
@@ -74,7 +65,7 @@ public class GUIToAgentFacade implements Iterable<String>{
 	 * @return
 	 */
 	public Prototype getPrototype(String n) {
-		return prototypes.get(n);
+		return Prototype.getPrototype(n);
 	}
 	
 	/**
@@ -83,7 +74,7 @@ public class GUIToAgentFacade implements Iterable<String>{
 	 * @return
 	 */
 	public Set<String> prototypeNames() {
-		return prototypes.keySet();
+		return Prototype.prototypeNames();
 	}
 	
 	/**
@@ -167,7 +158,7 @@ public class GUIToAgentFacade implements Iterable<String>{
 	
 	/**
 	 * Loops through the grid and set's the Layer's min/max values. This must be done
-	 * before a Layer is shown.
+	 * before a Layer is shown. Usually every step if the Layer is being displayed.
 	 * PRECONDITION: The newLayer method has been called to setup a layer
 	 * 
 	 * @throws EvaluationException
