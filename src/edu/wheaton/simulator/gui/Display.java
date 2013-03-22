@@ -9,12 +9,9 @@
 
 package edu.wheaton.simulator.gui;
 
-import java.awt.FlowLayout;
-import java.awt.LayoutManager;
+import java.awt.*;
 
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /**
  * This class will act as the singular JFrame window for the interface, with

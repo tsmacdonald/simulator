@@ -76,14 +76,11 @@ public class AgentStateCondition extends EndCondition {
 		Iterator<Slot> it = this.getGrid().iterator();
 
 		// TODO: Get the Agent team to add names to Agents
-		// TODO: Get the Agent team to get the Field class figured out and
-		// provide a means for accessing a Field's value
 		while (it.hasNext()) {
 			Slot s = it.next();
 
 			if (s.getEntity().getName().equals(agentName)) {
-				if (s.getEntity().getField(fieldName).getValue()
-						.equals(targetVal)) {
+				if (s.getEntity().getFieldValue(fieldName).equals(targetVal)) {
 					count++;
 				}
 

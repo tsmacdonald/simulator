@@ -11,10 +11,7 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 public class TitleScreen extends Screen {
 
@@ -47,7 +44,7 @@ public class TitleScreen extends Screen {
 		if (e.getActionCommand().equalsIgnoreCase("New Simulation")) {
 			sm.update(sm.getScreen("New Simulation"));
 		} else if (e.getActionCommand().equalsIgnoreCase("Load Simulation")) {
-			// TODO
+			// TODO empty else-if
 		}
 	}
 }

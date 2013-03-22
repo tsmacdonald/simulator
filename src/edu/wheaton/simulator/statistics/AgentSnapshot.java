@@ -2,8 +2,6 @@ package edu.wheaton.simulator.statistics;
 
 import java.util.HashMap;
 
-import edu.wheaton.simulator.entity.EntityID;
-
 /**
  * A class representing all the information to track from agents in the game.
  * 
@@ -32,10 +30,10 @@ public class AgentSnapshot extends EntitySnapshot {
 	 * @param interaction
 	 *            the interaction details for this snapshot
 	 */
-	public AgentSnapshot(EntityID id, HashMap<String, FieldSnapshot> fields,
+	public AgentSnapshot(Integer entityID, HashMap<String, FieldSnapshot> fields,
 			Integer step, EntityPrototypeSnapshot prototype,
 			InteractionDescription interaction) {
-		super(id, fields, step, prototype);
+		super(entityID, fields, step, prototype);
 		this.interaction = interaction;
 	}
 

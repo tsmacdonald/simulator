@@ -48,15 +48,6 @@ public class Field {
 	}
 
 	/**
-	 * @param v
-	 *            The new String value to set this field to.
-	 * @throws StringFormatMismatchException
-	 */
-	public void setValue(Object v) {
-		value = v.toString();
-	}
-
-	/**
 	 * @return The string representation of this field. Note: easily parsed
 	 *         with toString().split(":")
 	 */

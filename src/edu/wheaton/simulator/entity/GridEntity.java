@@ -51,7 +51,6 @@ public abstract class GridEntity extends Entity {
 			addField("y",0);
 		}
 	    catch (ElementAlreadyContainedException e) {
-		// TODO Auto-generated catch block
 	    	e.printStackTrace();
 	    }
 
@@ -80,7 +79,6 @@ public abstract class GridEntity extends Entity {
 			addField("colorGreen", new Integer(c.getGreen()));
 		}
 	    catch (ElementAlreadyContainedException e) {
-		// TODO Auto-generated catch block
 	    	e.printStackTrace();
 	    }
 

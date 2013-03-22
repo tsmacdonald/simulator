@@ -122,8 +122,7 @@ public class SimulationEnder {
 			this.typeName = typeName;
 		}
 
-		// TODO: Implement this better so that it checks all categories
-		// simultaniously for each slot.
+		// TODO: Implement this better so that it checks all categories simultaniously for each slot.
 		@Override
 		public boolean evaluate(int step, Grid grid) {
 			int pop = 0;
