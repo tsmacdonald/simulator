@@ -137,11 +137,11 @@ public class Prototype extends GridEntity {
 	}
 	
 	/**
-	 * Provides a list of this prototype's children
-	 * @return A list of Agents
+	 * Provides a number of this children this prototype currently has.
+	 * @return The size of the children List
 	 */
-	public List<Agent> getChildren() {
-		return children;
+	public int childPopulation() {
+		return children.size();
 	}
 
 }
