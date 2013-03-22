@@ -11,20 +11,16 @@ public class ScreenManager {
 	public ScreenManager(DisplayManager dm) {
 		screens = new HashMap<String, Screen>();
 		this.dm = dm;
-		/**
-		 * screens.put("editSim", new EditSimScreen(menu));
-		 * screens.put("fields", new FieldScreen(menu));
-		 * screens.put("editField", new EditFieldScreen(menu));
-		 * screens.put("entities", new EntityScreen(menu));
-		 * screens.put("editEntity", new EditEntityScreen(menu));
-		 * screens.put("spawning", new SpawningScreen(menu));
-		 * screens.put("viewSim", new ViewSimScreen(menu));
-		 * screens.put("statistics", new StatisticsScreen(menu));
-		 */
 		screens.put("Title", new TitleScreen(this));
 		screens.put("New Simulation", new NewSimulationScreen(this));
 		screens.put("Edit Simulation", new EditSimScreen(this));
 		screens.put("Fields", new FieldScreen(this));
+		screens.put("Edit Fields", new EditFieldScreen(this));
+		screens.put("Entities", new EntityScreen(this));
+		screens.put("Edit Entities", new EditEntityScreen(this));
+		screens.put("Spawning", new SpawningScreen(this));
+		screens.put("View Simulation", new ViewSimScreen(this));
+		screens.put("Statistics", new StatisticsScreen(this));
 	}
 
 	public Screen getScreen(String screenName) {

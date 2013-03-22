@@ -19,6 +19,9 @@ public class SimulationEnder {
 
 	private EndCondition[] conditions;
 
+	/**
+	 * Constructor. 
+	 */
 	public SimulationEnder() {
 		conditions = new EndCondition[3];
 		TimeCondition timer = new TimeCondition(0);
@@ -127,7 +130,7 @@ public class SimulationEnder {
 			for (Slot s : grid) {
 				Agent a;
 				if ((a = (Agent) s.getEntity()) != null)
-					if (a.getCategoryName() != typeName)
+					if (a.getCategoryName() == typeName)
 						pop++;
 			}
 			return pop >= maxPop;

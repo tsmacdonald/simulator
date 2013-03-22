@@ -14,44 +14,34 @@ public class NewSimulationScreen extends Screen {
 
 	private static final long serialVersionUID = 1L;
 
-	private JLabel label;
-
-	private JPanel simPanel;
-
-	private JButton finishButton;
-
 	private JTextField name;
 
 	private JTextField height;
 
 	private JTextField width;
 
-	private JLabel nameLabel;
+	private String nameString;
 
-	private JLabel heightLabel;
+	private int heightInt;
 
-	private JLabel widthLabel;
-
-	public String nameString;
-
-	public int heightInt;
-
-	public int widthInt;
+	private int widthInt;
 
 	public NewSimulationScreen(ScreenManager sm) {
 		super(sm);
-		label = new JLabel("New Simulation");
+		JLabel label = new JLabel("New Simulation");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setHorizontalTextPosition(SwingConstants.CENTER);
-		simPanel = new JPanel(new GridLayout(3, 2));
-		finishButton = new JButton("Finish");
+		this.add(label);
+		JPanel simPanel = new JPanel(new GridLayout(3, 2));
+		JButton finishButton = new JButton("Finish");
 		finishButton.addActionListener(this);
+		this.add(finishButton);
 		name = new JTextField(25);
 		height = new JTextField(25);
 		width = new JTextField(25);
-		nameLabel = new JLabel("Name:");
-		heightLabel = new JLabel("Height:");
-		widthLabel = new JLabel("Width");
+		JLabel nameLabel = new JLabel("Name:");
+		JLabel heightLabel = new JLabel("Height:");
+		JLabel widthLabel = new JLabel("Width");
 		simPanel.add(nameLabel);
 		simPanel.add(name);
 		simPanel.add(heightLabel);
@@ -59,11 +49,9 @@ public class NewSimulationScreen extends Screen {
 		simPanel.add(widthLabel);
 		simPanel.add(width);
 		simPanel.setVisible(true);
-		this.layout = new GridLayout(3, 1);
-		components = new JComponent[3];
-		components[0] = label;
-		components[1] = simPanel;
-		components[2] = finishButton;
+		this.setLayout(new GridLayout(3,1));
+		this.add(simPanel);
+		this.setVisible(true);
 	}
 
 	@Override

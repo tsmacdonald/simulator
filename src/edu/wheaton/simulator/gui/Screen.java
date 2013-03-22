@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * Each window will have its own subclass of this abstract class, and one
@@ -23,27 +24,14 @@ import javax.swing.JLabel;
  * things like loading information for objects to be edited, as well as
  * instance variables to hold those objects, if necessary.
  */
-public abstract class Screen extends JComponent implements ActionListener {
+public abstract class Screen extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = -720613104216646508L;
 
-	protected LayoutManager layout;
 	protected ScreenManager sm;
-	protected JComponent[] components;
-	protected JLabel label;
 	
 	public Screen(ScreenManager sm) {
 		this.sm = sm;
-	}
-
-	@Override
-	public JComponent[] getComponents() {
-		return components;
-	}
-
-	@Override
-	public LayoutManager getLayout() {
-		return layout;
 	}
 
 	public abstract void sendInfo();

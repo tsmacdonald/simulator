@@ -22,15 +22,11 @@ public class SpawningScreen extends Screen {
 	 */
 	private static final long serialVersionUID = 6312784326472662829L;
 
-	public SpawningScreen(SimulatorMenu m) {
-		this.menu = m;
-
-		// placeholder screen components
-		this.add(new JLabel("Spawning"));
-		this.setVisible(true);
+	public SpawningScreen(ScreenManager sm) {
+		super(sm);
+		//TODO finish this
 	}
 
-	@Override
 	public void addComponents(JPanel panel) {
 		// TODO Auto-generated method stub
 
