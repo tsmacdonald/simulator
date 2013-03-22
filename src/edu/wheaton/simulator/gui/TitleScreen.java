@@ -31,6 +31,10 @@ public class TitleScreen extends Screen {
 		// Since serialization is not yet implemented.
 		loadSim.setEnabled(false);
 		loadSim.addActionListener(this);
+		this.add(label);
+		this.add(newSim);
+		this.add(loadSim);
+		this.setVisible(true);
 	}
 
 	@Override
