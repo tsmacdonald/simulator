@@ -66,10 +66,9 @@ public class Prototype extends GridEntity {
 	 */
 	public Agent clonePrototype() {
 		Agent toReturn = new Agent(getGrid(), getColor(), getDesign());
-
-		for (Field f : getFields()) {
-			toReturn.getFields().add(new Field(f)); // copy all fields
-		}
+		
+		// copy all fields
+		toReturn.getFieldMap().putAll(this.getFieldMap());
 
 		for (Trigger t : triggers) {
 			toReturn.addTrigger(new Trigger(t)); // copy all triggers

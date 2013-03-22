@@ -1,27 +1,25 @@
 package edu.wheaton.simulator.entity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Field;
-import edu.wheaton.simulator.datastructure.StringFormatMismatchException;
 
 public class Entity {
 
 	/**
 	 * The list of all fields (variables) associated with this agent.
 	 */
-	private List<Field> fields;
+	private Map<String,String> fields;
 	private EntityID id;
+	
 	private static Map<EntityID, Entity> database = new HashMap<EntityID, Entity>();
 
 	public Entity() {
 		id = EntityID.genID(this);
-		fields = new ArrayList<Field>();
+		fields = new HashMap<String,String>();
 		database.put(id, this);
 	}
 
@@ -37,52 +35,51 @@ public class Entity {
 	 * Note that if a field already exists for this agent with the same name as
 	 * the new candidate, it won't be added and will instead throw an
 	 * exception.
-	 * 
-	 * @param s
-	 *            The text representation of this field.
-	 * @throws ElementAlreadyContainedException
-	 * @throws StringFormatMismatchException
+	 * @throws ElementAlreadyContainedException 
 	 */
-	public void addField(String name, String value)
-			throws ElementAlreadyContainedException, Exception {
-
-		// Check to see if it's contained.
-		Field contained = null;
-		for (Field f : fields) {
-			if (f.getName().equals(name)) {
-				contained = f;
-				break;
-			}
-		}
-		if (contained != null)
+	public void addField(Object name, Object value) throws ElementAlreadyContainedException{
+		if (fields.containsKey(name.toString()))
 			throw new ElementAlreadyContainedException();
-		fields.add(new Field(name, value));
+		fields.put(name.toString(),value.toString());
+	}
+	
+	/*
+	 * if the entity has a field by that name it updates
+	 * it's value. Otherwise throws NoSuchElementException()
+	 * 
+	 * @return returns the old field
+	 * 
+	 */
+	public Field updateField(Object name, Object value){
+		if(fields.containsKey(name.toString())==false)
+			throw new NoSuchElementException();
+		String oldvalue = fields.put(name.toString(), value.toString());
+		return new Field(name,oldvalue);
 	}
 
 	/**
-	 * Removes a field from this Entity.
-	 * 
-	 * @param name
+	 * Removes a field from this Entity and returns it.
 	 */
-	public void removeField(String name) {
-		for (Field f : fields) {
-			if (f.getName().equals(name)) {
-				fields.remove(f);
-				break;
-			}
-		}
+	public Field removeField(Object name) {
+		if(fields.containsKey(name.toString())==false)
+			throw new NoSuchElementException();
+		String value = fields.remove(name.toString());
+		return new Field(name,value);
 	}
 
-	public Field getField(String name) {
-		for (Field f : fields) {
-			if (f.getName().equals(name)) {
-				return f;
-			}
-		}
-		throw new NoSuchElementException();
+	public Field getField(Object name) {
+		if(fields.containsKey(name.toString())==false)
+			throw new NoSuchElementException();
+		return new Field(name.toString(),fields.get(name.toString()));
+	}
+	
+	public String getFieldValue(Object name){
+		if(fields.containsKey(name.toString())==false)
+			throw new NoSuchElementException();
+		return fields.get(name.toString());
 	}
 
-	public List<Field> getFields() {
+	public Map<String,String> getFieldMap() {
 		return fields;
 	}
 

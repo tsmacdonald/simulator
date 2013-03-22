@@ -2,6 +2,7 @@ package edu.wheaton.simulator.statistics;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Agent;
@@ -34,17 +35,17 @@ public class SnapshotFactory {
 		/**
 		 * all the fields of the agent
 		 */
-		List<Field> entityFields = entity.getFields();
+		Map<String,String> entityFields = entity.getFieldMap();
 
 		/*
 		 * map of the fields to save in entitySnapShot
 		 */
 		HashMap<String, FieldSnapshot> fieldsForSnap = new HashMap<String, FieldSnapshot>();
 
-		for (Field currentField : entityFields) {
-			FieldSnapshot snap = new FieldSnapshot(currentField.getName(),
-					currentField.getValue());
-			fieldsForSnap.put(currentField.getName(), snap);
+		for (String fieldName : entityFields.keySet()) {
+			FieldSnapshot snap = new FieldSnapshot(fieldName,
+					entityFields.get(fieldName));
+			fieldsForSnap.put(fieldName, snap);
 		}
 
 		/*
