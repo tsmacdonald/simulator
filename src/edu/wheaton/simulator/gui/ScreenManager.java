@@ -1,12 +1,15 @@
 package edu.wheaton.simulator.gui;
 
 import java.util.HashMap;
+import javax.swing.JPanel;
 
 public class ScreenManager {
 
 	private HashMap<String, Screen> screens;
 
 	private DisplayManager dm;
+	
+	private JPanel[][] grid;
 
 	public ScreenManager(DisplayManager dm) {
 		screens = new HashMap<String, Screen>();
@@ -31,4 +34,12 @@ public class ScreenManager {
 	public void update(Screen update) {
 		dm.updateScreen(update);
 	}
+	
+	public void setGrid(JPanel[][] grid){
+		this.grid = grid;
+	}
+	
+	public JPanel[][] getGrid(){
+		return grid;
+	};
 }

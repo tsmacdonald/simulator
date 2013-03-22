@@ -5,13 +5,14 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
+
 /**
  * A class representing all the information to track from slots in the game.
  * 
  * @author Akon, Daniel Gill
  * 
  */
-public class SlotSnapshot extends EntitySnapshot {
+class SlotSnapshot extends EntitySnapshot {
 
 	/**
 	 * How many agents are occupying this slot

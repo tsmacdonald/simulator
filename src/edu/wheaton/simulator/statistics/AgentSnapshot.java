@@ -2,13 +2,14 @@ package edu.wheaton.simulator.statistics;
 
 import java.util.HashMap;
 
+
 /**
  * A class representing all the information to track from agents in the game.
  * 
  * @author Akon
  * 
  */
-public class AgentSnapshot extends EntitySnapshot {
+class AgentSnapshot extends EntitySnapshot {
 
 	/**
 	 * This Class and variable should provide details of this agent's most

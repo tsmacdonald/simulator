@@ -7,6 +7,7 @@ import java.util.Map;
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.GridEntity;
+import edu.wheaton.simulator.statistics.EntityObserver;
 
 /**
  * This class will create the Snapshots to be put into the Database
