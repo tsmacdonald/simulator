@@ -49,8 +49,7 @@ public class Expression implements ExpressionEvaluator {
 				return null;
 			}
 			try {
-				String toReturn = target.getField(fieldName).getValue()
-						.toString();
+				String toReturn = target.getFieldValue(fieldName);
 				return toReturn;
 			} catch (NoSuchElementException e) {
 				System.err.println("##NoSuchElementException thrown##");

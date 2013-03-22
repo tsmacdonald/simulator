@@ -80,8 +80,7 @@ public class AgentStateCondition extends EndCondition {
 			Slot s = it.next();
 
 			if (s.getEntity().getName().equals(agentName)) {
-				if (s.getEntity().getField(fieldName).getValue()
-						.equals(targetVal)) {
+				if (s.getEntity().getFieldValue(fieldName).equals(targetVal)) {
 					count++;
 				}
 
