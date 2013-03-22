@@ -1,7 +1,6 @@
 package edu.wheaton.simulator.simulation.end;
 
 import java.util.HashSet;
-import java.util.concurrent.ArrayBlockingQueue;
 
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Slot;
@@ -51,7 +50,7 @@ public class SimulationEnder {
 	 * 
 	 * @author daniel.gill
 	 */
-	private final class TimeCondition extends EndCondition {
+	private final class TimeCondition implements EndCondition {
 
 		/**
 		 * The total number of steps the Simulation is permitted to run.
@@ -79,7 +78,7 @@ public class SimulationEnder {
 	 * 
 	 * @author daniel.gill
 	 */
-	private final class NoAgentsCondition extends EndCondition {
+	private final class NoAgentsCondition implements EndCondition {
 		@Override
 		public boolean evaluate(int step, Grid grid) {
 			for (Slot s : grid) {
@@ -96,7 +95,7 @@ public class SimulationEnder {
 	 * 
 	 * @author daniel.gill
 	 */
-	private final class AgentPopulationCondition extends EndCondition {
+	private final class AgentPopulationCondition implements EndCondition {
 		/**
 		 * The population which that category must not exceed.
 		 */
@@ -140,7 +139,7 @@ public class SimulationEnder {
 	 * 
 	 * @author daniel.gill
 	 */
-	private final class ConditionOrList extends EndCondition {
+	private final class ConditionOrList implements EndCondition {
 		private Iterable<EndCondition> conditions;
 
 		/**
