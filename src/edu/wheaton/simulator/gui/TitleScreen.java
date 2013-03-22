@@ -9,6 +9,8 @@
 
 package edu.wheaton.simulator.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
@@ -19,18 +21,26 @@ public class TitleScreen extends Screen {
 
 	public TitleScreen(ScreenManager sm) {
 		super(sm);
-		JLabel label = new JLabel("Welcome to the Simulator!", SwingConstants.CENTER);
-		label.setHorizontalTextPosition(SwingConstants.CENTER);
-		this.setLayout(new FlowLayout());
+		this.setLayout(new BorderLayout());
+		JLabel label = new JLabel("Welcome to the Simulator!");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setPreferredSize(new Dimension(300, 150));
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		JButton newSim = new JButton("New Simulation");
+		newSim.setAlignmentX(CENTER_ALIGNMENT);
 		newSim.addActionListener(this);
 		JButton loadSim = new JButton("Load a saved Simulation");
+		loadSim.setAlignmentX(CENTER_ALIGNMENT);
 		// Since serialization is not yet implemented.
 		loadSim.setEnabled(false);
 		loadSim.addActionListener(this);
-		this.add(label);
-		this.add(newSim);
-		this.add(loadSim);
+		this.add(label, BorderLayout.NORTH);
+		panel.add(newSim);
+		panel.add(loadSim);
+		this.add(panel, BorderLayout.CENTER);
+//		this.add(newSim, BorderLayout.CENTER);
+//		this.add(loadSim, BorderLayout.CENTER);
 		this.setVisible(true);
 	}
 

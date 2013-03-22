@@ -14,6 +14,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -49,7 +50,7 @@ public class EditEntityScreen extends Screen {
 	
 	private ArrayList<JButton> triggerDeleteButtons;
 	
-	public EditEntityScreen(ScreenManager sm) {
+	public EditEntityScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
 		JLabel label = new JLabel("Edit Entities");
@@ -114,7 +115,21 @@ public class EditEntityScreen extends Screen {
 		triggerDeleteButtons.add(new JButton("Delete"));
 		JButton addTriggerButton = new JButton("Add Trigger");
 		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						sm.update(sm.getScreen("Edit Simulation")); 
+						} 
+					}
+				);
 		JButton finishButton = new JButton("Finish");
+		finishButton.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						sm.update(sm.getScreen("Edit Simulation")); 
+						} 
+					}
+				);
 		
 		lowerPanel.add(cancelButton);
 		lowerPanel.add(finishButton);

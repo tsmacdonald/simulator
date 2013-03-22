@@ -54,7 +54,7 @@ public class NewSimulationScreen extends Screen {
 		width = new JTextField(10);
 		width.setMaximumSize(new Dimension(100, 30));
 		JLabel nameLabel = new JLabel("Name: ");
-		nameLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		JLabel heightLabel = new JLabel("Height:");
 		heightLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		JLabel widthLabel = new JLabel("Width:");
