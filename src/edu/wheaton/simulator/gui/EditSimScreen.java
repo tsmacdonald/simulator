@@ -27,10 +27,10 @@ public class EditSimScreen extends Screen {
 	
 	public EditSimScreen(ScreenManager sm) {
 		super(sm);
-		label = new JLabel("Edit Simulation");
+		JLabel label = new JLabel("Edit Simulation");
 		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		label.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		
+		this.add(label);
 		buttons = new JButton[8];
 		newSimulation = new JButton("New Simulation");
 		buttons[0] = newSimulation;
@@ -50,8 +50,7 @@ public class EditSimScreen extends Screen {
 		buttons[7] = fields;
 		for(JButton j : buttons)
 			j.addActionListener(this);
-		
-		layout = new FlowLayout();
+		this.setLayout(new FlowLayout());
 		panel1 = new JPanel(new GridLayout(4,1));
 		panel2 = new JPanel(new GridLayout(4,1));
 		panel1.add(newSimulation);
@@ -62,11 +61,9 @@ public class EditSimScreen extends Screen {
 		panel2.add(gridSetup);
 		panel2.add(startSimulation);
 		panel2.add(fields);
+		this.add(panel1);
+		this.add(panel2);
 		
-		components = new JComponent[3];
-		components[0] = label;
-		components[1] = panel1;
-		components[2] = panel2;
 	}
 
 	@Override

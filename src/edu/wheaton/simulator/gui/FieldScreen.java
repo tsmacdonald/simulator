@@ -36,23 +36,16 @@ public class FieldScreen extends Screen {
 	private JList fields;
 	
 	private DefaultListModel listModel;
-
+	
 	private JButton delete;
-	
-	private JButton add;
-	
-	private JButton edit;
-	
-	private JButton back;
-
-	private JPanel buttonPanel;
 	
 	public FieldScreen(ScreenManager sm) {
 		super(sm);
-		label = new JLabel("Fields");
+		JLabel label = new JLabel("Fields");
 		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		label.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		layout = new GridLayout(3, 1);
+		this.setLayout(new GridLayout(3, 1));
+		this.add(label);
 		listModel = new DefaultListModel();
 		listModel.addElement("Field 1");
 		listModel.addElement("Field 2");
@@ -61,15 +54,16 @@ public class FieldScreen extends Screen {
 		fields.setLayoutOrientation(JList.VERTICAL_WRAP);
 		fields.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		fields.setVisibleRowCount(3);
+		this.add(fields);
 		delete = new JButton("Delete");
 		delete.addActionListener(this);
-		add = new JButton("Add");
+		JButton add = new JButton("Add");
 		add.addActionListener(this);
-		edit = new JButton("Edit");
+		JButton edit = new JButton("Edit");
 		edit.addActionListener(this);
-		back = new JButton("Back");
+		JButton back = new JButton("Back");
 		back.addActionListener(this);
-		buttonPanel = new JPanel(new FlowLayout());
+		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(add);
 		buttonPanel.add(Box.createHorizontalStrut(5));
 		buttonPanel.add(edit);
@@ -78,10 +72,7 @@ public class FieldScreen extends Screen {
 		buttonPanel.add(Box.createHorizontalStrut(5));
 		buttonPanel.add(back);
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		components = new JComponent[3];
-		components[0] = label;
-		components[1] = fields;
-		components[2] = buttonPanel;
+		this.add(buttonPanel);
 		
 	}
 

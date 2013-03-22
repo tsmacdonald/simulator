@@ -20,25 +20,17 @@ public class TitleScreen extends Screen {
 
 	private static final long serialVersionUID = 4901621402376078633L;
 
-	private JButton newSim;
-
-	private JButton loadSim;
-
 	public TitleScreen(ScreenManager sm) {
 		super(sm);
-		label = new JLabel("Welcome to the Simulator!", SwingConstants.CENTER);
+		JLabel label = new JLabel("Welcome to the Simulator!", SwingConstants.CENTER);
 		label.setHorizontalTextPosition(SwingConstants.CENTER);
-		newSim = new JButton("New Simulation");
+		this.setLayout(new FlowLayout());
+		JButton newSim = new JButton("New Simulation");
 		newSim.addActionListener(this);
-		loadSim = new JButton("Load a saved Simulation");
+		JButton loadSim = new JButton("Load a saved Simulation");
 		// Since serialization is not yet implemented.
 		loadSim.setEnabled(false);
 		loadSim.addActionListener(this);
-		layout = new FlowLayout();
-		components = new JComponent[3];
-		components[0] = label;
-		components[1] = newSim;
-		components[2] = loadSim;
 	}
 
 	@Override
