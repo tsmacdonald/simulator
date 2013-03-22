@@ -55,7 +55,8 @@ public class HSBColor {
 	 *            the Color object
 	 */
 	public void addColor(Color rgb) {
-		hsb = Color.RGBtoHSB(rgb.getRed(), rgb.getGreen(), rgb.getBlue(), null);
+		hsb = Color
+				.RGBtoHSB(rgb.getRed(), rgb.getGreen(), rgb.getBlue(), null);
 	}
 
 	/**
@@ -96,12 +97,11 @@ public class HSBColor {
 	public void setBrightness(float bri) {
 		hsb[2] = bri;
 	}
-	
+
 	/**
 	 * Gives the brightness (or luminance)
 	 * 
-	 * @return
-	 *            a brightness value from 0.0 to 1.0
+	 * @return a brightness value from 0.0 to 1.0
 	 */
 	public float getBrightness() {
 		return hsb[2];

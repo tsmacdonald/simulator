@@ -11,6 +11,7 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -40,12 +41,12 @@ public class Display extends JFrame {
 		this.setVisible(true);
 	}
 
-	public void updateDisplay(JComponent[] update, LayoutManager l){
+	public void updateDisplay(JComponent[] update, LayoutManager l) {
 		panel.setVisible(false);
 		panel.removeAll();
 		panel.setLayout(l);
-		for(int i = 0; i < update.length; i++)
-			panel.add(update[i]);
+		for (JComponent element : update)
+			panel.add(element);
 		panel.setVisible(true);
 	}
 	// getter methods for facades? or public methods to handle them?

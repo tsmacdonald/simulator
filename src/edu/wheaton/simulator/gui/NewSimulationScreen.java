@@ -10,35 +10,35 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class NewSimulationScreen extends Screen{
+public class NewSimulationScreen extends Screen {
 
 	private static final long serialVersionUID = 1L;
 
 	private JLabel label;
-	
+
 	private JPanel simPanel;
-	
+
 	private JButton finishButton;
-	
+
 	private JTextField name;
-	
+
 	private JTextField height;
-	
+
 	private JTextField width;
-	
+
 	private JLabel nameLabel;
-	
+
 	private JLabel heightLabel;
-	
+
 	private JLabel widthLabel;
-	
+
 	public String nameString;
-	
+
 	public int heightInt;
-	
+
 	public int widthInt;
-	
-	public NewSimulationScreen(ScreenManager sm){
+
+	public NewSimulationScreen(ScreenManager sm) {
 		super(sm);
 		label = new JLabel("New Simulation");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -65,16 +65,18 @@ public class NewSimulationScreen extends Screen{
 		components[1] = simPanel;
 		components[2] = finishButton;
 	}
-	
-	public void actionPerformed(ActionEvent e){
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
 		nameString = name.getText();
 		heightInt = Integer.parseInt(height.getText());
 		widthInt = Integer.parseInt(width.getText());
 		sendInfo();
 	}
-	
-	public void sendInfo(){
-		//not sure what to do with this yet
+
+	@Override
+	public void sendInfo() {
+		// not sure what to do with this yet
 	}
 
 }

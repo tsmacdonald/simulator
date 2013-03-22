@@ -4,7 +4,7 @@ import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Entity;
 
 public interface ExpressionEvaluator {
-	
+
 	public ExpressionEvaluator clone();
 
 	public void setString(Object exprStr);
@@ -17,7 +17,8 @@ public interface ExpressionEvaluator {
 
 	public Entity getEntity(String aliasName);
 
-	public String getVariableValue(String variableName) throws EvaluationException;
+	public String getVariableValue(String variableName)
+			throws EvaluationException;
 
 	public void clearVariables();
 

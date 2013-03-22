@@ -19,7 +19,7 @@ public class Main {
 			@Override
 			public void run() {
 				DisplayManager dm = DisplayManager.getInstance(new Display());
-				if(dm == null)
+				if (dm == null)
 					System.exit(0);
 				ScreenManager sm = new ScreenManager(dm);
 				sm.update(sm.getScreen("title"));

@@ -10,13 +10,11 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.FlowLayout;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class TitleScreen extends Screen {
@@ -34,8 +32,7 @@ public class TitleScreen extends Screen {
 
 	public TitleScreen(ScreenManager sm) {
 		super(sm);
-		label = new JLabel("Welcome to the Simulator!",
-				SwingConstants.CENTER);
+		label = new JLabel("Welcome to the Simulator!", SwingConstants.CENTER);
 		label.setHorizontalTextPosition(SwingConstants.CENTER);
 		newSim = new JButton("New Simulation");
 		newSim.addActionListener(this);
@@ -49,8 +46,9 @@ public class TitleScreen extends Screen {
 		components[1] = newSim;
 		components[2] = loadSim;
 	}
-	
-	public void sendInfo(){
+
+	@Override
+	public void sendInfo() {
 		return;
 	}
 

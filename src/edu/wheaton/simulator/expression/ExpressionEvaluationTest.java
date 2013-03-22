@@ -74,7 +74,8 @@ public class ExpressionEvaluationTest {
 
 	@Test
 	public void testAddVariables() {
-		ExpressionEvaluator testExpression = new Expression("#{three} < #{ten}");
+		ExpressionEvaluator testExpression = new Expression(
+				"#{three} < #{ten}");
 		testExpression.importVariable("three", "3");
 		testExpression.importVariable("ten", "10");
 		try {

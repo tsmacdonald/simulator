@@ -11,7 +11,7 @@ import net.sourceforge.jeval.function.FunctionException;
 import edu.wheaton.simulator.entity.Entity;
 
 public class Expression implements ExpressionEvaluator {
-	
+
 	private class EntityFieldResolver implements VariableResolver {
 
 		private Map<String, Entity> entityMap;
@@ -49,7 +49,8 @@ public class Expression implements ExpressionEvaluator {
 				return null;
 			}
 			try {
-				String toReturn = target.getField(fieldName).getValue().toString();
+				String toReturn = target.getField(fieldName).getValue()
+						.toString();
 				return toReturn;
 			} catch (NoSuchElementException e) {
 				System.err.println("##NoSuchElementException thrown##");

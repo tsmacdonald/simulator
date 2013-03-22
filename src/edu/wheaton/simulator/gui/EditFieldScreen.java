@@ -45,7 +45,7 @@ public class EditFieldScreen extends Screen {
 	@Override
 	public void sendInfo() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
