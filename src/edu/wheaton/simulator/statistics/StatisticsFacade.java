@@ -21,6 +21,13 @@ import edu.wheaton.simulator.simulation.Grid;
 
 public class StatisticsFacade {
 	
+	/**
+	 * getAgent returns the AgentID of the desired Agent,
+	 * not the Agent itself.
+	 * TODO Subject to change
+	 * 
+	 * @return AgentID of Agent
+	 */
 	public Agent getAgent() {
 		// TODO properly initialize variables
 		Grid grid = null;
@@ -31,6 +38,13 @@ public class StatisticsFacade {
 		return id;
 	}
 	
+	/**
+	 * getField returns the field object (?) 
+	 * of an Entity.
+	 * TODO Make a better description?
+	 * 
+	 * @return Field of Entity
+	 */
 	public Field getField() {
 		Entity entity = new Entity();
 		Field field = entity.getField();
