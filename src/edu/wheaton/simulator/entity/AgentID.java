@@ -1,22 +1,35 @@
 package edu.wheaton.simulator.entity;
 
-public class AgentID extends EntityID{
+public class AgentID implements Comparable<AgentID>{
+	private static Integer nextID = 0;
 	
-	public int compareTo(AgentID o){
-		return this.getInt().compareTo(o.getInt());
+	private final Integer value;
+	
+	protected AgentID(){
+		value = genIDValue();
 	}
 	
-	@Override // should not be called
-	public int compareTo(EntityID o){
-		throw new UnsupportedOperationException();
+	public final Integer getInt(){
+		return value;
+	}
+	
+	@Override
+	public String toString(){
+		return value.toString();
+	}
+
+	private static synchronized final Integer genIDValue() {
+		Integer id = nextID;
+		++nextID;
+		return id;
+	}
+
+	@Override
+	public int compareTo(AgentID o) {
+		return this.getInt().compareTo(o.getInt());
 	}
 	
 	public boolean equals(AgentID o){
 		return this.getInt().equals(o.getInt());
-	}
-	
-	@Override // should not be called
-	public boolean equals(EntityID o){
-		throw new UnsupportedOperationException();
 	}
 }

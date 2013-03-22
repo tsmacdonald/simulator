@@ -13,23 +13,23 @@ public class Entity {
 	 * The list of all fields (variables) associated with this agent.
 	 */
 	private Map<String, String> fields;
-	private final EntityID id;
+	//private final AgentID id;
 
-	private static Map<EntityID, Entity> database = new HashMap<EntityID, Entity>();
+	//private static Map<AgentID, Entity> database = new HashMap<AgentID, Entity>();
 
 	public Entity() {
-		id = new EntityID();
+		//id = new AgentID();
 		fields = new HashMap<String, String>();
-		database.put(id, this);
+		//database.put(id, this);
 	}
 
-	public static synchronized Entity getEntity(EntityID entityID) {
-		return database.get(entityID);
-	}
+//	public static synchronized Entity getEntity(AgentID agentID) {
+//		return database.get(agentID);
+//	}
 
-	public static synchronized Entity removeEntity(EntityID entityID) {
-		return database.remove(entityID);
-	}
+//	public static synchronized Entity removeEntity(AgentID agentID) {
+//		return database.remove(agentID);
+//	}
 
 	/**
 	 * Note that if a field already exists for this agent with the same name as
@@ -84,7 +84,7 @@ public class Entity {
 		return fields;
 	}
 
-	public EntityID getID() {
-		return id;
-	}
+//	public AgentID getID() {
+//		return id;
+//	}
 }

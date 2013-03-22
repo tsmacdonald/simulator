@@ -39,7 +39,7 @@ public class Agent extends GridEntity {
 	public Agent(Grid g, Color c, byte[] d) {
 		super(g, c, d);
 		triggers = new ArrayList<Trigger>();
-		id = (AgentID) super.getID();
+		id = new AgentID();
 	}
 
 	/**
@@ -124,7 +124,6 @@ public class Agent extends GridEntity {
 		updateField("y", y);
 	}
 	
-	@Override
 	public AgentID getID(){
 		return id;
 	}
