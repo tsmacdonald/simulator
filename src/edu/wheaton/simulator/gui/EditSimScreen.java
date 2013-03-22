@@ -57,13 +57,10 @@ public class EditSimScreen extends Screen {
 		mainPanel.setMaximumSize(new Dimension(800, 1000));
 		mainPanel.setPreferredSize(new Dimension(800, 1000));
 		JPanel panel1 = new JPanel();
-		//panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
 		panel1.setLayout(new GridLayout(1, 3));
 		JPanel panel2 = new JPanel();
-		//panel2.setLayout(new BoxLayout(panel2, BoxLayout.LINE_AXIS));
 		panel2.setLayout(new GridLayout(1, 3));
 		JPanel panel3 = new JPanel();
-		//panel3.setLayout(new BoxLayout(panel3, BoxLayout.LINE_AXIS));
 		panel3.setLayout(new GridLayout(1, 2));
 		JPanel panel4 = new JPanel();
 		panel1.add(newSimulation);
@@ -82,7 +79,6 @@ public class EditSimScreen extends Screen {
 		mainPanel.add(panel4);
 		this.add(label);
 		this.add(mainPanel);
-		//this.add(panel4, BorderLayout.SOUTH);
 		
 	}
 

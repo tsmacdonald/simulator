@@ -10,6 +10,8 @@
 
 package edu.wheaton.simulator.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -26,27 +28,32 @@ public class FieldScreen extends Screen {
 	private static final long serialVersionUID = -4286820591194407735L;
 
 	private JList fields;
-	
+
 	private DefaultListModel listModel;
-	
+
 	private JButton delete;
-	
+
 	public FieldScreen(ScreenManager sm) {
 		super(sm);
 		JLabel label = new JLabel("Fields");
-		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		label.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		this.setLayout(new GridLayout(3, 1));
-		this.add(label);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setPreferredSize(new Dimension(300, 100));
+		this.setLayout(new BorderLayout());
+		JPanel mainPanel = new JPanel(new GridLayout(2, 1));
+		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		listModel = new DefaultListModel();
 		listModel.addElement("Field 1");
 		listModel.addElement("Field 2");
 		listModel.addElement("Field 3");
 		fields = new JList(listModel);
+		fields.setMaximumSize(new Dimension(400, 800));
 		fields.setLayoutOrientation(JList.VERTICAL_WRAP);
 		fields.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		fields.setVisibleRowCount(3);
-		this.add(fields);
+		fields.setVisibleRowCount(20);
+		panel.add(fields);
+		fields.setAlignmentX(CENTER_ALIGNMENT);
 		delete = new JButton("Delete");
 		delete.addActionListener(this);
 		JButton add = new JButton("Add");
@@ -64,8 +71,12 @@ public class FieldScreen extends Screen {
 		buttonPanel.add(Box.createHorizontalStrut(5));
 		buttonPanel.add(back);
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		this.add(buttonPanel);
-		
+		mainPanel.add(panel);
+		mainPanel.add(buttonPanel);
+		this.add(label, BorderLayout.NORTH);
+		this.add(mainPanel, BorderLayout.CENTER);
+		//this.add(buttonPanel);
+
 	}
 
 	@Override
@@ -96,13 +107,13 @@ public class FieldScreen extends Screen {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	private class FieldListener implements ListSelectionListener {
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			//TODO method stub
-			
+
 		}
 	}
 

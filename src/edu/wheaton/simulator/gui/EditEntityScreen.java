@@ -77,7 +77,7 @@ public class EditEntityScreen extends Screen {
 		JLabel nameLabel = new JLabel("Name: ");
 		nameField = new JTextField(25);
 		//set max size of name field
-		nameField.setMaximumSize(new Dimension(400, 50));
+		nameField.setMaximumSize(new Dimension(400, 40));
 		colorTool = new JColorChooser();
 		JButton loadIconButton = new JButton("Load icon");
 		JLabel fieldNameLabel = new JLabel("Field Name");
@@ -89,10 +89,10 @@ public class EditEntityScreen extends Screen {
 		fieldNames = new ArrayList<JTextField>();
 		fieldNames.add(new JTextField(25));
 		//set max size of field name text box
-		fieldNames.get(0).setMaximumSize(new Dimension(300, 50));
+		fieldNames.get(0).setMaximumSize(new Dimension(300, 40));
 		fieldValues = new ArrayList<JTextField>();
 		fieldValues.add(new JTextField(25));
-		fieldValues.get(0).setMaximumSize(new Dimension(300, 50));
+		fieldValues.get(0).setMaximumSize(new Dimension(300, 40));
 		fieldTypes = new ArrayList<JComboBox>();
 		fieldTypes.add(new JComboBox(typeNames));
 		fieldDeleteButtons = new ArrayList<JButton>();

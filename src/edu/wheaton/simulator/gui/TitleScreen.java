@@ -29,9 +29,11 @@ public class TitleScreen extends Screen {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		JButton newSim = new JButton("New Simulation");
 		newSim.setAlignmentX(CENTER_ALIGNMENT);
+		newSim.setPreferredSize(new Dimension(100, 60));
 		newSim.addActionListener(this);
 		JButton loadSim = new JButton("Load a saved Simulation");
 		loadSim.setAlignmentX(CENTER_ALIGNMENT);
+		loadSim.setPreferredSize(new Dimension(100, 60));
 		// Since serialization is not yet implemented.
 		loadSim.setEnabled(false);
 		loadSim.addActionListener(this);
@@ -39,8 +41,7 @@ public class TitleScreen extends Screen {
 		panel.add(newSim);
 		panel.add(loadSim);
 		this.add(panel, BorderLayout.CENTER);
-//		this.add(newSim, BorderLayout.CENTER);
-//		this.add(loadSim, BorderLayout.CENTER);
+
 		this.setVisible(true);
 	}
 
