@@ -1,6 +1,7 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -80,13 +81,28 @@ public class NewSimulationScreen extends Screen {
 		this.setVisible(true);
 	}
 
+
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		nameString = name.getText();
 		try {
 			heightInt = Integer.parseInt(height.getText());
 			widthInt = Integer.parseInt(width.getText());
+			JPanel[][] grid = new JPanel[heightInt][widthInt];
+			for (int j = 0; j < widthInt; j++)
+	            for (int i = 0; i < heightInt; i++) {
+	                grid[i][j] = new JPanel();
+	                grid[i][j].setBackground(Color.WHITE);
+	            }
+			grid[2][2].setBackground(Color.BLACK);
+			grid[3][1].setBackground(Color.BLUE);
+			grid[1][1].setBackground(Color.YELLOW);
+
+			sm.setGrid(grid);
+			((ViewSimScreen)sm.getScreen("View Simulation")).createGrid(grid);
 		} catch(java.lang.NumberFormatException nfe) { }
+
 		sm.update(sm.getScreen("Edit Simulation"));
 	}
 
