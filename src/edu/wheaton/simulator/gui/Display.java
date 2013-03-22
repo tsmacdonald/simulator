@@ -41,13 +41,9 @@ public class Display extends JFrame {
 		this.setVisible(true);
 	}
 
-	public void updateDisplay(JComponent[] update, LayoutManager l) {
-		panel.setVisible(false);
-		panel.removeAll();
-		panel.setLayout(l);
-		for (JComponent element : update)
-			panel.add(element);
-		panel.setVisible(true);
+	public void updateDisplay(Screen s) {
+		this.setContentPane(s);
+		this.setVisible(true);
 	}
 	// getter methods for facades? or public methods to handle them?
 }

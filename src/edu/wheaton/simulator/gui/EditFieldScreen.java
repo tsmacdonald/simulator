@@ -54,6 +54,9 @@ public class EditFieldScreen extends Screen {
 		yLoc = new JTextField();
 		cancelButton = new JButton("Cancel");
 		finishButton = new JButton("Finish");
+		
+		panel.add(nameField);
+		
 	}
 
 

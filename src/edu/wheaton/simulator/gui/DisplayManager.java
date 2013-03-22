@@ -2,6 +2,7 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.LayoutManager;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 
 public class DisplayManager {
@@ -25,7 +26,7 @@ public class DisplayManager {
 		return id;
 	}
 
-	public void updateScreen(JComponent[] comp, LayoutManager l) {
-		display.updateDisplay(comp, l);
+	public void updateScreen(Screen s) {
+		display.updateDisplay(s);
 	}
 }

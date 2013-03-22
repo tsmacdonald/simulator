@@ -28,6 +28,6 @@ public class ScreenManager {
 	}
 
 	public void update(Screen update) {
-		dm.updateScreen(update.getComponents(), update.getLayout());
+		dm.updateScreen(update);
 	}
 }
