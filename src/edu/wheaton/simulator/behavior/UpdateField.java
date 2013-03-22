@@ -17,8 +17,7 @@ public class UpdateField implements Behavable {
 
 	@Override
 	public void act(Agent target) throws EvaluationException {
-		target.getField(fieldName).setValue(inputExpr.evaluateString());
-
+		target.updateField(fieldName,inputExpr.evaluateString());
 	}
 
 }
