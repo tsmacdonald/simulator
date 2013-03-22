@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class Prototype extends GridEntity {
