@@ -31,9 +31,9 @@ public class EditSimScreen extends Screen {
 		//save.setPreferredSize(new Dimension(175, 60));
 		save.setEnabled(false); //serialization not yet implemented
 		buttons[2] = save;
-		JButton agents = new JButton("Agents");
+		JButton entities = new JButton("Entities");
 		//agents.setPreferredSize(new Dimension(175, 60));
-		buttons[3] = agents;
+		buttons[3] = entities;
 		JButton fields = new JButton("Fields");
 		//fields.setPreferredSize(new Dimension(175, 60));
 		buttons[4] = fields;
@@ -66,7 +66,7 @@ public class EditSimScreen extends Screen {
 		panel1.add(newSimulation);
 		panel1.add(loadExisting);
 		panel1.add(save);
-		panel2.add(agents);
+		panel2.add(entities);
 		panel2.add(fields);
 		panel2.add(statistics);
 		panel3.add(gridSetup);

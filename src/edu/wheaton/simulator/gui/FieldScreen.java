@@ -30,7 +30,7 @@ public class FieldScreen extends Screen {
 	private JList fields;
 
 	private DefaultListModel listModel;
-
+	
 	private JButton delete;
 
 	public FieldScreen(ScreenManager sm) {
@@ -75,7 +75,6 @@ public class FieldScreen extends Screen {
 		mainPanel.add(buttonPanel);
 		this.add(label, BorderLayout.NORTH);
 		this.add(mainPanel, BorderLayout.CENTER);
-		//this.add(buttonPanel);
 
 	}
 

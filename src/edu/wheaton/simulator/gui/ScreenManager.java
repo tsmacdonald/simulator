@@ -16,7 +16,7 @@ public class ScreenManager {
 		screens.put("Edit Simulation", new EditSimScreen(this));
 		screens.put("Fields", new FieldScreen(this));
 		screens.put("Edit Fields", new EditFieldScreen(this));
-		screens.put("Agents", new EntityScreen(this));
+		screens.put("Entities", new EntityScreen(this));
 		screens.put("Edit Entities", new EditEntityScreen(this));
 		screens.put("Spawning", new SpawningScreen(this));
 		screens.put("View Simulation", new ViewSimScreen(this));
