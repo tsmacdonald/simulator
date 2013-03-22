@@ -47,8 +47,8 @@ public class Clone implements Behavable {
 	public void act(Agent target) throws Exception {
 		int x = (int) (xExpr.evaluateDouble() + 0.5);
 		int y = (int) (yExpr.evaluateDouble() + 0.5);
-		if (global.getEntity(x, y) == null) {
-			global.addEntity(target, x, y);
+		if (global.getAgent(x, y) == null) {
+			global.addAgent(target, x, y);
 		} else
 			throw new FullSlotException();
 	}

@@ -70,7 +70,7 @@ public class Agent extends GridEntity {
 	 * Removes this Agent from the environment's list.
 	 */
 	public void die() {
-		getGrid().removeEntity(this);
+		getGrid().removeAgent(this);
 	}
 
 	/**

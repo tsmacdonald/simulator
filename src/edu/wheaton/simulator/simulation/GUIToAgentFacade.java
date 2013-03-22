@@ -36,7 +36,7 @@ public class GUIToAgentFacade {
 	}
 
 	/**
-	 * Adds a Prototype to the
+	 * Adds a Prototype to the prototype HashMap
 	 * 
 	 * @param n
 	 * @param g
@@ -85,62 +85,62 @@ public class GUIToAgentFacade {
 	}
 
 	/**
-	 * Adds the given entity at the closest free spot to the spawn position.
+	 * Adds the given Agent at the closest free spot to the spawn position.
 	 * The search for an open spot begins at the given x/y and then spirals
 	 * outwards.
 	 * 
-	 * @param ge
-	 *            The Entity to add.
+	 * @param prototypeName
+	 *            The name of the prototype to build the Agent from.
 	 * @param spawnX
 	 *            Central x location for spawn
 	 * @param spawnY
 	 *            Central y location for spawn
-	 * @return true if successful (entity added), false otherwise
+	 * @return true if successful (agent added), false otherwise
 	 */
-	public boolean spawnEntity(String prototypeName, int spawnX, int spawnY) {
+	public boolean spawnAgent(String prototypeName, int spawnX, int spawnY) {
 		Agent toAdd = getPrototype(prototypeName).clonePrototype();
-		return grid.spawnEntity(toAdd, spawnX, spawnY);
+		return grid.spawnAgent(toAdd, spawnX, spawnY);
 	}
 
 	/**
-	 * Adds the given entity to a random (but free) position.
+	 * Adds the given Agent to a random (but free) position.
 	 * 
-	 * @param ge
-	 *            The Entity to add.
+	 * @param prototypeName
+	 *            The name of the prototype to build the Agent from.
 	 */
-	public boolean spawnEntity(String prototypeName) {
+	public boolean spawnAgent(String prototypeName) {
 		Agent toAdd = getPrototype(prototypeName).clonePrototype();
-		return grid.spawnEntity(toAdd);
+		return grid.spawnAgent(toAdd);
 	}
 
 	/**
-	 * Returns the Entity in the slot at the given coordinates
+	 * Returns the Agent in the slot at the given coordinates
 	 * 
 	 * @param x
 	 * @param y
 	 */
-	public GridEntity getEntity(int x, int y) {
-		return grid.getEntity(x, y);
+	public Agent getAgent(int x, int y) {
+		return grid.getAgent(x, y);
 	}
 
 	/**
-	 * Removes a Entity from the slot at the given coordinates
+	 * Removes an Agent from the slot at the given coordinates
 	 * 
 	 * @param x
 	 * @param y
 	 */
-	public void removeEntity(int x, int y) {
-		grid.removeEntity(x, y);
+	public void removeAgent(int x, int y) {
+		grid.removeAgent(x, y);
 	}
 
 	/**
-	 * Removes the given entity from the grid.
+	 * Removes the given Agent from the grid.
 	 * 
-	 * @param ge
-	 *            The Entity to remove.
+	 * @param a
+	 *            The Agent to remove.
 	 */
-	public void removeEntity(GridEntity ge) {
-		grid.removeEntity(ge);
+	public void removeEntity(Agent a) {
+		grid.removeAgent(a);
 	}
 
 	/**

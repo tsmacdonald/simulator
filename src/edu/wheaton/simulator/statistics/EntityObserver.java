@@ -34,9 +34,9 @@ public class EntityObserver {
 	public void observe(Grid grid, int step) {
 		for (Slot s : grid) {
 			dbHandler.addSnapshot(SnapshotFactory.createEntity(s, step), step);
-			if (s.getEntity() != null) {
+			if (s.getAgent() != null) {
 				dbHandler.addSnapshot(
-						SnapshotFactory.createEntity(s.getEntity(), step),
+						SnapshotFactory.createEntity(s.getAgent(), step),
 						step);
 			}
 		}
