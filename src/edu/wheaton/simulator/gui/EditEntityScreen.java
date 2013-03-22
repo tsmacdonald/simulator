@@ -119,7 +119,7 @@ public class EditEntityScreen extends Screen {
 					public void actionPerformed(ActionEvent e) {
 						JPanel newPanel = new JPanel();
 						newPanel.setLayout(
-								new BoxLayout(fieldSubPanels.get(0), 
+								new BoxLayout(newPanel, 
 										BoxLayout.X_AXIS)
 								);
 						JTextField newName = new JTextField(25);

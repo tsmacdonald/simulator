@@ -1,9 +1,12 @@
 package edu.wheaton.simulator.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 public class SetupScreen extends Screen {
 
@@ -14,6 +17,10 @@ public class SetupScreen extends Screen {
 
 	public SetupScreen(final ScreenManager sm) {
 		super(sm);
+		this.setLayout(new BorderLayout());
+		JLabel label = new JLabel("Simulation Setup");
+		label.setPreferredSize(new Dimension(300, 150));
+		this.add(label, BorderLayout.NORTH);
 		JButton backButton = new JButton("Back");
 		backButton.addActionListener(
 				new ActionListener() {
