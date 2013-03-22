@@ -117,7 +117,7 @@ public class Agent extends GridEntity {
 	 * @param y
 	 */
 	public void setPos(int x, int y) {
-		updateField("x",x);
-		updateField("y",y);
+		updateField("x", x);
+		updateField("y", y);
 	}
 }
