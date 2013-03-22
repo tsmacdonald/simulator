@@ -36,7 +36,7 @@ public class EditSimScreen extends Screen {
 		buttons[4] = agents;
 		JButton gridSetup = new JButton("Grid Setup");
 		buttons[5] = gridSetup;
-		JButton startSimulation = new JButton("Start Simulation");
+		JButton startSimulation = new JButton("View Simulation");
 		buttons[6] = startSimulation;
 		JButton fields = new JButton("Fields");
 		buttons[7] = fields;

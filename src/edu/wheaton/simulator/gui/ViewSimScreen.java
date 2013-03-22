@@ -12,6 +12,7 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -25,19 +26,22 @@ public class ViewSimScreen extends Screen {
 	 */
 	private static final long serialVersionUID = -6872689283286800861L;
 
-	public ViewSimScreen(ScreenManager sm) {
+	public ViewSimScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 		JPanel panel = new JPanel();
 		JButton pauseButton = new JButton("Pause");
 		JButton backButton = new JButton("Back");
-		/**
-		 * backButton.addActionListener(new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) {
-		 *           menu.setScreen(menu.getScreen("editSim")); } });
-		 */
+
+		backButton.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						sm.update(sm.getScreen("Edit Simulation")); 
+						} 
+					}
+				);
+
 		panel.add(pauseButton);
 		panel.add(backButton);
 		this.add(label, BorderLayout.NORTH);

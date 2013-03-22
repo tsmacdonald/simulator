@@ -11,6 +11,7 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -61,8 +62,8 @@ public class EditEntityScreen extends Screen {
 		super(sm);
 		this.setLayout(new BorderLayout());
 		JLabel label = new JLabel("Edit Entities");
-		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		label.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setHorizontalTextPosition(SwingConstants.CENTER);
 		JTabbedPane tabs = new JTabbedPane();
 		JPanel lowerPanel = new JPanel();
 		JPanel generalPanel = new JPanel();
@@ -82,16 +83,24 @@ public class EditEntityScreen extends Screen {
 		triggerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		triggerLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		JLabel nameLabel = new JLabel("Name: ");
-		nameField = new JTextField();
+		nameField = new JTextField(25);
+		//set max size of name field
+		nameField.setMaximumSize(new Dimension(400, 50));
 		colorTool = new JColorChooser();
 		JButton loadIconButton = new JButton("Load icon");
 		JLabel fieldNameLabel = new JLabel("Field Name");
+		//fieldNameLabel.setMinimumSize(new Dimension(500, 40));
 		JLabel fieldValueLabel = new JLabel("Field Initial Value");
+		//fieldValueLabel.setMinimumSize(new Dimension(500, 40));
 		JLabel fieldTypeLabel = new JLabel("Field Type");
+		//fieldTypeLabel.setMinimumSize(new Dimension(500, 40));
 		fieldNames = new ArrayList<JTextField>();
-		fieldNames.add(new JTextField());
+		fieldNames.add(new JTextField(25));
+		//set max size of field name text box
+		fieldNames.get(0).setMaximumSize(new Dimension(300, 50));
 		fieldValues = new ArrayList<JTextField>();
-		fieldValues.add(new JTextField());
+		fieldValues.add(new JTextField(25));
+		fieldValues.get(0).setMaximumSize(new Dimension(300, 50));
 		fieldTypes = new ArrayList<JComboBox>();
 		fieldTypes.add(new JComboBox(typeNames));
 		fieldDeleteButtons = new ArrayList<JButton>();
@@ -187,7 +196,7 @@ public class EditEntityScreen extends Screen {
 	@Override
 	public void sendInfo() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

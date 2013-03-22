@@ -1,8 +1,12 @@
 package edu.wheaton.simulator.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -28,29 +32,49 @@ public class NewSimulationScreen extends Screen {
 
 	public NewSimulationScreen(ScreenManager sm) {
 		super(sm);
+		this.setLayout(new BorderLayout());
 		JLabel label = new JLabel("New Simulation");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setHorizontalTextPosition(SwingConstants.CENTER);
-		this.add(label);
-		JPanel simPanel = new JPanel(new GridLayout(3, 2));
-		JButton finishButton = new JButton("Finish");
-		finishButton.addActionListener(this);
-		this.add(finishButton);
-		name = new JTextField(25);
-		height = new JTextField(25);
-		width = new JTextField(25);
-		JLabel nameLabel = new JLabel("Name:");
+		label.setPreferredSize(new Dimension(300, 150));
+		JPanel simPanel = new JPanel();
+		simPanel.setLayout(new BoxLayout(simPanel, BoxLayout.PAGE_AXIS));
+		JPanel panel1 = new JPanel();
+		panel1.setLayout(new BoxLayout(panel1, BoxLayout.LINE_AXIS));
+		JPanel panel2 = new JPanel();
+		panel2.setLayout(new BoxLayout(panel2, BoxLayout.LINE_AXIS));
+		JPanel panel3 = new JPanel();
+		panel3.setLayout(new BoxLayout(panel3, BoxLayout.LINE_AXIS));
+		JPanel buttonPanel = new JPanel();
+		name = new JTextField(40);
+		name.setMaximumSize(new Dimension(400, 30));
+		height = new JTextField(10);
+		height.setMaximumSize(new Dimension(100, 30));
+		width = new JTextField(10);
+		width.setMaximumSize(new Dimension(100, 30));
+		JLabel nameLabel = new JLabel("Name: ");
+		nameLabel.setHorizontalAlignment(SwingConstants.TRAILING);
 		JLabel heightLabel = new JLabel("Height:");
-		JLabel widthLabel = new JLabel("Width");
-		simPanel.add(nameLabel);
-		simPanel.add(name);
-		simPanel.add(heightLabel);
-		simPanel.add(height);
-		simPanel.add(widthLabel);
-		simPanel.add(width);
-		simPanel.setVisible(true);
-		this.setLayout(new GridLayout(3,1));
-		this.add(simPanel);
+		heightLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		JLabel widthLabel = new JLabel("Width:");
+		widthLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		JButton finishButton = new JButton("Finish");
+		finishButton.setPreferredSize(new Dimension(200, 75));
+		finishButton.addActionListener(this);
+		panel1.add(nameLabel);
+		panel1.add(name);
+		panel2.add(heightLabel);
+		panel2.add(height);
+		panel2.add(Box.createRigidArea(new Dimension(20, 0)));
+		panel2.add(widthLabel);
+		panel2.add(width);
+		simPanel.add(panel1);
+		simPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		simPanel.add(panel2);
+		simPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		buttonPanel.add(finishButton);
+		simPanel.add(buttonPanel);
+		this.add(label, BorderLayout.NORTH);
+		this.add(simPanel, BorderLayout.CENTER);
 		this.setVisible(true);
 	}
 
