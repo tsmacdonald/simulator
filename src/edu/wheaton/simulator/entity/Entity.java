@@ -9,33 +9,25 @@ import edu.wheaton.simulator.datastructure.Field;
 
 public class Entity {
 
-	private static Integer nextID = 0;
-
-	private static synchronized final Integer genID() {
-		Integer id = nextID;
-		++nextID;
-		return id;
-	}
-
 	/**
 	 * The list of all fields (variables) associated with this agent.
 	 */
 	private Map<String, String> fields;
-	private final Integer id;
+	private final EntityID id;
 
-	private static Map<Integer, Entity> database = new HashMap<Integer, Entity>();
+	private static Map<EntityID, Entity> database = new HashMap<EntityID, Entity>();
 
 	public Entity() {
-		id = genID();
+		id = new EntityID();
 		fields = new HashMap<String, String>();
 		database.put(id, this);
 	}
 
-	public static synchronized Entity getEntity(Integer entityID) {
+	public static synchronized Entity getEntity(EntityID entityID) {
 		return database.get(entityID);
 	}
 
-	public static synchronized Entity removeEntity(Integer entityID) {
+	public static synchronized Entity removeEntity(EntityID entityID) {
 		return database.remove(entityID);
 	}
 
@@ -92,7 +84,7 @@ public class Entity {
 		return fields;
 	}
 
-	public Integer getID() {
+	public EntityID getID() {
 		return id;
 	}
 }
