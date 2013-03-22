@@ -1,8 +1,7 @@
 package edu.wheaton.simulator.gui;
 
-import java.awt.LayoutManager;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import java.awt.*;
+import javax.swing.*;
 
 
 public class DisplayManager {

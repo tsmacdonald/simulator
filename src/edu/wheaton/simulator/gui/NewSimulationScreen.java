@@ -3,12 +3,7 @@ package edu.wheaton.simulator.gui;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 public class NewSimulationScreen extends Screen {
 
