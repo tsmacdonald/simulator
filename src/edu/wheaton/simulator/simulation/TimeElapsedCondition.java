@@ -9,6 +9,8 @@
 
 package edu.wheaton.simulator.simulation;
 
+import edu.wheaton.simulator.simulation.end.EndCondition;
+
 public class TimeElapsedCondition extends EndCondition {
 
 	/**

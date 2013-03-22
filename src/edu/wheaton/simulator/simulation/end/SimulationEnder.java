@@ -1,79 +1,165 @@
-/**
- * SimulationEnder.java
- *
- * A class that handles the conclusion of a simulation
- *
- * @author Grant Hensel
- */
-
 package edu.wheaton.simulator.simulation.end;
 
-import edu.wheaton.simulator.simulation.AgentPopulationCondition;
-import edu.wheaton.simulator.simulation.AgentStateCondition;
-import edu.wheaton.simulator.simulation.Grid;
-import edu.wheaton.simulator.simulation.TimeElapsedCondition;
+import java.util.HashSet;
+import java.util.concurrent.ArrayBlockingQueue;
 
+import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.Slot;
+import edu.wheaton.simulator.simulation.Grid;
+
+/**
+ * Handles the determination of whether or not the simulation needs to end.
+ * 
+ * @author Daniel Gill
+ */
 public class SimulationEnder {
 
-	/**
-	 * A BoolExpression object containing the conditions under which the
-	 * simulation ends
-	 */
-	private EndCondition endCondition;
+	private static int TIME_CONDITION = 0;
+	private static int NO_AGENTS_CONDITION = 1;
+	private static int MSC_CONDITIONS = 2;
+
+	private EndCondition[] conditions;
+
+	public SimulationEnder() {
+		conditions = new EndCondition[3];
+		TimeCondition timer = new TimeCondition(0);
+		NoAgentsCondition counter = new NoAgentsCondition();
+		conditions[TIME_CONDITION] = timer;
+		conditions[NO_AGENTS_CONDITION] = counter;
+		conditions[MSC_CONDITIONS] = new ConditionOrList(
+				new HashSet<EndCondition>());
+	}
+
+	public void setStepLimit(int maxSteps) {
+		((TimeCondition) conditions[TIME_CONDITION]).maxSteps = maxSteps;
+	}
 
 	/**
-	 * Constructor
+	 * Determine whether the simulation should end.
 	 * 
-	 * @param conditionDescription
-	 *            The conditions under which the simulation is to finish.
-	 *            Format: Type Arg1 Arg2 Arg3 Arg4 Type - "time", "pop" or
-	 *            "popstate". Specifies the type of ending condition
-	 * 
-	 *            For the "time" type: Arg1 = Number representing the time the
-	 *            # of steps to simulate before terminating the simulation
-	 *            Example: "time 100" -> End the simulation when 100 steps are
-	 *            completed
-	 * 
-	 *            For the "pop" type: Arg1 = Name of the agent who's population
-	 *            we will track Arg2 = Number representing the population level
-	 *            at which the simulation will end Example: "pop Fox 100" ->
-	 *            End the simulation when the fox population reaches 100
-	 * 
-	 *            For the "popstate" type Arg1 = Name of the agent who's
-	 *            population we will track Arg2 = Number representing the
-	 *            population level at which the simulation will end Arg3 = Name
-	 *            of the field within the agent specified in Arg1 to track Arg4
-	 *            = Value we care if the field specified in Arg3 is set to
-	 *            Example: "popstate Fox 100 FurColor black" -> End the
-	 *            simulation when there are 100 foxes with the FurColor field
-	 *            set to "black"
+	 * @return true if the simulation should end, false otherwise.
 	 */
-	public SimulationEnder(Grid g, String conditionDescription)
-			throws Exception {
-		String[] args = conditionDescription.split(" ");
+	public boolean evaluate(int step, Grid grid) {
+		for (EndCondition condition : conditions)
+			if (condition.evaluate(step, grid))
+				return true;
+		return false;
+	}
 
-		if (args[0].equals("time")) {
-			endCondition = new TimeElapsedCondition(g,
-					Integer.parseInt(args[1]));
-		} else if (args[0].equals("pop")) {
-			endCondition = new AgentPopulationCondition(g, args[1],
-					Integer.parseInt(args[2]));
-		} else if (args[0].equals("popstate")) {
-			endCondition = new AgentStateCondition(g, args[1],
-					Integer.parseInt(args[2]), args[3], args[4]);
+	/**
+	 * Determines if the simulation has run out of time.
+	 * 
+	 * @author daniel.gill
+	 */
+	private final class TimeCondition extends EndCondition {
+
+		/**
+		 * The total number of steps the Simulation is permitted to run.
+		 */
+		private int maxSteps;
+
+		/**
+		 * @param maxSteps
+		 *            The total number of steps the Simulation is permitted to
+		 *            run.
+		 */
+		public TimeCondition(int maxSteps) {
+			this.maxSteps = maxSteps;
 		}
 
-		if (endCondition == null)
-			throw new Exception(); // the conditionDescription was invalid
+		@Override
+		public boolean evaluate(int step, Grid grid) {
+			return step >= maxSteps;
+		}
+
 	}
 
 	/**
-	 * Check if the ending conditions for the simulation have been met
+	 * Determines if there are no more agents in the simulation.
 	 * 
-	 * @return true or false
+	 * @author daniel.gill
 	 */
-	public boolean simulationFinished() {
-		return endCondition.evaluate();
+	private final class NoAgentsCondition extends EndCondition {
+		@Override
+		public boolean evaluate(int step, Grid grid) {
+			for (Slot s : grid) {
+				if (s.getEntity() != null)
+					return false;
+			}
+			return true;
+		}
 	}
 
+	/**
+	 * Determines if the population of the given type has exceeded the given
+	 * max.
+	 * 
+	 * @author daniel.gill
+	 */
+	private final class AgentPopulationCondition extends EndCondition {
+		/**
+		 * The population which that category must not exceed.
+		 */
+		private int maxPop;
+		
+		/**
+		 * The name of the type or category of Agent.
+		 */
+		private String typeName;
+
+		/**
+		 * Constructor.
+		 * 
+		 * @param typeName
+		 *            The name of the type or category of Agent.
+		 * @param maxPop
+		 *            The population which that category must not exceed.
+		 */
+		public AgentPopulationCondition(String typeName, int maxPop) {
+			this.maxPop = maxPop;
+			this.typeName = typeName;
+		}
+
+		// TODO: Implement this better so that it checks all categories
+		// simultaniously for each slot.
+		@Override
+		public boolean evaluate(int step, Grid grid) {
+			int pop = 0;
+			for (Slot s : grid) {
+				Agent a;
+				if ((a = (Agent) s.getEntity()) != null)
+					if (a.getCategoryName() != typeName)
+						pop++;
+			}
+			return pop >= maxPop;
+		}
+	}
+
+	/**
+	 * Abstractly represents a set of EndConditions as a Single set.
+	 * 
+	 * @author daniel.gill
+	 */
+	private final class ConditionOrList extends EndCondition {
+		private Iterable<EndCondition> conditions;
+
+		/**
+		 * Constructor.
+		 * 
+		 * @param conditions
+		 *            An iterable collection of conditions.
+		 */
+		public ConditionOrList(Iterable<EndCondition> conditions) {
+			this.conditions = conditions;
+		}
+
+		@Override
+		public boolean evaluate(int step, Grid grid) {
+			for (EndCondition condition : conditions)
+				if (condition.evaluate(step, grid))
+					return true;
+			return false;
+		}
+
+	}
 }

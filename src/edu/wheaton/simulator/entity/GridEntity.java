@@ -113,8 +113,9 @@ public abstract class GridEntity extends Entity {
 		return design;
 	}
 
-	public String getName() {
-		throw new UnsupportedOperationException();
+	public String getCategoryName() {
+		//TODO: implement this. 
+		throw new UnsupportedOperationException(); 
 	}
 
 	protected Grid getGrid() {
