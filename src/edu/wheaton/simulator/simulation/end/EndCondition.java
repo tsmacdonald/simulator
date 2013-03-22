@@ -10,12 +10,12 @@ import edu.wheaton.simulator.simulation.Grid;
  *
  * @author Grant Hensel, Daniel Gill
  */
-public abstract class EndCondition {
+public interface EndCondition {
 
 	/**
 	 * Determine if the simulation ending condition has been met.
 	 * @return true/false
 	 */
-	public abstract boolean evaluate(int step, Grid grid);
+	public boolean evaluate(int step, Grid grid);
 
 }
