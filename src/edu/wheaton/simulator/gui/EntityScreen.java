@@ -43,32 +43,6 @@ public class EntityScreen extends Screen {
 	
 	public EntityScreen(final ScreenManager sm) {
 		super(sm);
-//		this.setLayout(new BorderLayout());
-//		JLabel label = new JLabel("Entities");
-//		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-//		label.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-//		label.setPreferredSize(new Dimension(300, 150));
-//		JPanel panel = new JPanel();
-//		JButton backButton = new JButton("Back");
-//		backButton.addActionListener(
-//				new ActionListener() {
-//					@Override
-//					public void actionPerformed(ActionEvent e) {
-//						sm.update(sm.getScreen("Edit Simulation")); 
-//					} 
-//				});
-//		JButton editButton = new JButton("Edit");
-//		editButton.addActionListener(
-//				new ActionListener() {
-//					@Override
-//					public void actionPerformed(ActionEvent e) {
-//						sm.update(sm.getScreen("Edit Entities")); 
-//					} 
-//				});
-//		this.add(label, BorderLayout.NORTH);
-//		panel.add(backButton);
-//		panel.add(editButton);
-//		this.add(panel);
 		JLabel label = new JLabel("Entities");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setPreferredSize(new Dimension(300, 100));
