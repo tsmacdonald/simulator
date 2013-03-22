@@ -13,16 +13,6 @@ public class EditSimScreen extends Screen {
 
 	private static final long serialVersionUID = 3629462657811804434L;
 	
-	private JButton newSimulation;
-	private JButton loadExisting;
-	private JButton save;
-	private JButton statistics;
-	private JButton agents;
-	private JButton gridSetup;
-	private JButton startSimulation;
-	private JButton fields;
-	private JPanel panel1;
-	private JPanel panel2;
 	private JButton[] buttons;
 	
 	public EditSimScreen(ScreenManager sm) {
@@ -31,28 +21,33 @@ public class EditSimScreen extends Screen {
 		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		label.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		this.add(label);
-		buttons = new JButton[8];
-		newSimulation = new JButton("New Simulation");
+		buttons = new JButton[9];
+		JButton newSimulation = new JButton("New Simulation");
 		buttons[0] = newSimulation;
-		loadExisting = new JButton("Load Existing");
+		JButton loadExisting = new JButton("Load Existing");
+		loadExisting.setEnabled(false); //serialization not yet implemented
 		buttons[1] = loadExisting;
-		save = new JButton("Save");
+		JButton save = new JButton("Save");
+		save.setEnabled(false); //serialization not yet implemented
 		buttons[2] = save;
-		statistics = new JButton("Statistics");
+		JButton statistics = new JButton("Statistics");
 		buttons[3] = statistics;
-		agents = new JButton("Agents");
+		JButton agents = new JButton("Agents");
 		buttons[4] = agents;
-		gridSetup = new JButton("Grid Setup");
+		JButton gridSetup = new JButton("Grid Setup");
 		buttons[5] = gridSetup;
-		startSimulation = new JButton("Start Simulation");
+		JButton startSimulation = new JButton("Start Simulation");
 		buttons[6] = startSimulation;
-		fields = new JButton("Fields");
+		JButton fields = new JButton("Fields");
 		buttons[7] = fields;
+		JButton spawning = new JButton("Spawning");
+		buttons[8] = spawning;
+		
 		for(JButton j : buttons)
 			j.addActionListener(this);
 		this.setLayout(new FlowLayout());
-		panel1 = new JPanel(new GridLayout(4,1));
-		panel2 = new JPanel(new GridLayout(4,1));
+		JPanel panel1 = new JPanel(new GridLayout(4,1));
+		JPanel panel2 = new JPanel(new GridLayout(5,1));
 		panel1.add(newSimulation);
 		panel1.add(loadExisting);
 		panel1.add(save);
@@ -61,6 +56,7 @@ public class EditSimScreen extends Screen {
 		panel2.add(gridSetup);
 		panel2.add(startSimulation);
 		panel2.add(fields);
+		panel2.add(spawning);
 		this.add(panel1);
 		this.add(panel2);
 		
