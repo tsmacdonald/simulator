@@ -1,8 +1,8 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.LayoutManager;
-
 import javax.swing.JComponent;
+
 
 public class DisplayManager {
 
@@ -18,8 +18,7 @@ public class DisplayManager {
 	public static DisplayManager getInstance(Display d) {
 		if (getId() == 0)
 			return new DisplayManager(d);
-		else
-			return null;
+		return null;
 	}
 
 	public static int getId() {

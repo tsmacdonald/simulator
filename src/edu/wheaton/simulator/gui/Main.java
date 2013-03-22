@@ -22,7 +22,7 @@ public class Main {
 				if (dm == null)
 					System.exit(0);
 				ScreenManager sm = new ScreenManager(dm);
-				sm.update(sm.getScreen("title"));
+				sm.update(sm.getScreen("Title"));
 			}
 		}));
 

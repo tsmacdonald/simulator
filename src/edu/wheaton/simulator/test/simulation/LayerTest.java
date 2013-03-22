@@ -1,4 +1,14 @@
-package edu.wheaton.simulator.simulation;
+/**
+ * LayerTest.java
+ * 
+ * A JUnit test for Layer and HSBColor
+ * 
+ * @author Elliot Penson
+ * 
+ * Wheaton College, CSCI 335, Spring 2013
+ */
+
+package edu.wheaton.simulator.test.simulation;
 
 import java.awt.Color;
 
@@ -10,6 +20,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.wheaton.simulator.datastructure.Field;
+import edu.wheaton.simulator.simulation.HSBColor;
+import edu.wheaton.simulator.simulation.Layer;
 
 public class LayerTest {
 

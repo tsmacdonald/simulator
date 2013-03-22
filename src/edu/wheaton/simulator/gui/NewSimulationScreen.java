@@ -69,14 +69,15 @@ public class NewSimulationScreen extends Screen {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		nameString = name.getText();
-		heightInt = Integer.parseInt(height.getText());
-		widthInt = Integer.parseInt(width.getText());
-		sendInfo();
+		try {
+			heightInt = Integer.parseInt(height.getText());
+			widthInt = Integer.parseInt(width.getText());
+		} catch(java.lang.NumberFormatException nfe) { }
+		sm.update(sm.getScreen("Edit Simulation"));
 	}
 
 	@Override
 	public void sendInfo() {
 		// not sure what to do with this yet
 	}
-
 }

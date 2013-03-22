@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 
 /**
  * Each window will have its own subclass of this abstract class, and one
@@ -29,7 +30,8 @@ public abstract class Screen extends JComponent implements ActionListener {
 	protected LayoutManager layout;
 	protected ScreenManager sm;
 	protected JComponent[] components;
-
+	protected JLabel label;
+	
 	public Screen(ScreenManager sm) {
 		this.sm = sm;
 	}
