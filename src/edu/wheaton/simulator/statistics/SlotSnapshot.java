@@ -5,8 +5,6 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
-import edu.wheaton.simulator.entity.EntityID;
-
 /**
  * A class representing all the information to track from slots in the game.
  * 
@@ -18,7 +16,7 @@ public class SlotSnapshot extends EntitySnapshot {
 	/**
 	 * How many agents are occupying this slot
 	 */
-	public final ImmutableSet<EntityID> agents;
+	public final ImmutableSet<Integer> agents;
 
 	/**
 	 * Constructor
@@ -34,12 +32,12 @@ public class SlotSnapshot extends EntitySnapshot {
 	 * @param agents
 	 *            the number of agents occupying this slot
 	 */
-	public SlotSnapshot(EntityID id, HashMap<String, FieldSnapshot> fields,
+	public SlotSnapshot(Integer id, HashMap<String, FieldSnapshot> fields,
 			Integer step, EntityPrototypeSnapshot prototype,
-			Set<EntityID> agents) {
+			Set<Integer> agents) {
 		super(id, fields, step, prototype);
 
-		ImmutableSet.Builder<EntityID> builder = new ImmutableSet.Builder<EntityID>();
+		ImmutableSet.Builder<Integer> builder = new ImmutableSet.Builder<Integer>();
 
 		builder.addAll(agents);
 		this.agents = builder.build();

@@ -44,7 +44,7 @@ public class TitleScreen extends Screen {
 		if (e.getActionCommand().equalsIgnoreCase("New Simulation")) {
 			sm.update(sm.getScreen("New Simulation"));
 		} else if (e.getActionCommand().equalsIgnoreCase("Load Simulation")) {
-			// TODO
+			// TODO empty else-if
 		}
 	}
 }

@@ -3,8 +3,6 @@ package edu.wheaton.simulator.statistics;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.TreeBasedTable;
 
-import edu.wheaton.simulator.entity.EntityID;
-
 /**
  * This class is an abstraction of a database which is represented by a Table,
  * provided by the Guava libraries
@@ -17,7 +15,7 @@ public class EntitySnapshotTable {
 	/**
 	 * This table will be used to put the snapshots into
 	 */
-	private TreeBasedTable<EntityID, Integer, EntitySnapshot> table;
+	private TreeBasedTable<Integer, Integer, EntitySnapshot> table;
 
 	/**
 	 * Constructor.
@@ -35,7 +33,7 @@ public class EntitySnapshotTable {
 	 *            The current step.
 	 */
 	public void putEntity(EntitySnapshot entity, int step) {
-		table.put(entity.id, entity.step, entity);
+		table.put(entity.entityID, entity.step, entity);
 	}
 
 	/**
@@ -49,8 +47,8 @@ public class EntitySnapshotTable {
 	 * @throws Exception
 	 *             if the database hasn't been finalized or if the query fails
 	 */
-	public EntitySnapshot getSnapshot(EntityID id, int step) throws Exception {
-		return table.get(id, step);
+	public EntitySnapshot getSnapshot(Integer entityID, int step) throws Exception {
+		return table.get(entityID, step);
 	}
 
 	/**
@@ -62,8 +60,8 @@ public class EntitySnapshotTable {
 	 *            to query for
 	 * @return an ImmutableMap<EntityID, EntitySnapshot>
 	 */
-	public ImmutableMap<EntityID, EntitySnapshot> getSnapshotsAtStep(int step) {
-		ImmutableMap.Builder<EntityID, EntitySnapshot> builder = new ImmutableMap.Builder<EntityID, EntitySnapshot>();
+	public ImmutableMap<Integer, EntitySnapshot> getSnapshotsAtStep(int step) {
+		ImmutableMap.Builder<Integer, EntitySnapshot> builder = new ImmutableMap.Builder<Integer, EntitySnapshot>();
 		builder.putAll(table.column(step));
 		return builder.build();
 	}
@@ -78,22 +76,22 @@ public class EntitySnapshotTable {
 	 * @return an ImmutableMap<Integer, EntitySnapshot>
 	 */
 	public ImmutableMap<Integer, EntitySnapshot> getSnapshotsOfEntity(
-			EntityID id) {
+			Integer entityID) {
 		ImmutableMap.Builder<Integer, EntitySnapshot> builder = new ImmutableMap.Builder<Integer, EntitySnapshot>();
-		builder.putAll(table.row(id));
+		builder.putAll(table.row(entityID));
 		return builder.build();
 	}
 
 	/**
 	 * Does the table have records for the given Entity?
 	 * 
-	 * @param id
+	 * @param entityID
 	 *            GridEntity to query for
 	 * @return true or false depending on whether the table has a row for the
 	 *         given id
 	 */
-	public boolean containsEntity(EntityID id) {
-		return table.containsRow(id);
+	public boolean containsEntity(Integer entityID) {
+		return table.containsRow(entityID);
 	}
 
 	/**

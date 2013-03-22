@@ -6,7 +6,6 @@ import java.util.Map;
 
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.GridEntity;
 
 /**
@@ -30,7 +29,7 @@ public class SnapshotFactory {
 	 *            index in the database(table)
 	 */
 	public static EntitySnapshot createEntity(GridEntity entity, int step) {
-		EntityID id = entity.getID();
+		Integer entityID = entity.getID();
 
 		/**
 		 * all the fields of the agent
@@ -65,9 +64,9 @@ public class SnapshotFactory {
 		EntitySnapshot snap;
 		// determine class of Entity and create snapshot accordingly
 		if (entity.getClass() == Agent.class)
-			snap = new AgentSnapshot(id, fieldsForSnap, step, prototype, null);
+			snap = new AgentSnapshot(entityID, fieldsForSnap, step, prototype, null);
 		else
-			snap = new SlotSnapshot(id, fieldsForSnap, step, prototype, null);
+			snap = new SlotSnapshot(entityID, fieldsForSnap, step, prototype, null);
 
 		return snap;
 	}

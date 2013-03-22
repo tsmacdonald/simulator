@@ -4,8 +4,6 @@ import java.util.HashMap;
 
 import com.google.common.collect.ImmutableMap;
 
-import edu.wheaton.simulator.entity.EntityID;
-
 /**
  * A class representing all the information to track from each Entity in the
  * game.
@@ -14,7 +12,7 @@ import edu.wheaton.simulator.entity.EntityID;
  */
 public abstract class EntitySnapshot {
 
-	public final EntityID id;
+	public final Integer entityID;
 
 	/**
 	 * The saved fields of this entity.
@@ -43,9 +41,9 @@ public abstract class EntitySnapshot {
 	 * @param prototype
 	 *            The prototype for this category of Entity.
 	 */
-	public EntitySnapshot(EntityID id, HashMap<String, FieldSnapshot> fields,
+	public EntitySnapshot(Integer entityID, HashMap<String, FieldSnapshot> fields,
 			Integer step, EntityPrototypeSnapshot prototype) {
-		this.id = id;
+		this.entityID = entityID;
 		this.step = step;
 		this.prototype = prototype;
 
@@ -53,8 +51,4 @@ public abstract class EntitySnapshot {
 		builder.putAll(fields);
 		this.fields = builder.build();
 	}
-
-	// public void getId() {
-	// System.out.print(id.name() + " " + id.id());
-	// }
 }

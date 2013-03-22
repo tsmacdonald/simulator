@@ -13,10 +13,8 @@ import edu.wheaton.simulator.datastructure.Field;
 
 public class UpdateField extends Behavior {
 
-	// TODO Unused field: UpdateField.field
 	private Field field;
 
-	// TODO Unused field: UpdateField.updateVal
 	private String updateVal;
 
 	public UpdateField(String name, String target, Field field,

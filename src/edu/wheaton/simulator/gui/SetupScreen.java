@@ -24,7 +24,6 @@ public class SetupScreen extends Screen {
 				}
 		);
 		this.add(backButton);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
