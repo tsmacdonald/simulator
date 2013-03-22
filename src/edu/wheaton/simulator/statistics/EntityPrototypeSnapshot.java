@@ -4,12 +4,13 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
+
 /**
  * Represents a category of agent at a particular moment in time.
  * 
  * @author Daniel Gill, Akon Ngoh
  */
-public class EntityPrototypeSnapshot {
+class EntityPrototypeSnapshot {
 
 	/**
 	 * The name of this category of agent.

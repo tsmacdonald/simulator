@@ -4,13 +4,14 @@ import java.util.HashMap;
 
 import com.google.common.collect.ImmutableMap;
 
+
 /**
  * A class representing all the information to track from each Entity in the
  * game.
  * 
  * @author Daniel Gill, Akon Ngoh
  */
-public abstract class EntitySnapshot {
+abstract class EntitySnapshot {
 
 	public final Integer entityID;
 
