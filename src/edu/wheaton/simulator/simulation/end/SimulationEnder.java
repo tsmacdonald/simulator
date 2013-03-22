@@ -88,7 +88,7 @@ public class SimulationEnder {
 		@Override
 		public boolean evaluate(int step, Grid grid) {
 			for (Slot s : grid) {
-				if (s.getEntity() != null)
+				if (s.getAgent() != null)
 					return false;
 			}
 			return true;
@@ -144,7 +144,7 @@ public class SimulationEnder {
 			
 			for (Slot currentSlot : grid) { 
 				Agent currentAgent; 
-				if ((currentAgent = (Agent) currentSlot.getEntity()) != null) { 
+				if ((currentAgent = (Agent) currentSlot.getAgent()) != null) { 
 					String currentCategory = currentAgent.getProtypeName();
 					Integer currentLimit; 
 					if ((currentLimit = currentPopulations.get(currentCategory)) != null)

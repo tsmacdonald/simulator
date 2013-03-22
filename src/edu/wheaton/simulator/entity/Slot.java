@@ -14,9 +14,9 @@ import edu.wheaton.simulator.simulation.Grid;
 public class Slot extends GridEntity {
 
 	/**
-	 * The Entity currently in this slot
+	 * The Agent currently in this slot
 	 */
-	private GridEntity entity;
+	private Agent agent;
 
 	/**
 	 * Constructor Sets up the Grid and makes the color object null, since
@@ -30,13 +30,13 @@ public class Slot extends GridEntity {
 	}
 
 	/**
-	 * Adds a different Entity to this slot
+	 * Adds a different Agent to this slot
 	 * 
 	 * @param a
-	 *            The new entity
+	 *            The new agent
 	 */
-	public void setEntity(GridEntity ge) {
-		entity = ge;
+	public void setAgent(Agent a) {
+		agent = a;
 	}
 
 	/**
@@ -44,8 +44,8 @@ public class Slot extends GridEntity {
 	 * 
 	 * @return The Agent reference
 	 */
-	public GridEntity getEntity() {
-		return entity;
+	public Agent getAgent() {
+		return agent;
 	}
 
 }

@@ -22,7 +22,7 @@ import edu.wheaton.simulator.entity.Slot;
 public class Grid implements Iterable<Slot> {
 
 	/**
-	 * The grid of all slots containing all Entity objects Total # slots =
+	 * The grid of all slots containing all Agent objects Total # slots =
 	 * Width x Height
 	 */
 	private Slot[][] grid;
@@ -58,62 +58,62 @@ public class Grid implements Iterable<Slot> {
 	public void updateEntities() {
 		for (Slot[] sArr : grid)
 			for (Slot s : sArr)
-				if (s.getEntity() != null)
-					((Agent) (s.getEntity())).act(null, null);
+				if (s.getAgent() != null)
+					s.getAgent().act(null, null);
 	}
 
 	/**
-	 * Places an entity to the slot at the given coordinates. This method
+	 * Places an Agent to the slot at the given coordinates. This method
 	 * replaces (kills) anything that is currently in that position.
 	 * 
-	 * @param ge
+	 * @param a
 	 * @param x
 	 * @param y
 	 */
-	public void addEntity(GridEntity ge, int x, int y) {
-		getSlot(x, y).setEntity(ge);
+	public void addAgent(Agent a, int x, int y) {
+		getSlot(x, y).setAgent(a);
 	}
 
 	/**
-	 * Adds the given entity at the closest free spot to the spawn position.
+	 * Adds the given Agent at the closest free spot to the spawn position.
 	 * The search for an open spot begins at the given x/y and then spirals
 	 * outwards.
 	 * 
-	 * @param ge
-	 *            The Entity to add.
+	 * @param a
+	 *            The Agent to add.
 	 * @param spawnX
 	 *            Central x location for spawn
 	 * @param spawnY
 	 *            Central y location for spawn
-	 * @return true if successful (entity added), false otherwise
+	 * @return true if successful (Agent added), false otherwise
 	 */
-	public boolean spawnEntity(GridEntity ge, int spawnX, int spawnY) {
+	public boolean spawnAgent(Agent a, int spawnX, int spawnY) {
 
 		for (int distance = 0; distance < height || distance < width; distance++) {
 			int x = spawnX - distance;
 			int y = spawnY - distance;
 			if (emptySlot(x, y)) {
-				addEntity(ge, x, y);
+				addAgent(a, x, y);
 				return true;
 			}
 			for (; x < spawnX + distance; x++)
 				if (emptySlot(x, y)) {
-					addEntity(ge, x, y);
+					addAgent(a, x, y);
 					return true;
 				}
 			for (; y < spawnY + distance; y++)
 				if (emptySlot(x, y)) {
-					addEntity(ge, x, y);
+					addAgent(a, x, y);
 					return true;
 				}
 			for (; x > spawnX - distance; x--)
 				if (emptySlot(x, y)) {
-					addEntity(ge, x, y);
+					addAgent(a, x, y);
 					return true;
 				}
 			for (; y > spawnY - distance; y--)
 				if (emptySlot(x, y)) {
-					addEntity(ge, x, y);
+					addAgent(a, x, y);
 					return true;
 				}
 		}
@@ -132,54 +132,54 @@ public class Grid implements Iterable<Slot> {
 	private boolean emptySlot(int x, int y) {
 		if (x < 0 || y < 0 || x > height || y > height)
 			return false;
-		if (getEntity(x, y) == null)
+		if (getAgent(x, y) == null)
 			return true;
 		return false;
 	}
 
 	/**
-	 * Adds the given entity to a random (but free) position.
+	 * Adds the given Agent to a random (but free) position.
 	 * 
-	 * @param ge
-	 *            The Entity to add.
+	 * @param a
+	 *            The Agent to add.
 	 */
-	public boolean spawnEntity(GridEntity ge) {
+	public boolean spawnAgent(Agent a) {
 		int randomX = (int) (Math.random() * width);
 		int randomY = (int) (Math.random() * height);
-		return spawnEntity(ge, randomX, randomY);
+		return spawnAgent(a, randomX, randomY);
 	}
 
 	/**
-	 * Returns the Entity in the slot at the given coordinates
+	 * Returns the Agent in the slot at the given coordinates
 	 * 
 	 * @param x
 	 * @param y
 	 */
-	public GridEntity getEntity(int x, int y) {
-		return getSlot(x, y).getEntity();
+	public Agent getAgent(int x, int y) {
+		return getSlot(x, y).getAgent();
 	}
 
 	/**
-	 * Removes a Entity from the slot at the given coordinates
+	 * Removes an Agent from the slot at the given coordinates
 	 * 
 	 * @param x
 	 * @param y
 	 */
-	public void removeEntity(int x, int y) {
-		getSlot(x, y).setEntity(null);
+	public void removeAgent(int x, int y) {
+		getSlot(x, y).setAgent(null);
 	}
 
 	/**
-	 * Removes the given entity from the grid.
+	 * Removes the given agent from the grid.
 	 * 
 	 * @param ge
-	 *            The Entity to remove.
+	 *            The Agent to remove.
 	 */
-	public void removeEntity(GridEntity ge) {
+	public void removeAgent(Agent a) {
 		for (Slot[] sArr : grid)
 			for (Slot s : sArr)
-				if (s.getEntity() == ge)
-					s.setEntity(null);
+				if (s.getAgent() == a)
+					s.setAgent(null);
 	}
 
 	/**
@@ -206,8 +206,8 @@ public class Grid implements Iterable<Slot> {
 	public void setLayerExtremes() throws EvaluationException {
 		for (Slot[] sArr : grid)
 			for (Slot s : sArr)
-				if (s.getEntity() != null) {
-					Field currentField = s.getEntity().getField(
+				if (s.getAgent() != null) {
+					Field currentField = s.getAgent().getField(
 							Layer.getInstance().getFieldName());
 					Layer.getInstance().setExtremes(currentField);
 				}
