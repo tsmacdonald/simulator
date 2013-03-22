@@ -9,35 +9,27 @@ import edu.wheaton.simulator.datastructure.Field;
 
 public class Entity {
 
-	private static Integer nextID = 0;
-
-	private static synchronized final Integer genID() {
-		Integer id = nextID;
-		++nextID;
-		return id;
-	}
-
 	/**
 	 * The list of all fields (variables) associated with this agent.
 	 */
 	private Map<String, String> fields;
-	private final Integer id;
+	//private final AgentID id;
 
-	private static Map<Integer, Entity> database = new HashMap<Integer, Entity>();
+	//private static Map<AgentID, Entity> database = new HashMap<AgentID, Entity>();
 
 	public Entity() {
-		id = genID();
+		//id = new AgentID();
 		fields = new HashMap<String, String>();
-		database.put(id, this);
+		//database.put(id, this);
 	}
 
-	public static synchronized Entity getEntity(Integer entityID) {
-		return database.get(entityID);
-	}
+//	public static synchronized Entity getEntity(AgentID agentID) {
+//		return database.get(agentID);
+//	}
 
-	public static synchronized Entity removeEntity(Integer entityID) {
-		return database.remove(entityID);
-	}
+//	public static synchronized Entity removeEntity(AgentID agentID) {
+//		return database.remove(agentID);
+//	}
 
 	/**
 	 * Note that if a field already exists for this agent with the same name as
@@ -92,7 +84,7 @@ public class Entity {
 		return fields;
 	}
 
-	public Integer getID() {
-		return id;
-	}
+//	public AgentID getID() {
+//		return id;
+//	}
 }
