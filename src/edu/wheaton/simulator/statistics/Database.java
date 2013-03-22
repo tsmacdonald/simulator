@@ -1,9 +1,11 @@
 package edu.wheaton.simulator.statistics;
 
 import java.util.Map;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.TreeBasedTable;
+
 import edu.wheaton.simulator.entity.EntityID;
 
 /**
@@ -38,7 +40,7 @@ public class Database {
 	}
 
 	public void putEntity(EntitySnapshot entity, int step) {
-		treeTable.put(entity.id, entity.step, entity); 
+		treeTable.put(entity.id, entity.step, entity);
 	}
 
 	/**

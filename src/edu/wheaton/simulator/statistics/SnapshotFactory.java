@@ -67,7 +67,7 @@ public class SnapshotFactory {
 			snap = new AgentSnapshot(id, fieldsForSnap, step, prototype, null);
 		else
 			snap = new SlotSnapshot(id, fieldsForSnap, step, prototype, null);
-		
+
 		return snap;
 	}
 

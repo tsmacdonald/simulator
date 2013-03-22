@@ -7,26 +7,25 @@ import javax.swing.JComponent;
 public class DisplayManager {
 
 	private static Display display;
-	
+
 	private static int id = 0;
-	
-	private DisplayManager(Display d){
+
+	private DisplayManager(Display d) {
 		display = d;
 		id++;
 	}
-	
-	public static DisplayManager getInstance(Display d){
-		if(getId() == 0)
+
+	public static DisplayManager getInstance(Display d) {
+		if (getId() == 0)
 			return new DisplayManager(d);
-		else
-			return null;
+		return null;
 	}
-	
-	public static int getId(){
+
+	public static int getId() {
 		return id;
 	}
-	
-	public void updateScreen(JComponent[] comp, LayoutManager l){
+
+	public void updateScreen(JComponent[] comp, LayoutManager l) {
 		display.updateDisplay(comp, l);
 	}
 }

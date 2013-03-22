@@ -69,6 +69,7 @@ public class EditSimScreen extends Screen {
 		components[2] = panel2;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		Screen update = this;
@@ -81,6 +82,6 @@ public class EditSimScreen extends Screen {
 	@Override
 	public void sendInfo() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

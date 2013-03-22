@@ -7,9 +7,9 @@ import edu.wheaton.simulator.entity.Entity;
 public interface ExpressionFunction {
 
 	public String getName();
-	
+
 	public int getResultType();
-	
+
 	public String execute(String[] args) throws EvaluationException;
 
 	public Entity resolveEntity(ExpressionEvaluator expr, String aliasName);

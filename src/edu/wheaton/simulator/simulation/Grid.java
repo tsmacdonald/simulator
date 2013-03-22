@@ -12,6 +12,9 @@ package edu.wheaton.simulator.simulation;
 import java.awt.Color;
 import java.util.Iterator;
 
+import net.sourceforge.jeval.EvaluationException;
+
+import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.GridEntity;
 import edu.wheaton.simulator.entity.Slot;
 
@@ -191,6 +194,22 @@ public class Grid implements Iterable<Slot> {
 		Layer.getInstance().setFieldName(fieldName);
 		Layer.getInstance().setColor(c);
 		Layer.getInstance().resetMinMax();
+	}
+
+	/**
+	 * Loops through the grid and set's the Layer's min/max values
+	 * PRECONDITION: The newLayer method has been called to setup a layer
+	 * 
+	 * @throws EvaluationException
+	 */
+	public void setLayerExtremes() throws EvaluationException {
+		for (Slot[] sArr : grid)
+			for (Slot s : sArr)
+				if (s.getEntity() != null) {
+					Field currentField = s.getEntity().getField(
+							Layer.getInstance().getFieldName());
+					Layer.getInstance().setExtremes(currentField);
+				}
 	}
 
 	/**

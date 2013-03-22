@@ -26,8 +26,7 @@ public class TitleScreen extends Screen {
 
 	public TitleScreen(ScreenManager sm) {
 		super(sm);
-		label = new JLabel("Welcome to the Simulator!",
-				SwingConstants.CENTER);
+		label = new JLabel("Welcome to the Simulator!", SwingConstants.CENTER);
 		label.setHorizontalTextPosition(SwingConstants.CENTER);
 		newSim = new JButton("New Simulation");
 		newSim.addActionListener(this);
@@ -41,8 +40,9 @@ public class TitleScreen extends Screen {
 		components[1] = newSim;
 		components[2] = loadSim;
 	}
-	
-	public void sendInfo(){
+
+	@Override
+	public void sendInfo() {
 		return;
 	}
 

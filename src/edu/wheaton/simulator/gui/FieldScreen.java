@@ -85,6 +85,7 @@ public class FieldScreen extends Screen {
 		
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		if (action.equals("Delete")) {
@@ -110,11 +111,12 @@ public class FieldScreen extends Screen {
 	@Override
 	public void sendInfo() {
 		// TODO Auto-generated method stub
-		
+
 	}
 	
 	private class FieldListener implements ListSelectionListener {
 
+		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			//TODO
 			

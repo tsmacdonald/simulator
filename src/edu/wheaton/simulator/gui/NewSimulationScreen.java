@@ -10,9 +10,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class NewSimulationScreen extends Screen{
+public class NewSimulationScreen extends Screen {
 
 	private static final long serialVersionUID = 1L;
+
+	private JLabel label;
 
 	private JPanel simPanel;
 
@@ -36,7 +38,7 @@ public class NewSimulationScreen extends Screen{
 
 	public int widthInt;
 
-	public NewSimulationScreen(ScreenManager sm){
+	public NewSimulationScreen(ScreenManager sm) {
 		super(sm);
 		label = new JLabel("New Simulation");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -64,6 +66,7 @@ public class NewSimulationScreen extends Screen{
 		components[2] = finishButton;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		nameString = name.getText();
 		try {
@@ -73,8 +76,8 @@ public class NewSimulationScreen extends Screen{
 		sm.update(sm.getScreen("Edit Simulation"));
 	}
 
-	public void sendInfo(){
-		//not sure what to do with this yet
+	@Override
+	public void sendInfo() {
+		// not sure what to do with this yet
 	}
-
 }
