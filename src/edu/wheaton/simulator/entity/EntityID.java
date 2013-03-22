@@ -1,5 +1,8 @@
 package edu.wheaton.simulator.entity;
 
+/**
+ * TODO: Goddamnit brandon write some documentation. 
+ */
 public class EntityID implements Comparable<EntityID> {
 
 	private static Integer nextID = 0;
@@ -19,5 +22,7 @@ public class EntityID implements Comparable<EntityID> {
 	public int compareTo(EntityID arg0) {
 		return this.id.compareTo(arg0.id);
 	}
+	
+	//TODO: Add a toString() method. 
 
 }
