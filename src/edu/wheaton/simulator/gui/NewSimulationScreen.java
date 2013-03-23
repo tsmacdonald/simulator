@@ -4,11 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
-<<<<<<< HEAD
 import java.awt.Graphics;
 import java.awt.GridLayout;
-=======
->>>>>>> df7dffc5ea6e1ee0d05988e2d4296e29558fb498
 import java.awt.event.ActionEvent;
 import java.awt.image.ImageObserver;
 
@@ -98,6 +95,7 @@ public class NewSimulationScreen extends Screen {
 		try {
 			heightInt = Integer.parseInt(height.getText());
 			widthInt = Integer.parseInt(width.getText());
+			sm.updateGUIManager(nameString, widthInt+"", heightInt+"");
 			JPanel[][] grid = new JPanel[heightInt][widthInt];
 			/*
 			 * Grid is formatted like the first quadrant of the Cartesian Plane. So bottom left corner is (0,0) 
