@@ -1,6 +1,10 @@
 package edu.wheaton.simulator.statistics;
 
-import java.util.TreeSet;
+import java.util.List;
+import java.util.Map;
+
+import edu.wheaton.simulator.entity.PrototypeID;
+
 
 public class StatisticsManager {
 
@@ -31,6 +35,11 @@ public class StatisticsManager {
 	 * The GridOberserver keeps track of changes in the grid.
 	 */
 	private GridObserver gridObserver;
+	
+	/**
+	 * Each index in the List stores the prototype snapshot associated with that step in the simulation
+	 */
+	private List<Map<PrototypeID, PrototypeSnapshot>> prototypes; 
 
 	// TODO: Some sort of behavior queue mapping AgentID's to behavior
 	// representations.
@@ -41,6 +50,7 @@ public class StatisticsManager {
 	private StatisticsManager() {
 		table = new EntitySnapshotTable();
 		gridObserver = new GridObserver(this);
+		prototypes = null;
 	}
 
 	/**
