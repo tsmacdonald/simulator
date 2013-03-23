@@ -16,7 +16,7 @@ public class UpdateFieldBehavior implements Behavior {
 	}
 
 	@Override
-	public void act(Agent target) throws EvaluationException {
+	public void execute(Agent target) throws EvaluationException {
 		target.updateField(fieldName,inputExpr.evaluateString());
 	}
 

@@ -8,7 +8,7 @@ public class DieBehavior implements Behavior {
 	}
 
 	@Override
-	public void act(Agent target) {
+	public void execute(Agent target) {
 		target.die();
 
 	}

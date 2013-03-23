@@ -9,7 +9,7 @@ public class MoveBehavior implements Behavior {
 	/**
 	 * The Grid in which the Agent will move.
 	 */
-	private Grid global;
+	private Grid grid;
 
 	/**
 	 * The expression for the x-position which the Agent will move to
@@ -24,15 +24,15 @@ public class MoveBehavior implements Behavior {
 	/**
 	 * Main constructor
 	 * 
-	 * @param global
+	 * @param grid
 	 *            The Grid in which the Agent will move
 	 * @param xExpr
 	 *            The expression for the new x-coordinate
 	 * @param yExpr
 	 *            The expression for the new y-coordinate
 	 */
-	public MoveBehavior(Grid global, Expression xExpr, Expression yExpr) {
-		this.global = global;
+	public MoveBehavior(Grid grid, Expression xExpr, Expression yExpr) {
+		this.grid = grid;
 		this.xExpr = xExpr;
 		this.yExpr = yExpr;
 	}
@@ -45,12 +45,12 @@ public class MoveBehavior implements Behavior {
 	 * thrown.
 	 */
 	@Override
-	public void act(Agent target) throws Exception {
+	public void execute(Agent target) throws Exception {
 		int x = (int) (xExpr.evaluateDouble() + 0.5);
 		int y = (int) (yExpr.evaluateDouble() + 0.5);
-		if (global.getSlot(x, y).getAgent() == null) {
-			global.getSlot(x, y).setAgent(target);
-			global.getSlot(target.getPosX(), target.getPosY()).setAgent(null);
+		if (grid.isValidCoord(x, y) && grid.getSlot(x, y).getAgent() == null) {
+			grid.getSlot(x, y).setAgent(target);
+			grid.getSlot(target.getPosX(), target.getPosY()).setAgent(null);
 			target.setPos(x, y);
 		} else
 			throw new FullSlotException();
