@@ -2,7 +2,10 @@ package edu.wheaton.simulator.statistics;
 
 import java.util.HashMap;
 
+import com.google.common.collect.ImmutableSet;
+
 import edu.wheaton.simulator.entity.EntityID;
+import edu.wheaton.simulator.entity.PrototypeID;
 
 
 /**
@@ -17,7 +20,12 @@ public class AgentSnapshot extends EntitySnapshot {
 	 * This Class and variable should provide details of this agent's most
 	 * recent interaction caused by a trigger.
 	 */
-	public final InteractionDescription interaction;
+	public final ImmutableSet<InteractionSnapshot> interactions;
+	
+	/**
+	 * The present prototype for the category of this Entity.
+	 */
+	public final PrototypeID prototype;
 
 	/**
 	 * Constructor
@@ -34,10 +42,11 @@ public class AgentSnapshot extends EntitySnapshot {
 	 *            the interaction details for this snapshot
 	 */
 	public AgentSnapshot(EntityID entityID, HashMap<String, FieldSnapshot> fields,
-			Integer step, PrototypeSnapshot prototype,
-			InteractionDescription interaction) {
-		super(entityID, fields, step, prototype);
-		this.interaction = interaction;
+			Integer step, PrototypeID prototype, 
+			ImmutableSet<InteractionSnapshot> interactions) {
+		super(entityID, fields, step);
+		this.prototype = prototype;
+		this.interactions = interactions;
 	}
 
 }
