@@ -1,40 +1,24 @@
 package edu.wheaton.simulator.behavior;
 
+import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.expression.Expression;
+import edu.wheaton.simulator.expression.ExpressionEvaluator;
 import edu.wheaton.simulator.simulation.Grid;
 
-public class MoveBehavior implements Behavior {
-
-	/**
-	 * The Grid in which the Agent will move.
-	 */
-	private Grid grid;
-
-	/**
-	 * The expression for the x-position which the Agent will move to
-	 */
-	private Expression xExpr;
-
-	/**
-	 * The expression for the y-position which the Agent will move to
-	 */
-	private Expression yExpr;
+public class MoveBehavior extends AbstractBehavior {
 
 	/**
 	 * Main constructor
 	 * 
-	 * @param grid
-	 *            The Grid in which the Agent will move
-	 * @param xExpr
-	 *            The expression for the new x-coordinate
-	 * @param yExpr
-	 *            The expression for the new y-coordinate
 	 */
-	public MoveBehavior(Grid grid, Expression xExpr, Expression yExpr) {
-		this.grid = grid;
-		this.xExpr = xExpr;
-		this.yExpr = yExpr;
+	public MoveBehavior(ExpressionEvaluator eval) {
+		super(eval);
+	}
+
+	@Override
+	public String getName() {
+		return "move";
 	}
 
 	/**
@@ -45,16 +29,19 @@ public class MoveBehavior implements Behavior {
 	 * thrown.
 	 */
 	@Override
-	public void execute(Agent target) throws Exception {
-		int x = (int) (xExpr.evaluateDouble() + 0.5);
-		int y = (int) (yExpr.evaluateDouble() + 0.5);
+	public String execute(String[] args) throws EvaluationException {
+		Agent target = (Agent) this.resolveEntity(this.getExprEval(), args[0].replaceAll("'",""));
+		Integer x = Integer.valueOf(args[1]);
+		Integer y = Integer.valueOf(args[2]);
+		
+		Grid grid = target.getGrid();
 		if (grid.isValidCoord(x, y) && grid.getSlot(x, y).getAgent() == null) {
 			grid.getSlot(x, y).setAgent(target);
 			grid.getSlot(target.getPosX(), target.getPosY()).setAgent(null);
 			target.setPos(x, y);
-		} else
-			throw new FullSlotException();
-
+			return "true";
+		}
+		return "false";
 	}
 
 }

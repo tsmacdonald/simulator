@@ -33,7 +33,7 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * The behavior that is executed when the trigger condition is met
 	 */
-	private ArrayList<Behavior> behaviorList;
+	private ArrayList<AbstractBehavior> behaviorList;
 
 	/**
 	 * Constructor
@@ -77,12 +77,8 @@ public class Trigger implements Comparable<Trigger> {
 	 * @throws EvaluationException
 	 *             if the expression was invalid
 	 */
-	public void evaluate(GridEntity xThis, Grid grid, GridEntity xLocal,
-			GridEntity xGlobal) throws EvaluationException {
-
-		// TODO not sure how to go about implementing this function
-		GridEntity xOther = null;
-
+	public void evaluate(Agent xThis) throws EvaluationException {
+		
 		ExpressionEvaluator expr = conditionExpression.clone();
 
 		expr.importEntity("this", xThis);

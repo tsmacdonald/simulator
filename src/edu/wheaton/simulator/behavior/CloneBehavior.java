@@ -1,25 +1,14 @@
 package edu.wheaton.simulator.behavior;
 
+import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.Entity;
+import edu.wheaton.simulator.expression.AbstractExpressionFunction;
 import edu.wheaton.simulator.expression.Expression;
+import edu.wheaton.simulator.expression.ExpressionEvaluator;
 import edu.wheaton.simulator.simulation.Grid;
 
-public class CloneBehavior implements Behavior {
-
-	/**
-	 * The expression for the x-coordinate where the clone will be placed
-	 */
-	private Expression xExpr;
-
-	/**
-	 * The expression for the y-coordinate where the clone will be placed
-	 */
-	private Expression yExpr;
-
-	/**
-	 * The grid into which the Agent is being cloned
-	 */
-	private Grid grid;
+public class CloneBehavior extends AbstractBehavior {
 
 	/**
 	 * Main (only) constructor for Clone
@@ -31,10 +20,13 @@ public class CloneBehavior implements Behavior {
 	 *            The expression for the y-coordinate where the clone will be
 	 *            placed
 	 */
-	public CloneBehavior(Grid grid, Expression xExpr, Expression yExpr) {
-		this.grid = grid;
-		this.xExpr = xExpr;
-		this.yExpr = yExpr;
+	public CloneBehavior(ExpressionEvaluator eval) {
+		super(eval);
+	}
+
+	@Override
+	public String getName() {
+		return "clone";
 	}
 
 	/**
@@ -44,13 +36,19 @@ public class CloneBehavior implements Behavior {
 	 * what happens as a result.
 	 */
 	@Override
-	public void execute(Agent target) throws Exception {
-		int x = (int) (xExpr.evaluateDouble() + 0.5);
-		int y = (int) (yExpr.evaluateDouble() + 0.5);
-		if (grid.isValidCoord(x, y) && grid.getAgent(x, y) == null) {
-			grid.addAgent(target, x, y);
-		} else
-			throw new FullSlotException();
+	public String execute(String[] args) throws EvaluationException {
+		Agent target = (Agent)resolveEntity(this.getExprEval(), args[0].replaceAll("'", ""));
+		
+		Integer x = Integer.valueOf(args[1]);
+		Integer y = Integer.valueOf(args[2]);
+		
+		Grid grid = target.getGrid();
+		
+		if(grid.isValidCoord(x, y) && grid.getAgent(x,y)==null){
+			grid.addAgent(target.getPrototype().clonePrototype(), x, y);
+			return "true";
+		}
+		return "false";
 	}
 
 }
