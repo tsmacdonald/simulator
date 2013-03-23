@@ -1,8 +1,7 @@
 package edu.wheaton.simulator.statistics;
 
-import java.util.TreeMap;
+import java.util.HashMap;
 
-import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Slot;
@@ -15,27 +14,32 @@ import edu.wheaton.simulator.entity.Slot;
 
 public class SnapshotFactory {
 
-	private SnapshotFactory() {
-	}
 
 	public static AgentSnapshot makeAgentSnapshot(Agent agent, Integer step) {
-//		TreeMap<String, FieldSnapshot> fieldSnapshotMap = new TreeMap<String, FieldSnapshot>(); 
-//		for (String fieldName : agent.getFieldMap().keySet()) { 
-//			
-//		}
-		return null;
+//		Sort out with the Agent guys just wtf is up with fields. 
+		return null; // TODO 
 	}
 
 	public static SlotSnapshot makeSlotSnapshot(Slot slot, Integer step) {
 		return null; // TODO
 	}
 
-	public static FieldSnapshot makeFieldSnapshot(Field field) {
-		return null; // TODO
+	public static FieldSnapshot makeFieldSnapshot(String name, String value) {
+		return new FieldSnapshot(name, value);
+	}
+	
+	public static ImmutableMap<String, FieldSnapshot> makeFieldSnapshots(HashMap<String, String> fields) { 
+//		for (String name : fields.keySet()) { 
+//			
+//		}
+		return null;
 	}
 
-	public static PrototypeSnapshot makePrototypeSnapshot(String prototypeName, Prototype prototype,
+	public static PrototypeSnapshot makePrototypeSnapshot(Prototype prototype,
 			Integer step) {
 		return null; // TODO
+	}
+	
+	private SnapshotFactory() {
 	}
 }
