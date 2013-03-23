@@ -115,6 +115,7 @@ public class EditEntityScreen extends Screen {
 		addFieldButton = new JButton("Add Field");
 		addFieldButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						JPanel newPanel = new JPanel();
 						newPanel.setLayout(
@@ -161,6 +162,7 @@ public class EditEntityScreen extends Screen {
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.update(sm.getScreen("Edit Simulation")); 
 					} 
@@ -169,6 +171,7 @@ public class EditEntityScreen extends Screen {
 		JButton finishButton = new JButton("Finish");
 		finishButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.update(sm.getScreen("Edit Simulation")); 
 					} 
