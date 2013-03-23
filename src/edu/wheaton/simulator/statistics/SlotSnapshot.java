@@ -13,7 +13,7 @@ import edu.wheaton.simulator.entity.EntityID;
  * @author Akon, Daniel Gill
  * 
  */
-class SlotSnapshot extends EntitySnapshot {
+public class SlotSnapshot extends EntitySnapshot {
 
 	/**
 	 * How many agents are occupying this slot
