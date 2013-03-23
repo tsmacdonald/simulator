@@ -16,7 +16,6 @@ import net.sourceforge.jeval.EvaluationException;
 
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.entity.GridEntity;
 import edu.wheaton.simulator.entity.Slot;
 
 public class Grid implements Iterable<Slot> {

@@ -28,7 +28,7 @@ public class Prototype extends GridEntity {
 	/**
 	 * HashMap of Prototypes with associated names
 	 */
-	private static HashMap<String, Prototype> prototypes = new HashMap<String, Prototype>();;
+	private static HashMap<String, Prototype> prototypes = new HashMap<String, Prototype>();
 
 	/**
 	 * The list of all triggers/events associated with this prototype.

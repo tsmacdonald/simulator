@@ -1,6 +1,5 @@
 package edu.wheaton.simulator.simulation;
 
-import edu.wheaton.simulator.statistics.Database;
 import edu.wheaton.simulator.statistics.EntitySnapshot;
 
 public class DatabaseHandler {
