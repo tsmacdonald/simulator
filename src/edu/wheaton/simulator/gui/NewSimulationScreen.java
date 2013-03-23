@@ -1,10 +1,18 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+<<<<<<< HEAD
+import java.awt.Graphics;
+import java.awt.GridLayout;
+=======
+>>>>>>> df7dffc5ea6e1ee0d05988e2d4296e29558fb498
 import java.awt.event.ActionEvent;
+import java.awt.image.ImageObserver;
 
+import java.lang.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -14,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 
 
 public class NewSimulationScreen extends Screen {
@@ -84,6 +93,7 @@ public class NewSimulationScreen extends Screen {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//TODO The simulation as a whole will be created in here
 		nameString = name.getText();
 		try {
 			heightInt = Integer.parseInt(height.getText());
@@ -92,15 +102,13 @@ public class NewSimulationScreen extends Screen {
 			/*
 			 * Grid is formatted like the first quadrant of the Cartesian Plane. So bottom left corner is (0,0) 
 			 */
-			for (int j = 0; j < widthInt; j++)
+			for (int j = 0; j < widthInt; j++){
 	            for (int i = 0; i < heightInt; i++) {
 	                grid[i][j] = new JPanel();
 	                grid[i][j].setOpaque(false);
-	                grid[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
-	            }
-			grid[4][4].setOpaque(true);
-			grid[4][4].setBackground(Color.BLACK);
-
+	                grid[i][j].setBorder(BorderFactory.createEtchedBorder());
+	            }	
+			}
 			sm.setGrid(grid);
 			((ViewSimScreen)sm.getScreen("View Simulation")).createGrid(grid);
 		} catch(java.lang.NumberFormatException nfe) { }
