@@ -5,44 +5,42 @@ import java.util.TreeSet;
 public class StatisticsManager {
 
 	/**
-	 * The single instance of the StatisticsManager.
-	 */
-	private static StatisticsManager instance;
-
-	/**
-	 * Get the StatisticsManager. Insures there is at most only ever one
-	 * StatisticsManager.
-	 * 
-	 * @return The StatisticsManager
-	 */
-	public static StatisticsManager getSnapShotManager() {
-		if (instance == null)
-			instance = new StatisticsManager();
-		return instance;
-
-	}
-
-	/**
 	 * The table on which all entity snapshots will be stored.
 	 */
 	private EntitySnapshotTable table;
+
+	/**
+	 * The number of steps the simulation has taken.
+	 * Effectively it is the largest step it has encountered in
+	 * a Snapshot given to it. 
+	 */
+	private int numSteps;
 
 	/**
 	 * The GridOberserver keeps track of changes in the grid.
 	 */
 	private GridObserver gridObserver;
 
-	// TODO: Appropriate datastructure for storing sets of prototype snapshots over time. 
-	
+	// TODO: Appropriate datastructure for storing sets of prototype snapshots
+	// over time.
+
 	// TODO: Some sort of behavior queue mapping AgentID's to behavior
 	// representations.
 
 	/**
 	 * Private constructor to prevent wanton instantiation.
 	 */
-	private StatisticsManager() {
+	public StatisticsManager() {
 		table = new EntitySnapshotTable();
 		gridObserver = new GridObserver(this);
+		numSteps = 0;
+	}
+
+	/**
+	 * @return The total number of steps the simulation has taken.
+	 */
+	public int getTotalSteps() {
+		return numSteps;
 	}
 
 	/**
@@ -62,5 +60,7 @@ public class StatisticsManager {
 	 */
 	public void addGridEntity(EntitySnapshot gridEntity) {
 		table.putEntity(gridEntity);
+		if (gridEntity.step > numSteps)
+			numSteps = gridEntity.step; 
 	}
 }
