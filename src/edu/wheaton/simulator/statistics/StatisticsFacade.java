@@ -16,6 +16,7 @@ import java.awt.Color;
 
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.simulation.Grid;
 
@@ -28,13 +29,13 @@ public class StatisticsFacade {
 	 * 
 	 * @return AgentID of Agent
 	 */
-	public Agent getAgent() {
+	public AgentID getAgent() {
 		// TODO properly initialize variables
 		Grid grid = null;
 		Color color = null;
 		byte[] design = null;
 		Agent agent = new Agent(grid, color, design);
-		AgentID id = agent.getID();
+		AgentID id = agent.getAgentID();
 		return id;
 	}
 	
@@ -47,7 +48,7 @@ public class StatisticsFacade {
 	 */
 	public Field getField() {
 		Entity entity = new Entity();
-		Field field = entity.getField();
+		Field field = entity.getField(Object);
 		return field;
 	}
 
