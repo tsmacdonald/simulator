@@ -1,7 +1,8 @@
 package edu.wheaton.simulator.statistics;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeSet;
+import java.util.Map;
 
 import edu.wheaton.simulator.entity.PrototypeID;
 
@@ -39,7 +40,7 @@ public class StatisticsManager {
 	public StatisticsManager() {
 		table = new EntitySnapshotTable();
 		gridObserver = new GridObserver(this);
-		prototypes = null;
+		prototypes = new LinkedList<Map<PrototypeID,PrototypeSnapshot>>();
 	}
 
 	/**

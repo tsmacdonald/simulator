@@ -42,15 +42,15 @@ public class PrototypeSnapshot {
 
 	/**
 	 * Constructor. 
-	 * @param name
-	 * @param fields
-	 * @param population
-	 * @param step
+	 * @param categoryName The name of this prototype. 
+	 * @param fields The default fields for this prototype. 
+	 * @param population The population of this prototype. 
+	 * @param step The current moment in time. 
 	 */
-	public PrototypeSnapshot(String name,
+	public PrototypeSnapshot(String categoryName,
 			ImmutableMap<String, FieldSnapshot> fields,
 			ImmutableSet<AgentID> children, Integer step) {
-		this.name = name; 
+		this.categoryName = categoryName; 
 		this.defaultFields = fields; 
 		this.children = children;
 		this.population = children.size(); 
