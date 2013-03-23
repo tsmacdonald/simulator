@@ -2,6 +2,7 @@ package edu.wheaton.simulator.statistics;
 
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Slot;
 
 /**
@@ -16,15 +17,18 @@ public class SnapshotFactory {
 	}
 
 	public static AgentSnapshot makeAgentSnapshot(Agent agent) { 
-		return null; 
+		return null; //TODO
 	}
 	
 	public static SlotSnapshot makeSlotSnapshot(Slot slot) { 
-		return null; 
+		return null; //TODO
 	}
 	
 	public static FieldSnapshot makeFieldSnapshot(Field field) { 
-		return null;
+		return null; //TODO
 	}
 
+	public static PrototypeSnapshot makePrototypeSnapshot(Prototype prototype) { 
+		return null; //TODO
+	}
 }

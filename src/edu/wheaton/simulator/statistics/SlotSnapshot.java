@@ -35,7 +35,7 @@ public class SlotSnapshot extends EntitySnapshot {
 	 *            The Agent that may have occupied this Slot. 
 	 */
 	public SlotSnapshot(Integer id, HashMap<String, FieldSnapshot> fields,
-			Integer step, EntityPrototypeSnapshot prototype,
+			Integer step, PrototypeSnapshot prototype,
 			EntityID agent) {
 		super(id, fields, step, prototype);
 

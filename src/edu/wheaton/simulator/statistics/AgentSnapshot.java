@@ -32,7 +32,7 @@ public class AgentSnapshot extends EntitySnapshot {
 	 *            the interaction details for this snapshot
 	 */
 	public AgentSnapshot(Integer entityID, HashMap<String, FieldSnapshot> fields,
-			Integer step, EntityPrototypeSnapshot prototype,
+			Integer step, PrototypeSnapshot prototype,
 			InteractionDescription interaction) {
 		super(entityID, fields, step, prototype);
 		this.interaction = interaction;
