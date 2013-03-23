@@ -1,5 +1,7 @@
 package edu.wheaton.simulator.statistics;
 
+import edu.wheaton.simulator.entity.EntityID;
+
 public class StatisticsManager {
 
 	/**
@@ -31,5 +33,7 @@ public class StatisticsManager {
 	private StatisticsManager() { 
 		table = new EntitySnapshotTable(); 
 	}
+	
+	
 	
 }
