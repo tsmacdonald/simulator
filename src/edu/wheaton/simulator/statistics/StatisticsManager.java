@@ -65,10 +65,37 @@ public class StatisticsManager {
 	/**
 	 * Store a snapshot of a gridEntity.
 	 * 
-	 * @param gridEntity
-	 *            The Snapshot to be stored.
+	 * @param gridEntity The Snapshot to be stored.
 	 */
 	public void addGridEntity(EntitySnapshot gridEntity) {
 		table.putEntity(gridEntity);
+	}
+	
+	/**
+	 * Get data for a graph of the population of a certain GridEntity over time
+	 * @param id The PrototypeID of the GridEntity to be tracked
+	 * @return An array where indexes refer to the step in the simulation and the value refers to the population of the targeted entity at that time
+	 */
+	public int[] getPopVsTime(PrototypeID id){
+		return null; 
+	}
+	
+	/**
+	 * Get data for a graph of the average value of a field over time
+	 * @param id The PrototypeID of the GridEntity to be tracked
+	 * @param FieldName The name of the field to be tracked
+	 * @return An array where indexes refer to the step in the simulation and the value refers to average field value at that time
+	 */
+	public double[] getAvgFieldValue(PrototypeID id, String FieldName){
+		return null; 
+	}
+	
+	/**
+	 * Get the average lifespan of a given GridEntity
+	 * @param id The PrototypeID of the GridEntity to be tracked
+	 * @return The average lifespan of the specified GridEntity
+	 */
+	public double getAvgLifespan(PrototypeID id){
+		return 0.0; 
 	}
 }
