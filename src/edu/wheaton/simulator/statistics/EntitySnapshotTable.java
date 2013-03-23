@@ -27,13 +27,11 @@ class EntitySnapshotTable {
 	/**
 	 * Put a snapshot of the given entity into the Grid.
 	 * 
-	 * @param entity
+	 * @param entitySnapshot The Snapshot to be stored. 
 	 *            The entity to be captured.
-	 * @param step
-	 *            The current step.
 	 */
-	public void putEntity(EntitySnapshot entity, int step) {
-		table.put(entity.entityID, entity.step, entity);
+	public void putEntity(EntitySnapshot entitySnapshot) {
+		table.put(entitySnapshot.entityID, entitySnapshot.step, entitySnapshot);
 	}
 
 	/**
