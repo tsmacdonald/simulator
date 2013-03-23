@@ -37,6 +37,7 @@ public class GridObserver {
 						currentPrototypeName,
 						prototypes.get(currentPrototypeName), step);
 			}
+			// TODO Add prototype method once Daniel is done with it
 		}
 	}
 }
