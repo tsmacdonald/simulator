@@ -155,7 +155,8 @@ public class SimulationEnder {
 	private final class AgentPopulationCondition implements EndCondition {
 		// TODO: Change Strings to Prototype ID's after those exist.
 		/**
-		 * The map where the names of prototypes
+		 * The map where the names of prototypes are associated
+		 * with population limits.
 		 */
 		private TreeMap<String, Integer> popLimits;
 

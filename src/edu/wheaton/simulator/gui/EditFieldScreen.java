@@ -69,6 +69,7 @@ public class EditFieldScreen extends Screen {
 		cancelButton.setPreferredSize(new Dimension(120, 60));
 		cancelButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.update(sm.getScreen("Edit Simulation")); 
 						} 
@@ -78,6 +79,7 @@ public class EditFieldScreen extends Screen {
 		finishButton.setPreferredSize(new Dimension(120, 60));
 		finishButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.update(sm.getScreen("Edit Simulation")); 
 						} 
