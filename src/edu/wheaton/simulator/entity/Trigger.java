@@ -13,7 +13,7 @@ package edu.wheaton.simulator.entity;
 import java.util.ArrayList;
 
 import net.sourceforge.jeval.EvaluationException;
-import edu.wheaton.simulator.behavior.Behavior;
+import edu.wheaton.simulator.behavior.AbstractBehavior;
 import edu.wheaton.simulator.expression.ExpressionEvaluator;
 import edu.wheaton.simulator.simulation.Grid;
 
@@ -45,12 +45,12 @@ public class Trigger implements Comparable<Trigger> {
 	 *            boolean expression this trigger represents
 	 */
 	public Trigger(int priority, ExpressionEvaluator conditionExpression,
-			Behavior... behaviors) {
+			AbstractBehavior... behaviors) {
 		this.priority = priority;
 		this.conditionExpression = conditionExpression;
 		
-		behaviorList = new ArrayList<Behavior>();
-		for( Behavior b : behaviors)
+		behaviorList = new ArrayList<AbstractBehavior>();
+		for( AbstractBehavior b : behaviors)
 			behaviorList.add(b);
 	}
 
@@ -116,7 +116,7 @@ public class Trigger implements Comparable<Trigger> {
 	 */
 	public void fire(GridEntity xThis, GridEntity xOther, GridEntity xLocal,
 			GridEntity xGlobal) {
-		for (Behavior b : behaviorList)
+		for (AbstractBehavior b : behaviorList)
 			b.execute(xThis, xOther, xLocal, xGlobal);
 	}
 
