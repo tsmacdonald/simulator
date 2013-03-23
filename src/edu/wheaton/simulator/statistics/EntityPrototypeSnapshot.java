@@ -10,7 +10,7 @@ import com.google.common.collect.ImmutableMap;
  * 
  * @author Daniel Gill, Akon Ngoh
  */
-class EntityPrototypeSnapshot {
+public class EntityPrototypeSnapshot {
 
 	/**
 	 * The name of this category of agent.

@@ -9,7 +9,7 @@ import java.util.HashMap;
  * @author Akon
  * 
  */
-class AgentSnapshot extends EntitySnapshot {
+public class AgentSnapshot extends EntitySnapshot {
 
 	/**
 	 * This Class and variable should provide details of this agent's most

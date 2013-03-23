@@ -11,7 +11,7 @@ import com.google.common.collect.ImmutableMap;
  * 
  * @author Daniel Gill, Akon Ngoh
  */
-abstract class EntitySnapshot {
+public abstract class EntitySnapshot {
 
 	public final Integer entityID;
 

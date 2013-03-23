@@ -10,7 +10,7 @@ import edu.wheaton.simulator.simulation.Grid;
  * @author Daniel Gill, Nico Lasta
  *
  */
-class GridObserver {
+public class GridObserver {
 
 	private StatisticsManager statManager;
 	

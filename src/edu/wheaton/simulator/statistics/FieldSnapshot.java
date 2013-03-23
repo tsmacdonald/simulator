@@ -5,7 +5,7 @@ package edu.wheaton.simulator.statistics;
  * 
  * @author Daniel Gill
  */
-class FieldSnapshot {
+public class FieldSnapshot {
 
 	/**
 	 * The name of this particular field.
