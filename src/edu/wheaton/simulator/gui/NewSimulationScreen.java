@@ -84,6 +84,7 @@ public class NewSimulationScreen extends Screen {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//TODO The simulation as a whole will be created in here
 		nameString = name.getText();
 		try {
 			heightInt = Integer.parseInt(height.getText());
