@@ -37,11 +37,11 @@ public class EntitySnapshot {
 	 * @param step
 	 *            The step in the simulation associated with this snapshot.
 	 */
-	public EntitySnapshot(EntityID entityID, Map<String, String> fields,
+	public EntitySnapshot(EntityID entityID, ImmutableMap<String, FieldSnapshot> fields,
 			Integer step) {
 		this.entityID = entityID;
 		this.step = step;
-		this.fields = SnapshotFactory.makeFieldSnapshots(fields);
+		this.fields = fields;
 	}
 	
 }
