@@ -24,7 +24,7 @@ public class GridObserver {
 
 	public void observe(Grid grid, Integer step, HashMap<String, Prototype> prototypes) { 
 		for (Slot s : grid) { 
-			SlotSnapshot slotSnap = SnapshotFactory.makeSlotSnapshot(s, step);
+			EntitySnapshot slotSnap = SnapshotFactory.makeSlotSnapshot(s, step);
 			statManager.addGridEntity(slotSnap);
 			Agent agent = s.getAgent();
 			if (agent == null) 
@@ -34,7 +34,6 @@ public class GridObserver {
 			for (String currentPrototypeName : prototypes.keySet()) { 
 				PrototypeSnapshot currentSnapshot;
 				currentSnapshot = SnapshotFactory.makePrototypeSnapshot(
-						currentPrototypeName,
 						prototypes.get(currentPrototypeName), step);
 			}
 			// TODO Add prototype method once Daniel is done with it

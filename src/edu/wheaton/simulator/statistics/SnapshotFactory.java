@@ -20,7 +20,7 @@ public class SnapshotFactory {
 		return null; // TODO 
 	}
 
-	public static SlotSnapshot makeSlotSnapshot(Slot slot, Integer step) {
+	public static EntitySnapshot makeSlotSnapshot(Slot slot, Integer step) {
 		return null; // TODO
 	}
 

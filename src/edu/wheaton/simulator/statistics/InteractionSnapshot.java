@@ -1,10 +1,10 @@
 package edu.wheaton.simulator.statistics;
 
-public class InteractionDescription {
+public class InteractionSnapshot {
 
 	String deets;
 
-	public InteractionDescription() {
+	public InteractionSnapshot() {
 		deets = "I did something";
 	}
 	
