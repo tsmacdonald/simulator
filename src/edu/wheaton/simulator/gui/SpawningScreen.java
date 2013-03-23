@@ -203,7 +203,7 @@ public class SpawningScreen extends Screen {
 		mainPanel.add(newPanel);
 		mainPanel.add(addSpawnButton);
 		mainPanel.add(glue);
-		repaint();	
+		this.repaint();	
 	}
 
 }

@@ -34,7 +34,7 @@ public class Grid implements Iterable<Slot> {
 	public Grid(int width, int height) {
 		this.width = width;
 		this.height = height;
-		grid = new Slot[getHeight()][getWidth()];
+		grid = new Slot[height][width];
 	}
 
 	public Integer getWidth() {
