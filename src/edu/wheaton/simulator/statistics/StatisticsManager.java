@@ -77,7 +77,14 @@ public class StatisticsManager {
 	 * @return An array where indexes refer to the step in the simulation and the value refers to the population of the targeted entity at that time
 	 */
 	public int[] getPopVsTime(PrototypeID id){
-		return null; 
+		int[] data = new int[prototypes.size()]; 
+		
+		for(int i = 0; i < data.length; i++){
+			if(prototypes.get(i).containsKey(id))
+				data[i] = prototypes.get(i).get(id).childPopulation; 				
+		}
+		
+		return data; 
 	}
 	
 	/**

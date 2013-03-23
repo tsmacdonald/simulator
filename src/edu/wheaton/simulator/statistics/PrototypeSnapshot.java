@@ -16,6 +16,11 @@ public class PrototypeSnapshot {
 	 * The name of this category of agent.
 	 */
 	public final String categoryName;
+	
+	/**
+	 * The number of children this prototype has
+	 */
+	public final int childPopulation; 
 
 	/**
 	 * The default field values for agents of this category.
@@ -30,9 +35,10 @@ public class PrototypeSnapshot {
 	 * @param defaultFields
 	 *            The default fields for this category of agent.
 	 */
-	public PrototypeSnapshot(String categoryName,
+	public PrototypeSnapshot(String categoryName, int childPopulation, 
 			Map<String, FieldSnapshot> defaultFields) {
 		this.categoryName = categoryName;
+		this.childPopulation = childPopulation; 
 		this.defaultFields = new ImmutableMap.Builder<String, FieldSnapshot>()
 				.putAll(defaultFields).build();
 	}
