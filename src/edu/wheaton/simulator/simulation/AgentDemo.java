@@ -14,7 +14,6 @@ import java.awt.Color;
 import java.util.Scanner;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
-import edu.wheaton.simulator.entity.Behavior;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;

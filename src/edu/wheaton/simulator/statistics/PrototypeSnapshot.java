@@ -1,7 +1,5 @@
 package edu.wheaton.simulator.statistics;
 
-import java.util.Set;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
