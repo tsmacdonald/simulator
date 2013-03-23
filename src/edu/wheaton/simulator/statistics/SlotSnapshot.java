@@ -12,7 +12,7 @@ import com.google.common.collect.ImmutableSet;
  * @author Akon, Daniel Gill
  * 
  */
-class SlotSnapshot extends EntitySnapshot {
+public class SlotSnapshot extends EntitySnapshot {
 
 	/**
 	 * How many agents are occupying this slot

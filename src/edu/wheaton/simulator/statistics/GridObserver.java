@@ -26,6 +26,7 @@ public class GridObserver {
 			// store snapshot of Slot
 			// store snapshot of Agent (if != null)
 			
+			
 		}
 	}
 }
