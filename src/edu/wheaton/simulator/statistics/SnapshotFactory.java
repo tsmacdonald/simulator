@@ -1,6 +1,6 @@
 package edu.wheaton.simulator.statistics;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -30,7 +30,7 @@ public class SnapshotFactory {
 		return new FieldSnapshot(name, value);
 	}
 	
-	public static ImmutableMap<String, FieldSnapshot> makeFieldSnapshots(HashMap<String, String> fields) { 
+	public static ImmutableMap<String, FieldSnapshot> makeFieldSnapshots(Map<String, String> fields) { 
 		ImmutableMap.Builder<String, FieldSnapshot> builder = 
 				new ImmutableMap.Builder<String, FieldSnapshot>(); 
 		for (String name : fields.keySet()) { 
