@@ -43,22 +43,11 @@ public class Trigger {
 	 * @param conditions
 	 *            boolean expression this trigger represents
 	 */
-<<<<<<< HEAD
 	public Trigger(String name, ExpressionEvaluator conditionExpression,
 			ExpressionEvaluator behavior) {
 		this.name = name;
 		this.conditionExpression = conditionExpression;
-		this.behavior = behavior;		
-=======
-	public Trigger(int priority, ExpressionEvaluator conditionExpression,
-			AbstractBehavior... behaviors) {
-		this.priority = priority;
-		this.conditionExpression = conditionExpression;
-		
-		behaviorList = new ArrayList<AbstractBehavior>();
-		for( AbstractBehavior b : behaviors)
-			behaviorList.add(b);
->>>>>>> 1e7b4113a1ab5ec9657793f07fcd9fcb2261c3a1
+		this.behavior = behavior;
 	}
 
 	/**
@@ -109,14 +98,8 @@ public class Trigger {
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
-<<<<<<< HEAD
 	public void fire() {
 		//Needs to be updated to work with new behaviors
-=======
-	public void fire(GridEntity xThis, GridEntity xOther, GridEntity xLocal,
-			GridEntity xGlobal) {
-		for (AbstractBehavior b : behaviorList)
-			b.execute(xThis, xOther, xLocal, xGlobal);
 	}
 
 	/**
@@ -135,7 +118,6 @@ public class Trigger {
 		} else {
 			return -1;
 		}
->>>>>>> 1e7b4113a1ab5ec9657793f07fcd9fcb2261c3a1
 	}
 
 	/**
