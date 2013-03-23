@@ -3,7 +3,6 @@ package edu.wheaton.simulator.statistics;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.TreeBasedTable;
 
-
 /**
  * This class is an abstraction of a database which is represented by a Table,
  * provided by the Guava libraries
@@ -27,8 +26,8 @@ class EntitySnapshotTable {
 	/**
 	 * Put a snapshot of the given entity into the Grid.
 	 * 
-	 * @param entitySnapshot The Snapshot to be stored. 
-	 *            The entity to be captured.
+	 * @param entitySnapshot
+	 *            The Snapshot to be stored. The entity to be captured.
 	 */
 	public void putEntity(EntitySnapshot entitySnapshot) {
 		table.put(entitySnapshot.entityID, entitySnapshot.step, entitySnapshot);
