@@ -64,8 +64,9 @@ public class Prototype extends GridEntity {
 	 */
 	public Prototype(Grid g, Color c, byte[] d) {
 		super(g, c, d);
-		triggers = new ArrayList<Trigger>();
+		id = new PrototypeID();
 		children = new ArrayList<Agent>();
+		triggers = new ArrayList<Trigger>();
 	}
 
 	/**
