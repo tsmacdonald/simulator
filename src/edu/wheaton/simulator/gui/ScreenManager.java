@@ -41,5 +41,5 @@ public class ScreenManager {
 	
 	public JPanel[][] getGrid(){
 		return grid;
-	};
+	}
 }

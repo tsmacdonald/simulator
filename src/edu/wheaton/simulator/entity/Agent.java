@@ -19,7 +19,7 @@ import edu.wheaton.simulator.simulation.Grid;
 
 public class Agent extends GridEntity {
 
-	private AgentID id;
+	private final AgentID id;
 	
 	/**
 	 * The list of all triggers/events associated with this agent.
@@ -29,6 +29,31 @@ public class Agent extends GridEntity {
 	/**
 	 * Constructor.
 	 * 
+	 * Makes an agent with the default gridEntity color
+	 * @param g
+	 *            The grid (passed to super constructor)
+	 */
+	public Agent(Grid g) {
+		super(g);
+		triggers = new ArrayList<Trigger>();
+		id = new AgentID();
+	}
+	/**
+	 * Constructor.
+	 * Makes an agent with a solid color
+	 * @param g
+	 *            The grid (passed to super constructor)
+	 * @param c
+	 *            The color of this agent (passed to super constructor)
+	 */
+	public Agent(Grid g, Color c) {
+		super(g, c);
+		triggers = new ArrayList<Trigger>();
+		id = new AgentID();
+	}
+	/**
+	 * Constructor.
+	 * Makes an agent with custom color and color map
 	 * @param g
 	 *            The grid (passed to super constructor)
 	 * @param c
@@ -45,22 +70,13 @@ public class Agent extends GridEntity {
 	/**
 	 * Causes this Agent to perform 1 action. The first trigger with valid
 	 * conditions will fire.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void act(GridEntity local, GridEntity global) {
 		try {
-			for (Trigger t : triggers) {
-				Agent triggerer = t.evaluate(this, getGrid(), local, global);
-				if (triggerer != null) {
-					if (triggerer == this)
-						t.fire(this, null, local, global);
-					else
-						t.fire(this, triggerer, local, global);
-
-					break;
-				}
-			}
+			for (Trigger t : triggers)
+				t.evaluate(this, getGrid(), local, global);
 		} catch (Exception e) {
 			System.err.println(e);
 		}
@@ -124,7 +140,7 @@ public class Agent extends GridEntity {
 		updateField("y", y);
 	}
 	
-	public AgentID getID(){
+	public AgentID getAgentID(){
 		return id;
 	}
 }

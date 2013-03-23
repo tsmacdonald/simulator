@@ -5,7 +5,7 @@ import net.sourceforge.jeval.function.Function;
 import edu.wheaton.simulator.entity.Entity;
 
 public interface ExpressionFunction {
-
+	
 	public String getName();
 
 	public int getResultType();

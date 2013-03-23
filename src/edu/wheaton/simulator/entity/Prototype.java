@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -28,12 +29,14 @@ public class Prototype extends GridEntity {
 	/**
 	 * HashMap of Prototypes with associated names
 	 */
-	private static HashMap<String, Prototype> prototypes = new HashMap<String, Prototype>();;
+	private static HashMap<String, Prototype> prototypes = new HashMap<String, Prototype>();
 
 	/**
 	 * The list of all triggers/events associated with this prototype.
 	 */
 	private List<Trigger> triggers;
+	
+	private final PrototypeID id;
 
 	/**
 	 * Constructor.
@@ -45,6 +48,7 @@ public class Prototype extends GridEntity {
 	 */
 	public Prototype(Grid g, Color c) {
 		super(g, c);
+		id = new PrototypeID();
 		children = new ArrayList<Agent>();
 		triggers = new ArrayList<Trigger>();
 	}
@@ -61,6 +65,7 @@ public class Prototype extends GridEntity {
 	 */
 	public Prototype(Grid g, Color c, byte[] d) {
 		super(g, c, d);
+		id = new PrototypeID();
 		triggers = new ArrayList<Trigger>();
 		children = new ArrayList<Agent>();
 	}
@@ -143,5 +148,20 @@ public class Prototype extends GridEntity {
 	public int childPopulation() {
 		return children.size();
 	}
+	
+	/**
+	 * Gives the AgentID objects for all of the Agents that use this specific prototype.
+	 * @return A HashSet of AgentIDs
+	 */
+	public HashSet<AgentID> childIDs() {
+		HashSet<AgentID> toReturn = new HashSet<AgentID>();
+		for(Agent current : children) {
+			toReturn.add(current.getAgentID());
+		}
+		return toReturn;
+	}
 
+	public PrototypeID getPrototypeID(){
+		return id;
+	}
 }

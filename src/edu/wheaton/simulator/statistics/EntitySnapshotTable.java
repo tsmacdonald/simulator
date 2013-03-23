@@ -3,6 +3,7 @@ package edu.wheaton.simulator.statistics;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.TreeBasedTable;
 
+import edu.wheaton.simulator.entity.EntityID;
 
 /**
  * This class is an abstraction of a database which is represented by a Table,
@@ -15,7 +16,7 @@ class EntitySnapshotTable {
 	/**
 	 * This table will be used to put the snapshots into
 	 */
-	private TreeBasedTable<Integer, Integer, EntitySnapshot> table;
+	private TreeBasedTable<EntityID, Integer, EntitySnapshot> table;
 
 	/**
 	 * Constructor.
@@ -27,13 +28,11 @@ class EntitySnapshotTable {
 	/**
 	 * Put a snapshot of the given entity into the Grid.
 	 * 
-	 * @param entity
-	 *            The entity to be captured.
-	 * @param step
-	 *            The current step.
+	 * @param entitySnapshot
+	 *            The Snapshot to be stored. The entity to be captured.
 	 */
-	public void putEntity(EntitySnapshot entity, int step) {
-		table.put(entity.entityID, entity.step, entity);
+	public void putEntity(EntitySnapshot entitySnapshot) {
+		table.put(entitySnapshot.entityID, entitySnapshot.step, entitySnapshot);
 	}
 
 	/**
@@ -45,8 +44,8 @@ class EntitySnapshotTable {
 	 *            The point in time at which to examine the simulation.
 	 * @return an ImmutableMap from EntityID's to EntitySnapshots.
 	 */
-	public ImmutableMap<Integer, EntitySnapshot> getSnapshotsAtStep(int step) {
-		return new ImmutableMap.Builder<Integer, EntitySnapshot>().putAll(
+	public ImmutableMap<EntityID, EntitySnapshot> getSnapshotsAtStep(int step) {
+		return new ImmutableMap.Builder<EntityID, EntitySnapshot>().putAll(
 				table.column(step)).build();
 	}
 
@@ -60,7 +59,7 @@ class EntitySnapshotTable {
 	 * @return an ImmutableMap<Integer, EntitySnapshot>
 	 */
 	public ImmutableMap<Integer, EntitySnapshot> getSnapshotsOfEntity(
-			Integer entityID) {
+			EntityID entityID) {
 		ImmutableMap.Builder<Integer, EntitySnapshot> builder = new ImmutableMap.Builder<Integer, EntitySnapshot>();
 		builder.putAll(table.row(entityID));
 		return builder.build();
@@ -74,7 +73,7 @@ class EntitySnapshotTable {
 	 * @return true or false depending on whether the table has a row for the
 	 *         given id
 	 */
-	public boolean containsEntity(Integer entityID) {
+	public boolean containsEntity(EntityID entityID) {
 		return table.containsRow(entityID);
 	}
 

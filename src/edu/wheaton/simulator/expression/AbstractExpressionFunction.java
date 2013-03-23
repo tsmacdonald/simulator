@@ -16,7 +16,7 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	protected static final int RESULT_TYPE_NUMERIC = FunctionConstants.FUNCTION_RESULT_TYPE_NUMERIC;
 	protected static final int RESULT_TYPE_BOOL = FunctionConstants.FUNCTION_RESULT_TYPE_NUMERIC;
 	protected static final int RESULT_TYPE_STRING = FunctionConstants.FUNCTION_RESULT_TYPE_STRING;
-
+	
 	@Override
 	public abstract String getName();
 

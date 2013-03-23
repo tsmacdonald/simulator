@@ -39,6 +39,33 @@ public abstract class GridEntity extends Entity {
 	 *            This entity's defaut color
 	 * 
 	 */
+	public GridEntity(Grid g) {
+		super();
+		grid = g;
+		Color c = Color.black;
+		try {
+			addField("colorRed", new Integer(c.getRed()));
+			addField("colorBlue", new Integer(c.getBlue()));
+			addField("colorGreen", new Integer(c.getGreen()));
+			addField("x", 0);
+			addField("y", 0);
+		} catch (ElementAlreadyContainedException e) {
+			e.printStackTrace();
+		}
+
+		design = new byte[8];
+		for (int i = 0; i < 8; i++)
+			design[i] = 127; // sets design to a solid image
+	}
+	/**
+	 * Constructor
+	 * 
+	 * @param g
+	 *            The grid object
+	 * @param c
+	 *            This entity's defaut color
+	 * 
+	 */
 	public GridEntity(Grid g, Color c) {
 		super();
 		grid = g;
@@ -128,7 +155,7 @@ public abstract class GridEntity extends Entity {
 		throw new UnsupportedOperationException();
 	}
 
-	protected Grid getGrid() {
+	public Grid getGrid() {
 		return grid;
 	}
 }

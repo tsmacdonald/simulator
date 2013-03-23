@@ -1,13 +1,16 @@
 package edu.wheaton.simulator.statistics;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import edu.wheaton.simulator.datastructure.Field;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.GridEntity;
-import edu.wheaton.simulator.statistics.EntityObserver;
+import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.entity.PrototypeID;
+import edu.wheaton.simulator.entity.Slot;
 
 /**
  * This class will create the Snapshots to be put into the Database
@@ -17,59 +20,46 @@ import edu.wheaton.simulator.statistics.EntityObserver;
 
 public class SnapshotFactory {
 
-	private SnapshotFactory() {
+	// TODO Please check these methods and see if they're all okay.
+
+	public static EntitySnapshot makeSlotSnapshot(GridEntity entity,
+			Integer step) {
+		return new EntitySnapshot(entity.getEntityID(),
+				makeFieldSnapshots(entity.getFieldMap()), step);
+	}
+
+	public static AgentSnapshot makeAgentSnapshot(GridEntity entity,
+			Integer step) {
+		// Sort out with the Agent guys just wtf is up with fields.
+		return new AgentSnapshot(entity.getEntityID(), makeFieldSnapshots(entity.getFieldMap()), step, 
+				entity.getPrototypeName(), );
 	}
 
 	/**
-	 * This method will put the given entity into an editable database
-	 * 
-	 * @param entity
-	 *            the entity to create snapshot from
-	 * @param step
-	 *            the int representing this turn and will be used as a column
-	 *            index in the database(table)
+	 * Make a FieldSnapshot from the associated name and value. 
+	 * @param name The name of the field.
+	 * @param value The value of the field. 
+	 * @return A FieldSnapshot corresponding to the pair of Strings. 
 	 */
-	public static EntitySnapshot createEntity(GridEntity entity, int step) {
-		Integer entityID = entity.getID();
-
-		/**
-		 * all the fields of the agent
-		 */
-		Map<String,String> entityFields = entity.getFieldMap();
-
-		/*
-		 * map of the fields to save in entitySnapShot
-		 */
-		HashMap<String, FieldSnapshot> fieldsForSnap = new HashMap<String, FieldSnapshot>();
-
-		for (String fieldName : entityFields.keySet()) {
-			FieldSnapshot snap = new FieldSnapshot(fieldName,
-					entityFields.get(fieldName));
-			fieldsForSnap.put(fieldName, snap);
-		}
-
-		/*
-		 * Create protoype Because this requires me having the initial set of
-		 * fields, I think the Observer class should record those on when the
-		 * user defines them. Then have a getter method that returns the
-		 * 'default fields'
-		 * 
-		 * Observer class could also possibly create a prototype because it
-		 * will have first access to the 'categoryName' and with the Fields, it
-		 * can make a map<String, FieldSnapshot> getPrototype(String name)
-		 * could be a static method that returns a prototype from a Map<String,
-		 * EntityPrototype>
-		 */
-		EntityPrototypeSnapshot prototype = EntityObserver.getPrototype(entity
-				.getName()); // TODO: Annoy angent team about making Arbiter.
-		EntitySnapshot snap;
-		// determine class of Entity and create snapshot accordingly
-		if (entity.getClass() == Agent.class)
-			snap = new AgentSnapshot(entityID, fieldsForSnap, step, prototype, null);
-		else
-			snap = new SlotSnapshot(entityID, fieldsForSnap, step, prototype, null);
-
-		return snap;
+	public static FieldSnapshot makeFieldSnapshot(String name, String value) {
+		return new FieldSnapshot(name, value);
 	}
 
+	public static ImmutableMap<String, FieldSnapshot> makeFieldSnapshots(
+			Map<String, String> fields) {
+		ImmutableMap.Builder<String, FieldSnapshot> builder = new ImmutableMap.Builder<String, FieldSnapshot>();
+		for (String name : fields.keySet()) {
+			String value = fields.get(name);
+			builder.put(name, makeFieldSnapshot(name, value));
+		}
+		return builder.build();
+	}
+
+	public static PrototypeSnapshot makePrototypeSnapshot(Prototype prototype,
+			Integer step) {
+		return null; // TODO
+	}
+
+	private SnapshotFactory() {
+	}
 }

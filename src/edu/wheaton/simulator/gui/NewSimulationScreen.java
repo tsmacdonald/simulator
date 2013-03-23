@@ -4,8 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+<<<<<<< HEAD
 import java.awt.Graphics;
 import java.awt.GridLayout;
+=======
+>>>>>>> df7dffc5ea6e1ee0d05988e2d4296e29558fb498
 import java.awt.event.ActionEvent;
 import java.awt.image.ImageObserver;
 
@@ -15,7 +18,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;

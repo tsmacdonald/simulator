@@ -1,8 +1,8 @@
 package edu.wheaton.simulator.statistics;
 
-import java.util.HashMap;
-
 import com.google.common.collect.ImmutableMap;
+
+import edu.wheaton.simulator.entity.EntityID;
 
 
 /**
@@ -11,9 +11,9 @@ import com.google.common.collect.ImmutableMap;
  * 
  * @author Daniel Gill, Akon Ngoh
  */
-abstract class EntitySnapshot {
+public class EntitySnapshot {
 
-	public final Integer entityID;
+	public final EntityID entityID;
 
 	/**
 	 * The saved fields of this entity.
@@ -26,11 +26,6 @@ abstract class EntitySnapshot {
 	public final Integer step;
 
 	/**
-	 * The present prototype for the category of this Entity.
-	 */
-	public final EntityPrototypeSnapshot prototype;
-
-	/**
 	 * Constructor.
 	 * 
 	 * @param id
@@ -39,17 +34,12 @@ abstract class EntitySnapshot {
 	 *            The current values of the fields of the Entity.
 	 * @param step
 	 *            The step in the simulation associated with this snapshot.
-	 * @param prototype
-	 *            The prototype for this category of Entity.
 	 */
-	public EntitySnapshot(Integer entityID, HashMap<String, FieldSnapshot> fields,
-			Integer step, EntityPrototypeSnapshot prototype) {
+	public EntitySnapshot(EntityID entityID, ImmutableMap<String, FieldSnapshot> fields,
+			Integer step) {
 		this.entityID = entityID;
 		this.step = step;
-		this.prototype = prototype;
-
-		ImmutableMap.Builder<String, FieldSnapshot> builder = new ImmutableMap.Builder<String, FieldSnapshot>();
-		builder.putAll(fields);
-		this.fields = builder.build();
+		this.fields = fields;
 	}
+	
 }
