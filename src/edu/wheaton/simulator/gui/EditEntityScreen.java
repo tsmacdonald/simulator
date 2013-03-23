@@ -154,14 +154,14 @@ public class EditEntityScreen extends Screen {
 		triggerSubPanels = new ArrayList<JPanel>();
 		triggerSubPanels.add(new JPanel());
 		addTriggerButton = new JButton("Add Trigger");
-		addTriggerButton.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						addTrigger();
-					}
-				}
-				);
+		addTriggerButton.addActionListener(this);
+//				new ActionListener() {
+//					@Override
+//					public void actionPerformed(ActionEvent e) {
+//						addTrigger();
+//					}
+//				}
+	
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(
 				new ActionListener() {
@@ -254,7 +254,6 @@ public class EditEntityScreen extends Screen {
 		triggerLabelsPanel.add(triggerResultLabel);
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
 		triggerPanel.add(triggerLabelsPanel);
-		//triggerLabelsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		triggerSubPanels.get(0).add(triggerNames.get(0));
 		triggerSubPanels.get(0).add(triggerPriorities.get(0));
 		triggerSubPanels.get(0).add(triggerConditions.get(0));
@@ -281,8 +280,14 @@ public class EditEntityScreen extends Screen {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		String action = e.getActionCommand();
+		Screen update = this;
+		if (action.equals("Add Field")) {
+			addField();
+		}
+		else if (action.equals("Add Trigger")) {
+			addTrigger();
+		}
 	}
 
 	@Override
