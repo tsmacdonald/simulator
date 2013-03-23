@@ -45,10 +45,13 @@ public class Trigger implements Comparable<Trigger> {
 	 *            boolean expression this trigger represents
 	 */
 	public Trigger(int priority, ExpressionEvaluator conditionExpression,
-			Behavior behavior) {
+			Behavior... behaviors) {
 		this.priority = priority;
 		this.conditionExpression = conditionExpression;
-		this.behaviorList.add(behavior);
+		
+		behaviorList = new ArrayList<Behavior>();
+		for( Behavior b : behaviors)
+			behaviorList.add(b);
 	}
 
 	/**
