@@ -19,7 +19,7 @@ import edu.wheaton.simulator.simulation.Grid;
 
 public class Agent extends GridEntity {
 
-	private AgentID id;
+	private final AgentID id;
 	
 	/**
 	 * The list of all triggers/events associated with this agent.
@@ -124,7 +124,7 @@ public class Agent extends GridEntity {
 		updateField("y", y);
 	}
 	
-	public AgentID getID(){
+	public AgentID getAgentID(){
 		return id;
 	}
 }

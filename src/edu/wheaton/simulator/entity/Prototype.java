@@ -34,6 +34,8 @@ public class Prototype extends GridEntity {
 	 * The list of all triggers/events associated with this prototype.
 	 */
 	private List<Trigger> triggers;
+	
+	private final PrototypeID id;
 
 	/**
 	 * Constructor.
@@ -45,6 +47,7 @@ public class Prototype extends GridEntity {
 	 */
 	public Prototype(Grid g, Color c) {
 		super(g, c);
+		id = new PrototypeID();
 		children = new ArrayList<Agent>();
 		triggers = new ArrayList<Trigger>();
 	}
@@ -144,4 +147,7 @@ public class Prototype extends GridEntity {
 		return children.size();
 	}
 
+	public PrototypeID getPrototypeID(){
+		return id;
+	}
 }
