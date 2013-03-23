@@ -32,7 +32,7 @@ public class SnapshotFactory {
 			Integer step) {
 		// Sort out with the Agent guys just wtf is up with fields.
 		return new AgentSnapshot(entity.getEntityID(), makeFieldSnapshots(entity.getFieldMap()), step, 
-				entity.getProtypeName(), );
+				entity.getPrototypeName(), );
 	}
 
 	public static FieldSnapshot makeFieldSnapshot(String name, String value) {
