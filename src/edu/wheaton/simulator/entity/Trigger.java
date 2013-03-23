@@ -4,7 +4,7 @@
  * "Triggers" are used to give agents certain behaviors. They represent a boolean expression as created by the user that, when met, causes the agent to perform a certain behavior.
  * Note: Triggers should have unique priorities within an agent; problems will be had if there are multiple triggers with the same priority values within an agent. 	 
  * 
- * @author Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
+ * @author Daniel Davenport, Grant Hensel, Elliot Penson, Emmanuel Pederson, Chris Anderson and Simon Swenson
  * Wheaton College, CSCI 335, Spring 2013
  */
 
@@ -13,17 +13,16 @@ package edu.wheaton.simulator.entity;
 import java.util.ArrayList;
 
 import net.sourceforge.jeval.EvaluationException;
-import edu.wheaton.simulator.behavior.Behavior;
+import edu.wheaton.simulator.behavior.AbstractBehavior;
 import edu.wheaton.simulator.expression.ExpressionEvaluator;
 import edu.wheaton.simulator.simulation.Grid;
 
-public class Trigger implements Comparable<Trigger> {
-
+public class Trigger {
+	
 	/**
-	 * Triggers are checked in order of priority, with lower numbers coming
-	 * first
+	 * A name to reference a trigger by
 	 */
-	private int priority;
+	private String name;
 
 	/**
 	 * Represents the conditions of whether or not the trigger fires.
@@ -33,7 +32,7 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * The behavior that is executed when the trigger condition is met
 	 */
-	private ArrayList<AbstractBehavior> behaviorList;
+	private ExpressionEvaluator behavior;
 
 	/**
 	 * Constructor
@@ -44,14 +43,11 @@ public class Trigger implements Comparable<Trigger> {
 	 * @param conditions
 	 *            boolean expression this trigger represents
 	 */
-	public Trigger(int priority, ExpressionEvaluator conditionExpression,
-			Behavior... behaviors) {
-		this.priority = priority;
+	public Trigger(String name, ExpressionEvaluator conditionExpression,
+			ExpressionEvaluator behavior) {
+		this.name = name;
 		this.conditionExpression = conditionExpression;
-		
-		behaviorList = new ArrayList<Behavior>();
-		for( Behavior b : behaviors)
-			behaviorList.add(b);
+		this.behavior = behavior;		
 	}
 
 	/**
@@ -61,9 +57,9 @@ public class Trigger implements Comparable<Trigger> {
 	 *            The trigger from which to clone.
 	 */
 	public Trigger(Trigger parent) {
-		priority = parent.priority;
+		name = parent.name;
 		conditionExpression = parent.conditionExpression;
-		behaviorList = parent.behaviorList;
+		behavior = parent.behavior;
 	}
 
 	/**
@@ -82,24 +78,12 @@ public class Trigger implements Comparable<Trigger> {
 		ExpressionEvaluator expr = conditionExpression.clone();
 
 		expr.importEntity("this", xThis);
-		expr.importEntity("other", xOther);
-		expr.importEntity("local", xLocal);
-		expr.importEntity("global", xGlobal);
 
 		if (expr.evaluateBool()){
-			fire(xThis, xOther, xLocal, xGlobal);
+			fire();
 		
 		}
 		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * Get this trigger's priority
-	 * 
-	 * @return the priority
-	 */
-	public int getPriority() {
-		return priority;
 	}
 
 	/**
@@ -114,37 +98,17 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
-	public void fire(GridEntity xThis, GridEntity xOther, GridEntity xLocal,
-			GridEntity xGlobal) {
-		for (Behavior b : behaviorList)
-			b.execute(xThis, xOther, xLocal, xGlobal);
+	public void fire() {
+		//Needs to be updated to work with new behaviors
 	}
 
 	/**
-	 * Compares this trigger to another trigger based on priority
-	 * 
-	 * @param other
-	 *            The other trigger to compare to.
-	 * @return -1 if less, 0 if same, 1 if greater.
-	 */
-	@Override
-	public int compareTo(Trigger other) {
-		if (priority == other.priority) {
-			return 0;
-		} else if (priority > other.priority) {
-			return 1;
-		} else {
-			return -1;
-		}
-	}
-
-	/**
-	 * Adds a behavior to the end of the list of behaviors.
+	 * Sets the behavior of the trigger.
 	 * 
 	 * @param behavior
 	 *            Behavior to be added to list
 	 */
-	public void addBehavior(Behavior behavior) {
-		behaviorList.add(behavior);
+	public void setBehavior(ExpressionEvaluator behavior) {
+		this.behavior = behavior;
 	}
 }
