@@ -30,7 +30,8 @@ public class Main {
 				DisplayManager dm = DisplayManager.getInstance(new Display());
 				if (dm == null)
 					System.exit(0);
-				ScreenManager sm = new ScreenManager(dm);
+				GUIManager gm = GUIManager.getInstance();
+				ScreenManager sm = new ScreenManager(dm, gm);
 				sm.update(sm.getScreen("Title"));
 			}
 		}));

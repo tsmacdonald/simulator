@@ -95,6 +95,7 @@ public class NewSimulationScreen extends Screen {
 		try {
 			heightInt = Integer.parseInt(height.getText());
 			widthInt = Integer.parseInt(width.getText());
+			sm.updateGUIManager(nameString, widthInt+"", heightInt+"");
 			JPanel[][] grid = new JPanel[heightInt][widthInt];
 			/*
 			 * Grid is formatted like the first quadrant of the Cartesian Plane. So bottom left corner is (0,0) 
