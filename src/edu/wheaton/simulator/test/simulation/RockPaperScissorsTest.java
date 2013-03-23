@@ -28,7 +28,6 @@ public class RockPaperScissorsTest {
 					testAgent.addField("type", agentType[j]);
 					testAgent.addField("name", agentType[j]);
 				} catch (ElementAlreadyContainedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				testGrid.spawnAgent(testAgent);
