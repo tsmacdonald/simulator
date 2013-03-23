@@ -24,19 +24,20 @@ public class GridObserver {
 
 	public void observe(Grid grid, Integer step, HashMap<String, Prototype> prototypes) { 
 		for (Slot s : grid) { 
-			EntitySnapshot slotSnap = SnapshotFactory.makeSlotSnapshot(s, step);
-			statManager.addGridEntity(slotSnap);
-			Agent agent = s.getAgent();
-			if (agent == null) 
-				continue;
-			AgentSnapshot agentSnap = SnapshotFactory.makeAgentSnapshot(agent, step);
-			statManager.addGridEntity(agentSnap);
-			for (String currentPrototypeName : prototypes.keySet()) { 
-				PrototypeSnapshot currentSnapshot;
-				currentSnapshot = SnapshotFactory.makePrototypeSnapshot(
-						prototypes.get(currentPrototypeName), step);
-			}
-			// TODO Add prototype method once Daniel is done with it
+			
+//			EntitySnapshot slotSnap = SnapshotFactory.makeSlotSnapshot(s, step);
+//			statManager.addGridEntity(slotSnap);
+//			Agent agent = s.getAgent();
+//			if (agent == null) 
+//				continue;
+//			AgentSnapshot agentSnap = SnapshotFactory.makeAgentSnapshot(agent, step);
+//			statManager.addGridEntity(agentSnap);
+//			for (String currentPrototypeName : prototypes.keySet()) { 
+//				PrototypeSnapshot currentSnapshot;
+//				currentSnapshot = SnapshotFactory.makePrototypeSnapshot(
+//						prototypes.get(currentPrototypeName), step);
+//			}
+			// TODO Make sure this method is completely implemented! (for the most part)
 		}
 	}
 }

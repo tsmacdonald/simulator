@@ -1,6 +1,6 @@
 package edu.wheaton.simulator.statistics;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -41,7 +41,7 @@ public class AgentSnapshot extends EntitySnapshot {
 	 * @param interaction
 	 *            the interaction details for this snapshot
 	 */
-	public AgentSnapshot(EntityID entityID, HashMap<String, FieldSnapshot> fields,
+	public AgentSnapshot(EntityID entityID, Map<String, String> fields,
 			Integer step, PrototypeID prototype, 
 			ImmutableSet<InteractionSnapshot> interactions) {
 		super(entityID, fields, step);

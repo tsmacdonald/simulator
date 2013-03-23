@@ -36,14 +36,11 @@ public class EntitySnapshot {
 	 *            The current values of the fields of the Entity.
 	 * @param step
 	 *            The step in the simulation associated with this snapshot.
-	 * @param prototype
-	 *            The ID for the prototype of this Entity.
 	 */
 	public EntitySnapshot(EntityID entityID, Map<String, String> fields,
 			Integer step) {
 		this.entityID = entityID;
 		this.step = step;
-
 		this.fields = SnapshotFactory.makeFieldSnapshots(fields);
 	}
 	
