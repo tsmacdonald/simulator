@@ -20,9 +20,9 @@ public class CloneBehavior extends AbstractBehavior {
 	 *            The expression for the y-coordinate where the clone will be
 	 *            placed
 	 */
-	public CloneBehavior(ExpressionEvaluator eval) {
-		super(eval);
-	}
+//	public CloneBehavior(ExpressionEvaluator eval) {
+//		super(eval);
+//	}
 
 	@Override
 	public String getName() {

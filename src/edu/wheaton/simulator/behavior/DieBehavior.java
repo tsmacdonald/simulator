@@ -6,9 +6,9 @@ import edu.wheaton.simulator.expression.ExpressionEvaluator;
 
 public class DieBehavior extends AbstractBehavior {
 
-	public DieBehavior(ExpressionEvaluator eval) {
-		super(eval);
-	}
+//	public DieBehavior(ExpressionEvaluator eval) {
+//		super(eval);
+//	}
 
 	@Override
 	public String getName() {

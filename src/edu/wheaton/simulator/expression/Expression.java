@@ -12,7 +12,7 @@ import edu.wheaton.simulator.entity.Entity;
 
 public class Expression implements ExpressionEvaluator {
 
-	private class EntityFieldResolver implements VariableResolver {
+	protected class EntityFieldResolver implements VariableResolver {
 
 		private Map<String, Entity> entityMap;
 
@@ -92,6 +92,11 @@ public class Expression implements ExpressionEvaluator {
 		resolver = new EntityFieldResolver(expr.resolver);
 		evaluator.setVariableResolver(resolver);
 		setString(expr.expr);
+	}
+	
+	protected Expression(Evaluator eval, EntityFieldResolver res){
+		this.evaluator = eval;
+		this.resolver = res;
 	}
 
 	@Override
