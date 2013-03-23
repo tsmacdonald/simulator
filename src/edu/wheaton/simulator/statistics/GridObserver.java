@@ -3,6 +3,7 @@ package edu.wheaton.simulator.statistics;
 import java.util.Collection;
 
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Slot;
 import edu.wheaton.simulator.simulation.Grid;
@@ -36,7 +37,7 @@ public class GridObserver {
 				currentSnapshot = SnapshotFactory.makePrototypeSnapshot(
 						prototypes.get(currentPrototypeName), step);
 			}
-			// TODO Add prototype method once Daniel is done with it
+			// TODO Make sure this method is completely implemented! (for the most part)
 		}
 	}
 }

@@ -2,8 +2,8 @@ package edu.wheaton.simulator.behavior;
 
 import edu.wheaton.simulator.entity.Agent;
 
-public interface Behavable {
+public interface Behavior {
 
-	public void act(Agent target) throws Exception;
+	public void execute(Agent target) throws Exception;
 
 }

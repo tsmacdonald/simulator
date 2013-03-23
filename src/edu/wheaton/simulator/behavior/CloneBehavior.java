@@ -4,7 +4,7 @@ import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.Grid;
 
-public class Clone implements Behavable {
+public class CloneBehavior implements Behavior {
 
 	/**
 	 * The expression for the x-coordinate where the clone will be placed
@@ -19,7 +19,7 @@ public class Clone implements Behavable {
 	/**
 	 * The grid into which the Agent is being cloned
 	 */
-	private Grid global;
+	private Grid grid;
 
 	/**
 	 * Main (only) constructor for Clone
@@ -31,8 +31,8 @@ public class Clone implements Behavable {
 	 *            The expression for the y-coordinate where the clone will be
 	 *            placed
 	 */
-	public Clone(Grid global, Expression xExpr, Expression yExpr) {
-		this.global = global;
+	public CloneBehavior(Grid grid, Expression xExpr, Expression yExpr) {
+		this.grid = grid;
 		this.xExpr = xExpr;
 		this.yExpr = yExpr;
 	}
@@ -44,11 +44,11 @@ public class Clone implements Behavable {
 	 * what happens as a result.
 	 */
 	@Override
-	public void act(Agent target) throws Exception {
+	public void execute(Agent target) throws Exception {
 		int x = (int) (xExpr.evaluateDouble() + 0.5);
 		int y = (int) (yExpr.evaluateDouble() + 0.5);
-		if (global.getAgent(x, y) == null) {
-			global.addAgent(target, x, y);
+		if (grid.isValidCoord(x, y) && grid.getAgent(x, y) == null) {
+			grid.addAgent(target, x, y);
 		} else
 			throw new FullSlotException();
 	}

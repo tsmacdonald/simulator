@@ -50,7 +50,7 @@ public class SpawningScreen extends Screen {
 
 	private JButton addSpawnButton;
 	
-	private JPanel mainPanel;
+	private JPanel listPanel;
 
 	private Component glue;
 	/**
@@ -64,13 +64,14 @@ public class SpawningScreen extends Screen {
 		JLabel label = new JLabel("Spawning");
 		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		label.setPreferredSize(new Dimension(300, 150));
-		mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		listPanel = new JPanel();
+		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 		JPanel labelsPanel = new JPanel();
 		labelsPanel.setLayout(new BoxLayout(labelsPanel, BoxLayout.X_AXIS));
 
+		//TODO mess with sizes of labels to line up with components
 		JLabel entityLabel = new JLabel("Entity Type");
-		entityLabel.setPreferredSize(new Dimension(400, 30));
+		entityLabel.setPreferredSize(new Dimension(200, 30));
 		JLabel patternLabel = new JLabel("Spawn Pattern");
 		patternLabel.setPreferredSize(new Dimension(270, 30));
 		JLabel xLabel = new JLabel("x Loc.");
@@ -78,17 +79,19 @@ public class SpawningScreen extends Screen {
 		JLabel yLabel = new JLabel("Y Loc.");
 		yLabel.setPreferredSize(new Dimension(100, 30));
 		JLabel numberLabel = new JLabel("Number");
-		numberLabel.setPreferredSize(new Dimension(300, 30));
+		numberLabel.setPreferredSize(new Dimension(330, 30));
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(entityLabel);
 		entityLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(patternLabel);
 		patternLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(xLabel);
 		labelsPanel.add(yLabel);
 		labelsPanel.add(numberLabel);
 		labelsPanel.add(Box.createHorizontalGlue());
-		mainPanel.add(labelsPanel);
+		listPanel.add(labelsPanel);
 		labelsPanel.setAlignmentX(CENTER_ALIGNMENT);
 
 		entityTypes = new ArrayList<JComboBox>();
@@ -108,8 +111,8 @@ public class SpawningScreen extends Screen {
 		numbers.get(0).setMaximumSize(new Dimension(100, 30));
 		deleteButtons = new ArrayList<JButton>();
 		deleteButtons.add(new JButton("Delete"));
-		//deleteButtons.get(0).setMaximumSize(new Dimension(150, 40));
-		//deleteButtons.get(0).addActionListener();
+		deleteButtons.get(0).setActionCommand("Delete 0");
+		deleteButtons.get(0).addActionListener(this);
 		subPanels = new ArrayList<JPanel>();
 		subPanels.add(new JPanel());
 		subPanels.get(0).setLayout(
@@ -121,12 +124,12 @@ public class SpawningScreen extends Screen {
 		subPanels.get(0).add(yLocs.get(0));
 		subPanels.get(0).add(numbers.get(0));
 		subPanels.get(0).add(deleteButtons.get(0));
-		mainPanel.add(subPanels.get(0));
+		listPanel.add(subPanels.get(0));
 		addSpawnButton = new JButton("Add Spawn");
 		addSpawnButton.addActionListener(this);
-		mainPanel.add(addSpawnButton);
+		listPanel.add(addSpawnButton);
 		glue = Box.createVerticalGlue();
-		mainPanel.add(glue);
+		listPanel.add(glue);
 		
 		JPanel buttonPanel = new JPanel();
 		JButton cancelButton = new JButton("Cancel");
@@ -148,7 +151,7 @@ public class SpawningScreen extends Screen {
 		buttonPanel.add(cancelButton);
 		buttonPanel.add(finishButton);
 		this.add(label, BorderLayout.NORTH);
-		this.add(mainPanel, BorderLayout.CENTER);
+		this.add(listPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
@@ -159,6 +162,9 @@ public class SpawningScreen extends Screen {
 		Screen update = this;
 		if (action.equals("Add Spawn")) {
 			addSpawn();
+		}
+		else if (action.substring(0, 6).equals("Delete")) {
+			deleteSpawn(Integer.parseInt(action.substring(7)));
 		}
 	}
 
@@ -191,8 +197,11 @@ public class SpawningScreen extends Screen {
 		newNumber.setMaximumSize(new Dimension(100, 30));
 		numbers.add(newNumber);
 		JButton newButton = new JButton("Delete");
-		//newButton.addActionListener(new DeleteListener());
+		newButton.addActionListener(this);
 		deleteButtons.add(newButton);
+		newButton.setActionCommand(
+				"Delete " + deleteButtons.indexOf(newButton)
+				);
 		newPanel.add(newBox);
 		newPanel.add(newSpawnType);
 		newPanel.add(newXLoc);
@@ -200,10 +209,26 @@ public class SpawningScreen extends Screen {
 		newPanel.add(newNumber);
 		newPanel.add(newButton);
 		subPanels.add(newPanel);
-		mainPanel.add(newPanel);
-		mainPanel.add(addSpawnButton);
-		mainPanel.add(glue);
-		this.repaint();	
+		listPanel.add(newPanel);
+		listPanel.add(addSpawnButton);
+		listPanel.add(glue);
+		repaint();	
 	}
 
+	private void deleteSpawn(int n) {
+		//TODO figure out why repaint() removes the deleted panel, 
+		//     but doesn't shift others up to fill the space.
+		entityTypes.remove(n);
+		spawnPatterns.remove(n);
+		xLocs.remove(n);
+		yLocs.remove(n);
+		numbers.remove(n);
+		deleteButtons.remove(n);
+		for (int i = n; i < deleteButtons.size(); i++) {
+			deleteButtons.get(i).setActionCommand("Delete " + i);
+		}
+		listPanel.remove(subPanels.get(n));
+		subPanels.remove(n);
+		repaint();
+	}
 }

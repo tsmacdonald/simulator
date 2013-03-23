@@ -2,13 +2,13 @@ package edu.wheaton.simulator.behavior;
 
 import edu.wheaton.simulator.entity.Agent;
 
-public class Die implements Behavable {
+public class DieBehavior implements Behavior {
 
-	public Die() {
+	public DieBehavior() {
 	}
 
 	@Override
-	public void act(Agent target) {
+	public void execute(Agent target) {
 		target.die();
 
 	}

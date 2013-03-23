@@ -13,6 +13,7 @@ package edu.wheaton.simulator.entity;
 import java.util.ArrayList;
 
 import net.sourceforge.jeval.EvaluationException;
+import edu.wheaton.simulator.behavior.Behavior;
 import edu.wheaton.simulator.expression.ExpressionEvaluator;
 import edu.wheaton.simulator.simulation.Grid;
 
@@ -44,10 +45,13 @@ public class Trigger implements Comparable<Trigger> {
 	 *            boolean expression this trigger represents
 	 */
 	public Trigger(int priority, ExpressionEvaluator conditionExpression,
-			Behavior behavior) {
+			Behavior... behaviors) {
 		this.priority = priority;
 		this.conditionExpression = conditionExpression;
-		this.behaviorList.add(behavior);
+		
+		behaviorList = new ArrayList<Behavior>();
+		for( Behavior b : behaviors)
+			behaviorList.add(b);
 	}
 
 	/**

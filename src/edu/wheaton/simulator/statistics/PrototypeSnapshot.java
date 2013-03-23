@@ -18,7 +18,7 @@ public class PrototypeSnapshot {
 	/**
 	 * The name of this category of agent.
 	 */
-	public final String name;
+	public final String categoryName;
 
 	/**
 	 * The default field values for agents of this category.
