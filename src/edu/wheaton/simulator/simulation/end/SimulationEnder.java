@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableMap;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Slot;
 import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.entity.PrototypeID;
 
 /**
  * Handles the determination of whether or not the simulation needs to end.
@@ -56,6 +57,14 @@ public class SimulationEnder {
 	public void setStepLimit(int maxSteps) {
 		((TimeCondition) conditions[TIME_CONDITION]).maxSteps = maxSteps;
 	}
+	
+	/**
+	 * Get the time limit. 
+	 * @return The total amount of iterations the simulation is to run. 
+	 */
+	public int getStepLimit() { 
+		return ((TimeCondition) conditions[TIME_CONDITION]).maxSteps;
+	}
 
 	/**
 	 * Determine whether the simulation should end.
@@ -74,7 +83,7 @@ public class SimulationEnder {
 	 * 
 	 * @return An immutable map containing the present population restrictions.
 	 */
-	public ImmutableMap<String, Integer> getPopLimits() {
+	public ImmutableMap<PrototypeID, Integer> getPopLimits() {
 		return ((AgentPopulationCondition) conditions[POPULATION_CONDITIONS])
 				.getPopLimits();
 	}
@@ -87,9 +96,9 @@ public class SimulationEnder {
 	 * @param maxPop
 	 *            Maximum population for that category of agent.
 	 */
-	public void setPopLimit(String protoypeName, int maxPop) {
+	public void setPopLimit(PrototypeID typeID, int maxPop) {
 		((AgentPopulationCondition) conditions[POPULATION_CONDITIONS])
-				.setPopLimit(protoypeName, maxPop);
+				.setPopLimit(typeID, maxPop);
 	}
 
 	/**
@@ -98,9 +107,9 @@ public class SimulationEnder {
 	 * @param prototypeName
 	 *            The name of the prototype whose limit is to be removed.
 	 */
-	public void removePopLimit(String prototypeName) {
+	public void removePopLimit(PrototypeID typeID) {
 		((AgentPopulationCondition) conditions[POPULATION_CONDITIONS])
-				.removePopLimit(prototypeName);
+				.removePopLimit(typeID);
 	}
 
 	/**
@@ -158,25 +167,25 @@ public class SimulationEnder {
 		 * The map where the names of prototypes are associated
 		 * with population limits.
 		 */
-		private TreeMap<String, Integer> popLimits;
+		private TreeMap<PrototypeID, Integer> popLimits;
 
 		/**
 		 * Constructor.
 		 */
 		public AgentPopulationCondition() {
-			popLimits = new TreeMap<String, Integer>();
+			popLimits = new TreeMap<PrototypeID, Integer>();
 		}
 
 		/**
 		 * Add a new population limit to the simulation.
 		 * 
-		 * @param typeName
+		 * @param typeID
 		 *            The name of the category of agent.
 		 * @param maxPop
 		 *            The population that category must not exceed.
 		 */
-		public void setPopLimit(String typeName, int maxPop) {
-			popLimits.put(typeName, Integer.valueOf(maxPop));
+		public void setPopLimit(PrototypeID typeID, int maxPop) {
+			popLimits.put(typeID, Integer.valueOf(maxPop));
 		}
 
 		/**
@@ -185,23 +194,23 @@ public class SimulationEnder {
 		 * @param prototypeName
 		 *            The name of the prototype whose limit is to be removed.
 		 */
-		public void removePopLimit(String prototypeName) {
-			popLimits.remove(prototypeName);
+		public void removePopLimit(PrototypeID typeID) {
+			popLimits.remove(typeID);
 		}
 
 		/**
 		 * @return An immutable map of all the current
 		 */
-		public ImmutableMap<String, Integer> getPopLimits() {
-			return new ImmutableMap.Builder<String, Integer>().putAll(
+		public ImmutableMap<PrototypeID, Integer> getPopLimits() {
+			return new ImmutableMap.Builder<PrototypeID, Integer>().putAll(
 					popLimits).build();
 		}
 
 		@Override
 		public boolean evaluate(int step, Grid grid) {
-			for (String prototypeName : popLimits.keySet())
-				if (Prototype.getPrototype(prototypeName).childPopulation() >= popLimits
-						.get(prototypeName))
+			for (PrototypeID typeID : popLimits.keySet())
+				if (Prototype.getPrototype(typeID).childPopulation() >= popLimits
+						.get(typeID))
 					return true;
 			return false;
 		}
