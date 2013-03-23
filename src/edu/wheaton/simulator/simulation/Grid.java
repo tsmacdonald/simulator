@@ -44,6 +44,10 @@ public class Grid implements Iterable<Slot> {
 	public Integer getHeight() {
 		return height;
 	}
+	
+	public boolean isValidCoord(int x, int y){
+		return x>0 && y>0 && x<getWidth() && y<getHeight();
+	}
 
 	public Slot getSlot(int x, int y) {
 		return grid[y][x];
