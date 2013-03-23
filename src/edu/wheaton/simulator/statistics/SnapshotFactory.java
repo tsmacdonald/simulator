@@ -2,6 +2,8 @@ package edu.wheaton.simulator.statistics;
 
 import java.util.HashMap;
 
+import com.google.common.collect.ImmutableMap;
+
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Slot;
@@ -29,10 +31,13 @@ public class SnapshotFactory {
 	}
 	
 	public static ImmutableMap<String, FieldSnapshot> makeFieldSnapshots(HashMap<String, String> fields) { 
-//		for (String name : fields.keySet()) { 
-//			
-//		}
-		return null;
+		ImmutableMap.Builder<String, FieldSnapshot> builder = 
+				new ImmutableMap.Builder<String, FieldSnapshot>(); 
+		for (String name : fields.keySet()) { 
+			String value = fields.get(name); 
+			builder.put(name, makeFieldSnapshot(name, value)); 
+		}
+		return builder.build(); 
 	}
 
 	public static PrototypeSnapshot makePrototypeSnapshot(Prototype prototype,
