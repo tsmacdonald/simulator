@@ -37,7 +37,7 @@ public class EditEntityScreen extends Screen {
 
 	private ArrayList<JComboBox> fieldTypes;
 
-	private String[] typeNames =  {"Integer", "Double", "String"};
+	private String[] typeNames =  {"Integer", "Double", "String", "Boolean"};
 
 	private ArrayList<JButton> fieldDeleteButtons;
 
@@ -67,7 +67,7 @@ public class EditEntityScreen extends Screen {
 	private JButton addTriggerButton;
 	
 	//TODO necessary?
-	private JPanel triggerPanel;
+	private JPanel triggerListPanel;
 
 	public EditEntityScreen(final ScreenManager sm) {
 		super(sm);
@@ -81,7 +81,8 @@ public class EditEntityScreen extends Screen {
 		JPanel fieldMainPanel = new JPanel();
 		JPanel fieldLabelsPanel = new JPanel();
 		fieldListPanel = new JPanel();
-		triggerPanel = new JPanel();
+		JPanel triggerMainPanel = new JPanel();
+		triggerListPanel = new JPanel();
 		JPanel triggerLabelsPanel = new JPanel();
 		JLabel generalLabel = new JLabel("General Info");
 		generalLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -116,6 +117,8 @@ public class EditEntityScreen extends Screen {
 		fieldTypes.get(0).setMaximumSize(new Dimension(200, 40));
 		fieldDeleteButtons = new ArrayList<JButton>();
 		fieldDeleteButtons.add(new JButton("Delete"));
+		fieldDeleteButtons.get(0).setActionCommand("Delete Field 0");
+		fieldDeleteButtons.get(0).addActionListener(this);
 		fieldSubPanels = new ArrayList<JPanel>();
 		fieldSubPanels.add(new JPanel());
 		addFieldButton = new JButton("Add Field");
@@ -151,16 +154,13 @@ public class EditEntityScreen extends Screen {
 		triggerResults.get(0).setMaximumSize(new Dimension (300, 40));
 		triggerDeleteButtons = new ArrayList<JButton>();
 		triggerDeleteButtons.add(new JButton("Delete"));
+		triggerDeleteButtons.get(0).setActionCommand("Delete Trigger 0");
+		triggerDeleteButtons.get(0).addActionListener(this);
 		triggerSubPanels = new ArrayList<JPanel>();
 		triggerSubPanels.add(new JPanel());
 		addTriggerButton = new JButton("Add Trigger");
 		addTriggerButton.addActionListener(this);
-//				new ActionListener() {
-//					@Override
-//					public void actionPerformed(ActionEvent e) {
-//						addTrigger();
-//					}
-//				}
+
 	
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(
@@ -235,17 +235,18 @@ public class EditEntityScreen extends Screen {
 		fieldBodyPanel.add(fieldListPanel);
 		fieldMainPanel.add(fieldBodyPanel, BorderLayout.CENTER);
 
-		triggerPanel.setLayout(
-				new BoxLayout(triggerPanel, BoxLayout.Y_AXIS)
+		triggerMainPanel.setLayout(new BorderLayout());
+		triggerListPanel.setLayout(
+				new BoxLayout(triggerListPanel, BoxLayout.Y_AXIS)
 				);
-		triggerPanel.setAlignmentX(CENTER_ALIGNMENT);
+		triggerListPanel.setAlignmentX(CENTER_ALIGNMENT);
 		triggerLabelsPanel.setLayout(
 				new BoxLayout(triggerLabelsPanel, BoxLayout.X_AXIS)
 				);
 		triggerSubPanels.get(0).setLayout(
 				new BoxLayout(triggerSubPanels.get(0), BoxLayout.X_AXIS)
 				);
-		triggerPanel.add(triggerLabel);
+		triggerMainPanel.add(triggerLabel, BorderLayout.NORTH);
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
 		triggerLabelsPanel.add(triggerNameLabel);
 		triggerNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
@@ -253,22 +254,23 @@ public class EditEntityScreen extends Screen {
 		triggerLabelsPanel.add(triggerConditionLabel);
 		triggerLabelsPanel.add(triggerResultLabel);
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
-		triggerPanel.add(triggerLabelsPanel);
+		triggerListPanel.add(triggerLabelsPanel);
 		triggerSubPanels.get(0).add(triggerNames.get(0));
 		triggerSubPanels.get(0).add(triggerPriorities.get(0));
 		triggerSubPanels.get(0).add(triggerConditions.get(0));
 		triggerSubPanels.get(0).add(triggerResults.get(0));
 		triggerSubPanels.get(0).add(triggerDeleteButtons.get(0));
-		triggerPanel.add(triggerSubPanels.get(0));
+		triggerListPanel.add(triggerSubPanels.get(0));
 		triggerSubPanels.get(0).setAlignmentX(CENTER_ALIGNMENT);
 		triggerSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
-		triggerPanel.add(addTriggerButton);
+		triggerListPanel.add(addTriggerButton);
 		glue2 = Box.createVerticalGlue();
-		triggerPanel.add(glue2);
+		triggerListPanel.add(glue2);
+		triggerMainPanel.add(triggerListPanel, BorderLayout.CENTER);
 
 		tabs.addTab("General", generalPanel);
 		tabs.addTab("Fields", fieldMainPanel);
-		tabs.addTab("Triggers",  triggerPanel);
+		tabs.addTab("Triggers", triggerMainPanel);
 
 		this.add(label, BorderLayout.NORTH);
 		this.add(tabs, BorderLayout.CENTER);
@@ -287,6 +289,12 @@ public class EditEntityScreen extends Screen {
 		}
 		else if (action.equals("Add Trigger")) {
 			addTrigger();
+		}
+		else if (action.substring(0, 14).equals("Delete Trigger")) {
+			deleteTrigger(Integer.parseInt(action.substring(15)));
+		}
+		else if (action.substring(0, 12).equals("Delete Field")) {
+			deleteField(Integer.parseInt(action.substring(13)));
 		}
 	}
 
@@ -311,8 +319,10 @@ public class EditEntityScreen extends Screen {
 		JTextField newValue = new JTextField(25);
 		newValue.setMaximumSize(new Dimension(300, 40));
 		JButton newButton = new JButton("Delete");
-		//newButton.addActionListener(new DeleteListener());
+		newButton.addActionListener(this);
 		fieldDeleteButtons.add(newButton);
+		newButton.setActionCommand("Delete Field " + 
+									fieldDeleteButtons.indexOf(newButton));
 		newPanel.add(newName);
 		newPanel.add(newType);
 		newPanel.add(newValue);
@@ -332,25 +342,58 @@ public class EditEntityScreen extends Screen {
 				);
 		JTextField newName = new JTextField(25);
 		newName.setMaximumSize(new Dimension(200, 40));
+		triggerNames.add(newName);
 		JTextField newPriority = new JTextField(15);
 		newPriority.setMaximumSize(new Dimension(150, 40));
+		triggerPriorities.add(newPriority);
 		JTextField newCondition = new JTextField(50);
 		newCondition.setMaximumSize(new Dimension(300, 40));
+		triggerConditions.add(newCondition);
 		JTextField newResult = new JTextField(50);
 		newResult.setMaximumSize(new Dimension(300, 40));
+		triggerResults.add(newResult);
 		JButton newButton = new JButton("Delete");
-		//newButton.addActionListener(new DeleteListener());
+		newButton.addActionListener(this);
 		triggerDeleteButtons.add(newButton);
+		newButton.setActionCommand("Delete Trigger " + 
+				triggerDeleteButtons.indexOf(newButton));
 		newPanel.add(newName);
 		newPanel.add(newPriority);
 		newPanel.add(newCondition);
 		newPanel.add(newResult);
 		newPanel.add(newButton);
-		triggerNames.add(newName);
 		triggerSubPanels.add(newPanel);
-		triggerPanel.add(newPanel);
-		triggerPanel.add(addTriggerButton);
-		triggerPanel.add(glue2);
-		repaint();	
+		triggerListPanel.add(newPanel);
+		triggerListPanel.add(addTriggerButton);
+		triggerListPanel.add(glue2);
+		repaint();
+	}
+	
+	private void deleteField(int n) {
+		fieldNames.remove(n);
+		fieldTypes.remove(n);
+		fieldDeleteButtons.remove(n);
+		for (int i = n; i < fieldDeleteButtons.size(); i++) {
+			fieldDeleteButtons.get(i).setActionCommand("Delete Field " + i);
+		}
+		fieldListPanel.remove(fieldSubPanels.get(n));
+		fieldSubPanels.remove(n);
+		repaint();
+	}
+	
+	private void deleteTrigger(int n) {
+		triggerNames.remove(n);
+		triggerPriorities.remove(n);
+		triggerConditions.remove(n);
+		triggerResults.remove(n);
+		triggerDeleteButtons.remove(n);
+		for (int i = n; i < triggerDeleteButtons.size(); i++) {
+			triggerDeleteButtons.get(i).setActionCommand(
+					"Delete Trigger " + i
+					);
+		}
+		triggerListPanel.remove(triggerSubPanels.get(n));
+		triggerSubPanels.remove(n);
+		repaint();
 	}
 }

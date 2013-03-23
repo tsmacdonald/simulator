@@ -66,6 +66,9 @@ public class Trigger implements Comparable<Trigger> {
 	 * Evaluates the boolean expression represented by this object and fires if
 	 * all conditions evaluate to true.
 	 * 
+	 * If someone wants to evaluate an expression to something other than boolean,
+	 * they will need to change this method or fire.
+	 * 
 	 * @return Boolean
 	 * @throws EvaluationException
 	 *             if the expression was invalid
@@ -83,8 +86,10 @@ public class Trigger implements Comparable<Trigger> {
 		expr.importEntity("local", xLocal);
 		expr.importEntity("global", xGlobal);
 
-		if (expr.evaluateBool())
+		if (expr.evaluateBool()){
 			fire(xThis, xOther, xLocal, xGlobal);
+		
+		}
 		throw new UnsupportedOperationException();
 	}
 
