@@ -9,7 +9,7 @@ import java.util.HashMap;
  * @author Akon
  * 
  */
-class AgentSnapshot extends EntitySnapshot {
+public class AgentSnapshot extends EntitySnapshot {
 
 	/**
 	 * This Class and variable should provide details of this agent's most
@@ -32,7 +32,7 @@ class AgentSnapshot extends EntitySnapshot {
 	 *            the interaction details for this snapshot
 	 */
 	public AgentSnapshot(Integer entityID, HashMap<String, FieldSnapshot> fields,
-			Integer step, EntityPrototypeSnapshot prototype,
+			Integer step, PrototypeSnapshot prototype,
 			InteractionDescription interaction) {
 		super(entityID, fields, step, prototype);
 		this.interaction = interaction;

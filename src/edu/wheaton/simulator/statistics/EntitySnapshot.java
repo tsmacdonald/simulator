@@ -11,7 +11,7 @@ import com.google.common.collect.ImmutableMap;
  * 
  * @author Daniel Gill, Akon Ngoh
  */
-abstract class EntitySnapshot {
+public abstract class EntitySnapshot {
 
 	public final Integer entityID;
 
@@ -28,7 +28,7 @@ abstract class EntitySnapshot {
 	/**
 	 * The present prototype for the category of this Entity.
 	 */
-	public final EntityPrototypeSnapshot prototype;
+	public final PrototypeSnapshot prototype;
 
 	/**
 	 * Constructor.
@@ -43,7 +43,7 @@ abstract class EntitySnapshot {
 	 *            The prototype for this category of Entity.
 	 */
 	public EntitySnapshot(Integer entityID, HashMap<String, FieldSnapshot> fields,
-			Integer step, EntityPrototypeSnapshot prototype) {
+			Integer step, PrototypeSnapshot prototype) {
 		this.entityID = entityID;
 		this.step = step;
 		this.prototype = prototype;

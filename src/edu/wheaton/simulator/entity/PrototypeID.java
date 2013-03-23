@@ -28,8 +28,9 @@ public class PrototypeID implements Comparable<PrototypeID>{
 	public int compareTo(PrototypeID o) {
 		return this.getInt().compareTo(o.getInt());
 	}
-	
+
 	public boolean equals(PrototypeID o){
 		return this.getInt().equals(o.getInt());
 	}
+
 }
