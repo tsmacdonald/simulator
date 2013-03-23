@@ -1,9 +1,15 @@
 package edu.wheaton.simulator.statistics;
 
-import java.util.HashMap;
+import java.util.Map;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.EntityID;
+import edu.wheaton.simulator.entity.GridEntity;
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.entity.PrototypeID;
 import edu.wheaton.simulator.entity.Slot;
 
 /**
@@ -14,32 +20,40 @@ import edu.wheaton.simulator.entity.Slot;
 
 public class SnapshotFactory {
 
+	// TODO Please check these methods and see if they're all okay.
 
-	public static AgentSnapshot makeAgentSnapshot(Agent agent, Integer step) {
-//		Sort out with the Agent guys just wtf is up with fields. 
-		return null; // TODO 
+	public static EntitySnapshot makeSlotSnapshot(GridEntity entity,
+			Integer step) {
+		return new EntitySnapshot(entity.getEntityID(),
+				makeFieldSnapshots(entity.getFieldMap()), step);
 	}
 
-	public static SlotSnapshot makeSlotSnapshot(Slot slot, Integer step) {
-		return null; // TODO
+	public static AgentSnapshot makeAgentSnapshot(GridEntity entity,
+			Integer step) {
+		// Sort out with the Agent guys just wtf is up with fields.
+		return new AgentSnapshot(entity.getEntityID(), makeFieldSnapshots(entity.getFieldMap()), step, 
+				entity.getProtypeName(), );
 	}
 
 	public static FieldSnapshot makeFieldSnapshot(String name, String value) {
 		return new FieldSnapshot(name, value);
 	}
-	
-	public static ImmutableMap<String, FieldSnapshot> makeFieldSnapshots(HashMap<String, String> fields) { 
-//		for (String name : fields.keySet()) { 
-//			
-//		}
-		return null;
+
+	public static ImmutableMap<String, FieldSnapshot> makeFieldSnapshots(
+			Map<String, String> fields) {
+		ImmutableMap.Builder<String, FieldSnapshot> builder = new ImmutableMap.Builder<String, FieldSnapshot>();
+		for (String name : fields.keySet()) {
+			String value = fields.get(name);
+			builder.put(name, makeFieldSnapshot(name, value));
+		}
+		return builder.build();
 	}
 
 	public static PrototypeSnapshot makePrototypeSnapshot(Prototype prototype,
 			Integer step) {
 		return null; // TODO
 	}
-	
+
 	private SnapshotFactory() {
 	}
 }
