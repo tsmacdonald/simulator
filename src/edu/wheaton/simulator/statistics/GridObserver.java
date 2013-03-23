@@ -2,6 +2,7 @@ package edu.wheaton.simulator.statistics;
 
 import java.util.HashMap;
 
+import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Slot;
 import edu.wheaton.simulator.simulation.Grid;
@@ -13,6 +14,7 @@ import edu.wheaton.simulator.simulation.Grid;
 public class GridObserver {
 
 	private StatisticsManager statManager;
+	private SnapshotFactory snapFactory;
 	
 	/**
 	 * Constructor.
@@ -23,9 +25,11 @@ public class GridObserver {
 	
 	public void observe(Grid grid, Integer step, HashMap<String, Prototype> prototypes) { 
 		for (Slot s : grid) { 
-			// store snapshot of Slot
-			// store snapshot of Agent (if != null)
-			
+			snapFactory.makeSlotSnapshot(s);
+			Agent agent = s.getAgent();
+			snapFactory.makeAgentSnapshot(agent);
+			Field field = s.getField(Object);
+			snapFactory.makeFieldSnapshot(field);
 			
 		}
 	}
