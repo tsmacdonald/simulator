@@ -47,6 +47,9 @@ public class EditEntityScreen extends Screen {
 	private Component glue;
 
 	private JButton addFieldButton;
+	
+	//TODO necessary?
+	private JPanel fieldPanel3;
 
 	private ArrayList<JTextField> triggerNames;
 
@@ -71,7 +74,7 @@ public class EditEntityScreen extends Screen {
 		//fieldPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		JPanel fieldPanel2 = new JPanel();
 		//fieldPanel2.setBorder(BorderFactory.createLineBorder(Color.red));
-		JPanel fieldPanel3 = new JPanel();
+		fieldPanel3 = new JPanel();
 		//fieldPanel3.setBorder(BorderFactory.createLineBorder(Color.green));
 		//JPanel fieldSubPanel = new JPanel();
 		//fieldSubPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
@@ -87,7 +90,6 @@ public class EditEntityScreen extends Screen {
 		triggerLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		JLabel nameLabel = new JLabel("Name: ");
 		nameField = new JTextField(25);
-		//set max size of name field
 		nameField.setMaximumSize(new Dimension(400, 40));
 		colorTool = new JColorChooser();
 		JButton loadIconButton = new JButton("Load icon");
@@ -101,7 +103,6 @@ public class EditEntityScreen extends Screen {
 
 		fieldNames = new ArrayList<JTextField>();
 		fieldNames.add(new JTextField(25));
-		//set max size of field name text box
 		fieldNames.get(0).setMaximumSize(new Dimension(300, 40));
 		fieldValues = new ArrayList<JTextField>();
 		fieldValues.add(new JTextField(25));
@@ -117,29 +118,7 @@ public class EditEntityScreen extends Screen {
 		addFieldButton.addActionListener(
 				new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						JPanel newPanel = new JPanel();
-						newPanel.setLayout(
-								new BoxLayout(newPanel, 
-										BoxLayout.X_AXIS)
-								);
-						JTextField newName = new JTextField(25);
-						newName.setMaximumSize(new Dimension(300, 40));
-						fieldNames.add(newName);
-						JComboBox newType = new JComboBox(typeNames);
-						newType.setMaximumSize(new Dimension(200, 40));
-						fieldTypes.add(newType);
-						JTextField newValue = new JTextField(25);
-						newValue.setMaximumSize(new Dimension(300, 40));
-						JButton newButton = new JButton("Delete");
-						//newButton.addActionListener(new DeleteListener());
-						fieldDeleteButtons.add(newButton);
-						newPanel.add(newName);
-						newPanel.add(newType);
-						newPanel.add(newValue);
-						newPanel.add(newButton);
-						fieldSubPanels.add(newPanel);
-						//fieldPanel3.add(newPanel);
-
+						addField();
 					}
 				}
 				);
@@ -232,7 +211,6 @@ public class EditEntityScreen extends Screen {
 		fieldPanel2.setAlignmentX(CENTER_ALIGNMENT);
 		fieldUberPanel.add(fieldPanel3);
 		fieldPanel.add(fieldUberPanel, BorderLayout.CENTER);
-		//fieldPanel.add(addFieldButton, BorderLayout.SOUTH);
 
 		triggerPanel.setLayout(
 				new BoxLayout(triggerPanel, BoxLayout.PAGE_AXIS)
@@ -256,6 +234,8 @@ public class EditEntityScreen extends Screen {
 
 	}
 
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -266,6 +246,34 @@ public class EditEntityScreen extends Screen {
 	public void sendInfo() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	private void addField() {
+		JPanel newPanel = new JPanel();
+		newPanel.setLayout(
+				new BoxLayout(newPanel, 
+						BoxLayout.X_AXIS)
+				);
+		JTextField newName = new JTextField(25);
+		newName.setMaximumSize(new Dimension(300, 40));
+		fieldNames.add(newName);
+		JComboBox newType = new JComboBox(typeNames);
+		newType.setMaximumSize(new Dimension(200, 40));
+		fieldTypes.add(newType);
+		JTextField newValue = new JTextField(25);
+		newValue.setMaximumSize(new Dimension(300, 40));
+		JButton newButton = new JButton("Delete");
+		//newButton.addActionListener(new DeleteListener());
+		fieldDeleteButtons.add(newButton);
+		newPanel.add(newName);
+		newPanel.add(newType);
+		newPanel.add(newValue);
+		newPanel.add(newButton);
+		fieldSubPanels.add(newPanel);
+		fieldPanel3.add(newPanel);
+		fieldPanel3.add(addFieldButton);
+		fieldPanel3.add(glue);
+		repaint();	
 	}
 
 }
