@@ -4,7 +4,7 @@ import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.Grid;
 
-public class Move implements Behavable {
+public class MoveBehavior implements Behavior {
 
 	/**
 	 * The Grid in which the Agent will move.
@@ -31,7 +31,7 @@ public class Move implements Behavable {
 	 * @param yExpr
 	 *            The expression for the new y-coordinate
 	 */
-	public Move(Grid global, Expression xExpr, Expression yExpr) {
+	public MoveBehavior(Grid global, Expression xExpr, Expression yExpr) {
 		this.global = global;
 		this.xExpr = xExpr;
 		this.yExpr = yExpr;

@@ -4,7 +4,7 @@ import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.Grid;
 
-public class Clone implements Behavable {
+public class CloneBehavior implements Behavior {
 
 	/**
 	 * The expression for the x-coordinate where the clone will be placed
@@ -31,7 +31,7 @@ public class Clone implements Behavable {
 	 *            The expression for the y-coordinate where the clone will be
 	 *            placed
 	 */
-	public Clone(Grid global, Expression xExpr, Expression yExpr) {
+	public CloneBehavior(Grid global, Expression xExpr, Expression yExpr) {
 		this.global = global;
 		this.xExpr = xExpr;
 		this.yExpr = yExpr;
