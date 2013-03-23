@@ -18,12 +18,19 @@ public class StatisticsManager {
 		if (instance == null)
 			instance = new StatisticsManager(); 
 		return instance; 
+		
+		
 	}
 	
 	/**
 	 * The table on which all entity snapshots will be stored. 
 	 */
 	private EntitySnapshotTable table; 
+	
+	/**
+	 * The GridOberserver keeps track of changes in the grid. 
+	 */
+	private GridObserver gridObserver; 
 	
 	//TODO: Some sort of behavior queue mapping AgentID's to behavior representations. 
 	
@@ -32,8 +39,24 @@ public class StatisticsManager {
 	 */
 	private StatisticsManager() { 
 		table = new EntitySnapshotTable(); 
+		gridObserver = new GridObserver(this); 
 	}
 	
+	/**
+	 * Get the grid entity Observer. 
+	 * @return The GridEntityObserver associated with this StatisticsManager. 
+	 */
+	public GridObserver getGridObserver() { 
+		return gridObserver;
+	}
+	
+	/**
+	 * Store a snapshot of a gridEntity. 
+	 * @param gridEntity The Snapshot to be stored. 
+	 */
+	public void addGridEntity(EntitySnapshot gridEntity) { 
+		table.putEntity(gridEntity); 
+	}
 	
 	
 }

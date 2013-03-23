@@ -1,9 +1,10 @@
 package edu.wheaton.simulator.statistics;
 
 import java.util.HashMap;
-import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
+
+import edu.wheaton.simulator.entity.EntityID;
 
 
 /**
@@ -17,7 +18,7 @@ class SlotSnapshot extends EntitySnapshot {
 	/**
 	 * How many agents are occupying this slot
 	 */
-	public final ImmutableSet<Integer> agents;
+	public final EntityID agent;
 
 	/**
 	 * Constructor
@@ -30,17 +31,14 @@ class SlotSnapshot extends EntitySnapshot {
 	 *            The step in the simulation associated with this snapshot.
 	 * @param prototype
 	 *            The prototype for this category of Slot.
-	 * @param agents
-	 *            the number of agents occupying this slot
+	 * @param agent
+	 *            The Agent that may have occupied this Slot. 
 	 */
 	public SlotSnapshot(Integer id, HashMap<String, FieldSnapshot> fields,
 			Integer step, EntityPrototypeSnapshot prototype,
-			Set<Integer> agents) {
+			EntityID agent) {
 		super(id, fields, step, prototype);
 
-		ImmutableSet.Builder<Integer> builder = new ImmutableSet.Builder<Integer>();
-
-		builder.addAll(agents);
-		this.agents = builder.build();
+		this.agent = agent; 
 	}
 }
