@@ -15,7 +15,7 @@ public class PrototypeID implements Comparable<PrototypeID>{
 	
 	@Override
 	public String toString(){
-		return value.toString();
+		return "PrototypeID:" + value.toString();
 	}
 
 	private static synchronized final Integer genIDValue() {

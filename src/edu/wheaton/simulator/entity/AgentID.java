@@ -16,7 +16,7 @@ public class AgentID implements Comparable<AgentID>{
 	
 	@Override
 	public String toString(){
-		return value.toString();
+		return "AgentID:" + value.toString();
 	}
 
 	private static synchronized final Integer genIDValue() {

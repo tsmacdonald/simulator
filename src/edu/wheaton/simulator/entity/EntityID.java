@@ -15,7 +15,7 @@ public class EntityID implements Comparable<EntityID>{
 	
 	@Override
 	public String toString(){
-		return value.toString();
+		return "EntityID:" + value.toString();
 	}
 
 	private static synchronized final Integer genIDValue() {
