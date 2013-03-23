@@ -32,6 +32,8 @@ public class StatisticsManager {
 	 */
 	private GridObserver gridObserver;
 
+	// TODO: Appropriate datastructure for storing sets of prototype snapshots over time. 
+	
 	// TODO: Some sort of behavior queue mapping AgentID's to behavior
 	// representations.
 
