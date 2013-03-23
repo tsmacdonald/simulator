@@ -32,9 +32,15 @@ public class SnapshotFactory {
 			Integer step) {
 		// Sort out with the Agent guys just wtf is up with fields.
 		return new AgentSnapshot(entity.getEntityID(), makeFieldSnapshots(entity.getFieldMap()), step, 
-				entity.getProtypeName(), );
+				entity.getPrototypeName(), );
 	}
 
+	/**
+	 * Make a FieldSnapshot from the associated name and value. 
+	 * @param name The name of the field.
+	 * @param value The value of the field. 
+	 * @return A FieldSnapshot corresponding to the pair of Strings. 
+	 */
 	public static FieldSnapshot makeFieldSnapshot(String name, String value) {
 		return new FieldSnapshot(name, value);
 	}

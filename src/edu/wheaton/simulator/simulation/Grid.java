@@ -21,8 +21,8 @@ import edu.wheaton.simulator.entity.Slot;
 public class Grid implements Iterable<Slot> {
 
 	/**
-	 * The grid of all slots containing all Agent objects Total # slots =
-	 * Width x Height
+	 * The grid of all slots containing all Agent objects Total # slots = Width
+	 * x Height
 	 */
 	private Slot[][] grid;
 	private Integer width;
@@ -44,6 +44,10 @@ public class Grid implements Iterable<Slot> {
 	public Integer getHeight() {
 		return height;
 	}
+	
+	public boolean isValidCoord(int x, int y){
+		return x>0 && y>0 && x<getWidth() && y<getHeight();
+	}
 
 	public Slot getSlot(int x, int y) {
 		return grid[y][x];
@@ -63,7 +67,8 @@ public class Grid implements Iterable<Slot> {
 
 	/**
 	 * Places an Agent to the slot at the given coordinates. This method
-	 * replaces (kills) anything that is currently in that position.
+	 * replaces (kills) anything that is currently in that position. The
+	 * Agent's own position is also updated accordingly.
 	 * 
 	 * @param a
 	 * @param x
@@ -71,11 +76,12 @@ public class Grid implements Iterable<Slot> {
 	 */
 	public void addAgent(Agent a, int x, int y) {
 		getSlot(x, y).setAgent(a);
+		a.setPos(x, y);
 	}
 
 	/**
-	 * Adds the given Agent at the closest free spot to the spawn position.
-	 * The search for an open spot begins at the given x/y and then spirals
+	 * Adds the given Agent at the closest free spot to the spawn position. The
+	 * search for an open spot begins at the given x/y and then spirals
 	 * outwards.
 	 * 
 	 * @param a

@@ -1,6 +1,6 @@
 package edu.wheaton.simulator.statistics;
 
-import java.util.HashMap;
+import java.util.Collection;
 
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.EntityID;
@@ -23,7 +23,7 @@ public class GridObserver {
 		this.statManager = statManager;
 	}
 
-	public void observe(Grid grid, Integer step, HashMap<String, Prototype> prototypes) { 
+	public void observe(Grid grid, Integer step, Collection<Prototype> prototypes) { 
 		for (Slot s : grid) { 
 			EntitySnapshot slotSnap = SnapshotFactory.makeSlotSnapshot(s, step);
 			statManager.addGridEntity(slotSnap);

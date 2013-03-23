@@ -1,14 +1,9 @@
 package edu.wheaton.simulator.test.entity;
 
-import static org.junit.Assert.*;
-
-import java.awt.Color;
-
 import org.junit.Assert;
 import org.junit.Test;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
-import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.simulation.Grid;
 

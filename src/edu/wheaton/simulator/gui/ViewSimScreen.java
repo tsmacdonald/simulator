@@ -58,10 +58,11 @@ public class ViewSimScreen extends Screen {
 	public void createGrid(JPanel[][] grid){
 		gridPanel.removeAll();
 		gridPanel.setLayout(new GridLayout(grid.length, grid[0].length));
-		for (int j = grid[0].length-1; j >= 0; j--)
+		for (int j = grid[0].length-1; j >= 0; j--) {
             for (int i = 0; i < grid.length; i++) {
             	gridPanel.add(grid[i][j]);
             }
+		}
 	}
 	
 	public void addComponents(JPanel panel) {
