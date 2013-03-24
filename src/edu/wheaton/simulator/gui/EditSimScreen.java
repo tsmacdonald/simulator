@@ -11,12 +11,15 @@ public class EditSimScreen extends Screen {
 
 	private static final long serialVersionUID = 3629462657811804434L;
 	
+	private JButton[] buttons;
+	
 	public EditSimScreen(ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		JLabel label = new JLabel("Edit Simulation");
 		label.setAlignmentX(CENTER_ALIGNMENT);
 		label.setPreferredSize(new Dimension(500, 200));
+		buttons = new JButton[9];
 		JButton newSimulation = new JButton("New Simulation");
 		//newSimulation.setPreferredSize(new Dimension(175, 60));
 		newSimulation.addActionListener(new GeneralButtonListener());
@@ -98,6 +101,17 @@ public class EditSimScreen extends Screen {
 			Screen update = sm.getScreen(action);
 			sm.update(update);
 		}
+		sm.update(update);
+		if(update instanceof SetupScreen)
+			((SetupScreen) update).updateSetUpScreen(sm.getGUIname(), sm.getGUIwidth(), sm.getGUIheight());
+		if(update instanceof ViewSimScreen)
+			((ViewSimScreen) update).paint();
+
 	}
 
+	@Override
+	public void sendInfo() {
+		// TODO Auto-generated method stub
+
+	}
 }

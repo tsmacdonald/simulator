@@ -28,14 +28,14 @@ import javax.swing.SwingConstants;
 
 public class SpawningScreen extends Screen {
 
-	//temporary placeholder
+	//TODO temporary placeholder
 	private String[] exampleEntities = {"Fox", "Rabbit", "Clover", "Bear"};
 
 	private ArrayList<JComboBox> entityTypes;
 
 	private ArrayList<JComboBox> spawnPatterns;
 
-	//temporary placeholder
+	//TODO temporary placeholder
 	private String[] spawnOptions = {"Random", "Clustered", "Edge"};
 
 	private ArrayList<JTextField> xLocs;
@@ -175,7 +175,7 @@ public class SpawningScreen extends Screen {
 	}
 	
 	private void addSpawn() {
-		//TODO figure out why repaint() doesn't update the screen
+		//TODO figure out why repaint() doesn't update the screen completely
 		JPanel newPanel = new JPanel();
 		newPanel.setLayout(
 				new BoxLayout(newPanel, 
