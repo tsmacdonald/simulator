@@ -1,10 +1,8 @@
 package edu.wheaton.simulator.statistics;
 
 import java.util.Map;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.GridEntity;
@@ -36,10 +34,13 @@ public class SnapshotFactory {
 	}
 
 	/**
-	 * Make a FieldSnapshot from the associated name and value. 
-	 * @param name The name of the field.
-	 * @param value The value of the field. 
-	 * @return A FieldSnapshot corresponding to the pair of Strings. 
+	 * Make a FieldSnapshot from the associated name and value.
+	 * 
+	 * @param name
+	 *            The name of the field.
+	 * @param value
+	 *            The value of the field.
+	 * @return A FieldSnapshot corresponding to the pair of Strings.
 	 */
 	public static FieldSnapshot makeFieldSnapshot(String name, String value) {
 		return new FieldSnapshot(name, value);

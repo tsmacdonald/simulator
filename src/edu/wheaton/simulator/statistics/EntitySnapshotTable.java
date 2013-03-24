@@ -1,5 +1,7 @@
 package edu.wheaton.simulator.statistics;
 
+import java.util.Set;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.TreeBasedTable;
 
@@ -97,4 +99,14 @@ class EntitySnapshotTable {
 	public int getSize() {
 		return table.size();
 	}
+	
+	/**
+	 * Get all the steps in the table
+	 * 
+	 * @return a set of integers
+	 */
+	public Set<Integer> getAllSteps() {
+		return table.columnKeySet();
+	}
+
 }
