@@ -103,16 +103,17 @@ public class SetupScreen extends Screen {
 
 	}
 
+	//TODO should other actionListeners be merged into here?
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void updateSetUpScreen(String nameString, String width, String height) {
+	public void updateSetUpScreen(String nameString, int width, int height) {
 		nameField.setText(nameString);
-		this.width.setText(width);
-		this.height.setText(height);
+		this.width.setText(width +"");
+		this.height.setText(height +"");
 	}
 
 }

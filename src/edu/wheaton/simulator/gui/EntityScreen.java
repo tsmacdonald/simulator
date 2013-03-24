@@ -99,6 +99,7 @@ public class EntityScreen extends Screen {
 		} else if (action.equals("Add")) {
 			sm.update(sm.getScreen("Edit Entities"));
 		} else if (action.equals("Edit")) {
+			//TODO call EditEntitiesScreen's load on the selected entity
 			sm.update(sm.getScreen("Edit Entities"));
 		} else if (action.equals("Back")) {
 			sm.update(sm.getScreen("Edit Simulation"));
@@ -106,6 +107,8 @@ public class EntityScreen extends Screen {
 			System.out.println("Error with EntityListener");
 	}
 
+	//TODO need load method, which should just update listModel
+	
 	@Override
 	public void sendInfo() {
 		// TODO Auto-generated method stub

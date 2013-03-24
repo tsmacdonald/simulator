@@ -84,7 +84,7 @@ public class Agent extends GridEntity {
 	public void act(GridEntity local, GridEntity global) {
 		try {
 			for (Trigger t : triggers)
-				t.evaluate(this, getGrid(), local, global);
+				t.evaluate(this);
 		} catch (Exception e) {
 			System.err.println(e);
 		}
