@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -37,17 +38,17 @@ public class SetupScreen extends Screen {
 		JLabel nameLabel = new JLabel ("Name: ");
 		nameLabel.setMaximumSize(new Dimension(100, 40));
 		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		nameField = new JTextField(25);
+		nameField = new JTextField(sm.getGUIname(), 25);
 		nameField.setMaximumSize(new Dimension(400, 30));
 		JLabel widthLabel = new JLabel("Width: ");
 		widthLabel.setMaximumSize(new Dimension(100, 40));
 		widthLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		width = new JTextField(10);
+		width = new JTextField(sm.getGUIwidth()+"", 10);
 		width.setMaximumSize(new Dimension(80, 30));
 		JLabel heightLabel = new JLabel("Height: ");
 		heightLabel.setMaximumSize(new Dimension(210, 40));
 		heightLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		height = new JTextField(10);
+		height = new JTextField(sm.getGUIheight()+"", 0);
 		height.setMaximumSize(new Dimension(80, 30));
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
@@ -65,6 +66,17 @@ public class SetupScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						sm.updateGUIManager(nameField.getText(), width.getText(), height.getText());
+						JPanel[][] grid = new JPanel[GUIManager.getGridWidth()][GUIManager.getGridHeight()];
+						for (int j = 0; j < GUIManager.getGridWidth(); j++){
+							//TODO figure out memory space issue. Also centralize grid making, grid factory?
+				            for (int i = 0; i < GUIManager.getGridHeight(); i++) {
+				                grid[i][j] = new JPanel();
+				                grid[i][j].setOpaque(false);
+				                grid[i][j].setBorder(BorderFactory.createEtchedBorder());
+				            }	
+						}
+						sm.setGrid(grid);
 						sm.update(sm.getScreen("Edit Simulation"));
 					}
 				}
@@ -96,6 +108,12 @@ public class SetupScreen extends Screen {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void updateSetUpScreen(String nameString, String width, String height) {
+		nameField.setText(nameString);
+		this.width.setText(width);
+		this.height.setText(height);
 	}
 
 }

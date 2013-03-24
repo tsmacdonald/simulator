@@ -11,9 +11,9 @@ public class MoveBehavior extends AbstractBehavior {
 	 * Main constructor
 	 * 
 	 */
-	public MoveBehavior(ExpressionEvaluator eval) {
-		super(eval);
-	}
+//	public MoveBehavior(ExpressionEvaluator eval) {
+//		super(eval);
+//	}
 
 	@Override
 	public String getName() {

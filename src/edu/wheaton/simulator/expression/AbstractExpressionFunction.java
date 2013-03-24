@@ -17,6 +17,8 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	protected static final int RESULT_TYPE_BOOL = FunctionConstants.FUNCTION_RESULT_TYPE_NUMERIC;
 	protected static final int RESULT_TYPE_STRING = FunctionConstants.FUNCTION_RESULT_TYPE_STRING;
 	
+	private ExpressionEvaluator evaluator=null;
+	
 	@Override
 	public abstract String getName();
 
@@ -26,6 +28,10 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	@Override
 	public abstract String execute(String[] args) throws EvaluationException;
 
+	public ExpressionEvaluator getExprEval(){
+		return evaluator;
+	}
+	
 	@Override
 	public Entity resolveEntity(ExpressionEvaluator expr, String aliasName) {
 		return expr.getEntity(aliasName);
@@ -47,6 +53,9 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 			@Override
 			public FunctionResult execute(Evaluator evaluator, String arguments)
 					throws FunctionException {
+				
+				enclosingWrapper.setExprEval(new Expression(evaluator,(Expression.EntityFieldResolver)evaluator.getVariableResolver()));
+				
 				String[] args = arguments.split(",");
 				try {
 					return new FunctionResult(enclosingWrapper.execute(args),
@@ -62,5 +71,9 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 			}
 
 		};
+	}
+
+	private void setExprEval(ExpressionEvaluator evaluator) {
+		this.evaluator = evaluator;
 	}
 }

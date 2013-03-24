@@ -10,10 +10,13 @@ public class ScreenManager {
 	private DisplayManager dm;
 	
 	private JPanel[][] grid;
+	
+	private GUIManager gm;
 
-	public ScreenManager(DisplayManager dm) {
+	public ScreenManager(DisplayManager dm, GUIManager gm) {
 		screens = new HashMap<String, Screen>();
 		this.dm = dm;
+		this.gm = gm;
 		screens.put("Title", new TitleScreen(this));
 		screens.put("New Simulation", new NewSimulationScreen(this));
 		screens.put("Edit Simulation", new EditSimScreen(this));
@@ -41,5 +44,21 @@ public class ScreenManager {
 	
 	public JPanel[][] getGrid(){
 		return grid;
+	}
+	
+	
+	public String getGUIname(){
+		return GUIManager.getNameOfSim();
+	}
+	public int getGUIheight(){
+		return GUIManager.getGridHeight();
+	}
+	public int getGUIwidth(){
+		return GUIManager.getGridWidth();
+	}
+	public void updateGUIManager(String nos, String width, String height){
+		GUIManager.setNameOfSim(nos);
+		GUIManager.setGridWidth(width);
+		GUIManager.setGridHeight(height);
 	}
 }
