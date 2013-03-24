@@ -295,7 +295,7 @@ public class EditEntityScreen extends Screen {
 		nameField.setText("");
 		//other way of resetting colorTool? need to reset recents?
 		colorTool.setColor(Color.WHITE);
-		//reset icon constructor
+		//TODO reset icon constructor
 		fieldNames.clear(); 
 		fieldTypes.clear();
 		fieldValues.clear();

@@ -89,6 +89,7 @@ public class StatisticsScreen extends Screen {
 			}
 		});
 		this.add(label, BorderLayout.NORTH);
+		//TODO MAJOR figure out how to make a graph or something!!
 		graphPanel.add(new JLabel("Graph object goes here"));
 		mainPanel.add(graphPanel);
 		mainPanel.add(boxPanel);
@@ -96,6 +97,11 @@ public class StatisticsScreen extends Screen {
 		mainPanel.add(finishButton);
 		this.add(mainPanel);
 
+	}
+	
+	//TODO finish this
+	public void load() {
+		
 	}
 
 }

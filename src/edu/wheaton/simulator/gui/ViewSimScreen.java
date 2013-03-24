@@ -21,13 +21,14 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 public class ViewSimScreen extends Screen {
 
 	private JPanel gridPanel;
-	
+
 	private int height;
-	
+
 	private int width;
 
 	private ScreenManager sm;
@@ -46,6 +47,7 @@ public class ViewSimScreen extends Screen {
 		gridPanel = new JPanel();
 		JButton pauseButton = new JButton("Pause");
 		JButton backButton = new JButton("Back");
+		JButton startButton = new JButton("Start/Resume");
 
 		backButton.addActionListener(
 				new ActionListener() {
@@ -55,27 +57,50 @@ public class ViewSimScreen extends Screen {
 					} 
 				}
 				);
-
+		pauseButton.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						sm.setRunning(false);
+					}
+				}
+				);
+		/*
+		startButton.addActionListener(
+			new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					sm.setRunning(true);
+		*/
 		
+		panel.add(startButton);
 		panel.add(pauseButton);
 		panel.add(backButton);
 		this.add(label, BorderLayout.NORTH);
 		this.add(panel, BorderLayout.SOUTH);
-		this.setVisible(true);		
+		this.setVisible(true);	
+		//program loop yay!
+		new Thread(new Runnable() {
+			public void run() {
+				while(sm.isRunning()) {
+					sm.getFacade().updateEntities();
+					//if we do layers, they go here
+					SwingUtilities.invokeLater(
+							new Thread (new Runnable() {
+								public void run() {
+									repaint();
+								}
+							}));
+				}
+			}
+		}).start();
 	}
 
-	//TODO write the program loop
-	
 	public void paint(){
 		//TODO might want to rename Grid to avoid confusion with simulation Grid
 		Grid grid = new Grid(sm);
 		this.add(grid, BorderLayout.CENTER);
 		grid.paint(grid.getGraphics());
 	}
-
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
-	}
+	
+	//TODO load method, determine when to actually populate simulation
 
 }

@@ -17,14 +17,16 @@ public class ScreenManager {
 	private SimulationEnder se;
 	
 	private GUIToAgentFacade facade;
-
-	private GUIManager gm;
+	
+	private boolean simulationIsRunning;
+	
+	//for determining when components should be disabled while running a sim.
+	private boolean hasStarted;
 
 	public ScreenManager(DisplayManager dm, GUIManager gm) {
 		screens = new HashMap<String, Screen>();
 		this.dm = dm;
 		se = new SimulationEnder();
-		this.gm = gm;
 		screens.put("Title", new TitleScreen(this));
 		screens.put("New Simulation", new NewSimulationScreen(this));
 		screens.put("Edit Simulation", new EditSimScreen(this));
@@ -80,5 +82,21 @@ public class ScreenManager {
 		GUIManager.setGridWidth(width);
 		GUIManager.setGridHeight(height);
 
+	}
+	
+	public boolean isRunning() {
+		return simulationIsRunning;
+	}
+	
+	public void setRunning(boolean b) {
+		simulationIsRunning = b;
+	}
+	
+	public void setStarted(boolean b) {
+		hasStarted = b;
+	}
+	
+	public boolean hasStarted() {
+		return hasStarted();
 	}
 }

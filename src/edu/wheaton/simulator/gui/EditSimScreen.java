@@ -35,13 +35,21 @@ public class EditSimScreen extends Screen {
 		});
 		
 		JButton entities = new JButton("Entities");
-		entities.addActionListener(new GeneralButtonListener("Entities", sm));
+		entities.addActionListener(
+				//new GeneralButtonListener("Entities", sm));
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						((EntityScreen)sm.getScreen("Entities")).load();
+						sm.update(sm.getScreen("Entities"));
+					}
+				}
+				);
 		JButton fields = new JButton("Fields");
 		fields.addActionListener(
 				//new GeneralButtonListener("Fields", sm));
 				new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//TODO nullpointer in load(), fix.
+						//TODO indexoutofbounds in load(), fix.
 						System.out.println("Get to here with fields");
 						((FieldScreen)sm.getScreen("Fields")).load();
 						sm.update(sm.getScreen("Fields"));
@@ -63,7 +71,6 @@ public class EditSimScreen extends Screen {
 		spawning.addActionListener(new GeneralButtonListener("Spawning", sm));
 		JButton viewSimulation = new JButton("View Simulation");
 		viewSimulation.setPreferredSize(new Dimension(400, 120));
-		//final ViewSimScreen view = (ViewSimScreen) sm.getScreen("View Simulation");
 		viewSimulation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				sm.update(sm.getScreen("View Simulation"));

@@ -16,6 +16,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -80,6 +81,18 @@ public class EntityScreen extends Screen {
 		mainPanel.add(buttonPanel);
 		this.add(label, BorderLayout.NORTH);
 		this.add(mainPanel, BorderLayout.CENTER);
+	}
+	
+	public void reset() {
+		listModel.clear();
+	}
+	
+	public void load() {
+		reset();
+		Set<String> entities = sm.getFacade().prototypeNames();
+		for (String s : entities) {
+			listModel.addElement(s);
+		}
 	}
 	
 	class DeleteListener implements ActionListener {
