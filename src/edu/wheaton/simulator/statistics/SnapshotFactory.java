@@ -20,8 +20,6 @@ import edu.wheaton.simulator.entity.Slot;
 
 public class SnapshotFactory {
 
-	// TODO Please check these methods and see if they're all okay.
-
 	/**
 	 * Produce a snapshot of the given slot in time. 
 	 * @param slot The relevant slot. 
@@ -85,6 +83,9 @@ public class SnapshotFactory {
 				prototype.childPopulation(), prototype.childIDs(), step);
 	}
 
+	/**
+	 * Hidden constructor to prevent instantiation. 
+	 */
 	private SnapshotFactory() {
 	}
 }
