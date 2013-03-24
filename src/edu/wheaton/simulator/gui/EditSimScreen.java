@@ -11,60 +11,58 @@ public class EditSimScreen extends Screen {
 
 	private static final long serialVersionUID = 3629462657811804434L;
 	
-	private JButton[] buttons;
-	
 	public EditSimScreen(ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		JLabel label = new JLabel("Edit Simulation");
 		label.setAlignmentX(CENTER_ALIGNMENT);
 		label.setPreferredSize(new Dimension(500, 200));
-		buttons = new JButton[9];
 		JButton newSimulation = new JButton("New Simulation");
-		//newSimulation.setPreferredSize(new Dimension(175, 60));
-		newSimulation.addActionListener(new GeneralButtonListener());
+		newSimulation.addActionListener(new GeneralButtonListener("New Simulation", sm));
 		JButton loadExisting = new JButton("Load Existing");
-		//loadExisting.setPreferredSize(new Dimension(175, 60));
-		loadExisting.setEnabled(false); //serialization not yet implemented
-		loadExisting.addActionListener(new GeneralButtonListener());
+		//serialization not yet implemented
+		loadExisting.setEnabled(false); 
+		loadExisting.addActionListener(new GeneralButtonListener("Load Existing", sm));
 		JButton save = new JButton("Save");
-		//save.setPreferredSize(new Dimension(175, 60));
 		save.setEnabled(false); //serialization not yet implemented
+		
 		save.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				//TODO need serialization
 			}
 		});
+		
 		JButton entities = new JButton("Entities");
-		//agents.setPreferredSize(new Dimension(175, 60));
-		entities.addActionListener(new GeneralButtonListener());
+		entities.addActionListener(new GeneralButtonListener("Entities", sm));
 		JButton fields = new JButton("Fields");
-		//fields.setPreferredSize(new Dimension(175, 60));
-		fields.addActionListener(new GeneralButtonListener());
+		fields.addActionListener(new GeneralButtonListener("Fields", sm));
 		JButton statistics = new JButton("Statistics");
-		//statistics.setPreferredSize(new Dimension(175, 60));
-		statistics.addActionListener(new GeneralButtonListener());
+		statistics.addActionListener(new GeneralButtonListener("Statistics", sm));
 		JButton gridSetup = new JButton("Grid Setup");
-		//gridSetup.setPreferredSize(new Dimension(175, 60));
 		final SetupScreen update = (SetupScreen) sm.getScreen("Grid Setup");
 		final String name = sm.getGUIname();
 		final int width = sm.getGUIwidth();
 		final int height = sm.getGUIheight();
 		final ScreenManager sm2 = sm;
+		
 		gridSetup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				update.updateSetUpScreen(name, width, height);
 				sm2.update(update);
+				System.out.println("hello");
 			}
 		});
 		
 		JButton spawning = new JButton("Spawning");
-		//spawning.setPreferredSize(new Dimension(175, 60));
-		spawning.addActionListener(new GeneralButtonListener());
+		spawning.addActionListener(new GeneralButtonListener("Spawning", sm));
 		JButton viewSimulation = new JButton("View Simulation");
 		viewSimulation.setPreferredSize(new Dimension(400, 120));
-		viewSimulation.addActionListener(new GeneralButtonListener());
-		
+		final ViewSimScreen view = (ViewSimScreen) sm.getScreen("View Simulation");
+		viewSimulation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				view.repaint();
+			}
+		});
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.setMaximumSize(new Dimension(800, 1000));
@@ -92,26 +90,6 @@ public class EditSimScreen extends Screen {
 		mainPanel.add(panel4);
 		this.add(label);
 		this.add(mainPanel);
-		
 	}
-
-	private class GeneralButtonListener implements ActionListener {
-		public void actionPerformed(ActionEvent e){
-			String action = e.getActionCommand();
-			Screen update = sm.getScreen(action);
-			sm.update(update);
-		}
-		sm.update(update);
-		if(update instanceof SetupScreen)
-			((SetupScreen) update).updateSetUpScreen(sm.getGUIname(), sm.getGUIwidth(), sm.getGUIheight());
-		if(update instanceof ViewSimScreen)
-			((ViewSimScreen) update).paint();
-
-	}
-
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
-	}
+	
 }

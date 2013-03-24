@@ -114,7 +114,7 @@ public class SpawningScreen extends Screen {
 		deleteButtons = new ArrayList<JButton>();
 		deleteButtons.add(new JButton("Delete"));
 		deleteButtons.get(0).setActionCommand("Delete 0");
-		deleteButtons.get(0).addActionListener(this);
+		deleteButtons.get(0).addActionListener(new DeleteListener());
 		subPanels = new ArrayList<JPanel>();
 		subPanels.add(new JPanel());
 		subPanels.get(0).setLayout(
@@ -128,7 +128,11 @@ public class SpawningScreen extends Screen {
 		subPanels.get(0).add(deleteButtons.get(0));
 		listPanel.add(subPanels.get(0));
 		addSpawnButton = new JButton("Add Spawn");
-		addSpawnButton.addActionListener(this);
+		addSpawnButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				addSpawn();
+			}
+		});
 		listPanel.add(addSpawnButton);
 		glue = Box.createVerticalGlue();
 		listPanel.add(glue);
@@ -156,25 +160,6 @@ public class SpawningScreen extends Screen {
 		this.add(listPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		String action = e.getActionCommand();
-		Screen update = this;
-		if (action.equals("Add Spawn")) {
-			addSpawn();
-		}
-		else if (action.substring(0, 6).equals("Delete")) {
-			deleteSpawn(Integer.parseInt(action.substring(7)));
-		}
-	}
-
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
-	}
 	
 	private void addSpawn() {
 		//TODO figure out why repaint() doesn't update the screen completely
@@ -199,7 +184,7 @@ public class SpawningScreen extends Screen {
 		newNumber.setMaximumSize(new Dimension(100, 30));
 		numbers.add(newNumber);
 		JButton newButton = new JButton("Delete");
-		newButton.addActionListener(this);
+		newButton.addActionListener(new DeleteListener());
 		deleteButtons.add(newButton);
 		newButton.setActionCommand(
 				"Delete " + deleteButtons.indexOf(newButton)
@@ -232,5 +217,12 @@ public class SpawningScreen extends Screen {
 		listPanel.remove(subPanels.get(n));
 		subPanels.remove(n);
 		repaint();
+	}
+	
+	private class DeleteListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			String action = e.getActionCommand();
+			deleteSpawn(Integer.parseInt(action.substring(7)));
+		}
 	}
 }
