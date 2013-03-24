@@ -13,13 +13,13 @@ public class GridPanel extends JPanel {
 	private ScreenManager sm;
 
 	private int width;
-	
+
 	private int height;
 
 	private int gridWidth;
-	
+
 	private int gridHeight;
-	
+
 	public GridPanel(ScreenManager sm) {
 		this.sm = sm;
 	}
@@ -35,7 +35,7 @@ public class GridPanel extends JPanel {
 		for (int i = 0; i < gridWidth; i++) {
 			for (int j = 0; j < gridHeight; j++) {
 				g.drawRect(squareSize * i, squareSize * j, 
-						   squareSize, squareSize);
+						squareSize, squareSize);
 			}
 		}
 	}
@@ -50,11 +50,30 @@ public class GridPanel extends JPanel {
 		int squareSize = Math.min(pixelWidth, pixelHeight) - 1;
 		for (int i = 0; i < gridWidth; i++) {
 			for (int j = 0; j < gridHeight; j++) {
-				Agent a = sm.getFacade().getAgent(i, j);
-				if(a instanceof Agent){
-					g.setColor(a.getColor());
-					g.fillRect(squareSize * i, squareSize * j, 
-							   squareSize, squareSize);
+				Agent agent = sm.getFacade().getAgent(i, j);
+				if(agent instanceof Agent){
+					g.setColor(agent.getColor());
+					//If the square is going to be too small
+					//for an icon don't make icons
+					if(squareSize < 10){
+						g.fillRect(squareSize * i, squareSize * j, 
+								squareSize, squareSize);
+					}
+					//Otherwise make icons
+					else{
+						int iconSize = squareSize/8;
+						for (int a = 0; i < squareSize; i+=iconSize) {
+							for (int b = 0; j <  squareSize; j+=iconSize) {
+								byte[] icon = agent.getDesign();
+								byte val = new Byte("00000001");
+								if((icon[a]&(val<<b)) == 1){
+									g.fillRect((squareSize * i) + a*iconSize,
+											(squareSize * j) + b*iconSize, 
+											iconSize, iconSize);
+								}
+							}
+						}
+					}
 				}
 			}
 		}
