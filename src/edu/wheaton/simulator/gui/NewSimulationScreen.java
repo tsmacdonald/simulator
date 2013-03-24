@@ -75,6 +75,9 @@ public class NewSimulationScreen extends Screen {
 		simPanel.add(buttonPanel);
 		this.add(label, BorderLayout.NORTH);
 		this.add(simPanel, BorderLayout.CENTER);
+		name.setText("New Simulation");
+		height.setText("10");
+		width.setText("10");
 		this.setVisible(true);
 	}
 

@@ -162,7 +162,6 @@ public class SpawningScreen extends Screen {
 	}
 	
 	private void addSpawn() {
-		//TODO figure out why repaint() doesn't update the screen completely
 		JPanel newPanel = new JPanel();
 		newPanel.setLayout(
 				new BoxLayout(newPanel, 
@@ -199,6 +198,7 @@ public class SpawningScreen extends Screen {
 		listPanel.add(newPanel);
 		listPanel.add(addSpawnButton);
 		listPanel.add(glue);
+		listPanel.validate();
 		repaint();	
 	}
 
@@ -216,6 +216,7 @@ public class SpawningScreen extends Screen {
 		}
 		listPanel.remove(subPanels.get(n));
 		subPanels.remove(n);
+		listPanel.validate();
 		repaint();
 	}
 	

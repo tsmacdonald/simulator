@@ -36,6 +36,7 @@ public class ViewSimScreen extends Screen {
 	 */
 	private static final long serialVersionUID = -6872689283286800861L;
 
+	//TODO handle case of no input grid size, either here or in newSim/setup
 	public ViewSimScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -72,8 +73,6 @@ public class ViewSimScreen extends Screen {
 		grid.paint(grid.getGraphics());
 	}
 
-
-	@Override
 	public void sendInfo() {
 		// TODO Auto-generated method stub
 
