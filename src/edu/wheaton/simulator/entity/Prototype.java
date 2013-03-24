@@ -37,9 +37,9 @@ public class Prototype extends GridEntity {
 	 * The list of all triggers/events associated with this prototype.
 	 */
 	private List<Trigger> triggers;
-	
+
 	private final PrototypeID id;
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -54,7 +54,7 @@ public class Prototype extends GridEntity {
 		children = new ArrayList<Agent>();
 		triggers = new ArrayList<Trigger>();
 	}
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -123,7 +123,7 @@ public class Prototype extends GridEntity {
 	 * @return The clone of this prototype
 	 */
 	public Agent clonePrototype() {
-		Agent clone = new Agent(getGrid(), getColor(), getDesign());
+		Agent clone = new Agent(getGrid(), this, getColor(), getDesign());
 
 		// copy all fields
 		clone.getFieldMap().putAll(this.getFieldMap());
@@ -157,29 +157,31 @@ public class Prototype extends GridEntity {
 			a.removeTrigger(priority);
 		}
 	}
-	
+
 	/**
 	 * Provides a number of this children this prototype currently has.
+	 * 
 	 * @return The size of the children List
 	 */
 	public int childPopulation() {
 		return children.size();
 	}
-	
+
 	/**
-	 * Gives the AgentID objects for all of the Agents that use this specific prototype.
+	 * Gives the AgentID objects for all of the Agents that use this specific
+	 * prototype.
+	 * 
 	 * @return An ImmutableSet of AgentIDs.
 	 */
 	public ImmutableSet<AgentID> childIDs() {
-		ImmutableSet.Builder<AgentID> builder = 
-				new ImmutableSet.Builder<AgentID>(); 
-		for(Agent current : children) {
+		ImmutableSet.Builder<AgentID> builder = new ImmutableSet.Builder<AgentID>();
+		for (Agent current : children) {
 			builder.add(current.getAgentID());
 		}
 		return builder.build();
 	}
 
-	public PrototypeID getPrototypeID(){
+	public PrototypeID getPrototypeID() {
 		return id;
 	}
 }
