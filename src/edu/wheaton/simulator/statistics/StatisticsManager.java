@@ -109,7 +109,7 @@ public class StatisticsManager {
 	 *         that time
 	 */
 	public int[] getPopVsTime(PrototypeID id){
-		int[] data = new int[prototypes.size()]; 
+		int[] data = new int[numSteps]; 
 
 		for (int i = 0; i < data.length; i++) {
 			PrototypeSnapshot currentSnapshot;
@@ -149,7 +149,7 @@ public class StatisticsManager {
 		//Set of all AgentSnapshots
 		Set<AgentSnapshot> allAgents = new HashSet<AgentSnapshot>(); 
 		
-		for(int i = 0; i < prototypes.size(); i++){
+		for(int i = 0; i < numSteps; i++){
 			Set stepData = getPopulationAtStep(id, i); 	
 			agentsByStep.set(i, stepData);
 			allAgents.addAll(stepData); 
@@ -176,7 +176,7 @@ public class StatisticsManager {
 	 * @throws NameNotFoundException the target Agent wasn't found
 	 */
 	private int getBirthStep(List<Set<AgentSnapshot>> agentsByStep, AgentSnapshot target) throws NameNotFoundException{
-		for(int i = 0; i < prototypes.size(); i++)
+		for(int i = 0; i < numSteps; i++)
 			if(agentsByStep.get(i).contains(target))
 				return i;
 		
@@ -191,12 +191,10 @@ public class StatisticsManager {
 	 * @throws NameNotFoundException the target Agent wasn't found
 	 */
 	private int getDeathStep(List<Set<AgentSnapshot>> agentsByStep, AgentSnapshot target) throws NameNotFoundException{  	
-		for(int i = prototypes.size(); i > 0; i--)
+		for(int i = numSteps; i > 0; i--)
 			if(agentsByStep.get(i).contains(target))
 				return i;
 		
 		throw new NameNotFoundException("The target AgentSnapshot was not found");  
 	}
-	
-	
 }
