@@ -80,20 +80,7 @@ public class ViewSimScreen extends Screen {
 				gridPanel.getGraphics().drawRect(squareSize * i, squareSize * j, squareSize, squareSize);
 			}
 		}
-		
-
 		gridPanel.repaint();
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -15,10 +15,18 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 
 public class FieldScreen extends Screen {
 
@@ -58,13 +66,13 @@ public class FieldScreen extends Screen {
 		panel.add(fields);
 		fields.setAlignmentX(CENTER_ALIGNMENT);
 		delete = new JButton("Delete");
-		delete.addActionListener(this);
+		delete.addActionListener(new DeleteListener(listModel, fields, delete));
 		JButton add = new JButton("Add");
-		add.addActionListener(this);
+		add.addActionListener(new GeneralButtonListener("Edit Fields", sm));
 		JButton edit = new JButton("Edit");
-		edit.addActionListener(this);
+		edit.addActionListener(new GeneralButtonListener("Edit Fields", sm));
 		JButton back = new JButton("Back");
-		back.addActionListener(this);
+		back.addActionListener(new GeneralButtonListener("Edit Simulation", sm));
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(add);
 		buttonPanel.add(Box.createHorizontalStrut(5));
@@ -81,10 +89,24 @@ public class FieldScreen extends Screen {
 
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String action = e.getActionCommand();
-		if (action.equals("Delete")) {
+	//TODO need load and reset methods
+
+	//TODO can this be an anonymous inner class when adding the listener? 
+	//     or would that look bad? Is this class even necessary?
+
+	private class DeleteListener implements ActionListener {
+		
+		private DefaultListModel listModel;
+		private JList fields;
+		private JButton delete;
+
+		public DeleteListener(DefaultListModel listModel, JList fields, JButton delete){
+			this.listModel = listModel;
+			this.fields = fields;
+			this.delete = delete;
+		}
+		
+		public void actionPerformed(ActionEvent e){
 			int index = fields.getSelectedIndex();
 			listModel.remove(index);
 			int size = listModel.getSize();
@@ -94,33 +116,7 @@ public class FieldScreen extends Screen {
 				index--;
 			fields.setSelectedIndex(index);
 			fields.ensureIndexIsVisible(index);
-		} else if (action.equals("Add")) {
-			sm.update(sm.getScreen("Edit Fields"));
-		} else if (action.equals("Edit")) {
-			sm.update(sm.getScreen("Edit Fields"));
-		} else if (action.equals("Back")) {
-			sm.update(sm.getScreen("Edit Simulation"));
-		} else
-			System.out.println("Error with FieldListener");
-	}
-
-	//TODO need load and reset methods
-
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
-	}
-
-	//TODO can this be an anonymous inner class when adding the listener? 
-	//     or would that look bad? Is this class even necessary?
-	private class FieldListener implements ListSelectionListener {
-
-		@Override
-		public void valueChanged(ListSelectionEvent e) {
-			//TODO method stub
-
-		}
+		}	
 	}
 
 }

@@ -83,7 +83,11 @@ public class StatisticsScreen extends Screen {
 		JButton finishButton = new JButton("Finish");
 		finishButton.setPreferredSize(new Dimension(150, 70));
 		finishButton.setAlignmentX(CENTER_ALIGNMENT);
-		finishButton.addActionListener(this);
+		finishButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sm.update(sm.getScreen("Edit Simulation")); 
+			}
+		});
 		this.add(label, BorderLayout.NORTH);
 		graphPanel.add(new JLabel("Graph object goes here"));
 		mainPanel.add(graphPanel);
@@ -91,17 +95,6 @@ public class StatisticsScreen extends Screen {
 		mainPanel.add(dataPanel);
 		mainPanel.add(finishButton);
 		this.add(mainPanel);
-
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		sm.update(sm.getScreen("Edit Simulation")); 
-	}
-
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
 
 	}
 

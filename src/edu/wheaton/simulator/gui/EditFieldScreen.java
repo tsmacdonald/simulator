@@ -19,9 +19,6 @@ import javax.swing.*;
 
 public class EditFieldScreen extends Screen {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8001531208716520432L;
 
 	private JTextField nameField;
@@ -89,15 +86,12 @@ public class EditFieldScreen extends Screen {
 		finishButton.setPreferredSize(new Dimension(120, 60));
 		//TODO finish button needs to pull information from the screen and update
 		//     simulation accordingly.
-		finishButton.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Edit Simulation")); 
-					} 
-				}
-				);
-
+		finishButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sm.update(sm.getScreen("Edit Simulation")); 
+			} 
+		});
 		panel1.add(nameLabel);
 		panel1.add(nameField);
 		panel2.add(typeLabel);
@@ -120,7 +114,6 @@ public class EditFieldScreen extends Screen {
 		mainPanel.add(buttonPanel);
 		this.add(label, BorderLayout.NORTH);
 		this.add(mainPanel, BorderLayout.CENTER);
-
 	}
 
 	//TODO need a load() method and a reset() method

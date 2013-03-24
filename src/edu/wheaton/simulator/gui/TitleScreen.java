@@ -31,13 +31,13 @@ public class TitleScreen extends Screen {
 		JButton newSim = new JButton("New Simulation");
 		newSim.setAlignmentX(CENTER_ALIGNMENT);
 		newSim.setPreferredSize(new Dimension(200, 70));
-		newSim.addActionListener(this);
+		newSim.addActionListener(new GeneralButtonListener("New Simulation", sm));
 		JButton loadSim = new JButton("Load a saved Simulation");
 		loadSim.setAlignmentX(CENTER_ALIGNMENT);
 		loadSim.setPreferredSize(new Dimension(200, 70));
 		// Since serialization is not yet implemented.
 		loadSim.setEnabled(false);
-		loadSim.addActionListener(this);
+		loadSim.addActionListener(new GeneralButtonListener("Load Existing", sm));
 		this.add(label, BorderLayout.NORTH);
 		panel1.add(newSim);
 		panel2.add(loadSim);
@@ -48,19 +48,5 @@ public class TitleScreen extends Screen {
 		this.add(mainPanel, BorderLayout.CENTER);
 
 		this.setVisible(true);
-	}
-
-	@Override
-	public void sendInfo() {
-		return;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equalsIgnoreCase("New Simulation")) {
-			sm.update(sm.getScreen("New Simulation"));
-		} else if (e.getActionCommand().equalsIgnoreCase("Load Simulation")) {
-			// TODO empty else-if
-		}
 	}
 }

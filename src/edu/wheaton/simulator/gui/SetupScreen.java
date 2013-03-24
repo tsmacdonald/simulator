@@ -20,9 +20,7 @@ public class SetupScreen extends Screen {
 	private JTextField width;
 
 	private JTextField height;
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -8347080877399964861L;
 
 	public SetupScreen(final ScreenManager sm) {
@@ -69,7 +67,6 @@ public class SetupScreen extends Screen {
 						sm.updateGUIManager(nameField.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
 						JPanel[][] grid = new JPanel[GUIManager.getGridWidth()][GUIManager.getGridHeight()];
 						for (int j = 0; j < GUIManager.getGridWidth(); j++){
-							//TODO figure out memory space issue. Also centralize grid making, grid factory?
 				            for (int i = 0; i < GUIManager.getGridHeight(); i++) {
 				                grid[i][j] = new JPanel();
 				                grid[i][j].setOpaque(false);
@@ -95,19 +92,6 @@ public class SetupScreen extends Screen {
 		mainPanel.add(panel2);
 		this.add(mainPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
-	}
-
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
-	}
-
-	//TODO should other actionListeners be merged into here?
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void updateSetUpScreen(String nameString, int width, int height) {
