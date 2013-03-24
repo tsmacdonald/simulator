@@ -6,13 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.naming.NameNotFoundException;
-
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-
 import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.PrototypeID;
 
@@ -117,12 +113,12 @@ public class StatisticsManager {
 	 *         that time
 	 */
 	public int[] getPopVsTime(PrototypeID id){
-		int[] data = new int[prototypes.size()]; 
+		int[] data = new int[numSteps]; 
 
 		for (int i = 0; i < data.length; i++) {
 			PrototypeSnapshot currentSnapshot;
 			if ((currentSnapshot = prototypes.get(i).get(id)) != null) {
-				data[i] = currentSnapshot.childPopulation;
+				data[i] = currentSnapshot.population;
 			}
 		}
 		return data;
@@ -139,7 +135,38 @@ public class StatisticsManager {
 	 *         the value refers to average field value at that time
 	 */
 	public double[] getAvgFieldValue(PrototypeID id, String FieldName) {
-		return null;
+		// set of steps in table
+		Set<Integer> steps = table.getAllSteps();
+		
+		// array of averages
+		double[] averages = new double[steps.size()];
+		
+		// marker for double[]
+		int i = 0;
+		
+		// arraylist of the values at each step to average up
+		ArrayList<Double> stepVals = new ArrayList<Double>();
+		
+		for(int step : steps) {
+			ImmutableSet<AgentSnapshot> agents = getPopulationAtStep(id, step);
+			
+			for(AgentSnapshot agent : agents) {
+				ImmutableMap<String, FieldSnapshot> fields = agent.fields;
+				
+				if(fields.containsKey(FieldName))
+					if(fields.get(FieldName).isNumber)
+						stepVals.add(fields.get(FieldName).getNumericalValue());
+			}
+			
+			double total = 0;
+			for(Double val : stepVals)
+				total += val;
+			averages[i] = total / (steps.size());
+			total = 0;
+			i++;
+			stepVals.clear();
+		}
+		return averages;
 	}
 
 	/**
@@ -157,7 +184,7 @@ public class StatisticsManager {
 		//Set of all AgentSnapshots
 		Set<AgentSnapshot> allAgents = new HashSet<AgentSnapshot>(); 
 		
-		for(int i = 0; i < prototypes.size(); i++){
+		for(int i = 0; i < numSteps; i++){
 			Set stepData = getPopulationAtStep(id, i); 	
 			agentsByStep.set(i, stepData);
 			allAgents.addAll(stepData); 
@@ -184,7 +211,7 @@ public class StatisticsManager {
 	 * @throws NameNotFoundException the target Agent wasn't found
 	 */
 	private int getBirthStep(List<Set<AgentSnapshot>> agentsByStep, AgentSnapshot target) throws NameNotFoundException{
-		for(int i = 0; i < prototypes.size(); i++)
+		for(int i = 0; i < numSteps; i++)
 			if(agentsByStep.get(i).contains(target))
 				return i;
 		
@@ -199,12 +226,10 @@ public class StatisticsManager {
 	 * @throws NameNotFoundException the target Agent wasn't found
 	 */
 	private int getDeathStep(List<Set<AgentSnapshot>> agentsByStep, AgentSnapshot target) throws NameNotFoundException{  	
-		for(int i = prototypes.size(); i > 0; i--)
+		for(int i = numSteps; i > 0; i--)
 			if(agentsByStep.get(i).contains(target))
 				return i;
 		
 		throw new NameNotFoundException("The target AgentSnapshot was not found");  
 	}
-	
-	
 }
