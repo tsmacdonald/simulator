@@ -4,7 +4,7 @@
  * Class representing the screen that displays the grid as
  * the simulation runs.
  * 
- * @author Willy McHie
+ * @author Willy McHie and Ian Walling
  * Wheaton College, CSCI 335, Spring 2013
  */
 
@@ -55,32 +55,29 @@ public class ViewSimScreen extends Screen {
 				}
 				);
 
-		this.add(gridPanel, BorderLayout.CENTER);
-
+		
 		panel.add(pauseButton);
 		panel.add(backButton);
 		this.add(label, BorderLayout.NORTH);
 		this.add(panel, BorderLayout.SOUTH);
-		this.setVisible(true);
-		
+		this.setVisible(true);		
+	}
+	
+	public void paint(){
+		Grid grid = new Grid(sm);
+		this.add(grid, BorderLayout.CENTER);
+		grid.paint(grid.getGraphics());
 	}
 
-	public void paint() {
-		int gridWidth = sm.getGUIwidth();
-		int gridHeight = sm.getGUIheight();
-		width = gridPanel.getWidth()/gridWidth;
-		height = gridPanel.getHeight()/gridHeight;
-		System.out.println("width = " + width);
-		System.out.println("height = " + height);
-		int squareSize = Math.min(width, height)-1; 
-		gridPanel.getGraphics().setColor(Color.BLACK);
-		System.out.println(gridPanel.getGraphics().getColor().getRGB());
-		for (int i = 0; i < gridWidth; i++) {
-			for (int j = 0; j < gridHeight; j++) {
-				gridPanel.getGraphics().drawRect(squareSize * i, squareSize * j, squareSize, squareSize);
-			}
-		}
-		gridPanel.repaint();
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void sendInfo() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

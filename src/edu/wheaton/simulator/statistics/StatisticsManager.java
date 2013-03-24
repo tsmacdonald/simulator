@@ -157,7 +157,7 @@ public class StatisticsManager {
 			double total = 0;
 			for(Double val : stepVals)
 				total += val;
-			averages[i] = total / (steps.size());
+			averages[i] = total / (agents.size());
 			total = 0;
 			i++;
 			stepVals.clear();
