@@ -21,8 +21,6 @@ public class Grid extends Component {
 		int gridHeight = sm.getGUIheight();
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
-		System.out.println("width = " + width);
-		System.out.println("height = " + height);
 		int squareSize = Math.min(pixelWidth, pixelHeight) - 1;
 		for (int i = 0; i < gridWidth; i++) {
 			for (int j = 0; j < gridHeight; j++) {

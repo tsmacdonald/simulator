@@ -102,6 +102,7 @@ public class FieldScreen extends Screen {
 										xPos.getSelectedIndex(), yPos.getSelectedIndex()
 										), (String) fields.getSelectedValue()
 								);
+						sm.update(sm.getScreen("Edit Fields"));
 					}
 				}
 				);
