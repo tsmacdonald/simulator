@@ -1,16 +1,25 @@
 package edu.wheaton.simulator.behavior;
 
+import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.expression.ExpressionEvaluator;
 
-public class DieBehavior implements Behavior {
+public class DieBehavior extends AbstractBehavior {
 
-	public DieBehavior() {
+//	public DieBehavior(ExpressionEvaluator eval) {
+//		super(eval);
+//	}
+
+	@Override
+	public String getName() {
+		return "die";
 	}
 
 	@Override
-	public void execute(Agent target) {
+	public String execute(String[] args) throws EvaluationException {
+		Agent target = (Agent) this.resolveEntity(this.getExprEval(), args[0].replaceAll("'", ""));
 		target.die();
-
+		return "true";
 	}
 
 }

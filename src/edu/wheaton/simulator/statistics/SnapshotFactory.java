@@ -35,6 +35,12 @@ public class SnapshotFactory {
 				entity.getPrototypeName(), );
 	}
 
+	/**
+	 * Make a FieldSnapshot from the associated name and value. 
+	 * @param name The name of the field.
+	 * @param value The value of the field. 
+	 * @return A FieldSnapshot corresponding to the pair of Strings. 
+	 */
 	public static FieldSnapshot makeFieldSnapshot(String name, String value) {
 		return new FieldSnapshot(name, value);
 	}

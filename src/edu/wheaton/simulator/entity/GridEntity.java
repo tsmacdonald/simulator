@@ -155,7 +155,7 @@ public abstract class GridEntity extends Entity {
 		throw new UnsupportedOperationException();
 	}
 
-	protected Grid getGrid() {
+	public Grid getGrid() {
 		return grid;
 	}
 }

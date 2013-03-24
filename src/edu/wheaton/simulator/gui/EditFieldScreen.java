@@ -119,12 +119,6 @@ public class EditFieldScreen extends Screen {
 		
 	}
 
-
-	public void addComponents(JPanel panel) {
-		// TODO Auto-generated method stub
-
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

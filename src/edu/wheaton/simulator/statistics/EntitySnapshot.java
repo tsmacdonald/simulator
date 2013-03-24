@@ -1,7 +1,5 @@
 package edu.wheaton.simulator.statistics;
 
-import java.util.Map;
-
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.EntityID;
