@@ -49,4 +49,10 @@ public class TitleScreen extends Screen {
 
 		this.setVisible(true);
 	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
+	}
 }

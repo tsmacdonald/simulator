@@ -96,4 +96,10 @@ public class NewSimulationScreen extends Screen {
 			sm.update(sm.getScreen("Edit Simulation"));
 		}
 	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
+	}
 }

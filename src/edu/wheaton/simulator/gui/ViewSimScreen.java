@@ -101,6 +101,12 @@ public class ViewSimScreen extends Screen {
 		this.add(grid, BorderLayout.CENTER);
 		grid.paint(grid.getGraphics());
 	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	//TODO load method, determine when to actually populate simulation
 
