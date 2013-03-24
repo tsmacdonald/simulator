@@ -18,10 +18,13 @@ public class ScreenManager {
 	
 	private GUIToAgentFacade facade;
 
-	public ScreenManager(DisplayManager dm) {
+	private GUIManager gm;
+
+	public ScreenManager(DisplayManager dm, GUIManager gm) {
 		screens = new HashMap<String, Screen>();
 		this.dm = dm;
 		se = new SimulationEnder();
+		this.gm = gm;
 		screens.put("Title", new TitleScreen(this));
 		screens.put("New Simulation", new NewSimulationScreen(this));
 		screens.put("Edit Simulation", new EditSimScreen(this));
@@ -50,8 +53,27 @@ public class ScreenManager {
 	public JPanel[][] getGrid(){
 		return grid;
 	}
-	
+
 	public void setFacade(int x, int y) {
 		facade = new GUIToAgentFacade(x, y);
+	}
+	
+	public String getGUIname(){
+		return GUIManager.getNameOfSim();
+	}
+	
+	public int getGUIheight(){
+		return GUIManager.getGridHeight();
+	}
+	
+	public int getGUIwidth(){
+		return GUIManager.getGridWidth();
+	}
+	
+	public void updateGUIManager(String nos, String width, String height){
+		GUIManager.setNameOfSim(nos);
+		GUIManager.setGridWidth(width);
+		GUIManager.setGridHeight(height);
+
 	}
 }

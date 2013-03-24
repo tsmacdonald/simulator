@@ -17,12 +17,14 @@ import edu.wheaton.simulator.behavior.AbstractBehavior;
 import edu.wheaton.simulator.expression.ExpressionEvaluator;
 import edu.wheaton.simulator.simulation.Grid;
 
-public class Trigger {
+public class Trigger implements Comparable<Trigger>{
 	
 	/**
 	 * A name to reference a trigger by
 	 */
 	private String name;
+	
+	private int priority;
 
 	/**
 	 * Represents the conditions of whether or not the trigger fires.
@@ -43,9 +45,10 @@ public class Trigger {
 	 * @param conditions
 	 *            boolean expression this trigger represents
 	 */
-	public Trigger(String name, ExpressionEvaluator conditionExpression,
+	public Trigger(String name, int priority, ExpressionEvaluator conditionExpression,
 			ExpressionEvaluator behavior) {
 		this.name = name;
+		this.priority = priority;
 		this.conditionExpression = conditionExpression;
 		this.behavior = behavior;
 	}
@@ -58,6 +61,7 @@ public class Trigger {
 	 */
 	public Trigger(Trigger parent) {
 		name = parent.name;
+		priority = parent.priority;
 		conditionExpression = parent.conditionExpression;
 		behavior = parent.behavior;
 	}

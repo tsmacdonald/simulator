@@ -57,12 +57,13 @@ public class SimulationEnder {
 	public void setStepLimit(int maxSteps) {
 		((TimeCondition) conditions[TIME_CONDITION]).maxSteps = maxSteps;
 	}
-	
+
 	/**
-	 * Get the time limit. 
-	 * @return The total amount of iterations the simulation is to run. 
+	 * Get the time limit.
+	 * 
+	 * @return The total amount of iterations the simulation is to run.
 	 */
-	public int getStepLimit() { 
+	public int getStepLimit() {
 		return ((TimeCondition) conditions[TIME_CONDITION]).maxSteps;
 	}
 
@@ -162,10 +163,10 @@ public class SimulationEnder {
 	 * @author daniel.gill
 	 */
 	private final class AgentPopulationCondition implements EndCondition {
-		// TODO: Change Strings to Prototype ID's after those exist.
+		
 		/**
-		 * The map where the names of prototypes are associated
-		 * with population limits.
+		 * The map where the names of prototypes are associated with population
+		 * limits.
 		 */
 		private TreeMap<PrototypeID, Integer> popLimits;
 

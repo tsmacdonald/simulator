@@ -57,7 +57,7 @@ public class SnapshotFactory {
 
 	public static PrototypeSnapshot makePrototypeSnapshot(Prototype prototype,
 			Integer step) {
-		return null; // TODO
+		return null; // TODO:
 	}
 
 	private SnapshotFactory() {
