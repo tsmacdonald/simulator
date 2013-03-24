@@ -11,8 +11,13 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import javax.swing.*;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class TitleScreen extends Screen {
 
@@ -52,7 +57,7 @@ public class TitleScreen extends Screen {
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
+		// Nothing to load
 		
 	}
 }
