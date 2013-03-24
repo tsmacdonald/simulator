@@ -30,8 +30,11 @@ public class FieldScreen extends Screen {
 	private JList fields;
 
 	private DefaultListModel listModel;
-	
+
 	private JButton delete;
+
+	//TODO I think this page may need to be reworked a bit based on how 
+	//     slot fields actually work. I'll do that. -Willy
 
 	public FieldScreen(ScreenManager sm) {
 		super(sm);
@@ -101,12 +104,16 @@ public class FieldScreen extends Screen {
 			System.out.println("Error with FieldListener");
 	}
 
+	//TODO need load and reset methods
+
 	@Override
 	public void sendInfo() {
 		// TODO Auto-generated method stub
 
 	}
 
+	//TODO can this be an anonymous inner class when adding the listener? 
+	//     or would that look bad? Is this class even necessary?
 	private class FieldListener implements ListSelectionListener {
 
 		@Override

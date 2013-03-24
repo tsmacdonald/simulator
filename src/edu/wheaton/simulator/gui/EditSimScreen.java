@@ -81,6 +81,8 @@ public class EditSimScreen extends Screen {
 		
 	}
 
+	//TODO is there a way to clean this up so we don't have a bunch of 
+	//     instancceof conditionals? maybe just using action.equals()?
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
@@ -89,7 +91,9 @@ public class EditSimScreen extends Screen {
 			if(j.getText().equals(action))
 				update = sm.getScreen(action);
 		if(update instanceof SetupScreen)
-			((SetupScreen) update).updateSetUpScreen(sm.getGUIname(), sm.getGUIwidth()+"", sm.getGUIheight()+"");
+			((SetupScreen) update).updateSetUpScreen(
+					sm.getGUIname(), sm.getGUIwidth(), sm.getGUIheight()
+					);
 		if(update instanceof ViewSimScreen)
 			((ViewSimScreen) update).createGrid(sm.getGrid());
 		sm.update(update);

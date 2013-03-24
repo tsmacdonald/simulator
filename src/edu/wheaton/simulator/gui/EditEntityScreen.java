@@ -25,6 +25,10 @@ public class EditEntityScreen extends Screen {
 	 * 
 	 */
 	private static final long serialVersionUID = 4021299442173260142L;
+	
+	//TODO make sure this is set to true if we're editing an existing agent, 
+	//     and change the finish behavior based on what this is.
+	private Boolean editing;
 
 	private JTextField nameField;
 
