@@ -20,30 +20,22 @@ public class EditSimScreen extends Screen {
 		label.setPreferredSize(new Dimension(500, 200));
 		buttons = new JButton[9];
 		JButton newSimulation = new JButton("New Simulation");
-		//newSimulation.setPreferredSize(new Dimension(175, 60));
 		buttons[0] = newSimulation;
 		JButton loadExisting = new JButton("Load Existing");
-		//loadExisting.setPreferredSize(new Dimension(175, 60));
 		loadExisting.setEnabled(false); //serialization not yet implemented
 		buttons[1] = loadExisting;
 		JButton save = new JButton("Save");
-		//save.setPreferredSize(new Dimension(175, 60));
 		save.setEnabled(false); //serialization not yet implemented
 		buttons[2] = save;
 		JButton entities = new JButton("Entities");
-		//agents.setPreferredSize(new Dimension(175, 60));
 		buttons[3] = entities;
 		JButton fields = new JButton("Fields");
-		//fields.setPreferredSize(new Dimension(175, 60));
 		buttons[4] = fields;
 		JButton statistics = new JButton("Statistics");
-		//statistics.setPreferredSize(new Dimension(175, 60));
 		buttons[5] = statistics;
 		JButton gridSetup = new JButton("Grid Setup");
-		//gridSetup.setPreferredSize(new Dimension(175, 60));
 		buttons[6] = gridSetup;
 		JButton spawning = new JButton("Spawning");
-		//spawning.setPreferredSize(new Dimension(175, 60));
 		buttons[7] = spawning;
 		JButton viewSimulation = new JButton("View Simulation");
 		viewSimulation.setPreferredSize(new Dimension(400, 120));
@@ -87,6 +79,7 @@ public class EditSimScreen extends Screen {
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		Screen update = this;
+
 		for(JButton j : buttons) {
 			if(j.getText().equals(action))
 				update = sm.getScreen(action);
@@ -96,6 +89,7 @@ public class EditSimScreen extends Screen {
 			((SetupScreen) update).updateSetUpScreen(sm.getGUIname(), sm.getGUIwidth(), sm.getGUIheight());
 		if(update instanceof ViewSimScreen)
 			((ViewSimScreen) update).paint();
+
 	}
 	@Override
 	public void sendInfo() {

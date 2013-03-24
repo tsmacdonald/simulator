@@ -81,13 +81,8 @@ public class ViewSimScreen extends Screen {
 			}
 		}
 		
+
 		gridPanel.repaint();
-	}
-
-
-	public void addComponents(JPanel panel) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
