@@ -49,7 +49,9 @@ public class FieldScreen extends Screen {
 
 	private JButton delete;
 
-	//TODO nullpointer in add listener, numbers are not loading into combobox 
+	private JButton add;
+
+	//TODO prevent clicking edit when no object is selected 
 
 	public FieldScreen(final ScreenManager sm) {
 		super(sm);
@@ -92,21 +94,35 @@ public class FieldScreen extends Screen {
 		fields.setAlignmentX(CENTER_ALIGNMENT);
 		delete = new JButton("Delete");
 		delete.addActionListener(new DeleteListener(listModel, fields, delete));
-		JButton add = new JButton("Add");
+		add = new JButton("Add");
 		add.addActionListener(
 				//new GeneralButtonListener("Edit Fields", sm));
 				new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						((EditFieldScreen) (sm.getScreen("Edit Fields"))).load(
 								sm.getFacade().getGrid().getSlot(
-										xPos.getSelectedIndex(), yPos.getSelectedIndex()
-										), (String) fields.getSelectedValue()
+										xPos.getSelectedIndex(), 
+										yPos.getSelectedIndex()
+										)
 								);
+						sm.update(sm.getScreen("Edit Fields"));
 					}
 				}
 				);
 		JButton edit = new JButton("Edit");
-		edit.addActionListener(new GeneralButtonListener("Edit Fields", sm));
+		edit.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						((EditFieldScreen) (sm.getScreen("Edit Fields"))).load(
+								sm.getFacade().getGrid().getSlot(
+										xPos.getSelectedIndex(), yPos.getSelectedIndex()
+										), (String) fields.getSelectedValue()
+										//null pointer here /\
+								);
+						sm.update(sm.getScreen("Edit Fields"));
+					}
+				}
+				);
 		JButton back = new JButton("Back");
 		back.addActionListener(new GeneralButtonListener("Edit Simulation", sm));
 		JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -126,7 +142,6 @@ public class FieldScreen extends Screen {
 
 	}
 
-	//TODO need load and reset methods
 	public void reset() {
 		listModel.clear();
 	}
@@ -150,7 +165,6 @@ public class FieldScreen extends Screen {
 
 	private class ListListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			System.out.println(xPos.getSelectedIndex());
 			if (xPos.getSelectedIndex() >= 0 && yPos.getSelectedIndex() >= 0) {
 				Map<String, String> fieldNames = sm.getFacade().getGrid().getSlot(
 						xPos.getSelectedIndex(), yPos.getSelectedIndex()
@@ -162,6 +176,10 @@ public class FieldScreen extends Screen {
 					}
 				}
 			}
+			if (listModel.getSize() == 0) {
+				add.setEnabled(false);
+			}
+			else add.setEnabled(true);
 		}
 	}
 
