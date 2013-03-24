@@ -31,6 +31,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class FieldScreen extends Screen {
 
@@ -50,6 +52,8 @@ public class FieldScreen extends Screen {
 	private JButton delete;
 
 	private JButton add;
+	
+	private JButton edit;
 
 	//TODO prevent clicking edit when no object is selected 
 
@@ -68,12 +72,12 @@ public class FieldScreen extends Screen {
 		xPos = new JComboBox();
 		xPos.setMaximumSize(new Dimension(150, 40));
 		xPos.addItem(0);
-		xPos.addActionListener(new ListListener());
+		xPos.addActionListener(new BoxListener());
 		JLabel yLabel = new JLabel("Y Pos: ");
 		yPos = new JComboBox();
 		yPos.setMaximumSize(new Dimension(150, 40));
 		yPos.addItem(0);
-		yPos.addActionListener(new ListListener());
+		yPos.addActionListener(new BoxListener());
 		JPanel posPanel = new JPanel();
 		posPanel.setLayout(new BoxLayout(posPanel, BoxLayout.X_AXIS));
 		posPanel.add(xLabel);
@@ -90,6 +94,7 @@ public class FieldScreen extends Screen {
 		fields.setLayoutOrientation(JList.VERTICAL_WRAP);
 		fields.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		fields.setVisibleRowCount(20);
+		fields.addListSelectionListener(new ListListener());
 		panel.add(fields);
 		fields.setAlignmentX(CENTER_ALIGNMENT);
 		delete = new JButton("Delete");
@@ -109,7 +114,7 @@ public class FieldScreen extends Screen {
 					}
 				}
 				);
-		JButton edit = new JButton("Edit");
+		edit = new JButton("Edit");
 		edit.addActionListener(
 				new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -163,7 +168,7 @@ public class FieldScreen extends Screen {
 		}
 	}
 
-	private class ListListener implements ActionListener {
+	private class BoxListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			if (xPos.getSelectedIndex() >= 0 && yPos.getSelectedIndex() >= 0) {
 				Map<String, String> fieldNames = sm.getFacade().getGrid().getSlot(
@@ -176,10 +181,13 @@ public class FieldScreen extends Screen {
 					}
 				}
 			}
-			if (listModel.getSize() == 0) {
-				add.setEnabled(false);
-			}
-			else add.setEnabled(true);
+			edit.setEnabled(false);
+		}
+	}
+	
+	private class ListListener implements ListSelectionListener {
+		public void valueChanged(ListSelectionEvent e) {
+			edit.setEnabled(true);
 		}
 	}
 
