@@ -4,13 +4,15 @@
  * Class representing the screen that displays the grid as
  * the simulation runs.
  * 
- * @author Willy McHie
+ * @author Willy McHie and Ian Walling
  * Wheaton College, CSCI 335, Spring 2013
  */
 
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -20,24 +22,36 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 public class ViewSimScreen extends Screen {
 
 	private JPanel gridPanel;
-	
+
+	private int height;
+
+	private int width;
+
+	private ScreenManager sm;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6872689283286800861L;
+
+	private GridPanel grid;
 	
+	//TODO handle case of no input grid size, either here or in newSim/setup
 	public ViewSimScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
+		this.sm = sm;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 		JPanel panel = new JPanel();
+		panel.setMaximumSize(new Dimension(500, 50));
 		gridPanel = new JPanel();
 		JButton pauseButton = new JButton("Pause");
 		JButton backButton = new JButton("Back");
+		JButton startButton = new JButton("Start/Resume");
 
 		backButton.addActionListener(
 				new ActionListener() {
@@ -47,43 +61,57 @@ public class ViewSimScreen extends Screen {
 					} 
 				}
 				);
+		pauseButton.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						sm.setRunning(false);
+					}
+				}
+				);
+		/*
+		startButton.addActionListener(
+			new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					sm.setRunning(true);
+					sm.hasStarted(true);
+		*/
 		
-		this.add(gridPanel, BorderLayout.CENTER);
+		grid = new GridPanel(sm);
+		panel.add(startButton);
 		panel.add(pauseButton);
 		panel.add(backButton);
 		this.add(label, BorderLayout.NORTH);
 		this.add(panel, BorderLayout.SOUTH);
-		this.setVisible(true);
+		this.add(grid, BorderLayout.CENTER);
+		this.setVisible(true);	
+		//program loop yay!
+		new Thread(new Runnable() {
+			public void run() {
+				while(sm.isRunning()) {
+					sm.getFacade().updateEntities();
+					//if we do layers, they go here
+					SwingUtilities.invokeLater(
+							new Thread (new Runnable() {
+								public void run() {
+									repaint();
+								}
+							}));
+				}
+			}
+		}).start();
 	}
 
-//	public void createGrid(JPanel[][] grid){
-//		gridPanel.removeAll();
-//		gridPanel.setLayout(new GridLayout(grid.length, grid[0].length));
-//		System.out.println(grid[0].length-1);
-//		
-//		for (int j = grid[0].length-1; j >= 0; j--) {
-////			System.out.println(grid.length);
-//            for (int i = 0; i < grid.length; i++) {
-////         	System.out.println("i: "+i+" j: "+j);
-//            	gridPanel.add(grid[i][j]);
-//            }
-//		}
+	public void paint(){
+		grid.paint(grid.getGraphics());
+		grid.agentPaint(grid.getGraphics());
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
 		
+	}
 	
-	public void addComponents(JPanel panel) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
-	}
+	//TODO determine when to actually populate simulation
 
 }

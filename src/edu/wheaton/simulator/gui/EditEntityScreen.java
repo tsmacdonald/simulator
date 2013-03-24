@@ -11,20 +11,28 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.swing.*;
 
+import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
+import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.expression.Expression;
+
 public class EditEntityScreen extends Screen {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4021299442173260142L;
+
+	private Boolean editing;
+
+	private Prototype agent;
 
 	private JTextField nameField;
 
@@ -61,12 +69,16 @@ public class EditEntityScreen extends Screen {
 	private ArrayList<JButton> triggerDeleteButtons;
 
 	private ArrayList<JPanel> triggerSubPanels;
-	
+
 	private JButton addTriggerButton;
-	
+
 	private JPanel triggerListPanel;
 
-	//TODO clean/organize this whole damn thing- Willy
+	private HashSet<Integer> removedFields;
+
+	private HashSet<Integer> removedTriggers;
+
+	//TODO may want to add scroll bars for large numbers of fields/triggers
 	public EditEntityScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -80,114 +92,19 @@ public class EditEntityScreen extends Screen {
 		JPanel fieldLabelsPanel = new JPanel();
 		fieldListPanel = new JPanel();
 		JPanel triggerMainPanel = new JPanel();
-		triggerListPanel = new JPanel();
 		JPanel triggerLabelsPanel = new JPanel();
+		triggerListPanel = new JPanel();
+		removedFields = new HashSet<Integer>();
+		removedTriggers = new HashSet<Integer>();
+
 		JLabel generalLabel = new JLabel("General Info");
 		generalLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		generalLabel.setPreferredSize(new Dimension(300, 80));
-		JLabel fieldLabel = new JLabel("Field Info");
-		fieldLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		fieldLabel.setPreferredSize(new Dimension(300, 100));
-		JLabel triggerLabel = new JLabel("Trigger Info");
-		triggerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		triggerLabel.setPreferredSize(new Dimension(300, 100));
 		JLabel nameLabel = new JLabel("Name: ");
 		nameField = new JTextField(25);
 		nameField.setMaximumSize(new Dimension(400, 40));
 		colorTool = new JColorChooser();
 		JButton loadIconButton = new JButton("Load icon");
-
-		JLabel fieldNameLabel = new JLabel("Field Name");
-		fieldNameLabel.setPreferredSize(new Dimension(200, 30));
-		JLabel fieldValueLabel = new JLabel("Field Initial Value");
-		fieldValueLabel.setPreferredSize(new Dimension(400, 30));
-		JLabel fieldTypeLabel = new JLabel("Field Type");
-		fieldNameLabel.setPreferredSize(new Dimension(350, 30));
-
-		fieldNames = new ArrayList<JTextField>();
-		fieldNames.add(new JTextField(25));
-		fieldNames.get(0).setMaximumSize(new Dimension(300, 40));
-		fieldValues = new ArrayList<JTextField>();
-		fieldValues.add(new JTextField(25));
-		fieldValues.get(0).setMaximumSize(new Dimension(300, 40));
-		fieldTypes = new ArrayList<JComboBox>();
-		fieldTypes.add(new JComboBox(typeNames));
-		fieldTypes.get(0).setMaximumSize(new Dimension(200, 40));
-		fieldDeleteButtons = new ArrayList<JButton>();
-		fieldDeleteButtons.add(new JButton("Delete"));
-		fieldDeleteButtons.get(0).setActionCommand("Delete Field 0");
-		fieldDeleteButtons.get(0).addActionListener(this);
-		fieldSubPanels = new ArrayList<JPanel>();
-		fieldSubPanels.add(new JPanel());
-		addFieldButton = new JButton("Add Field");
-		//TODO should this be merged with this.actionPerformed?
-		addFieldButton.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						addField();
-					}
-				}
-				);
-		JLabel triggerNameLabel = new JLabel("Trigger Name");
-		triggerNameLabel.setPreferredSize(new Dimension(130, 30));
-		JLabel triggerPriorityLabel = new JLabel("Trigger Priority");
-		triggerPriorityLabel.setPreferredSize(new Dimension(180, 30));
-		JLabel triggerConditionLabel = new JLabel("Trigger Condition");
-		triggerConditionLabel.setPreferredSize(new Dimension(300, 30));
-		JLabel triggerResultLabel = new JLabel("Trigger Result");
-		triggerResultLabel.setPreferredSize(new Dimension(300, 30));
-		
-		triggerNames = new ArrayList<JTextField>();
-		triggerNames.add(new JTextField(25));
-		triggerNames.get(0).setMaximumSize(new Dimension(200, 40));
-		triggerPriorities = new ArrayList<JTextField>();
-		triggerPriorities.add(new JTextField(15));
-		triggerPriorities.get(0).setMaximumSize(new Dimension(150, 40));
-		//conditions and results: objects may change based on how those are finished
-		triggerConditions = new ArrayList<JTextField>();
-		triggerConditions.add(new JTextField(50));
-		triggerConditions.get(0).setMaximumSize(new Dimension (300, 40));
-		triggerResults = new ArrayList<JTextField>();
-		triggerResults.add(new JTextField(50));
-		triggerResults.get(0).setMaximumSize(new Dimension (300, 40));
-		triggerDeleteButtons = new ArrayList<JButton>();
-		triggerDeleteButtons.add(new JButton("Delete"));
-		triggerDeleteButtons.get(0).setActionCommand("Delete Trigger 0");
-		triggerDeleteButtons.get(0).addActionListener(this);
-		triggerSubPanels = new ArrayList<JPanel>();
-		triggerSubPanels.add(new JPanel());
-		addTriggerButton = new JButton("Add Trigger");
-		addTriggerButton.addActionListener(this);
-
-	
-		JButton cancelButton = new JButton("Cancel");
-		//TODO should this be merged with this.actionPerformed?
-		cancelButton.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Edit Simulation")); 
-					} 
-				}
-				);
-		JButton finishButton = new JButton("Finish");
-		//TODO should this be merged with this.actionPerformed?
-		//TODO finishbutton needs to pull information from the screen
-		//     and update the simulation data accordingly
-		//     INCLUDING erasing anything that was erased
-		finishButton.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Edit Simulation")); 
-					} 
-				}
-				);
-
-		lowerPanel.add(cancelButton);
-		lowerPanel.add(finishButton);
-
 		generalPanel.setLayout(
 				new BoxLayout(generalPanel, BoxLayout.PAGE_AXIS)
 				);
@@ -198,6 +115,29 @@ public class EditEntityScreen extends Screen {
 		generalPanel.add(colorTool);
 		generalPanel.add(loadIconButton);
 
+		JLabel fieldLabel = new JLabel("Field Info");
+		fieldLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldLabel.setPreferredSize(new Dimension(300, 100));
+		JLabel fieldNameLabel = new JLabel("Field Name");
+		fieldNameLabel.setPreferredSize(new Dimension(200, 30));
+		JLabel fieldValueLabel = new JLabel("Field Initial Value");
+		fieldValueLabel.setPreferredSize(new Dimension(400, 30));
+		JLabel fieldTypeLabel = new JLabel("Field Type");
+		fieldNameLabel.setPreferredSize(new Dimension(350, 30));
+		fieldNames = new ArrayList<JTextField>();
+		fieldValues = new ArrayList<JTextField>();
+		fieldTypes = new ArrayList<JComboBox>();
+		fieldDeleteButtons = new ArrayList<JButton>();
+		fieldSubPanels = new ArrayList<JPanel>();
+		addFieldButton = new JButton("Add Field");
+		addFieldButton.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						addField();
+					}
+				});
+		glue = Box.createVerticalGlue();
+		addField();
 		//TODO make sure components line up
 		fieldMainPanel.setLayout(
 				new BorderLayout());
@@ -215,7 +155,6 @@ public class EditEntityScreen extends Screen {
 				new BoxLayout(fieldSubPanels.get(0), BoxLayout.X_AXIS)
 				);
 		fieldMainPanel.add(fieldLabel, BorderLayout.NORTH);
-		fieldLabel.setAlignmentX(CENTER_ALIGNMENT);
 		fieldLabelsPanel.add(Box.createHorizontalGlue());
 		fieldLabelsPanel.add(fieldNameLabel);
 		fieldNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
@@ -231,21 +170,50 @@ public class EditEntityScreen extends Screen {
 		fieldSubPanels.get(0).add(fieldDeleteButtons.get(0));
 		fieldListPanel.add(fieldSubPanels.get(0));
 		fieldListPanel.add(addFieldButton);
-		glue = Box.createVerticalGlue();
 		fieldListPanel.add(glue);
-		fieldSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
+		//fieldSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
 		fieldBodyPanel.add(fieldLabelsPanel);
-		fieldLabelsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		fieldBodyPanel.add(fieldListPanel);
 		fieldMainPanel.add(fieldBodyPanel, BorderLayout.CENTER);
 
-		triggerMainPanel.setLayout(new BorderLayout());
-		triggerListPanel.setLayout(
-				new BoxLayout(triggerListPanel, BoxLayout.Y_AXIS)
+		JLabel triggerLabel = new JLabel("Trigger Info");
+		triggerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		triggerLabel.setPreferredSize(new Dimension(300, 100));
+		JLabel triggerNameLabel = new JLabel("Trigger Name");
+		triggerNameLabel.setPreferredSize(new Dimension(130, 30));
+		JLabel triggerPriorityLabel = new JLabel("Trigger Priority");
+		triggerPriorityLabel.setPreferredSize(new Dimension(180, 30));
+		JLabel triggerConditionLabel = new JLabel("Trigger Condition");
+		triggerConditionLabel.setPreferredSize(new Dimension(300, 30));
+		JLabel triggerResultLabel = new JLabel("Trigger Result");
+		triggerResultLabel.setPreferredSize(new Dimension(300, 30));
+		triggerNames = new ArrayList<JTextField>();
+		triggerPriorities = new ArrayList<JTextField>();
+		triggerConditions = new ArrayList<JTextField>();
+		triggerResults = new ArrayList<JTextField>();
+		triggerDeleteButtons = new ArrayList<JButton>();
+		triggerSubPanels = new ArrayList<JPanel>();
+		addTriggerButton = new JButton("Add Trigger");
+		addTriggerButton.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						addTrigger();
+					}
+				}
 				);
-		triggerListPanel.setAlignmentX(CENTER_ALIGNMENT);
+		glue2 = Box.createVerticalGlue();
+		addTrigger();
+		//TODO make sure components line up
+		triggerMainPanel.setLayout(new BorderLayout());
+		JPanel triggerBodyPanel = new JPanel();
+		triggerBodyPanel.setLayout(
+				new BoxLayout(triggerBodyPanel, BoxLayout.Y_AXIS)
+				);
 		triggerLabelsPanel.setLayout(
 				new BoxLayout(triggerLabelsPanel, BoxLayout.X_AXIS)
+				);
+		triggerListPanel.setLayout(
+				new BoxLayout(triggerListPanel, BoxLayout.Y_AXIS)
 				);
 		triggerSubPanels.get(0).setLayout(
 				new BoxLayout(triggerSubPanels.get(0), BoxLayout.X_AXIS)
@@ -258,23 +226,49 @@ public class EditEntityScreen extends Screen {
 		triggerLabelsPanel.add(triggerConditionLabel);
 		triggerLabelsPanel.add(triggerResultLabel);
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
-		triggerListPanel.add(triggerLabelsPanel);
 		triggerSubPanels.get(0).add(triggerNames.get(0));
 		triggerSubPanels.get(0).add(triggerPriorities.get(0));
 		triggerSubPanels.get(0).add(triggerConditions.get(0));
 		triggerSubPanels.get(0).add(triggerResults.get(0));
 		triggerSubPanels.get(0).add(triggerDeleteButtons.get(0));
 		triggerListPanel.add(triggerSubPanels.get(0));
-		triggerSubPanels.get(0).setAlignmentX(CENTER_ALIGNMENT);
-		triggerSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
 		triggerListPanel.add(addTriggerButton);
-		glue2 = Box.createVerticalGlue();
 		triggerListPanel.add(glue2);
-		triggerMainPanel.add(triggerListPanel, BorderLayout.CENTER);
+		triggerBodyPanel.add(triggerLabelsPanel);
+		triggerLabelsPanel.setAlignmentX(CENTER_ALIGNMENT);
+		triggerBodyPanel.add(triggerListPanel);
+		triggerSubPanels.get(0).setAlignmentX(CENTER_ALIGNMENT);
+		//triggerSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
+		triggerMainPanel.add(triggerBodyPanel, BorderLayout.CENTER);
+
 
 		tabs.addTab("General", generalPanel);
 		tabs.addTab("Fields", fieldMainPanel);
 		tabs.addTab("Triggers", triggerMainPanel);
+
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						sm.update(sm.getScreen("Edit Simulation")); 
+						reset();
+					} 
+				}
+				);
+		JButton finishButton = new JButton("Finish");
+		finishButton.addActionListener(
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						sendInfo();
+						sm.update(sm.getScreen("Edit Simulation")); 
+						reset();
+					} 
+				}
+				);
+
+		lowerPanel.add(cancelButton);
+		lowerPanel.add(finishButton);
 
 		this.add(label, BorderLayout.NORTH);
 		this.add(tabs, BorderLayout.CENTER);
@@ -282,37 +276,103 @@ public class EditEntityScreen extends Screen {
 
 	}
 
-
-
-	@Override
-	//TODO should other action listeners be merged into this? 
-	public void actionPerformed(ActionEvent e) {
-		String action = e.getActionCommand();
-		Screen update = this;
-		if (action.equals("Add Field")) {
-			addField();
-		}
-		else if (action.equals("Add Trigger")) {
-			addTrigger();
-		}
-		else if (action.substring(0, 14).equals("Delete Trigger")) {
-			deleteTrigger(Integer.parseInt(action.substring(15)));
-		}
-		else if (action.substring(0, 12).equals("Delete Field")) {
-			deleteField(Integer.parseInt(action.substring(13)));
-		}
+	public void load(Prototype p) {
+		reset();
+		agent = p;
+		nameField.setText(p.getName());
+		colorTool.setColor(p.getColor());
+		//TODO load icon from p.getDesign(); helper method?
+		//iterate through p.getFieldMap(); 
+		//for each element, addField, set name and value
+		//what about types?
+		//same thing for triggers - need access to the list
+		//does trigger class have getters for the relevant pieces we need?
 	}
 
-	//TODO need a public void load(GridEntity g) { }
-	//     which will set the fields to display the values of that entity,
-	//     and will be called when the page is to be displayed
-	
-	//TODO probably need a reset() method as well, to clear the screen to being empty
-	
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
+	//TODO make sure this is right
+	public void reset() {
+		agent = null;
+		nameField.setText("");
+		//other way of resetting colorTool? need to reset recents?
+		colorTool.setColor(Color.WHITE);
+		//TODO reset icon constructor
+		fieldNames.clear(); 
+		fieldTypes.clear();
+		fieldValues.clear();
+		fieldDeleteButtons.clear();
+		fieldSubPanels.clear();
+		removedFields.clear();
+		fieldListPanel.removeAll();
+		addField();
+		triggerNames.clear();
+		triggerPriorities.clear();
+		triggerConditions.clear();
+		triggerResults.clear();
+		triggerDeleteButtons.clear();
+		triggerSubPanels.clear();
+		removedTriggers.clear();
+		triggerListPanel.removeAll();
+		addTrigger();
+	}
 
+
+	//TODO finish this once agent methods are completed
+	public void sendInfo() {
+		if (!editing) {
+			sm.getFacade().createPrototype(
+					nameField.getText(), 
+					sm.getFacade().getGrid(),
+					colorTool.getColor(),
+					generateBytes()
+					);
+			agent = sm.getFacade().getPrototype(
+					nameField.getText()
+					);
+		} 
+
+		else {
+			//set all values of the prototype from the screen
+			agent.setPrototypeName(agent.getName(), nameField.getText());
+			agent.setColor(colorTool.getColor());
+			agent.setDesign(generateBytes());
+		}
+		//TODO how to handle case where fields do not have acceptable input
+		for (int i = 0; i < fieldNames.size(); i++) {
+			if (removedFields.contains(i)) {
+				if (agent.hasField(fieldNames.get(i).getText()))
+					agent.removeField(fieldNames.get(i));
+			} else {
+				if (agent.hasField(fieldNames.get(i).getText())) {
+					agent.updateField(fieldNames.get(i), 
+							fieldValues.get(i).getText());
+				} else
+					try {
+						agent.addField(fieldNames.get(i).getText(),
+								fieldValues.get(i).getText());
+					} catch (ElementAlreadyContainedException e) {
+						e.printStackTrace();
+					}
+			}
+		}
+		//TODO we might want a generateTrigger method
+		for (int i = 0; i < triggerNames.size(); i++) {
+			if (removedTriggers.contains(i)) {
+				if (agent.hasTrigger(triggerNames.get(i).getText()))
+					agent.removeTrigger(
+							triggerNames.get(i).getText()
+							);
+			} else {
+				if (agent.hasTrigger(triggerNames.get(i).getText()))
+					agent.updateTrigger(triggerNames.get(i).getText(), 
+							generateTrigger(i));
+				else agent.addTrigger(generateTrigger(i));
+			}
+		}
+
+	}
+
+	public void setEditing(Boolean b) {
+		editing = b;
 	}
 
 	private void addField() {
@@ -329,11 +389,11 @@ public class EditEntityScreen extends Screen {
 		fieldTypes.add(newType);
 		JTextField newValue = new JTextField(25);
 		newValue.setMaximumSize(new Dimension(300, 40));
+		fieldValues.add(newValue);
 		JButton newButton = new JButton("Delete");
-		newButton.addActionListener(this);
+		newButton.addActionListener(new DeleteFieldListener());
 		fieldDeleteButtons.add(newButton);
-		newButton.setActionCommand("Delete Field " + 
-									fieldDeleteButtons.indexOf(newButton));
+		newButton.setActionCommand(fieldDeleteButtons.indexOf(newButton) + "");
 		newPanel.add(newName);
 		newPanel.add(newType);
 		newPanel.add(newValue);
@@ -364,10 +424,9 @@ public class EditEntityScreen extends Screen {
 		newResult.setMaximumSize(new Dimension(300, 40));
 		triggerResults.add(newResult);
 		JButton newButton = new JButton("Delete");
-		newButton.addActionListener(this);
+		newButton.addActionListener(new DeleteTriggerListener());
 		triggerDeleteButtons.add(newButton);
-		newButton.setActionCommand("Delete Trigger " + 
-				triggerDeleteButtons.indexOf(newButton));
+		newButton.setActionCommand(triggerDeleteButtons.indexOf(newButton) + "");
 		newPanel.add(newName);
 		newPanel.add(newPriority);
 		newPanel.add(newCondition);
@@ -379,34 +438,57 @@ public class EditEntityScreen extends Screen {
 		triggerListPanel.add(glue2);
 		repaint();
 	}
-	
-	//TODO I think I have a better way of setting up these methods up 
-	//     to make it easier to delete things from the agents.
-	private void deleteField(int n) {
-		fieldNames.remove(n);
-		fieldTypes.remove(n);
-		fieldDeleteButtons.remove(n);
-		for (int i = n; i < fieldDeleteButtons.size(); i++) {
-			fieldDeleteButtons.get(i).setActionCommand("Delete Field " + i);
-		}
-		fieldListPanel.remove(fieldSubPanels.get(n));
-		fieldSubPanels.remove(n);
-		repaint();
+
+	//TODO temp placeholder, need to make a byte array 
+	//     from the icon constructor. 
+	private byte[] generateBytes() {
+		byte[] toReturn = {Byte.parseByte("00000000", 2), Byte.parseByte("00000001", 2), 
+				Byte.parseByte("00000011", 2), Byte.parseByte("00000111", 2),
+				Byte.parseByte("00001111", 2), Byte.parseByte("00011111", 2),
+				Byte.parseByte("00111111", 2), Byte.parseByte("01111111", 2),
+		};
+		return toReturn;
 	}
-	
-	private void deleteTrigger(int n) {
-		triggerNames.remove(n);
-		triggerPriorities.remove(n);
-		triggerConditions.remove(n);
-		triggerResults.remove(n);
-		triggerDeleteButtons.remove(n);
-		for (int i = n; i < triggerDeleteButtons.size(); i++) {
-			triggerDeleteButtons.get(i).setActionCommand(
-					"Delete Trigger " + i
-					);
-		}
-		triggerListPanel.remove(triggerSubPanels.get(n));
-		triggerSubPanels.remove(n);
-		repaint();
+
+	private Trigger generateTrigger(int i) {
+		return new Trigger(triggerNames.get(i).getText(), 
+				Integer.parseInt(triggerPriorities.get(i).getText()),
+				new Expression(triggerConditions.get(i).getText()),
+				new Expression(triggerResults.get(i).getText())
+				);
 	}
+
+	private class DeleteFieldListener implements ActionListener {
+		private String action;
+		public void actionPerformed(ActionEvent e){
+			removedFields.add(Integer.parseInt(e.getActionCommand()));
+			fieldListPanel.remove(fieldSubPanels.get(
+					Integer.parseInt(e.getActionCommand())));
+			repaint();
+
+			//			action = e.getActionCommand();
+			//			deleteField(Integer.parseInt(action.substring(13)));
+		}
+	}
+
+	private class DeleteTriggerListener implements ActionListener {
+		private String action;
+		public void actionPerformed(ActionEvent e){
+			removedTriggers.add(Integer.parseInt(e.getActionCommand()));
+			triggerListPanel.remove(triggerSubPanels.get(
+					Integer.parseInt(e.getActionCommand())));
+			repaint();
+
+
+			//			action = e.getActionCommand();
+			//			deleteTrigger(Integer.parseInt(action.substring(15)));
+		}
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

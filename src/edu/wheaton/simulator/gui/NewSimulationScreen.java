@@ -1,17 +1,10 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.image.ImageObserver;
+import java.awt.event.ActionListener;
 
-import java.lang.*;
-
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -19,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.ImageIcon;
 
 
 public class NewSimulationScreen extends Screen {
@@ -67,7 +59,7 @@ public class NewSimulationScreen extends Screen {
 		widthLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		JButton finishButton = new JButton("Finish");
 		finishButton.setPreferredSize(new Dimension(200, 75));
-		finishButton.addActionListener(this);
+		finishButton.addActionListener(new FinishListener());
 		panel1.add(nameLabel);
 		panel1.add(name);
 		panel2.add(heightLabel);
@@ -83,26 +75,31 @@ public class NewSimulationScreen extends Screen {
 		simPanel.add(buttonPanel);
 		this.add(label, BorderLayout.NORTH);
 		this.add(simPanel, BorderLayout.CENTER);
+		name.setText("New Simulation");
+		height.setText("10");
+		width.setText("10");
 		this.setVisible(true);
 	}
 
+	private class FinishListener implements ActionListener {
+		
+		public void actionPerformed(ActionEvent e) {
+			//TODO The simulation as a whole will be created in here
+			nameString = name.getText();
+			try {
+				heightInt = Integer.parseInt(height.getText());
+				widthInt = Integer.parseInt(width.getText());
+				sm.setFacade(widthInt, heightInt);
+				sm.updateGUIManager(nameString, widthInt, heightInt);
+			} catch(java.lang.NumberFormatException nfe) { }
 
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		//TODO The simulation as a whole will be created in here
-		nameString = name.getText();
-		try {
-			heightInt = Integer.parseInt(height.getText());
-			widthInt = Integer.parseInt(width.getText());
-			sm.updateGUIManager(nameString, widthInt, heightInt);
-		} catch(java.lang.NumberFormatException nfe) { }
-
-		sm.update(sm.getScreen("Edit Simulation"));
+			sm.update(sm.getScreen("Edit Simulation"));
+		}
 	}
 
 	@Override
-	public void sendInfo() {
-		// not sure what to do with this yet
+	public void load() {
+		// TODO Auto-generated method stub
+		
 	}
 }

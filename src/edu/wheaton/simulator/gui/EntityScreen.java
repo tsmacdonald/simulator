@@ -15,6 +15,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Set;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -28,9 +31,6 @@ import javax.swing.SwingConstants;
 
 public class EntityScreen extends Screen {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8471925846048875713L;
 
 	private JList entities;
@@ -61,13 +61,13 @@ public class EntityScreen extends Screen {
 		panel.add(entities);
 		entities.setAlignmentX(CENTER_ALIGNMENT);
 		delete = new JButton("Delete");
-		delete.addActionListener(this);
+		delete.addActionListener(new DeleteListener(entities, listModel, delete, sm));
 		JButton add = new JButton("Add");
-		add.addActionListener(this);
+		add.addActionListener(new AddListener(sm));
 		JButton edit = new JButton("Edit");
-		edit.addActionListener(this);
+		edit.addActionListener(new EditListener(sm));
 		JButton back = new JButton("Back");
-		back.addActionListener(this);
+		back.addActionListener(new BackListener(sm));
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(add);
 		buttonPanel.add(Box.createHorizontalStrut(5));
@@ -82,11 +82,34 @@ public class EntityScreen extends Screen {
 		this.add(label, BorderLayout.NORTH);
 		this.add(mainPanel, BorderLayout.CENTER);
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String action = e.getActionCommand();
-		if (action.equals("Delete")) {
+	
+	public void reset() {
+		listModel.clear();
+	}
+	
+	public void load() {
+		reset();
+		Set<String> entities = sm.getFacade().prototypeNames();
+		for (String s : entities) {
+			listModel.addElement(s);
+		}
+	}
+	
+	class DeleteListener implements ActionListener {
+		
+		private JList entities;
+		private DefaultListModel listModel;
+		private JButton delete;
+		private ScreenManager sm;
+		
+		public DeleteListener(JList entities, DefaultListModel listModel, JButton delete, ScreenManager sm){
+			this.entities = entities;
+			this.listModel = listModel;
+			this.delete = delete;
+			this.sm = sm;
+		}
+		
+		public void actionPerformed(ActionEvent e){
 			int index = entities.getSelectedIndex();
 			listModel.remove(index);
 			int size = listModel.getSize();
@@ -96,20 +119,51 @@ public class EntityScreen extends Screen {
 				index--;
 			entities.setSelectedIndex(index);
 			entities.ensureIndexIsVisible(index);
-		} else if (action.equals("Add")) {
-			sm.update(sm.getScreen("Edit Entities"));
-		} else if (action.equals("Edit")) {
-			sm.update(sm.getScreen("Edit Entities"));
-		} else if (action.equals("Back")) {
-			sm.update(sm.getScreen("Edit Simulation"));
-		} else
-			System.out.println("Error with EntityListener");
+		}
 	}
-
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
+	
+	class AddListener implements ActionListener {
+		
+		private ScreenManager sm;
+		
+		public AddListener(ScreenManager sm){
+			this.sm = sm;
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			((EditEntityScreen)sm.getScreen("Edit Entities")).reset();
+			((EditEntityScreen)sm.getScreen("Edit Entities")).setEditing(false);
+			sm.update(sm.getScreen("Edit Entities"));
+		}
+	}
+	
+	class EditListener implements ActionListener {
+		
+		private ScreenManager sm;
+		
+		public EditListener(ScreenManager sm) {
+			this.sm = sm;
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			//TODO replace this with the load() method on the selected entity
+			((EditEntityScreen)sm.getScreen("Edit Entities")).reset();
+			((EditEntityScreen)sm.getScreen("Edit Entities")).setEditing(true);
+			sm.update(sm.getScreen("Edit Entities"));
+		}
+	}
+	
+	class BackListener implements ActionListener {
+		
+		private ScreenManager sm;
+		
+		public BackListener(ScreenManager sm) {
+			this.sm = sm;
+		}
+		
+		public void actionPerformed(ActionEvent e){
+			sm.update(sm.getScreen("Edit Simulation"));
+		}
 	}
 
 }

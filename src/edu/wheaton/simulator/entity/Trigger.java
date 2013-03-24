@@ -17,13 +17,13 @@ import edu.wheaton.simulator.behavior.AbstractBehavior;
 import edu.wheaton.simulator.expression.ExpressionEvaluator;
 import edu.wheaton.simulator.simulation.Grid;
 
-public class Trigger implements Comparable<Trigger>{
-	
+public class Trigger implements Comparable<Trigger> {
+
 	/**
 	 * A name to reference a trigger by
 	 */
 	private String name;
-	
+
 	private int priority;
 
 	/**
@@ -45,7 +45,8 @@ public class Trigger implements Comparable<Trigger>{
 	 * @param conditions
 	 *            boolean expression this trigger represents
 	 */
-	public Trigger(String name, int priority, ExpressionEvaluator conditionExpression,
+	public Trigger(String name, int priority,
+			ExpressionEvaluator conditionExpression,
 			ExpressionEvaluator behavior) {
 		this.name = name;
 		this.priority = priority;
@@ -70,22 +71,22 @@ public class Trigger implements Comparable<Trigger>{
 	 * Evaluates the boolean expression represented by this object and fires if
 	 * all conditions evaluate to true.
 	 * 
-	 * If someone wants to evaluate an expression to something other than boolean,
-	 * they will need to change this method or fire.
+	 * If someone wants to evaluate an expression to something other than
+	 * boolean, they will need to change this method or fire.
 	 * 
 	 * @return Boolean
 	 * @throws EvaluationException
 	 *             if the expression was invalid
 	 */
 	public void evaluate(Agent xThis) throws EvaluationException {
-		
+
 		ExpressionEvaluator expr = conditionExpression.clone();
 
 		expr.importEntity("this", xThis);
 
-		if (expr.evaluateBool()){
+		if (expr.evaluateBool()) {
 			fire();
-		
+
 		}
 		throw new UnsupportedOperationException();
 	}
@@ -103,7 +104,7 @@ public class Trigger implements Comparable<Trigger>{
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
 	public void fire() {
-		//Needs to be updated to work with new behaviors
+		// Needs to be updated to work with new behaviors
 	}
 
 	/**
@@ -132,5 +133,14 @@ public class Trigger implements Comparable<Trigger>{
 	 */
 	public void setBehavior(ExpressionEvaluator behavior) {
 		this.behavior = behavior;
+	}
+
+	/**
+	 * Gets the name of this Trigger
+	 * 
+	 * @return
+	 */
+	public String getName() {
+		return name;
 	}
 }

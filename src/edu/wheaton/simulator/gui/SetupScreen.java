@@ -20,11 +20,9 @@ public class SetupScreen extends Screen {
 	private JTextField width;
 
 	private JTextField height;
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -8347080877399964861L;
-
+	//TODO MAJOR need to add components for creating ending conditions
 	public SetupScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -60,6 +58,9 @@ public class SetupScreen extends Screen {
 		panel2.add(height);
 		panel2.add(widthLabel);
 		panel2.add(width);
+		
+		//ending condition stuff here
+		
 		JPanel buttonPanel = new JPanel();
 		JButton finishButton = new JButton("Finish");
 		finishButton.addActionListener(
@@ -69,7 +70,6 @@ public class SetupScreen extends Screen {
 						sm.updateGUIManager(nameField.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
 						JPanel[][] grid = new JPanel[GUIManager.getGridWidth()][GUIManager.getGridHeight()];
 						for (int j = 0; j < GUIManager.getGridWidth(); j++){
-							//TODO figure out memory space issue. Also centralize grid making, grid factory?
 				            for (int i = 0; i < GUIManager.getGridHeight(); i++) {
 				                grid[i][j] = new JPanel();
 				                grid[i][j].setOpaque(false);
@@ -97,22 +97,10 @@ public class SetupScreen extends Screen {
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void updateSetUpScreen(String nameString, String width, String height) {
-		nameField.setText(nameString);
-		this.width.setText(width);
-		this.height.setText(height);
+	public void load() {
+		nameField.setText(sm.getGUIname());
+		width.setText(sm.getGUIwidth() + "");
+		height.setText(sm.getGUIheight() + "");
 	}
 
 }

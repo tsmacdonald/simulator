@@ -20,13 +20,17 @@ import java.awt.event.ItemListener;
 import javax.swing.*;
 
 public class StatisticsScreen extends Screen {
-
+	//TODO instance variables
 	private JPanel dataPanel;
+	
+	private String[] entities;
+	
+	private String[] agentFields;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 714636604315959167L;
-
+	//TODO fix layout of this screen	
 	public StatisticsScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -67,12 +71,14 @@ public class StatisticsScreen extends Screen {
 		
 		//TODO placeholder
 		String[] entities = {"Fox", "Rabbit", "Clover", "Bear"};
+		//entities = new String[0];
 		JComboBox popEntityTypes = new JComboBox(entities);
 		populationCard.add(popEntityTypes);
 		
 		JComboBox fieldEntityTypes = new JComboBox(entities);
 		//TODO placeholder
 		String[] agentFields = {"height", "weight", "speed"};
+		//agentFields = new String[0];
 		JComboBox agentFieldsBox = new JComboBox(agentFields);
 		fieldCard.add(fieldEntityTypes);
 		fieldCard.add(agentFieldsBox);
@@ -83,8 +89,13 @@ public class StatisticsScreen extends Screen {
 		JButton finishButton = new JButton("Finish");
 		finishButton.setPreferredSize(new Dimension(150, 70));
 		finishButton.setAlignmentX(CENTER_ALIGNMENT);
-		finishButton.addActionListener(this);
+		finishButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sm.update(sm.getScreen("Edit Simulation")); 
+			}
+		});
 		this.add(label, BorderLayout.NORTH);
+		//TODO MAJOR figure out how to make a graph or something!!
 		graphPanel.add(new JLabel("Graph object goes here"));
 		mainPanel.add(graphPanel);
 		mainPanel.add(boxPanel);
@@ -93,16 +104,17 @@ public class StatisticsScreen extends Screen {
 		this.add(mainPanel);
 
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		sm.update(sm.getScreen("Edit Simulation")); 
-	}
-
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
+	
+	//TODO finish this
+	public void load() {
+		/*
+		entities = new String[sm.getFacade().prototypeNames().size()];
+		int i = 0;
+		for (String s : sm.getFacade().prototypeNames()) {
+			entities[i++] = s;
+		}
+		
+		 */
 	}
 
 }

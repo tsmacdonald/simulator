@@ -24,8 +24,6 @@ public class Display extends JFrame {
 
 	private JPanel panel;
 
-	private boolean simulationIsRunning;
-
 	public Display() {
 		super("Simulator");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);

@@ -37,7 +37,7 @@ public class RockPaperScissorsTest {
 		
 		
 		for(int j = 0; j < agentType.length; j ++){
-			Prototype testPrototype = new Prototype(testGrid);
+			Prototype testPrototype = new Prototype(testGrid, "testPrototype");
 			try {
 				testPrototype.addField("type", agentType[j]);
 				testPrototype.addField("direction", j);

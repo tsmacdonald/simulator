@@ -9,12 +9,14 @@
 package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
+import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.jeval.EvaluationException;
 
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.Trigger;
 
 public class GUIToAgentFacade {
 
@@ -41,7 +43,7 @@ public class GUIToAgentFacade {
 	 * @param c
 	 */
 	public void createPrototype(String n, Grid g, Color c) {
-		Prototype.addPrototype(n, new Prototype(g, c));
+		Prototype.addPrototype(n, new Prototype(g, c, n));
 	}
 
 	/**
@@ -53,7 +55,7 @@ public class GUIToAgentFacade {
 	 * @param d
 	 */
 	public void createPrototype(String n, Grid g, Color c, byte[] d) {
-		Prototype.addPrototype(n, new Prototype(g, c, d));
+		Prototype.addPrototype(n, new Prototype(g, c, d, n));
 	}
 
 	/**
@@ -76,6 +78,28 @@ public class GUIToAgentFacade {
 	}
 
 	/**
+	 * Whether or not a given field is contained in a Prototype
+	 * 
+	 * @param p
+	 * @param fieldName
+	 * @return
+	 */
+	public boolean prototypeHasField(Prototype p, String fieldName) {
+		return p.hasField(fieldName);
+	}
+
+	/**
+	 * Whether or not a given trigger is contained in a Prototype
+	 * 
+	 * @param p
+	 * @param triggerName
+	 * @return
+	 */
+	public boolean prototypeHasTrigger(Prototype p, String triggerName) {
+		return p.hasTrigger(triggerName);
+	}
+
+	/**
 	 * Causes all entities in the grid to act()
 	 */
 	public void updateEntities() {
@@ -83,8 +107,8 @@ public class GUIToAgentFacade {
 	}
 
 	/**
-	 * Adds the given Agent at the closest free spot to the spawn position.
-	 * The search for an open spot begins at the given x/y and then spirals
+	 * Adds the given Agent at the closest free spot to the spawn position. The
+	 * search for an open spot begins at the given x/y and then spirals
 	 * outwards.
 	 * 
 	 * @param prototypeName
@@ -167,6 +191,27 @@ public class GUIToAgentFacade {
 	}
 
 	/**
-	 * TODO GUI Team: feel free to add method stubs and we will implement them.
+	 * Provides the Grid the Facade is using
+	 * 
+	 * @return Grid object
+	 */
+	public Grid getGrid() {
+		return grid;
+	}
+
+	/**
+	 * Returns a List of Triggers for a specific prototype
+	 * 
+	 * @return
+	 */
+	public List<Trigger> getPrototypeTriggers(Prototype p) {
+		return p.getTriggers();
+	}
+
+	/**
+	 * TODO Are we ensuring that each trigger's priority will be unique? Or
+	 * should we use names instead to keep track of them in the hashmap? That
+	 * might run into fewer issue while editing (possibility of changing
+	 * priorities of the same trigger)
 	 */
 }
