@@ -103,6 +103,7 @@ public class ViewSimScreen extends Screen {
 
 	public void paint(){
 		grid.paint(grid.getGraphics());
+		grid.agentPaint(grid.getGraphics());
 	}
 
 	@Override

@@ -9,10 +9,7 @@
 
 package edu.wheaton.simulator.gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.*;
+import javax.swing.JPanel;
 
 /**
  * Each window will have its own subclass of this abstract class, and one
