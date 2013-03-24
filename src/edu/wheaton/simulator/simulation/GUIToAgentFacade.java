@@ -218,4 +218,9 @@ public class GUIToAgentFacade {
 	 * TODO we need some kind of access to a list of triggers held by a 
 	 * prototype.
 	 */
+	
+	/**
+	 * TODO Grid's getSlot method always returns null; the double array is 
+	 * created in the constructor, but never actually filled with slot objects.
+	 */
 }

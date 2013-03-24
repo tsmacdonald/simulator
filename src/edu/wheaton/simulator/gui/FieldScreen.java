@@ -65,10 +65,12 @@ public class FieldScreen extends Screen {
 		JLabel xLabel = new JLabel("X Pos: ");
 		xPos = new JComboBox();
 		xPos.setMaximumSize(new Dimension(150, 40));
+		xPos.addItem(0);
 		xPos.addActionListener(new ListListener());
 		JLabel yLabel = new JLabel("Y Pos: ");
 		yPos = new JComboBox();
 		yPos.setMaximumSize(new Dimension(150, 40));
+		yPos.addItem(0);
 		yPos.addActionListener(new ListListener());
 		JPanel posPanel = new JPanel();
 		posPanel.setLayout(new BoxLayout(posPanel, BoxLayout.X_AXIS));
@@ -97,8 +99,8 @@ public class FieldScreen extends Screen {
 					public void actionPerformed(ActionEvent e) {
 						((EditFieldScreen) (sm.getScreen("Edit Fields"))).load(
 								sm.getFacade().getGrid().getSlot(
-								xPos.getSelectedIndex(), yPos.getSelectedIndex()
-								), (String) fields.getSelectedValue()
+										xPos.getSelectedIndex(), yPos.getSelectedIndex()
+										), (String) fields.getSelectedValue()
 								);
 					}
 				}
@@ -126,34 +128,43 @@ public class FieldScreen extends Screen {
 
 	//TODO need load and reset methods
 	public void reset() {
-		xPos.removeAllItems();
-		yPos.removeAllItems();
 		listModel.clear();
 	}
-	
+
 	public void load() {
-		for (int i = 0; i < sm.getGUIwidth(); i++) {
-			xPos.addItem(i);
+		if (xPos.getItemCount() != sm.getGUIwidth()) {
+			xPos.removeAllItems();
+			for (int i = 0; i < sm.getGUIwidth(); i++) {
+				System.out.println("i = " + i);
+				xPos.addItem(i + "");
+			}
 		}
-		for (int j = 0; j < sm.getGUIwidth(); j++) {
-			yPos.addItem(j);
+		if (yPos.getItemCount() != sm.getGUIheight()) {
+			yPos.removeAllItems();
+			for (int j = 0; j < sm.getGUIwidth(); j++) {
+				System.out.println("j = " + j);
+				yPos.addItem(j + "");
+			}
 		}
 	}
 
 	private class ListListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			Map<String, String> fieldNames = sm.getFacade().getGrid().getSlot(
-					xPos.getSelectedIndex(), yPos.getSelectedIndex()
-					).getFieldMap();
-			listModel.clear();
-			if (fieldNames != null) {
-			for (String s : fieldNames.keySet()) {
-				listModel.addElement(s);
-			}
+			System.out.println(xPos.getSelectedIndex());
+			if (xPos.getSelectedIndex() >= 0 && yPos.getSelectedIndex() >= 0) {
+				Map<String, String> fieldNames = sm.getFacade().getGrid().getSlot(
+						xPos.getSelectedIndex(), yPos.getSelectedIndex()
+						).getFieldMap();
+				listModel.clear();
+				if (fieldNames != null) {
+					for (String s : fieldNames.keySet()) {
+						listModel.addElement(s);
+					}
+				}
 			}
 		}
 	}
-	
+
 	private class DeleteListener implements ActionListener {
 
 		private DefaultListModel listModel;

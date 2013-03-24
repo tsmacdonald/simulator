@@ -42,7 +42,8 @@ public class EditSimScreen extends Screen {
 				new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						//TODO nullpointer in load(), fix.
-						//((FieldScreen)sm.getScreen("Fields")).load();
+						System.out.println("Get to here with fields");
+						((FieldScreen)sm.getScreen("Fields")).load();
 						sm.update(sm.getScreen("Fields"));
 					}
 				}
@@ -50,17 +51,11 @@ public class EditSimScreen extends Screen {
 		JButton statistics = new JButton("Statistics");
 		statistics.addActionListener(new GeneralButtonListener("Statistics", sm));
 		JButton gridSetup = new JButton("Grid Setup");
-		final SetupScreen update = (SetupScreen) sm.getScreen("Grid Setup");
-		final String name = sm.getGUIname();
-		final int width = sm.getGUIwidth();
-		final int height = sm.getGUIheight();
-		final ScreenManager sm2 = sm;
 		
 		gridSetup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
-				update.updateSetUpScreen(name, width, height);
-				sm2.update(update);
-				System.out.println("hello");
+				((SetupScreen)sm.getScreen("Grid Setup")).load();
+				sm.update(sm.getScreen("Grid Setup"));
 			}
 		});
 		
@@ -68,10 +63,11 @@ public class EditSimScreen extends Screen {
 		spawning.addActionListener(new GeneralButtonListener("Spawning", sm));
 		JButton viewSimulation = new JButton("View Simulation");
 		viewSimulation.setPreferredSize(new Dimension(400, 120));
-		final ViewSimScreen view = (ViewSimScreen) sm.getScreen("View Simulation");
+		//final ViewSimScreen view = (ViewSimScreen) sm.getScreen("View Simulation");
 		viewSimulation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
-				view.repaint();
+				sm.update(sm.getScreen("View Simulation"));
+				((ViewSimScreen)sm.getScreen("View Simulation")).paint();
 			}
 		});
 		JPanel mainPanel = new JPanel();

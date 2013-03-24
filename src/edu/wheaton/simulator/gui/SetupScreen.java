@@ -94,10 +94,16 @@ public class SetupScreen extends Screen {
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
-	public void updateSetUpScreen(String nameString, int width, int height) {
-		nameField.setText(nameString);
-		this.width.setText(width +"");
-		this.height.setText(height +"");
+	public void load() {
+		nameField.setText(sm.getGUIname());
+		width.setText(sm.getGUIwidth() + "");
+		height.setText(sm.getGUIheight() + "");
 	}
+	
+//	public void updateSetUpScreen(String nameString, int width, int height) {
+//		nameField.setText(nameString);
+//		this.width.setText(width +"");
+//		this.height.setText(height +"");
+//	}
 
 }

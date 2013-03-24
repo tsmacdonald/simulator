@@ -89,6 +89,7 @@ public class NewSimulationScreen extends Screen {
 			try {
 				heightInt = Integer.parseInt(height.getText());
 				widthInt = Integer.parseInt(width.getText());
+				sm.setFacade(widthInt, heightInt);
 				sm.updateGUIManager(nameString, widthInt, heightInt);
 			} catch(java.lang.NumberFormatException nfe) { }
 

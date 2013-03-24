@@ -1,21 +1,23 @@
 package edu.wheaton.simulator.gui;
 
-public class GUIManager {
+public final class GUIManager {
 
+	private static GUIManager instance = null;
 	private static String nameOfSimulation;
 	private static int gridHeight;
 	private static int gridWidth;
 	private static int guiId;
 	
+	//TODO what is the point of GuiId?
 	private GUIManager(){
 		guiId++;
 	}
 	
+	
 	public static GUIManager getInstance(){
-		if(guiId == 0)
-			return new GUIManager();
-		else 
-			return null;
+		if(instance == null)
+			instance = new GUIManager();
+		return instance;
 	}
 	
 	public static int getId() {
@@ -43,8 +45,6 @@ public class GUIManager {
 	}
 	
 	public static void setGridWidth(int gw){
-		try{
 			gridWidth = gw;
-		} catch (java.lang.NumberFormatException nfe) { }
 	}
 }
