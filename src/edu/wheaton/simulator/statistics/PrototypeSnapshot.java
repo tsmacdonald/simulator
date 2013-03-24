@@ -22,31 +22,32 @@ public class PrototypeSnapshot {
 	 * The default field values for agents of this category.
 	 */
 	public final ImmutableMap<String, FieldSnapshot> defaultFields;
-	
+
 	/**
 	 * The children of this Prototype at this point in time. 
 	 */
 	public final ImmutableSet<AgentID> children;
-	
+
 	/**
 	 * The present population of this category of Agent. 
 	 */
-	public final Integer population;
-	
+	public final int population;
+
 	/**
 	 * The point in the simulation at which this snapshot was taken. 
 	 */
-	public final Integer step; 
+	public final int step; 
 
 	/**
 	 * Constructor. 
 	 * @param categoryName The name of this prototype. 
 	 * @param fields The default fields for this prototype. 
 	 * @param population The population of this prototype. 
+	 * @param poulation The number of this prototype's children. 
 	 * @param step The current moment in time. 
 	 */
 	public PrototypeSnapshot(String categoryName,
-			ImmutableMap<String, FieldSnapshot> fields,
+			ImmutableMap<String, FieldSnapshot> fields, int population,
 			ImmutableSet<AgentID> children, Integer step) {
 		this.categoryName = categoryName; 
 		this.defaultFields = fields; 
