@@ -35,9 +35,7 @@ public class GUIManager {
 	}
 	
 	public static void setGridHeight(int gh){
-		try{
 			gridHeight = gh;
-		} catch (java.lang.NumberFormatException nfe) { }
 	}
 	
 	public static int getGridWidth(){

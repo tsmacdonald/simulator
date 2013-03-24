@@ -78,6 +78,7 @@ public class EditEntityScreen extends Screen {
 
 	private HashSet<Integer> removedTriggers;
 
+	//TODO may want to add scroll bars for large numbers of fields/triggers
 	public EditEntityScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -290,11 +291,12 @@ public class EditEntityScreen extends Screen {
 
 	//TODO make sure this is right
 	public void reset() {
+		agent = null;
 		nameField.setText("");
 		//other way of resetting colorTool? need to reset recents?
 		colorTool.setColor(Color.WHITE);
 		//reset icon constructor
-		fieldNames.clear(); //make sure this is right method
+		fieldNames.clear(); 
 		fieldTypes.clear();
 		fieldValues.clear();
 		fieldDeleteButtons.clear();

@@ -11,7 +11,9 @@ public class EditSimScreen extends Screen {
 
 	private static final long serialVersionUID = 3629462657811804434L;
 	
-	public EditSimScreen(ScreenManager sm) {
+	//TODO throughout the menu: figure out which buttons/windows need to 
+	//     disabled while simulation is running.
+	public EditSimScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		JLabel label = new JLabel("Edit Simulation");
@@ -35,7 +37,16 @@ public class EditSimScreen extends Screen {
 		JButton entities = new JButton("Entities");
 		entities.addActionListener(new GeneralButtonListener("Entities", sm));
 		JButton fields = new JButton("Fields");
-		fields.addActionListener(new GeneralButtonListener("Fields", sm));
+		fields.addActionListener(
+				//new GeneralButtonListener("Fields", sm));
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						//TODO nullpointer in load(), fix.
+						//((FieldScreen)sm.getScreen("Fields")).load();
+						sm.update(sm.getScreen("Fields"));
+					}
+				}
+				);
 		JButton statistics = new JButton("Statistics");
 		statistics.addActionListener(new GeneralButtonListener("Statistics", sm));
 		JButton gridSetup = new JButton("Grid Setup");
