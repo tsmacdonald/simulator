@@ -69,6 +69,7 @@ public class ViewSimScreen extends Screen {
 			new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					sm.setRunning(true);
+					sm.hasStarted(true);
 		*/
 		
 		panel.add(startButton);

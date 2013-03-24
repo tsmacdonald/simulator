@@ -22,6 +22,10 @@ import javax.swing.*;
 public class StatisticsScreen extends Screen {
 	//TODO instance variables
 	private JPanel dataPanel;
+	
+	private String[] entities;
+	
+	private String[] agentFields;
 	/**
 	 * 
 	 */
@@ -67,12 +71,14 @@ public class StatisticsScreen extends Screen {
 		
 		//TODO placeholder
 		String[] entities = {"Fox", "Rabbit", "Clover", "Bear"};
+		//entities = new String[0];
 		JComboBox popEntityTypes = new JComboBox(entities);
 		populationCard.add(popEntityTypes);
 		
 		JComboBox fieldEntityTypes = new JComboBox(entities);
 		//TODO placeholder
 		String[] agentFields = {"height", "weight", "speed"};
+		//agentFields = new String[0];
 		JComboBox agentFieldsBox = new JComboBox(agentFields);
 		fieldCard.add(fieldEntityTypes);
 		fieldCard.add(agentFieldsBox);
@@ -101,7 +107,14 @@ public class StatisticsScreen extends Screen {
 	
 	//TODO finish this
 	public void load() {
+		/*
+		entities = new String[sm.getFacade().prototypeNames().size()];
+		int i = 0;
+		for (String s : sm.getFacade().prototypeNames()) {
+			entities[i++] = s;
+		}
 		
+		 */
 	}
 
 }

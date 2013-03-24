@@ -22,7 +22,7 @@ public class SetupScreen extends Screen {
 	private JTextField height;
 	
 	private static final long serialVersionUID = -8347080877399964861L;
-
+	//TODO MAJOR need to add components for creating ending conditions
 	public SetupScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -58,6 +58,9 @@ public class SetupScreen extends Screen {
 		panel2.add(height);
 		panel2.add(widthLabel);
 		panel2.add(width);
+		
+		//ending condition stuff here
+		
 		JPanel buttonPanel = new JPanel();
 		JButton finishButton = new JButton("Finish");
 		finishButton.addActionListener(
