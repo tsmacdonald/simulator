@@ -123,7 +123,7 @@ public class Prototype extends GridEntity {
 	 * @return The clone of this prototype
 	 */
 	public Agent clonePrototype() {
-		Agent clone = new Agent(getGrid(), getColor(), getDesign());
+		Agent clone = new Agent(getGrid(), this, getColor(), getDesign());
 
 		// copy all fields
 		clone.getFieldMap().putAll(this.getFieldMap());
