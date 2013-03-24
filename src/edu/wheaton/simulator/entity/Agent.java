@@ -25,6 +25,11 @@ public class Agent extends GridEntity {
 	 * The list of all triggers/events associated with this agent.
 	 */
 	private List<Trigger> triggers;
+	
+	/*
+	 * Prototype of the agent
+	 */
+	private Prototype prototype;
 
 	/**
 	 * Constructor.
@@ -33,10 +38,11 @@ public class Agent extends GridEntity {
 	 * @param g
 	 *            The grid (passed to super constructor)
 	 */
-	public Agent(Grid g) {
+	public Agent(Grid g, Prototype prototype) {
 		super(g);
 		triggers = new ArrayList<Trigger>();
 		id = new AgentID();
+		this.prototype = prototype;
 	}
 	/**
 	 * Constructor.
@@ -46,10 +52,11 @@ public class Agent extends GridEntity {
 	 * @param c
 	 *            The color of this agent (passed to super constructor)
 	 */
-	public Agent(Grid g, Color c) {
+	public Agent(Grid g, Prototype prototype, Color c) {
 		super(g, c);
 		triggers = new ArrayList<Trigger>();
 		id = new AgentID();
+		this.prototype = prototype;
 	}
 	/**
 	 * Constructor.
@@ -61,10 +68,11 @@ public class Agent extends GridEntity {
 	 * @param d
 	 *            The design for this agent (passed to super constructor)
 	 */
-	public Agent(Grid g, Color c, byte[] d) {
+	public Agent(Grid g, Prototype prototype, Color c, byte[] d) {
 		super(g, c, d);
 		triggers = new ArrayList<Trigger>();
 		id = new AgentID();
+		this.prototype = prototype;
 	}
 
 	/**
@@ -142,5 +150,8 @@ public class Agent extends GridEntity {
 	
 	public AgentID getAgentID(){
 		return id;
+	}
+	public Prototype getPrototype(){
+		return prototype;
 	}
 }
