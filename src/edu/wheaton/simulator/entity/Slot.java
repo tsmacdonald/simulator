@@ -1,5 +1,7 @@
 package edu.wheaton.simulator.entity;
 
+import java.awt.Color;
+
 import edu.wheaton.simulator.simulation.Grid;
 
 /**
@@ -19,14 +21,13 @@ public class Slot extends GridEntity {
 	private Agent agent;
 
 	/**
-	 * Constructor Sets up the Grid and makes the color object null, since
-	 * slots will not be represented on the simulation with a color.
+	 * Constructor
 	 * 
 	 * @param g
 	 *            The Grid object
 	 */
 	public Slot(Grid g) {
-		super(g, null);
+		super(g);
 	}
 
 	/**
