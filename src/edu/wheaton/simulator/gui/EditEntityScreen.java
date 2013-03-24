@@ -21,7 +21,10 @@ import java.util.HashSet;
 
 import javax.swing.*;
 
+import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.expression.Expression;
 
 public class EditEntityScreen extends Screen {
 
@@ -326,41 +329,46 @@ public class EditEntityScreen extends Screen {
 					nameField.getText()
 					);
 		} 
-		/*
+
 		else {
 			//set all values of the prototype from the screen
-
-			agent.setName(nameField.getText());
+			agent.setPrototypeName(agent.getName(), nameField.getText());
 			agent.setColor(colorTool.getColor());
 			agent.setDesign(generateBytes());
 		}
 		//TODO how to handle case where fields do not have acceptable input
 		for (int i = 0; i < fieldNames.size(); i++) {
 			if (removedFields.contains(i)) {
-				//if agent already has that field
-				agent.removeField(fieldNames.get(i));
+				if (agent.hasField(fieldNames.get(i).getText()))
+					agent.removeField(fieldNames.get(i));
 			} else {
-				//if agent already has that field
-				agent.updateField(fieldNames.get(i), 
-				fieldValues.get(i));
-				//else agent.addField(fieldNames.get(i),
-				fieldValues.get(i));
+				if (agent.hasField(fieldNames.get(i).getText())) {
+					agent.updateField(fieldNames.get(i), 
+							fieldValues.get(i).getText());
+				} else
+					try {
+						agent.addField(fieldNames.get(i).getText(),
+								fieldValues.get(i).getText());
+					} catch (ElementAlreadyContainedException e) {
+						e.printStackTrace();
+					}
 			}
 		}
 		//TODO we might want a generateTrigger method
 		for (int i = 0; i < triggerNames.size(); i++) {
 			if (removedTriggers.contains(i)) {
-				//if agent already has that trigger
-				agent.removeTrigger(
-				 	triggerPriorities.get(i)
-				 	);
-		 	} else {
-		 		//if agent already has that trigger
-		 		agent.updateTrigger();
-		 		//else agent.addTrigger(i);
-	 		}
+				if (agent.hasTrigger(triggerNames.get(i).getText()))
+					agent.removeTrigger(
+							triggerNames.get(i).getText()
+							);
+			} else {
+				if (agent.hasTrigger(triggerNames.get(i).getText()))
+					agent.updateTrigger(triggerNames.get(i).getText(), 
+							generateTrigger(i));
+				else agent.addTrigger(generateTrigger(i));
+			}
 		}
-		 */
+
 	}
 
 	public void setEditing(Boolean b) {
@@ -434,12 +442,20 @@ public class EditEntityScreen extends Screen {
 	//TODO temp placeholder, need to make a byte array 
 	//     from the icon constructor. 
 	private byte[] generateBytes() {
-		byte[] toReturn = {new Byte("00000001"), new Byte("00000011"), 
-				new Byte("00000111"), new Byte("00001111"),
-				new Byte("00011111"), new Byte("00111111"),
-				new Byte("01111111"), new Byte("11111111"),
+		byte[] toReturn = {Byte.parseByte("00000000", 2), Byte.parseByte("00000001", 2), 
+				Byte.parseByte("00000011", 2), Byte.parseByte("00000111", 2),
+				Byte.parseByte("00001111", 2), Byte.parseByte("00011111", 2),
+				Byte.parseByte("00111111", 2), Byte.parseByte("01111111", 2),
 		};
 		return toReturn;
+	}
+
+	private Trigger generateTrigger(int i) {
+		return new Trigger(triggerNames.get(i).getText(), 
+				Integer.parseInt(triggerPriorities.get(i).getText()),
+				new Expression(triggerConditions.get(i).getText()),
+				new Expression(triggerResults.get(i).getText())
+				);
 	}
 
 	private class DeleteFieldListener implements ActionListener {
@@ -472,7 +488,7 @@ public class EditEntityScreen extends Screen {
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

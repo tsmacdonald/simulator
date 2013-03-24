@@ -109,15 +109,24 @@ public class EditFieldScreen extends Screen {
 	
 	public void load(GridEntity ge, String n) {
 		reset();
+		this.ge = ge;
 		nameField.setText(n);
 		initValue.setText(ge.getFieldValue(n));
-		//TODO how to handle type?
+	}
+	
+	public void load(GridEntity ge) {
+		reset();
+		this.ge = ge;
 	}
 
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
-		
 	}
 
+	private class finishListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			ge.updateField(nameField.getText(), initValue.getText());
+		}
+	}
 }

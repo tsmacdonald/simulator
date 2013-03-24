@@ -132,7 +132,7 @@ public class EntityScreen extends Screen {
 		
 		public void actionPerformed(ActionEvent e) {
 			((EditEntityScreen)sm.getScreen("Edit Entities")).reset();
-			((EditEntityScreen)sm.getScreen("Edit Entities")).setEditing(true);
+			((EditEntityScreen)sm.getScreen("Edit Entities")).setEditing(false);
 			sm.update(sm.getScreen("Edit Entities"));
 		}
 	}

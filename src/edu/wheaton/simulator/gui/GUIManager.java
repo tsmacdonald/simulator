@@ -4,24 +4,17 @@ public final class GUIManager {
 
 	private static GUIManager instance = null;
 	private static String nameOfSimulation;
-	private static int gridHeight;
-	private static int gridWidth;
-	private static int guiId;
+	private static int gridHeight = 0;
+	private static int gridWidth = 0;
 	
 	//TODO what is the point of GuiId?
 	private GUIManager(){
-		guiId++;
 	}
-	
 	
 	public static GUIManager getInstance(){
 		if(instance == null)
 			instance = new GUIManager();
 		return instance;
-	}
-	
-	public static int getId() {
-		return guiId;
 	}
 	
 	public static String getNameOfSim(){

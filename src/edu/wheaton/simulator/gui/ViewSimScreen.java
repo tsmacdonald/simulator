@@ -12,6 +12,7 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -46,6 +47,7 @@ public class ViewSimScreen extends Screen {
 		this.sm = sm;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 		JPanel panel = new JPanel();
+		panel.setMaximumSize(new Dimension(500, 50));
 		gridPanel = new JPanel();
 		JButton pauseButton = new JButton("Pause");
 		JButton backButton = new JButton("Back");
@@ -109,6 +111,6 @@ public class ViewSimScreen extends Screen {
 		
 	}
 	
-	//TODO load method, determine when to actually populate simulation
+	//TODO determine when to actually populate simulation
 
 }
