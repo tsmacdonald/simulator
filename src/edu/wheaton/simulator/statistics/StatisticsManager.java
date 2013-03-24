@@ -168,6 +168,13 @@ public class StatisticsManager {
 		return avg / allAgents.size();  
 	}
 	
+	/**
+	 * Get the step number in which the Agent represented by a given AgentSnapshot was born
+	 * @param agentsByStep A List with index = step in the simulation, value = set of all agents born at that time
+	 * @param target The AgentSnapshot of the agent we're looking for
+	 * @return The step number of the target Agent's birth
+	 * @throws NameNotFoundException the target Agent wasn't found
+	 */
 	private int getBirthStep(List<Set<AgentSnapshot>> agentsByStep, AgentSnapshot target) throws NameNotFoundException{
 		for(int i = 0; i < prototypes.size(); i++)
 			if(agentsByStep.get(i).contains(target))
@@ -176,6 +183,13 @@ public class StatisticsManager {
 		throw new NameNotFoundException("The target AgentSnapshot was not found");  
 	}
 	
+	/**
+	 * Get the step number in which the Agent represented by a given AgentSnapshot died
+	 * @param agentsByStep A List with index = step in the simulation, value = set of all agents born at that time
+	 * @param target The AgentSnapshot of the agent we're looking for
+	 * @return The step number of the target Agent's death
+	 * @throws NameNotFoundException the target Agent wasn't found
+	 */
 	private int getDeathStep(List<Set<AgentSnapshot>> agentsByStep, AgentSnapshot target) throws NameNotFoundException{  	
 		for(int i = prototypes.size(); i > 0; i--)
 			if(agentsByStep.get(i).contains(target))
