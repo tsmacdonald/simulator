@@ -1,20 +1,20 @@
 package edu.wheaton.simulator.entity;
 
-public class EntityID implements Comparable<EntityID>{
+public class EntityID implements Comparable<EntityID> {
 	private static Integer nextID = 0;
-	
+
 	private final Integer value;
-	
-	protected EntityID(){
+
+	protected EntityID() {
 		value = genIDValue();
 	}
-	
-	public final Integer getInt(){
+
+	public final Integer getInt() {
 		return value;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return "EntityID:" + value.toString();
 	}
 
@@ -28,8 +28,8 @@ public class EntityID implements Comparable<EntityID>{
 	public int compareTo(EntityID o) {
 		return this.getInt().compareTo(o.getInt());
 	}
-	
-	public boolean equals(EntityID o){
+
+	public boolean equals(EntityID o) {
 		return this.getInt().equals(o.getInt());
 	}
 }

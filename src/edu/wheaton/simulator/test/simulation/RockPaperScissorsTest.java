@@ -24,7 +24,7 @@ public class RockPaperScissorsTest {
 		ExpressionEvaluator yMove = new Expression("move('this', #{this.x}, #{this.y} + 1)");
 		ExpressionEvaluator dir0 = new Expression("#{this.direction} = 0 && #{this.getGrid().emptySlot(#{this.x}, #{this.y}+1)}");
 		for(int j = 0; j < agentType.length; j ++){
-			Prototype testPrototype = new Prototype(testGrid);
+			Prototype testPrototype = new Prototype(testGrid, "testPrototype");
 			try {
 				testPrototype.addField("type", agentType[j]);
 				testPrototype.addField("direction", j);

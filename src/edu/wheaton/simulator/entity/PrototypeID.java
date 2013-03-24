@@ -1,20 +1,20 @@
 package edu.wheaton.simulator.entity;
 
-public class PrototypeID implements Comparable<PrototypeID>{
+public class PrototypeID implements Comparable<PrototypeID> {
 	private static Integer nextID = 0;
-	
+
 	private final Integer value;
-	
-	protected PrototypeID(){
+
+	protected PrototypeID() {
 		value = genIDValue();
 	}
-	
-	public final Integer getInt(){
+
+	public final Integer getInt() {
 		return value;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return "PrototypeID:" + value.toString();
 	}
 
@@ -29,7 +29,7 @@ public class PrototypeID implements Comparable<PrototypeID>{
 		return this.getInt().compareTo(o.getInt());
 	}
 
-	public boolean equals(PrototypeID o){
+	public boolean equals(PrototypeID o) {
 		return this.getInt().equals(o.getInt());
 	}
 

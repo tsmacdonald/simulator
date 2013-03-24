@@ -26,7 +26,7 @@ public class AgentDemo {
 
 		// Create a new Agent
 		System.out.println("Creating a new Agent");
-		Prototype dog = new Prototype(grid, Color.RED);
+		Prototype dog = new Prototype(grid, Color.RED, "Dog");
 
 		// Add a field to this Agent
 		System.out.println("Specify Agent Fields:");

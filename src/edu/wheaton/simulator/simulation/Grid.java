@@ -29,12 +29,20 @@ public class Grid implements Iterable<Slot> {
 	private Integer height;
 
 	/**
-	 * Creates a grid with the given width and height specifications
+	 * Constuctor. Creates a grid with the given width and height
+	 * specifications
+	 * 
+	 * @param width
+	 * @param height
 	 */
 	public Grid(int width, int height) {
 		this.width = width;
 		this.height = height;
-		grid = new Slot[height][width];
+
+		grid = new Slot[width][height];
+		for (int x = 0; x < width; x++)
+			for (int y = 0; y < height; y++)
+				grid[x][y] = new Slot(this);
 	}
 
 	public Integer getWidth() {
@@ -44,9 +52,9 @@ public class Grid implements Iterable<Slot> {
 	public Integer getHeight() {
 		return height;
 	}
-	
-	public boolean isValidCoord(int x, int y){
-		return x>0 && y>0 && x<getWidth() && y<getHeight();
+
+	public boolean isValidCoord(int x, int y) {
+		return x > 0 && y > 0 && x < getWidth() && y < getHeight();
 	}
 
 	public Slot getSlot(int x, int y) {
