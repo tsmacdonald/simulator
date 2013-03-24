@@ -48,7 +48,6 @@ public class EditEntityScreen extends Screen {
 
 	private JButton addFieldButton;
 
-	//TODO necessary?
 	private JPanel fieldListPanel;
 
 	private ArrayList<JTextField> triggerNames;
@@ -65,9 +64,9 @@ public class EditEntityScreen extends Screen {
 	
 	private JButton addTriggerButton;
 	
-	//TODO necessary?
 	private JPanel triggerListPanel;
 
+	//TODO clean/organize this whole damn thing- Willy
 	public EditEntityScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -121,6 +120,7 @@ public class EditEntityScreen extends Screen {
 		fieldSubPanels = new ArrayList<JPanel>();
 		fieldSubPanels.add(new JPanel());
 		addFieldButton = new JButton("Add Field");
+		//TODO should this be merged with this.actionPerformed?
 		addFieldButton.addActionListener(
 				new ActionListener() {
 					@Override
@@ -144,7 +144,7 @@ public class EditEntityScreen extends Screen {
 		triggerPriorities = new ArrayList<JTextField>();
 		triggerPriorities.add(new JTextField(15));
 		triggerPriorities.get(0).setMaximumSize(new Dimension(150, 40));
-		//conditions and results: this will probably change
+		//conditions and results: objects may change based on how those are finished
 		triggerConditions = new ArrayList<JTextField>();
 		triggerConditions.add(new JTextField(50));
 		triggerConditions.get(0).setMaximumSize(new Dimension (300, 40));
@@ -162,6 +162,7 @@ public class EditEntityScreen extends Screen {
 
 	
 		JButton cancelButton = new JButton("Cancel");
+		//TODO should this be merged with this.actionPerformed?
 		cancelButton.addActionListener(
 				new ActionListener() {
 					@Override
@@ -171,6 +172,10 @@ public class EditEntityScreen extends Screen {
 				}
 				);
 		JButton finishButton = new JButton("Finish");
+		//TODO should this be merged with this.actionPerformed?
+		//TODO finishbutton needs to pull information from the screen
+		//     and update the simulation data accordingly
+		//     INCLUDING erasing anything that was erased
 		finishButton.addActionListener(
 				new ActionListener() {
 					@Override
@@ -189,11 +194,11 @@ public class EditEntityScreen extends Screen {
 		generalPanel.add(generalLabel);
 		generalPanel.add(nameLabel);
 		generalPanel.add(nameField);
-		//add the icon construction tool to the general panel here
+		//TODO add the icon construction tool to the general panel here
 		generalPanel.add(colorTool);
 		generalPanel.add(loadIconButton);
 
-		//TODO mess with sizes of components
+		//TODO make sure components line up
 		fieldMainPanel.setLayout(
 				new BorderLayout());
 		JPanel fieldBodyPanel = new JPanel();
@@ -280,6 +285,7 @@ public class EditEntityScreen extends Screen {
 
 
 	@Override
+	//TODO should other action listeners be merged into this? 
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		Screen update = this;
@@ -297,6 +303,12 @@ public class EditEntityScreen extends Screen {
 		}
 	}
 
+	//TODO need a public void load(GridEntity g) { }
+	//     which will set the fields to display the values of that entity,
+	//     and will be called when the page is to be displayed
+	
+	//TODO probably need a reset() method as well, to clear the screen to being empty
+	
 	@Override
 	public void sendInfo() {
 		// TODO Auto-generated method stub
@@ -368,6 +380,8 @@ public class EditEntityScreen extends Screen {
 		repaint();
 	}
 	
+	//TODO I think I have a better way of setting up these methods up 
+	//     to make it easier to delete things from the agents.
 	private void deleteField(int n) {
 		fieldNames.remove(n);
 		fieldTypes.remove(n);

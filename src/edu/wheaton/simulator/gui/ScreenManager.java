@@ -3,6 +3,9 @@ package edu.wheaton.simulator.gui;
 import java.util.HashMap;
 import javax.swing.JPanel;
 
+import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+import edu.wheaton.simulator.simulation.end.SimulationEnder;
+
 public class ScreenManager {
 
 	private HashMap<String, Screen> screens;
@@ -10,10 +13,15 @@ public class ScreenManager {
 	private DisplayManager dm;
 	
 	private JPanel[][] grid;
+	
+	private SimulationEnder se;
+	
+	private GUIToAgentFacade facade;
 
 	public ScreenManager(DisplayManager dm) {
 		screens = new HashMap<String, Screen>();
 		this.dm = dm;
+		se = new SimulationEnder();
 		screens.put("Title", new TitleScreen(this));
 		screens.put("New Simulation", new NewSimulationScreen(this));
 		screens.put("Edit Simulation", new EditSimScreen(this));
@@ -41,5 +49,9 @@ public class ScreenManager {
 	
 	public JPanel[][] getGrid(){
 		return grid;
+	}
+	
+	public void setFacade(int x, int y) {
+		facade = new GUIToAgentFacade(x, y);
 	}
 }

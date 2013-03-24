@@ -42,5 +42,5 @@ public class Display extends JFrame {
 		this.setContentPane(s);
 		this.setVisible(true);
 	}
-	// getter methods for facades? or public methods to handle them?
+	
 }
