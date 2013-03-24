@@ -120,36 +120,19 @@ public class EditEntityScreen extends Screen {
 		fieldNameLabel.setPreferredSize(new Dimension(350, 30));
 
 		fieldNames = new ArrayList<JTextField>();
-		fieldNames.add(new JTextField(25));
-		fieldNames.get(0).setMaximumSize(new Dimension(300, 40));
 		fieldValues = new ArrayList<JTextField>();
-		fieldValues.add(new JTextField(25));
-		fieldValues.get(0).setMaximumSize(new Dimension(300, 40));
 		fieldTypes = new ArrayList<JComboBox>();
-		fieldTypes.add(new JComboBox(typeNames));
-		fieldTypes.get(0).setMaximumSize(new Dimension(200, 40));
 		fieldDeleteButtons = new ArrayList<JButton>();
-		fieldDeleteButtons.add(new JButton("Delete"));
-		fieldDeleteButtons.get(0).setActionCommand("Delete Field 0");
-		fieldDeleteButtons.get(0).addActionListener(
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						fieldSubPanels.remove(0);
-						repaint();
-					}
-				}
-				);
 		fieldSubPanels = new ArrayList<JPanel>();
-		fieldSubPanels.add(new JPanel());
+		
+		addField();
 		addFieldButton = new JButton("Add Field");
 		addFieldButton.addActionListener(
 				new ActionListener() {
-					@Override
 					public void actionPerformed(ActionEvent e) {
 						addField();
 					}
-				}
-				);
+				});
 		JLabel triggerNameLabel = new JLabel("Trigger Name");
 		triggerNameLabel.setPreferredSize(new Dimension(130, 30));
 		JLabel triggerPriorityLabel = new JLabel("Trigger Priority");
@@ -160,35 +143,15 @@ public class EditEntityScreen extends Screen {
 		triggerResultLabel.setPreferredSize(new Dimension(300, 30));
 
 		triggerNames = new ArrayList<JTextField>();
-		triggerNames.add(new JTextField(25));
-		triggerNames.get(0).setMaximumSize(new Dimension(200, 40));
 		triggerPriorities = new ArrayList<JTextField>();
-		triggerPriorities.add(new JTextField(15));
-		triggerPriorities.get(0).setMaximumSize(new Dimension(150, 40));
-		//conditions and results: objects may change based on how those work
 		triggerConditions = new ArrayList<JTextField>();
-		triggerConditions.add(new JTextField(50));
-		triggerConditions.get(0).setMaximumSize(new Dimension (300, 40));
 		triggerResults = new ArrayList<JTextField>();
-		triggerResults.add(new JTextField(50));
-		triggerResults.get(0).setMaximumSize(new Dimension (300, 40));
 		triggerDeleteButtons = new ArrayList<JButton>();
-		triggerDeleteButtons.add(new JButton("Delete"));
-		triggerDeleteButtons.get(0).setActionCommand("0");
-		triggerDeleteButtons.get(0).addActionListener(
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						triggerSubPanels.remove(0);
-						repaint();
-					}
-				}
-				);
 		triggerSubPanels = new ArrayList<JPanel>();
-		triggerSubPanels.add(new JPanel());
+
 		addTriggerButton = new JButton("Add Trigger");
 		addTriggerButton.addActionListener(
 				new ActionListener() {
-					@Override
 					public void actionPerformed(ActionEvent e) {
 						addTrigger();
 					}
@@ -198,7 +161,6 @@ public class EditEntityScreen extends Screen {
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(
 				new ActionListener() {
-					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.update(sm.getScreen("Edit Simulation")); 
 						reset();
@@ -314,27 +276,6 @@ public class EditEntityScreen extends Screen {
 
 	}
 
-
-/*
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String action = e.getActionCommand();
-		Screen update = this;
-		if (action.equals("Add Field")) {
-			addField();
-		}
-		else if (action.equals("Add Trigger")) {
-			addTrigger();
-		}
-		else if (action.substring(0, 14).equals("Delete Trigger")) {
-			deleteTrigger(Integer.parseInt(action.substring(15)));
-		}
-		else if (action.substring(0, 12).equals("Delete Field")) {
-			deleteField(Integer.parseInt(action.substring(13)));
-		}
-	}
-	*/
-
 	//TODO need a public void load(GridEntity g) { }
 	//     which will set the fields to display the values of that entity,
 	//     and will be called when the page is to be displayed
@@ -374,8 +315,8 @@ public class EditEntityScreen extends Screen {
 		addTrigger();
 	}
 	
+
 	//TODO finish this once agent methods are completed
-	@Override
 	public void sendInfo() {
 		if (!editing) {
 			sm.getFacade().createPrototype(
@@ -425,6 +366,7 @@ public class EditEntityScreen extends Screen {
 			*/
 	}
 
+
 	private void addField() {
 		JPanel newPanel = new JPanel();
 		newPanel.setLayout(
@@ -440,17 +382,9 @@ public class EditEntityScreen extends Screen {
 		JTextField newValue = new JTextField(25);
 		newValue.setMaximumSize(new Dimension(300, 40));
 		JButton newButton = new JButton("Delete");
-		newButton.setActionCommand(fieldDeleteButtons.indexOf(newButton) + "");
-		newButton.addActionListener(
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						removedFields.add(Integer.parseInt(e.getActionCommand()));
-						fieldSubPanels.remove(Integer.parseInt(e.getActionCommand()));
-						repaint();
-					}
-				}
-				);
+		newButton.addActionListener(new DeleteFieldListener());
 		fieldDeleteButtons.add(newButton);
+		newButton.setActionCommand(fieldDeleteButtons.indexOf(newButton) + "");
 		newPanel.add(newName);
 		newPanel.add(newType);
 		newPanel.add(newValue);
@@ -481,15 +415,7 @@ public class EditEntityScreen extends Screen {
 		newResult.setMaximumSize(new Dimension(300, 40));
 		triggerResults.add(newResult);
 		JButton newButton = new JButton("Delete");
-		newButton.addActionListener(
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						removedTriggers.add(Integer.parseInt(e.getActionCommand()));
-						triggerSubPanels.remove(Integer.parseInt(e.getActionCommand()));
-						repaint();
-					}
-				}
-				);
+		newButton.addActionListener(new DeleteTriggerListener());
 		triggerDeleteButtons.add(newButton);
 		newButton.setActionCommand(triggerDeleteButtons.indexOf(newButton) + "");
 		newPanel.add(newName);
@@ -504,6 +430,8 @@ public class EditEntityScreen extends Screen {
 		repaint();
 	}
 
+	//TODO are these necessary anymore? or are we just missing where they 
+	//should be getting called?
 	private void deleteField(int n) {
 		fieldNames.remove(n);
 		fieldTypes.remove(n);
@@ -536,4 +464,30 @@ public class EditEntityScreen extends Screen {
 		};
         return toReturn;
 	}
+	
+	private class DeleteFieldListener implements ActionListener {
+		private String action;
+		public void actionPerformed(ActionEvent e){
+			removedFields.add(Integer.parseInt(e.getActionCommand()));
+			fieldSubPanels.remove(Integer.parseInt(e.getActionCommand()));
+			repaint();
+			
+//			action = e.getActionCommand();
+//			deleteField(Integer.parseInt(action.substring(13)));
+		}
+	}
+	
+	private class DeleteTriggerListener implements ActionListener {
+		private String action;
+		public void actionPerformed(ActionEvent e){
+			removedTriggers.add(Integer.parseInt(e.getActionCommand()));
+			triggerSubPanels.remove(Integer.parseInt(e.getActionCommand()));
+			repaint();
+			
+		
+//			action = e.getActionCommand();
+//			deleteTrigger(Integer.parseInt(action.substring(15)));
+		}
+	}
+	
 }

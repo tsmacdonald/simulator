@@ -125,17 +125,5 @@ public class EditFieldScreen extends Screen {
 
 	//TODO need a load() method and a reset() method
 
-	//TODO Should other actionListeners be merged into this?
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
-	}
 
 }

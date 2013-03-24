@@ -15,6 +15,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -61,7 +63,7 @@ public class EntityScreen extends Screen {
 		panel.add(entities);
 		entities.setAlignmentX(CENTER_ALIGNMENT);
 		delete = new JButton("Delete");
-		delete.addActionListener(this);
+		delete.addActionListener(new DeleteListener(entities, listModel, delete));
 		JButton add = new JButton("Add");
 		add.addActionListener(this);
 		JButton edit = new JButton("Edit");
@@ -86,16 +88,6 @@ public class EntityScreen extends Screen {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
-		if (action.equals("Delete")) {
-			int index = entities.getSelectedIndex();
-			listModel.remove(index);
-			int size = listModel.getSize();
-			if(size == 0)
-				delete.setEnabled(false);
-			if(index == size)
-				index--;
-			entities.setSelectedIndex(index);
-			entities.ensureIndexIsVisible(index);
 		} else if (action.equals("Add")) {
 			sm.update(sm.getScreen("Edit Entities"));
 		} else if (action.equals("Edit")) {
@@ -106,13 +98,33 @@ public class EntityScreen extends Screen {
 		} else
 			System.out.println("Error with EntityListener");
 	}
-
-	//TODO need load method, which should just update listModel
 	
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
+	class DeleteListener extends SimScreenListener {
+		
+		public JList entities;
+		public DefaultListModel listModel;
+		public JButton delete;
+		
+		public DeleteListener(JList entities, DefaultListModel listModel, JButton delete){
+			this.entities = entities;
+			this.listModel = listModel;
+			this.delete = delete;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e){
+			int index = entities.getSelectedIndex();
+			listModel.remove(index);
+			int size = listModel.getSize();
+			if(size == 0)
+				delete.setEnabled(false);
+			if(index == size)
+				index--;
+			entities.setSelectedIndex(index);
+			entities.ensureIndexIsVisible(index);
+		}
 	}
+	
+	
+	
 
 }

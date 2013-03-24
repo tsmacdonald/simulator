@@ -3,15 +3,16 @@ package edu.wheaton.simulator.gui;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
 public class EditSimScreen extends Screen {
 
 	private static final long serialVersionUID = 3629462657811804434L;
-
+	
 	private JButton[] buttons;
-
+	
 	public EditSimScreen(ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -20,29 +21,50 @@ public class EditSimScreen extends Screen {
 		label.setPreferredSize(new Dimension(500, 200));
 		buttons = new JButton[9];
 		JButton newSimulation = new JButton("New Simulation");
-		buttons[0] = newSimulation;
+		//newSimulation.setPreferredSize(new Dimension(175, 60));
+		newSimulation.addActionListener(new GeneralButtonListener());
 		JButton loadExisting = new JButton("Load Existing");
+		//loadExisting.setPreferredSize(new Dimension(175, 60));
 		loadExisting.setEnabled(false); //serialization not yet implemented
-		buttons[1] = loadExisting;
+		loadExisting.addActionListener(new GeneralButtonListener());
 		JButton save = new JButton("Save");
+		//save.setPreferredSize(new Dimension(175, 60));
 		save.setEnabled(false); //serialization not yet implemented
-		buttons[2] = save;
+		save.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				//TODO need serialization
+			}
+		});
 		JButton entities = new JButton("Entities");
-		buttons[3] = entities;
+		//agents.setPreferredSize(new Dimension(175, 60));
+		entities.addActionListener(new GeneralButtonListener());
 		JButton fields = new JButton("Fields");
-		buttons[4] = fields;
+		//fields.setPreferredSize(new Dimension(175, 60));
+		fields.addActionListener(new GeneralButtonListener());
 		JButton statistics = new JButton("Statistics");
-		buttons[5] = statistics;
+		//statistics.setPreferredSize(new Dimension(175, 60));
+		statistics.addActionListener(new GeneralButtonListener());
 		JButton gridSetup = new JButton("Grid Setup");
-		buttons[6] = gridSetup;
+		//gridSetup.setPreferredSize(new Dimension(175, 60));
+		final SetupScreen update = (SetupScreen) sm.getScreen("Grid Setup");
+		final String name = sm.getGUIname();
+		final int width = sm.getGUIwidth();
+		final int height = sm.getGUIheight();
+		final ScreenManager sm2 = sm;
+		gridSetup.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				update.updateSetUpScreen(name, width, height);
+				sm2.update(update);
+			}
+		});
+		
 		JButton spawning = new JButton("Spawning");
-		buttons[7] = spawning;
+		//spawning.setPreferredSize(new Dimension(175, 60));
+		spawning.addActionListener(new GeneralButtonListener());
 		JButton viewSimulation = new JButton("View Simulation");
 		viewSimulation.setPreferredSize(new Dimension(400, 120));
-		buttons[8] = viewSimulation;
-
-		for(JButton j : buttons)
-			j.addActionListener(this);
+		viewSimulation.addActionListener(new GeneralButtonListener());
+		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.setMaximumSize(new Dimension(800, 1000));
@@ -70,23 +92,21 @@ public class EditSimScreen extends Screen {
 		mainPanel.add(panel4);
 		this.add(label);
 		this.add(mainPanel);
-
+		
 	}
 
-	//TODO is there a way to clean this up so we don't have a bunch of 
-	//     instancceof conditionals? maybe just using action.equals()?
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String action = e.getActionCommand();
-		Screen update = this;
-		for (JButton j : buttons)
-			if(j.getText().equals(action))
-				update = sm.getScreen(action);
-		if (update instanceof SetupScreen)
-			((SetupScreen) update).updateSetUpScreen(
-					sm.getGUIname(), sm.getGUIwidth(), sm.getGUIheight()
-					);
+	private class GeneralButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			String action = e.getActionCommand();
+			Screen update = sm.getScreen(action);
+			sm.update(update);
+		}
 		sm.update(update);
+		if(update instanceof SetupScreen)
+			((SetupScreen) update).updateSetUpScreen(sm.getGUIname(), sm.getGUIwidth(), sm.getGUIheight());
+		if(update instanceof ViewSimScreen)
+			((ViewSimScreen) update).paint();
+
 	}
 
 	@Override
