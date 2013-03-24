@@ -1,5 +1,13 @@
 package edu.wheaton.simulator.test.statistics;
 
+/**
+ * A JUnit test case for testing FieldSnapshot.java.
+ * 
+ * @author Akonwi Ngoh
+ * Wheaton College, CSCI 335
+ * Spring 2013
+ */
+
 import static org.junit.Assert.fail;
 import junit.framework.Assert;
 
@@ -26,7 +34,9 @@ public class FieldSnapshotCase {
 
 	@Test
 	public void fieldSnapshotTest() {
-		FieldSnapshot snap = new FieldSnapshot("name", "akon");
-		Assert.assertNotNull(snap);
+		FieldSnapshot fieldSnap = new FieldSnapshot("name", "akon");
+		Assert.assertNotNull(fieldSnap);
+		FieldSnapshot fieldSnapWithInt = new FieldSnapshot("akon", "12345");
+		Assert.assertNotNull(fieldSnapWithInt);
 	}
 }

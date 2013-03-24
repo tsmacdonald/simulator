@@ -1,5 +1,13 @@
 package edu.wheaton.simulator.test.statistics;
 
+/**
+ * A JUnit test case for testing EntitySnapshot.java.
+ * 
+ * @author Nico Lasta
+ * Wheaton College, CSCI 335
+ * Spring 2013
+ */
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +34,7 @@ public class EntitySnapshotCase {
 		fields = new HashMap<String, String>();
 		fields.put("Pig", "Tom");
 		fields.put("Monkey", "Olly");
-		
+		fields.put("Cat", "Joomba");
 	}
 
 	@After
