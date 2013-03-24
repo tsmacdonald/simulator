@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.naming.NameNotFoundException;
+
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -112,7 +114,7 @@ public class StatisticsManager {
 		for (int i = 0; i < data.length; i++) {
 			PrototypeSnapshot currentSnapshot;
 			if ((currentSnapshot = prototypes.get(i).get(id)) != null) {
-				data[i] = currentSnapshot.population;
+				data[i] = currentSnapshot.childPopulation;
 			}
 		}
 		return data;
@@ -138,8 +140,9 @@ public class StatisticsManager {
 	 * @param id
 	 *            The PrototypeID of the GridEntity to be tracked
 	 * @return The average lifespan of the specified GridEntity
+	 * @throws NameNotFoundException 
 	 */
-	public double getAvgLifespan(PrototypeID id){		
+	public double getAvgLifespan(PrototypeID id) throws NameNotFoundException{		
 		//List with index = step in the simulation, value = set of all agents born at that time
 		List<Set<AgentSnapshot>> agentsByStep = new ArrayList<Set<AgentSnapshot>>();
 		
