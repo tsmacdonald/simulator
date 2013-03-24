@@ -1,6 +1,7 @@
 package edu.wheaton.simulator.statistics;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -130,7 +131,38 @@ public class StatisticsManager {
 	 *         the value refers to average field value at that time
 	 */
 	public double[] getAvgFieldValue(PrototypeID id, String FieldName) {
-		return null;
+		// set of steps in table
+		Set<Integer> steps = table.getAllSteps();
+		
+		// array of averages
+		double[] averages = new double[steps.size()];
+		
+		// marker for double[]
+		int i = 0;
+		
+		// arraylist of the values at each step to average up
+		ArrayList<Double> stepVals = new ArrayList<Double>();
+		
+		for(int step : steps) {
+			ImmutableSet<AgentSnapshot> agents = getPopulationAtStep(id, step);
+			
+			for(AgentSnapshot agent : agents) {
+				ImmutableMap<String, FieldSnapshot> fields = agent.fields;
+				
+				if(fields.containsKey(FieldName))
+					if(fields.get(FieldName).isNumber)
+						stepVals.add(fields.get(FieldName).getNumericalValue());
+			}
+			
+			double total = 0;
+			for(Double val : stepVals)
+				total += val;
+			averages[i] = total / (steps.size());
+			total = 0;
+			i++;
+			stepVals.clear();
+		}
+		return averages;
 	}
 
 	/**
