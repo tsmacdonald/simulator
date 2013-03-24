@@ -9,8 +9,6 @@ public class ScreenManager {
 
 	private DisplayManager dm;
 	
-	private JPanel[][] grid;
-	
 	private GUIManager gm;
 
 	public ScreenManager(DisplayManager dm, GUIManager gm) {
@@ -37,16 +35,7 @@ public class ScreenManager {
 	public void update(Screen update) {
 		dm.updateScreen(update);
 	}
-	
-	public void setGrid(JPanel[][] grid){
-		this.grid = grid;
-	}
-	
-	public JPanel[][] getGrid(){
-		return grid;
-	}
-	
-	
+		
 	public String getGUIname(){
 		return GUIManager.getNameOfSim();
 	}
@@ -56,7 +45,7 @@ public class ScreenManager {
 	public int getGUIwidth(){
 		return GUIManager.getGridWidth();
 	}
-	public void updateGUIManager(String nos, String width, String height){
+	public void updateGUIManager(String nos, int width, int height){
 		GUIManager.setNameOfSim(nos);
 		GUIManager.setGridWidth(width);
 		GUIManager.setGridHeight(height);

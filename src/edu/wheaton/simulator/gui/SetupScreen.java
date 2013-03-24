@@ -66,7 +66,7 @@ public class SetupScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						sm.updateGUIManager(nameField.getText(), width.getText(), height.getText());
+						sm.updateGUIManager(nameField.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
 						JPanel[][] grid = new JPanel[GUIManager.getGridWidth()][GUIManager.getGridHeight()];
 						for (int j = 0; j < GUIManager.getGridWidth(); j++){
 							//TODO figure out memory space issue. Also centralize grid making, grid factory?
@@ -76,7 +76,6 @@ public class SetupScreen extends Screen {
 				                grid[i][j].setBorder(BorderFactory.createEtchedBorder());
 				            }	
 						}
-						sm.setGrid(grid);
 						sm.update(sm.getScreen("Edit Simulation"));
 					}
 				}
