@@ -114,4 +114,10 @@ public class EditFieldScreen extends Screen {
 		//TODO how to handle type?
 	}
 
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

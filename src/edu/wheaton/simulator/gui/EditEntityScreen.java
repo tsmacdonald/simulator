@@ -279,7 +279,7 @@ public class EditEntityScreen extends Screen {
 	public void load(Prototype p) {
 		reset();
 		agent = p;
-		nameField.setText(p.getProtypeName());
+		nameField.setText(p.getName());
 		colorTool.setColor(p.getColor());
 		//TODO load icon from p.getDesign(); helper method?
 		//iterate through p.getFieldMap(); 
@@ -470,6 +470,12 @@ public class EditEntityScreen extends Screen {
 			//			action = e.getActionCommand();
 			//			deleteTrigger(Integer.parseInt(action.substring(15)));
 		}
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

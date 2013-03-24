@@ -69,6 +69,7 @@ public class ViewSimScreen extends Screen {
 			new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					sm.setRunning(true);
+					sm.hasStarted(true);
 		*/
 		
 		panel.add(startButton);
@@ -99,6 +100,12 @@ public class ViewSimScreen extends Screen {
 		Grid grid = new Grid(sm);
 		this.add(grid, BorderLayout.CENTER);
 		grid.paint(grid.getGraphics());
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	//TODO load method, determine when to actually populate simulation

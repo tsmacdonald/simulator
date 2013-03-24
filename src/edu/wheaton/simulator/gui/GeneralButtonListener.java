@@ -15,6 +15,7 @@ public class GeneralButtonListener implements ActionListener {
 
 	public void actionPerformed(ActionEvent e){
 		sm.update(sm.getScreen(screenName));
+		sm.getScreen(screenName).load();
 	}
 	
 }

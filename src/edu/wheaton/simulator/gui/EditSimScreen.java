@@ -36,26 +36,26 @@ public class EditSimScreen extends Screen {
 		
 		JButton entities = new JButton("Entities");
 		entities.addActionListener(
-				//new GeneralButtonListener("Entities", sm));
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						((EntityScreen)sm.getScreen("Entities")).load();
-						sm.update(sm.getScreen("Entities"));
-					}
-				}
-				);
+				new GeneralButtonListener("Entities", sm));
+//				new ActionListener() {
+//					public void actionPerformed(ActionEvent e) {
+//						((EntityScreen)sm.getScreen("Entities")).load();
+//						sm.update(sm.getScreen("Entities"));
+//					}
+//				}
+//				);
 		JButton fields = new JButton("Fields");
 		fields.addActionListener(
-				//new GeneralButtonListener("Fields", sm));
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						//TODO indexoutofbounds in load(), fix.
-						System.out.println("Get to here with fields");
-						((FieldScreen)sm.getScreen("Fields")).load();
-						sm.update(sm.getScreen("Fields"));
-					}
-				}
-				);
+				new GeneralButtonListener("Fields", sm));
+//				new ActionListener() {
+//					public void actionPerformed(ActionEvent e) {
+//						//TODO indexoutofbounds in load(), fix.
+//						System.out.println("Get to here with fields");
+//						((FieldScreen)sm.getScreen("Fields")).load();
+//						sm.update(sm.getScreen("Fields"));
+//					}
+//				}
+//				);
 		JButton statistics = new JButton("Statistics");
 		statistics.addActionListener(new GeneralButtonListener("Statistics", sm));
 		JButton gridSetup = new JButton("Grid Setup");
@@ -104,6 +104,12 @@ public class EditSimScreen extends Screen {
 		mainPanel.add(panel4);
 		this.add(label);
 		this.add(mainPanel);
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
