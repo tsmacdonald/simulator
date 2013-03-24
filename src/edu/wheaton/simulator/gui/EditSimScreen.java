@@ -91,12 +91,11 @@ public class EditSimScreen extends Screen {
 			if(j.getText().equals(action))
 				update = sm.getScreen(action);
 		if(update instanceof SetupScreen)
+
 			((SetupScreen) update).updateSetUpScreen(
 					sm.getGUIname(), sm.getGUIwidth(), sm.getGUIheight()
 					);
-		if(update instanceof ViewSimScreen)
-			((ViewSimScreen) update).createGrid(sm.getGrid());
-		sm.update(update);
+				sm.update(update);
 	}
 
 	@Override

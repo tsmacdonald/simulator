@@ -69,8 +69,9 @@ public class ScreenManager {
 	public int getGUIwidth(){
 		return GUIManager.getGridWidth();
 	}
+
+	public void updateGUIManager(String nos, int width, int height){
 	
-	public void updateGUIManager(String nos, String width, String height){
 		GUIManager.setNameOfSim(nos);
 		GUIManager.setGridWidth(width);
 		GUIManager.setGridHeight(height);

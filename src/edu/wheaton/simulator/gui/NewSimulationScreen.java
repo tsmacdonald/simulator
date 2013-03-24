@@ -95,20 +95,7 @@ public class NewSimulationScreen extends Screen {
 		try {
 			heightInt = Integer.parseInt(height.getText());
 			widthInt = Integer.parseInt(width.getText());
-			sm.updateGUIManager(nameString, widthInt+"", heightInt+"");
-			JPanel[][] grid = new JPanel[heightInt][widthInt];
-			/*
-			 * Grid is formatted like the first quadrant of the Cartesian Plane. So bottom left corner is (0,0) 
-			 */
-			for (int j = 0; j < widthInt; j++){
-	            for (int i = 0; i < heightInt; i++) {
-	                grid[i][j] = new JPanel();
-	                grid[i][j].setOpaque(false);
-	                grid[i][j].setBorder(BorderFactory.createEtchedBorder());
-	            }	
-			}
-			sm.setGrid(grid);
-			((ViewSimScreen)sm.getScreen("View Simulation")).createGrid(grid);
+			sm.updateGUIManager(nameString, widthInt, heightInt);
 		} catch(java.lang.NumberFormatException nfe) { }
 
 		sm.update(sm.getScreen("Edit Simulation"));

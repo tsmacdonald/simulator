@@ -34,9 +34,9 @@ public class GUIManager {
 		return gridHeight;
 	}
 	
-	public static void setGridHeight(String gh){
+	public static void setGridHeight(int gh){
 		try{
-			gridHeight = Integer.parseInt(gh);
+			gridHeight = gh;
 		} catch (java.lang.NumberFormatException nfe) { }
 	}
 	
@@ -44,9 +44,9 @@ public class GUIManager {
 		return gridWidth;
 	}
 	
-	public static void setGridWidth(String gw){
+	public static void setGridWidth(int gw){
 		try{
-			gridWidth = Integer.parseInt(gw);
+			gridWidth = gw;
 		} catch (java.lang.NumberFormatException nfe) { }
 	}
 }
