@@ -3,17 +3,27 @@ package edu.wheaton.simulator.gui;
 import java.util.HashMap;
 import javax.swing.JPanel;
 
+import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+import edu.wheaton.simulator.simulation.end.SimulationEnder;
+
 public class ScreenManager {
 
 	private HashMap<String, Screen> screens;
 
 	private DisplayManager dm;
 	
+	private JPanel[][] grid;
+	
+	private SimulationEnder se;
+	
+	private GUIToAgentFacade facade;
+
 	private GUIManager gm;
 
 	public ScreenManager(DisplayManager dm, GUIManager gm) {
 		screens = new HashMap<String, Screen>();
 		this.dm = dm;
+		se = new SimulationEnder();
 		this.gm = gm;
 		screens.put("Title", new TitleScreen(this));
 		screens.put("New Simulation", new NewSimulationScreen(this));
@@ -35,19 +45,36 @@ public class ScreenManager {
 	public void update(Screen update) {
 		dm.updateScreen(update);
 	}
-		
+	
+	public void setGrid(JPanel[][] grid){
+		this.grid = grid;
+	}
+	
+	public JPanel[][] getGrid(){
+		return grid;
+	}
+
+	public void setFacade(int x, int y) {
+		facade = new GUIToAgentFacade(x, y);
+	}
+	
 	public String getGUIname(){
 		return GUIManager.getNameOfSim();
 	}
+	
 	public int getGUIheight(){
 		return GUIManager.getGridHeight();
 	}
+	
 	public int getGUIwidth(){
 		return GUIManager.getGridWidth();
 	}
+
 	public void updateGUIManager(String nos, int width, int height){
+	
 		GUIManager.setNameOfSim(nos);
 		GUIManager.setGridWidth(width);
 		GUIManager.setGridHeight(height);
+
 	}
 }
