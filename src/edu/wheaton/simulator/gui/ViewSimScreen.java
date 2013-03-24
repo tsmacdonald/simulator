@@ -70,10 +70,6 @@ public class ViewSimScreen extends Screen {
 //		}
 		
 	
-	public void addComponents(JPanel panel) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
