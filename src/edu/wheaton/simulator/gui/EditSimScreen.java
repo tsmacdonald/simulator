@@ -9,9 +9,9 @@ import javax.swing.*;
 public class EditSimScreen extends Screen {
 
 	private static final long serialVersionUID = 3629462657811804434L;
-	
+
 	private JButton[] buttons;
-	
+
 	public EditSimScreen(ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -48,7 +48,7 @@ public class EditSimScreen extends Screen {
 		JButton viewSimulation = new JButton("View Simulation");
 		viewSimulation.setPreferredSize(new Dimension(400, 120));
 		buttons[8] = viewSimulation;
-		
+
 		for(JButton j : buttons)
 			j.addActionListener(this);
 		JPanel mainPanel = new JPanel();
@@ -78,19 +78,22 @@ public class EditSimScreen extends Screen {
 		mainPanel.add(panel4);
 		this.add(label);
 		this.add(mainPanel);
-		
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		Screen update = this;
-		for(JButton j : buttons)
+		for(JButton j : buttons) {
 			if(j.getText().equals(action))
 				update = sm.getScreen(action);
+		}
+		sm.update(update);
 		if(update instanceof SetupScreen)
 			((SetupScreen) update).updateSetUpScreen(sm.getGUIname(), sm.getGUIwidth()+"", sm.getGUIheight()+"");
-		sm.update(update);
+		if(update instanceof ViewSimScreen)
+			((ViewSimScreen) update).paint();
 	}
 
 	@Override

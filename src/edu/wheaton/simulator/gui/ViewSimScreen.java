@@ -11,6 +11,7 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -25,14 +26,20 @@ public class ViewSimScreen extends Screen {
 
 	private JPanel gridPanel;
 	
+	private int height;
+	
+	private int width;
+
+	private ScreenManager sm;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6872689283286800861L;
-	
+
 	public ViewSimScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
+		this.sm = sm;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 		JPanel panel = new JPanel();
 		gridPanel = new JPanel();
@@ -47,29 +54,37 @@ public class ViewSimScreen extends Screen {
 					} 
 				}
 				);
-		
+
 		this.add(gridPanel, BorderLayout.CENTER);
+
 		panel.add(pauseButton);
 		panel.add(backButton);
 		this.add(label, BorderLayout.NORTH);
 		this.add(panel, BorderLayout.SOUTH);
 		this.setVisible(true);
+		
 	}
 
-//	public void createGrid(JPanel[][] grid){
-//		gridPanel.removeAll();
-//		gridPanel.setLayout(new GridLayout(grid.length, grid[0].length));
-//		System.out.println(grid[0].length-1);
-//		
-//		for (int j = grid[0].length-1; j >= 0; j--) {
-////			System.out.println(grid.length);
-//            for (int i = 0; i < grid.length; i++) {
-////         	System.out.println("i: "+i+" j: "+j);
-//            	gridPanel.add(grid[i][j]);
-//            }
-//		}
+	public void paint() {
+		int gridWidth = sm.getGUIwidth();
+		int gridHeight = sm.getGUIheight();
+		width = gridPanel.getWidth()/gridWidth;
+		height = gridPanel.getHeight()/gridHeight;
+		System.out.println("width = " + width);
+		System.out.println("height = " + height);
+		int squareSize = Math.min(width, height)-1; 
+		gridPanel.getGraphics().setColor(Color.BLACK);
+		System.out.println(gridPanel.getGraphics().getColor().getRGB());
+		for (int i = 0; i < gridWidth; i++) {
+			for (int j = 0; j < gridHeight; j++) {
+				gridPanel.getGraphics().drawRect(squareSize * i, squareSize * j, squareSize, squareSize);
+			}
+		}
 		
-	
+		gridPanel.repaint();
+	}
+
+
 	public void addComponents(JPanel panel) {
 		// TODO Auto-generated method stub
 
