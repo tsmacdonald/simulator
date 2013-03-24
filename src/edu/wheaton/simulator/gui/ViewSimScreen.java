@@ -69,7 +69,7 @@ public class ViewSimScreen extends Screen {
 //            }
 //		}
 		
-	
+	//TODO write the program loop
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

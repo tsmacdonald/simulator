@@ -20,13 +20,13 @@ import java.awt.event.ItemListener;
 import javax.swing.*;
 
 public class StatisticsScreen extends Screen {
-
+	//TODO instance variables
 	private JPanel dataPanel;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 714636604315959167L;
-
+	//TODO fix layout of this screen	
 	public StatisticsScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());

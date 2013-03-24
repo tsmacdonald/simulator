@@ -11,13 +11,17 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.swing.*;
+
+import edu.wheaton.simulator.entity.Prototype;
 
 public class EditEntityScreen extends Screen {
 
@@ -25,10 +29,12 @@ public class EditEntityScreen extends Screen {
 	 * 
 	 */
 	private static final long serialVersionUID = 4021299442173260142L;
-	
+
 	//TODO make sure this is set to true if we're editing an existing agent, 
 	//     and change the finish behavior based on what this is.
 	private Boolean editing;
+	
+	private Prototype agent;
 
 	private JTextField nameField;
 
@@ -65,12 +71,17 @@ public class EditEntityScreen extends Screen {
 	private ArrayList<JButton> triggerDeleteButtons;
 
 	private ArrayList<JPanel> triggerSubPanels;
-	
+
 	private JButton addTriggerButton;
-	
+
 	private JPanel triggerListPanel;
 
+	private HashSet<Integer> removedFields;
+	
+	private HashSet<Integer> removedTriggers;
+
 	//TODO clean/organize this whole damn thing- Willy
+	//TODO use add methods during initialization
 	public EditEntityScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -120,11 +131,17 @@ public class EditEntityScreen extends Screen {
 		fieldDeleteButtons = new ArrayList<JButton>();
 		fieldDeleteButtons.add(new JButton("Delete"));
 		fieldDeleteButtons.get(0).setActionCommand("Delete Field 0");
-		fieldDeleteButtons.get(0).addActionListener(this);
+		fieldDeleteButtons.get(0).addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						fieldSubPanels.remove(0);
+						repaint();
+					}
+				}
+				);
 		fieldSubPanels = new ArrayList<JPanel>();
 		fieldSubPanels.add(new JPanel());
 		addFieldButton = new JButton("Add Field");
-		//TODO should this be merged with this.actionPerformed?
 		addFieldButton.addActionListener(
 				new ActionListener() {
 					@Override
@@ -141,14 +158,14 @@ public class EditEntityScreen extends Screen {
 		triggerConditionLabel.setPreferredSize(new Dimension(300, 30));
 		JLabel triggerResultLabel = new JLabel("Trigger Result");
 		triggerResultLabel.setPreferredSize(new Dimension(300, 30));
-		
+
 		triggerNames = new ArrayList<JTextField>();
 		triggerNames.add(new JTextField(25));
 		triggerNames.get(0).setMaximumSize(new Dimension(200, 40));
 		triggerPriorities = new ArrayList<JTextField>();
 		triggerPriorities.add(new JTextField(15));
 		triggerPriorities.get(0).setMaximumSize(new Dimension(150, 40));
-		//conditions and results: objects may change based on how those are finished
+		//conditions and results: objects may change based on how those work
 		triggerConditions = new ArrayList<JTextField>();
 		triggerConditions.add(new JTextField(50));
 		triggerConditions.get(0).setMaximumSize(new Dimension (300, 40));
@@ -157,34 +174,45 @@ public class EditEntityScreen extends Screen {
 		triggerResults.get(0).setMaximumSize(new Dimension (300, 40));
 		triggerDeleteButtons = new ArrayList<JButton>();
 		triggerDeleteButtons.add(new JButton("Delete"));
-		triggerDeleteButtons.get(0).setActionCommand("Delete Trigger 0");
-		triggerDeleteButtons.get(0).addActionListener(this);
+		triggerDeleteButtons.get(0).setActionCommand("0");
+		triggerDeleteButtons.get(0).addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						triggerSubPanels.remove(0);
+						repaint();
+					}
+				}
+				);
 		triggerSubPanels = new ArrayList<JPanel>();
 		triggerSubPanels.add(new JPanel());
 		addTriggerButton = new JButton("Add Trigger");
-		addTriggerButton.addActionListener(this);
+		addTriggerButton.addActionListener(
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						addTrigger();
+					}
+				}
+				);
 
-	
 		JButton cancelButton = new JButton("Cancel");
-		//TODO should this be merged with this.actionPerformed?
 		cancelButton.addActionListener(
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.update(sm.getScreen("Edit Simulation")); 
+						reset();
 					} 
 				}
 				);
 		JButton finishButton = new JButton("Finish");
-		//TODO should this be merged with this.actionPerformed?
-		//TODO finishbutton needs to pull information from the screen
-		//     and update the simulation data accordingly
-		//     INCLUDING erasing anything that was erased
 		finishButton.addActionListener(
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						sendInfo();
 						sm.update(sm.getScreen("Edit Simulation")); 
+						reset();
 					} 
 				}
 				);
@@ -287,9 +315,8 @@ public class EditEntityScreen extends Screen {
 	}
 
 
-
+/*
 	@Override
-	//TODO should other action listeners be merged into this? 
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		Screen update = this;
@@ -306,17 +333,96 @@ public class EditEntityScreen extends Screen {
 			deleteField(Integer.parseInt(action.substring(13)));
 		}
 	}
+	*/
 
 	//TODO need a public void load(GridEntity g) { }
 	//     which will set the fields to display the values of that entity,
 	//     and will be called when the page is to be displayed
+	public void load(Prototype p) {
+		reset();
+		agent = p;
+		nameField.setText(p.getProtypeName());
+		colorTool.setColor(p.getColor());
+		//TODO load icon from p.getDesign(); helper method?
+		//iterate through p.getFieldMap(); 
+		//for each element, addField, set name and value
+			//what about types?
+		//same thing for triggers - need access to the list
+			//does trigger class have getters for the relevant pieces we need?
+	}
+
+	//TODO make sure this is right
+	public void reset() {
+		nameField.setText("");
+		//other way of resetting colorTool? need to reset recents?
+		colorTool.setColor(Color.WHITE);
+		//reset icon constructor
+		fieldNames.clear(); //make sure this is right method
+		fieldTypes.clear();
+		fieldValues.clear();
+		fieldDeleteButtons.clear();
+		fieldSubPanels.clear();
+		removedFields.clear();
+		addField();
+		triggerNames.clear();
+		triggerPriorities.clear();
+		triggerConditions.clear();
+		triggerResults.clear();
+		triggerDeleteButtons.clear();
+		triggerSubPanels.clear();
+		removedTriggers.clear();
+		addTrigger();
+	}
 	
-	//TODO probably need a reset() method as well, to clear the screen to being empty
-	
+	//TODO finish this once agent methods are completed
 	@Override
 	public void sendInfo() {
-		// TODO Auto-generated method stub
-
+		if (!editing) {
+			sm.getFacade().createPrototype(
+					nameField.getText(), 
+					sm.getFacade().getGrid(),
+					colorTool.getColor(),
+					generateBytes()
+					);
+			agent = sm.getFacade().getPrototype(
+					nameField.getText()
+					);
+		} 
+		/*
+		else {
+			//set all values of the prototype from the screen
+			
+			agent.setName(nameField.getText());
+			agent.setColor(colorTool.getColor());
+			agent.setDesign(generateBytes());
+		}
+		//TODO how to handle case where fields do not have acceptable input
+		for (int i = 0; i < fieldNames.size(); i++) {
+			if (removedFields.contains(i)) {
+				//if agent already has that field
+				agent.removeField(fieldNames.get(i));
+			} else {
+				//if agent already has that field
+				agent.updateField(fieldNames.get(i), 
+				fieldValues.get(i));
+				//else agent.addField(fieldNames.get(i),
+				fieldValues.get(i));
+			}
+		}
+		//TODO we might want a generateTrigger method
+		for (int i = 0; i < triggerNames.size(); i++) {
+			if (removedTriggers.contains(i)) {
+				//if agent already has that trigger
+				agent.removeTrigger(
+				 	triggerPriorities.get(i)
+				 	);
+		 	} else {
+		 		//if agent already has that trigger
+		 		agent.updateTrigger();
+		 		//else agent.addTrigger(i);
+	 		}
+		}
+			*/
 	}
 
 	private void addField() {
@@ -334,10 +440,17 @@ public class EditEntityScreen extends Screen {
 		JTextField newValue = new JTextField(25);
 		newValue.setMaximumSize(new Dimension(300, 40));
 		JButton newButton = new JButton("Delete");
-		newButton.addActionListener(this);
+		newButton.setActionCommand(fieldDeleteButtons.indexOf(newButton) + "");
+		newButton.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						removedFields.add(Integer.parseInt(e.getActionCommand()));
+						fieldSubPanels.remove(Integer.parseInt(e.getActionCommand()));
+						repaint();
+					}
+				}
+				);
 		fieldDeleteButtons.add(newButton);
-		newButton.setActionCommand("Delete Field " + 
-									fieldDeleteButtons.indexOf(newButton));
 		newPanel.add(newName);
 		newPanel.add(newType);
 		newPanel.add(newValue);
@@ -368,10 +481,17 @@ public class EditEntityScreen extends Screen {
 		newResult.setMaximumSize(new Dimension(300, 40));
 		triggerResults.add(newResult);
 		JButton newButton = new JButton("Delete");
-		newButton.addActionListener(this);
+		newButton.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						removedTriggers.add(Integer.parseInt(e.getActionCommand()));
+						triggerSubPanels.remove(Integer.parseInt(e.getActionCommand()));
+						repaint();
+					}
+				}
+				);
 		triggerDeleteButtons.add(newButton);
-		newButton.setActionCommand("Delete Trigger " + 
-				triggerDeleteButtons.indexOf(newButton));
+		newButton.setActionCommand(triggerDeleteButtons.indexOf(newButton) + "");
 		newPanel.add(newName);
 		newPanel.add(newPriority);
 		newPanel.add(newCondition);
@@ -383,34 +503,37 @@ public class EditEntityScreen extends Screen {
 		triggerListPanel.add(glue2);
 		repaint();
 	}
-	
-	//TODO I think I have a better way of setting up these methods up 
-	//     to make it easier to delete things from the agents.
+
 	private void deleteField(int n) {
 		fieldNames.remove(n);
 		fieldTypes.remove(n);
 		fieldDeleteButtons.remove(n);
-		for (int i = n; i < fieldDeleteButtons.size(); i++) {
-			fieldDeleteButtons.get(i).setActionCommand("Delete Field " + i);
-		}
+//		for (int i = n; i < fieldDeleteButtons.size(); i++) {
+//			fieldDeleteButtons.get(i).setActionCommand(i + "");
+//		}
 		fieldListPanel.remove(fieldSubPanels.get(n));
-		fieldSubPanels.remove(n);
-		repaint();
 	}
-	
+
 	private void deleteTrigger(int n) {
 		triggerNames.remove(n);
 		triggerPriorities.remove(n);
 		triggerConditions.remove(n);
 		triggerResults.remove(n);
 		triggerDeleteButtons.remove(n);
-		for (int i = n; i < triggerDeleteButtons.size(); i++) {
-			triggerDeleteButtons.get(i).setActionCommand(
-					"Delete Trigger " + i
-					);
-		}
+//		for (int i = n; i < triggerDeleteButtons.size(); i++) {
+//			triggerDeleteButtons.get(i).setActionCommand(i + "");
+//		}
 		triggerListPanel.remove(triggerSubPanels.get(n));
-		triggerSubPanels.remove(n);
-		repaint();
+	}
+	
+	//TODO temp placeholder, need to make a byte array 
+	//     from the icon constructor. 
+	private byte[] generateBytes() {
+		byte[] toReturn = {new Byte("00000001"), new Byte("00000011"), 
+				new Byte("00000111"), new Byte("00001111"),
+				new Byte("00011111"), new Byte("00111111"),
+				new Byte("01111111"), new Byte("11111111"),
+		};
+        return toReturn;
 	}
 }

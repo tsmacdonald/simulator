@@ -27,6 +27,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class SpawningScreen extends Screen {
+	//TODO how do we handle if spawn are set, and then the grid is made smaller,
+	//     and some of the spawns are now out of bounds? delete those fields?
 
 	//TODO temporary placeholder
 	private String[] exampleEntities = {"Fox", "Rabbit", "Clover", "Bear"};

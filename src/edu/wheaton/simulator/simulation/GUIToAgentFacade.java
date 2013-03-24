@@ -169,4 +169,53 @@ public class GUIToAgentFacade {
 	/**
 	 * TODO GUI Team: feel free to add method stubs and we will implement them.
 	 */
+	public Grid getGrid() {
+		return grid;
+	}
+	
+	/**
+	 * TODO
+	 * Need some way of changing the name for a given prototype without 
+	 * resetting its children, etc. This should go in the Prototype class.
+	 */ 
+	public void setName(String name){
+		
+	}
+	
+	/**
+	 * TODO
+	 * Need a way to set the default color of a prototype after it's been made.
+	 * Should go in the Prototype class or a superclass.
+	 */
+	public void setColor(Color color){
+		
+	}
+	
+	/**
+	 * Are we ensuring that each trigger's priority will be unique?
+	 * Or should we use names instead to keep track of them in the hashmap?
+	 * That might run into fewer issue while editing (possibility of changing
+	 * priorities of the same trigger)
+	 * 
+	 * TODO Also, we should probably have an updateTrigger method in prototype
+	 */
+	
+	/**
+	 * TODO
+	 * We need some way to check if a prototype has a given field or trigger,
+	 * to decide whether to call add or update, for instance.
+	 */
+	
+	/**
+	 * TODO change name of getProTypeName to getProtoTypeName
+	 */
+	
+	/**
+	 * we need some way of recognizing what value type a given field has
+	 */
+
+	/**
+	 * TODO we need some kind of access to a list of triggers held by a 
+	 * prototype.
+	 */
 }

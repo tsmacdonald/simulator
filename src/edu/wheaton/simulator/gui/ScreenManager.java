@@ -58,6 +58,10 @@ public class ScreenManager {
 		facade = new GUIToAgentFacade(x, y);
 	}
 	
+	public GUIToAgentFacade getFacade() {
+		return facade;
+	}
+	
 	public String getGUIname(){
 		return GUIManager.getNameOfSim();
 	}
