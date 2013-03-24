@@ -120,19 +120,16 @@ public class EditEntityScreen extends Screen {
 		fieldDeleteButtons = new ArrayList<JButton>();
 		fieldDeleteButtons.add(new JButton("Delete"));
 		fieldDeleteButtons.get(0).setActionCommand("Delete Field 0");
-		fieldDeleteButtons.get(0).addActionListener(this);
+		fieldDeleteButtons.get(0).addActionListener(new DeleteFieldListener());
 		fieldSubPanels = new ArrayList<JPanel>();
 		fieldSubPanels.add(new JPanel());
 		addFieldButton = new JButton("Add Field");
 		//TODO should this be merged with this.actionPerformed?
-		addFieldButton.addActionListener(
-				new ActionListener() {
-					@Override
+		addFieldButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						addField();
 					}
-				}
-				);
+				});
 		JLabel triggerNameLabel = new JLabel("Trigger Name");
 		triggerNameLabel.setPreferredSize(new Dimension(130, 30));
 		JLabel triggerPriorityLabel = new JLabel("Trigger Priority");
@@ -158,18 +155,21 @@ public class EditEntityScreen extends Screen {
 		triggerDeleteButtons = new ArrayList<JButton>();
 		triggerDeleteButtons.add(new JButton("Delete"));
 		triggerDeleteButtons.get(0).setActionCommand("Delete Trigger 0");
-		triggerDeleteButtons.get(0).addActionListener(this);
+		triggerDeleteButtons.get(0).addActionListener(new DeleteTriggerListener());
 		triggerSubPanels = new ArrayList<JPanel>();
 		triggerSubPanels.add(new JPanel());
 		addTriggerButton = new JButton("Add Trigger");
-		addTriggerButton.addActionListener(this);
+		addTriggerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addTrigger();
+			}
+		});
 
 	
 		JButton cancelButton = new JButton("Cancel");
 		//TODO should this be merged with this.actionPerformed?
 		cancelButton.addActionListener(
 				new ActionListener() {
-					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.update(sm.getScreen("Edit Simulation")); 
 					} 
@@ -287,37 +287,12 @@ public class EditEntityScreen extends Screen {
 	}
 
 
-
-	@Override
-	//TODO should other action listeners be merged into this? 
-	public void actionPerformed(ActionEvent e) {
-		String action = e.getActionCommand();
-		Screen update = this;
-		if (action.equals("Add Field")) {
-			addField();
-		}
-		else if (action.equals("Add Trigger")) {
-			addTrigger();
-		}
-		else if (action.substring(0, 14).equals("Delete Trigger")) {
-			deleteTrigger(Integer.parseInt(action.substring(15)));
-		}
-		else if (action.substring(0, 12).equals("Delete Field")) {
-			deleteField(Integer.parseInt(action.substring(13)));
-		}
-	}
-
 	//TODO need a public void load(GridEntity g) { }
 	//     which will set the fields to display the values of that entity,
 	//     and will be called when the page is to be displayed
 	
 	//TODO probably need a reset() method as well, to clear the screen to being empty
 	
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
-	}
 
 	private void addField() {
 		JPanel newPanel = new JPanel();
@@ -334,7 +309,7 @@ public class EditEntityScreen extends Screen {
 		JTextField newValue = new JTextField(25);
 		newValue.setMaximumSize(new Dimension(300, 40));
 		JButton newButton = new JButton("Delete");
-		newButton.addActionListener(this);
+		newButton.addActionListener(new DeleteFieldListener());
 		fieldDeleteButtons.add(newButton);
 		newButton.setActionCommand("Delete Field " + 
 									fieldDeleteButtons.indexOf(newButton));
@@ -368,7 +343,7 @@ public class EditEntityScreen extends Screen {
 		newResult.setMaximumSize(new Dimension(300, 40));
 		triggerResults.add(newResult);
 		JButton newButton = new JButton("Delete");
-		newButton.addActionListener(this);
+		newButton.addActionListener(new DeleteTriggerListener());
 		triggerDeleteButtons.add(newButton);
 		newButton.setActionCommand("Delete Trigger " + 
 				triggerDeleteButtons.indexOf(newButton));
@@ -413,4 +388,21 @@ public class EditEntityScreen extends Screen {
 		triggerSubPanels.remove(n);
 		repaint();
 	}
+	
+	private class DeleteFieldListener implements ActionListener {
+		private String action;
+		public void actionPerformed(ActionEvent e){
+			action = e.getActionCommand();
+			deleteField(Integer.parseInt(action.substring(13)));
+		}
+	}
+	
+	private class DeleteTriggerListener implements ActionListener {
+		private String action;
+		public void actionPerformed(ActionEvent e){
+			action = e.getActionCommand();
+			deleteTrigger(Integer.parseInt(action.substring(15)));
+		}
+	}
+	
 }

@@ -3,6 +3,7 @@ package edu.wheaton.simulator.gui;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -10,47 +11,57 @@ public class EditSimScreen extends Screen {
 
 	private static final long serialVersionUID = 3629462657811804434L;
 	
-	private JButton[] buttons;
-	
 	public EditSimScreen(ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		JLabel label = new JLabel("Edit Simulation");
 		label.setAlignmentX(CENTER_ALIGNMENT);
 		label.setPreferredSize(new Dimension(500, 200));
-		buttons = new JButton[9];
 		JButton newSimulation = new JButton("New Simulation");
 		//newSimulation.setPreferredSize(new Dimension(175, 60));
-		buttons[0] = newSimulation;
+		newSimulation.addActionListener(new GeneralButtonListener());
 		JButton loadExisting = new JButton("Load Existing");
 		//loadExisting.setPreferredSize(new Dimension(175, 60));
 		loadExisting.setEnabled(false); //serialization not yet implemented
-		buttons[1] = loadExisting;
+		loadExisting.addActionListener(new GeneralButtonListener());
 		JButton save = new JButton("Save");
 		//save.setPreferredSize(new Dimension(175, 60));
 		save.setEnabled(false); //serialization not yet implemented
-		buttons[2] = save;
+		save.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				//TODO need serialization
+			}
+		});
 		JButton entities = new JButton("Entities");
 		//agents.setPreferredSize(new Dimension(175, 60));
-		buttons[3] = entities;
+		entities.addActionListener(new GeneralButtonListener());
 		JButton fields = new JButton("Fields");
 		//fields.setPreferredSize(new Dimension(175, 60));
-		buttons[4] = fields;
+		fields.addActionListener(new GeneralButtonListener());
 		JButton statistics = new JButton("Statistics");
 		//statistics.setPreferredSize(new Dimension(175, 60));
-		buttons[5] = statistics;
+		statistics.addActionListener(new GeneralButtonListener());
 		JButton gridSetup = new JButton("Grid Setup");
 		//gridSetup.setPreferredSize(new Dimension(175, 60));
-		buttons[6] = gridSetup;
+		final SetupScreen update = (SetupScreen) sm.getScreen("Grid Setup");
+		final String name = sm.getGUIname();
+		final int width = sm.getGUIwidth();
+		final int height = sm.getGUIheight();
+		final ScreenManager sm2 = sm;
+		gridSetup.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				update.updateSetUpScreen(name, width, height);
+				sm2.update(update);
+			}
+		});
+		
 		JButton spawning = new JButton("Spawning");
 		//spawning.setPreferredSize(new Dimension(175, 60));
-		buttons[7] = spawning;
+		spawning.addActionListener(new GeneralButtonListener());
 		JButton viewSimulation = new JButton("View Simulation");
 		viewSimulation.setPreferredSize(new Dimension(400, 120));
-		buttons[8] = viewSimulation;
+		viewSimulation.addActionListener(new GeneralButtonListener());
 		
-		for(JButton j : buttons)
-			j.addActionListener(this);
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.setMaximumSize(new Dimension(800, 1000));
@@ -81,26 +92,12 @@ public class EditSimScreen extends Screen {
 		
 	}
 
-	//TODO is there a way to clean this up so we don't have a bunch of 
-	//     instancceof conditionals? maybe just using action.equals()?
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String action = e.getActionCommand();
-		Screen update = this;
-		for(JButton j : buttons)
-			if(j.getText().equals(action))
-				update = sm.getScreen(action);
-		if(update instanceof SetupScreen)
-
-			((SetupScreen) update).updateSetUpScreen(
-					sm.getGUIname(), sm.getGUIwidth(), sm.getGUIheight()
-					);
-				sm.update(update);
+	private class GeneralButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			String action = e.getActionCommand();
+			Screen update = sm.getScreen(action);
+			sm.update(update);
+		}
 	}
 
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
-	}
 }
