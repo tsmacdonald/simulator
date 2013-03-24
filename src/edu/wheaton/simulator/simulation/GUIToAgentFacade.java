@@ -200,18 +200,6 @@ public class GUIToAgentFacade {
 	}
 
 	/**
-	 * Changes the name of a prototype without resetting its children.
-	 * 
-	 * @param oldName
-	 * @param newName
-	 */
-	public void setPrototypeName(String oldName, String newName) {
-		Prototype p = Prototype.getPrototype(oldName);
-		Prototype.addPrototype(newName, p);
-		Prototype.removePrototype(oldName);
-	}
-
-	/**
 	 * Returns a List of Triggers for a specific prototype
 	 * 
 	 * @return

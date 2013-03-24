@@ -136,6 +136,19 @@ public class Prototype extends GridEntity {
 	public static Set<String> prototypeNames() {
 		return prototypes.keySet();
 	}
+	
+	/**
+	 * Changes the name of a prototype without resetting its children.
+	 * 
+	 * @param oldName
+	 * @param newName
+	 */
+	public void setPrototypeName(String oldName, String newName) {
+		Prototype p = getPrototype(oldName);
+		addPrototype(newName, p);
+		removePrototype(oldName);
+		name = newName;
+	}
 
 	/**
 	 * Does a deep clone of this prototype and returns it as an Agent.
