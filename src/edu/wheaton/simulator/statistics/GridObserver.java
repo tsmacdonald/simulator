@@ -24,18 +24,17 @@ public class GridObserver {
 	}
 
 	public void observe(Grid grid, Integer step, Collection<Prototype> prototypes) { 
+		for (Prototype prototype : prototypes) { 
+			
+		}
+		
 		for (Slot s : grid) { 
 			EntitySnapshot slotSnap = SnapshotFactory.makeSlotSnapshot(s, step);
 			statManager.addGridEntity(slotSnap);
 			Agent agent = s.getAgent();
-			if (agent == null) 
-				continue;
-			AgentSnapshot agentSnap = SnapshotFactory.makeAgentSnapshot(agent, step);
-			statManager.addGridEntity(agentSnap);
-			for (String currentPrototypeName : prototypes.keySet()) { 
-				PrototypeSnapshot currentSnapshot;
-				currentSnapshot = SnapshotFactory.makePrototypeSnapshot(
-						prototypes.get(currentPrototypeName), step);
+			if (agent != null) {
+				AgentSnapshot agentSnap = SnapshotFactory.makeAgentSnapshot(agent, step);
+				statManager.addGridEntity(agentSnap);
 			}
 			// TODO Make sure this method is completely implemented! (for the most part)
 		}

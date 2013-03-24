@@ -72,6 +72,14 @@ public class StatisticsManager {
 		if (gridEntity.step > numSteps)
 			numSteps = gridEntity.step;
 	}
+	
+//	public void addPrototype(PrototypeSnapshot prototypeSnapshot) { 
+//		int step = prototypeSnapshot.step; 
+//		try { 
+//			prototypes.get(step); 
+//		} catch (Exception e) { 
+//		}
+//	}
 
 	/**
 	 * Returns the entire population at a given step of a given category of
