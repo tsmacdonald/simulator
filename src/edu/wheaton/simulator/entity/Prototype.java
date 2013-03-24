@@ -13,9 +13,11 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSet.Builder;
 
 import edu.wheaton.simulator.simulation.Grid;
 
@@ -38,6 +40,21 @@ public class Prototype extends GridEntity {
 	
 	private final PrototypeID id;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param g
+	 *            The grid (passed to super constructor)
+	 * @param c
+	 *            The color of this prototype (passed to super constructor)
+	 */
+	public Prototype(Grid g) {
+		super(g);
+		id = new PrototypeID();
+		children = new ArrayList<Agent>();
+		triggers = new ArrayList<Trigger>();
+	}
+	
 	/**
 	 * Constructor.
 	 * 
@@ -151,14 +168,15 @@ public class Prototype extends GridEntity {
 	
 	/**
 	 * Gives the AgentID objects for all of the Agents that use this specific prototype.
-	 * @return A HashSet of AgentIDs
+	 * @return An ImmutableSet of AgentIDs.
 	 */
-	public HashSet<AgentID> childIDs() {
-		HashSet<AgentID> toReturn = new HashSet<AgentID>();
+	public ImmutableSet<AgentID> childIDs() {
+		ImmutableSet.Builder<AgentID> builder = 
+				new ImmutableSet.Builder<AgentID>(); 
 		for(Agent current : children) {
-			toReturn.add(current.getAgentID());
+			builder.add(current.getAgentID());
 		}
-		return toReturn;
+		return builder.build();
 	}
 
 	public PrototypeID getPrototypeID(){
