@@ -78,7 +78,7 @@ public class SnapshotFactory {
 	 */
 	public static PrototypeSnapshot makePrototypeSnapshot(Prototype prototype,
 			Integer step) {
-		return new PrototypeSnapshot(prototype.getProtypeName(),
+		return new PrototypeSnapshot(prototype.getName(),
 				makeFieldSnapshots(prototype.getFieldMap()),
 				prototype.childPopulation(), prototype.childIDs(), step);
 	}

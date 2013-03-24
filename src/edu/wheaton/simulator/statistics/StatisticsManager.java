@@ -9,7 +9,6 @@ import java.util.Set;
 
 import javax.naming.NameNotFoundException;
 
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
@@ -108,13 +107,13 @@ public class StatisticsManager {
 	 *         the value refers to the population of the targeted entity at
 	 *         that time
 	 */
-	public int[] getPopVsTime(PrototypeID id){
-		int[] data = new int[numSteps]; 
+	public int[] getPopVsTime(PrototypeID id) {
+		int[] data = new int[numSteps];
 
 		for (int i = 0; i < data.length; i++) {
 			PrototypeSnapshot currentSnapshot;
 			if ((currentSnapshot = prototypes.get(i).get(id)) != null) {
-				data[i] = currentSnapshot.childPopulation;
+				data[i] = currentSnapshot.population;
 			}
 		}
 		return data;
@@ -133,29 +132,29 @@ public class StatisticsManager {
 	public double[] getAvgFieldValue(PrototypeID id, String FieldName) {
 		// set of steps in table
 		Set<Integer> steps = table.getAllSteps();
-		
+
 		// array of averages
 		double[] averages = new double[steps.size()];
-		
+
 		// marker for double[]
 		int i = 0;
-		
+
 		// arraylist of the values at each step to average up
 		ArrayList<Double> stepVals = new ArrayList<Double>();
-		
-		for(int step : steps) {
+
+		for (int step : steps) {
 			ImmutableSet<AgentSnapshot> agents = getPopulationAtStep(id, step);
-			
-			for(AgentSnapshot agent : agents) {
+
+			for (AgentSnapshot agent : agents) {
 				ImmutableMap<String, FieldSnapshot> fields = agent.fields;
-				
-				if(fields.containsKey(FieldName))
-					if(fields.get(FieldName).isNumber)
+
+				if (fields.containsKey(FieldName))
+					if (fields.get(FieldName).isNumber)
 						stepVals.add(fields.get(FieldName).getNumericalValue());
 			}
-			
+
 			double total = 0;
-			for(Double val : stepVals)
+			for (Double val : stepVals)
 				total += val;
 			averages[i] = total / (agents.size());
 			total = 0;
@@ -171,61 +170,79 @@ public class StatisticsManager {
 	 * @param id
 	 *            The PrototypeID of the GridEntity to be tracked
 	 * @return The average lifespan of the specified GridEntity
-	 * @throws NameNotFoundException 
+	 * @throws NameNotFoundException
 	 */
-	public double getAvgLifespan(PrototypeID id) throws NameNotFoundException{		
-		//List with index = step in the simulation, value = set of all agents born at that time
+	public double getAvgLifespan(PrototypeID id) throws NameNotFoundException {
+		// List with index = step in the simulation, value = set of all agents
+		// born at that time
 		List<Set<AgentSnapshot>> agentsByStep = new ArrayList<Set<AgentSnapshot>>();
-		
-		//Set of all AgentSnapshots
-		Set<AgentSnapshot> allAgents = new HashSet<AgentSnapshot>(); 
-		
-		for(int i = 0; i < numSteps; i++){
-			Set stepData = getPopulationAtStep(id, i); 	
+
+		// Set of all AgentSnapshots
+		Set<AgentSnapshot> allAgents = new HashSet<AgentSnapshot>();
+
+		for (int i = 0; i < numSteps; i++) {
+			Set stepData = getPopulationAtStep(id, i);
 			agentsByStep.set(i, stepData);
-			allAgents.addAll(stepData); 
+			allAgents.addAll(stepData);
 		}
-		
-		double avg = 0.0; 
-		
-		for (AgentSnapshot snap : allAgents){
-			int birthTime = getBirthStep(agentsByStep, snap); 
-			int deathTime = getDeathStep(agentsByStep, snap); 
-			
-			//Build the sum of all lifetimes - we'll divide by the number of agents at the end to get the average
-			avg += deathTime - birthTime; 
+
+		double avg = 0.0;
+
+		for (AgentSnapshot snap : allAgents) {
+			int birthTime = getBirthStep(agentsByStep, snap);
+			int deathTime = getDeathStep(agentsByStep, snap);
+
+			// Build the sum of all lifetimes - we'll divide by the number of
+			// agents at the end to get the average
+			avg += deathTime - birthTime;
 		}
-		
-		return avg / allAgents.size();  
+
+		return avg / allAgents.size();
 	}
-	
+
 	/**
-	 * Get the step number in which the Agent represented by a given AgentSnapshot was born
-	 * @param agentsByStep A List with index = step in the simulation, value = set of all agents born at that time
-	 * @param target The AgentSnapshot of the agent we're looking for
+	 * Get the step number in which the Agent represented by a given
+	 * AgentSnapshot was born
+	 * 
+	 * @param agentsByStep
+	 *            A List with index = step in the simulation, value = set of
+	 *            all agents born at that time
+	 * @param target
+	 *            The AgentSnapshot of the agent we're looking for
 	 * @return The step number of the target Agent's birth
-	 * @throws NameNotFoundException the target Agent wasn't found
+	 * @throws NameNotFoundException
+	 *             the target Agent wasn't found
 	 */
-	private int getBirthStep(List<Set<AgentSnapshot>> agentsByStep, AgentSnapshot target) throws NameNotFoundException{
-		for(int i = 0; i < numSteps; i++)
-			if(agentsByStep.get(i).contains(target))
+	private int getBirthStep(List<Set<AgentSnapshot>> agentsByStep,
+			AgentSnapshot target) throws NameNotFoundException {
+		for (int i = 0; i < numSteps; i++)
+			if (agentsByStep.get(i).contains(target))
 				return i;
-		
-		throw new NameNotFoundException("The target AgentSnapshot was not found");  
+
+		throw new NameNotFoundException(
+				"The target AgentSnapshot was not found");
 	}
-	
+
 	/**
-	 * Get the step number in which the Agent represented by a given AgentSnapshot died
-	 * @param agentsByStep A List with index = step in the simulation, value = set of all agents born at that time
-	 * @param target The AgentSnapshot of the agent we're looking for
+	 * Get the step number in which the Agent represented by a given
+	 * AgentSnapshot died
+	 * 
+	 * @param agentsByStep
+	 *            A List with index = step in the simulation, value = set of
+	 *            all agents born at that time
+	 * @param target
+	 *            The AgentSnapshot of the agent we're looking for
 	 * @return The step number of the target Agent's death
-	 * @throws NameNotFoundException the target Agent wasn't found
+	 * @throws NameNotFoundException
+	 *             the target Agent wasn't found
 	 */
-	private int getDeathStep(List<Set<AgentSnapshot>> agentsByStep, AgentSnapshot target) throws NameNotFoundException{  	
-		for(int i = numSteps; i > 0; i--)
-			if(agentsByStep.get(i).contains(target))
+	private int getDeathStep(List<Set<AgentSnapshot>> agentsByStep,
+			AgentSnapshot target) throws NameNotFoundException {
+		for (int i = numSteps; i > 0; i--)
+			if (agentsByStep.get(i).contains(target))
 				return i;
-		
-		throw new NameNotFoundException("The target AgentSnapshot was not found");  
+
+		throw new NameNotFoundException(
+				"The target AgentSnapshot was not found");
 	}
 }

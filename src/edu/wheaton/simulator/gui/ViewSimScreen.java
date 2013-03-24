@@ -37,6 +37,8 @@ public class ViewSimScreen extends Screen {
 	 */
 	private static final long serialVersionUID = -6872689283286800861L;
 
+	private GridPanel grid;
+	
 	//TODO handle case of no input grid size, either here or in newSim/setup
 	public ViewSimScreen(final ScreenManager sm) {
 		super(sm);
@@ -72,11 +74,13 @@ public class ViewSimScreen extends Screen {
 					sm.hasStarted(true);
 		*/
 		
+		grid = new GridPanel(sm);
 		panel.add(startButton);
 		panel.add(pauseButton);
 		panel.add(backButton);
 		this.add(label, BorderLayout.NORTH);
 		this.add(panel, BorderLayout.SOUTH);
+		this.add(grid, BorderLayout.CENTER);
 		this.setVisible(true);	
 		//program loop yay!
 		new Thread(new Runnable() {
@@ -96,9 +100,6 @@ public class ViewSimScreen extends Screen {
 	}
 
 	public void paint(){
-		//TODO might want to rename Grid to avoid confusion with simulation Grid
-		Grid grid = new Grid(sm);
-		this.add(grid, BorderLayout.CENTER);
 		grid.paint(grid.getGraphics());
 	}
 

@@ -25,9 +25,6 @@ import edu.wheaton.simulator.entity.Prototype;
 
 public class EditEntityScreen extends Screen {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4021299442173260142L;
 
 	private Boolean editing;
