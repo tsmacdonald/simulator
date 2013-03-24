@@ -9,12 +9,14 @@
 package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
+import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.jeval.EvaluationException;
 
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.Trigger;
 
 public class GUIToAgentFacade {
 
@@ -41,7 +43,7 @@ public class GUIToAgentFacade {
 	 * @param c
 	 */
 	public void createPrototype(String n, Grid g, Color c) {
-		Prototype.addPrototype(n, new Prototype(g, c));
+		Prototype.addPrototype(n, new Prototype(g, c, n));
 	}
 
 	/**
@@ -53,7 +55,7 @@ public class GUIToAgentFacade {
 	 * @param d
 	 */
 	public void createPrototype(String n, Grid g, Color c, byte[] d) {
-		Prototype.addPrototype(n, new Prototype(g, c, d));
+		Prototype.addPrototype(n, new Prototype(g, c, d, n));
 	}
 
 	/**
@@ -76,6 +78,28 @@ public class GUIToAgentFacade {
 	}
 
 	/**
+	 * Whether or not a given field is contained in a Prototype
+	 * 
+	 * @param p
+	 * @param fieldName
+	 * @return
+	 */
+	public boolean prototypeHasField(Prototype p, String fieldName) {
+		return p.hasField(fieldName);
+	}
+
+	/**
+	 * Whether or not a given trigger is contained in a Prototype
+	 * 
+	 * @param p
+	 * @param triggerName
+	 * @return
+	 */
+	public boolean prototypeHasTrigger(Prototype p, String triggerName) {
+		return p.hasTrigger(triggerName);
+	}
+
+	/**
 	 * Causes all entities in the grid to act()
 	 */
 	public void updateEntities() {
@@ -83,8 +107,8 @@ public class GUIToAgentFacade {
 	}
 
 	/**
-	 * Adds the given Agent at the closest free spot to the spawn position.
-	 * The search for an open spot begins at the given x/y and then spirals
+	 * Adds the given Agent at the closest free spot to the spawn position. The
+	 * search for an open spot begins at the given x/y and then spirals
 	 * outwards.
 	 * 
 	 * @param prototypeName
@@ -172,55 +196,30 @@ public class GUIToAgentFacade {
 	public Grid getGrid() {
 		return grid;
 	}
-	
-	/**
-	 * TODO
-	 * Need some way of changing the name for a given prototype without 
-	 * resetting its children, etc. This should go in the Prototype class.
-	 */ 
-	public void setName(String name){
-		
-	}
-	
-	/**
-	 * TODO
-	 * Need a way to set the default color of a prototype after it's been made.
-	 * Should go in the Prototype class or a superclass.
-	 */
-	public void setColor(Color color){
-		
-	}
-	
-	/**
-	 * Are we ensuring that each trigger's priority will be unique?
-	 * Or should we use names instead to keep track of them in the hashmap?
-	 * That might run into fewer issue while editing (possibility of changing
-	 * priorities of the same trigger)
-	 * 
-	 * TODO Also, we should probably have an updateTrigger method in prototype
-	 */
-	
-	/**
-	 * TODO
-	 * We need some way to check if a prototype has a given field or trigger,
-	 * to decide whether to call add or update, for instance.
-	 */
-	
-	/**
-	 * TODO change name of getProTypeName to getProtoTypeName
-	 */
-	
-	/**
-	 * we need some way of recognizing what value type a given field has
-	 */
 
 	/**
-	 * TODO we need some kind of access to a list of triggers held by a 
-	 * prototype.
+	 * TODO Need some way of changing the name for a given prototype without
+	 * resetting its children, etc. This should go in the Prototype class.
 	 */
-	
+	public void setPrototypeName(String oldName, String newName) {
+		Prototype p = Prototype.getPrototype(oldName);
+		Prototype.addPrototype(newName, p);
+		Prototype.removePrototype(oldName);
+	}
+
 	/**
-	 * TODO Grid's getSlot method always returns null; the double array is 
-	 * created in the constructor, but never actually filled with slot objects.
+	 * Returns a List of Triggers for a specific prototype
+	 * 
+	 * @return
+	 */
+	public List<Trigger> getPrototypeTriggers(Prototype p) {
+		return p.getTriggers();
+	}
+
+	/**
+	 * TODO Are we ensuring that each trigger's priority will be unique? Or
+	 * should we use names instead to keep track of them in the hashmap? That
+	 * might run into fewer issue while editing (possibility of changing
+	 * priorities of the same trigger)
 	 */
 }

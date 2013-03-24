@@ -20,12 +20,12 @@ import edu.wheaton.simulator.simulation.Grid;
 public class Agent extends GridEntity {
 
 	private final AgentID id;
-	
+
 	/**
 	 * The list of all triggers/events associated with this agent.
 	 */
 	private List<Trigger> triggers;
-	
+
 	/*
 	 * Prototype of the agent
 	 */
@@ -35,6 +35,7 @@ public class Agent extends GridEntity {
 	 * Constructor.
 	 * 
 	 * Makes an agent with the default gridEntity color
+	 * 
 	 * @param g
 	 *            The grid (passed to super constructor)
 	 */
@@ -44,9 +45,10 @@ public class Agent extends GridEntity {
 		id = new AgentID();
 		this.prototype = prototype;
 	}
+
 	/**
-	 * Constructor.
-	 * Makes an agent with a solid color
+	 * Constructor. Makes an agent with a solid color
+	 * 
 	 * @param g
 	 *            The grid (passed to super constructor)
 	 * @param c
@@ -58,9 +60,10 @@ public class Agent extends GridEntity {
 		id = new AgentID();
 		this.prototype = prototype;
 	}
+
 	/**
-	 * Constructor.
-	 * Makes an agent with custom color and color map
+	 * Constructor. Makes an agent with custom color and color map
+	 * 
 	 * @param g
 	 *            The grid (passed to super constructor)
 	 * @param c
@@ -78,7 +81,7 @@ public class Agent extends GridEntity {
 	/**
 	 * Causes this Agent to perform 1 action. The first trigger with valid
 	 * conditions will fire.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void act(GridEntity local, GridEntity global) {
@@ -120,6 +123,28 @@ public class Agent extends GridEntity {
 	}
 
 	/**
+	 * Removes a trigger with the given name.
+	 * 
+	 * @param name
+	 */
+	public void removeTrigger(String name) {
+		for (int i = 0; i < triggers.size(); i++)
+			if (triggers.get(i).getName().equals(name))
+				triggers.remove(i);
+	}
+
+	/**
+	 * Updates the trigger(s) with the given name
+	 * 
+	 * @param name
+	 */
+	public void updateTrigger(String name, Trigger newT) {
+		for (int i = 0; i < triggers.size(); i++)
+			if (triggers.get(i).getName().equals(name))
+				triggers.set(i, newT);
+	}
+
+	/**
 	 * Gets the current x position of this agent
 	 * 
 	 * @return x
@@ -147,11 +172,12 @@ public class Agent extends GridEntity {
 		updateField("x", x);
 		updateField("y", y);
 	}
-	
-	public AgentID getAgentID(){
+
+	public AgentID getAgentID() {
 		return id;
 	}
-	public Prototype getPrototype(){
+
+	public Prototype getPrototype() {
 		return prototype;
 	}
 }
