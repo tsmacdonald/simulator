@@ -191,15 +191,19 @@ public class GUIToAgentFacade {
 	}
 
 	/**
-	 * TODO GUI Team: feel free to add method stubs and we will implement them.
+	 * Provides the Grid the Facade is using
+	 * 
+	 * @return Grid object
 	 */
 	public Grid getGrid() {
 		return grid;
 	}
 
 	/**
-	 * TODO Need some way of changing the name for a given prototype without
-	 * resetting its children, etc. This should go in the Prototype class.
+	 * Changes the name of a prototype without resetting its children.
+	 * 
+	 * @param oldName
+	 * @param newName
 	 */
 	public void setPrototypeName(String oldName, String newName) {
 		Prototype p = Prototype.getPrototype(oldName);

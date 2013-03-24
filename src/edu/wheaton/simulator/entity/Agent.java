@@ -26,7 +26,7 @@ public class Agent extends GridEntity {
 	 */
 	private List<Trigger> triggers;
 
-	/*
+	/**
 	 * Prototype of the agent
 	 */
 	private Prototype prototype;
