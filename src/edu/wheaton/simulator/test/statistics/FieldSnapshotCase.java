@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import edu.wheaton.simulator.statistics.FieldSnapshot;
 
-public class SnapshotCase {
+public class FieldSnapshotCase {
 
 	@Before
 	public void setUp() throws Exception {
