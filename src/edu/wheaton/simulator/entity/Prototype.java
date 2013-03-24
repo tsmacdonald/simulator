@@ -48,21 +48,6 @@ public class Prototype extends GridEntity {
 	 * @param c
 	 *            The color of this prototype (passed to super constructor)
 	 */
-	public Prototype(Grid g) {
-		super(g);
-		id = new PrototypeID();
-		children = new ArrayList<Agent>();
-		triggers = new ArrayList<Trigger>();
-	}
-	
-	/**
-	 * Constructor.
-	 * 
-	 * @param g
-	 *            The grid (passed to super constructor)
-	 * @param c
-	 *            The color of this prototype (passed to super constructor)
-	 */
 	public Prototype(Grid g, Color c) {
 		super(g, c);
 		id = new PrototypeID();

@@ -5,9 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.naming.NameNotFoundException;
+
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+
 import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.PrototypeID;
 
@@ -67,14 +71,6 @@ public class StatisticsManager {
 		if (gridEntity.step > numSteps)
 			numSteps = gridEntity.step;
 	}
-	
-//	public void addPrototype(PrototypeSnapshot prototypeSnapshot) { 
-//		int step = prototypeSnapshot.step; 
-//		try { 
-//			prototypes.get(step); 
-//		} catch (Exception e) { 
-//		}
-//	}
 
 	/**
 	 * Returns the entire population at a given step of a given category of
@@ -117,7 +113,7 @@ public class StatisticsManager {
 		for (int i = 0; i < data.length; i++) {
 			PrototypeSnapshot currentSnapshot;
 			if ((currentSnapshot = prototypes.get(i).get(id)) != null) {
-				data[i] = currentSnapshot.population;
+				data[i] = currentSnapshot.childPopulation;
 			}
 		}
 		return data;
@@ -134,38 +130,7 @@ public class StatisticsManager {
 	 *         the value refers to average field value at that time
 	 */
 	public double[] getAvgFieldValue(PrototypeID id, String FieldName) {
-		// set of steps in table
-		Set<Integer> steps = table.getAllSteps();
-		
-		// array of averages
-		double[] averages = new double[steps.size()];
-		
-		// marker for double[]
-		int i = 0;
-		
-		// arraylist of the values at each step to average up
-		ArrayList<Double> stepVals = new ArrayList<Double>();
-		
-		for(int step : steps) {
-			ImmutableSet<AgentSnapshot> agents = getPopulationAtStep(id, step);
-			
-			for(AgentSnapshot agent : agents) {
-				ImmutableMap<String, FieldSnapshot> fields = agent.fields;
-				
-				if(fields.containsKey(FieldName))
-					if(fields.get(FieldName).isNumber)
-						stepVals.add(fields.get(FieldName).getNumericalValue());
-			}
-			
-			double total = 0;
-			for(Double val : stepVals)
-				total += val;
-			averages[i] = total / (steps.size());
-			total = 0;
-			i++;
-			stepVals.clear();
-		}
-		return averages;
+		return null;
 	}
 
 	/**
