@@ -11,9 +11,13 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
@@ -28,6 +32,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -53,6 +58,8 @@ public class EntityScreen extends Screen {
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel entityListPanel = new JPanel();
 		entityListPanel.setLayout(new BoxLayout(entityListPanel, BoxLayout.Y_AXIS));
+		listPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		listPanel.setAlignmentX(CENTER_ALIGNMENT);
 		listModel = new DefaultListModel();
 		listModel.addElement("Entity 1");
 		listModel.addElement("Entity 2");
@@ -62,9 +69,9 @@ public class EntityScreen extends Screen {
 		entityList.setLayoutOrientation(JList.VERTICAL_WRAP);
 		entityList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		entityList.setVisibleRowCount(20);
+		entityList.setBorder(BorderFactory.createLineBorder(Color.red));
 		entityListPanel.add(entityList);
 		entityListPanel.setAlignmentX(CENTER_ALIGNMENT);
-		entityList.setAlignmentX(CENTER_ALIGNMENT);
 		delete = new JButton("Delete");
 		delete.addActionListener(new DeleteListener(entityList, listModel, delete, sm));
 		JButton add = new JButton("Add");
@@ -114,19 +121,6 @@ public class EntityScreen extends Screen {
 	
 	class DeleteListener implements ActionListener {
 		
-		private JList entities;
-		private DefaultListModel listModel;
-		private JButton delete;
-		private ScreenManager sm;
-		
-		public DeleteListener(JList entities, DefaultListModel listModel, JButton delete, ScreenManager sm){
-			this.entities = entities;
-			this.listModel = listModel;
-			this.delete = delete;
-			this.sm = sm;
-		}
-		
-		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = entities.getSelectedIndex();
 			listModel.remove(index);
