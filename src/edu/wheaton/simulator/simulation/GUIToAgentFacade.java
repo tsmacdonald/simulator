@@ -102,7 +102,7 @@ public class GUIToAgentFacade {
 	/**
 	 * Causes all entities in the grid to act()
 	 */
-	public void updateEntities() {
+	public void updateEntities() throws SimulationPauseException{
 		grid.updateEntities();
 	}
 

@@ -44,11 +44,8 @@ public abstract class GridEntity extends Entity {
 		grid = g;
 		Color c = Color.black;
 		try {
-			addField("colorRed", new Integer(c.getRed()));
-			addField("colorBlue", new Integer(c.getBlue()));
-			addField("colorGreen", new Integer(c.getGreen()));
-			addField("x", 0);
-			addField("y", 0);
+			initColor(c);
+			initPosition();
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
@@ -72,11 +69,8 @@ public abstract class GridEntity extends Entity {
 		grid = g;
 
 		try {
-			addField("colorRed", new Integer(c.getRed()));
-			addField("colorBlue", new Integer(c.getBlue()));
-			addField("colorGreen", new Integer(c.getGreen()));
-			addField("x", 0);
-			addField("y", 0);
+			initColor(c);
+			initPosition();
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
@@ -101,14 +95,27 @@ public abstract class GridEntity extends Entity {
 		grid = g;
 
 		try {
-			addField("colorRed", new Integer(c.getRed()));
-			addField("colorBlue", new Integer(c.getBlue()));
-			addField("colorGreen", new Integer(c.getGreen()));
+			initColor(c);
+			initPosition();
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
 
 		design = d;
+	}
+	
+	private void initPosition(){
+		//position fields initialized to invalid coordinates
+		//to catch assumptions that this entity is already
+		//added to the Grid
+		addField("x", -1);
+		addField("y", -1);
+	}
+	
+	private void initColor(Color c) {
+		addField("colorRed", new Integer(c.getRed()));
+		addField("colorBlue", new Integer(c.getBlue()));
+		addField("colorGreen", new Integer(c.getGreen()));
 	}
 
 	/**

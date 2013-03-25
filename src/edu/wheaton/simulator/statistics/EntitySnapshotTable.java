@@ -108,5 +108,15 @@ public class EntitySnapshotTable {
 	public Set<Integer> getAllSteps() {
 		return table.columnKeySet();
 	}
+	
+	/**
+	 * Get the snapshot at given row, column
+	 * @param id of snapshot
+	 * @param step of the game
+	 * @return an entitysnapshot
+	 */
+	public EntitySnapshot get(EntityID id, int step) {
+		return table.get(id, step);
+	}
 
 }
