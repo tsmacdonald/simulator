@@ -50,7 +50,7 @@ public abstract class GridEntity extends Entity {
 		}
 
 		design = new byte[8];
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < design.length; i++)
 			design[i] = 127; // sets design to a solid image
 	}
 
@@ -74,7 +74,7 @@ public abstract class GridEntity extends Entity {
 		}
 
 		design = new byte[8];
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < design.length; i++)
 			design[i] = 127; // sets design to a solid image
 	}
 
