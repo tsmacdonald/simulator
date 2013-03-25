@@ -76,12 +76,7 @@ public abstract class GridEntity extends Entity {
 	private void init(Grid g, Color c, byte[] d){
 		grid = g;
 		setDesign(d);
-		
-		try {
-			initFields(c);
-		} catch (ElementAlreadyContainedException e) {
-			e.printStackTrace();
-		}
+		initFields(c);
 	}
 	
 	private static byte[] makeDesign(){
@@ -139,7 +134,7 @@ public abstract class GridEntity extends Entity {
 	 * 
 	 */
 	public Color getColor() {
-		return new Color(getFieldInt("colorRed"),                                                                                     , getField(
+		return new Color(getFieldInt("colorRed"),
 				getFieldInt("colorGreen"), getFieldInt("colorBlue"));
 	}
 
