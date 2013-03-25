@@ -105,9 +105,9 @@ public abstract class GridEntity extends Entity {
 	}
 	
 	private void initColor(Color c) {
-		addField("colorRed", new Integer(c.getRed()));
-		addField("colorBlue", new Integer(c.getBlue()));
-		addField("colorGreen", new Integer(c.getGreen()));
+		addField("colorRed", getRed(c));
+		addField("colorBlue", getBlue(c));
+		addField("colorGreen", getGreen(c));
 	}
 
 	/**
@@ -116,9 +116,9 @@ public abstract class GridEntity extends Entity {
 	 * @param c
 	 */
 	public void setColor(Color c) {
-		updateField("colorRed", new Integer(c.getRed()));
-		updateField("colorBlue", new Integer(c.getBlue()));
-		updateField("colorGreen", new Integer(c.getGreen()));
+		updateField("colorRed", getRed(c));
+		updateField("colorBlue", getBlue(c));
+		updateField("colorGreen", getGreen(c));
 	}
 
 	/**
@@ -149,6 +149,18 @@ public abstract class GridEntity extends Entity {
 	
 	private static Layer getLayer(){
 		return Layer.getInstance();
+	}
+	
+	private static Integer getRed(Color c){
+		return new Integer(c.getRed());
+	}
+	
+	private static Integer getGreen(Color c){
+		return new Integer(c.getGreen());
+	}
+	
+	private static Integer getBlue(Color c){
+		return new Integer(c.getBlue());
 	}
 
 	/**
