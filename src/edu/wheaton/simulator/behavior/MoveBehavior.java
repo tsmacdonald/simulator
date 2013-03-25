@@ -34,12 +34,8 @@ public class MoveBehavior extends AbstractBehavior {
 		Integer y = Double.valueOf(args[2]).intValue();
 		
 		Grid grid = target.getGrid();
-		if (grid.isValidCoord(x, y) && grid.getSlot(x, y).getAgent() == null) {
-			grid.getSlot(x, y).setAgent(target);
-			grid.getSlot(target.getPosX(), target.getPosY()).setAgent(null);
-			target.setPos(x, y);
+		if(grid.addAgent(target, x, y))
 			return TRUE;
-		}
 		return FALSE;
 	}
 

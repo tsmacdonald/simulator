@@ -90,9 +90,16 @@ public class Grid implements Iterable<Slot> {
 	 * @param x
 	 * @param y
 	 */
-	public void addAgent(Agent a, int x, int y) {
-		getSlot(x, y).setAgent(a);
-		a.setPos(x, y);
+	public boolean addAgent(Agent a, int x, int y) {
+		if(isValidCoord(a.getPosX(),a.getPosY())){
+			this.removeAgent(a.getPosX(), a.getPosY());
+		}
+		if(emptySlot(x,y)){
+			getSlot(x, y).setAgent(a);
+			a.setPos(x, y);
+			return true;
+		}
+		return false;
 	}
 
 	/**
