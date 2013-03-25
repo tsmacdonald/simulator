@@ -111,32 +111,30 @@ public class Grid implements Iterable<Slot> {
 		for (int distance = 0; distance < height || distance < width; distance++) {
 			int x = spawnX - distance;
 			int y = spawnY - distance;
-			if (emptySlot(x, y)) {
-				addAgent(a, x, y);
+			if( spawnAgentHelper(a,x,y) )
 				return true;
-			}
 			for (; x < spawnX + distance; x++)
-				if (emptySlot(x, y)) {
-					addAgent(a, x, y);
+				if( spawnAgentHelper(a,x,y) )
 					return true;
-				}
 			for (; y < spawnY + distance; y++)
-				if (emptySlot(x, y)) {
-					addAgent(a, x, y);
+				if( spawnAgentHelper(a,x,y) )
 					return true;
-				}
 			for (; x > spawnX - distance; x--)
-				if (emptySlot(x, y)) {
-					addAgent(a, x, y);
+				if( spawnAgentHelper(a,x,y) )
 					return true;
-				}
 			for (; y > spawnY - distance; y--)
-				if (emptySlot(x, y)) {
-					addAgent(a, x, y);
+				if( spawnAgentHelper(a,x,y) )
 					return true;
-				}
 		}
 
+		return false;
+	}
+	
+	private boolean spawnAgentHelper(Agent a, int x, int y){
+		if (emptySlot(x, y)) {
+			addAgent(a, x, y);
+			return true;
+		}
 		return false;
 	}
 
