@@ -30,7 +30,7 @@ public class Entity {
 	public void addField(Object name, Object value)
 			throws ElementAlreadyContainedException {
 		assertNoSuchField(name);
-		fields.put(name.toString(), value.toString());
+		putField(name,value);
 	}
 
 	/**
@@ -41,8 +41,12 @@ public class Entity {
 	 */
 	public Field updateField(Object name, Object value) {
 		assertHasField(name);
-		String oldvalue = fields.put(name.toString(), value.toString());
+		String oldvalue = putField(name,value);
 		return new Field(name, oldvalue);
+	}
+	
+	private String putField(Object name, Object value){
+		return fields.put(name.toString(),value.toString());
 	}
 
 	/**
