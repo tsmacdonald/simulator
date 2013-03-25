@@ -73,14 +73,14 @@ public class StatisticsScreen extends Screen {
 		lifespanCard.setLayout(new BoxLayout(lifespanCard, BoxLayout.X_AXIS));
 
 		//TODO placeholder
-		String[] entities = {"Fox", "Rabbit", "Clover", "Bear"};
+		//String[] entities = {"Fox", "Rabbit", "Clover", "Bear"};
 		//entities = new String[0];
 		JComboBox popEntityTypes = new JComboBox(entities);
 		populationCard.add(popEntityTypes);
 
 		JComboBox fieldEntityTypes = new JComboBox(entities);
 		//TODO placeholder
-		String[] agentFields = {"height", "weight", "speed"};
+		//String[] agentFields = {"height", "weight", "speed"};
 		//agentFields = new String[0];
 		JComboBox agentFieldsBox = new JComboBox(agentFields);
 		fieldCard.add(fieldEntityTypes);
@@ -99,21 +99,22 @@ public class StatisticsScreen extends Screen {
 			}
 		});
 
-		StatisticsManager statMan = sm.getStatManager();
-		int[] p = statMan.getPopVsTime(sm.getFacade().
-				getPrototype(popEntityTypes.getSelectedItem().toString())
-				.getPrototypeID()
-				);
-		String[] popTime = {"Population", "Time"};
-		Object[][] timePop = new Object[p.length][2];
-		for(int i = 0; i < p.length; i++){
-			Object[] array= {i, p[i]};
-			timePop[i] = array;
+		if(popEntityTypes.getSelectedIndex() >= 0){
+			StatisticsManager statMan = sm.getStatManager();
+			int[] p = statMan.getPopVsTime(sm.getFacade().
+					getPrototype(popEntityTypes.getSelectedItem().toString())
+					.getPrototypeID()
+					);
+			String[] popTime = {"Population", "Time"};
+			Object[][] timePop = new Object[p.length][2];
+			for(int i = 0; i < p.length; i++){
+				Object[] array= {i, p[i]};
+				timePop[i] = array;
+			}
+
+			JTable jt = new JTable(timePop ,popTime);
+			populationCard.add(jt);
 		}
-
-		JTable jt = new JTable(timePop ,popTime);
-		populationCard.add(jt);
-
 
 
 		this.add(label, BorderLayout.NORTH);
