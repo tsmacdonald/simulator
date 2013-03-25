@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.wheaton.simulator.entity.GridEntity;
+import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 
 public class EditFieldScreen extends Screen {
 
@@ -120,7 +121,8 @@ public class EditFieldScreen extends Screen {
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
+		GUIToAgentFacade facade = sm.getFacade();
+		facade.getPrototype(nameField.getText());
 	}
 
 	private class finishListener implements ActionListener {

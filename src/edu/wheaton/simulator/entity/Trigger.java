@@ -154,4 +154,12 @@ public class Trigger implements Comparable<Trigger> {
 	public String getName() {
 		return name;
 	}
+	
+	public ExpressionEvaluator getBehavior() {
+		return behaviorExpression;
+	}
+	
+	public int getPriority() {
+		return priority;
+	}
 }
