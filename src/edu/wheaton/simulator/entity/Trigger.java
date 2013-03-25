@@ -113,7 +113,7 @@ public class Trigger implements Comparable<Trigger> {
 			else
 				System.out.println("behavior '" + behavior.toString() + "' succeeded");
 		} catch (EvaluationException e) {
-			System.err.println("malformed expression: " + e.getMessage());
+			System.err.println("malformed expression: " + behavior);
 			e.printStackTrace();
 		}
 	}

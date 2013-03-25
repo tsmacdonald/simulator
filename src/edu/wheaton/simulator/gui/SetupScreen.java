@@ -121,6 +121,7 @@ public class SetupScreen extends Screen {
 		addConditionButton = new JButton("Add Field");
 		addConditionButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						addCondition();
 					}
@@ -293,6 +294,7 @@ public class SetupScreen extends Screen {
 
 	private class DeleteListener implements ActionListener {
 
+		@Override
 		public void actionPerformed(ActionEvent e){
 			int n = Integer.parseInt(e.getActionCommand());
 			String str = (String) agentTypes.get(n).getSelectedItem();
