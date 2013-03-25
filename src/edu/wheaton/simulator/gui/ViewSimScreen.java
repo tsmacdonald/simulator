@@ -108,6 +108,7 @@ public class ViewSimScreen extends Screen {
 					try {
 					sm.getFacade().updateEntities();
 				} catch (SimulationPauseException e) {
+					sm.setRunning(false);
 					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
 					//TODO hand grid, stepCount, and Prototype.getProtoypes() to stats observer
