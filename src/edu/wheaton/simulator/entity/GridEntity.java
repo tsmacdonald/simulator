@@ -126,9 +126,8 @@ public abstract class GridEntity extends Entity {
 	 * 
 	 */
 	public Color getColor() {
-		return new Color(getField("colorRed").getIntValue(), getField(
-				"colorGreen").getIntValue(), getField("colorBlue")
-				.getIntValue());
+		return new Color(getFieldInt("colorRed"),                                                                                     , getField(
+				getFieldInt("colorGreen"), getFieldInt("colorBlue"));
 	}
 
 	/**
@@ -145,6 +144,10 @@ public abstract class GridEntity extends Entity {
 			throw new NoSuchElementException(
 					"Entity.getLayerColor() could not find a valid field for return");
 		return getLayer().newShade(field);
+	}
+	
+	private Integer getFieldInt(String fieldName){
+		return getField(fieldName).getIntValue();
 	}
 	
 	private static Layer getLayer(){
