@@ -41,15 +41,7 @@ public abstract class GridEntity extends Entity {
 	 */
 	public GridEntity(Grid g) {
 		super();
-		grid = g;
-		Color c = Color.black;
-		try {
-			initFields(c);
-		} catch (ElementAlreadyContainedException e) {
-			e.printStackTrace();
-		}
-
-		setDesign(makeDesign());
+		init(g,Color.black,makeDesign());
 	}
 
 	/**
@@ -63,15 +55,7 @@ public abstract class GridEntity extends Entity {
 	 */
 	public GridEntity(Grid g, Color c) {
 		super();
-		grid = g;
-
-		try {
-			initFields(c);
-		} catch (ElementAlreadyContainedException e) {
-			e.printStackTrace();
-		}
-
-		setDesign(makeDesign());
+		init(g,c,makeDesign());
 	}
 
 	/**
@@ -86,15 +70,18 @@ public abstract class GridEntity extends Entity {
 	 */
 	public GridEntity(Grid g, Color c, byte[] d) {
 		super();
+		init(g,c,d);
+	}
+	
+	private void init(Grid g, Color c, byte[] d){
 		grid = g;
-
+		setDesign(d);
+		
 		try {
 			initFields(c);
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
-
-		setDesign(d);
 	}
 	
 	private static byte[] makeDesign(){
