@@ -28,11 +28,13 @@ public class ExpressionEvaluationTest {
 	 * further testing.
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
+		//TODO ExpressionEvaluationTest.setUp() is empty
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
+		//TODO ExpressionEvaluationTest.tearDown() is empty
 	}
 
 	@Test
@@ -162,8 +164,8 @@ public class ExpressionEvaluationTest {
 				for (int i = 0; i < args.length; ++i)
 					args[i] = args[i].replaceAll("'", "");
 
-				Entity arg0 = resolveEntity(testExpression, args[0]);
-				Entity arg1 = resolveEntity(testExpression, args[1]);
+				Entity arg0 = resolveEntity(args[0]);
+				Entity arg1 = resolveEntity(args[1]);
 
 				ExpressionEvaluator genericDistanceExpression = new Expression(
 						"sqrt(pow(#{arg0.x}-#{arg1.x},2) + pow(#{arg0.y}-#{arg1.y},2))");

@@ -8,9 +8,7 @@ package edu.wheaton.simulator.test.statistics;
  * Spring 2013
  */
 
-import static org.junit.Assert.fail;
 import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,11 +18,13 @@ import edu.wheaton.simulator.statistics.FieldSnapshot;
 public class FieldSnapshotCase {
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
+		//TODO FieldSnapshotCase.setUp() is empty
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
+		//TODO FieldSnapshotCase.setUp() is empty
 	}
 
 	@Test
@@ -36,7 +36,9 @@ public class FieldSnapshotCase {
 	public void fieldSnapshotTest() {
 		FieldSnapshot fieldSnap = new FieldSnapshot("name", "akon");
 		Assert.assertNotNull(fieldSnap);
+		Assert.assertFalse(fieldSnap.isNumber);
 		FieldSnapshot fieldSnapWithInt = new FieldSnapshot("akon", "12345");
+		Assert.assertTrue(fieldSnapWithInt.isNumber);
 		Assert.assertNotNull(fieldSnapWithInt);
 	}
 }

@@ -83,6 +83,7 @@ public class NewSimulationScreen extends Screen {
 
 	private class FinishListener implements ActionListener {
 		
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			//TODO The simulation as a whole will be created in here
 			nameString = name.getText();
@@ -91,7 +92,9 @@ public class NewSimulationScreen extends Screen {
 				widthInt = Integer.parseInt(width.getText());
 				sm.setFacade(widthInt, heightInt);
 				sm.updateGUIManager(nameString, widthInt, heightInt);
-			} catch(java.lang.NumberFormatException nfe) { }
+			} catch(java.lang.NumberFormatException nfe) { 
+				//TODO empty catch block
+			}
 
 			sm.update(sm.getScreen("Edit Simulation"));
 		}

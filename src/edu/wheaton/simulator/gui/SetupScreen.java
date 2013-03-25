@@ -197,6 +197,7 @@ public class SetupScreen extends Screen {
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
+	@Override
 	public void load() {
 		reset();
 		//TODO figure out where to store ending conditions and read them.

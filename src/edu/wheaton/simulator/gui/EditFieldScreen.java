@@ -125,6 +125,7 @@ public class EditFieldScreen extends Screen {
 	}
 
 	private class finishListener implements ActionListener {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			ge.updateField(nameField.getText(), initValue.getText());
 		}

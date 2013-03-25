@@ -57,6 +57,7 @@ public class StatisticsScreen extends Screen {
 		JComboBox cardSelector = new JComboBox(boxItems);
 		cardSelector.addItemListener(
 					new ItemListener() {
+						@Override
 						public void itemStateChanged(ItemEvent e) {
 							CardLayout cl = (CardLayout)dataPanel.getLayout();
 							cl.show(dataPanel, (String)e.getItem());
@@ -90,6 +91,7 @@ public class StatisticsScreen extends Screen {
 		finishButton.setPreferredSize(new Dimension(150, 70));
 		finishButton.setAlignmentX(CENTER_ALIGNMENT);
 		finishButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				sm.update(sm.getScreen("Edit Simulation")); 
 			}
@@ -106,6 +108,7 @@ public class StatisticsScreen extends Screen {
 	}
 	
 	//TODO finish this
+	@Override
 	public void load() {
 		/*
 		entities = new String[sm.getFacade().prototypeNames().size()];

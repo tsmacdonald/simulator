@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class Agent extends GridEntity {
@@ -84,7 +83,7 @@ public class Agent extends GridEntity {
 	 * 
 	 * @throws Exception
 	 */
-	public void act(GridEntity local, GridEntity global) {
+	public void act() {
 		try {
 			for (Trigger t : triggers)
 				t.evaluate(this);
@@ -179,5 +178,9 @@ public class Agent extends GridEntity {
 
 	public Prototype getPrototype() {
 		return prototype;
+	}
+	
+	public String getName() {
+		return getPrototype().getName();
 	}
 }

@@ -64,13 +64,17 @@ public class Grid implements Iterable<Slot> {
 	/**
 	 * Causes all entities in the grid to act()
 	 * 
-	 * TODO parameters sent to method "act" are not valid
 	 */
 	public void updateEntities() {
 		for (Slot[] sArr : grid)
 			for (Slot s : sArr)
 				if (s.getAgent() != null)
-					s.getAgent().act(null, null);
+					try {
+						s.getAgent().act();
+					} catch (NullPointerException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	}
 
 	/**
@@ -142,7 +146,7 @@ public class Grid implements Iterable<Slot> {
 	 * @param y
 	 * @return Whether or not the particular slot is empty
 	 */
-	private boolean emptySlot(int x, int y) {
+	public boolean emptySlot(int x, int y) {
 		if (x < 0 || y < 0 || x > height || y > height)
 			return false;
 		if (getAgent(x, y) == null)

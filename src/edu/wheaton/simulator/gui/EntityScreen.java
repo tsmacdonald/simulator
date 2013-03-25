@@ -88,6 +88,7 @@ public class EntityScreen extends Screen {
 		listModel.clear();
 	}
 	
+	@Override
 	public void load() {
 		reset();
 		Set<String> entities = sm.getFacade().prototypeNames();
@@ -110,6 +111,7 @@ public class EntityScreen extends Screen {
 			this.sm = sm;
 		}
 		
+		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = entities.getSelectedIndex();
 			listModel.remove(index);
@@ -131,6 +133,7 @@ public class EntityScreen extends Screen {
 			this.sm = sm;
 		}
 		
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			
 			((EditEntityScreen)sm.getScreen("Edit Entities")).load();
@@ -147,6 +150,7 @@ public class EntityScreen extends Screen {
 			this.sm = sm;
 		}
 		
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			//TODO replace this with the load() method on the selected entity
 			((EditEntityScreen)sm.getScreen("Edit Entities")).load(
@@ -164,6 +168,7 @@ public class EntityScreen extends Screen {
 			this.sm = sm;
 		}
 		
+		@Override
 		public void actionPerformed(ActionEvent e){
 			sm.update(sm.getScreen("Edit Simulation"));
 		}
