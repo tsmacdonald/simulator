@@ -45,8 +45,7 @@ public abstract class GridEntity extends Entity {
 		Color c = Color.black;
 		try {
 			initColor(c);
-			addField("x", 0);
-			addField("y", 0);
+			initPosition();
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
@@ -71,8 +70,7 @@ public abstract class GridEntity extends Entity {
 
 		try {
 			initColor(c);
-			addField("x", 0);
-			addField("y", 0);
+			initPosition();
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
@@ -98,11 +96,20 @@ public abstract class GridEntity extends Entity {
 
 		try {
 			initColor(c);
+			initPosition();
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
 
 		design = d;
+	}
+	
+	private void initPosition(){
+		//position fields initialized to invalid coordinates
+		//to catch assumptions that this entity is already
+		//added to the Grid
+		addField("x", -1);
+		addField("y", -1);
 	}
 	
 	private void initColor(Color c) {
