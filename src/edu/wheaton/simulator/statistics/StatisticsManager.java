@@ -74,28 +74,31 @@ public class StatisticsManager {
 	}
 
 	/**
-	 * Get the IDs of all prototypes at the end of the simulation. 
-	 * @return An ImmutableMap of PrototypeIDs extant at the end of the simulation. 
+	 * Get the IDs of all prototypes at the end of the simulation.
+	 * 
+	 * @return An ImmutableMap of PrototypeIDs extant at the end of the
+	 *         simulation.
 	 */
-	public ImmutableMap<String, PrototypeID> getProtypeIDs() { 
+	public ImmutableMap<String, PrototypeID> getProtypeIDs() {
 		return getPrototypeIDs(lastStep);
 	}
-	
+
 	/**
-	 * Get the IDs of all prototypes at the given point in time. 
-	 * @param step The specified point in the simulation. 
-	 * @return An ImmutableMap of PrototypeIDs extant at the given step. 
+	 * Get the IDs of all prototypes at the given point in time.
+	 * 
+	 * @param step
+	 *            The specified point in the simulation.
+	 * @return An ImmutableMap of PrototypeIDs extant at the given step.
 	 */
-	public ImmutableMap<String, PrototypeID> getPrototypeIDs(int step) { 
-		ImmutableMap.Builder<String, PrototypeID> builder = 
-				new ImmutableMap.Builder<String, PrototypeID>(); 
-		Map<PrototypeID, PrototypeSnapshot> map = prototypes.get(lastStep); 
-		for (PrototypeID id : map.keySet()) { 
-			builder.put(map.get(id).categoryName, id); 
+	public ImmutableMap<String, PrototypeID> getPrototypeIDs(int step) {
+		ImmutableMap.Builder<String, PrototypeID> builder = new ImmutableMap.Builder<String, PrototypeID>();
+		Map<PrototypeID, PrototypeSnapshot> map = prototypes.get(lastStep);
+		for (PrototypeID id : map.keySet()) {
+			builder.put(map.get(id).categoryName, id);
 		}
 		return builder.build();
 	}
-	
+
 	/**
 	 * Returns the entire population at a given step of a given category of
 	 * Agent.
