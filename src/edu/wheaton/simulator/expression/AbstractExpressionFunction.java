@@ -35,7 +35,7 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	
 	@Override
 	public Entity resolveEntity(String aliasName) {
-		return getExprEval().getEntity(aliasName);
+		return getExprEval().getEntity(aliasName.replaceAll("'", ""));
 	}
 	
 	@Override

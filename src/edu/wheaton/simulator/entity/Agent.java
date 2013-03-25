@@ -179,4 +179,8 @@ public class Agent extends GridEntity {
 	public Prototype getPrototype() {
 		return prototype;
 	}
+	
+	public String getName() {
+		return getPrototype().getName();
+	}
 }
