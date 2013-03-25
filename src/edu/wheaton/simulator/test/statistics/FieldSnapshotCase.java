@@ -19,11 +19,13 @@ import edu.wheaton.simulator.statistics.FieldSnapshot;
 public class FieldSnapshotCase {
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
+		//TODO FieldSnapshotCase.setUp() is empty
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
+		//TODO FieldSnapshotCase.setUp() is empty
 	}
 
 	@Test

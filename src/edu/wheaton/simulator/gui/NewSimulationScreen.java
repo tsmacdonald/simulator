@@ -92,7 +92,9 @@ public class NewSimulationScreen extends Screen {
 				widthInt = Integer.parseInt(width.getText());
 				sm.setFacade(widthInt, heightInt);
 				sm.updateGUIManager(nameString, widthInt, heightInt);
-			} catch(java.lang.NumberFormatException nfe) { }
+			} catch(java.lang.NumberFormatException nfe) { 
+				//TODO empty catch block
+			}
 
 			sm.update(sm.getScreen("Edit Simulation"));
 		}
