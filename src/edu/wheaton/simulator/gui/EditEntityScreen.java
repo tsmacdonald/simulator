@@ -336,7 +336,6 @@ public class EditEntityScreen extends Screen {
 		}
 	}
 
-	//TODO make sure this is right
 	public void reset() {
 		agent = null;
 		nameField.setText("");

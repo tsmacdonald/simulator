@@ -64,6 +64,10 @@ public class ScreenManager {
 		return facade;
 	}
 	
+	public SimulationEnder getEnder() {
+		return se;
+	}
+	
 	public String getGUIname(){
 		return GUIManager.getNameOfSim();
 	}
