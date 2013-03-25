@@ -14,6 +14,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -56,6 +57,8 @@ public class EditEntityScreen extends Screen {
 
 	private JButton addFieldButton;
 
+	private JButton[][] buttons;
+
 	private JPanel fieldListPanel;
 
 	private ArrayList<JTextField> triggerNames;
@@ -88,6 +91,8 @@ public class EditEntityScreen extends Screen {
 		JTabbedPane tabs = new JTabbedPane();
 		JPanel lowerPanel = new JPanel();
 		JPanel generalPanel = new JPanel();
+		JPanel mainPanel = new JPanel();
+		JPanel iconPanel = new JPanel();
 		JPanel fieldMainPanel = new JPanel();
 		JPanel fieldLabelsPanel = new JPanel();
 		fieldListPanel = new JPanel();
@@ -104,15 +109,40 @@ public class EditEntityScreen extends Screen {
 		nameField = new JTextField(25);
 		nameField.setMaximumSize(new Dimension(400, 40));
 		colorTool = new JColorChooser();
+		iconPanel.setLayout(new GridLayout(8,8));
+		iconPanel.setSize(800, 800);
+		buttons = new JButton[8][8];
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				buttons[i][j] = new JButton();
+				buttons[i][j].setBackground(Color.WHITE);
+				buttons[i][j].setActionCommand(i + "" + j);
+				buttons[i][j].addActionListener(new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent ae) {
+						String str = ae.getActionCommand();
+						JButton jb = buttons[str.charAt(1)][str.charAt(2)]; 
+						if(jb.getBackground().equals(Color.WHITE))
+							jb.setBackground(Color.BLACK);
+						else jb.setBackground(Color.WHITE);
+					}
+				});
+				iconPanel.add(buttons[i][j]);
+			}
+		}
+
 		JButton loadIconButton = new JButton("Load icon");
-		generalPanel.setLayout(
-				new BoxLayout(generalPanel, BoxLayout.PAGE_AXIS)
-				);
+		mainPanel.setLayout(
+				new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+		mainPanel.setMaximumSize(new Dimension(500, 800));
+		generalPanel.setLayout( 
+				new BoxLayout(generalPanel, BoxLayout.PAGE_AXIS));
+		mainPanel.add(iconPanel);
+		mainPanel.add(colorTool);
 		generalPanel.add(generalLabel);
 		generalPanel.add(nameLabel);
 		generalPanel.add(nameField);
-		//TODO add the icon construction tool to the general panel here
-		generalPanel.add(colorTool);
+		generalPanel.add(mainPanel);
 		generalPanel.add(loadIconButton);
 
 		JLabel fieldLabel = new JLabel("Field Info");

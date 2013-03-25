@@ -101,17 +101,13 @@ public class ViewSimScreen extends Screen {
 		}).start();
 	}
 
-	public void paint(){
+	private void paint(){
 		grid.paint(grid.getGraphics());
 		grid.agentPaint(grid.getGraphics());
 	}
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
-		
+		paint();
 	}
-	
-	//TODO determine when to actually populate simulation
-
 }

@@ -74,7 +74,7 @@ public class EditSimScreen extends Screen {
 		viewSimulation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				sm.update(sm.getScreen("View Simulation"));
-				((ViewSimScreen)sm.getScreen("View Simulation")).paint();
+				((ViewSimScreen)sm.getScreen("View Simulation")).load();
 			}
 		});
 		JPanel mainPanel = new JPanel();
