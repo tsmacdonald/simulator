@@ -41,21 +41,7 @@ public abstract class GridEntity extends Entity {
 	 */
 	public GridEntity(Grid g) {
 		super();
-		grid = g;
-		Color c = Color.black;
-		try {
-			addField("colorRed", new Integer(c.getRed()));
-			addField("colorBlue", new Integer(c.getBlue()));
-			addField("colorGreen", new Integer(c.getGreen()));
-			addField("x", 0);
-			addField("y", 0);
-		} catch (ElementAlreadyContainedException e) {
-			e.printStackTrace();
-		}
-
-		design = new byte[8];
-		for (int i = 0; i < 8; i++)
-			design[i] = 127; // sets design to a solid image
+		init(g,Color.black,makeDesign());
 	}
 
 	/**
@@ -69,21 +55,7 @@ public abstract class GridEntity extends Entity {
 	 */
 	public GridEntity(Grid g, Color c) {
 		super();
-		grid = g;
-
-		try {
-			addField("colorRed", new Integer(c.getRed()));
-			addField("colorBlue", new Integer(c.getBlue()));
-			addField("colorGreen", new Integer(c.getGreen()));
-			addField("x", 0);
-			addField("y", 0);
-		} catch (ElementAlreadyContainedException e) {
-			e.printStackTrace();
-		}
-
-		design = new byte[8];
-		for (int i = 0; i < 8; i++)
-			design[i] = 127; // sets design to a solid image
+		init(g,c,makeDesign());
 	}
 
 	/**
@@ -98,17 +70,44 @@ public abstract class GridEntity extends Entity {
 	 */
 	public GridEntity(Grid g, Color c, byte[] d) {
 		super();
+		init(g,c,d);
+	}
+	
+	private void init(Grid g, Color c, byte[] d){
 		grid = g;
-
+		setDesign(d);
+		
 		try {
-			addField("colorRed", new Integer(c.getRed()));
-			addField("colorBlue", new Integer(c.getBlue()));
-			addField("colorGreen", new Integer(c.getGreen()));
+			initFields(c);
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
-
-		design = d;
+	}
+	
+	private static byte[] makeDesign(){
+		byte[] design = new byte[8];
+		for (int i = 0; i < design.length; i++)
+			design[i] = 127; // sets design to a solid image
+		return design;
+	}
+	
+	private void initFields(Color c){
+		initPosition();
+		initColor(c);
+	}
+	
+	private void initPosition(){
+		//position fields initialized to invalid coordinates
+		//to catch assumptions that this entity is already
+		//added to the Grid
+		addField("x", -1);
+		addField("y", -1);
+	}
+	
+	private void initColor(Color c) {
+		addField("colorRed", new Integer(c.getRed()));
+		addField("colorBlue", new Integer(c.getBlue()));
+		addField("colorGreen", new Integer(c.getGreen()));
 	}
 
 	/**
