@@ -123,7 +123,9 @@ public class EditEntityScreen extends Screen {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
 						String str = ae.getActionCommand();
-						JButton jb = buttons[str.charAt(1)][str.charAt(2)]; 
+						JButton jb = buttons
+								[Integer.parseInt(str.charAt(0) + "")]
+								[Integer.parseInt(str.charAt(1) + "")]; 
 						if(jb.getBackground().equals(Color.WHITE))
 							jb.setBackground(Color.BLACK);
 						else jb.setBackground(Color.WHITE);
