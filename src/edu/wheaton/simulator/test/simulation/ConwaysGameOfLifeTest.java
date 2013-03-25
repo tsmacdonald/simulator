@@ -38,17 +38,26 @@ public class ConwaysGameOfLifeTest {
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
+		
+		Prototype border = new Prototype(testGrid, "Border");
+		
+		try {
+			border.addField("alive", 0);
+		} catch (ElementAlreadyContainedException e) {
+			e.printStackTrace();
+		}
+		border.addTrigger(new Trigger("place", 1, new Expression("1==1"), new Expression("setField('this','alive',0)")));
 
 		// Set up conditionals
 		ExpressionEvaluator isAlive = new Expression("#{this.alive} == 1");
-		ExpressionEvaluator neigh1 = new Expression("!isValidCoord(#{this.x}-1, #{this.y}-1) || getFieldOfAgentAt(#{this.x}-1, #{this.y}-1, 'alive') == 0");
-		ExpressionEvaluator neigh2 = new Expression("!isValidCoord(#{this.x}, #{this.y}-1) || getFieldOfAgentAt(#{this.x}, #{this.y}-1, 'alive') == 0");
-		ExpressionEvaluator neigh3 = new Expression("!isValidCoord(#{this.x}+1, #{this.y}-1) || getFieldOfAgentAt(#{this.x}+1, #{this.y}-1, 'alive') == 0");
-		ExpressionEvaluator neigh4 = new Expression("!isValidCoord(#{this.x}-1, #{this.y}) || getFieldOfAgentAt(#{this.x}-1, #{this.y}, 'alive') == 0");
-		ExpressionEvaluator neigh5 = new Expression("!isValidCoord(#{this.x}+1, #{this.y}) || getFieldOfAgentAt(#{this.x}+1, #{this.y}, 'alive') == 0");
-		ExpressionEvaluator neigh6 = new Expression("!isValidCoord(#{this.x}-1, #{this.y}+1) || getFieldOfAgentAt(#{this.x}-1, #{this.y}+1, 'alive') == 0");
-		ExpressionEvaluator neigh7 = new Expression("!isValidCoord(#{this.x}, #{this.y}+1) || getFieldOfAgentAt(#{this.x}, #{this.y}+1, 'alive') == 0");
-		ExpressionEvaluator neigh8 = new Expression("!isValidCoord(#{this.x}+1, #{this.y}+1) || getFieldOfAgentAt(#{this.x}+1, #{this.y}+1, 'alive') == 0");
+		ExpressionEvaluator neigh1 = new Expression("getFieldOfAgentAt(#{this.x}-1, #{this.y}-1, 'alive') == 0");
+		ExpressionEvaluator neigh2 = new Expression("getFieldOfAgentAt(#{this.x}, #{this.y}-1, 'alive') == 0");
+		ExpressionEvaluator neigh3 = new Expression("getFieldOfAgentAt(#{this.x}+1, #{this.y}-1, 'alive') == 0");
+		ExpressionEvaluator neigh4 = new Expression("getFieldOfAgentAt(#{this.x}-1, #{this.y}, 'alive') == 0");
+		ExpressionEvaluator neigh5 = new Expression("getFieldOfAgentAt(#{this.x}+1, #{this.y}, 'alive') == 0");
+		ExpressionEvaluator neigh6 = new Expression("getFieldOfAgentAt(#{this.x}-1, #{this.y}+1, 'alive') == 0");
+		ExpressionEvaluator neigh7 = new Expression("getFieldOfAgentAt(#{this.x}, #{this.y}+1, 'alive') == 0");
+		ExpressionEvaluator neigh8 = new Expression("getFieldOfAgentAt(#{this.x}+1, #{this.y}+1, 'alive') == 0");
 		ExpressionEvaluator dieCond = new Expression("(#{this.alive} == 1)&& (#{this.neighbors} < 2 || #{this.neighbors} > 3)");
 		ExpressionEvaluator reviveCond = new Expression("(#{this.alive} == 0) && (#{this.neighbors} == 0)");
 
@@ -86,13 +95,21 @@ public class ConwaysGameOfLifeTest {
 		}
 
 		// Place dead beings in Grid, accept some that are alive
-		for (int x = 0; x < testGrid.getWidth(); x++) 
-			for(int y = 0; y < testGrid.getHeight(); y++) {
+		for (int x = 1; x < testGrid.getWidth()-1; x++) 
+			for(int y = 1; y < testGrid.getHeight()-1; y++) {
 				if (((x - y) == 0) || x == 4 || x == 5) {
 					testGrid.addAgent(aliveBeing.clonePrototype(), x, y);
 				}
 				testGrid.addAgent(being.clonePrototype(), x, y);
 			}
+		for (int x = 0; x < testGrid.getWidth(); x++) {
+			testGrid.addAgent(border.clonePrototype(), x, 0);
+			testGrid.addAgent(border.clonePrototype(), x, testGrid.getHeight());
+		}
+		for (int y = 0; y < testGrid.getHeight(); y++) {
+			testGrid.addAgent(border.clonePrototype(), 0, y);
+			testGrid.addAgent(border.clonePrototype(), testGrid.getWidth(), y);
+		}
 	}
 
 	@Test
