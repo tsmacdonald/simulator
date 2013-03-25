@@ -11,6 +11,7 @@ import javax.naming.NameNotFoundException;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableMap.Builder;
 
 import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.PrototypeID;
@@ -26,7 +27,7 @@ public class StatisticsManager {
 	 * The number of steps the simulation has taken. Effectively it is the
 	 * largest step it has encountered in a Snapshot given to it.
 	 */
-	private int numSteps;
+	private int lastStep;
 
 	/**
 	 * The GridOberserver keeps track of changes in the grid.
@@ -68,10 +69,33 @@ public class StatisticsManager {
 	 */
 	public void addGridEntity(EntitySnapshot gridEntity) {
 		table.putEntity(gridEntity);
-		if (gridEntity.step > numSteps)
-			numSteps = gridEntity.step;
+		if (gridEntity.step > lastStep)
+			lastStep = gridEntity.step;
 	}
 
+	/**
+	 * Get the IDs of all prototypes at the end of the simulation. 
+	 * @return An ImmutableMap of PrototypeIDs extant at the end of the simulation. 
+	 */
+	public ImmutableMap<String, PrototypeID> getProtypeIDs() { 
+		return getPrototypeIDs(lastStep);
+	}
+	
+	/**
+	 * Get the IDs of all prototypes at the given point in time. 
+	 * @param step The specified point in the simulation. 
+	 * @return An ImmutableMap of PrototypeIDs extant at the given step. 
+	 */
+	public ImmutableMap<String, PrototypeID> getPrototypeIDs(int step) { 
+		ImmutableMap.Builder<String, PrototypeID> builder = 
+				new ImmutableMap.Builder<String, PrototypeID>(); 
+		Map<PrototypeID, PrototypeSnapshot> map = prototypes.get(lastStep); 
+		for (PrototypeID id : map.keySet()) { 
+			builder.put(map.get(id).categoryName, id); 
+		}
+		return builder.build();
+	}
+	
 	/**
 	 * Returns the entire population at a given step of a given category of
 	 * Agent.
@@ -108,7 +132,7 @@ public class StatisticsManager {
 	 *         that time
 	 */
 	public int[] getPopVsTime(PrototypeID id) {
-		int[] data = new int[numSteps];
+		int[] data = new int[lastStep];
 
 		for (int i = 0; i < data.length; i++) {
 			PrototypeSnapshot currentSnapshot;
@@ -180,7 +204,7 @@ public class StatisticsManager {
 		// Set of all AgentSnapshots
 		Set<AgentSnapshot> allAgents = new HashSet<AgentSnapshot>();
 
-		for (int i = 0; i < numSteps; i++) {
+		for (int i = 0; i < lastStep; i++) {
 			Set stepData = getPopulationAtStep(id, i);
 			agentsByStep.set(i, stepData);
 			allAgents.addAll(stepData);
@@ -215,7 +239,7 @@ public class StatisticsManager {
 	 */
 	private int getBirthStep(List<Set<AgentSnapshot>> agentsByStep,
 			AgentSnapshot target) throws NameNotFoundException {
-		for (int i = 0; i < numSteps; i++)
+		for (int i = 0; i < lastStep; i++)
 			if (agentsByStep.get(i).contains(target))
 				return i;
 
@@ -238,7 +262,7 @@ public class StatisticsManager {
 	 */
 	private int getDeathStep(List<Set<AgentSnapshot>> agentsByStep,
 			AgentSnapshot target) throws NameNotFoundException {
-		for (int i = numSteps; i > 0; i--)
+		for (int i = lastStep; i > 0; i--)
 			if (agentsByStep.get(i).contains(target))
 				return i;
 
