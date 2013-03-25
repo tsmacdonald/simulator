@@ -206,7 +206,7 @@ public class StatisticsManager {
 		Set<AgentSnapshot> allAgents = new HashSet<AgentSnapshot>();
 
 		for (int i = 0; i < lastStep; i++) {
-			Set stepData = getPopulationAtStep(id, i);
+			Set<AgentSnapshot> stepData = getPopulationAtStep(id, i);
 			agentsByStep.set(i, stepData);
 			allAgents.addAll(stepData);
 		}
