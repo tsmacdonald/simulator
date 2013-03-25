@@ -297,9 +297,10 @@ public class EditEntityScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						sendInfo();
-						sm.update(sm.getScreen("Edit Simulation")); 
-						reset();
+						if(sendInfo()) {
+							sm.update(sm.getScreen("Edit Simulation")); 
+							reset();
+						}
 					} 
 				}
 				);
@@ -382,66 +383,85 @@ public class EditEntityScreen extends Screen {
 		triggerListPanel.add(addTriggerButton);
 	}
 
-	public void sendInfo() {
+	public boolean sendInfo() {
+		boolean toReturn = false;
 		try { 
-			String n = nameField.getText();
 			for (int i = 0; i < fieldNames.size(); i ++) {
-				n = fieldNames.get(i).getText();
+				if (fieldNames.get(i).getText().equals("") ||
+						fieldValues.get(i).getText().equals("")) {
+					throw new Exception("All fields must have input");
+				}
 			}
-			//TODO this dialog will not show up for some reason
+			for (int j = 0; j < triggerNames.size(); j++) {
+				if (triggerNames.get(j).getText().equals("") ||
+						triggerConditions.get(j).getText().equals("") ||
+						triggerResults.get(j).getText().equals("")) {
+					throw new Exception("All fields must have input");
+				}
+				if (Integer.parseInt(triggerPriorities.get(j).getText()) < 0) {
+					throw new Exception("Priority must be greater than 0");
+				}
+
+				if (!editing) {
+					sm.getFacade().createPrototype(
+							nameField.getText(), 
+							sm.getFacade().getGrid(),
+							colorTool.getColor(),
+							generateBytes()
+							);
+					agent = sm.getFacade().getPrototype(
+							nameField.getText()
+							);
+				} 
+
+				else {
+					agent.setPrototypeName(agent.getName(), nameField.getText());
+					agent.setColor(colorTool.getColor());
+					agent.setDesign(generateBytes());
+				}
+				//TODO how to handle case where fields do not have acceptable input
+				for (int i = 0; i < fieldNames.size(); i++) {
+					if (removedFields.contains(i)) {
+						if (agent.hasField(fieldNames.get(i).getText()))
+							agent.removeField(fieldNames.get(i));
+					} else {
+						if (agent.hasField(fieldNames.get(i).getText())) {
+							agent.updateField(fieldNames.get(i).getText(), 
+									fieldValues.get(i).getText());
+						} else
+							try {
+								agent.addField(fieldNames.get(i).getText(),
+										fieldValues.get(i).getText());
+							} catch (ElementAlreadyContainedException e) {
+								e.printStackTrace();
+							}
+					}
+				}
+
+				for (int i = 0; i < triggerNames.size(); i++) {
+					if (removedTriggers.contains(i)) {
+						if (agent.hasTrigger(triggerNames.get(i).getText()))
+							agent.removeTrigger(
+									triggerNames.get(i).getText()
+									);
+					} else {
+						if (agent.hasTrigger(triggerNames.get(i).getText()))
+							agent.updateTrigger(triggerNames.get(i).getText(), 
+									generateTrigger(i));
+						else agent.addTrigger(generateTrigger(i));
+					}
+				}
+				toReturn = true;
+			}
 		} catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(null, 
-					"Please check your input values.");
+					"Priorities field must be an integer greater than 0.");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, 
+					e.getMessage());
 		}
-
-		if (!editing) {
-			sm.getFacade().createPrototype(
-					nameField.getText(), 
-					sm.getFacade().getGrid(),
-					colorTool.getColor(),
-					generateBytes()
-					);
-			agent = sm.getFacade().getPrototype(
-					nameField.getText()
-					);
-		} 
-
-		else {
-			agent.setPrototypeName(agent.getName(), nameField.getText());
-			agent.setColor(colorTool.getColor());
-			agent.setDesign(generateBytes());
-		}
-		//TODO how to handle case where fields do not have acceptable input
-		for (int i = 0; i < fieldNames.size(); i++) {
-			if (removedFields.contains(i)) {
-				if (agent.hasField(fieldNames.get(i).getText()))
-					agent.removeField(fieldNames.get(i));
-			} else {
-				if (agent.hasField(fieldNames.get(i).getText())) {
-					agent.updateField(fieldNames.get(i).getText(), 
-							fieldValues.get(i).getText());
-				} else
-					try {
-						agent.addField(fieldNames.get(i).getText(),
-								fieldValues.get(i).getText());
-					} catch (ElementAlreadyContainedException e) {
-						e.printStackTrace();
-					}
-			}
-		}
-
-		for (int i = 0; i < triggerNames.size(); i++) {
-			if (removedTriggers.contains(i)) {
-				if (agent.hasTrigger(triggerNames.get(i).getText()))
-					agent.removeTrigger(
-							triggerNames.get(i).getText()
-							);
-			} else {
-				if (agent.hasTrigger(triggerNames.get(i).getText()))
-					agent.updateTrigger(triggerNames.get(i).getText(), 
-							generateTrigger(i));
-				else agent.addTrigger(generateTrigger(i));
-			}
+		finally {
+			return toReturn;
 		}
 	}
 
@@ -523,7 +543,7 @@ public class EditEntityScreen extends Screen {
 					str = str + "1";
 				}
 				else {System.out.print("0");
-					str = str + "0";
+				str = str + "0";
 				}
 			}
 		}

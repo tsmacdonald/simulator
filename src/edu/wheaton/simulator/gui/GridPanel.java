@@ -5,8 +5,11 @@ import javax.swing.JPanel;
 import edu.wheaton.simulator.entity.Agent;
 
 public class GridPanel extends JPanel {
-
-	private static final long serialVersionUID = -20L;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6168906849044462629L;
 
 	private ScreenManager sm;
 
