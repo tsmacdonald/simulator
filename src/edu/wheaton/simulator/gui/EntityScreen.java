@@ -40,7 +40,7 @@ public class EntityScreen extends Screen {
 
 	private static final long serialVersionUID = 8471925846048875713L;
 
-	private JList entities;
+	private JList entityList;
 
 	private DefaultListModel listModel;
 	
@@ -56,34 +56,34 @@ public class EntityScreen extends Screen {
 		this.setLayout(new BorderLayout());
 		JPanel mainPanel = new JPanel(new GridLayout(2, 1));
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
-		JPanel listPanel = new JPanel();
-		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
+		JPanel entityListPanel = new JPanel();
+		entityListPanel.setLayout(new BoxLayout(entityListPanel, BoxLayout.Y_AXIS));
 		listPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		listPanel.setAlignmentX(CENTER_ALIGNMENT);
 		listModel = new DefaultListModel();
 		listModel.addElement("Entity 1");
 		listModel.addElement("Entity 2");
 		listModel.addElement("Entity 3");
-		entities = new JList(listModel);
-		entities.setSize(new Dimension(400, 800));
-		entities.setLayoutOrientation(JList.VERTICAL_WRAP);
-		entities.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		entities.setVisibleRowCount(20);
-		entities.setBorder(BorderFactory.createLineBorder(Color.red));
-		listPanel.add(entities);
-		entities.setAlignmentX(CENTER_ALIGNMENT);
+		entityList = new JList(listModel);
+		entityList.setMaximumSize(new Dimension(400, 800));
+		entityList.setLayoutOrientation(JList.VERTICAL_WRAP);
+		entityList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		entityList.setVisibleRowCount(20);
+		entityList.setBorder(BorderFactory.createLineBorder(Color.red));
+		entityListPanel.add(entityList);
+		entityListPanel.setAlignmentX(CENTER_ALIGNMENT);
 		delete = new JButton("Delete");
-		delete.addActionListener(new DeleteListener());
+		delete.addActionListener(new DeleteListener(entityList, listModel, delete, sm));
 		JButton add = new JButton("Add");
-		add.addActionListener(new AddListener());
+		add.addActionListener(new AddListener(sm));
 		edit = new JButton("Edit");
 		edit.addActionListener(new EditListener(sm));
 		edit.setEnabled(false);
-		entities.addListSelectionListener(
+		entityList.addListSelectionListener(
 				new ListSelectionListener() {
 					@Override
 					public void valueChanged(ListSelectionEvent e) {
-						edit.setEnabled(true);
+						edit.setEnabled(sm.hasStarted() ? false : true);
 					}
 				}
 				);
@@ -98,7 +98,7 @@ public class EntityScreen extends Screen {
 		buttonPanel.add(Box.createHorizontalStrut(5));
 		buttonPanel.add(back);
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		mainPanel.add(listPanel);
+		mainPanel.add(entityListPanel);
 		mainPanel.add(buttonPanel);
 		this.add(label, BorderLayout.NORTH);
 		this.add(mainPanel, BorderLayout.CENTER);
@@ -111,6 +111,8 @@ public class EntityScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
+		edit.setEnabled(sm.hasStarted() ? false : true); 
+		delete.setEnabled(sm.hasStarted() ? false : true); 
 		Set<String> entities = sm.getFacade().prototypeNames();
 		for (String s : entities) {
 			listModel.addElement(s);
@@ -134,6 +136,12 @@ public class EntityScreen extends Screen {
 	
 	class AddListener implements ActionListener {
 		
+		private ScreenManager sm;
+		
+		public AddListener(ScreenManager sm){
+			this.sm = sm;
+		}
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
@@ -155,7 +163,7 @@ public class EntityScreen extends Screen {
 		public void actionPerformed(ActionEvent e) {
 			//TODO replace this with the load() method on the selected entity
 			((EditEntityScreen)sm.getScreen("Edit Entities")).load(
-					(String)entities.getSelectedValue());
+					(String)entityList.getSelectedValue());
 			((EditEntityScreen)sm.getScreen("Edit Entities")).setEditing(true);
 			sm.update(sm.getScreen("Edit Entities"));
 		}
