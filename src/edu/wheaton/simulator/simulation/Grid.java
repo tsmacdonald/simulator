@@ -59,14 +59,17 @@ public class Grid implements Iterable<Slot> {
 	public Slot getSlot(int x, int y) {
 		if(isValidCoord(x,y))
 			return grid[y][x];
+		System.err.println("invalid Coord: " + x + "," + y);
 		throw new NullPointerException("Invalid coord!");
 	}
 	
 	public void setSlot(Slot s, int x, int y){
 		if(isValidCoord(x,y))
 			grid[y][x] = s;
-		else
+		else{
+			System.err.println("invalid Coord: " + x + "," + y);
 			throw new NullPointerException("Invalid coord!");
+		}
 	}
 
 	/**
