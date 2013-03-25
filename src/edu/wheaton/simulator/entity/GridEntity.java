@@ -91,18 +91,19 @@ public abstract class GridEntity extends Entity {
 		initColor(c);
 	}
 	
-	private void initPosition(){
+	private void initPosition() {
 		//position fields initialized to invalid coordinates
 		//to catch assumptions that this entity is already
 		//added to the Grid
 
+
 		try {
-			addField("y", -1);
 			addField("x", -1);
+			addField("y", -1);
 		} catch (ElementAlreadyContainedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 	
 	private void initColor(Color c) {
@@ -112,10 +113,8 @@ public abstract class GridEntity extends Entity {
 			addField("colorBlue", getBlue(c));
 			addField("colorGreen", getGreen(c));
 		} catch (ElementAlreadyContainedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -134,8 +133,7 @@ public abstract class GridEntity extends Entity {
 	 * 
 	 */
 	public Color getColor() {
-		return new Color(getFieldInt("colorRed"),
-				getFieldInt("colorGreen"), getFieldInt("colorBlue"));
+		return new Color(getFieldInt("colorRed"), getFieldInt("colorGreen"), getFieldInt("colorBlue"));
 	}
 
 	/**
