@@ -13,6 +13,8 @@ import static org.junit.Assert.fail;
 
 import java.util.HashMap;
 
+import javax.naming.NameNotFoundException;
+
 import junit.framework.Assert;
 
 import org.junit.After;
@@ -23,8 +25,11 @@ import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Entity;
+import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.statistics.EntitySnapshot;
+import edu.wheaton.simulator.statistics.EntitySnapshotTable;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
 import edu.wheaton.simulator.statistics.StatisticsManager;
@@ -33,37 +38,31 @@ public class StatisticsManagerTest {
 
 	StatisticsManager sm;
 	Grid g; 
+	String categoryName;
+	Grid grid;
+	Prototype prototype;
+	HashMap<String, String> fields;
+	int population;
+	ImmutableSet<AgentID> children;
+	Integer step;
+	PrototypeSnapshot protoSnap; 
 	
 	@Before
 	public void setUp() throws Exception {
 		sm = new StatisticsManager();
-		g = new Grid(10,  10); 
+		g = new Grid(10,  10); 		
 		
-//		//Data for the a test "prototype" list within the StatisticsManager
-//		String categoryName = "testing";
-//		Grid grid = new Grid(10, 10);
-//		Prototype prototype = new Prototype(grid, "tester");
-//		HashMap<String, String> fields1 = new HashMap<String, String>();
-//		int population = 50;
-//		ImmutableSet<AgentID> children = prototype.childIDs();
-//		Integer step1 = new Integer(1);
-//		
-//		PrototypeSnapshot protoSnap = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
-//				SnapshotFactory.makeFieldSnapshots(fields1), population, children, step1);
-//		
-//		sm.addPrototypeSnapshot(protoSnap); 
-//		
-//		//Test data for an EntitySnapshot to insert
-//		Entity entity = new Entity();
-//		Integer step2 = new Integer(1);
-//		HashMap<String, String> fields2 = new HashMap<String, String>();
-//		fields2.put("Weight", "2.0");
-//		fields2.put("Name", "Ted");
-//		EntitySnapshot entSnap = new EntitySnapshot(entity.getEntityID(),
-//				SnapshotFactory.makeFieldSnapshots(fields2), step2);
-//		
-//		sm.addGridEntity(entSnap); 
+		categoryName = "testing";
+		grid = new Grid(10, 10);
+		prototype = new Prototype(grid, "tester");
+		fields = new HashMap<String, String>();
+		population = 50;
+		children = prototype.childIDs();
+		step = new Integer(23);
 		
+		protoSnap = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
+				SnapshotFactory.makeFieldSnapshots(fields), population,
+				children, step);
 	}
 
 	@After
@@ -117,8 +116,13 @@ public class StatisticsManagerTest {
 	}
 
 	@Test
-	public void testGetAvgLifespan() {
-		fail("Not yet implemented");
+	public void testGetAvgLifespan() {				
+		try {
+			sm.getAvgLifespan(protoSnap.id);
+		} 
+		catch (NameNotFoundException e) {
+			e.printStackTrace();
+		} 
 	}
 
 }
