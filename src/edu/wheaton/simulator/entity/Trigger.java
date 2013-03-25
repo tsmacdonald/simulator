@@ -108,9 +108,10 @@ public class Trigger implements Comparable<Trigger> {
 	 */
 	private static void fire(ExpressionEvaluator behavior) {
 		try {
-			if(behavior.evaluateBool() == false){
+			if(behavior.evaluateBool() == false)
 				System.err.println("behavior '" + behavior.toString() + "' failed");
-			}
+			else
+				System.out.println("behavior '" + behavior.toString() + "' succeeded");
 		} catch (EvaluationException e) {
 			System.err.println("malformed expression: " + e.getMessage());
 			e.printStackTrace();
