@@ -112,7 +112,7 @@ public class EditEntityScreen extends Screen {
 		nameField.setMaximumSize(new Dimension(400, 40));
 		colorTool = new JColorChooser();
 		iconPanel.setLayout(new GridLayout(8,8));
-		iconPanel.setSize(500, 500);
+		iconPanel.setMaximumSize(new Dimension(500, 500));
 		buttons = new JButton[8][8];
 		for(int i = 0; i < 8; i++){
 			for(int j = 0; j < 8; j++){
@@ -138,11 +138,11 @@ public class EditEntityScreen extends Screen {
 		JButton loadIconButton = new JButton("Load icon");
 		mainPanel.setLayout(
 				new BoxLayout(mainPanel, BoxLayout.X_AXIS));
-		mainPanel.setMaximumSize(new Dimension(500, 800));
+		mainPanel.setMaximumSize(new Dimension(1200, 500));
 		generalPanel.setLayout( 
 				new BoxLayout(generalPanel, BoxLayout.PAGE_AXIS));
-		mainPanel.add(iconPanel);
 		mainPanel.add(colorTool);
+		mainPanel.add(iconPanel);
 		generalPanel.add(generalLabel);
 		generalPanel.add(nameLabel);
 		generalPanel.add(nameField);
