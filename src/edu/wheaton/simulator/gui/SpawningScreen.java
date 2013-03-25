@@ -11,12 +11,14 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -62,7 +64,7 @@ public class SpawningScreen extends Screen {
 	 */
 	private static final long serialVersionUID = 6312784326472662829L;
 
-	//TODO does not read existing entities
+	//TODO does not read entities on first load
 	public SpawningScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -105,14 +107,11 @@ public class SpawningScreen extends Screen {
 
 		entityTypes = new ArrayList<JComboBox>();
 		spawnPatterns = new ArrayList<JComboBox>();
-		entityTypes.add(new JComboBox(entities));
 		xLocs = new ArrayList<JTextField>();
 		yLocs = new ArrayList<JTextField>();
 		numbers = new ArrayList<JTextField>();
 		deleteButtons = new ArrayList<JButton>();
 		subPanels = new ArrayList<JPanel>();
-
-		entityTypes.get(0).setMaximumSize(new Dimension(250, 30));
 
 		addSpawnButton = new JButton("Add Spawn");
 		addSpawnButton.addActionListener(new ActionListener() {
@@ -125,8 +124,6 @@ public class SpawningScreen extends Screen {
 		addSpawnButton.setAlignmentX(CENTER_ALIGNMENT);
 		glue = Box.createVerticalGlue();
 		listPanel.add(glue);
-		addSpawn();
-		System.out.println(deleteButtons.size());
 
 		JPanel buttonPanel = new JPanel();
 		JButton cancelButton = new JButton("Cancel");
