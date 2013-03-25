@@ -81,8 +81,7 @@ public class Agent extends GridEntity {
 	}
 
 	/**
-	 * Causes this Agent to perform 1 action. The first trigger with valid
-	 * conditions will fire.
+	 * Causes this Agent to perform 1 action. All triggers with valid conditions will fire.
 	 * 
 	 * @throws Exception
 	 */
