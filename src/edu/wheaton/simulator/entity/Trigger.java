@@ -10,12 +10,8 @@
 
 package edu.wheaton.simulator.entity;
 
-import java.util.ArrayList;
-
 import net.sourceforge.jeval.EvaluationException;
-import edu.wheaton.simulator.behavior.AbstractBehavior;
 import edu.wheaton.simulator.expression.ExpressionEvaluator;
-import edu.wheaton.simulator.simulation.Grid;
 
 public class Trigger implements Comparable<Trigger> {
 
@@ -34,7 +30,7 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * The behavior that is executed when the trigger condition is met
 	 */
-	private ExpressionEvaluator behavior;
+	private ExpressionEvaluator behaviorExpression;
 
 	/**
 	 * Constructor
@@ -51,7 +47,7 @@ public class Trigger implements Comparable<Trigger> {
 		this.name = name;
 		this.priority = priority;
 		this.conditionExpression = conditionExpression;
-		this.behavior = behavior;
+		this.behaviorExpression = behavior;
 	}
 
 	/**
@@ -64,7 +60,7 @@ public class Trigger implements Comparable<Trigger> {
 		name = parent.name;
 		priority = parent.priority;
 		conditionExpression = parent.conditionExpression;
-		behavior = parent.behavior;
+		behaviorExpression = parent.behaviorExpression;
 	}
 
 	/**
@@ -79,13 +75,19 @@ public class Trigger implements Comparable<Trigger> {
 	 *             if the expression was invalid
 	 */
 	public void evaluate(Agent xThis) throws EvaluationException {
+//		ExpressionEvaluator condition = conditionExpression.clone();
+//		ExpressionEvaluator behavior = behaviorExpression.clone();
+		
+		ExpressionEvaluator condition = conditionExpression;
+		ExpressionEvaluator behavior = behaviorExpression;
+		
+		System.out.println("after expression cloning in Trigger.evaluate");
+		
+		condition.importEntity("this", xThis);
+		behavior.importEntity("this", xThis);
 
-		ExpressionEvaluator expr = conditionExpression.clone();
-
-		expr.importEntity("this", xThis);
-
-		if (expr.evaluateBool()) {
-			fire();
+		if (condition.evaluateBool()) {
+			fire(behavior);
 
 		}
 		throw new UnsupportedOperationException();
@@ -103,7 +105,15 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
-	public void fire() {
+	private void fire(ExpressionEvaluator behavior) {
+		try {
+			if(behavior.evaluateBool() == false){
+				System.err.println("behavior '" + behavior.toString() + "' failed");
+			}
+		} catch (EvaluationException e) {
+			System.err.println("malformed expression: " + e.getMessage());
+			e.printStackTrace();
+		}
 		// Needs to be updated to work with new behaviors
 	}
 
@@ -132,7 +142,7 @@ public class Trigger implements Comparable<Trigger> {
 	 *            Behavior to be added to list
 	 */
 	public void setBehavior(ExpressionEvaluator behavior) {
-		this.behavior = behavior;
+		this.behaviorExpression = behavior;
 	}
 
 	/**
