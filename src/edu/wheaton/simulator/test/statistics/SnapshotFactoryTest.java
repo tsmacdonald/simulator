@@ -1,4 +1,4 @@
-package edu.wheaton.simulator.statistics;
+package edu.wheaton.simulator.test.statistics;
 
 import static org.junit.Assert.fail;
 import junit.framework.Assert;
@@ -15,6 +15,10 @@ import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.PrototypeID;
 import edu.wheaton.simulator.entity.Slot;
 import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.statistics.AgentSnapshot;
+import edu.wheaton.simulator.statistics.EntitySnapshot;
+import edu.wheaton.simulator.statistics.FieldSnapshot;
+import edu.wheaton.simulator.statistics.SnapshotFactory;
 
 public class SnapshotFactoryTest {
 
