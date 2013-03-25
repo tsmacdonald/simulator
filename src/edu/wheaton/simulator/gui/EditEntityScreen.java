@@ -59,7 +59,7 @@ public class EditEntityScreen extends Screen {
 
 	private JButton addFieldButton;
 
-	private JButton[][] buttons;
+	private JToggleButton[][] buttons;
 
 	private JPanel fieldListPanel;
 
@@ -113,22 +113,23 @@ public class EditEntityScreen extends Screen {
 		colorTool = new JColorChooser();
 		iconPanel.setLayout(new GridLayout(8,8));
 		iconPanel.setMaximumSize(new Dimension(500, 500));
-		buttons = new JButton[8][8];
+		buttons = new JToggleButton[8][8];
 		for(int i = 0; i < 8; i++){
 			for(int j = 0; j < 8; j++){
-				buttons[i][j] = new JButton();
-				buttons[i][j].setForeground(Color.WHITE);
+				buttons[i][j] = new JToggleButton();
+				buttons[i][j].setOpaque(true);
+				buttons[i][j].setBackground(Color.WHITE);
 				buttons[i][j].setActionCommand(i + "" + j);
 				buttons[i][j].addActionListener(new ActionListener(){
 					@Override
 					public void actionPerformed(ActionEvent ae) {
 						String str = ae.getActionCommand();
-						JButton jb = buttons
+						JToggleButton jb = buttons
 								[Integer.parseInt(str.charAt(0) + "")]
-								[Integer.parseInt(str.charAt(1) + "")]; 
-						if(jb.getForeground().equals(Color.WHITE))
-							jb.setForeground(Color.BLACK);
-						else jb.setForeground(Color.WHITE);
+										[Integer.parseInt(str.charAt(1) + "")]; 
+						if(jb.getBackground().equals(Color.WHITE))
+							jb.setBackground(Color.BLACK);
+						else jb.setBackground(Color.WHITE);
 					}
 				});
 				iconPanel.add(buttons[i][j]);
@@ -315,7 +316,18 @@ public class EditEntityScreen extends Screen {
 		agent = sm.getFacade().getPrototype(str);
 		nameField.setText(agent.getName());
 		colorTool.setColor(agent.getColor());
-		//TODO load icon from p.getDesign(); helper method?
+		
+		byte[] bite = agent.getDesign();
+		byte byter = Byte.parseByte("00000001", 2);
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				if((bite[i]&(byter<<j)) != 0){
+				buttons[i][j].setSelected(true);
+				buttons[i][j].setBackground(Color.BLACK);
+				}
+			}
+		}
+		
 		Map<String, String> fields = agent.getFieldMap();
 		int i = 0;
 		for (String s : fields.keySet()) {
@@ -341,7 +353,12 @@ public class EditEntityScreen extends Screen {
 		agent = null;
 		nameField.setText("");
 		colorTool.setColor(Color.WHITE);
-		//TODO reset icon constructor
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				buttons[i][j].setSelected(false);
+				buttons[i][j].setBackground(Color.WHITE);
+			}
+		}
 		fieldNames.clear(); 
 		fieldTypes.clear();
 		fieldValues.clear();
@@ -389,7 +406,7 @@ public class EditEntityScreen extends Screen {
 					agent.removeField(fieldNames.get(i));
 			} else {
 				if (agent.hasField(fieldNames.get(i).getText())) {
-				//TODO nosuchelementexception on this line after editing existing
+					//TODO nosuchelementexception on this line after editing existing
 					agent.updateField(fieldNames.get(i), 
 							fieldValues.get(i).getText());
 				} else
@@ -485,14 +502,21 @@ public class EditEntityScreen extends Screen {
 		repaint();
 	}
 
-	//TODO temp placeholder, need to make a byte array 
-	//     from the icon constructor. 
 	private byte[] generateBytes() {
-		byte[] toReturn = {Byte.parseByte("00000000", 2), Byte.parseByte("00000001", 2), 
-				Byte.parseByte("00000011", 2), Byte.parseByte("00000111", 2),
-				Byte.parseByte("00001111", 2), Byte.parseByte("00011111", 2),
-				Byte.parseByte("00111111", 2), Byte.parseByte("01111111", 2),
-		};
+		String str = "";
+		byte[] toReturn = new byte[8];
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				if(buttons[i][j].getBackground().equals(Color.BLACK)){
+					str = str + "1";
+				}
+				else str = str + "0";
+			}
+		}
+		for(int i = 0; i < 8; i++){
+			toReturn[i] = Byte.parseByte(str.substring(str.length()-8), 2);
+		}
+
 		return toReturn;
 	}
 
