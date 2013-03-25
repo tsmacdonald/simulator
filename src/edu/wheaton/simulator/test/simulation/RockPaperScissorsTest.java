@@ -24,14 +24,14 @@ public class RockPaperScissorsTest {
 		ExpressionEvaluator yMoveDown = new Expression("move('this', #{this.x}, #{this.y} - 1)");
 		
 		// behavior
-		ExpressionEvaluator turnClockwise = new Expression("setField('this', 'direction', (#{this.direction} +1)%4)");
+		//ExpressionEvaluator turnClockwise = new Expression("setField('this', 'direction', (#{this.direction} +1)%4)");
 		
 		// if nobody ahead in this direction
 		
-		ExpressionEvaluator dir0 = new Expression("#{this.direction} = 0 && isSlotOpen(#{this.x},#{this.y}+1)");		
-		ExpressionEvaluator dir1 = new Expression("#{this.direction} = 1 && isSlotOpen(#{this.x}+1,#{this.y})");
-		ExpressionEvaluator dir2 = new Expression("#{this.direction} = 2 && isSlotOpen(#{this.x},#{this.y}-1)");
-		ExpressionEvaluator dir3 = new Expression("#{this.direction} = 3 && isSlotOpen(#{this.x}-1,#{this.y})");
+		ExpressionEvaluator dir0 = new Expression("(#{this.direction} == 0) && isSlotOpen(#{this.x},#{this.y}+1)");		
+		ExpressionEvaluator dir1 = new Expression("(#{this.direction} == 1) && isSlotOpen(#{this.x}+1,#{this.y})");
+		ExpressionEvaluator dir2 = new Expression("(#{this.direction} == 2) && isSlotOpen(#{this.x},#{this.y}-1)");
+		ExpressionEvaluator dir3 = new Expression("(#{this.direction} == 3) && isSlotOpen(#{this.x}-1,#{this.y})");
 				
 		for(int j = 0; j < agentType.length; j ++){
 			Prototype testPrototype = new Prototype(testGrid, "testPrototype");

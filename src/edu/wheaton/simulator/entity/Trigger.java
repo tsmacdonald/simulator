@@ -81,11 +81,17 @@ public class Trigger implements Comparable<Trigger> {
 		condition.importEntity("this", xThis);
 		behavior.importEntity("this", xThis);
 
-		if (condition.evaluateBool()) {
-			fire(behavior);
-
+		boolean conditionResult = false;
+		try {
+			conditionResult = condition.evaluateBool();
+		} catch (Exception e) {
+			System.out.println("condition failed");
+			e.printStackTrace();
 		}
-		throw new UnsupportedOperationException();
+		
+		if (conditionResult) {
+			fire(behavior);
+		}
 	}
 
 	/**
@@ -109,7 +115,6 @@ public class Trigger implements Comparable<Trigger> {
 			System.err.println("malformed expression: " + e.getMessage());
 			e.printStackTrace();
 		}
-		// Needs to be updated to work with new behaviors
 	}
 
 	/**

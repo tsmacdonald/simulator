@@ -213,7 +213,6 @@ public class Expression implements ExpressionEvaluator {
 			return evaluator.getBooleanResult(expr.toString());
 		} catch (EvaluationException e) {
 			System.err.println(e.getMessage());
-			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -224,7 +223,6 @@ public class Expression implements ExpressionEvaluator {
 			return evaluator.getNumberResult(expr.toString());
 		} catch (EvaluationException e) {
 			System.err.println(e.getMessage());
-			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -235,7 +233,6 @@ public class Expression implements ExpressionEvaluator {
 			return evaluator.evaluate(expr.toString());
 		} catch (EvaluationException e) {
 			System.err.println(e.getMessage());
-			e.printStackTrace();
 			throw e;
 		}
 	}
