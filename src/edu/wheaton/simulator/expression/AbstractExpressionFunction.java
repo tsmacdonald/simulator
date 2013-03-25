@@ -28,19 +28,19 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	@Override
 	public abstract String execute(String[] args) throws EvaluationException;
 
-	public ExpressionEvaluator getExprEval(){
+	private ExpressionEvaluator getExprEval(){
 		return evaluator;
 	}
 	
 	@Override
-	public Entity resolveEntity(ExpressionEvaluator expr, String aliasName) {
-		return expr.getEntity(aliasName);
+	public Entity resolveEntity(String aliasName) {
+		return getExprEval().getEntity(aliasName);
 	}
 
 	@Override
-	public String resolveVariable(ExpressionEvaluator expr, String variableName)
+	public String resolveVariable(String variableName)
 			throws EvaluationException {
-		return expr.getVariableValue(variableName);
+		return getExprEval().getVariableValue(variableName);
 	}
 
 	@Override

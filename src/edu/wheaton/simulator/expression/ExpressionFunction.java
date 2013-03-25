@@ -12,9 +12,9 @@ public interface ExpressionFunction {
 
 	public String execute(String[] args) throws EvaluationException;
 
-	public Entity resolveEntity(ExpressionEvaluator expr, String aliasName);
+	public Entity resolveEntity(String aliasName);
 
-	public String resolveVariable(ExpressionEvaluator expr, String variableName)
+	public String resolveVariable(String variableName)
 			throws EvaluationException;
 
 	public Function toJEvalFunction();

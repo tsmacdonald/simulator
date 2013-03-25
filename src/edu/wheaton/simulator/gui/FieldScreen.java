@@ -31,6 +31,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class FieldScreen extends Screen {
 
@@ -49,7 +51,11 @@ public class FieldScreen extends Screen {
 
 	private JButton delete;
 
-	//TODO nullpointer in add listener, numbers are not loading into combobox 
+	private JButton add;
+	
+	private JButton edit;
+
+	//TODO prevent clicking edit when no object is selected 
 
 	public FieldScreen(final ScreenManager sm) {
 		super(sm);
@@ -66,12 +72,12 @@ public class FieldScreen extends Screen {
 		xPos = new JComboBox();
 		xPos.setMaximumSize(new Dimension(150, 40));
 		xPos.addItem(0);
-		xPos.addActionListener(new ListListener());
+		xPos.addActionListener(new BoxListener());
 		JLabel yLabel = new JLabel("Y Pos: ");
 		yPos = new JComboBox();
 		yPos.setMaximumSize(new Dimension(150, 40));
 		yPos.addItem(0);
-		yPos.addActionListener(new ListListener());
+		yPos.addActionListener(new BoxListener());
 		JPanel posPanel = new JPanel();
 		posPanel.setLayout(new BoxLayout(posPanel, BoxLayout.X_AXIS));
 		posPanel.add(xLabel);
@@ -88,26 +94,40 @@ public class FieldScreen extends Screen {
 		fields.setLayoutOrientation(JList.VERTICAL_WRAP);
 		fields.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		fields.setVisibleRowCount(20);
+		fields.addListSelectionListener(new ListListener());
 		panel.add(fields);
 		fields.setAlignmentX(CENTER_ALIGNMENT);
 		delete = new JButton("Delete");
 		delete.addActionListener(new DeleteListener(listModel, fields, delete));
-		JButton add = new JButton("Add");
+		add = new JButton("Add");
 		add.addActionListener(
 				//new GeneralButtonListener("Edit Fields", sm));
 				new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						((EditFieldScreen) (sm.getScreen("Edit Fields"))).load(
 								sm.getFacade().getGrid().getSlot(
-										xPos.getSelectedIndex(), yPos.getSelectedIndex()
-										), (String) fields.getSelectedValue()
+										xPos.getSelectedIndex(), 
+										yPos.getSelectedIndex()
+										)
 								);
 						sm.update(sm.getScreen("Edit Fields"));
 					}
 				}
 				);
-		JButton edit = new JButton("Edit");
-		edit.addActionListener(new GeneralButtonListener("Edit Fields", sm));
+		edit = new JButton("Edit");
+		edit.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						((EditFieldScreen) (sm.getScreen("Edit Fields"))).load(
+								sm.getFacade().getGrid().getSlot(
+										xPos.getSelectedIndex(), yPos.getSelectedIndex()
+										), (String) fields.getSelectedValue()
+										//null pointer here /\
+								);
+						sm.update(sm.getScreen("Edit Fields"));
+					}
+				}
+				);
 		JButton back = new JButton("Back");
 		back.addActionListener(new GeneralButtonListener("Edit Simulation", sm));
 		JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -127,7 +147,6 @@ public class FieldScreen extends Screen {
 
 	}
 
-	//TODO need load and reset methods
 	public void reset() {
 		listModel.clear();
 	}
@@ -149,9 +168,8 @@ public class FieldScreen extends Screen {
 		}
 	}
 
-	private class ListListener implements ActionListener {
+	private class BoxListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			System.out.println(xPos.getSelectedIndex());
 			if (xPos.getSelectedIndex() >= 0 && yPos.getSelectedIndex() >= 0) {
 				Map<String, String> fieldNames = sm.getFacade().getGrid().getSlot(
 						xPos.getSelectedIndex(), yPos.getSelectedIndex()
@@ -163,6 +181,13 @@ public class FieldScreen extends Screen {
 					}
 				}
 			}
+			edit.setEnabled(false);
+		}
+	}
+	
+	private class ListListener implements ListSelectionListener {
+		public void valueChanged(ListSelectionEvent e) {
+			edit.setEnabled(true);
 		}
 	}
 

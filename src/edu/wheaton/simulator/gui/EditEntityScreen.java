@@ -14,14 +14,20 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.*;
 
+import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.expression.Expression;
 
 public class EditEntityScreen extends Screen {
 
@@ -52,6 +58,8 @@ public class EditEntityScreen extends Screen {
 	private Component glue2;
 
 	private JButton addFieldButton;
+
+	private JButton[][] buttons;
 
 	private JPanel fieldListPanel;
 
@@ -85,6 +93,8 @@ public class EditEntityScreen extends Screen {
 		JTabbedPane tabs = new JTabbedPane();
 		JPanel lowerPanel = new JPanel();
 		JPanel generalPanel = new JPanel();
+		JPanel mainPanel = new JPanel();
+		JPanel iconPanel = new JPanel();
 		JPanel fieldMainPanel = new JPanel();
 		JPanel fieldLabelsPanel = new JPanel();
 		fieldListPanel = new JPanel();
@@ -101,15 +111,42 @@ public class EditEntityScreen extends Screen {
 		nameField = new JTextField(25);
 		nameField.setMaximumSize(new Dimension(400, 40));
 		colorTool = new JColorChooser();
+		iconPanel.setLayout(new GridLayout(8,8));
+		iconPanel.setMaximumSize(new Dimension(500, 500));
+		buttons = new JButton[8][8];
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				buttons[i][j] = new JButton();
+				buttons[i][j].setForeground(Color.WHITE);
+				buttons[i][j].setActionCommand(i + "" + j);
+				buttons[i][j].addActionListener(new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent ae) {
+						String str = ae.getActionCommand();
+						JButton jb = buttons
+								[Integer.parseInt(str.charAt(0) + "")]
+								[Integer.parseInt(str.charAt(1) + "")]; 
+						if(jb.getForeground().equals(Color.WHITE))
+							jb.setForeground(Color.BLACK);
+						else jb.setForeground(Color.WHITE);
+					}
+				});
+				iconPanel.add(buttons[i][j]);
+			}
+		}
+
 		JButton loadIconButton = new JButton("Load icon");
-		generalPanel.setLayout(
-				new BoxLayout(generalPanel, BoxLayout.PAGE_AXIS)
-				);
+		mainPanel.setLayout(
+				new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+		mainPanel.setMaximumSize(new Dimension(1200, 500));
+		generalPanel.setLayout( 
+				new BoxLayout(generalPanel, BoxLayout.PAGE_AXIS));
+		mainPanel.add(colorTool);
+		mainPanel.add(iconPanel);
 		generalPanel.add(generalLabel);
 		generalPanel.add(nameLabel);
 		generalPanel.add(nameField);
-		//TODO add the icon construction tool to the general panel here
-		generalPanel.add(colorTool);
+		generalPanel.add(mainPanel);
 		generalPanel.add(loadIconButton);
 
 		JLabel fieldLabel = new JLabel("Field Info");
@@ -273,24 +310,36 @@ public class EditEntityScreen extends Screen {
 
 	}
 
-	public void load(Prototype p) {
+	public void load(String str) {
 		reset();
-		agent = p;
-		nameField.setText(p.getName());
-		colorTool.setColor(p.getColor());
+		agent = sm.getFacade().getPrototype(str);
+		nameField.setText(agent.getName());
+		colorTool.setColor(agent.getColor());
 		//TODO load icon from p.getDesign(); helper method?
-		//iterate through p.getFieldMap(); 
-		//for each element, addField, set name and value
-		//what about types?
-		//same thing for triggers - need access to the list
-		//does trigger class have getters for the relevant pieces we need?
+		Map<String, String> fields = agent.getFieldMap();
+		int i = 0;
+		for (String s : fields.keySet()) {
+			addField();
+			fieldNames.get(i).setText(s);
+			fieldValues.get(i).setText(s);
+			i++;
+		}
+		List<Trigger> triggers = agent.getTriggers();
+		int j = 0;
+		for (Trigger t : triggers) {
+			addTrigger();
+			triggerNames.get(j).setText(t.getName());
+			triggerConditions.get(j).setText(t.getConditions().toString());
+			//TODO finish once getters become available
+			//triggerResults.get(j).setText(t.getBehavior().toString());
+			//triggerPriority.get(j).setText(t.getPriority +"");
+		}
 	}
 
 	//TODO make sure this is right
 	public void reset() {
 		agent = null;
 		nameField.setText("");
-		//other way of resetting colorTool? need to reset recents?
 		colorTool.setColor(Color.WHITE);
 		//TODO reset icon constructor
 		fieldNames.clear(); 
@@ -300,7 +349,7 @@ public class EditEntityScreen extends Screen {
 		fieldSubPanels.clear();
 		removedFields.clear();
 		fieldListPanel.removeAll();
-		addField();
+		fieldListPanel.add(addFieldButton);
 		triggerNames.clear();
 		triggerPriorities.clear();
 		triggerConditions.clear();
@@ -309,7 +358,7 @@ public class EditEntityScreen extends Screen {
 		triggerSubPanels.clear();
 		removedTriggers.clear();
 		triggerListPanel.removeAll();
-		addTrigger();
+		triggerListPanel.add(addTriggerButton);
 	}
 
 
@@ -326,41 +375,46 @@ public class EditEntityScreen extends Screen {
 					nameField.getText()
 					);
 		} 
-		/*
+
 		else {
 			//set all values of the prototype from the screen
-
-			agent.setName(nameField.getText());
+			agent.setPrototypeName(agent.getName(), nameField.getText());
 			agent.setColor(colorTool.getColor());
 			agent.setDesign(generateBytes());
 		}
 		//TODO how to handle case where fields do not have acceptable input
 		for (int i = 0; i < fieldNames.size(); i++) {
 			if (removedFields.contains(i)) {
-				//if agent already has that field
-				agent.removeField(fieldNames.get(i));
+				if (agent.hasField(fieldNames.get(i).getText()))
+					agent.removeField(fieldNames.get(i));
 			} else {
-				//if agent already has that field
-				agent.updateField(fieldNames.get(i), 
-				fieldValues.get(i));
-				//else agent.addField(fieldNames.get(i),
-				fieldValues.get(i));
+				if (agent.hasField(fieldNames.get(i).getText())) {
+				//TODO nosuchelementexception on this line after editing existing
+					agent.updateField(fieldNames.get(i), 
+							fieldValues.get(i).getText());
+				} else
+					try {
+						agent.addField(fieldNames.get(i).getText(),
+								fieldValues.get(i).getText());
+					} catch (ElementAlreadyContainedException e) {
+						e.printStackTrace();
+					}
 			}
 		}
-		//TODO we might want a generateTrigger method
+
 		for (int i = 0; i < triggerNames.size(); i++) {
 			if (removedTriggers.contains(i)) {
-				//if agent already has that trigger
-				agent.removeTrigger(
-				 	triggerPriorities.get(i)
-				 	);
-		 	} else {
-		 		//if agent already has that trigger
-		 		agent.updateTrigger();
-		 		//else agent.addTrigger(i);
-	 		}
+				if (agent.hasTrigger(triggerNames.get(i).getText()))
+					agent.removeTrigger(
+							triggerNames.get(i).getText()
+							);
+			} else {
+				if (agent.hasTrigger(triggerNames.get(i).getText()))
+					agent.updateTrigger(triggerNames.get(i).getText(), 
+							generateTrigger(i));
+				else agent.addTrigger(generateTrigger(i));
+			}
 		}
-		 */
 	}
 
 	public void setEditing(Boolean b) {
@@ -434,12 +488,20 @@ public class EditEntityScreen extends Screen {
 	//TODO temp placeholder, need to make a byte array 
 	//     from the icon constructor. 
 	private byte[] generateBytes() {
-		byte[] toReturn = {new Byte("00000001"), new Byte("00000011"), 
-				new Byte("00000111"), new Byte("00001111"),
-				new Byte("00011111"), new Byte("00111111"),
-				new Byte("01111111"), new Byte("11111111"),
+		byte[] toReturn = {Byte.parseByte("00000000", 2), Byte.parseByte("00000001", 2), 
+				Byte.parseByte("00000011", 2), Byte.parseByte("00000111", 2),
+				Byte.parseByte("00001111", 2), Byte.parseByte("00011111", 2),
+				Byte.parseByte("00111111", 2), Byte.parseByte("01111111", 2),
 		};
 		return toReturn;
+	}
+
+	private Trigger generateTrigger(int i) {
+		return new Trigger(triggerNames.get(i).getText(), 
+				Integer.parseInt(triggerPriorities.get(i).getText()),
+				new Expression(triggerConditions.get(i).getText()),
+				new Expression(triggerResults.get(i).getText())
+				);
 	}
 
 	private class DeleteFieldListener implements ActionListener {
@@ -472,7 +534,9 @@ public class EditEntityScreen extends Screen {
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
-		
+		reset();
+		addField();
+		addTrigger();
 	}
 
 }

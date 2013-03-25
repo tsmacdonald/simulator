@@ -37,7 +37,7 @@ public class CloneBehavior extends AbstractBehavior {
 	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {
-		Agent target = (Agent)resolveEntity(this.getExprEval(), args[0].replaceAll("'", ""));
+		Agent target = (Agent)resolveEntity(args[0].replaceAll("'", ""));
 		
 		Integer x = Integer.valueOf(args[1]);
 		Integer y = Integer.valueOf(args[2]);

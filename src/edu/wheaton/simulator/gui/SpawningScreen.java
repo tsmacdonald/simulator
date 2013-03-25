@@ -100,7 +100,7 @@ public class SpawningScreen extends Screen {
 		mainPanel.add(labelsPanel);
 		mainPanel.add(listPanel);
 		labelsPanel.setAlignmentX(CENTER_ALIGNMENT);
-
+		
 		entityTypes = new ArrayList<JComboBox>();
 		entityTypes.add(new JComboBox(exampleEntities));
 		entityTypes.get(0).setMaximumSize(new Dimension(250, 30));
@@ -180,6 +180,7 @@ public class SpawningScreen extends Screen {
 	
 	public void load() {
 		reset();
+		
 		/*
 		iterate through storage
 		for each stored spawn condition {
@@ -191,6 +192,8 @@ public class SpawningScreen extends Screen {
 			numbers.get(i).setText(storedNumbers.get(i));
 		}
 		*/
+		
+		
 		
 	}
 	

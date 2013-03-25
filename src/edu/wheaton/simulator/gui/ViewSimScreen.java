@@ -12,6 +12,7 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -37,6 +38,8 @@ public class ViewSimScreen extends Screen {
 	 */
 	private static final long serialVersionUID = -6872689283286800861L;
 
+	private GridPanel grid;
+	
 	//TODO handle case of no input grid size, either here or in newSim/setup
 	public ViewSimScreen(final ScreenManager sm) {
 		super(sm);
@@ -44,6 +47,7 @@ public class ViewSimScreen extends Screen {
 		this.sm = sm;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 		JPanel panel = new JPanel();
+		panel.setMaximumSize(new Dimension(500, 50));
 		gridPanel = new JPanel();
 		JButton pauseButton = new JButton("Pause");
 		JButton backButton = new JButton("Back");
@@ -72,11 +76,13 @@ public class ViewSimScreen extends Screen {
 					sm.hasStarted(true);
 		*/
 		
+		grid = new GridPanel(sm);
 		panel.add(startButton);
 		panel.add(pauseButton);
 		panel.add(backButton);
 		this.add(label, BorderLayout.NORTH);
 		this.add(panel, BorderLayout.SOUTH);
+		this.add(grid, BorderLayout.CENTER);
 		this.setVisible(true);	
 		//program loop yay!
 		new Thread(new Runnable() {
@@ -95,19 +101,13 @@ public class ViewSimScreen extends Screen {
 		}).start();
 	}
 
-	public void paint(){
-		//TODO might want to rename Grid to avoid confusion with simulation Grid
-		Grid grid = new Grid(sm);
-		this.add(grid, BorderLayout.CENTER);
+	private void paint(){
 		grid.paint(grid.getGraphics());
+		grid.agentPaint(grid.getGraphics());
 	}
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
-		
+		paint();
 	}
-	
-	//TODO load method, determine when to actually populate simulation
-
 }
