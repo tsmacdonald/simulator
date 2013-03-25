@@ -74,14 +74,14 @@ public class StatisticsScreen extends Screen {
 
 		//TODO placeholder
 		//String[] entities = {"Fox", "Rabbit", "Clover", "Bear"};
-		//entities = new String[0];
+		entities = new String[0];
 		JComboBox popEntityTypes = new JComboBox(entities);
 		populationCard.add(popEntityTypes);
 
 		JComboBox fieldEntityTypes = new JComboBox(entities);
 		//TODO placeholder
 		//String[] agentFields = {"height", "weight", "speed"};
-		//agentFields = new String[0];
+		agentFields = new String[0];
 		JComboBox agentFieldsBox = new JComboBox(agentFields);
 		fieldCard.add(fieldEntityTypes);
 		fieldCard.add(agentFieldsBox);
