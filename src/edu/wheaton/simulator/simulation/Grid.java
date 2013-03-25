@@ -25,8 +25,8 @@ public class Grid implements Iterable<Slot> {
 	 * x Height
 	 */
 	private Slot[][] grid;
-	private Integer width;
-	private Integer height;
+	private final Integer width;
+	private final Integer height;
 
 	/**
 	 * Constuctor. Creates a grid with the given width and height
@@ -39,10 +39,10 @@ public class Grid implements Iterable<Slot> {
 		this.width = width;
 		this.height = height;
 
-		grid = new Slot[width][height];
-		for (int x = 0; x < width; x++)
-			for (int y = 0; y < height; y++)
-				grid[x][y] = new Slot(this);
+		grid = new Slot[getHeight()][getWidth()];
+		for (int x = 0; x < getWidth(); x++)
+			for (int y = 0; y < getHeight(); y++)
+				setSlot(new Slot(this),x,y);
 	}
 
 	public Integer getWidth() {
@@ -54,11 +54,20 @@ public class Grid implements Iterable<Slot> {
 	}
 
 	public boolean isValidCoord(int x, int y) {
-		return x > 0 && y > 0 && x < getWidth() && y < getHeight();
+		return (x>=0) && (y>=0) && (x < getWidth()) && (y < getHeight());
 	}
 
 	public Slot getSlot(int x, int y) {
-		return grid[y][x];
+		if(isValidCoord(x,y))
+			return grid[y][x];
+		throw new NullPointerException("Invalid coord!");
+	}
+	
+	public void setSlot(Slot s, int x, int y){
+		if(isValidCoord(x,y))
+			grid[y][x] = s;
+		else
+			throw new NullPointerException("Invalid coord!");
 	}
 
 	/**
@@ -69,12 +78,7 @@ public class Grid implements Iterable<Slot> {
 		for (Slot[] sArr : grid)
 			for (Slot s : sArr)
 				if (s.getAgent() != null)
-					try {
-						s.getAgent().act();
-					} catch (NullPointerException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					s.getAgent().act();
 	}
 
 	/**
@@ -106,35 +110,34 @@ public class Grid implements Iterable<Slot> {
 	 */
 	public boolean spawnAgent(Agent a, int spawnX, int spawnY) {
 
+		a.setPos(-1, -1);
+		
 		for (int distance = 0; distance < height || distance < width; distance++) {
 			int x = spawnX - distance;
 			int y = spawnY - distance;
-			if (emptySlot(x, y)) {
-				addAgent(a, x, y);
+			if( spawnAgentHelper(a,x,y) )
 				return true;
-			}
 			for (; x < spawnX + distance; x++)
-				if (emptySlot(x, y)) {
-					addAgent(a, x, y);
+				if( spawnAgentHelper(a,x,y) )
 					return true;
-				}
 			for (; y < spawnY + distance; y++)
-				if (emptySlot(x, y)) {
-					addAgent(a, x, y);
+				if( spawnAgentHelper(a,x,y) )
 					return true;
-				}
 			for (; x > spawnX - distance; x--)
-				if (emptySlot(x, y)) {
-					addAgent(a, x, y);
+				if( spawnAgentHelper(a,x,y) )
 					return true;
-				}
 			for (; y > spawnY - distance; y--)
-				if (emptySlot(x, y)) {
-					addAgent(a, x, y);
+				if( spawnAgentHelper(a,x,y) )
 					return true;
-				}
 		}
-
+		return false;
+	}
+	
+	private boolean spawnAgentHelper(Agent a, int x, int y){
+		if (emptySlot(x, y)) {
+			addAgent(a, x, y);
+			return true;
+		}
 		return false;
 	}
 
@@ -147,9 +150,7 @@ public class Grid implements Iterable<Slot> {
 	 * @return Whether or not the particular slot is empty
 	 */
 	public boolean emptySlot(int x, int y) {
-		if (x < 0 || y < 0 || x > height || y > height)
-			return false;
-		if (getAgent(x, y) == null)
+		if (isValidCoord(x,y) && getAgent(x, y)==null)
 			return true;
 		return false;
 	}

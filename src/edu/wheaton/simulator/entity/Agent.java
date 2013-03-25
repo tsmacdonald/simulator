@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.sourceforge.jeval.EvaluationException;
+
 import edu.wheaton.simulator.simulation.Grid;
 
 public class Agent extends GridEntity {
@@ -87,8 +89,8 @@ public class Agent extends GridEntity {
 		try {
 			for (Trigger t : triggers)
 				t.evaluate(this);
-		} catch (Exception e) {
-			System.err.println(e);
+		} catch (EvaluationException e) {
+			System.err.println(e.getMessage());
 		}
 	}
 

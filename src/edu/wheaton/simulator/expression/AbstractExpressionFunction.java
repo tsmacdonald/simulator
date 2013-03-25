@@ -18,6 +18,10 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	protected static final int RESULT_TYPE_BOOL = FunctionConstants.FUNCTION_RESULT_TYPE_NUMERIC;
 	protected static final int RESULT_TYPE_STRING = FunctionConstants.FUNCTION_RESULT_TYPE_STRING;
 	
+	//constants for returning boolean results
+	protected static final String TRUE = "1.0";
+	protected static final String FALSE = "0.0";
+	
 	/*
 	 * A wrapper constructed from a JEval Evaluator instance that is not known until the point at which the
 	 * function is called by JEval. For now it is null.

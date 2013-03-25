@@ -18,7 +18,7 @@ public class DieBehavior extends AbstractBehavior {
 	public String execute(String[] args) throws EvaluationException {
 		Agent target = resolveAgent(args[0]);
 		target.die();
-		return "true";
+		return TRUE;
 	}
 
 }

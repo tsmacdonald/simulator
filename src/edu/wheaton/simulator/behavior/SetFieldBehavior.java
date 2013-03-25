@@ -24,7 +24,7 @@ public class SetFieldBehavior extends AbstractBehavior {
 		String fieldValue = args[2];
 		
 		target.updateField(fieldName,fieldValue);
-		return "true";
+		return TRUE;
 	}
 
 }
