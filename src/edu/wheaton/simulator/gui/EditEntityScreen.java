@@ -177,11 +177,11 @@ public class EditEntityScreen extends Screen {
 		fieldSubPanels = new ArrayList<JPanel>();
 		addFieldButton = new JButton("Add Field");
 		addFieldButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				addField();
 			}
 		});
-
 		glue = Box.createVerticalGlue();
 		addField();
 		// TODO make sure components line up
@@ -235,11 +235,11 @@ public class EditEntityScreen extends Screen {
 		triggerDeleteButtons = new ArrayList<JButton>();
 		triggerSubPanels = new ArrayList<JPanel>();
 		addTriggerButton = new JButton("Add Trigger");
-				addTriggerButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						addTrigger();
-					}
-				});
+		addTriggerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addTrigger();
+			}
+		});
 		glue2 = Box.createVerticalGlue();
 		addTrigger();
 		// TODO make sure components line up
@@ -288,7 +288,6 @@ public class EditEntityScreen extends Screen {
 				reset();
 			}
 		});
-
 		JButton finishButton = new JButton("Finish");
 		finishButton.addActionListener(new ActionListener() {
 			@Override
@@ -316,8 +315,8 @@ public class EditEntityScreen extends Screen {
 		colorTool.setColor(agent.getColor());
 
 		byte[] designBytes = agent.getDesign();
-		for (byte b : designBytes) 
-			System.out.println("lB:" + b);
+			for (byte b : designBytes) 
+					System.out.println("lB:" + b);
 		byte byter = Byte.parseByte("0000001", 2);
 		for (int i = 0; i < 7; i++) {
 			for (int j = 0; j < 7; j++) {
@@ -398,7 +397,7 @@ public class EditEntityScreen extends Screen {
 					throw new Exception("Priority must be greater than 0");
 				}
 			}
-
+			
 			if (!editing) {
 				sm.getFacade().createPrototype(nameField.getText(),
 						sm.getFacade().getGrid(), colorTool.getColor(),
@@ -412,7 +411,7 @@ public class EditEntityScreen extends Screen {
 				agent.setDesign(generateBytes());
 				Prototype.addPrototype(agent.getName(), agent);
 			}
-
+			
 			for (int i = 0; i < fieldNames.size(); i++) {
 				if (removedFields.contains(i)) {
 					if (agent.hasField(fieldNames.get(i).getText()))
@@ -453,10 +452,11 @@ public class EditEntityScreen extends Screen {
 					else
 						agent.addTrigger(generateTrigger(i));
 				}
+
 			}
 			toReturn = true;
-
-		} catch (NumberFormatException e) {
+		}
+		catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(null,
 					"Priorities field must be an integer greater than 0.");
 			e.printStackTrace();
@@ -549,8 +549,8 @@ public class EditEntityScreen extends Screen {
 		str = str.substring(0, str.lastIndexOf(':'));
 		String[] byteStr = str.split(":");
 		System.out.println("BOO: " + str); 
-		for (String s : byteStr) 
-			System.out.println("genB:" +s);
+				for (String s : byteStr) 
+					System.out.println("genB:" +s);
 		for (int i = 0; i < 7; i++) {
 			toReturn[i] = Byte.parseByte(byteStr[i], 2);
 		}

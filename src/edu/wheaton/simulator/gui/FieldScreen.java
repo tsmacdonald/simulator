@@ -51,11 +51,14 @@ public class FieldScreen extends Screen {
 	private JButton add;
 	
 	private JButton edit;
+	
+	private static boolean editing;
 
 	//TODO prevent clicking edit when no object is selected 
 
 	public FieldScreen(final ScreenManager sm) {
 		super(sm);
+		editing = false;
 		JLabel label = new JLabel("Fields");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setPreferredSize(new Dimension(300, 100));
@@ -83,9 +86,6 @@ public class FieldScreen extends Screen {
 		posPanel.add(yPos);
 		posPanel.setAlignmentX(CENTER_ALIGNMENT);
 		listModel = new DefaultListModel();
-		//listModel.addElement("Field 1");
-		//listModel.addElement("Field 2");
-		//listModel.addElement("Field 3");
 		fields = new JList(listModel);
 		fields.setMaximumSize(new Dimension(400, 800));
 		fields.setLayoutOrientation(JList.VERTICAL_WRAP);
@@ -102,6 +102,8 @@ public class FieldScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						if(editing)
+							editing = false;
 						((EditFieldScreen) (sm.getScreen("Edit Fields"))).load(
 								sm.getFacade().getGrid().getSlot(
 										xPos.getSelectedIndex(), 
@@ -117,6 +119,8 @@ public class FieldScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						if(!editing)
+							editing = true;
 						((EditFieldScreen) (sm.getScreen("Edit Fields"))).load(
 								sm.getFacade().getGrid().getSlot(
 										xPos.getSelectedIndex(), yPos.getSelectedIndex()
@@ -143,7 +147,7 @@ public class FieldScreen extends Screen {
 		mainPanel.add(buttonPanel);
 		this.add(label, BorderLayout.NORTH);
 		this.add(mainPanel, BorderLayout.CENTER);
-
+		reset();
 	}
 
 	public void reset() {
@@ -159,14 +163,12 @@ public class FieldScreen extends Screen {
 		if (xPos.getItemCount() != sm.getGUIwidth()) {
 			xPos.removeAllItems();
 			for (int i = 0; i < sm.getGUIwidth(); i++) {
-				System.out.println("i = " + i);
 				xPos.addItem(i + "");
 			}
 		}
 		if (yPos.getItemCount() != sm.getGUIheight()) {
 			yPos.removeAllItems();
 			for (int j = 0; j < sm.getGUIwidth(); j++) {
-				System.out.println("j = " + j);
 				yPos.addItem(j + "");
 			}
 		}
@@ -228,6 +230,10 @@ public class FieldScreen extends Screen {
 			fields.setSelectedIndex(index);
 			fields.ensureIndexIsVisible(index);
 		}	
+	}
+	
+	public static boolean getEditing(){
+		return editing;
 	}
 
 }
