@@ -392,19 +392,21 @@ public class EditEntityScreen extends Screen {
 					throw new Exception("Priority must be greater than 0");
 				}
 			}
+			
 			if (!editing) {
 				sm.getFacade().createPrototype(nameField.getText(),
 						sm.getFacade().getGrid(), colorTool.getColor(),
 						generateBytes());
 				agent = sm.getFacade().getPrototype(nameField.getText());
 			}
-
 			else {
 				agent.setPrototypeName(agent.getName(),
 						nameField.getText());
 				agent.setColor(colorTool.getColor());
 				agent.setDesign(generateBytes());
+				Prototype.addPrototype(agent.getName(), agent);
 			}
+			
 			for (int i = 0; i < fieldNames.size(); i++) {
 				if (removedFields.contains(i)) {
 					if (agent.hasField(fieldNames.get(i).getText()))
