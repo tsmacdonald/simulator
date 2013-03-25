@@ -23,10 +23,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
+<<<<<<< HEAD
+=======
 import javax.swing.GroupLayout.Alignment;
 
 import com.sun.corba.se.impl.encoding.CodeSetConversion.BTCConverter;
 
+>>>>>>> 3a7d38e1934350b5c41dd359d0c0ceeff80203f6
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
@@ -336,9 +339,9 @@ public class EditEntityScreen extends Screen {
 			addTrigger();
 			triggerNames.get(j).setText(t.getName());
 			triggerConditions.get(j).setText(t.getConditions().toString());
-			// TODO finish once getters become available
-			// triggerResults.get(j).setText(t.getBehavior().toString());
-			// triggerPriority.get(j).setText(t.getPriority +"");
+			
+			 triggerResults.get(j).setText(t.getBehavior().toString());
+			 triggerPriority.get(j).setText(t.getPriority +"");
 		}
 	}
 
@@ -516,16 +519,16 @@ public class EditEntityScreen extends Screen {
 			for (int row = 0; row < 7; row++) {
 				if (buttons[column][row].getBackground().equals(Color.BLACK)) {
 					System.out.print("1");
-					str = "1" + str;
+					str += "1";
 				} else {
 					System.out.print("0");
-					str = "0" + str;
+					str += "0";
 				}
 			}
-			str = ":" + str;
+			str += ":";
 			System.out.print(":");
 		}
-		str = str.substring(str.indexOf(':')+1);
+		str = str.substring(0, str.lastIndexOf(':'));
 		String[] byteStr = str.split(":");
 		System.out.println("BOO: " + str); 
 		for (String s : byteStr) 

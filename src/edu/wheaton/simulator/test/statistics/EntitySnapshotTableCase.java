@@ -1,7 +1,6 @@
 package edu.wheaton.simulator.test.statistics;
 
-
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,8 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import com.google.common.collect.TreeBasedTable;
 
 import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.entity.EntityID;
@@ -29,7 +26,7 @@ public class EntitySnapshotTableCase {
 	ArrayList<EntitySnapshot> snaps;
 	HashSet<EntityID> ids;
 	String[] names = new String[] {"bear", "tom", "john", "piglet", "reese"};
-	
+
 	/**
 	 * Make entities and then snapshots to put into the table
 	 */
@@ -50,7 +47,7 @@ public class EntitySnapshotTableCase {
 		table = null;
 		fillTable();
 	}
-	
+
 	/**
 	 * Helper method to fill the table for tests to use
 	 */
@@ -60,14 +57,14 @@ public class EntitySnapshotTableCase {
 			table.putEntity(snap);
 		}
 	}
-	
+
 	@After
 	public void tearDown() {
 		table = null;
 		snaps = null;
 		ids = null;
 	}
-	
+
 	@Test
 	public void test() {
 		//fail("Not yet implemented");
@@ -84,7 +81,7 @@ public class EntitySnapshotTableCase {
 		}
 		org.junit.Assert.assertEquals("failure-table.size() should equal 10. it equals " + table.getSize(), table.getSize(), 10);
 	}
-	
+
 	/**
 	 * Test whether the table stores records correctly
 	 */
@@ -99,10 +96,51 @@ public class EntitySnapshotTableCase {
 			}
 		}
 	}
-	
+
 	@Test
 	public void tableChecksForStep() {
 		org.junit.Assert.assertTrue(table.containsStep(1));
 		org.junit.Assert.assertTrue(table.containsStep(2));
+	}
+}
+
+class EntitySnapshotTableTest {
+
+	EntitySnapshot entitySnap;
+	Entity entity;
+	Integer step;
+	HashMap<String, String> fields;
+
+	@Before
+	public void setUp() throws Exception {
+		entity = new Entity();
+		step = new Integer(23);
+		fields = new HashMap<String, String>();
+		fields.put("Pig", "Tom");
+		fields.put("Monkey", "Olly");
+		fields.put("Cat", "Joomba");
+		entitySnap = new EntitySnapshot(entity.getEntityID(),
+				SnapshotFactory.makeFieldSnapshots(fields), step);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		entity = null;
+		step = null;
+		fields.remove("Pig");
+		fields.remove("Monkey");
+		fields.remove("Cat");
+		fields = null;
+		entitySnap = null;
+	}
+
+	@Test
+	public void test() {
+		// fail("Not yet implemented");
+	}
+
+	@Test
+	public void entitySnapshotTableTest() {
+		EntitySnapshotTable entSnapTable = new EntitySnapshotTable();
 	}
 }
