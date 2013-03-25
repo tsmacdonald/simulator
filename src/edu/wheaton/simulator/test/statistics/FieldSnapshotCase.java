@@ -9,6 +9,7 @@ package edu.wheaton.simulator.test.statistics;
  */
 
 import junit.framework.Assert;
+import junit.framework.AssertionFailedError;
 
 import org.junit.After;
 import org.junit.Before;
@@ -37,7 +38,9 @@ public class FieldSnapshotCase {
 	public void fieldSnapshotTest() {
 		FieldSnapshot fieldSnap = new FieldSnapshot("name", "akon");
 		Assert.assertNotNull(fieldSnap);
+		Assert.assertFalse(fieldSnap.isNumber);
 		FieldSnapshot fieldSnapWithInt = new FieldSnapshot("akon", "12345");
+		Assert.assertTrue(fieldSnapWithInt.isNumber);
 		Assert.assertNotNull(fieldSnapWithInt);
 	}
 }

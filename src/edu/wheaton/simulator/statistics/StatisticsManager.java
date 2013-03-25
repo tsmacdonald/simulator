@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.naming.NameNotFoundException;
 
@@ -59,6 +60,23 @@ public class StatisticsManager {
 		return gridObserver;
 	}
 
+	/**
+	 * Add a PrototypeSnapshot to the StatisticsManager. 
+	 * @param prototypeSnapshot The new prototype being recorded. 
+	 */
+	public void addPrototypeSnapshot(PrototypeSnapshot prototypeSnapshot) { 
+		if (prototypeSnapshot.step > lastStep) 
+			lastStep = prototypeSnapshot.step; 
+		Map<PrototypeID, PrototypeSnapshot> typeMap; 
+		try { 
+			typeMap = prototypes.get(prototypeSnapshot.step); 
+		} catch (IndexOutOfBoundsException e) { 
+			typeMap = new TreeMap<PrototypeID, PrototypeSnapshot>();
+			prototypes.add(prototypeSnapshot.step, typeMap); 
+		}
+		typeMap.put(prototypeSnapshot.id, prototypeSnapshot);
+	}
+	
 	/**
 	 * Store a snapshot of a gridEntity.
 	 * 
