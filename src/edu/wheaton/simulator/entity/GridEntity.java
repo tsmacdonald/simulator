@@ -44,9 +44,7 @@ public abstract class GridEntity extends Entity {
 		grid = g;
 		Color c = Color.black;
 		try {
-			addField("colorRed", new Integer(c.getRed()));
-			addField("colorBlue", new Integer(c.getBlue()));
-			addField("colorGreen", new Integer(c.getGreen()));
+			initColor(c);
 			addField("x", 0);
 			addField("y", 0);
 		} catch (ElementAlreadyContainedException e) {
@@ -72,9 +70,7 @@ public abstract class GridEntity extends Entity {
 		grid = g;
 
 		try {
-			addField("colorRed", new Integer(c.getRed()));
-			addField("colorBlue", new Integer(c.getBlue()));
-			addField("colorGreen", new Integer(c.getGreen()));
+			initColor(c);
 			addField("x", 0);
 			addField("y", 0);
 		} catch (ElementAlreadyContainedException e) {
@@ -101,14 +97,18 @@ public abstract class GridEntity extends Entity {
 		grid = g;
 
 		try {
-			addField("colorRed", new Integer(c.getRed()));
-			addField("colorBlue", new Integer(c.getBlue()));
-			addField("colorGreen", new Integer(c.getGreen()));
+			initColor(c);
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
 
 		design = d;
+	}
+	
+	private void initColor(Color c) {
+		addField("colorRed", new Integer(c.getRed()));
+		addField("colorBlue", new Integer(c.getBlue()));
+		addField("colorGreen", new Integer(c.getGreen()));
 	}
 
 	/**
