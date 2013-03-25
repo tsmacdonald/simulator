@@ -49,7 +49,7 @@ public abstract class GridEntity extends Entity {
 			e.printStackTrace();
 		}
 
-		design = makeDesign();
+		setDesign(makeDesign());
 	}
 
 	/**
@@ -71,7 +71,7 @@ public abstract class GridEntity extends Entity {
 			e.printStackTrace();
 		}
 
-		design = makeDesign();
+		setDesign(makeDesign());
 	}
 
 	/**
@@ -94,13 +94,14 @@ public abstract class GridEntity extends Entity {
 			e.printStackTrace();
 		}
 
-		design = d;
+		setDesign(d);
 	}
 	
 	private static byte[] makeDesign(){
 		byte[] design = new byte[8];
 		for (int i = 0; i < design.length; i++)
 			design[i] = 127; // sets design to a solid image
+		return design;
 	}
 	
 	private void initFields(Color c){
