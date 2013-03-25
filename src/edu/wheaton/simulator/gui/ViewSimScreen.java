@@ -89,6 +89,7 @@ public class ViewSimScreen extends Screen {
 				while(sm.isRunning()) {
 					sm.getFacade().updateEntities();
 					//if we do layers, they go here
+					//TODO check ending conditions here
 					SwingUtilities.invokeLater(
 							new Thread (new Runnable() {
 								@Override
