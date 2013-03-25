@@ -184,6 +184,7 @@ public class SetupScreen extends Screen {
 								grid[i][j].setBorder(BorderFactory.createEtchedBorder());
 							}	
 						}
+						sm.getEnder().setStepLimit(Integer.parseInt(timeField.getText()));
 						for (int i = 0; i < values.size(); i++) {
 							sm.getEnder().setPopLimit(
 									sm.getFacade().getPrototype(

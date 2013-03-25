@@ -17,6 +17,7 @@ import java.util.List;
 import net.sourceforge.jeval.EvaluationException;
 
 import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class Agent extends GridEntity {
 
@@ -85,12 +86,16 @@ public class Agent extends GridEntity {
 	 * 
 	 * @throws Exception
 	 */
-	public void act() {
-		try {
-			for (Trigger t : triggers)
+	public void act() throws SimulationPauseException{
+		for (Trigger t : triggers)
+			try {
 				t.evaluate(this);
-		} catch (EvaluationException e) {
-			System.err.println(e.getMessage());
+			} catch (EvaluationException e) {
+				System.err.println(e.getMessage());
+				String errorMessage = "Error in Agent: " + this.getName() + 
+						"\n ID: " + this.getAgentID() + "\n Trigger: " + t.getName() +
+						"\n in " + e.getMessage();
+				throw new SimulationPauseException(errorMessage);
 		}
 	}
 

@@ -14,6 +14,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -36,10 +37,9 @@ public class ViewSimScreen extends Screen {
 	private static final long serialVersionUID = -6872689283286800861L;
 
 	private GridPanel grid;
-	
+
 	private int stepCount;
-	
-	//TODO handle case of no input grid size, either here or in newSim/setup
+
 	public ViewSimScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -69,16 +69,22 @@ public class ViewSimScreen extends Screen {
 					}
 				}
 				);
-		
+
 		startButton.addActionListener(
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					sm.setRunning(true);
-					sm.setStarted(true);
-				}}
-		);
-		
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
+						for (SpawnCondition condition: conditions) {
+							condition.addToGrid(sm.getFacade());
+						}
+						sm.setRunning(true);
+						sm.setStarted(true);
+						runSim();
+					}
+				}
+				);
+
 		grid = new GridPanel(sm);
 		panel.add(startButton);
 		panel.add(pauseButton);
@@ -87,15 +93,19 @@ public class ViewSimScreen extends Screen {
 		this.add(panel, BorderLayout.SOUTH);
 		this.add(grid, BorderLayout.CENTER);
 		this.setVisible(true);	
+
+	}
+	private void runSim() {
 		//program loop yay!
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				while(sm.isRunning()) {
 					sm.getFacade().updateEntities();
-					sm.setRunning(!(sm.getEnder().evaluate(stepCount, 
-							sm.getFacade().getGrid())));
-					
+					//TODO hand grid, stepCount, and Prototype.getProtoypes() to stats observer
+//					sm.setRunning(!(sm.getEnder().evaluate(stepCount, 
+//							sm.getFacade().getGrid())));
+
 					SwingUtilities.invokeLater(
 							new Thread (new Runnable() {
 								@Override
@@ -104,11 +114,17 @@ public class ViewSimScreen extends Screen {
 								}
 							}));
 					stepCount++;
+					System.out.println(stepCount);
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}).start();
 	}
-
 	private void paint(){
 		grid.paint(grid.getGraphics());
 		grid.agentPaint(grid.getGraphics());
