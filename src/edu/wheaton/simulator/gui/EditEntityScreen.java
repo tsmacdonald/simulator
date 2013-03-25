@@ -336,9 +336,9 @@ public class EditEntityScreen extends Screen {
 			addTrigger();
 			triggerNames.get(j).setText(t.getName());
 			triggerConditions.get(j).setText(t.getConditions().toString());
-			// TODO finish once getters become available
-			// triggerResults.get(j).setText(t.getBehavior().toString());
-			// triggerPriority.get(j).setText(t.getPriority +"");
+			
+			 triggerResults.get(j).setText(t.getBehavior().toString());
+			 triggerPriority.get(j).setText(t.getPriority +"");
 		}
 	}
 
