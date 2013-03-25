@@ -147,19 +147,16 @@ public class FieldScreen extends Screen {
 		mainPanel.add(buttonPanel);
 		this.add(label, BorderLayout.NORTH);
 		this.add(mainPanel, BorderLayout.CENTER);
-		reset();
 	}
 
 	public void reset() {
 		listModel.clear();
 	}
-
 	@Override
 	public void load() {
 		reset();
 		edit.setEnabled(sm.hasStarted() ? false : true); 
 		delete.setEnabled(sm.hasStarted() ? false : true); 
-		
 		if (xPos.getItemCount() != sm.getGUIwidth()) {
 			xPos.removeAllItems();
 			for (int i = 0; i < sm.getGUIwidth(); i++) {
@@ -172,12 +169,13 @@ public class FieldScreen extends Screen {
 				yPos.addItem(j + "");
 			}
 		}
-		
 		Map<String, String> map = sm.getFacade().getGrid().getSlot(Integer.parseInt(xPos.getSelectedItem().toString()),
 				Integer.parseInt(yPos.getSelectedItem().toString())).getFieldMap();
-		Object[] fields = map.keySet().toArray();
-		for(Object s: fields)
-			listModel.addElement((String) s);
+		Object[] fieldsA = map.keySet().toArray();
+		for(Object s: fieldsA){
+			System.out.println((String) s);
+			listModel.addElement(s);
+		}
 		
 	}
 
