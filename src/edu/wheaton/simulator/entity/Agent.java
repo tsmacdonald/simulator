@@ -134,7 +134,7 @@ public class Agent extends GridEntity {
 	 */
 	public void removeTrigger(String name) {
 		for (int i = 0; i < triggers.size(); i++)
-			if (triggers.get(i).getName().equals(name))
+			if (getTriggerName(i).equals(name))
 				triggers.remove(i);
 	}
 
@@ -145,8 +145,12 @@ public class Agent extends GridEntity {
 	 */
 	public void updateTrigger(String name, Trigger newT) {
 		for (int i = 0; i < triggers.size(); i++)
-			if (triggers.get(i).getName().equals(name))
+			if (getTriggerName(i).equals(name))
 				triggers.set(i, newT);
+	}
+	
+	private String getTriggerName(int index){
+		return triggers.get(index).getName();
 	}
 
 	/**
