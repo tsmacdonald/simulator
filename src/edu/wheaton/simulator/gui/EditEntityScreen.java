@@ -110,12 +110,12 @@ public class EditEntityScreen extends Screen {
 		nameField.setMaximumSize(new Dimension(400, 40));
 		colorTool = new JColorChooser();
 		iconPanel.setLayout(new GridLayout(8,8));
-		iconPanel.setSize(800, 800);
+		iconPanel.setSize(500, 500);
 		buttons = new JButton[8][8];
 		for(int i = 0; i < 8; i++){
 			for(int j = 0; j < 8; j++){
 				buttons[i][j] = new JButton();
-				buttons[i][j].setBackground(Color.WHITE);
+				buttons[i][j].setForeground(Color.WHITE);
 				buttons[i][j].setActionCommand(i + "" + j);
 				buttons[i][j].addActionListener(new ActionListener(){
 					@Override
@@ -124,9 +124,9 @@ public class EditEntityScreen extends Screen {
 						JButton jb = buttons
 								[Integer.parseInt(str.charAt(0) + "")]
 								[Integer.parseInt(str.charAt(1) + "")]; 
-						if(jb.getBackground().equals(Color.WHITE))
-							jb.setBackground(Color.BLACK);
-						else jb.setBackground(Color.WHITE);
+						if(jb.getForeground().equals(Color.WHITE))
+							jb.setForeground(Color.BLACK);
+						else jb.setForeground(Color.WHITE);
 					}
 				});
 				iconPanel.add(buttons[i][j]);
