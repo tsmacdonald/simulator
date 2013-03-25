@@ -108,6 +108,6 @@ public class ScreenManager {
 	}
 	
 	public boolean hasStarted() {
-		return hasStarted();
+		return hasStarted;
 	}
 }

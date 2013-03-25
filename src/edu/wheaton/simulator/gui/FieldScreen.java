@@ -152,6 +152,9 @@ public class FieldScreen extends Screen {
 
 	@Override
 	public void load() {
+		edit.setEnabled(sm.hasStarted() ? false : true); 
+		delete.setEnabled(sm.hasStarted() ? false : true); 
+		
 		if (xPos.getItemCount() != sm.getGUIwidth()) {
 			xPos.removeAllItems();
 			for (int i = 0; i < sm.getGUIwidth(); i++) {
