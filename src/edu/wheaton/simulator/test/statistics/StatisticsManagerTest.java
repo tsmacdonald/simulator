@@ -49,20 +49,32 @@ public class StatisticsManagerTest {
 	int population;
 	ImmutableSet<AgentID> children;
 	Integer step;
-	PrototypeSnapshot protoSnap; 
+	PrototypeSnapshot protoSnap;
+	PrototypeSnapshot protoSnap2;
 	
 	@Before
 	public void setUp() throws Exception {
 		sm = new StatisticsManager();
 		g = new Grid(10,  10); 		
 		
+		//Add a test PrototypeSnapshot
 		categoryName = "testing";
 		grid = new Grid(10, 10);
 		prototype = new Prototype(grid, "tester");
 		fields = new HashMap<String, String>();
 		population = 50;
 		children = prototype.childIDs();
-		step = new Integer(23);
+		step = new Integer(1);
+		
+		protoSnap = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
+				SnapshotFactory.makeFieldSnapshots(fields), population,
+				children, step);
+		
+		//Add another test PrototypeSnapshot
+		categoryName = "testing2";
+		prototype = new Prototype(grid, "tester2");
+		population = 40;
+		step = new Integer(2);
 		
 		protoSnap = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
 				SnapshotFactory.makeFieldSnapshots(fields), population,
@@ -151,7 +163,8 @@ public class StatisticsManagerTest {
 	@Test
 	public void testGetAvgLifespan() {				
 		try {
-			sm.getAvgLifespan(protoSnap.id);
+			double result = sm.getAvgLifespan(protoSnap.id);
+			System.out.println(result); 
 		} 
 		catch (NameNotFoundException e) {
 			e.printStackTrace();
