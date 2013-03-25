@@ -177,7 +177,7 @@ public class EditEntityScreen extends Screen {
 		fieldSubPanels = new ArrayList<JPanel>();
 		addFieldButton = new JButton("Add Field");
 		addFieldButton.addActionListener(new ActionListener() {
-			@Override
+			
 			public void actionPerformed(ActionEvent e) {
 				addField();
 			}
