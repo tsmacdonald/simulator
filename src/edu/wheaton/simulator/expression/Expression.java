@@ -60,15 +60,13 @@ public class Expression implements ExpressionEvaluator {
 
 			Entity target = entityMap.get(targetName);
 			if (target == null) {
-				System.err.println("##Target entity not found##");
-				return null;
+				throw new FunctionException("Target entity not found: " + targetName);
 			}
 			try {
 				String toReturn = target.getFieldValue(fieldName);
 				return toReturn;
 			} catch (NoSuchElementException e) {
-				System.err.println("##NoSuchElementException thrown##");
-				return null;
+				throw new FunctionException("Target field not found: " + fieldName);
 			}
 		}
 
@@ -211,17 +209,35 @@ public class Expression implements ExpressionEvaluator {
 
 	@Override
 	public Boolean evaluateBool() throws EvaluationException {
-		return evaluator.getBooleanResult(expr.toString());
+		try {
+			return evaluator.getBooleanResult(expr.toString());
+		} catch (EvaluationException e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
 	public Double evaluateDouble() throws EvaluationException {
-		return evaluator.getNumberResult(expr.toString());
+		try {
+			return evaluator.getNumberResult(expr.toString());
+		} catch (EvaluationException e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
 	public String evaluateString() throws EvaluationException {
-		return evaluator.evaluate(expr.toString());
+		try {
+			return evaluator.evaluate(expr.toString());
+		} catch (EvaluationException e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	public static Boolean evaluateBool(Object exprStr)

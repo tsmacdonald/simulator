@@ -75,13 +75,8 @@ public class Trigger implements Comparable<Trigger> {
 	 *             if the expression was invalid
 	 */
 	public void evaluate(Agent xThis) throws EvaluationException {
-//		ExpressionEvaluator condition = conditionExpression.clone();
-//		ExpressionEvaluator behavior = behaviorExpression.clone();
-		
-		ExpressionEvaluator condition = conditionExpression;
-		ExpressionEvaluator behavior = behaviorExpression;
-		
-		System.out.println("after expression cloning in Trigger.evaluate");
+		ExpressionEvaluator condition = conditionExpression.clone();
+		ExpressionEvaluator behavior = behaviorExpression.clone();
 		
 		condition.importEntity("this", xThis);
 		behavior.importEntity("this", xThis);

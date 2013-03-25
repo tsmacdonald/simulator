@@ -176,6 +176,8 @@ public class ExpressionEvaluationTest {
 			}
 		});
 
-		Assert.assertEquals(new Double(5.0), testExpression.evaluateDouble());
+		ExpressionEvaluator expr = testExpression.clone();
+		
+		Assert.assertEquals(new Double(5.0), expr.evaluateDouble());
 	}
 }

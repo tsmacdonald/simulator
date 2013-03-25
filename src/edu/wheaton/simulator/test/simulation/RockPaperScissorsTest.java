@@ -44,9 +44,9 @@ public class RockPaperScissorsTest {
 			}
 			// Normal moving behavior
 			testPrototype.addTrigger(new Trigger("moveIfNoObstacle", 1, dir0, xMoveRight));
-			testPrototype.addTrigger(new Trigger("moveIfNoObstacle", 1, dir1, yMoveUp));
-			testPrototype.addTrigger(new Trigger("moveIfNoObstacle", 1, dir2, xMoveLeft));
-			testPrototype.addTrigger(new Trigger("moveIfNoObstacle", 1, dir3, yMoveDown));
+			testPrototype.addTrigger(new Trigger("moveIfNoObstacle", 2, dir1, yMoveUp));
+			testPrototype.addTrigger(new Trigger("moveIfNoObstacle", 3, dir2, xMoveLeft));
+			testPrototype.addTrigger(new Trigger("moveIfNoObstacle", 4, dir3, yMoveDown));
 
 			for(int i = 0; i < 10; i ++){
 				testGrid.spawnAgent(testPrototype.clonePrototype());
@@ -58,12 +58,7 @@ public class RockPaperScissorsTest {
 		//Run through multiple "steps"
 		int numSteps = 100;
 		for(int i = 0; i < numSteps; i++){
-			try {
-				testGrid.updateEntities();
-			} catch (NullPointerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} //currently updateEntities does not work
+			testGrid.updateEntities();
 		}
 		
 	}
