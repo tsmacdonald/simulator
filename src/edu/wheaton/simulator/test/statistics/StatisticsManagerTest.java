@@ -44,7 +44,7 @@ public class StatisticsManagerTest {
 //		Grid grid = new Grid(10, 10);
 //		Prototype prototype = new Prototype(grid, "tester");
 //		HashMap<String, String> fields1 = new HashMap<String, String>();
-//		int population = 50;
+//		int population fail("Not yet implemented");= 50;
 //		ImmutableSet<AgentID> children = prototype.childIDs();
 //		Integer step1 = new Integer(1);
 //		
@@ -108,6 +108,8 @@ public class StatisticsManagerTest {
 
 	@Test
 	public void testGetPopVsTime() {
+		new Prototype(g, "Cat"); 
+		new PrototypeSnapshot("Cat", , fields, population, children, step)
 		fail("Not yet implemented");
 	}
 
