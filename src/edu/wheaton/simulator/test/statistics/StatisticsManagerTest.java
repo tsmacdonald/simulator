@@ -1,4 +1,4 @@
-package edu.wheaton.simulator.statistics;
+package edu.wheaton.simulator.test.statistics;
 
 /**
  * A JUnit test case for testing StatisticsManager.java.
@@ -25,6 +25,9 @@ import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.statistics.PrototypeSnapshot;
+import edu.wheaton.simulator.statistics.SnapshotFactory;
+import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class StatisticsManagerTest {
 

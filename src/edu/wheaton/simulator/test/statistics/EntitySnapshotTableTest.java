@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.wheaton.simulator.statistics;
+package edu.wheaton.simulator.test.statistics;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -16,6 +16,9 @@ import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.entity.EntityID;
+import edu.wheaton.simulator.statistics.EntitySnapshot;
+import edu.wheaton.simulator.statistics.EntitySnapshotTable;
+import edu.wheaton.simulator.statistics.SnapshotFactory;
 
 /**
  * A JUnit test case for testing EntitySnapshotTable.java.
