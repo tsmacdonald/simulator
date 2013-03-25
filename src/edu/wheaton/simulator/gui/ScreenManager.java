@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 
 import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
+import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class ScreenManager {
 
@@ -15,6 +16,8 @@ public class ScreenManager {
 	private JPanel[][] grid;
 	
 	private SimulationEnder se;
+	
+	private StatisticsManager statMan;
 	
 	private GUIToAgentFacade facade;
 	
@@ -66,6 +69,10 @@ public class ScreenManager {
 	
 	public SimulationEnder getEnder() {
 		return se;
+	}
+	
+	public StatisticsManager getStatManager(){
+		return statMan;
 	}
 	
 	public String getGUIname(){
