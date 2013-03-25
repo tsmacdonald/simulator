@@ -168,14 +168,7 @@ public class FieldScreen extends Screen {
 				System.out.println("j = " + j);
 				yPos.addItem(j + "");
 			}
-		}
-		
-		Map<String, String> map = sm.getFacade().getGrid().getSlot(Integer.parseInt(xPos.getSelectedItem().toString()),
-				Integer.parseInt(yPos.getSelectedItem().toString())).getFieldMap();
-		String[] fields = (String[]) map.keySet().toArray();
-		for(String s: fields)
-			listModel.addElement(s);
-		
+		}		
 	}
 
 	private class BoxListener implements ActionListener {
