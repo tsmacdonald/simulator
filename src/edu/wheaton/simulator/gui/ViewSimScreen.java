@@ -11,10 +11,7 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -63,6 +60,7 @@ public class ViewSimScreen extends Screen {
 				);
 		pauseButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.setRunning(false);
 					}
@@ -86,12 +84,14 @@ public class ViewSimScreen extends Screen {
 		this.setVisible(true);	
 		//program loop yay!
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				while(sm.isRunning()) {
 					sm.getFacade().updateEntities();
 					//if we do layers, they go here
 					SwingUtilities.invokeLater(
 							new Thread (new Runnable() {
+								@Override
 								public void run() {
 									repaint();
 								}

@@ -2,7 +2,6 @@ package edu.wheaton.simulator.behavior;
 
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Entity;
-import edu.wheaton.simulator.expression.ExpressionEvaluator;
 
 public class SetFieldBehavior extends AbstractBehavior {
 

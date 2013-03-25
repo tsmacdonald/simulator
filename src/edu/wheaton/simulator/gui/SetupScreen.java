@@ -97,6 +97,7 @@ public class SetupScreen extends Screen {
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
+	@Override
 	public void load() {
 		nameField.setText(sm.getGUIname());
 		width.setText(sm.getGUIwidth() + "");
