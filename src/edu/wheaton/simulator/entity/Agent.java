@@ -14,46 +14,57 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.wheaton.simulator.datastructure.Field;
+import net.sourceforge.jeval.EvaluationException;
+
 import edu.wheaton.simulator.simulation.Grid;
 
 public class Agent extends GridEntity {
 
 	private final AgentID id;
-	
+
 	/**
 	 * The list of all triggers/events associated with this agent.
 	 */
 	private List<Trigger> triggers;
 
 	/**
+	 * Prototype of the agent
+	 */
+	private Prototype prototype;
+
+	/**
 	 * Constructor.
 	 * 
 	 * Makes an agent with the default gridEntity color
+	 * 
 	 * @param g
 	 *            The grid (passed to super constructor)
 	 */
-	public Agent(Grid g) {
+	public Agent(Grid g, Prototype prototype) {
 		super(g);
 		triggers = new ArrayList<Trigger>();
 		id = new AgentID();
+		this.prototype = prototype;
 	}
+
 	/**
-	 * Constructor.
-	 * Makes an agent with a solid color
+	 * Constructor. Makes an agent with a solid color
+	 * 
 	 * @param g
 	 *            The grid (passed to super constructor)
 	 * @param c
 	 *            The color of this agent (passed to super constructor)
 	 */
-	public Agent(Grid g, Color c) {
+	public Agent(Grid g, Prototype prototype, Color c) {
 		super(g, c);
 		triggers = new ArrayList<Trigger>();
 		id = new AgentID();
+		this.prototype = prototype;
 	}
+
 	/**
-	 * Constructor.
-	 * Makes an agent with custom color and color map
+	 * Constructor. Makes an agent with custom color and color map
+	 * 
 	 * @param g
 	 *            The grid (passed to super constructor)
 	 * @param c
@@ -61,24 +72,25 @@ public class Agent extends GridEntity {
 	 * @param d
 	 *            The design for this agent (passed to super constructor)
 	 */
-	public Agent(Grid g, Color c, byte[] d) {
+	public Agent(Grid g, Prototype prototype, Color c, byte[] d) {
 		super(g, c, d);
 		triggers = new ArrayList<Trigger>();
 		id = new AgentID();
+		this.prototype = prototype;
 	}
 
 	/**
 	 * Causes this Agent to perform 1 action. The first trigger with valid
 	 * conditions will fire.
-	 *
+	 * 
 	 * @throws Exception
 	 */
-	public void act(GridEntity local, GridEntity global) {
+	public void act() {
 		try {
 			for (Trigger t : triggers)
-				t.evaluate(this, getGrid(), local, global);
-		} catch (Exception e) {
-			System.err.println(e);
+				t.evaluate(this);
+		} catch (EvaluationException e) {
+			System.err.println(e.getMessage());
 		}
 	}
 
@@ -112,6 +124,28 @@ public class Agent extends GridEntity {
 	}
 
 	/**
+	 * Removes a trigger with the given name.
+	 * 
+	 * @param name
+	 */
+	public void removeTrigger(String name) {
+		for (int i = 0; i < triggers.size(); i++)
+			if (triggers.get(i).getName().equals(name))
+				triggers.remove(i);
+	}
+
+	/**
+	 * Updates the trigger(s) with the given name
+	 * 
+	 * @param name
+	 */
+	public void updateTrigger(String name, Trigger newT) {
+		for (int i = 0; i < triggers.size(); i++)
+			if (triggers.get(i).getName().equals(name))
+				triggers.set(i, newT);
+	}
+
+	/**
 	 * Gets the current x position of this agent
 	 * 
 	 * @return x
@@ -139,8 +173,16 @@ public class Agent extends GridEntity {
 		updateField("x", x);
 		updateField("y", y);
 	}
-	
-	public AgentID getAgentID(){
+
+	public AgentID getAgentID() {
 		return id;
+	}
+
+	public Prototype getPrototype() {
+		return prototype;
+	}
+	
+	public String getName() {
+		return getPrototype().getName();
 	}
 }

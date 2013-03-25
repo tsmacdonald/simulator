@@ -1,25 +1,19 @@
 package edu.wheaton.simulator.gui;
 
-public class GUIManager {
+public final class GUIManager {
 
+	private static GUIManager instance = null;
 	private static String nameOfSimulation;
-	private static int gridHeight;
-	private static int gridWidth;
-	private static int guiId;
+	private static int gridHeight = 0;
+	private static int gridWidth = 0;
 	
 	private GUIManager(){
-		guiId++;
 	}
 	
 	public static GUIManager getInstance(){
-		if(guiId == 0)
-			return new GUIManager();
-		else 
-			return null;
-	}
-	
-	public static int getId() {
-		return guiId;
+		if(instance == null)
+			instance = new GUIManager();
+		return instance;
 	}
 	
 	public static String getNameOfSim(){
@@ -34,19 +28,15 @@ public class GUIManager {
 		return gridHeight;
 	}
 	
-	public static void setGridHeight(String gh){
-		try{
-			gridHeight = Integer.parseInt(gh);
-		} catch (java.lang.NumberFormatException nfe) { }
+	public static void setGridHeight(int gh){
+			gridHeight = gh;
 	}
 	
 	public static int getGridWidth(){
 		return gridWidth;
 	}
 	
-	public static void setGridWidth(String gw){
-		try{
-			gridWidth = Integer.parseInt(gw);
-		} catch (java.lang.NumberFormatException nfe) { }
+	public static void setGridWidth(int gw){
+			gridWidth = gw;
 	}
 }

@@ -34,7 +34,7 @@ public class Entity {
 		fields.put(name.toString(), value.toString());
 	}
 
-	/*
+	/**
 	 * if the entity has a field by that name it updates it's value. Otherwise
 	 * throws NoSuchElementException()
 	 * 
@@ -67,6 +67,16 @@ public class Entity {
 		if (fields.containsKey(name.toString()) == false)
 			throw new NoSuchElementException();
 		return fields.get(name.toString());
+	}
+
+	/**
+	 * Tells if this prototype has a Field corresponding to the given name
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public boolean hasField(String name) {
+		return (fields.containsKey(name));
 	}
 
 	public Map<String, String> getFieldMap() {

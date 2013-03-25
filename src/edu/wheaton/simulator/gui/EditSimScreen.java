@@ -3,6 +3,7 @@ package edu.wheaton.simulator.gui;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -10,47 +11,75 @@ public class EditSimScreen extends Screen {
 
 	private static final long serialVersionUID = 3629462657811804434L;
 	
-	private JButton[] buttons;
-	
-	public EditSimScreen(ScreenManager sm) {
+	//TODO throughout the menu: figure out which buttons/windows need to 
+	//     disabled while simulation is running.
+	public EditSimScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		JLabel label = new JLabel("Edit Simulation");
 		label.setAlignmentX(CENTER_ALIGNMENT);
 		label.setPreferredSize(new Dimension(500, 200));
-		buttons = new JButton[9];
 		JButton newSimulation = new JButton("New Simulation");
-		//newSimulation.setPreferredSize(new Dimension(175, 60));
-		buttons[0] = newSimulation;
+		newSimulation.addActionListener(new GeneralButtonListener("New Simulation", sm));
 		JButton loadExisting = new JButton("Load Existing");
-		//loadExisting.setPreferredSize(new Dimension(175, 60));
-		loadExisting.setEnabled(false); //serialization not yet implemented
-		buttons[1] = loadExisting;
+		//serialization not yet implemented
+		loadExisting.setEnabled(false); 
+		loadExisting.addActionListener(new GeneralButtonListener("Load Existing", sm));
 		JButton save = new JButton("Save");
-		//save.setPreferredSize(new Dimension(175, 60));
 		save.setEnabled(false); //serialization not yet implemented
-		buttons[2] = save;
+		
+		save.addActionListener( new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				//TODO need serialization
+			}
+		});
+		
 		JButton entities = new JButton("Entities");
-		//agents.setPreferredSize(new Dimension(175, 60));
-		buttons[3] = entities;
+		entities.addActionListener(
+				new GeneralButtonListener("Entities", sm));
+//				new ActionListener() {
+//					public void actionPerformed(ActionEvent e) {
+//						((EntityScreen)sm.getScreen("Entities")).load();
+//						sm.update(sm.getScreen("Entities"));
+//					}
+//				}
+//				);
 		JButton fields = new JButton("Fields");
-		//fields.setPreferredSize(new Dimension(175, 60));
-		buttons[4] = fields;
+		fields.addActionListener(
+				new GeneralButtonListener("Fields", sm));
+//				new ActionListener() {
+//					public void actionPerformed(ActionEvent e) {
+//						//TODO indexoutofbounds in load(), fix.
+//						System.out.println("Get to here with fields");
+//						((FieldScreen)sm.getScreen("Fields")).load();
+//						sm.update(sm.getScreen("Fields"));
+//					}
+//				}
+//				);
 		JButton statistics = new JButton("Statistics");
-		//statistics.setPreferredSize(new Dimension(175, 60));
-		buttons[5] = statistics;
+		statistics.addActionListener(new GeneralButtonListener("Statistics", sm));
 		JButton gridSetup = new JButton("Grid Setup");
-		//gridSetup.setPreferredSize(new Dimension(175, 60));
-		buttons[6] = gridSetup;
+		
+		gridSetup.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				((SetupScreen)sm.getScreen("Grid Setup")).load();
+				sm.update(sm.getScreen("Grid Setup"));
+			}
+		});
+		
 		JButton spawning = new JButton("Spawning");
-		//spawning.setPreferredSize(new Dimension(175, 60));
-		buttons[7] = spawning;
+		spawning.addActionListener(new GeneralButtonListener("Spawning", sm));
 		JButton viewSimulation = new JButton("View Simulation");
 		viewSimulation.setPreferredSize(new Dimension(400, 120));
-		buttons[8] = viewSimulation;
-		
-		for(JButton j : buttons)
-			j.addActionListener(this);
+		viewSimulation.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				sm.update(sm.getScreen("View Simulation"));
+				((ViewSimScreen)sm.getScreen("View Simulation")).load();
+			}
+		});
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.setMaximumSize(new Dimension(800, 1000));
@@ -78,26 +107,12 @@ public class EditSimScreen extends Screen {
 		mainPanel.add(panel4);
 		this.add(label);
 		this.add(mainPanel);
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String action = e.getActionCommand();
-		Screen update = this;
-		for(JButton j : buttons)
-			if(j.getText().equals(action))
-				update = sm.getScreen(action);
-		if(update instanceof SetupScreen)
-			((SetupScreen) update).updateSetUpScreen(sm.getGUIname(), sm.getGUIwidth()+"", sm.getGUIheight()+"");
-		if(update instanceof ViewSimScreen)
-			((ViewSimScreen) update).createGrid(sm.getGrid());
-		sm.update(update);
-	}
-
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
-	}
+	
 }

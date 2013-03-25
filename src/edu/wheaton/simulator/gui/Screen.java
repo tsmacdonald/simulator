@@ -9,10 +9,7 @@
 
 package edu.wheaton.simulator.gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.*;
+import javax.swing.JPanel;
 
 /**
  * Each window will have its own subclass of this abstract class, and one
@@ -21,7 +18,7 @@ import javax.swing.*;
  * things like loading information for objects to be edited, as well as
  * instance variables to hold those objects, if necessary.
  */
-public abstract class Screen extends JPanel implements ActionListener {
+public abstract class Screen extends JPanel {
 
 	private static final long serialVersionUID = -720613104216646508L;
 
@@ -30,10 +27,7 @@ public abstract class Screen extends JPanel implements ActionListener {
 	public Screen(ScreenManager sm) {
 		this.sm = sm;
 	}
-
-	public abstract void sendInfo();
-
-	@Override
-	public abstract void actionPerformed(ActionEvent e);
+	
+	public abstract void load();
 
 }

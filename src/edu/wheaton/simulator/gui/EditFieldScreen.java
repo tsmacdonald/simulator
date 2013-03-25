@@ -17,25 +17,22 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.wheaton.simulator.entity.GridEntity;
+
 public class EditFieldScreen extends Screen {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8001531208716520432L;
-	
+
 	private JTextField nameField;
-	
+
 	private String[] typeNames =  {"Integer", "Double", "String", "Boolean"};
-	
+
 	private JComboBox fieldType;
-	
+
 	private JTextField initValue;
-	
-	private JTextField xLoc;
-	
-	private JTextField yLoc;
-	
+
+	private GridEntity ge;
+
 	public EditFieldScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -50,8 +47,6 @@ public class EditFieldScreen extends Screen {
 		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
 		JPanel panel3 = new JPanel();
 		panel3.setLayout(new BoxLayout(panel3, BoxLayout.X_AXIS));
-		JPanel panel4 = new JPanel();
-		panel4.setLayout(new BoxLayout(panel4, BoxLayout.X_AXIS));
 		JPanel buttonPanel = new JPanel();
 		JLabel nameLabel = new JLabel("Field Name: ");
 		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -65,14 +60,6 @@ public class EditFieldScreen extends Screen {
 		valueLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		initValue = new JTextField(40);
 		initValue.setMaximumSize(new Dimension(300, 40));
-		JLabel xLocLabel = new JLabel("X Loc. ");
-		xLocLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		xLoc = new JTextField();
-		xLoc.setMaximumSize(new Dimension(150, 40));
-		JLabel yLocLabel = new JLabel("Y Loc. ");
-		yLocLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		yLoc = new JTextField();
-		yLoc.setMaximumSize(new Dimension(150, 40));
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.setPreferredSize(new Dimension(120, 60));
 		cancelButton.addActionListener(
@@ -80,30 +67,26 @@ public class EditFieldScreen extends Screen {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.update(sm.getScreen("Edit Simulation")); 
-						} 
-					}
+					} 
+				}
 				);
 		JButton finishButton = new JButton("Finish");
 		finishButton.setPreferredSize(new Dimension(120, 60));
-		finishButton.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Edit Simulation")); 
-						} 
-					}
-				);
-		
+		//TODO finish button needs to pull information from the screen and update
+		//     simulation accordingly.
+		finishButton.addActionListener(new finishListener());
+//			new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				sm.update(sm.getScreen("Edit Simulation")); 
+//			} 
+//		});
 		panel1.add(nameLabel);
 		panel1.add(nameField);
 		panel2.add(typeLabel);
 		panel2.add(fieldType);
 		panel3.add(valueLabel);
 		panel3.add(initValue);
-		panel4.add(xLocLabel);
-		panel4.add(xLoc);
-		panel4.add(yLocLabel);
-		panel4.add(yLoc);
 		buttonPanel.add(cancelButton);
 		buttonPanel.add(finishButton);
 		mainPanel.add(panel1);
@@ -112,23 +95,48 @@ public class EditFieldScreen extends Screen {
 		mainPanel.add(Box.createRigidArea(new Dimension (0, 15)));
 		mainPanel.add(panel3);
 		mainPanel.add(Box.createRigidArea(new Dimension (0, 15)));
-		mainPanel.add(panel4);
 		mainPanel.add(buttonPanel);
 		this.add(label, BorderLayout.NORTH);
 		this.add(mainPanel, BorderLayout.CENTER);
-		
+	}
+
+	public void reset() {
+		ge = null;
+		nameField.setText("");
+		initValue.setText("");
+	}
+	
+	public void load(GridEntity ge, String n) {
+		reset();
+		this.ge = ge;
+		nameField.setText(n);
+		initValue.setText(ge.getFieldValue(n));
+	}
+	
+	public void load(GridEntity ge) {
+		reset();
+		this.ge = ge;
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void load() {
 		// TODO Auto-generated method stub
-
 	}
 
-	@Override
-	public void sendInfo() {
-		// TODO Auto-generated method stub
-
+	private class finishListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			boolean toMove = false;
+			try {
+				ge.updateField(nameField.getText(), initValue.getText());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, 
+						"Please check your input");
+			}
+			if (toMove) {
+				sm.update(sm.getScreen("Fields"));
+			}
+			
+		}
 	}
-
 }

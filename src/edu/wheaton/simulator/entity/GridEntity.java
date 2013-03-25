@@ -57,6 +57,7 @@ public abstract class GridEntity extends Entity {
 		for (int i = 0; i < 8; i++)
 			design[i] = 127; // sets design to a solid image
 	}
+
 	/**
 	 * Constructor
 	 * 
@@ -111,6 +112,17 @@ public abstract class GridEntity extends Entity {
 	}
 
 	/**
+	 * Set the default color of this entity to a new value
+	 * 
+	 * @param c
+	 */
+	public void setColor(Color c) {
+		updateField("colorRed", new Integer(c.getRed()));
+		updateField("colorBlue", new Integer(c.getBlue()));
+		updateField("colorGreen", new Integer(c.getGreen()));
+	}
+
+	/**
 	 * Returns the object's default color
 	 * 
 	 */
@@ -150,12 +162,13 @@ public abstract class GridEntity extends Entity {
 		return design;
 	}
 
-	public String getProtypeName() {
-		// TODO: implement this.
-		throw new UnsupportedOperationException();
-	}
-
+	/**
+	 * Provides the grid that this entity is in.
+	 * 
+	 * @return the Grid object
+	 */
 	public Grid getGrid() {
 		return grid;
 	}
+
 }

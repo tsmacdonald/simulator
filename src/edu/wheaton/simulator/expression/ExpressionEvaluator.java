@@ -23,10 +23,15 @@ public interface ExpressionEvaluator {
 	public void clearVariables();
 
 	public void clearFunctions();
+	
+	void clearEntities();
 
 	public Boolean evaluateBool() throws EvaluationException;
 
 	public Double evaluateDouble() throws EvaluationException;
 
 	public String evaluateString() throws EvaluationException;
+	
+	@Override
+	public String toString();
 }

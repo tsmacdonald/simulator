@@ -4,42 +4,87 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
-import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.entity.Entity;
+import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.expression.Expression;
+import edu.wheaton.simulator.expression.ExpressionEvaluator;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class RockPaperScissorsTest {
 	Grid testGrid;
 	String [] agentType = {"rock", "paper", "scissors"};
-	String [] exampleFields = {"sightDistance", "speed"};
+	
 	@Before
 	public void setUp(){
-		testGrid = new Grid(50, 50);
-	}
-	@Test
-	public void test() {
-		for(int j = 0; j< agentType.length; j ++){
-			for(int i = 0; i < 10; i ++){
-				Agent testAgent = new Agent(testGrid);
-				testAgent = (Agent) addFields(testAgent);
-				try {
-					testAgent.addField("type", agentType[j]);
-					testAgent.addField("name", agentType[j]);
-				} catch (ElementAlreadyContainedException e) {
-					e.printStackTrace();
-				}
-				testGrid.spawnAgent(testAgent);
-			}
-		}
-	}
-	
-	private Entity addFields(Entity newAgent){
-		for(int i = 0; i < exampleFields.length; i ++)
+		this.testGrid = new Grid(100, 100);
+		
+		ExpressionEvaluator xMoveRight = new Expression("move('this', #{this.x} + 1, #{this.y})");		
+		ExpressionEvaluator yMoveUp = new Expression("move('this', #{this.x}, #{this.y} + 1)");		
+		ExpressionEvaluator xMoveLeft = new Expression("move('this', #{this.x} - 1, #{this.y})");		
+		ExpressionEvaluator yMoveDown = new Expression("move('this', #{this.x}, #{this.y} - 1)");
+		
+		// behavior: turn clockwise
+		ExpressionEvaluator turnClockwise = new Expression("setField('this', 'direction', (#{this.direction} +1)%4)");
+		
+		// behavior: turn to match the direction of the agent in front of me and set my type id to his. I know this does not change the name too. Still working on that.
+		ExpressionEvaluator changeIDAndTurnAround = new Expression("setField('this', 'direciton', (#{this.direction} +2)%4) && setField('this', 'typeID', (#{this.typeID} -1)%3) &&");
+		
+		// if nobody ahead in this direction
+		ExpressionEvaluator dir0 = new Expression("(#{this.direction} == 0) && isSlotOpen(#{this.x},#{this.y}+1)");		
+		ExpressionEvaluator dir1 = new Expression("(#{this.direction} == 1) && isSlotOpen(#{this.x}+1,#{this.y})");
+		ExpressionEvaluator dir2 = new Expression("(#{this.direction} == 2) && isSlotOpen(#{this.x},#{this.y}-1)");
+		ExpressionEvaluator dir3 = new Expression("(#{this.direction} == 3) && isSlotOpen(#{this.x}-1,#{this.y})");
+		
+		// I am weaker than opponent in front of me condition
+		ExpressionEvaluator loseConflict0 = new Expression("(#{this.direction} == 0) && isValidCoord(#{this.x},#{this.y}+1) && !isSlotOpen(#{this.x},#{this.y}+1)" +
+				" && getFieldOfAgentAt(#{this.x},#{this.y}+1, typeID) == #({this.typeID} + 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(#{this.x},#{this.y}+1, 'direction') == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
+		ExpressionEvaluator loseConflict1 = new Expression("(#{this.direction} == 1) && isValidCoord(#{this.x}+1,#{this.y}) && !isSlotOpen(#{this.x}+1,#{this.y})" +
+				" && getFieldOfAgentAt(#{this.x} + 1,#{this.y}, typeID) == #({this.typeID} + 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(#{this.x} + 1,#{this.y}, 'direction') == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
+		ExpressionEvaluator loseConflict2 = new Expression("(#{this.direction} == 2) && isValidCoord(#{this.x},#{this.y}-1) && !isSlotOpen(#{this.x},#{this.y}-1)" +
+				" && getFieldOfAgentAt(#{this.x},#{this.y} - 1, typeID) == #({this.typeID} + 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(#{this.x},#{this.y} - 1, 'direction') == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
+		ExpressionEvaluator loseConflict3 = new Expression("(#{this.direction} == 3) && isValidCoord(#{this.x}-1,#{this.y}) && !isSlotOpen(#{this.x}-1,#{this.y})" +
+				" && getFieldOfAgentAt(#{this.x} - 1,#{this.y}, typeID) == #({this.typeID} + 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(#{this.x} - 1,#{this.y}, 'direction') == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
+				
+		for(int j = 0; j < agentType.length; j ++){
+			Prototype testPrototype = new Prototype(testGrid, "testPrototype");
 			try {
-				newAgent.addField(exampleFields[i], 5);
+				testPrototype.addField("type", agentType[j]);
+				testPrototype.addField("typeID", j);
+				testPrototype.addField("direction", j);
+				testPrototype.addField("initialDIrection", j);
 			} catch (ElementAlreadyContainedException e) {
 				e.printStackTrace();
 			}
-		return newAgent;
+			// Normal moving behavior
+			testPrototype.addTrigger(new Trigger("moveIfNoObstacle", 1, dir0, xMoveRight));
+			testPrototype.addTrigger(new Trigger("moveIfNoObstacle", 2, dir1, yMoveUp));
+			testPrototype.addTrigger(new Trigger("moveIfNoObstacle", 3, dir2, xMoveLeft));
+			testPrototype.addTrigger(new Trigger("moveIfNoObstacle", 4, dir3, yMoveDown));
+			
+			// conflict behavior: lose
+			testPrototype.addTrigger(new Trigger("loseConflict", 1, loseConflict0, changeIDAndTurnAround));
+			testPrototype.addTrigger(new Trigger("loseConflict", 2, loseConflict1, changeIDAndTurnAround));
+			testPrototype.addTrigger(new Trigger("loseConflict", 3, loseConflict2, changeIDAndTurnAround));
+			testPrototype.addTrigger(new Trigger("loseConflict", 4, loseConflict3, changeIDAndTurnAround));
+			// conflict behavior: win (if you win a conflict, then you should not do anything, only end turn)
+
+
+			for(int i = 0; i < 10; i ++){
+				testGrid.spawnAgent(testPrototype.clonePrototype());
+			}
+		}
+	}
+	@Test
+	public void test() {
+		//Run through multiple "steps"
+		int numSteps = 100;
+		for(int i = 0; i < numSteps; i++){
+			testGrid.updateEntities();
+		}
+		
 	}
 }

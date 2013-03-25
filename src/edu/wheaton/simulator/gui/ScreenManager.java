@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 
 import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
+import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class ScreenManager {
 
@@ -16,15 +17,19 @@ public class ScreenManager {
 	
 	private SimulationEnder se;
 	
+	private StatisticsManager statMan;
+	
 	private GUIToAgentFacade facade;
-
-	private GUIManager gm;
+	
+	private boolean simulationIsRunning;
+	
+	//for determining when components should be disabled while running a sim.
+	private boolean hasStarted;
 
 	public ScreenManager(DisplayManager dm, GUIManager gm) {
 		screens = new HashMap<String, Screen>();
 		this.dm = dm;
 		se = new SimulationEnder();
-		this.gm = gm;
 		screens.put("Title", new TitleScreen(this));
 		screens.put("New Simulation", new NewSimulationScreen(this));
 		screens.put("Edit Simulation", new EditSimScreen(this));
@@ -58,6 +63,18 @@ public class ScreenManager {
 		facade = new GUIToAgentFacade(x, y);
 	}
 	
+	public GUIToAgentFacade getFacade() {
+		return facade;
+	}
+	
+	public SimulationEnder getEnder() {
+		return se;
+	}
+	
+	public StatisticsManager getStatManager(){
+		return statMan;
+	}
+	
 	public String getGUIname(){
 		return GUIManager.getNameOfSim();
 	}
@@ -69,11 +86,28 @@ public class ScreenManager {
 	public int getGUIwidth(){
 		return GUIManager.getGridWidth();
 	}
+
+	public void updateGUIManager(String nos, int width, int height){
 	
-	public void updateGUIManager(String nos, String width, String height){
 		GUIManager.setNameOfSim(nos);
 		GUIManager.setGridWidth(width);
 		GUIManager.setGridHeight(height);
 
+	}
+	
+	public boolean isRunning() {
+		return simulationIsRunning;
+	}
+	
+	public void setRunning(boolean b) {
+		simulationIsRunning = b;
+	}
+	
+	public void setStarted(boolean b) {
+		hasStarted = b;
+	}
+	
+	public boolean hasStarted() {
+		return hasStarted();
 	}
 }
