@@ -83,7 +83,6 @@ public class EditEntityScreen extends Screen {
 
 	private HashSet<Integer> removedTriggers;
 
-	//TODO may want to add scroll bars for large numbers of fields/triggers
 	public EditEntityScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -319,7 +318,7 @@ public class EditEntityScreen extends Screen {
 		agent = sm.getFacade().getPrototype(str);
 		nameField.setText(agent.getName());
 		colorTool.setColor(agent.getColor());
-		
+
 		byte[] bite = agent.getDesign();
 		byte byter = Byte.parseByte("00000001", 2);
 		for(int i = 0; i < 8; i++){
@@ -327,12 +326,12 @@ public class EditEntityScreen extends Screen {
 				if((bite[i]&(byter<<j)) != Byte.parseByte("00000000", 2)){
 					System.out.println("Hello");
 					buttons[i][j].doClick();
-//				buttons[i][j].setBackground(Color.BLACK);
-//				buttons[i][j].setOpaque(true);
+					//				buttons[i][j].setBackground(Color.BLACK);
+					//				buttons[i][j].setOpaque(true);
 				}
 			}
 		}
-		
+
 		Map<String, String> fields = agent.getFieldMap();
 		int i = 0;
 		for (String s : fields.keySet()) {
@@ -382,9 +381,17 @@ public class EditEntityScreen extends Screen {
 		triggerListPanel.add(addTriggerButton);
 	}
 
-
-	//TODO finish this once agent methods are completed
 	public void sendInfo() {
+		try { 
+			String n = nameField.getText();
+			for (int i = 0; i < fieldNames.size(); i ++) {
+				n = fieldNames.get(i).getText();
+			}
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, 
+					"Please check your input values.");
+		}
+
 		if (!editing) {
 			sm.getFacade().createPrototype(
 					nameField.getText(), 
@@ -398,7 +405,6 @@ public class EditEntityScreen extends Screen {
 		} 
 
 		else {
-			//set all values of the prototype from the screen
 			agent.setPrototypeName(agent.getName(), nameField.getText());
 			agent.setColor(colorTool.getColor());
 			agent.setDesign(generateBytes());
@@ -410,8 +416,7 @@ public class EditEntityScreen extends Screen {
 					agent.removeField(fieldNames.get(i));
 			} else {
 				if (agent.hasField(fieldNames.get(i).getText())) {
-					//TODO nosuchelementexception on this line after editing existing
-					agent.updateField(fieldNames.get(i), 
+					agent.updateField(fieldNames.get(i).getText(), 
 							fieldValues.get(i).getText());
 				} else
 					try {
@@ -540,9 +545,6 @@ public class EditEntityScreen extends Screen {
 			fieldListPanel.remove(fieldSubPanels.get(
 					Integer.parseInt(e.getActionCommand())));
 			repaint();
-
-			//			action = e.getActionCommand();
-			//			deleteField(Integer.parseInt(action.substring(13)));
 		}
 	}
 
@@ -554,16 +556,11 @@ public class EditEntityScreen extends Screen {
 			triggerListPanel.remove(triggerSubPanels.get(
 					Integer.parseInt(e.getActionCommand())));
 			repaint();
-
-
-			//			action = e.getActionCommand();
-			//			deleteTrigger(Integer.parseInt(action.substring(15)));
 		}
 	}
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
 		reset();
 		addField();
 		addTrigger();
