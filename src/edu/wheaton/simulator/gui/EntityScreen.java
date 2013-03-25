@@ -56,8 +56,8 @@ public class EntityScreen extends Screen {
 		this.setLayout(new BorderLayout());
 		JPanel mainPanel = new JPanel(new GridLayout(2, 1));
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
-		JPanel entityListPanel = new JPanel();
-		entityListPanel.setLayout(new BoxLayout(entityListPanel, BoxLayout.Y_AXIS));
+		JPanel listPanel = new JPanel();
+		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 		listPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		listPanel.setAlignmentX(CENTER_ALIGNMENT);
 		listModel = new DefaultListModel();
@@ -70,10 +70,10 @@ public class EntityScreen extends Screen {
 		entityList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		entityList.setVisibleRowCount(20);
 		entityList.setBorder(BorderFactory.createLineBorder(Color.red));
-		entityListPanel.add(entityList);
-		entityListPanel.setAlignmentX(CENTER_ALIGNMENT);
+		listPanel.add(entityList);
+		listPanel.setAlignmentX(CENTER_ALIGNMENT);
 		delete = new JButton("Delete");
-		delete.addActionListener(new DeleteListener(entityList, listModel, delete, sm));
+		delete.addActionListener(new DeleteListener());
 		JButton add = new JButton("Add");
 		add.addActionListener(new AddListener(sm));
 		edit = new JButton("Edit");
@@ -98,7 +98,7 @@ public class EntityScreen extends Screen {
 		buttonPanel.add(Box.createHorizontalStrut(5));
 		buttonPanel.add(back);
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		mainPanel.add(entityListPanel);
+		mainPanel.add(listPanel);
 		mainPanel.add(buttonPanel);
 		this.add(label, BorderLayout.NORTH);
 		this.add(mainPanel, BorderLayout.CENTER);
@@ -122,15 +122,15 @@ public class EntityScreen extends Screen {
 	class DeleteListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e){
-			int index = entities.getSelectedIndex();
+			int index = entityList.getSelectedIndex();
 			listModel.remove(index);
 			int size = listModel.getSize();
 			if(size == 0)
 				delete.setEnabled(false);
 			if(index == size)
 				index--;
-			entities.setSelectedIndex(index);
-			entities.ensureIndexIsVisible(index);
+			entityList.setSelectedIndex(index);
+			entityList.ensureIndexIsVisible(index);
 		}
 	}
 	

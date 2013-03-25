@@ -1,6 +1,8 @@
 package edu.wheaton.simulator.gui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
 import javax.swing.JPanel;
 
 import edu.wheaton.simulator.simulation.GUIToAgentFacade;
@@ -23,10 +25,13 @@ public class ScreenManager {
 	
 	private boolean simulationIsRunning;
 	
+	private ArrayList<SpawnCondition> spawnConditions;
+	
 	//for determining when components should be disabled while running a sim.
 	private boolean hasStarted;
 
 	public ScreenManager(DisplayManager dm, GUIManager gm) {
+		spawnConditions = new ArrayList<SpawnCondition>();
 		screens = new HashMap<String, Screen>();
 		this.dm = dm;
 		se = new SimulationEnder();
@@ -109,5 +114,9 @@ public class ScreenManager {
 	
 	public boolean hasStarted() {
 		return hasStarted;
+	}
+
+	public ArrayList<SpawnCondition> getSpawnConditions() { 
+		return spawnConditions; 
 	}
 }
