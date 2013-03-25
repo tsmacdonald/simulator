@@ -39,7 +39,7 @@ public class Grid implements Iterable<Slot> {
 		this.width = width;
 		this.height = height;
 
-		grid = new Slot[getWidth()][getHeight()];
+		grid = new Slot[getHeight()][getWidth()];
 		for (int x = 0; x < getWidth(); x++)
 			for (int y = 0; y < getHeight(); y++)
 				setSlot(new Slot(this),x,y);
@@ -110,6 +110,8 @@ public class Grid implements Iterable<Slot> {
 	 */
 	public boolean spawnAgent(Agent a, int spawnX, int spawnY) {
 
+		a.setPos(-1, -1);
+		
 		for (int distance = 0; distance < height || distance < width; distance++) {
 			int x = spawnX - distance;
 			int y = spawnY - distance;
