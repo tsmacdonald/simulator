@@ -110,11 +110,11 @@ public class EditEntityScreen extends Screen {
 		nameField = new JTextField(25);
 		nameField.setMaximumSize(new Dimension(400, 40));
 		colorTool = new JColorChooser();
-		iconPanel.setLayout(new GridLayout(8,8));
+		iconPanel.setLayout(new GridLayout(7,7));
 		iconPanel.setMaximumSize(new Dimension(500, 500));
-		buttons = new JToggleButton[8][8];
-		for(int i = 0; i < 8; i++){
-			for(int j = 0; j < 8; j++){
+		buttons = new JToggleButton[7][7];
+		for(int i = 0; i < 7; i++){
+			for(int j = 0; j < 7; j++){
 				buttons[i][j] = new JToggleButton();
 				buttons[i][j].setOpaque(true);
 				buttons[i][j].setBackground(Color.WHITE);
@@ -320,9 +320,10 @@ public class EditEntityScreen extends Screen {
 		colorTool.setColor(agent.getColor());
 
 		byte[] bite = agent.getDesign();
+		System.out.println(bite.toString());
 		byte byter = Byte.parseByte("00000001", 2);
-		for(int i = 0; i < 8; i++){
-			for(int j = 0; j < 8; j++){
+		for(int i = 0; i < 7; i++){
+			for(int j = 0; j < 7; j++){
 				if((bite[i]&(byter<<j)) != Byte.parseByte("00000000", 2)){
 					System.out.println("Hello");
 					buttons[i][j].doClick();
@@ -356,8 +357,8 @@ public class EditEntityScreen extends Screen {
 		agent = null;
 		nameField.setText("");
 		colorTool.setColor(Color.WHITE);
-		for(int i = 0; i < 8; i++){
-			for(int j = 0; j < 8; j++){
+		for(int i = 0; i < 7; i++){
+			for(int j = 0; j < 7; j++){
 				buttons[i][j].setSelected(false);
 				buttons[i][j].setBackground(Color.WHITE);
 			}
@@ -387,6 +388,7 @@ public class EditEntityScreen extends Screen {
 			for (int i = 0; i < fieldNames.size(); i ++) {
 				n = fieldNames.get(i).getText();
 			}
+			//TODO this dialog will not show up for some reason
 		} catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(null, 
 					"Please check your input values.");
@@ -513,17 +515,20 @@ public class EditEntityScreen extends Screen {
 
 	private byte[] generateBytes() {
 		String str = "";
-		byte[] toReturn = new byte[8];
-		for(int i = 0; i < 8; i++){
-			for(int j = 0; j < 8; j++){
+		byte[] toReturn = new byte[7];
+		for(int i = 0; i < 7; i++){
+			for(int j = 0; j < 7; j++){
 				if(buttons[i][j].getBackground().equals(Color.BLACK)){
+					System.out.print("1");
 					str = str + "1";
 				}
-				else str = str + "0";
+				else {System.out.print("0");
+					str = str + "0";
+				}
 			}
 		}
-		for(int i = 0; i < 8; i++){
-			toReturn[i] = Byte.parseByte(str.substring(str.length()-8), 2);
+		for(int i = 0; i < 7; i++){
+			toReturn[i] = Byte.parseByte(str.substring(str.length()-7), 2);
 		}
 
 		return toReturn;

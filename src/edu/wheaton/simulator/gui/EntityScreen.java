@@ -28,6 +28,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class EntityScreen extends Screen {
 
@@ -38,6 +40,8 @@ public class EntityScreen extends Screen {
 	private DefaultListModel listModel;
 	
 	private JButton delete;
+	
+	private JButton edit;
 	
 	public EntityScreen(final ScreenManager sm) {
 		super(sm);
@@ -58,15 +62,22 @@ public class EntityScreen extends Screen {
 		entities.setLayoutOrientation(JList.VERTICAL_WRAP);
 		entities.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		entities.setVisibleRowCount(20);
-		//listener to disable edit button
 		panel.add(entities);
 		entities.setAlignmentX(CENTER_ALIGNMENT);
 		delete = new JButton("Delete");
 		delete.addActionListener(new DeleteListener(entities, listModel, delete, sm));
 		JButton add = new JButton("Add");
 		add.addActionListener(new AddListener(sm));
-		JButton edit = new JButton("Edit");
+		edit = new JButton("Edit");
 		edit.addActionListener(new EditListener(sm));
+		edit.setEnabled(false);
+		entities.addListSelectionListener(
+				new ListSelectionListener() {
+					public void valueChanged(ListSelectionEvent e) {
+						edit.setEnabled(true);
+					}
+				}
+				);
 		JButton back = new JButton("Back");
 		back.addActionListener(new BackListener(sm));
 		JPanel buttonPanel = new JPanel(new FlowLayout());

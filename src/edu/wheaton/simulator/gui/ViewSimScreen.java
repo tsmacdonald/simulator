@@ -37,11 +37,14 @@ public class ViewSimScreen extends Screen {
 
 	private GridPanel grid;
 	
+	private int stepCount;
+	
 	//TODO handle case of no input grid size, either here or in newSim/setup
 	public ViewSimScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
 		this.sm = sm;
+		stepCount = 0;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 		JPanel panel = new JPanel();
 		panel.setMaximumSize(new Dimension(500, 50));
@@ -66,13 +69,14 @@ public class ViewSimScreen extends Screen {
 					}
 				}
 				);
-		/*
+		
 		startButton.addActionListener(
 			new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					sm.setRunning(true);
-					sm.hasStarted(true);
-		*/
+					sm.setStarted(true);
+				}}
+		);
 		
 		grid = new GridPanel(sm);
 		panel.add(startButton);
@@ -88,8 +92,9 @@ public class ViewSimScreen extends Screen {
 			public void run() {
 				while(sm.isRunning()) {
 					sm.getFacade().updateEntities();
-					//if we do layers, they go here
-					//TODO check ending conditions here
+					sm.setRunning(!(sm.getEnder().evaluate(stepCount, 
+							sm.getFacade().getGrid())));
+					
 					SwingUtilities.invokeLater(
 							new Thread (new Runnable() {
 								@Override
@@ -97,6 +102,7 @@ public class ViewSimScreen extends Screen {
 									repaint();
 								}
 							}));
+					stepCount++;
 				}
 			}
 		}).start();
