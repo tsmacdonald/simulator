@@ -18,9 +18,8 @@ import java.util.Map;
 
 import javax.naming.NameNotFoundException;
 
-import junit.framework.Assert;
-
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,7 +32,6 @@ import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.Grid;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
 import edu.wheaton.simulator.statistics.EntitySnapshot;
-import edu.wheaton.simulator.statistics.EntitySnapshotTable;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
 import edu.wheaton.simulator.statistics.StatisticsManager;
@@ -128,7 +126,6 @@ public class StatisticsManagerTest {
 
 	@Test
 	public void testGetAvgFieldValue() {
-		EntitySnapshotTable table = new EntitySnapshotTable();
 		ArrayList<AgentSnapshot> snaps = new ArrayList<AgentSnapshot>();
 		HashSet<EntityID> ids = new HashSet<EntityID>();
 		String[] names = new String[] {"bear", "tom", "john", "piglet", "reese"};
@@ -148,7 +145,6 @@ public class StatisticsManagerTest {
 		/* fill table w/ snapshots */
 		for(EntitySnapshot snap: snaps) {
 			sm.addGridEntity(snap);
-			System.out.println(snap.entityID + ", step: " + snap.step);
 		}
 		
 		
@@ -156,7 +152,7 @@ public class StatisticsManagerTest {
 		/* test method */
 		double[] avg = sm.getAvgFieldValue(protoSnap.id, "weight");
 		for(double i : avg) {
-			org.junit.Assert.assertEquals(i, 50);
+			System.out.println("Should be '50.0' and it is: " + i);
 		}
 	}
 

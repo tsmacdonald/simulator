@@ -1,6 +1,8 @@
 package edu.wheaton.simulator.gui;
 
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+import edu.wheaton.simulator.simulation.Grid;
 
 public class SpawnCondition {
 
@@ -20,6 +22,13 @@ public class SpawnCondition {
 		this.x = x; 
 		this.y = y;
 		this.number = number; 
+	}
+	
+	public void addToGrid(GUIToAgentFacade facade) {
+		if (pattern.equals("Clustered")) {
+			facade.getGrid().spawnAgent(prototype.clonePrototype(), x, y);
+		}
+		else facade.getGrid().spawnAgent(prototype.clonePrototype());
 	}
 	
 }

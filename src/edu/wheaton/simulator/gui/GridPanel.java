@@ -55,6 +55,7 @@ public class GridPanel extends JPanel {
 				Agent agent;
 				if((agent = sm.getFacade().getAgent(i, j)) instanceof Agent) {
 					g.setColor(agent.getColor());
+					/*
 					//If the square is going to be too small
 					//for an icon don't make icons
 					if(squareSize < 10){
@@ -76,6 +77,9 @@ public class GridPanel extends JPanel {
 							}
 						}
 					}
+					*/
+					g.fillRect(squareSize * i, squareSize * j, 
+							squareSize, squareSize);
 				}
 			}
 		}
