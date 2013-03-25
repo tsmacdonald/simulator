@@ -165,7 +165,7 @@ public class StatisticsManager {
 			avg += deathTime - birthTime; 
 		}
 		
-		return avg / allAgents.size();  
+		return avg / allAgents.size();
 	}
 	
 	/**
