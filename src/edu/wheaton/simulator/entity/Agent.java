@@ -43,9 +43,8 @@ public class Agent extends GridEntity {
 	 */
 	public Agent(Grid g, Prototype prototype) {
 		super(g);
-		triggers = new ArrayList<Trigger>();
 		id = new AgentID();
-		this.prototype = prototype;
+		init(prototype);
 	}
 
 	/**
@@ -58,9 +57,8 @@ public class Agent extends GridEntity {
 	 */
 	public Agent(Grid g, Prototype prototype, Color c) {
 		super(g, c);
-		triggers = new ArrayList<Trigger>();
 		id = new AgentID();
-		this.prototype = prototype;
+		init(prototype);
 	}
 
 	/**
@@ -75,9 +73,13 @@ public class Agent extends GridEntity {
 	 */
 	public Agent(Grid g, Prototype prototype, Color c, byte[] d) {
 		super(g, c, d);
-		triggers = new ArrayList<Trigger>();
 		id = new AgentID();
-		this.prototype = prototype;
+		init(prototype);
+	}
+	
+	private void init(Prototype p){
+		triggers = new ArrayList<Trigger>();
+		prototype = p;
 	}
 
 	/**
@@ -134,7 +136,7 @@ public class Agent extends GridEntity {
 	 */
 	public void removeTrigger(String name) {
 		for (int i = 0; i < triggers.size(); i++)
-			if (triggers.get(i).getName().equals(name))
+			if (getTriggerName(i).equals(name))
 				triggers.remove(i);
 	}
 
@@ -145,8 +147,12 @@ public class Agent extends GridEntity {
 	 */
 	public void updateTrigger(String name, Trigger newT) {
 		for (int i = 0; i < triggers.size(); i++)
-			if (triggers.get(i).getName().equals(name))
+			if (getTriggerName(i).equals(name))
 				triggers.set(i, newT);
+	}
+	
+	private String getTriggerName(int index){
+		return triggers.get(index).getName();
 	}
 
 	/**
