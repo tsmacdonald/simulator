@@ -3,14 +3,8 @@ package edu.wheaton.simulator.statistics;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-
-import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.GridEntity;
 import edu.wheaton.simulator.entity.Prototype;
-import edu.wheaton.simulator.entity.PrototypeID;
-import edu.wheaton.simulator.entity.Slot;
 
 /**
  * This class will create the Snapshots to be put into the Database

@@ -2,10 +2,6 @@ package edu.wheaton.simulator.behavior;
 
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.entity.Entity;
-import edu.wheaton.simulator.expression.AbstractExpressionFunction;
-import edu.wheaton.simulator.expression.Expression;
-import edu.wheaton.simulator.expression.ExpressionEvaluator;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class CloneBehavior extends AbstractBehavior {
@@ -37,7 +33,7 @@ public class CloneBehavior extends AbstractBehavior {
 	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {
-		Agent target = (Agent)resolveEntity(this.getExprEval(), args[0].replaceAll("'", ""));
+		Agent target = (Agent)resolveEntity(args[0].replaceAll("'", ""));
 		
 		Integer x = Integer.valueOf(args[1]);
 		Integer y = Integer.valueOf(args[2]);

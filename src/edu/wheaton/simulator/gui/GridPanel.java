@@ -1,10 +1,8 @@
 package edu.wheaton.simulator.gui;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 
 public class GridPanel extends JPanel {
 
@@ -24,6 +22,7 @@ public class GridPanel extends JPanel {
 		this.sm = sm;
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		width = this.getWidth();
 		height = this.getHeight();

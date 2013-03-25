@@ -2,7 +2,6 @@ package edu.wheaton.simulator.behavior;
 
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Entity;
-import edu.wheaton.simulator.expression.ExpressionEvaluator;
 
 public class SetFieldBehavior extends AbstractBehavior {
 
@@ -20,7 +19,7 @@ public class SetFieldBehavior extends AbstractBehavior {
 	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {
-		Entity target = resolveEntity(this.getExprEval(),args[0].replaceAll("'", ""));
+		Entity target = resolveEntity(args[0].replaceAll("'", ""));
 		String fieldName = args[1].replaceAll("'", "");
 		String fieldValue = args[2];
 		

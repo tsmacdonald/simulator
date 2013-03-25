@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSet.Builder;
-
 import edu.wheaton.simulator.simulation.Grid;
 
 public class Prototype extends GridEntity {
