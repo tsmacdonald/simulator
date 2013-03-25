@@ -42,9 +42,9 @@ public class CloneBehavior extends AbstractBehavior {
 		
 		if(grid.isValidCoord(x, y) && grid.getAgent(x,y)==null){
 			grid.addAgent(target.getPrototype().clonePrototype(), x, y);
-			return "true";
+			return TRUE;
 		}
-		return "false";
+		return FALSE;
 	}
 
 }

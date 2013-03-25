@@ -31,8 +31,7 @@ public class SpawningScreen extends Screen {
 	//     and some of the spawns are now out of bounds? delete those fields?
 	//TODO figure out where and how to store spawning information
 
-	//TODO temporary placeholder
-	private String[] exampleEntities = {"Fox", "Rabbit", "Clover", "Bear"};
+	private String[] entities;
 
 	private ArrayList<JComboBox> entityTypes;
 
@@ -61,10 +60,11 @@ public class SpawningScreen extends Screen {
 	 */
 	private static final long serialVersionUID = 6312784326472662829L;
 
-	//TODO may want to add a scroll bar for large numbers of added spawns
+	
 	public SpawningScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
+		entities = new String[0];
 		JLabel label = new JLabel("Spawning");
 		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		label.setPreferredSize(new Dimension(300, 150));
@@ -102,7 +102,7 @@ public class SpawningScreen extends Screen {
 		labelsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		
 		entityTypes = new ArrayList<JComboBox>();
-		entityTypes.add(new JComboBox(exampleEntities));
+		entityTypes.add(new JComboBox(entities));
 		entityTypes.get(0).setMaximumSize(new Dimension(250, 30));
 		spawnPatterns = new ArrayList<JComboBox>();
 		spawnPatterns.add(new JComboBox(spawnOptions));
@@ -182,7 +182,9 @@ public class SpawningScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
+		entities = sm.getFacade().prototypeNames().toArray(entities);
 		
+		//TODO MAJOR make spawning work
 		/*
 		iterate through storage
 		for each stored spawn condition {
@@ -205,7 +207,7 @@ public class SpawningScreen extends Screen {
 				new BoxLayout(newPanel, 
 						BoxLayout.X_AXIS)
 				);
-		JComboBox newBox = new JComboBox(exampleEntities);
+		JComboBox newBox = new JComboBox(entities);
 		newBox.setMaximumSize(new Dimension(250, 30));
 		entityTypes.add(newBox);
 		JComboBox newSpawnType = new JComboBox(spawnOptions);

@@ -50,6 +50,15 @@ public class ExpressionEvaluationTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void testSimpleBooleanEvaluation2() {
+		try {
+			Assert.assertFalse(Expression.evaluateBool("1 == 0"));
+		} catch (EvaluationException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Test
 	public void testSimpleBooleanEqualEvaluation() {

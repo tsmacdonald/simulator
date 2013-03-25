@@ -7,7 +7,6 @@ public final class GUIManager {
 	private static int gridHeight = 0;
 	private static int gridWidth = 0;
 	
-	//TODO what is the point of GuiId?
 	private GUIManager(){
 	}
 	

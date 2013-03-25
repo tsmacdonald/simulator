@@ -83,7 +83,6 @@ public class EditEntityScreen extends Screen {
 
 	private HashSet<Integer> removedTriggers;
 
-	//TODO may want to add scroll bars for large numbers of fields/triggers
 	public EditEntityScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -111,11 +110,11 @@ public class EditEntityScreen extends Screen {
 		nameField = new JTextField(25);
 		nameField.setMaximumSize(new Dimension(400, 40));
 		colorTool = new JColorChooser();
-		iconPanel.setLayout(new GridLayout(8,8));
+		iconPanel.setLayout(new GridLayout(7,7));
 		iconPanel.setMaximumSize(new Dimension(500, 500));
-		buttons = new JToggleButton[8][8];
-		for(int i = 0; i < 8; i++){
-			for(int j = 0; j < 8; j++){
+		buttons = new JToggleButton[7][7];
+		for(int i = 0; i < 7; i++){
+			for(int j = 0; j < 7; j++){
 				buttons[i][j] = new JToggleButton();
 				buttons[i][j].setOpaque(true);
 				buttons[i][j].setBackground(Color.WHITE);
@@ -319,20 +318,21 @@ public class EditEntityScreen extends Screen {
 		agent = sm.getFacade().getPrototype(str);
 		nameField.setText(agent.getName());
 		colorTool.setColor(agent.getColor());
-		
+
 		byte[] bite = agent.getDesign();
+		System.out.println(bite.toString());
 		byte byter = Byte.parseByte("00000001", 2);
-		for(int i = 0; i < 8; i++){
-			for(int j = 0; j < 8; j++){
+		for(int i = 0; i < 7; i++){
+			for(int j = 0; j < 7; j++){
 				if((bite[i]&(byter<<j)) != Byte.parseByte("00000000", 2)){
 					System.out.println("Hello");
 					buttons[i][j].doClick();
-//				buttons[i][j].setBackground(Color.BLACK);
-//				buttons[i][j].setOpaque(true);
+					//				buttons[i][j].setBackground(Color.BLACK);
+					//				buttons[i][j].setOpaque(true);
 				}
 			}
 		}
-		
+
 		Map<String, String> fields = agent.getFieldMap();
 		int i = 0;
 		for (String s : fields.keySet()) {
@@ -357,8 +357,8 @@ public class EditEntityScreen extends Screen {
 		agent = null;
 		nameField.setText("");
 		colorTool.setColor(Color.WHITE);
-		for(int i = 0; i < 8; i++){
-			for(int j = 0; j < 8; j++){
+		for(int i = 0; i < 7; i++){
+			for(int j = 0; j < 7; j++){
 				buttons[i][j].setSelected(false);
 				buttons[i][j].setBackground(Color.WHITE);
 			}
@@ -382,9 +382,18 @@ public class EditEntityScreen extends Screen {
 		triggerListPanel.add(addTriggerButton);
 	}
 
-
-	//TODO finish this once agent methods are completed
 	public void sendInfo() {
+		try { 
+			String n = nameField.getText();
+			for (int i = 0; i < fieldNames.size(); i ++) {
+				n = fieldNames.get(i).getText();
+			}
+			//TODO this dialog will not show up for some reason
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, 
+					"Please check your input values.");
+		}
+
 		if (!editing) {
 			sm.getFacade().createPrototype(
 					nameField.getText(), 
@@ -398,7 +407,6 @@ public class EditEntityScreen extends Screen {
 		} 
 
 		else {
-			//set all values of the prototype from the screen
 			agent.setPrototypeName(agent.getName(), nameField.getText());
 			agent.setColor(colorTool.getColor());
 			agent.setDesign(generateBytes());
@@ -410,8 +418,7 @@ public class EditEntityScreen extends Screen {
 					agent.removeField(fieldNames.get(i));
 			} else {
 				if (agent.hasField(fieldNames.get(i).getText())) {
-					//TODO nosuchelementexception on this line after editing existing
-					agent.updateField(fieldNames.get(i), 
+					agent.updateField(fieldNames.get(i).getText(), 
 							fieldValues.get(i).getText());
 				} else
 					try {
@@ -508,17 +515,20 @@ public class EditEntityScreen extends Screen {
 
 	private byte[] generateBytes() {
 		String str = "";
-		byte[] toReturn = new byte[8];
-		for(int i = 0; i < 8; i++){
-			for(int j = 0; j < 8; j++){
+		byte[] toReturn = new byte[7];
+		for(int i = 0; i < 7; i++){
+			for(int j = 0; j < 7; j++){
 				if(buttons[i][j].getBackground().equals(Color.BLACK)){
+					System.out.print("1");
 					str = str + "1";
 				}
-				else str = str + "0";
+				else {System.out.print("0");
+					str = str + "0";
+				}
 			}
 		}
-		for(int i = 0; i < 8; i++){
-			toReturn[i] = Byte.parseByte(str.substring(str.length()-8), 2);
+		for(int i = 0; i < 7; i++){
+			toReturn[i] = Byte.parseByte(str.substring(str.length()-7), 2);
 		}
 
 		return toReturn;
@@ -540,9 +550,6 @@ public class EditEntityScreen extends Screen {
 			fieldListPanel.remove(fieldSubPanels.get(
 					Integer.parseInt(e.getActionCommand())));
 			repaint();
-
-			//			action = e.getActionCommand();
-			//			deleteField(Integer.parseInt(action.substring(13)));
 		}
 	}
 
@@ -554,16 +561,11 @@ public class EditEntityScreen extends Screen {
 			triggerListPanel.remove(triggerSubPanels.get(
 					Integer.parseInt(e.getActionCommand())));
 			repaint();
-
-
-			//			action = e.getActionCommand();
-			//			deleteTrigger(Integer.parseInt(action.substring(15)));
 		}
 	}
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
 		reset();
 		addField();
 		addTrigger();
