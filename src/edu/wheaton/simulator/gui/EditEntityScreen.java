@@ -516,16 +516,16 @@ public class EditEntityScreen extends Screen {
 			for (int row = 0; row < 7; row++) {
 				if (buttons[column][row].getBackground().equals(Color.BLACK)) {
 					System.out.print("1");
-					str = "1" + str;
+					str += "1";
 				} else {
 					System.out.print("0");
-					str = "0" + str;
+					str += "0";
 				}
 			}
-			str = ":" + str;
+			str += ":";
 			System.out.print(":");
 		}
-		str = str.substring(str.indexOf(':')+1);
+		str = str.substring(0, str.lastIndexOf(':'));
 		String[] byteStr = str.split(":");
 		System.out.println("BOO: " + str); 
 		for (String s : byteStr) 
