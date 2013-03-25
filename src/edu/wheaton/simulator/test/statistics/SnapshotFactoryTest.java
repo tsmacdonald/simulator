@@ -1,12 +1,17 @@
 package edu.wheaton.simulator.test.statistics;
 
 import static org.junit.Assert.fail;
+
+import java.util.HashMap;
+
 import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Agent;
@@ -108,9 +113,46 @@ public class SnapshotFactoryTest {
 		fss1.getNumericalValue();
 	}
 
-	@Test
+	@Test (expected = UnsupportedOperationException.class)
 	public void testMakeFieldSnapshots() {
-		fail("Not yet implemented");
+		String name1 = "a";
+		String name2 = "b";
+		String name3 = "c"; 
+		String value1 = "'1'";
+		String value2 = "2"; 
+		String value3 = "3.0"; 
+		boolean value1IsNumber = false;  
+		boolean value2IsNumber = true; 
+		boolean value3IsNumber = true; 
+		double value2Num = 2.0; 
+		double value3Num = 3.0; 
+		
+		HashMap<String, String> map = new HashMap<String, String>(); 
+		map.put(name1, value1);
+		map.put(name2, value2);
+		map.put(name3, value3);
+		ImmutableMap<String, FieldSnapshot> fieldMap = SnapshotFactory.makeFieldSnapshots(map);
+		
+		Assert.assertNotNull(fieldMap.get(name1));
+		Assert.assertNotNull(fieldMap.get(name2));
+		Assert.assertNotNull(fieldMap.get(name3));
+
+		Assert.assertEquals(fieldMap.get(name1).name, name1);
+		Assert.assertEquals(fieldMap.get(name2).name, name2);
+		Assert.assertEquals(fieldMap.get(name3).name, name3);
+		
+		Assert.assertEquals(fieldMap.get(name1).value, value1);
+		Assert.assertEquals(fieldMap.get(name2).value, value2);
+		Assert.assertEquals(fieldMap.get(name3).value, value3);
+
+		Assert.assertEquals(fieldMap.get(name1).isNumber, value1IsNumber);
+		Assert.assertEquals(fieldMap.get(name2).isNumber, value2IsNumber);
+		Assert.assertEquals(fieldMap.get(name3).isNumber, value3IsNumber);
+
+		Assert.assertEquals(fieldMap.get(name2).getNumericalValue(), value2Num);
+		Assert.assertEquals(fieldMap.get(name3).getNumericalValue(), value3Num);
+		
+		fieldMap.get(name1).getNumericalValue();
 	}
 
 	@Test
