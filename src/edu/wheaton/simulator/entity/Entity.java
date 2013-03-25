@@ -29,8 +29,7 @@ public class Entity {
 	 */
 	public void addField(Object name, Object value)
 			throws ElementAlreadyContainedException {
-		if (hasField(name))
-			throw new ElementAlreadyContainedException();
+		assertNoSuchField(name);
 		fields.put(name.toString(), value.toString());
 	}
 
@@ -41,8 +40,7 @@ public class Entity {
 	 * @return returns the old field
 	 */
 	public Field updateField(Object name, Object value) {
-		if (hasField(name) == false)
-			throw new NoSuchElementException();
+		assertHasField(name);
 		String oldvalue = fields.put(name.toString(), value.toString());
 		return new Field(name, oldvalue);
 	}
@@ -51,22 +49,29 @@ public class Entity {
 	 * Removes a field from this Entity and returns it.
 	 */
 	public Field removeField(Object name) {
-		if (hasField(name) == false)
-			throw new NoSuchElementException();
+		assertHasField(name);
 		String value = fields.remove(name.toString());
 		return new Field(name, value);
 	}
 
 	public Field getField(Object name) {
-		if (hasField(name) == false)
-			throw new NoSuchElementException();
+		assertHasField(name);
 		return new Field(name.toString(), getFieldValue(name));
 	}
 
 	public String getFieldValue(Object name) {
-		if (hasField(name) == false)
-			throw new NoSuchElementException();
+		assertHasField(name);
 		return fields.get(name.toString());
+	}
+	
+	private void assertHasField(Object name){
+		if(hasField(name) == false)
+			throw new NoSuchElementException();
+	}
+	
+	private void assertNoSuchField(Object name) throws ElementAlreadyContainedException{
+		if(hasField(name) == true)
+			throw new ElementAlreadyContainedException();
 	}
 
 	/**
