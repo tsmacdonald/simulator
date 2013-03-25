@@ -419,7 +419,6 @@ public class EditEntityScreen extends Screen {
 					agent.setColor(colorTool.getColor());
 					agent.setDesign(generateBytes());
 				}
-				//TODO how to handle case where fields do not have acceptable input
 				for (int i = 0; i < fieldNames.size(); i++) {
 					if (removedFields.contains(i)) {
 						if (agent.hasField(fieldNames.get(i).getText()))
