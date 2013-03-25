@@ -2,14 +2,13 @@ package edu.wheaton.simulator.test.statistics;
 
 import java.util.HashMap;
 
-import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.statistics.EntitySnapshot;
+import edu.wheaton.simulator.statistics.EntitySnapshotTable;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
 
 public class EntitySnapshotTableCase {
@@ -49,6 +48,6 @@ public class EntitySnapshotTableCase {
 
 	@Test
 	public void entitySnapshotTableTest() {
-
+		EntitySnapshotTable entSnapTable = new EntitySnapshotTable();
 	}
 }

@@ -13,7 +13,7 @@ import edu.wheaton.simulator.entity.EntityID;
  * 
  * @author Akonwi, Daniel Gill
  */
-class EntitySnapshotTable {
+public class EntitySnapshotTable {
 
 	/**
 	 * This table will be used to put the snapshots into
