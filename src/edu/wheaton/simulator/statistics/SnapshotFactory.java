@@ -2,7 +2,11 @@ package edu.wheaton.simulator.statistics;
 
 import java.util.Map;
 
+import sun.management.resources.agent;
+
 import com.google.common.collect.ImmutableMap;
+
+import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.GridEntity;
 import edu.wheaton.simulator.entity.Prototype;
 
@@ -32,11 +36,11 @@ public class SnapshotFactory {
 	 * @param step The point at which the capture was taken. 
 	 * @return
 	 */
-	public static AgentSnapshot makeAgentSnapshot(GridEntity agent,
+	public static AgentSnapshot makeAgentSnapshot(Agent agent,
 			Integer step) {
 		return new AgentSnapshot(agent.getEntityID(), 
 				makeFieldSnapshots(agent.getFieldMap()), step, 
-				/*entity.getProtype()*/ null);
+				agent.getPrototype().getPrototypeID());
 	}
 
 	/**
