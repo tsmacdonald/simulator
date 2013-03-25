@@ -2,7 +2,6 @@ package edu.wheaton.simulator.behavior;
 
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.expression.ExpressionEvaluator;
 
 public class DieBehavior extends AbstractBehavior {
 

@@ -166,6 +166,7 @@ public class EditEntityScreen extends Screen {
 		addFieldButton = new JButton("Add Field");
 		addFieldButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						addField();
 					}
@@ -230,6 +231,7 @@ public class EditEntityScreen extends Screen {
 		addTriggerButton = new JButton("Add Trigger");
 		addTriggerButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						addTrigger();
 					}
@@ -283,6 +285,7 @@ public class EditEntityScreen extends Screen {
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.update(sm.getScreen("Edit Simulation")); 
 						reset();
@@ -506,6 +509,7 @@ public class EditEntityScreen extends Screen {
 
 	private class DeleteFieldListener implements ActionListener {
 		private String action;
+		@Override
 		public void actionPerformed(ActionEvent e){
 			removedFields.add(Integer.parseInt(e.getActionCommand()));
 			fieldListPanel.remove(fieldSubPanels.get(
@@ -519,6 +523,7 @@ public class EditEntityScreen extends Screen {
 
 	private class DeleteTriggerListener implements ActionListener {
 		private String action;
+		@Override
 		public void actionPerformed(ActionEvent e){
 			removedTriggers.add(Integer.parseInt(e.getActionCommand()));
 			triggerListPanel.remove(triggerSubPanels.get(

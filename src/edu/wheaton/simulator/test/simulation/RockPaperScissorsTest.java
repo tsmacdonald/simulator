@@ -12,7 +12,6 @@ import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.expression.ExpressionEvaluator;
-import edu.wheaton.simulator.expression.IsSlotOpen;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class RockPaperScissorsTest {

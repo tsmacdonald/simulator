@@ -83,6 +83,7 @@ public class NewSimulationScreen extends Screen {
 
 	private class FinishListener implements ActionListener {
 		
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			//TODO The simulation as a whole will be created in here
 			nameString = name.getText();

@@ -134,6 +134,7 @@ public class SpawningScreen extends Screen {
 		listPanel.add(subPanels.get(0));
 		addSpawnButton = new JButton("Add Spawn");
 		addSpawnButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e){
 				addSpawn();
 			}
@@ -178,6 +179,7 @@ public class SpawningScreen extends Screen {
 		addSpawn();
 	}
 	
+	@Override
 	public void load() {
 		reset();
 		
@@ -255,6 +257,7 @@ public class SpawningScreen extends Screen {
 	}
 	
 	private class DeleteListener implements ActionListener {
+		@Override
 		public void actionPerformed(ActionEvent e){
 			String action = e.getActionCommand();
 			deleteSpawn(Integer.parseInt(action));

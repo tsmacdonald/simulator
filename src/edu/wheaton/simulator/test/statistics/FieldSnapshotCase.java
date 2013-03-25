@@ -8,7 +8,6 @@ package edu.wheaton.simulator.test.statistics;
  * Spring 2013
  */
 
-import static org.junit.Assert.fail;
 import junit.framework.Assert;
 
 import org.junit.After;

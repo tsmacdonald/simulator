@@ -1,7 +1,5 @@
 package edu.wheaton.simulator.entity;
 
-import java.awt.Color;
-
 import edu.wheaton.simulator.simulation.Grid;
 
 /**
