@@ -67,7 +67,7 @@ public class EditFieldScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Edit Simulation")); 
+						sm.update(sm.getScreen("Fields")); 
 					} 
 				}
 				);
@@ -75,13 +75,12 @@ public class EditFieldScreen extends Screen {
 		finishButton.setPreferredSize(new Dimension(120, 60));
 		//TODO finish button needs to pull information from the screen and update
 		//     simulation accordingly.
-		finishButton.addActionListener(new finishListener());
-//			new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				sm.update(sm.getScreen("Edit Simulation")); 
-//			} 
-//		});
+		finishButton.addActionListener(new finishListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sm.update(sm.getScreen("Edit Simulation")); 
+			} 
+		});
 		panel1.add(nameLabel);
 		panel1.add(nameField);
 		panel2.add(typeLabel);
@@ -130,7 +129,10 @@ public class EditFieldScreen extends Screen {
 		public void actionPerformed(ActionEvent ae) {
 			boolean toMove = false;
 			try {
-				ge.updateField(nameField.getText(), initValue.getText());
+				if(FieldScreen.getEditing())
+					ge.updateField(nameField.getText(), initValue.getText());
+				else
+					ge.addField(nameField.getText(), initValue.getText());
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, 
 						"Please check your input");

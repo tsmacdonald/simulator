@@ -118,12 +118,15 @@ public class EditEntityScreen extends Screen {
 		iconPanel.setMinimumSize(new Dimension(500, 500));
 		iconPanel.setAlignmentX(RIGHT_ALIGNMENT);
 		buttons = new JToggleButton[7][7];
+		
+		//Creates the icon design object.
 		for (int i = 0; i < 7; i++) {
 			for (int j = 0; j < 7; j++) {
 				buttons[i][j] = new JToggleButton();
 				buttons[i][j].setOpaque(true);
 				buttons[i][j].setBackground(Color.WHITE);
 				buttons[i][j].setActionCommand(i + "" + j);
+				//When the button is pushed it switches colors.
 				buttons[i][j].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
@@ -334,9 +337,8 @@ public class EditEntityScreen extends Screen {
 			addTrigger();
 			triggerNames.get(j).setText(t.getName());
 			triggerConditions.get(j).setText(t.getConditions().toString());
-			
-			 triggerResults.get(j).setText(t.getBehavior().toString());
-			 triggerPriority.get(j).setText(t.getPriority +"");
+			triggerResults.get(j).setText(t.getBehavior().toString());
+			triggerPriorities.get(j).setText(t.getPriority() +"");
 		}
 	}
 

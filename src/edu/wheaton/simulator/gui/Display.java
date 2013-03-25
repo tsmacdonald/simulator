@@ -35,7 +35,10 @@ public class Display extends JFrame {
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		this.setVisible(true);
 	}
-
+	/**
+	 * Updates what screen is being displayed
+	 * @param s The screen to display
+	 */
 	public void updateDisplay(Screen s) {
 		this.setContentPane(s);
 		this.setVisible(true);
