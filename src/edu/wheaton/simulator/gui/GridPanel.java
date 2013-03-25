@@ -52,8 +52,8 @@ public class GridPanel extends JPanel {
 		int squareSize = Math.min(pixelWidth, pixelHeight) - 1;
 		for (int i = 0; i < gridWidth; i++) {
 			for (int j = 0; j < gridHeight; j++) {
-				Agent agent = sm.getFacade().getAgent(i, j);
-				if(true/*agent instanceof Agent*/){
+				Agent agent;
+				if((agent = sm.getFacade().getAgent(i, j)) instanceof Agent) {
 					g.setColor(agent.getColor());
 					//If the square is going to be too small
 					//for an icon don't make icons
