@@ -9,6 +9,7 @@ import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.expression.ExpressionEvaluator;
 import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class RockPaperScissorsTest {
 	Grid testGrid;
@@ -101,7 +102,7 @@ public class RockPaperScissorsTest {
 		}
 	}
 	@Test
-	public void test() {
+	public void test() throws SimulationPauseException {
 		//Run through multiple "steps"
 		int numSteps = 100;
 		for(int i = 0; i < numSteps; i++){
