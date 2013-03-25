@@ -43,6 +43,7 @@ public class Agent extends GridEntity {
 	 */
 	public Agent(Grid g, Prototype prototype) {
 		super(g);
+		id = new AgentID();
 		init(prototype);
 	}
 
@@ -56,6 +57,7 @@ public class Agent extends GridEntity {
 	 */
 	public Agent(Grid g, Prototype prototype, Color c) {
 		super(g, c);
+		id = new AgentID();
 		init(prototype);
 	}
 
@@ -71,12 +73,12 @@ public class Agent extends GridEntity {
 	 */
 	public Agent(Grid g, Prototype prototype, Color c, byte[] d) {
 		super(g, c, d);
+		id = new AgentID();
 		init(prototype);
 	}
 	
 	private void init(Prototype p){
 		triggers = new ArrayList<Trigger>();
-		id = new AgentID();
 		prototype = p;
 	}
 

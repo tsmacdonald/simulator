@@ -77,7 +77,7 @@ public class StatisticsScreen extends Screen {
 		entities = new String[0];
 		JComboBox popEntityTypes = new JComboBox(entities);
 		populationCard.add(popEntityTypes);
-
+		
 		JComboBox fieldEntityTypes = new JComboBox(entities);
 		//TODO placeholder
 		//String[] agentFields = {"height", "weight", "speed"};
@@ -115,9 +115,27 @@ public class StatisticsScreen extends Screen {
 			JTable jt = new JTable(timePop ,popTime);
 			populationCard.add(jt);
 		}
-
-
-		this.add(label, BorderLayout.NORTH);
+		
+		//COMING SOON: Average Field Table Statistics
+		
+//		if(fieldEntityTypes.getSelectedIndex() >= 0){
+//			StatisticsManager statMan = sm.getStatManager();
+//			double[] p = statMan.getAvgFieldValue((sm.getFacade().
+//					getPrototype(popEntityTypes.getSelectedItem().toString())
+//					.getPrototypeID()), (String) agentFieldsBox.getSelectedItem()
+//					);
+//			String[] popTime = {"Population", "Time"};
+//			Object[][] timePop = new Object[p.length][2];
+//			for(int i = 0; i < p.length; i++){
+//				Object[] array= {i, p[i]};
+//				timePop[i] = array;
+//			}
+//
+//			JTable jt = new JTable(timePop ,popTime);
+//			populationCard.add(jt);
+//		}
+//
+//		this.add(label, BorderLayout.NORTH);
 
 		//TODO MAJOR figure out how to make a graph or something!!
 		graphPanel.add(new JLabel("Graph object goes here"));

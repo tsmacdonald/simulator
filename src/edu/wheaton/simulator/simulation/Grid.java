@@ -13,7 +13,6 @@ import java.awt.Color;
 import java.util.Iterator;
 
 import net.sourceforge.jeval.EvaluationException;
-
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Slot;
