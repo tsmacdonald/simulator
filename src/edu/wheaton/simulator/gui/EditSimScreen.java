@@ -29,6 +29,7 @@ public class EditSimScreen extends Screen {
 		save.setEnabled(false); //serialization not yet implemented
 		
 		save.addActionListener( new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e){
 				//TODO need serialization
 			}
@@ -61,6 +62,7 @@ public class EditSimScreen extends Screen {
 		JButton gridSetup = new JButton("Grid Setup");
 		
 		gridSetup.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e){
 				((SetupScreen)sm.getScreen("Grid Setup")).load();
 				sm.update(sm.getScreen("Grid Setup"));
@@ -72,6 +74,7 @@ public class EditSimScreen extends Screen {
 		JButton viewSimulation = new JButton("View Simulation");
 		viewSimulation.setPreferredSize(new Dimension(400, 120));
 		viewSimulation.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e){
 				sm.update(sm.getScreen("View Simulation"));
 				((ViewSimScreen)sm.getScreen("View Simulation")).load();

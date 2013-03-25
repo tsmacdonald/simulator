@@ -2,7 +2,6 @@ package edu.wheaton.simulator.behavior;
 
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.expression.ExpressionEvaluator;
 
 public class DieBehavior extends AbstractBehavior {
 
@@ -17,9 +16,9 @@ public class DieBehavior extends AbstractBehavior {
 
 	@Override
 	public String execute(String[] args) throws EvaluationException {
-		Agent target = (Agent) this.resolveEntity(args[0].replaceAll("'", ""));
+		Agent target = resolveAgent(args[0]);
 		target.die();
-		return "true";
+		return TRUE;
 	}
 
 }

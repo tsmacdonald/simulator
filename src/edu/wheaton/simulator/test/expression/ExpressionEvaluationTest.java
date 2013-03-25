@@ -16,10 +16,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
+import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Entity;
+import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.AbstractExpressionFunction;
 import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.expression.ExpressionEvaluator;
+import edu.wheaton.simulator.expression.IsSlotOpen;
+import edu.wheaton.simulator.simulation.Grid;
 
 public class ExpressionEvaluationTest {
 
@@ -28,11 +33,13 @@ public class ExpressionEvaluationTest {
 	 * further testing.
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
+		//TODO ExpressionEvaluationTest.setUp() is empty
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
+		//TODO ExpressionEvaluationTest.tearDown() is empty
 	}
 
 	@Test
@@ -43,7 +50,24 @@ public class ExpressionEvaluationTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void testSimpleBooleanEvaluation2() {
+		try {
+			Assert.assertFalse(Expression.evaluateBool("1 == 0"));
+		} catch (EvaluationException e) {
+			e.printStackTrace();
+		}
+	}
 
+	@Test
+	public void testSimpleBooleanEqualEvaluation() {
+		try {
+			Assert.assertTrue(Expression.evaluateBool("1=1"));
+		} catch (EvaluationException e) {
+			e.printStackTrace();
+		}
+	}
 	@Test
 	public void testComplexBooleanEvaluation() {
 		try {
@@ -81,6 +105,27 @@ public class ExpressionEvaluationTest {
 				"#{three} < #{ten}");
 		testExpression.importVariable("three", "3");
 		testExpression.importVariable("ten", "10");
+		try {
+			Assert.assertTrue(testExpression.evaluateBool());
+		} catch (EvaluationException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testNonStaticTestEquals() {
+		ExpressionEvaluator testExpression = new Expression("1=1");
+		try {
+			Assert.assertTrue(testExpression.evaluateBool());
+		} catch (EvaluationException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testNonStaticTestEqualWithVar() {
+		ExpressionEvaluator testExpression = new Expression("{one}=1");
+		testExpression.importVariable("one", "1");
 		try {
 			Assert.assertTrue(testExpression.evaluateBool());
 		} catch (EvaluationException e) {
@@ -128,7 +173,31 @@ public class ExpressionEvaluationTest {
 		Assert.assertEquals(new Double(5.0),
 				distanceExpression.evaluateDouble());
 	}
-
+	
+	@Test
+	public void testRPSLogic() throws Exception {
+		Grid testGrid = new Grid(100, 100);
+//		ExpressionEvaluator xMoveRight = new Expression("move('this', #{this.x} + 1, #{this.y})");
+//		ExpressionEvaluator yMoveUp = new Expression("move('this', #{this.x}, #{this.y} + 1)");		
+//		ExpressionEvaluator xMoveLeft = new Expression("move('this', #{this.x} - 1, #{this.y})");		
+//		ExpressionEvaluator yMoveDown = new Expression("move('this', #{this.x}, #{this.y} - 1)");
+		ExpressionEvaluator dir1 = new Expression("#{this.direction}=1");
+		Prototype testPrototype = new Prototype(testGrid, "name");
+		testPrototype.addField("type", "'test'");
+		testPrototype.addField("direction", "1");
+//		Trigger testTrigger = new Trigger("moveRight", 1, dir1, xMoveRight);
+//		testPrototype.addTrigger(testTrigger);
+		Agent testAgent1 = testPrototype.clonePrototype();
+//		Agent testAgent2 = testPrototype.clonePrototype();
+		testGrid.addAgent(testAgent1, 0, 0);
+//		testGrid.addAgent(testAgent2, 1, 0);
+//		ExpressionEvaluator condition = dir1.clone();
+		dir1.importEntity("this", testAgent1);
+//		condition.importFunction(new IsSlotOpen());
+//		boolean testBool = condition.evaluateBool();
+		Assert.assertTrue(dir1.evaluateBool());
+	}
+	
 	@Test
 	public void testCustomFunctionExpression() throws Exception {
 		Entity xThis = new Entity();
@@ -174,6 +243,8 @@ public class ExpressionEvaluationTest {
 			}
 		});
 
-		Assert.assertEquals(new Double(5.0), testExpression.evaluateDouble());
+		ExpressionEvaluator expr = testExpression.clone();
+		
+		Assert.assertEquals(new Double(5.0), expr.evaluateDouble());
 	}
 }

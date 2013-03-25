@@ -8,9 +8,7 @@ package edu.wheaton.simulator.test.statistics;
  * Spring 2013
  */
 
-import static org.junit.Assert.fail;
 import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,24 +17,43 @@ import edu.wheaton.simulator.statistics.FieldSnapshot;
 
 public class FieldSnapshotCase {
 
+	/**
+	 * Auto-generated method stub.
+	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
+		//TODO FieldSnapshotCase.setUp() is empty
 	}
 
+	/**
+	 * Auto-generated method stub.
+	 */
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
+		//TODO FieldSnapshotCase.setUp() is empty
 	}
 
+	/**
+	 * Auto-generated method stub.
+	 */
 	@Test
 	public void test() {
 		//fail("Not yet implemented");
 	}
-
+	
+	/**
+	 * Tests the following things:
+	 * 		1. A FieldSnapshot object was created.
+	 * 		2. One of the parameters passed into FieldSnapshot is not an integer.
+	 * 		3. One of the parameters passed into FieldSnapshot is an integer.
+	 */
 	@Test
 	public void fieldSnapshotTest() {
 		FieldSnapshot fieldSnap = new FieldSnapshot("name", "akon");
 		Assert.assertNotNull(fieldSnap);
+		Assert.assertFalse(fieldSnap.isNumber);
 		FieldSnapshot fieldSnapWithInt = new FieldSnapshot("akon", "12345");
+		Assert.assertTrue(fieldSnapWithInt.isNumber);
 		Assert.assertNotNull(fieldSnapWithInt);
 	}
 }

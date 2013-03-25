@@ -10,12 +10,8 @@
 
 package edu.wheaton.simulator.entity;
 
-import java.util.ArrayList;
-
 import net.sourceforge.jeval.EvaluationException;
-import edu.wheaton.simulator.behavior.AbstractBehavior;
 import edu.wheaton.simulator.expression.ExpressionEvaluator;
-import edu.wheaton.simulator.simulation.Grid;
 
 public class Trigger implements Comparable<Trigger> {
 
@@ -79,22 +75,23 @@ public class Trigger implements Comparable<Trigger> {
 	 *             if the expression was invalid
 	 */
 	public void evaluate(Agent xThis) throws EvaluationException {
-//		ExpressionEvaluator condition = conditionExpression.clone();
-//		ExpressionEvaluator behavior = behaviorExpression.clone();
-		
-		ExpressionEvaluator condition = conditionExpression;
-		ExpressionEvaluator behavior = behaviorExpression;
-		
-		System.out.println("after expression cloning in Trigger.evaluate");
+		ExpressionEvaluator condition = conditionExpression.clone();
+		ExpressionEvaluator behavior = behaviorExpression.clone();
 		
 		condition.importEntity("this", xThis);
 		behavior.importEntity("this", xThis);
 
-		if (condition.evaluateBool()) {
-			fire(behavior);
-
+		boolean conditionResult = false;
+		try {
+			conditionResult = condition.evaluateBool();
+		} catch (EvaluationException e) {
+			System.out.println("condition threw exception");
+			e.printStackTrace();
 		}
-		throw new UnsupportedOperationException();
+		
+		if (conditionResult) {
+			fire(behavior);
+		}
 	}
 
 	/**
@@ -109,16 +106,16 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
-	private void fire(ExpressionEvaluator behavior) {
+	private static void fire(ExpressionEvaluator behavior) {
 		try {
-			if(behavior.evaluateBool() == false){
+			if(behavior.evaluateBool() == false)
 				System.err.println("behavior '" + behavior.toString() + "' failed");
-			}
+			else
+				System.out.println("behavior '" + behavior.toString() + "' succeeded");
 		} catch (EvaluationException e) {
-			System.err.println("malformed expression: " + e.getMessage());
+			System.err.println("malformed expression: " + behavior);
 			e.printStackTrace();
 		}
-		// Needs to be updated to work with new behaviors
 	}
 
 	/**
@@ -156,5 +153,13 @@ public class Trigger implements Comparable<Trigger> {
 	 */
 	public String getName() {
 		return name;
+	}
+	
+	public ExpressionEvaluator getBehavior() {
+		return behaviorExpression;
+	}
+	
+	public int getPriority() {
+		return priority;
 	}
 }

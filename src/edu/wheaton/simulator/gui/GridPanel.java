@@ -1,14 +1,15 @@
 package edu.wheaton.simulator.gui;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 
 public class GridPanel extends JPanel {
-
-	private static final long serialVersionUID = -20L;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6168906849044462629L;
 
 	private ScreenManager sm;
 
@@ -24,6 +25,7 @@ public class GridPanel extends JPanel {
 		this.sm = sm;
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		width = this.getWidth();
 		height = this.getHeight();
@@ -50,8 +52,8 @@ public class GridPanel extends JPanel {
 		int squareSize = Math.min(pixelWidth, pixelHeight) - 1;
 		for (int i = 0; i < gridWidth; i++) {
 			for (int j = 0; j < gridHeight; j++) {
-				Agent agent = sm.getFacade().getAgent(i, j);
-				if(agent instanceof Agent){
+				Agent agent;
+				if((agent = sm.getFacade().getAgent(i, j)) instanceof Agent) {
 					g.setColor(agent.getColor());
 					//If the square is going to be too small
 					//for an icon don't make icons

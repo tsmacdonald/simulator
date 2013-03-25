@@ -26,20 +26,21 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import sun.management.resources.agent_zh_TW;
+
 public class SpawningScreen extends Screen {
 	//TODO how do we handle if spawn are set, and then the grid is made smaller,
 	//     and some of the spawns are now out of bounds? delete those fields?
 	//TODO figure out where and how to store spawning information
 
-	//TODO temporary placeholder
-	private String[] exampleEntities = {"Fox", "Rabbit", "Clover", "Bear"};
+	private String[] entities;
 
 	private ArrayList<JComboBox> entityTypes;
 
 	private ArrayList<JComboBox> spawnPatterns;
 
 	//TODO temporary placeholder
-	private String[] spawnOptions = {"Random", "Clustered", "Edge"};
+	private String[] spawnOptions = {"Random", "Clustered"};
 
 	private ArrayList<JTextField> xLocs;
 
@@ -61,10 +62,11 @@ public class SpawningScreen extends Screen {
 	 */
 	private static final long serialVersionUID = 6312784326472662829L;
 
-	//TODO may want to add a scroll bar for large numbers of added spawns
+	//TODO does not read existing entities
 	public SpawningScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
+		entities = new String[0];
 		JLabel label = new JLabel("Spawning");
 		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		label.setPreferredSize(new Dimension(300, 150));
@@ -102,38 +104,19 @@ public class SpawningScreen extends Screen {
 		labelsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		
 		entityTypes = new ArrayList<JComboBox>();
-		entityTypes.add(new JComboBox(exampleEntities));
-		entityTypes.get(0).setMaximumSize(new Dimension(250, 30));
 		spawnPatterns = new ArrayList<JComboBox>();
-		spawnPatterns.add(new JComboBox(spawnOptions));
-		spawnPatterns.get(0).setMaximumSize(new Dimension(250, 30));
+		entityTypes.add(new JComboBox(entities));
 		xLocs = new ArrayList<JTextField>();
-		xLocs.add(new JTextField(10));
-		xLocs.get(0).setMaximumSize(new Dimension(100, 30));
 		yLocs = new ArrayList<JTextField>();
-		yLocs.add(new JTextField(10));
-		yLocs.get(0).setMaximumSize(new Dimension(100, 30));
 		numbers = new ArrayList<JTextField>();
-		numbers.add(new JTextField(10));
-		numbers.get(0).setMaximumSize(new Dimension(100, 30));
 		deleteButtons = new ArrayList<JButton>();
-		deleteButtons.add(new JButton("Delete"));
-		deleteButtons.get(0).setActionCommand("0");
-		deleteButtons.get(0).addActionListener(new DeleteListener());
 		subPanels = new ArrayList<JPanel>();
-		subPanels.add(new JPanel());
-		subPanels.get(0).setLayout(
-				new BoxLayout(subPanels.get(0), BoxLayout.X_AXIS)
-				);
-		subPanels.get(0).add(entityTypes.get(0));
-		subPanels.get(0).add(spawnPatterns.get(0));
-		subPanels.get(0).add(xLocs.get(0));
-		subPanels.get(0).add(yLocs.get(0));
-		subPanels.get(0).add(numbers.get(0));
-		subPanels.get(0).add(deleteButtons.get(0));
-		listPanel.add(subPanels.get(0));
+		
+		entityTypes.get(0).setMaximumSize(new Dimension(250, 30));
+		
 		addSpawnButton = new JButton("Add Spawn");
 		addSpawnButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e){
 				addSpawn();
 			}
@@ -142,6 +125,7 @@ public class SpawningScreen extends Screen {
 		addSpawnButton.setAlignmentX(CENTER_ALIGNMENT);
 		glue = Box.createVerticalGlue();
 		listPanel.add(glue);
+		addSpawn();
 		
 		JPanel buttonPanel = new JPanel();
 		JButton cancelButton = new JButton("Cancel");
@@ -157,8 +141,18 @@ public class SpawningScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Edit Simulation")); 
-					} 
+						ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
+						conditions.clear();
+				for (int i = 0; i < entityTypes.size(); i++) {
+					new SpawnCondition(sm.getFacade().getPrototype(
+							((String) entityTypes.get(i).getSelectedItem())),
+							Integer.parseInt(xLocs.get(i).getText()), Integer
+									.parseInt(yLocs.get(i).getText()), Integer
+									.parseInt(numbers.get(i).getText()),
+							(String) spawnPatterns.get(i).getSelectedItem());
+				}
+				sm.update(sm.getScreen("Edit Simulation"));
+			}
 				});
 		buttonPanel.add(cancelButton);
 		buttonPanel.add(finishButton);
@@ -178,22 +172,20 @@ public class SpawningScreen extends Screen {
 		addSpawn();
 	}
 	
+	@Override
 	public void load() {
 		reset();
+		entities = sm.getFacade().prototypeNames().toArray(entities);
+		ArrayList<SpawnCondition> spawnConditions = sm.getSpawnConditions(); 
 		
-		/*
-		iterate through storage
-		for each stored spawn condition {
+		for (int i = 0; i < spawnConditions.size(); i++) { 
 			addSpawn();
-			entityTypes.get(i).setSelectedItem(storedTypes.get(i));
-			spawnPatterns.get(i).setSelectedItem(storedPatterns.get(i));
-			xLocs.get(i).setText(storedXLocs.get(i));
-			yLocs.get(i).setText(storedYLocs.get(i));
-			numbers.get(i).setText(storedNumbers.get(i));
+			entityTypes.get(i).setSelectedItem(spawnConditions.get(i).prototype.toString());
+			spawnPatterns.get(i).setSelectedItem(spawnConditions.get(i).pattern);
+			xLocs.get(i).setText(spawnConditions.get(i).x + "");
+			yLocs.get(i).setText(spawnConditions.get(i).y + "");
+			numbers.get(i).setText(spawnConditions.get(i).number + "");
 		}
-		*/
-		
-		
 		
 	}
 	
@@ -203,7 +195,7 @@ public class SpawningScreen extends Screen {
 				new BoxLayout(newPanel, 
 						BoxLayout.X_AXIS)
 				);
-		JComboBox newBox = new JComboBox(exampleEntities);
+		JComboBox newBox = new JComboBox(entities);
 		newBox.setMaximumSize(new Dimension(250, 30));
 		entityTypes.add(newBox);
 		JComboBox newSpawnType = new JComboBox(spawnOptions);
@@ -255,6 +247,7 @@ public class SpawningScreen extends Screen {
 	}
 	
 	private class DeleteListener implements ActionListener {
+		@Override
 		public void actionPerformed(ActionEvent e){
 			String action = e.getActionCommand();
 			deleteSpawn(Integer.parseInt(action));

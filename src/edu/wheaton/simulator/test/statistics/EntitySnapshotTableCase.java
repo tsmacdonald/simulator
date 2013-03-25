@@ -1,17 +1,6 @@
 package edu.wheaton.simulator.test.statistics;
 
-/**
- * A JUnit test case for testing EntitySnapshot.java.
- * 
- * @author Nico Lasta
- * Wheaton College, CSCI 335
- * Spring 2013
- * 24 Mar 2013
- */
-
 import java.util.HashMap;
-
-import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,55 +8,46 @@ import org.junit.Test;
 
 import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.statistics.EntitySnapshot;
+import edu.wheaton.simulator.statistics.EntitySnapshotTable;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
 
-public class EntitySnapshotCase {
+public class EntitySnapshotTableCase {
 
+	EntitySnapshot entitySnap;
 	Entity entity;
 	Integer step;
 	HashMap<String, String> fields;
 
-	/**
-	 * Initialize variables.
-	 */
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		entity = new Entity();
 		step = new Integer(23);
 		fields = new HashMap<String, String>();
 		fields.put("Pig", "Tom");
 		fields.put("Monkey", "Olly");
 		fields.put("Cat", "Joomba");
+		entitySnap = new EntitySnapshot(entity.getEntityID(),
+				SnapshotFactory.makeFieldSnapshots(fields), step);
 	}
 
-	/**
-	 * Give variables null pointers.
-	 */
 	@After
-	public void tearDown() {
+	public void tearDown() throws Exception {
 		entity = null;
 		step = null;
 		fields.remove("Pig");
 		fields.remove("Monkey");
 		fields.remove("Cat");
 		fields = null;
+		entitySnap = null;
 	}
 
-	/**
-	 * Auto-generated method stub.
-	 */
 	@Test
 	public void test() {
 		// fail("Not yet implemented");
 	}
 
-	/**
-	 * Tests to make sure an EntitySnapshot object was successfully created.
-	 */
 	@Test
-	public void entitySnapshotTest() {
-		EntitySnapshot entSnap = new EntitySnapshot(entity.getEntityID(),
-				SnapshotFactory.makeFieldSnapshots(fields), step);
-		Assert.assertNotNull("EntitySnapshot not created.", entSnap);
+	public void entitySnapshotTableTest() {
+		EntitySnapshotTable entSnapTable = new EntitySnapshotTable();
 	}
 }

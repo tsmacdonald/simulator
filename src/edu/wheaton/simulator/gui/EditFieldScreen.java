@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.wheaton.simulator.entity.GridEntity;
+import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 
 public class EditFieldScreen extends Screen {
 
@@ -33,8 +34,6 @@ public class EditFieldScreen extends Screen {
 
 	private GridEntity ge;
 
-	//TODO I think this page may need to be reworked a bit based on how 
-	//     slot fields actually work. I'll do that. -Willy
 	public EditFieldScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -76,12 +75,13 @@ public class EditFieldScreen extends Screen {
 		finishButton.setPreferredSize(new Dimension(120, 60));
 		//TODO finish button needs to pull information from the screen and update
 		//     simulation accordingly.
-		finishButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				sm.update(sm.getScreen("Edit Simulation")); 
-			} 
-		});
+		finishButton.addActionListener(new finishListener());
+//			new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				sm.update(sm.getScreen("Edit Simulation")); 
+//			} 
+//		});
 		panel1.add(nameLabel);
 		panel1.add(nameField);
 		panel2.add(typeLabel);
@@ -121,12 +121,24 @@ public class EditFieldScreen extends Screen {
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
+		GUIToAgentFacade facade = sm.getFacade();
+		facade.getPrototype(nameField.getText());
 	}
 
 	private class finishListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			ge.updateField(nameField.getText(), initValue.getText());
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			boolean toMove = false;
+			try {
+				ge.updateField(nameField.getText(), initValue.getText());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, 
+						"Please check your input");
+			}
+			if (toMove) {
+				sm.update(sm.getScreen("Fields"));
+			}
+			
 		}
 	}
 }

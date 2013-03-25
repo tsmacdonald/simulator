@@ -13,11 +13,9 @@ package edu.wheaton.simulator.gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
-import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -28,7 +26,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
@@ -86,9 +83,9 @@ public class FieldScreen extends Screen {
 		posPanel.add(yPos);
 		posPanel.setAlignmentX(CENTER_ALIGNMENT);
 		listModel = new DefaultListModel();
-		listModel.addElement("Field 1");
-		listModel.addElement("Field 2");
-		listModel.addElement("Field 3");
+		//listModel.addElement("Field 1");
+		//listModel.addElement("Field 2");
+		//listModel.addElement("Field 3");
 		fields = new JList(listModel);
 		fields.setMaximumSize(new Dimension(400, 800));
 		fields.setLayoutOrientation(JList.VERTICAL_WRAP);
@@ -103,6 +100,7 @@ public class FieldScreen extends Screen {
 		add.addActionListener(
 				//new GeneralButtonListener("Edit Fields", sm));
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						((EditFieldScreen) (sm.getScreen("Edit Fields"))).load(
 								sm.getFacade().getGrid().getSlot(
@@ -117,6 +115,7 @@ public class FieldScreen extends Screen {
 		edit = new JButton("Edit");
 		edit.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						((EditFieldScreen) (sm.getScreen("Edit Fields"))).load(
 								sm.getFacade().getGrid().getSlot(
@@ -151,7 +150,11 @@ public class FieldScreen extends Screen {
 		listModel.clear();
 	}
 
+	@Override
 	public void load() {
+		edit.setEnabled(sm.hasStarted() ? false : true); 
+		delete.setEnabled(sm.hasStarted() ? false : true); 
+		
 		if (xPos.getItemCount() != sm.getGUIwidth()) {
 			xPos.removeAllItems();
 			for (int i = 0; i < sm.getGUIwidth(); i++) {
@@ -166,9 +169,17 @@ public class FieldScreen extends Screen {
 				yPos.addItem(j + "");
 			}
 		}
+		
+		Map<String, String> map = sm.getFacade().getGrid().getSlot(Integer.parseInt(xPos.getSelectedItem().toString()),
+				Integer.parseInt(yPos.getSelectedItem().toString())).getFieldMap();
+		String[] fields = (String[]) map.keySet().toArray();
+		for(String s: fields)
+			listModel.addElement(s);
+		
 	}
 
 	private class BoxListener implements ActionListener {
+		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			if (xPos.getSelectedIndex() >= 0 && yPos.getSelectedIndex() >= 0) {
 				Map<String, String> fieldNames = sm.getFacade().getGrid().getSlot(
@@ -186,6 +197,7 @@ public class FieldScreen extends Screen {
 	}
 	
 	private class ListListener implements ListSelectionListener {
+		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			edit.setEnabled(true);
 		}
@@ -203,6 +215,7 @@ public class FieldScreen extends Screen {
 			this.delete = delete;
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = fields.getSelectedIndex();
 			listModel.remove(index);
