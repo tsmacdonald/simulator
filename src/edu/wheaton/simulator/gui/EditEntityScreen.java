@@ -317,6 +317,7 @@ public class EditEntityScreen extends Screen {
 		fieldSubPanels.clear();
 		removedFields.clear();
 		fieldListPanel.removeAll();
+		fieldListPanel.add(addFieldButton);
 		triggerNames.clear();
 		triggerPriorities.clear();
 		triggerConditions.clear();
@@ -325,6 +326,7 @@ public class EditEntityScreen extends Screen {
 		triggerSubPanels.clear();
 		removedTriggers.clear();
 		triggerListPanel.removeAll();
+		triggerListPanel.add(addTriggerButton);
 	}
 
 
