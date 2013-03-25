@@ -28,7 +28,7 @@ public class EntitySnapshotCase {
 	Map<String, String> fields;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		entity = new Entity();
 		step = new Integer(23);
 		fields = new HashMap<String, String>();
@@ -38,7 +38,7 @@ public class EntitySnapshotCase {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		entity = null;
 		step = null;
 		fields = null;

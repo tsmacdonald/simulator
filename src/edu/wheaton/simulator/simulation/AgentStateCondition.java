@@ -75,7 +75,6 @@ public class AgentStateCondition extends EndCondition {
 
 		Iterator<Slot> it = this.getGrid().iterator();
 
-		// TODO: Get the Agent team to add names to Agents
 		while (it.hasNext()) {
 			Slot s = it.next();
 

@@ -26,11 +26,13 @@ import edu.wheaton.simulator.simulation.Layer;
 public class LayerTest {
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
+		//TODO LayerTest.setUp() is empty
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
+		//TODO LayerTest.tearDown() is empty
 	}
 
 	@Test

@@ -64,7 +64,6 @@ public class Grid implements Iterable<Slot> {
 	/**
 	 * Causes all entities in the grid to act()
 	 * 
-	 * TODO parameters sent to method "act" are not valid
 	 */
 	public void updateEntities() {
 		for (Slot[] sArr : grid)

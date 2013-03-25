@@ -23,6 +23,8 @@ public interface ExpressionEvaluator {
 	public void clearVariables();
 
 	public void clearFunctions();
+	
+	void clearEntities();
 
 	public Boolean evaluateBool() throws EvaluationException;
 

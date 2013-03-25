@@ -6,13 +6,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.naming.NameNotFoundException;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableMap.Builder;
-
 import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.PrototypeID;
 
@@ -61,6 +60,23 @@ public class StatisticsManager {
 		return gridObserver;
 	}
 
+	/**
+	 * Add a PrototypeSnapshot to the StatisticsManager. 
+	 * @param prototypeSnapshot The new prototype being recorded. 
+	 */
+	public void addPrototypeSnapshot(PrototypeSnapshot prototypeSnapshot) { 
+		if (prototypeSnapshot.step > lastStep) 
+			lastStep = prototypeSnapshot.step; 
+		Map<PrototypeID, PrototypeSnapshot> typeMap; 
+		try { 
+			typeMap = prototypes.get(prototypeSnapshot.step); 
+		} catch (IndexOutOfBoundsException e) { 
+			typeMap = new TreeMap<PrototypeID, PrototypeSnapshot>();
+			prototypes.add(prototypeSnapshot.step, typeMap); 
+		}
+		typeMap.put(prototypeSnapshot.id, prototypeSnapshot);
+	}
+	
 	/**
 	 * Store a snapshot of a gridEntity.
 	 * 
@@ -208,7 +224,7 @@ public class StatisticsManager {
 		Set<AgentSnapshot> allAgents = new HashSet<AgentSnapshot>();
 
 		for (int i = 0; i < lastStep; i++) {
-			Set stepData = getPopulationAtStep(id, i);
+			Set<AgentSnapshot> stepData = getPopulationAtStep(id, i);
 			agentsByStep.set(i, stepData);
 			allAgents.addAll(stepData);
 		}

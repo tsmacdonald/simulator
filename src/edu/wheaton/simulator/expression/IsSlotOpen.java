@@ -1,6 +1,5 @@
 package edu.wheaton.simulator.expression;
 
-import edu.wheaton.simulator.entity.Agent;
 import net.sourceforge.jeval.EvaluationException;
 
 public class IsSlotOpen extends AbstractExpressionFunction {
@@ -19,7 +18,7 @@ public class IsSlotOpen extends AbstractExpressionFunction {
 	public String execute(String[] args) throws EvaluationException {
 		Double x = Double.valueOf(args[0]);
 		Double y = Double.valueOf(args[1]);
-		Boolean isOpen = ((Agent) resolveEntity("this")).getGrid().emptySlot(x.intValue(),y.intValue());
+		Boolean isOpen = resolveAgent("this").getGrid().emptySlot(x.intValue(),y.intValue());
 		return isOpen.toString();
 	}
 

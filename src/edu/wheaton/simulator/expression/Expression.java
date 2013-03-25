@@ -16,6 +16,16 @@ import edu.wheaton.simulator.entity.Entity;
 
 public class Expression implements ExpressionEvaluator {
 
+	/**
+	 * All variables that JEval evaluates are first passed to an associated instance of
+	 * VariableResolver. If the 'VR' returns a null then the JEval 'Evaluator' will look for the
+	 * variable name in its internal map. This 'VR' implementation is solely for the purpose of enabling
+	 * a shorter Expression syntax: "#{this.x}" rather than something like "getField('this','x')" which would require
+	 * implementing a "getField" ExpressionFunction.
+	 * 
+	 * @author bgarcia
+	 *
+	 */
 	protected class EntityFieldResolver implements VariableResolver {
 
 		private Map<String, Entity> entityMap;
@@ -31,6 +41,7 @@ public class Expression implements ExpressionEvaluator {
 		 * copy constructor
 		 */
 		protected EntityFieldResolver(EntityFieldResolver resolver) {
+			entityMap = new HashMap<String, Entity>();
 			entityMap.putAll(resolver.entityMap);
 		}
 
@@ -84,6 +95,8 @@ public class Expression implements ExpressionEvaluator {
 		evaluator = new Evaluator();
 		resolver = new EntityFieldResolver();
 		evaluator.setVariableResolver(resolver);
+		
+		//make all project-defined ExpressionFunction implementations recognizable by default
 		this.importFunction(new CloneBehavior());
 		this.importFunction(new DieBehavior());
 		this.importFunction(new MoveBehavior());
@@ -108,20 +121,27 @@ public class Expression implements ExpressionEvaluator {
 		this.resolver = res;
 	}
 
+	/**
+	 * calls the copy constructor
+	 */
 	@Override
 	public ExpressionEvaluator clone() {
 		return new Expression(this);
 	}
 
+	/**
+	 * sets the string that is evaluated by JEval/JEval-wrapper
+	 */
 	@Override
 	public void setString(Object exprStr) {
 		this.expr = exprStr;
 	}
 
 	/**
+	 * Define a variable
+	 * 
 	 * @Param name Do not format this String as you must do when creating an
 	 *        expression String. Simply pass the desired variable name.
-	 * 
 	 */
 	@Override
 	public void importVariable(String name, String value) {
@@ -129,6 +149,8 @@ public class Expression implements ExpressionEvaluator {
 	}
 
 	/**
+	 * Make an entity recognizable by this expression and all functions called within
+	 * 
 	 * @Param aliasName The name used to refer to the Entity in the expression
 	 *        String ("this", "other", etc.)
 	 */
@@ -137,16 +159,25 @@ public class Expression implements ExpressionEvaluator {
 		resolver.setEntity(aliasName, entity);
 	}
 
+	/**
+	 * Make an ExpressionFunction recognizable by this expression and all functions called within
+	 */
 	@Override
 	public void importFunction(AbstractExpressionFunction function) {
 		evaluator.putFunction(function.toJEvalFunction());
 	}
 
+	/**
+	 * get an imported Entity
+	 */
 	@Override
 	public Entity getEntity(String aliasName) {
 		return resolver.getEntity(aliasName);
 	}
 
+	/**
+	 * get the value of an imported variable
+	 */
 	@Override
 	public String getVariableValue(String variableName)
 			throws EvaluationException {
@@ -154,15 +185,24 @@ public class Expression implements ExpressionEvaluator {
 	}
 
 	/**
-	 * clear all added variables
+	 * clear all variables added with 'importVariable'
+	 * 
 	 */
 	@Override
 	public void clearVariables() {
 		evaluator.clearVariables();
 	}
+	
+	/**
+	 * clear all entities added with 'importEntity'
+	 */
+	@Override
+	public void clearEntities(){
+		resolver.entityMap.clear();
+	}
 
 	/**
-	 * clear all added functions
+	 * clear all functions added with 'importFunction
 	 */
 	@Override
 	public void clearFunctions() {
