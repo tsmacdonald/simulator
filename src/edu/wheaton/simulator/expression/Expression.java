@@ -100,6 +100,8 @@ public class Expression implements ExpressionEvaluator {
 		this.importFunction(new MoveBehavior());
 		this.importFunction(new SetFieldBehavior());
 		this.importFunction(new IsSlotOpen());
+		this.importFunction(new GetFieldOfAgentAt());
+		this.importFunction(new IsValidCoord());
 	}
 
 	/**

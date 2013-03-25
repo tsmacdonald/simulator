@@ -27,16 +27,44 @@ public class RockPaperScissorsTest {
 		//ExpressionEvaluator turnClockwise = new Expression("setField('this', 'direction', (#{this.direction} +1)%4)");
 		
 		// if nobody ahead in this direction
-		
 		ExpressionEvaluator dir0 = new Expression("(#{this.direction} == 0) && isSlotOpen(#{this.x},#{this.y}+1)");		
 		ExpressionEvaluator dir1 = new Expression("(#{this.direction} == 1) && isSlotOpen(#{this.x}+1,#{this.y})");
 		ExpressionEvaluator dir2 = new Expression("(#{this.direction} == 2) && isSlotOpen(#{this.x},#{this.y}-1)");
 		ExpressionEvaluator dir3 = new Expression("(#{this.direction} == 3) && isSlotOpen(#{this.x}-1,#{this.y})");
+		
+		// I am stronger than opponent in front of me condition
+		ExpressionEvaluator winConflict0 = new Expression("(#{this.direction} == 0) && isValidCoord(#{this.x},#{this.y}+1) && !isSlotOpen(#{this.x},#{this.y}+1)" +
+				" && getFieldOfAgentAt(#{this.x},#{this.y}+1, typeID) == #({this.typeID} - 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(#{this.x},#{this.y}+1, direction) == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
+		ExpressionEvaluator winConflict1 = new Expression("(#{this.direction} == 1) && isValidCoord(#{this.x}+1,#{this.y}) && !isSlotOpen(#{this.x}+1,#{this.y})" +
+				" && getFieldOfAgentAt(#{this.x} + 1,#{this.y}, typeID) == #({this.typeID} - 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(#{this.x} + 1,#{this.y}, direction) == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
+		ExpressionEvaluator winConflict2 = new Expression("(#{this.direction} == 2) && isValidCoord(#{this.x},#{this.y}-1) && !isSlotOpen(#{this.x},#{this.y}-1)" +
+				" && getFieldOfAgentAt(#{this.x},#{this.y} - 1, typeID) == #({this.typeID} - 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(#{this.x},#{this.y} - 1, direction) == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
+		ExpressionEvaluator winConflict3 = new Expression("(#{this.direction} == 3) && isValidCoord(#{this.x}-1,#{this.y}) && !isSlotOpen(#{this.x}-1,#{this.y})" +
+				" && getFieldOfAgentAt(#{this.x} - 1,#{this.y}, typeID) == #({this.typeID} - 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(#{this.x} - 1,#{this.y}, direction) == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
+		
+		// I am weaker than opponent in front of me condition
+		ExpressionEvaluator loseConflict0 = new Expression("(#{this.direction} == 0) && isValidCoord(#{this.x},#{this.y}+1) && !isSlotOpen(#{this.x},#{this.y}+1)" +
+				" && getFieldOfAgentAt(#{this.x},#{this.y}+1, typeID) == #({this.typeID} + 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(#{this.x},#{this.y}+1, direction) == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
+		ExpressionEvaluator loseConflict1 = new Expression("(#{this.direction} == 1) && isValidCoord(#{this.x}+1,#{this.y}) && !isSlotOpen(#{this.x}+1,#{this.y})" +
+				" && getFieldOfAgentAt(#{this.x} + 1,#{this.y}, typeID) == #({this.typeID} + 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(#{this.x} + 1,#{this.y}, direction) == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
+		ExpressionEvaluator loseConflict2 = new Expression("(#{this.direction} == 2) && isValidCoord(#{this.x},#{this.y}-1) && !isSlotOpen(#{this.x},#{this.y}-1)" +
+				" && getFieldOfAgentAt(#{this.x},#{this.y} - 1, typeID) == #({this.typeID} + 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(#{this.x},#{this.y} - 1, direction) == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
+		ExpressionEvaluator loseConflict3 = new Expression("(#{this.direction} == 3) && isValidCoord(#{this.x}-1,#{this.y}) && !isSlotOpen(#{this.x}-1,#{this.y})" +
+				" && getFieldOfAgentAt(#{this.x} - 1,#{this.y}, typeID) == #({this.typeID} + 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(#{this.x} - 1,#{this.y}, direction) == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
 				
 		for(int j = 0; j < agentType.length; j ++){
 			Prototype testPrototype = new Prototype(testGrid, "testPrototype");
 			try {
 				testPrototype.addField("type", agentType[j]);
+				testPrototype.addField("typeID", j);
 				testPrototype.addField("direction", j);
 				testPrototype.addField("initialDIrection", j);
 			} catch (ElementAlreadyContainedException e) {
