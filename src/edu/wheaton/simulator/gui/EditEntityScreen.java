@@ -378,16 +378,20 @@ public class EditEntityScreen extends Screen {
 		boolean toReturn = false;
 		try {
 			for (int i = 0; i < fieldNames.size(); i++) {
-				if (fieldNames.get(i).getText().equals("")
-						|| fieldValues.get(i).getText().equals("")) {
-					throw new Exception("All fields must have input");
+				if (removedFields.contains(i)) {
+					if (fieldNames.get(i).getText().equals("")
+							|| fieldValues.get(i).getText().equals("")) {
+						throw new Exception("All fields must have input");
+					}
 				}
 			}
 			for (int j = 0; j < triggerNames.size(); j++) {
-				if (triggerNames.get(j).getText().equals("")
-						|| triggerConditions.get(j).getText().equals("")
-						|| triggerResults.get(j).getText().equals("")) {
-					throw new Exception("All fields must have input");
+				if (removedTriggers.contains(j)) {
+					if (triggerNames.get(j).getText().equals("")
+							|| triggerConditions.get(j).getText().equals("")
+							|| triggerResults.get(j).getText().equals("")) {
+						throw new Exception("All fields must have input");
+					}
 				}
 				if (Integer.parseInt(triggerPriorities.get(j).getText()) < 0) {
 					throw new Exception("Priority must be greater than 0");
