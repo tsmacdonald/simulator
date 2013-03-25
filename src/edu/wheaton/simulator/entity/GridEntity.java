@@ -41,21 +41,7 @@ public abstract class GridEntity extends Entity {
 	 */
 	public GridEntity(Grid g) {
 		super();
-		grid = g;
-		Color c = Color.black;
-		try {
-			addField("colorRed", new Integer(c.getRed()));
-			addField("colorBlue", new Integer(c.getBlue()));
-			addField("colorGreen", new Integer(c.getGreen()));
-			addField("x", 0);
-			addField("y", 0);
-		} catch (ElementAlreadyContainedException e) {
-			e.printStackTrace();
-		}
-
-		design = new byte[8];
-		for (int i = 0; i < 8; i++)
-			design[i] = 127; // sets design to a solid image
+		init(g,Color.black,makeDesign());
 	}
 
 	/**
@@ -69,21 +55,7 @@ public abstract class GridEntity extends Entity {
 	 */
 	public GridEntity(Grid g, Color c) {
 		super();
-		grid = g;
-
-		try {
-			addField("colorRed", new Integer(c.getRed()));
-			addField("colorBlue", new Integer(c.getBlue()));
-			addField("colorGreen", new Integer(c.getGreen()));
-			addField("x", 0);
-			addField("y", 0);
-		} catch (ElementAlreadyContainedException e) {
-			e.printStackTrace();
-		}
-
-		design = new byte[8];
-		for (int i = 0; i < 8; i++)
-			design[i] = 127; // sets design to a solid image
+		init(g,c,makeDesign());
 	}
 
 	/**
@@ -98,17 +70,52 @@ public abstract class GridEntity extends Entity {
 	 */
 	public GridEntity(Grid g, Color c, byte[] d) {
 		super();
+		init(g,c,d);
+	}
+	
+	private void init(Grid g, Color c, byte[] d){
 		grid = g;
+		setDesign(d);
+		initFields(c);
+	}
+	
+	private static byte[] makeDesign(){
+		byte[] design = new byte[8];
+		for (int i = 0; i < design.length; i++)
+			design[i] = 127; // sets design to a solid image
+		return design;
+	}
+	
+	private void initFields(Color c){
+		initPosition();
+		initColor(c);
+	}
+	
+	private void initPosition(){
+		//position fields initialized to invalid coordinates
+		//to catch assumptions that this entity is already
+		//added to the Grid
 
 		try {
-			addField("colorRed", new Integer(c.getRed()));
-			addField("colorBlue", new Integer(c.getBlue()));
-			addField("colorGreen", new Integer(c.getGreen()));
+			addField("y", -1);
+			addField("x", -1);
 		} catch (ElementAlreadyContainedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void initColor(Color c) {
+
+		try {
+			addField("colorRed", getRed(c));
+			addField("colorBlue", getBlue(c));
+			addField("colorGreen", getGreen(c));
+		} catch (ElementAlreadyContainedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		design = d;
 	}
 
 	/**
@@ -117,9 +124,9 @@ public abstract class GridEntity extends Entity {
 	 * @param c
 	 */
 	public void setColor(Color c) {
-		updateField("colorRed", new Integer(c.getRed()));
-		updateField("colorBlue", new Integer(c.getBlue()));
-		updateField("colorGreen", new Integer(c.getGreen()));
+		updateField("colorRed", getRed(c));
+		updateField("colorBlue", getBlue(c));
+		updateField("colorGreen", getGreen(c));
 	}
 
 	/**
@@ -127,9 +134,8 @@ public abstract class GridEntity extends Entity {
 	 * 
 	 */
 	public Color getColor() {
-		return new Color(getField("colorRed").getIntValue(), getField(
-				"colorGreen").getIntValue(), getField("colorBlue")
-				.getIntValue());
+		return new Color(getFieldInt("colorRed"),
+				getFieldInt("colorGreen"), getFieldInt("colorBlue"));
 	}
 
 	/**
@@ -141,11 +147,31 @@ public abstract class GridEntity extends Entity {
 	 */
 	public Color getLayerColor() throws EvaluationException {
 
-		Field field = getField(Layer.getInstance().getFieldName());
+		Field field = getField(getLayer().getFieldName());
 		if (field == null)
 			throw new NoSuchElementException(
 					"Entity.getLayerColor() could not find a valid field for return");
-		return Layer.getInstance().newShade(field);
+		return getLayer().newShade(field);
+	}
+	
+	private Integer getFieldInt(String fieldName){
+		return getField(fieldName).getIntValue();
+	}
+	
+	private static Layer getLayer(){
+		return Layer.getInstance();
+	}
+	
+	private static Integer getRed(Color c){
+		return new Integer(c.getRed());
+	}
+	
+	private static Integer getGreen(Color c){
+		return new Integer(c.getGreen());
+	}
+	
+	private static Integer getBlue(Color c){
+		return new Integer(c.getBlue());
 	}
 
 	/**

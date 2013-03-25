@@ -23,13 +23,17 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
+
 import javax.swing.GroupLayout.Alignment;
+
 import com.sun.corba.se.impl.encoding.CodeSetConversion.BTCConverter;
+
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
 
+//TODO deletes prototype after editing
 public class EditEntityScreen extends Screen {
 
 	private static final long serialVersionUID = 4021299442173260142L;
@@ -133,7 +137,7 @@ public class EditEntityScreen extends Screen {
 						String str = ae.getActionCommand();
 						JToggleButton jb = buttons[Integer.parseInt(str
 								.charAt(0) + "")][Integer.parseInt(str
-								.charAt(1) + "")];
+										.charAt(1) + "")];
 						if (jb.getBackground().equals(Color.WHITE))
 							jb.setBackground(Color.BLACK);
 						else
@@ -148,7 +152,7 @@ public class EditEntityScreen extends Screen {
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		mainPanel.setMaximumSize(new Dimension(1200, 500));
 		generalPanel
-				.setLayout(new BoxLayout(generalPanel, BoxLayout.PAGE_AXIS));
+		.setLayout(new BoxLayout(generalPanel, BoxLayout.PAGE_AXIS));
 		mainPanel.add(colorPanel);
 		mainPanel.add(iconPanel);
 		generalPanel.add(generalLabel);
@@ -312,13 +316,13 @@ public class EditEntityScreen extends Screen {
 		colorTool.setColor(agent.getColor());
 
 		byte[] designBytes = agent.getDesign();
-		for (byte b : designBytes) 
-			System.out.println("lB:" + b);
+			for (byte b : designBytes) 
+					System.out.println("lB:" + b);
 		byte byter = Byte.parseByte("0000001", 2);
-		for (int column = 0; column < 7; column++) {
-			for (int row = 0; row < 7; row++) {
-				if ((designBytes[column] & (byter << row)) != Byte.parseByte("0000000", 2)) {
-					buttons[column][row].doClick();
+		for (int i = 0; i < 7; i++) {
+			for (int j = 0; j < 7; j++) {
+				if ((designBytes[i] & (byter << j)) != Byte.parseByte("0000000", 2)) {
+					buttons[i][6-j].doClick();
 				}
 			}
 		}
@@ -389,36 +393,49 @@ public class EditEntityScreen extends Screen {
 				if (Integer.parseInt(triggerPriorities.get(j).getText()) < 0) {
 					throw new Exception("Priority must be greater than 0");
 				}
-
-				if (!editing) {
-					sm.getFacade().createPrototype(nameField.getText(),
-							sm.getFacade().getGrid(), colorTool.getColor(),
-							generateBytes());
-					agent = sm.getFacade().getPrototype(nameField.getText());
-				}
-
-				else {
-					agent.setPrototypeName(agent.getName(),
-							nameField.getText());
-					agent.setColor(colorTool.getColor());
-					agent.setDesign(generateBytes());
-				}
-				for (int i = 0; i < fieldNames.size(); i++) {
-					if (removedFields.contains(i)) {
-						if (agent.hasField(fieldNames.get(i).getText()))
-							agent.removeField(fieldNames.get(i));
-					} else {
-						if (agent.hasField(fieldNames.get(i).getText())) {
-							agent.updateField(fieldNames.get(i).getText(),
+			}
+			
+			if (!editing) {
+				sm.getFacade().createPrototype(nameField.getText(),
+						sm.getFacade().getGrid(), colorTool.getColor(),
+						generateBytes());
+				agent = sm.getFacade().getPrototype(nameField.getText());
+			}
+			else {
+				agent.setPrototypeName(agent.getName(),
+						nameField.getText());
+				agent.setColor(colorTool.getColor());
+				agent.setDesign(generateBytes());
+				Prototype.addPrototype(agent.getName(), agent);
+			}
+			
+			for (int i = 0; i < fieldNames.size(); i++) {
+				if (removedFields.contains(i)) {
+					if (agent.hasField(fieldNames.get(i).getText()))
+						agent.removeField(fieldNames.get(i));
+				} else {
+					if (agent.hasField(fieldNames.get(i).getText())) {
+						agent.updateField(fieldNames.get(i).getText(),
+								fieldValues.get(i).getText());
+					} else
+						try {
+							agent.addField(fieldNames.get(i).getText(),
 									fieldValues.get(i).getText());
-						} else
-							try {
-								agent.addField(fieldNames.get(i).getText(),
-										fieldValues.get(i).getText());
-							} catch (ElementAlreadyContainedException e) {
-								e.printStackTrace();
-							}
-					}
+						} catch (ElementAlreadyContainedException e) {
+							e.printStackTrace();
+						}
+				}
+
+			for (int i = 0; i < triggerNames.size(); i++) {
+				if (removedTriggers.contains(i)) {
+					if (agent.hasTrigger(triggerNames.get(i).getText()))
+						agent.removeTrigger(triggerNames.get(i).getText());
+				} else {
+					if (agent.hasTrigger(triggerNames.get(i).getText()))
+						agent.updateTrigger(triggerNames.get(i).getText(),
+								generateTrigger(i));
+					else
+						agent.addTrigger(generateTrigger(i));
 				}
 
 				for (int i = 0; i < triggerNames.size(); i++) {
@@ -528,8 +545,8 @@ public class EditEntityScreen extends Screen {
 		str = str.substring(0, str.lastIndexOf(':'));
 		String[] byteStr = str.split(":");
 		System.out.println("BOO: " + str); 
-		for (String s : byteStr) 
-			System.out.println("genB:"+s);
+				for (String s : byteStr) 
+					System.out.println("genB:" +s);
 		for (int i = 0; i < 7; i++) {
 			toReturn[i] = Byte.parseByte(byteStr[i], 2);
 		}

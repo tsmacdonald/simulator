@@ -74,7 +74,7 @@ public class Grid implements Iterable<Slot> {
 	 * Causes all entities in the grid to act()
 	 * 
 	 */
-	public void updateEntities() {
+	public void updateEntities() throws SimulationPauseException {
 		for (Slot[] sArr : grid)
 			for (Slot s : sArr)
 				if (s.getAgent() != null)

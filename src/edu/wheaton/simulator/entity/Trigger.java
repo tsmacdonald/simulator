@@ -57,10 +57,10 @@ public class Trigger implements Comparable<Trigger> {
 	 *            The trigger from which to clone.
 	 */
 	public Trigger(Trigger parent) {
-		name = parent.name;
-		priority = parent.priority;
-		conditionExpression = parent.conditionExpression;
-		behaviorExpression = parent.behaviorExpression;
+		name = parent.getName();
+		priority = parent.getPriority();
+		conditionExpression = parent.getConditions();
+		behaviorExpression = parent.getBehavior();
 	}
 
 	/**
@@ -87,6 +87,7 @@ public class Trigger implements Comparable<Trigger> {
 		} catch (EvaluationException e) {
 			System.out.println("condition threw exception");
 			e.printStackTrace();
+			throw new EvaluationException("Condition");
 		}
 		
 		if (conditionResult) {
@@ -106,7 +107,7 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
-	private static void fire(ExpressionEvaluator behavior) {
+	private static void fire(ExpressionEvaluator behavior) throws EvaluationException {
 		try {
 			if(behavior.evaluateBool() == false)
 				System.err.println("behavior '" + behavior.toString() + "' failed");
@@ -115,6 +116,7 @@ public class Trigger implements Comparable<Trigger> {
 		} catch (EvaluationException e) {
 			System.err.println("malformed expression: " + behavior);
 			e.printStackTrace();
+			throw new EvaluationException("Behavior");
 		}
 	}
 

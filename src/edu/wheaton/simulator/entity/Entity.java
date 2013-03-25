@@ -29,8 +29,7 @@ public class Entity {
 	 */
 	public void addField(Object name, Object value)
 			throws ElementAlreadyContainedException {
-		if (fields.containsKey(name.toString()))
-			throw new ElementAlreadyContainedException();
+		assertNoSuchField(name);
 		fields.put(name.toString(), value.toString());
 	}
 
@@ -41,8 +40,7 @@ public class Entity {
 	 * @return returns the old field
 	 */
 	public Field updateField(Object name, Object value) {
-		if (fields.containsKey(name.toString()) == false)
-			throw new NoSuchElementException();
+		assertHasField(name);
 		String oldvalue = fields.put(name.toString(), value.toString());
 		return new Field(name, oldvalue);
 	}
@@ -51,22 +49,29 @@ public class Entity {
 	 * Removes a field from this Entity and returns it.
 	 */
 	public Field removeField(Object name) {
-		if (fields.containsKey(name.toString()) == false)
-			throw new NoSuchElementException();
+		assertHasField(name);
 		String value = fields.remove(name.toString());
 		return new Field(name, value);
 	}
 
 	public Field getField(Object name) {
-		if (fields.containsKey(name.toString()) == false)
-			throw new NoSuchElementException();
-		return new Field(name.toString(), fields.get(name.toString()));
+		assertHasField(name);
+		return new Field(name.toString(), getFieldValue(name));
 	}
 
 	public String getFieldValue(Object name) {
-		if (fields.containsKey(name.toString()) == false)
-			throw new NoSuchElementException();
+		assertHasField(name);
 		return fields.get(name.toString());
+	}
+	
+	private void assertHasField(Object name){
+		if(hasField(name) == false)
+			throw new NoSuchElementException();
+	}
+	
+	private void assertNoSuchField(Object name) throws ElementAlreadyContainedException{
+		if(hasField(name) == true)
+			throw new ElementAlreadyContainedException();
 	}
 
 	/**
@@ -75,8 +80,8 @@ public class Entity {
 	 * @param name
 	 * @return
 	 */
-	public boolean hasField(String name) {
-		return (fields.containsKey(name));
+	public boolean hasField(Object name) {
+		return (fields.containsKey(name.toString()));
 	}
 
 	public Map<String, String> getFieldMap() {

@@ -217,7 +217,7 @@ public class StatisticsManager {
 	 */
 	public double getAvgLifespan(PrototypeID id) throws NameNotFoundException {
 		// List with index = step in the simulation, value = set of all agents
-		// born at that time
+		// alive at that time
 		List<Set<AgentSnapshot>> agentsByStep = new ArrayList<Set<AgentSnapshot>>();
 
 		// Set of all AgentSnapshots
