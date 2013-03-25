@@ -57,10 +57,10 @@ public class Trigger implements Comparable<Trigger> {
 	 *            The trigger from which to clone.
 	 */
 	public Trigger(Trigger parent) {
-		name = parent.name;
-		priority = parent.priority;
-		conditionExpression = parent.conditionExpression;
-		behaviorExpression = parent.behaviorExpression;
+		name = parent.getName();
+		priority = parent.getPriority();
+		conditionExpression = parent.getConditions();
+		behaviorExpression = parent.getBehavior();
 	}
 
 	/**
