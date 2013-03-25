@@ -126,6 +126,7 @@ public class SpawningScreen extends Screen {
 		glue = Box.createVerticalGlue();
 		listPanel.add(glue);
 		addSpawn();
+		System.out.println(deleteButtons.size());
 
 		JPanel buttonPanel = new JPanel();
 		JButton cancelButton = new JButton("Cancel");
@@ -169,6 +170,7 @@ public class SpawningScreen extends Screen {
 		yLocs.clear();
 		numbers.clear();
 		subPanels.clear();
+		deleteButtons.clear();
 		listPanel.removeAll();
 		addSpawn();
 	}
@@ -179,6 +181,7 @@ public class SpawningScreen extends Screen {
 		entities = sm.getFacade().prototypeNames().toArray(entities);
 		ArrayList<SpawnCondition> spawnConditions = sm.getSpawnConditions(); 
 
+		System.out.println(deleteButtons.size());
 		for (int i = 0; i < spawnConditions.size(); i++) { 
 			addSpawn();
 			entityTypes.get(i).setSelectedItem(spawnConditions.get(i).prototype.toString());
