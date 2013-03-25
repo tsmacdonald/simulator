@@ -121,6 +121,8 @@ public class StatisticsManagerTest {
 
 	@Test
 	public void testGetPopVsTime() {
+		new Prototype(g, "Cat"); 
+		new PrototypeSnapshot("Cat", , fields, population, children, step)
 		fail("Not yet implemented");
 	}
 
