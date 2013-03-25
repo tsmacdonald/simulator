@@ -3,9 +3,8 @@
  */
 package edu.wheaton.simulator.statistics;
 
-import static org.junit.Assert.fail;
-
 import java.util.HashMap;
+import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -99,7 +98,9 @@ public class EntitySnapshotTableTest {
 	@Test
 	public void testGetSnapshotsOfEntity() {
 		ImmutableMap<Integer, EntitySnapshot> result = t.getSnapshotsOfEntity(id);
-		Assert.assertNotNull(result.get(id.getInt())); 
+		
+		EntitySnapshot e = result.get(id.getInt()); 
+		Assert.assertNotNull(e); 
 	}
 
 	/**
@@ -107,7 +108,7 @@ public class EntitySnapshotTableTest {
 	 */
 	@Test
 	public void testContainsEntity() {
-		fail("Not yet implemented");
+		Assert.assertTrue(t.containsEntity(id)); 
 	}
 
 	/**
@@ -115,7 +116,7 @@ public class EntitySnapshotTableTest {
 	 */
 	@Test
 	public void testContainsStep() {
-		fail("Not yet implemented");
+		Assert.assertTrue(t.containsStep(1)); 
 	}
 
 	/**
@@ -123,7 +124,7 @@ public class EntitySnapshotTableTest {
 	 */
 	@Test
 	public void testGetSize() {
-		fail("Not yet implemented");
+		Assert.assertEquals(1, t.getSize()); 
 	}
 
 	/**
@@ -131,7 +132,8 @@ public class EntitySnapshotTableTest {
 	 */
 	@Test
 	public void testGetAllSteps() {
-		fail("Not yet implemented");
+		Set<Integer> i = t.getAllSteps(); 
+		Assert.assertTrue(i.contains(1)); 
 	}
 
 }
