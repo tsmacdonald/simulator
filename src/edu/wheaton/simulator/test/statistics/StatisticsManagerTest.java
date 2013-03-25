@@ -11,7 +11,10 @@ package edu.wheaton.simulator.test.statistics;
 
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 import javax.naming.NameNotFoundException;
 
@@ -28,6 +31,7 @@ import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.statistics.AgentSnapshot;
 import edu.wheaton.simulator.statistics.EntitySnapshot;
 import edu.wheaton.simulator.statistics.EntitySnapshotTable;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;
@@ -112,7 +116,36 @@ public class StatisticsManagerTest {
 
 	@Test
 	public void testGetAvgFieldValue() {
-		fail("Not yet implemented");
+		EntitySnapshotTable table = new EntitySnapshotTable();
+		ArrayList<AgentSnapshot> snaps = new ArrayList<AgentSnapshot>();
+		HashSet<EntityID> ids = new HashSet<EntityID>();
+		String[] names = new String[] {"bear", "tom", "john", "piglet", "reese"};
+		
+		/* create snapshots */
+		for(int i = 0; i < 5; i++) {
+			Entity entity = new Entity();
+			Map<String, String> fields = new HashMap<String, String>();
+			fields.put("name", names[i]);
+			fields.put("weight", "50");
+			ids.add(entity.getEntityID());
+			for(int s = 1; s < 3; s++) {
+				snaps.add(new AgentSnapshot(entity.getEntityID(), SnapshotFactory.makeFieldSnapshots(fields), s, protoSnap.id));
+			}
+		}
+		
+		/* fill table w/ snapshots */
+		for(EntitySnapshot snap: snaps) {
+			sm.addGridEntity(snap);
+			System.out.println(snap.entityID + ", step: " + snap.step);
+		}
+		
+		
+		
+		/* test method */
+		double[] avg = sm.getAvgFieldValue(protoSnap.id, "weight");
+		for(double i : avg) {
+			org.junit.Assert.assertEquals(i, 50);
+		}
 	}
 
 	@Test
