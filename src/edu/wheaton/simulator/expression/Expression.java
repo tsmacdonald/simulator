@@ -8,6 +8,10 @@ import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
 import net.sourceforge.jeval.VariableResolver;
 import net.sourceforge.jeval.function.FunctionException;
+import edu.wheaton.simulator.behavior.CloneBehavior;
+import edu.wheaton.simulator.behavior.DieBehavior;
+import edu.wheaton.simulator.behavior.MoveBehavior;
+import edu.wheaton.simulator.behavior.SetFieldBehavior;
 import edu.wheaton.simulator.entity.Entity;
 
 public class Expression implements ExpressionEvaluator {
@@ -80,6 +84,11 @@ public class Expression implements ExpressionEvaluator {
 		evaluator = new Evaluator();
 		resolver = new EntityFieldResolver();
 		evaluator.setVariableResolver(resolver);
+		this.importFunction(new CloneBehavior());
+		this.importFunction(new DieBehavior());
+		this.importFunction(new MoveBehavior());
+		this.importFunction(new SetFieldBehavior());
+		this.importFunction(new IsSlotOpen());
 	}
 
 	/**

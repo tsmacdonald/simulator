@@ -20,7 +20,7 @@ public class SetFieldBehavior extends AbstractBehavior {
 	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {
-		Entity target = resolveEntity(this.getExprEval(),args[0].replaceAll("'", ""));
+		Entity target = resolveEntity(args[0].replaceAll("'", ""));
 		String fieldName = args[1].replaceAll("'", "");
 		String fieldValue = args[2];
 		
