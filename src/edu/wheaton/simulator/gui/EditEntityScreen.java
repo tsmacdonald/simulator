@@ -23,13 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
-<<<<<<< HEAD
-=======
 import javax.swing.GroupLayout.Alignment;
-
 import com.sun.corba.se.impl.encoding.CodeSetConversion.BTCConverter;
-
->>>>>>> 3a7d38e1934350b5c41dd359d0c0ceeff80203f6
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
