@@ -100,14 +100,27 @@ public abstract class GridEntity extends Entity {
 		//position fields initialized to invalid coordinates
 		//to catch assumptions that this entity is already
 		//added to the Grid
-		addField("x", -1);
-		addField("y", -1);
+
+		try {
+			addField("y", -1);
+			addField("x", -1);
+		} catch (ElementAlreadyContainedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private void initColor(Color c) {
-		addField("colorRed", getRed(c));
-		addField("colorBlue", getBlue(c));
-		addField("colorGreen", getGreen(c));
+
+		try {
+			addField("colorRed", getRed(c));
+			addField("colorBlue", getBlue(c));
+			addField("colorGreen", getGreen(c));
+		} catch (ElementAlreadyContainedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
