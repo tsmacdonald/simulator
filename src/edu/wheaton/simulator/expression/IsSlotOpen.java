@@ -1,6 +1,5 @@
 package edu.wheaton.simulator.expression;
 
-import edu.wheaton.simulator.entity.Agent;
 import net.sourceforge.jeval.EvaluationException;
 
 public class IsSlotOpen extends AbstractExpressionFunction {
