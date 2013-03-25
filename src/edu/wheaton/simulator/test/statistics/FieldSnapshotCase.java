@@ -9,8 +9,6 @@ package edu.wheaton.simulator.test.statistics;
  */
 
 import junit.framework.Assert;
-import junit.framework.AssertionFailedError;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
