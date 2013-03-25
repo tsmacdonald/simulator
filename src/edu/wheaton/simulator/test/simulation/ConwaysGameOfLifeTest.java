@@ -40,25 +40,25 @@ public class ConwaysGameOfLifeTest {
 
 		// Set up conditionals
 		ExpressionEvaluator isAlive = new Expression("#{this.alive} == 1");
-		ExpressionEvaluator neigh1 = new Expression("isSlotOpen(#{this.x}-1,#{this.y}-1)");
-		ExpressionEvaluator neigh2 = new Expression("isSlotOpen(#{this.x},#{this.y}-1)");
-		ExpressionEvaluator neigh3 = new Expression("isSlotOpen(#{this.x}+1,#{this.y}-1)");
-		ExpressionEvaluator neigh4 = new Expression("isSlotOpen(#{this.x}-1,#{this.y})");
-		ExpressionEvaluator neigh5 = new Expression("isSlotOpen(#{this.x}+1,#{this.y})");
-		ExpressionEvaluator neigh6 = new Expression("isSlotOpen(#{this.x}-1,#{this.y}+1)");
-		ExpressionEvaluator neigh7 = new Expression("isSlotOpen(#{this.x},#{this.y}+1)");
-		ExpressionEvaluator neigh8 = new Expression("isSlotOpen(#{this.x}+1,#{this.y}+1)");
+		ExpressionEvaluator neigh1 = new Expression("getFieldOfAgentAt(#{this.x}-1, #{this.y}-1, alive) == 0");
+		ExpressionEvaluator neigh2 = new Expression("getFieldOfAgentAt(#{this.x}, #{this.y}-1, alive) == 0");
+		ExpressionEvaluator neigh3 = new Expression("getFieldOfAgentAt(#{this.x}+1, #{this.y}-1, alive) == 0");
+		ExpressionEvaluator neigh4 = new Expression("getFieldOfAgentAt(#{this.x}-1, #{this.y}, alive) == 0");
+		ExpressionEvaluator neigh5 = new Expression("getFieldOfAgentAt(#{this.x}+1, #{this.y}, alive) == 0");
+		ExpressionEvaluator neigh6 = new Expression("getFieldOfAgentAt(#{this.x}-1, #{this.y}+1, alive) == 0");
+		ExpressionEvaluator neigh7 = new Expression("getFieldOfAgentAt(#{this.x}, #{this.y}+1, alive) == 0");
+		ExpressionEvaluator neigh8 = new Expression("getFieldOfAgentAt(#{this.x}+1, #{this.y}+1, alive) == 0");
 		ExpressionEvaluator dieCond = new Expression("(#{this.alive} == 1)&& (#{this.neighbors} < 2 || #{this.neighbors} > 3)");
 		ExpressionEvaluator reviveCond = new Expression("(#{this.alive} == 0) && (#{this.neighbors} == 0)");
 
 		// Set up behaviors
-		ExpressionEvaluator incrementAge = new Expression("setField(‘this’, ‘age’, #{this.age}+1)");
-		ExpressionEvaluator decrementNeighbors = new Expression("setField(‘this’, ‘neighbors’, #{this.neighbors}-1);");
-		ExpressionEvaluator die = new Expression("setField(‘this’, ‘alive’, 0) && setField(‘this’, ‘age’, 0) && " +
-				"setField(‘this’, ‘colorRed’, 255) && setField(‘this’, ‘colorGreen’, 255) && setField(‘this’, ‘colorBlue’, 255)");
-		ExpressionEvaluator revive = new Expression("setField(‘this’, ‘alive’, 1) && " +
-				"setField(‘this’, ‘colorRed’, 0) && setField(‘this’, ‘colorGreen’, 0) && setField(‘this’, ‘colorBlue’, 0)");
-		ExpressionEvaluator resetNeighbors = new Expression("setField(‘this’, ‘neighbors’, 8)");
+		ExpressionEvaluator incrementAge = new Expression("setField('this', 'age', #{this.age}+1)");
+		ExpressionEvaluator decrementNeighbors = new Expression("setField('this', 'neighbors', #{this.neighbors}-1)");
+		ExpressionEvaluator die = new Expression("setField('this', 'alive', 0) && setField('this', 'age', 0) && " +
+				"setField('this', 'colorRed', 255) && setField('this', 'colorGreen', 255) && setField('this', 'colorBlue', 255)");
+		ExpressionEvaluator revive = new Expression("setField('this', 'alive', 1) && " +
+				"setField('this', 'colorRed', 0) && setField('this', 'colorGreen', 0) && setField('this', 'colorBlue', 0)");
+		ExpressionEvaluator resetNeighbors = new Expression("setField('this', 'neighbors', 8)");
 
 		// Add triggers
 		being.addTrigger(new Trigger("updateAge", 1, isAlive, incrementAge));
@@ -74,7 +74,7 @@ public class ConwaysGameOfLifeTest {
 		being.addTrigger(new Trigger("die", 4, dieCond, die));
 		being.addTrigger(new Trigger("revive", 4, reviveCond, revive));
 
-		// Make a prototype that is initially alive
+		// Make a another prototype that is initially alive
 		Prototype aliveBeing = being;
 		aliveBeing.removeField("alive");
 		try {

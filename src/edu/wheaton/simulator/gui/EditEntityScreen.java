@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
@@ -110,8 +111,12 @@ public class EditEntityScreen extends Screen {
 		nameField = new JTextField(25);
 		nameField.setMaximumSize(new Dimension(400, 40));
 		colorTool = new JColorChooser();
+		JPanel colorPanel = new JPanel(); 
+		colorPanel.add(colorTool);
+		colorPanel.setAlignmentX(LEFT_ALIGNMENT); 
 		iconPanel.setLayout(new GridLayout(7,7));
-		iconPanel.setMaximumSize(new Dimension(500, 500));
+		iconPanel.setMinimumSize(new Dimension(500, 500)); 
+		iconPanel.setAlignmentX(RIGHT_ALIGNMENT); 
 		buttons = new JToggleButton[7][7];
 		for(int i = 0; i < 7; i++){
 			for(int j = 0; j < 7; j++){
@@ -141,7 +146,7 @@ public class EditEntityScreen extends Screen {
 		mainPanel.setMaximumSize(new Dimension(1200, 500));
 		generalPanel.setLayout( 
 				new BoxLayout(generalPanel, BoxLayout.PAGE_AXIS));
-		mainPanel.add(colorTool);
+		mainPanel.add(colorPanel);
 		mainPanel.add(iconPanel);
 		generalPanel.add(generalLabel);
 		generalPanel.add(nameLabel);

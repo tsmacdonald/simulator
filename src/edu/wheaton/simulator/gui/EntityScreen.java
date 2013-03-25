@@ -73,6 +73,7 @@ public class EntityScreen extends Screen {
 		edit.setEnabled(false);
 		entities.addListSelectionListener(
 				new ListSelectionListener() {
+					@Override
 					public void valueChanged(ListSelectionEvent e) {
 						edit.setEnabled(true);
 					}
