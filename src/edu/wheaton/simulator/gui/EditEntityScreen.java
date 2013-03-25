@@ -18,6 +18,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.*;
 
@@ -276,24 +278,36 @@ public class EditEntityScreen extends Screen {
 
 	}
 
-	public void load(Prototype p) {
+	public void load(String str) {
 		reset();
-		agent = p;
-		nameField.setText(p.getName());
-		colorTool.setColor(p.getColor());
+		agent = sm.getFacade().getPrototype(str);
+		nameField.setText(agent.getName());
+		colorTool.setColor(agent.getColor());
 		//TODO load icon from p.getDesign(); helper method?
-		//iterate through p.getFieldMap(); 
-		//for each element, addField, set name and value
-		//what about types?
-		//same thing for triggers - need access to the list
-		//does trigger class have getters for the relevant pieces we need?
+		Map<String, String> fields = agent.getFieldMap();
+		int i = 0;
+		for (String s : fields.keySet()) {
+			addField();
+			fieldNames.get(i).setText(s);
+			fieldValues.get(i).setText(s);
+			i++;
+		}
+		List<Trigger> triggers = agent.getTriggers();
+		int j = 0;
+		for (Trigger t : triggers) {
+			addTrigger();
+			triggerNames.get(j).setText(t.getName());
+			triggerConditions.get(j).setText(t.getConditions().toString());
+			//TODO finish once getters become available
+			//triggerResults.get(j).setText(t.getBehavior().toString());
+			//triggerPriority.get(j).setText(t.getPriority +"");
+		}
 	}
 
 	//TODO make sure this is right
 	public void reset() {
 		agent = null;
 		nameField.setText("");
-		//other way of resetting colorTool? need to reset recents?
 		colorTool.setColor(Color.WHITE);
 		//TODO reset icon constructor
 		fieldNames.clear(); 
@@ -303,7 +317,6 @@ public class EditEntityScreen extends Screen {
 		fieldSubPanels.clear();
 		removedFields.clear();
 		fieldListPanel.removeAll();
-		addField();
 		triggerNames.clear();
 		triggerPriorities.clear();
 		triggerConditions.clear();
@@ -312,7 +325,6 @@ public class EditEntityScreen extends Screen {
 		triggerSubPanels.clear();
 		removedTriggers.clear();
 		triggerListPanel.removeAll();
-		addTrigger();
 	}
 
 
@@ -354,7 +366,7 @@ public class EditEntityScreen extends Screen {
 					}
 			}
 		}
-		//TODO we might want a generateTrigger method
+
 		for (int i = 0; i < triggerNames.size(); i++) {
 			if (removedTriggers.contains(i)) {
 				if (agent.hasTrigger(triggerNames.get(i).getText()))
@@ -368,7 +380,6 @@ public class EditEntityScreen extends Screen {
 				else agent.addTrigger(generateTrigger(i));
 			}
 		}
-
 	}
 
 	public void setEditing(Boolean b) {
@@ -488,7 +499,9 @@ public class EditEntityScreen extends Screen {
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
-
+		reset();
+		addField();
+		addTrigger();
 	}
 
 }
