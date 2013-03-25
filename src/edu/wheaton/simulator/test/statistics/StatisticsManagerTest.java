@@ -11,11 +11,15 @@ package edu.wheaton.simulator.test.statistics;
 
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
-import junit.framework.Assert;
+import javax.naming.NameNotFoundException;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,8 +27,11 @@ import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Entity;
+import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.statistics.AgentSnapshot;
+import edu.wheaton.simulator.statistics.EntitySnapshot;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
 import edu.wheaton.simulator.statistics.StatisticsManager;
@@ -33,37 +40,43 @@ public class StatisticsManagerTest {
 
 	StatisticsManager sm;
 	Grid g; 
+	String categoryName;
+	Grid grid;
+	Prototype prototype;
+	HashMap<String, String> fields;
+	int population;
+	ImmutableSet<AgentID> children;
+	Integer step;
+	PrototypeSnapshot protoSnap;
+	PrototypeSnapshot protoSnap2;
 	
 	@Before
 	public void setUp() throws Exception {
 		sm = new StatisticsManager();
-		g = new Grid(10,  10); 
+		g = new Grid(10,  10); 		
 		
-//		//Data for the a test "prototype" list within the StatisticsManager
-//		String categoryName = "testing";
-//		Grid grid = new Grid(10, 10);
-//		Prototype prototype = new Prototype(grid, "tester");
-//		HashMap<String, String> fields1 = new HashMap<String, String>();
-//		int population fail("Not yet implemented");= 50;
-//		ImmutableSet<AgentID> children = prototype.childIDs();
-//		Integer step1 = new Integer(1);
-//		
-//		PrototypeSnapshot protoSnap = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
-//				SnapshotFactory.makeFieldSnapshots(fields1), population, children, step1);
-//		
-//		sm.addPrototypeSnapshot(protoSnap); 
-//		
-//		//Test data for an EntitySnapshot to insert
-//		Entity entity = new Entity();
-//		Integer step2 = new Integer(1);
-//		HashMap<String, String> fields2 = new HashMap<String, String>();
-//		fields2.put("Weight", "2.0");
-//		fields2.put("Name", "Ted");
-//		EntitySnapshot entSnap = new EntitySnapshot(entity.getEntityID(),
-//				SnapshotFactory.makeFieldSnapshots(fields2), step2);
-//		
-//		sm.addGridEntity(entSnap); 
+		//Add a test PrototypeSnapshot
+		categoryName = "testing";
+		grid = new Grid(10, 10);
+		prototype = new Prototype(grid, "tester");
+		fields = new HashMap<String, String>();
+		population = 50;
+		children = prototype.childIDs();
+		step = new Integer(1);
 		
+		protoSnap = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
+				SnapshotFactory.makeFieldSnapshots(fields), population,
+				children, step);
+		
+		//Add another test PrototypeSnapshot
+		categoryName = "testing2";
+		prototype = new Prototype(grid, "tester2");
+		population = 40;
+		step = new Integer(2);
+		
+		protoSnap = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
+				SnapshotFactory.makeFieldSnapshots(fields), population,
+				children, step);
 	}
 
 	@After
@@ -115,12 +128,44 @@ public class StatisticsManagerTest {
 
 	@Test
 	public void testGetAvgFieldValue() {
-		fail("Not yet implemented");
+		ArrayList<AgentSnapshot> snaps = new ArrayList<AgentSnapshot>();
+		HashSet<EntityID> ids = new HashSet<EntityID>();
+		String[] names = new String[] {"bear", "tom", "john", "piglet", "reese"};
+		
+		/* create snapshots */
+		for(int i = 0; i < 5; i++) {
+			Entity entity = new Entity();
+			Map<String, String> fields = new HashMap<String, String>();
+			fields.put("name", names[i]);
+			fields.put("weight", "50");
+			ids.add(entity.getEntityID());
+			for(int s = 1; s < 3; s++) {
+				snaps.add(new AgentSnapshot(entity.getEntityID(), SnapshotFactory.makeFieldSnapshots(fields), s, protoSnap.id));
+			}
+		}
+		
+		/* fill table w/ snapshots */
+		for(EntitySnapshot snap: snaps) {
+			sm.addGridEntity(snap);
+		}
+		
+		
+		
+		/* test method */
+		double[] avg = sm.getAvgFieldValue(protoSnap.id, "weight");
+		for(double i : avg) {
+			System.out.println("Should be '50.0' and it is: " + i);
+		}
 	}
 
 	@Test
-	public void testGetAvgLifespan() {
-		fail("Not yet implemented");
+	public void testGetAvgLifespan() {				
+		try {
+			double result = sm.getAvgLifespan(protoSnap.id);
+		}
+		catch (NameNotFoundException e) {
+			e.printStackTrace();
+		} 
 	}
 
 }
