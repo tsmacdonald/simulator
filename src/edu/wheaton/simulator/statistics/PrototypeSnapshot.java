@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.entity.AgentID;
+import edu.wheaton.simulator.entity.PrototypeID;
 
 
 /**
@@ -13,6 +14,11 @@ import edu.wheaton.simulator.entity.AgentID;
  */
 public class PrototypeSnapshot {
 
+	/**
+	 * The PrototypeID of this Prototype. 
+	 */
+	public final PrototypeID id;
+	
 	/**
 	 * The name of this category of agent.
 	 */
@@ -41,12 +47,13 @@ public class PrototypeSnapshot {
 	/**
 	 * Constructor. 
 	 * @param categoryName The name of this prototype. 
+	 * @param id The PrototypeID of this prototype. 
 	 * @param fields The default fields for this prototype. 
 	 * @param population The population of this prototype. 
 	 * @param poulation The number of this prototype's children. 
 	 * @param step The current moment in time. 
 	 */
-	public PrototypeSnapshot(String categoryName,
+	public PrototypeSnapshot(String categoryName, PrototypeID id,
 			ImmutableMap<String, FieldSnapshot> fields, int population,
 			ImmutableSet<AgentID> children, Integer step) {
 		this.categoryName = categoryName; 
@@ -54,6 +61,7 @@ public class PrototypeSnapshot {
 		this.children = children;
 		this.population = children.size(); 
 		this.step = step; 
+		this.id = id; 
 	}
 
 }
