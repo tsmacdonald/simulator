@@ -238,6 +238,11 @@ public class Expression implements ExpressionEvaluator {
 			throw e;
 		}
 	}
+	
+	@Override
+	public String toString(){
+		return expr.toString();
+	}
 
 	public static Boolean evaluateBool(Object exprStr)
 			throws EvaluationException {

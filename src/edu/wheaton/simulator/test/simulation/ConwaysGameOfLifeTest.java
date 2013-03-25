@@ -53,7 +53,7 @@ public class ConwaysGameOfLifeTest {
 
 		// Set up behaviors
 		ExpressionEvaluator incrementAge = new Expression("setField(‘this’, ‘age’, #{this.age}+1)");
-		ExpressionEvaluator decrementNeighbors = new Expression("setField(‘this’, ‘neighbors’, #{this.neighbors}-1);");
+		ExpressionEvaluator decrementNeighbors = new Expression("setField(‘this’, ‘neighbors’, #{this.neighbors}-1)");
 		ExpressionEvaluator die = new Expression("setField(‘this’, ‘alive’, 0) && setField(‘this’, ‘age’, 0) && " +
 				"setField(‘this’, ‘colorRed’, 255) && setField(‘this’, ‘colorGreen’, 255) && setField(‘this’, ‘colorBlue’, 255)");
 		ExpressionEvaluator revive = new Expression("setField(‘this’, ‘alive’, 1) && " +
@@ -74,7 +74,7 @@ public class ConwaysGameOfLifeTest {
 		being.addTrigger(new Trigger("die", 4, dieCond, die));
 		being.addTrigger(new Trigger("revive", 4, reviveCond, revive));
 
-		// Make a prototype that is initially alive
+		// Make a another prototype that is initially alive
 		Prototype aliveBeing = being;
 		aliveBeing.removeField("alive");
 		try {
