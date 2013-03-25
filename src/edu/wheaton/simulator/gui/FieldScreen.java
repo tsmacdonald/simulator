@@ -16,6 +16,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -82,9 +83,9 @@ public class FieldScreen extends Screen {
 		posPanel.add(yPos);
 		posPanel.setAlignmentX(CENTER_ALIGNMENT);
 		listModel = new DefaultListModel();
-		listModel.addElement("Field 1");
-		listModel.addElement("Field 2");
-		listModel.addElement("Field 3");
+		//listModel.addElement("Field 1");
+		//listModel.addElement("Field 2");
+		//listModel.addElement("Field 3");
 		fields = new JList(listModel);
 		fields.setMaximumSize(new Dimension(400, 800));
 		fields.setLayoutOrientation(JList.VERTICAL_WRAP);
@@ -165,6 +166,13 @@ public class FieldScreen extends Screen {
 				yPos.addItem(j + "");
 			}
 		}
+		
+		Map<String, String> map = sm.getFacade().getGrid().getSlot(Integer.parseInt(xPos.getSelectedItem().toString()),
+				Integer.parseInt(yPos.getSelectedItem().toString())).getFieldMap();
+		String[] fields = (String[]) map.keySet().toArray();
+		for(String s: fields)
+			listModel.addElement(s);
+		
 	}
 
 	private class BoxListener implements ActionListener {

@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
-import javax.swing.GroupLayout.Alignment;
-
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
