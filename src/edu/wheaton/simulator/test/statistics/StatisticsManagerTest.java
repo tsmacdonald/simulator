@@ -121,9 +121,9 @@ public class StatisticsManagerTest {
 
 	@Test
 	public void testGetPopVsTime() {
-		new Prototype(g, "Cat"); 
-		new PrototypeSnapshot("Cat", , fields, population, children, step)
-		fail("Not yet implemented");
+		int[] result = sm.getPopVsTime(protoSnap.id);
+		int[] expected = {1,2,3}; 
+		Assert.assertArrayEquals(expected, result); 
 	}
 
 	@Test

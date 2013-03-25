@@ -58,7 +58,7 @@ public class Expression implements ExpressionEvaluator {
 			String targetName = args[0];
 			String fieldName = args[1];
 
-			Entity target = entityMap.get(targetName);
+			Entity target = getEntity(targetName);
 			if (target == null) {
 				throw new FunctionException("Target entity not found: " + targetName);
 			}

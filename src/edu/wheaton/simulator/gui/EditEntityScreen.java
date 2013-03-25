@@ -313,13 +313,13 @@ public class EditEntityScreen extends Screen {
 		colorTool.setColor(agent.getColor());
 
 		byte[] designBytes = agent.getDesign();
-		//		for (byte b : designBytes) 
-		//			System.out.println("lB:" + b);
+			for (byte b : designBytes) 
+					System.out.println("lB:" + b);
 		byte byter = Byte.parseByte("0000001", 2);
-		for (int column = 0; column < 7; column++) {
-			for (int row = 0; row < 7; row++) {
-				if ((designBytes[column] & (byter << row)) != Byte.parseByte("0000000", 2)) {
-					buttons[column][row].doClick();
+		for (int i = 0; i < 7; i++) {
+			for (int j = 0; j < 7; j++) {
+				if ((designBytes[i] & (byter << j)) != Byte.parseByte("0000000", 2)) {
+					buttons[i][6-j].doClick();
 				}
 			}
 		}
@@ -517,21 +517,21 @@ public class EditEntityScreen extends Screen {
 		for (int column = 0; column < 7; column++) {
 			for (int row = 0; row < 7; row++) {
 				if (buttons[column][row].getBackground().equals(Color.BLACK)) {
-					//System.out.print("1");
+					System.out.print("1");
 					str += "1";
 				} else {
-					//System.out.print("0");
+					System.out.print("0");
 					str += "0";
 				}
 			}
 			str += ":";
-			//System.out.print(":");
+			System.out.print(":");
 		}
 		str = str.substring(0, str.lastIndexOf(':'));
 		String[] byteStr = str.split(":");
-		//System.out.println("BOO: " + str); 
-		//		for (String s : byteStr) 
-		//			System.out.println("genB:"+s);
+		System.out.println("BOO: " + str); 
+				for (String s : byteStr) 
+					System.out.println("genB:" +s);
 		for (int i = 0; i < 7; i++) {
 			toReturn[i] = Byte.parseByte(byteStr[i], 2);
 		}
