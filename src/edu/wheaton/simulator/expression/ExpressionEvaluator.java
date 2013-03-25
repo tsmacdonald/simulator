@@ -31,4 +31,7 @@ public interface ExpressionEvaluator {
 	public Double evaluateDouble() throws EvaluationException;
 
 	public String evaluateString() throws EvaluationException;
+	
+	@Override
+	public String toString();
 }

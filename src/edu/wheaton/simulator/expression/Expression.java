@@ -100,6 +100,8 @@ public class Expression implements ExpressionEvaluator {
 		this.importFunction(new MoveBehavior());
 		this.importFunction(new SetFieldBehavior());
 		this.importFunction(new IsSlotOpen());
+		this.importFunction(new GetFieldOfAgentAt());
+		this.importFunction(new IsValidCoord());
 	}
 
 	/**
@@ -235,6 +237,11 @@ public class Expression implements ExpressionEvaluator {
 			System.err.println(e.getMessage());
 			throw e;
 		}
+	}
+	
+	@Override
+	public String toString(){
+		return expr.toString();
 	}
 
 	public static Boolean evaluateBool(Object exprStr)
