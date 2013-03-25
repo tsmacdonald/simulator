@@ -324,9 +324,11 @@ public class EditEntityScreen extends Screen {
 		byte byter = Byte.parseByte("00000001", 2);
 		for(int i = 0; i < 8; i++){
 			for(int j = 0; j < 8; j++){
-				if((bite[i]&(byter<<j)) != 0){
-				buttons[i][j].setSelected(true);
-				buttons[i][j].setBackground(Color.BLACK);
+				if((bite[i]&(byter<<j)) != Byte.parseByte("00000000", 2)){
+					System.out.println("Hello");
+					buttons[i][j].doClick();
+//				buttons[i][j].setBackground(Color.BLACK);
+//				buttons[i][j].setOpaque(true);
 				}
 			}
 		}
