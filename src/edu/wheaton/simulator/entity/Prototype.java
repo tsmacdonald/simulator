@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
@@ -29,7 +30,12 @@ public class Prototype extends GridEntity {
 	/**
 	 * HashMap of Prototypes with associated names
 	 */
-	private static HashMap<String, Prototype> prototypes = new HashMap<String, Prototype>();
+	private static Map<String, Prototype> prototypes = new HashMap<String, Prototype>();
+	
+	/**
+	 * HashMap of ID->name as a hackish solution to getPrototype(PrototypeID)
+	 */
+	private static Map<PrototypeID,String> idNameMap = new HashMap<PrototypeID,String>();
 
 	/**
 	 * The list of all triggers/events associated with this prototype.
@@ -103,6 +109,7 @@ public class Prototype extends GridEntity {
 	 */
 	public static void addPrototype(String n, Prototype p) {
 		prototypes.put(n, p);
+		idNameMap.put(p.getPrototypeID(), n);
 	}
 
 	/**
@@ -113,6 +120,10 @@ public class Prototype extends GridEntity {
 	 */
 	public static Prototype getPrototype(String n) {
 		return prototypes.get(n);
+	}
+	
+	public static Prototype getPrototype(PrototypeID id){
+		return getPrototype(idNameMap.get(id));
 	}
 
 	/**

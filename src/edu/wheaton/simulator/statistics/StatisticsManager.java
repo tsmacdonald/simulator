@@ -12,7 +12,6 @@ import javax.naming.NameNotFoundException;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-
 import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.PrototypeID;
 
@@ -225,7 +224,7 @@ public class StatisticsManager {
 		Set<AgentSnapshot> allAgents = new HashSet<AgentSnapshot>();
 
 		for (int i = 0; i < lastStep; i++) {
-			Set stepData = getPopulationAtStep(id, i);
+			Set<AgentSnapshot> stepData = getPopulationAtStep(id, i);
 			agentsByStep.set(i, stepData);
 			allAgents.addAll(stepData);
 		}

@@ -16,7 +16,7 @@ public class DieBehavior extends AbstractBehavior {
 
 	@Override
 	public String execute(String[] args) throws EvaluationException {
-		Agent target = (Agent) this.resolveEntity(args[0].replaceAll("'", ""));
+		Agent target = resolveAgent(args[0]);
 		target.die();
 		return "true";
 	}

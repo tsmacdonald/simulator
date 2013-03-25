@@ -31,6 +31,7 @@ public class Expression implements ExpressionEvaluator {
 		 * copy constructor
 		 */
 		protected EntityFieldResolver(EntityFieldResolver resolver) {
+			entityMap = new HashMap<String, Entity>();
 			entityMap.putAll(resolver.entityMap);
 		}
 

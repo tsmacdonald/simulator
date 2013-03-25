@@ -105,7 +105,7 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
-	private void fire(ExpressionEvaluator behavior) {
+	private static void fire(ExpressionEvaluator behavior) {
 		try {
 			if(behavior.evaluateBool() == false){
 				System.err.println("behavior '" + behavior.toString() + "' failed");

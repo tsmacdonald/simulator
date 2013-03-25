@@ -6,6 +6,7 @@ import net.sourceforge.jeval.function.Function;
 import net.sourceforge.jeval.function.FunctionConstants;
 import net.sourceforge.jeval.function.FunctionException;
 import net.sourceforge.jeval.function.FunctionResult;
+import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Entity;
 
 public abstract class AbstractExpressionFunction implements ExpressionFunction {
@@ -34,7 +35,12 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	
 	@Override
 	public Entity resolveEntity(String aliasName) {
-		return getExprEval().getEntity(aliasName);
+		return getExprEval().getEntity(aliasName.replaceAll("'", ""));
+	}
+	
+	@Override
+	public Agent resolveAgent(String aliasName){
+		return (Agent)resolveEntity(aliasName);
 	}
 
 	@Override
@@ -54,12 +60,12 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 			public FunctionResult execute(Evaluator evaluator, String arguments)
 					throws FunctionException {
 				
-				enclosingWrapper.setExprEval(new Expression(evaluator,(Expression.EntityFieldResolver)evaluator.getVariableResolver()));
+				setExprEval(new Expression(evaluator,(Expression.EntityFieldResolver)evaluator.getVariableResolver()));
 				
 				String[] args = arguments.split(",");
 				try {
 					return new FunctionResult(enclosingWrapper.execute(args),
-							enclosingWrapper.getResultType());
+							getResultType());
 				} catch (EvaluationException e) {
 					throw new FunctionException(arguments);
 				}

@@ -28,11 +28,13 @@ public class ExpressionEvaluationTest {
 	 * further testing.
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
+		//TODO ExpressionEvaluationTest.setUp() is empty
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
+		//TODO ExpressionEvaluationTest.tearDown() is empty
 	}
 
 	@Test
