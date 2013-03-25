@@ -389,6 +389,7 @@ public class EditEntityScreen extends Screen {
 					agent.removeField(fieldNames.get(i));
 			} else {
 				if (agent.hasField(fieldNames.get(i).getText())) {
+				//TODO nosuchelementexception on this line after editing existing
 					agent.updateField(fieldNames.get(i), 
 							fieldValues.get(i).getText());
 				} else

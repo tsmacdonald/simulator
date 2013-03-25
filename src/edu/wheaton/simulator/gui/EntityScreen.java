@@ -58,6 +58,7 @@ public class EntityScreen extends Screen {
 		entities.setLayoutOrientation(JList.VERTICAL_WRAP);
 		entities.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		entities.setVisibleRowCount(20);
+		//listener to disable edit button
 		panel.add(entities);
 		entities.setAlignmentX(CENTER_ALIGNMENT);
 		delete = new JButton("Delete");
@@ -131,7 +132,8 @@ public class EntityScreen extends Screen {
 		}
 		
 		public void actionPerformed(ActionEvent e) {
-			((EditEntityScreen)sm.getScreen("Edit Entities")).reset();
+			
+			((EditEntityScreen)sm.getScreen("Edit Entities")).load();
 			((EditEntityScreen)sm.getScreen("Edit Entities")).setEditing(false);
 			sm.update(sm.getScreen("Edit Entities"));
 		}
@@ -147,7 +149,8 @@ public class EntityScreen extends Screen {
 		
 		public void actionPerformed(ActionEvent e) {
 			//TODO replace this with the load() method on the selected entity
-			((EditEntityScreen)sm.getScreen("Edit Entities")).reset();
+			((EditEntityScreen)sm.getScreen("Edit Entities")).load(
+					(String)entities.getSelectedValue());
 			((EditEntityScreen)sm.getScreen("Edit Entities")).setEditing(true);
 			sm.update(sm.getScreen("Edit Entities"));
 		}
