@@ -147,6 +147,19 @@ public class Prototype extends GridEntity {
 	}
 	
 	/**
+	 * Provides all of the Prototypes in the HashMap
+	 * 
+	 * @return Immutable set of Prototypes
+	 */
+	public static ImmutableSet<Prototype> getPrototypes() {
+		ImmutableSet.Builder<Prototype> toReturn = new ImmutableSet.Builder<Prototype>();
+		for(String current : prototypes.keySet()) {
+			toReturn.add(getPrototype(current));
+		}
+		return toReturn.build();
+	}
+	
+	/**
 	 * Changes the name of a prototype without resetting its children.
 	 * 
 	 * @param oldName
