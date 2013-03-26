@@ -11,7 +11,7 @@ public class DisplayManager {
 
 	private DisplayManager(Display d) {
 		display = d;
-		id++;
+		id++
 	}
 
 	public static DisplayManager getInstance(Display d) {
