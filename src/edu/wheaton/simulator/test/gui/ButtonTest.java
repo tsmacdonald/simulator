@@ -12,7 +12,6 @@ public class ButtonTest {
 
 	@Test
 	public void generalButtonTest(GeneralButtonListener gbl) {
-		Assert.;
 	}
 
 }
