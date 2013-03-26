@@ -9,7 +9,7 @@ import net.sourceforge.jeval.function.FunctionResult;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Entity;
 
-public abstract class AbstractExpressionFunction implements ExpressionFunction {
+public abstract class AbstractExpressionFunction {
 
 	// RETURN_TYPE_NUMERIC and RETURN_TYPE_BOOL are supposed to have the same
 	// value.
@@ -31,13 +31,11 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	/**
 	 * The name of the function as it is to appear in an Expression (ex: "add")
 	 */
-	@Override
 	public abstract String getName();
 
 	/**
 	 * Returns one of the three constants defined at the top of this class
 	 */
-	@Override
 	public abstract int getResultType();
 
 	/**
@@ -45,7 +43,6 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	 * down to either a string ("'i'm a string'"), a boolean ("true"), or a double ("1.0" or "1")
 	 * and then passed to this function which then performs the intended logic
 	 */
-	@Override
 	public abstract String execute(String[] args) throws EvaluationException;
 
 	/**
@@ -63,7 +60,6 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	 * @param aliasName
 	 * 		the name used to refer to the entity in the expression
 	 */
-	@Override
 	public Entity resolveEntity(String aliasName) {
 		return getExprEval().getEntity(aliasName.replaceAll("'", ""));
 	}
@@ -72,7 +68,6 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	 * Same as resolveEntity except that the return value is casted
 	 * to Agent
 	 */
-	@Override
 	public Agent resolveAgent(String aliasName){
 		return (Agent)resolveEntity(aliasName);
 	}
@@ -83,7 +78,6 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	 * @param aliasName
 	 * 		the name used to refer to the variable in the expression
 	 */
-	@Override
 	public String resolveVariable(String variableName)
 			throws EvaluationException {
 		return getExprEval().getVariableValue(variableName);
@@ -93,7 +87,6 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	 * Formats this object into a form that is usable by JEval such that
 	 * the layer of abstraction is not lost.
 	 */
-	@Override
 	public Function toJEvalFunction() {
 		final AbstractExpressionFunction xEnclosingWrapper = this;
 		return new Function() {
