@@ -49,6 +49,7 @@ public class Expression {
 		public String resolveVariable(String variableName)
 				throws FunctionException {
 
+			//splits with delimiter '.'
 			String[] args = variableName.split("\\x2e");
 
 			if (args.length != 2) {
