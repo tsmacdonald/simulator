@@ -21,7 +21,6 @@ import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.expression.AbstractExpressionFunction;
 import edu.wheaton.simulator.expression.ExpressionEvaluator;
-import edu.wheaton.simulator.expression.ExpressionEvaluator;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class ExpressionEvaluationTest {
