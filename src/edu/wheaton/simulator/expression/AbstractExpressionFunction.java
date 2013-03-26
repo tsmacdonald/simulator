@@ -104,7 +104,7 @@ public abstract class AbstractExpressionFunction {
 				 * wraps the passed 'Evaluator' into an ExpressionEvaluator to provide a higher level
 				 * of abstraction away from the internals of JEval
 				 */
-				setExprEval(new Expression(evaluator,(Expression.EntityFieldResolver)evaluator.getVariableResolver()));
+				setExprEval(wrapEvaluator(evaluator));
 				
 				String[] args = arguments.split(",");
 				try {
@@ -121,6 +121,10 @@ public abstract class AbstractExpressionFunction {
 			}
 
 		};
+	}
+	
+	private static Expression wrapEvaluator(Evaluator evaluator){
+		return new Expression(evaluator,(Expression.EntityFieldResolver)evaluator.getVariableResolver());
 	}
 
 	/**
