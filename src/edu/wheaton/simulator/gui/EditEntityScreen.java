@@ -24,10 +24,6 @@ import java.util.Map;
 
 import javax.swing.*;
 
-import javax.swing.GroupLayout.Alignment;
-
-import com.sun.corba.se.impl.encoding.CodeSetConversion.BTCConverter;
-
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
@@ -236,6 +232,7 @@ public class EditEntityScreen extends Screen {
 		triggerSubPanels = new ArrayList<JPanel>();
 		addTriggerButton = new JButton("Add Trigger");
 		addTriggerButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				addTrigger();
 			}

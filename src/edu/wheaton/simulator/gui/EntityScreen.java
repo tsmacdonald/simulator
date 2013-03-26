@@ -64,6 +64,7 @@ public class EntityScreen extends Screen {
 		entityList.setVisibleRowCount(20);
 		entityList.setBorder(BorderFactory.createLineBorder(Color.red));
 		entityList.addListSelectionListener( new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent le){
 				if(!edit.isEnabled())
 					edit.setEnabled(true);
@@ -120,6 +121,7 @@ public class EntityScreen extends Screen {
 	
 	class DeleteListener implements ActionListener {
 		
+		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = entityList.getSelectedIndex();
 			listModel.remove(index);

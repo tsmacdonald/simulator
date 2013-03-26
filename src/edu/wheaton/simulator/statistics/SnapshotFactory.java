@@ -2,8 +2,6 @@ package edu.wheaton.simulator.statistics;
 
 import java.util.Map;
 
-import sun.management.resources.agent;
-
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.Agent;
