@@ -111,7 +111,7 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 				 * wraps the passed 'Evaluator' into an ExpressionEvaluator to provide a higher level
 				 * of abstraction away from the internals of JEval
 				 */
-				setExprEval(new Expression(evaluator,(Expression.EntityFieldResolver)evaluator.getVariableResolver()));
+				setExprEval(new ExpressionEvaluator(evaluator,(ExpressionEvaluator.EntityFieldResolver)evaluator.getVariableResolver()));
 				
 				String[] args = arguments.split(",");
 				try {

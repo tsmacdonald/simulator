@@ -27,7 +27,7 @@ import javax.swing.*;
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
-import edu.wheaton.simulator.expression.Expression;
+import edu.wheaton.simulator.expression.ExpressionEvaluator;
 
 //TODO deletes prototype after editing
 public class EditEntityScreen extends Screen {
@@ -558,8 +558,8 @@ public class EditEntityScreen extends Screen {
 	private Trigger generateTrigger(int i) {
 		return new Trigger(triggerNames.get(i).getText(),
 				Integer.parseInt(triggerPriorities.get(i).getText()),
-				new Expression(triggerConditions.get(i).getText()),
-				new Expression(triggerResults.get(i).getText()));
+				new ExpressionEvaluator(triggerConditions.get(i).getText()),
+				new ExpressionEvaluator(triggerResults.get(i).getText()));
 	}
 
 	private class DeleteFieldListener implements ActionListener {

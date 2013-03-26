@@ -6,7 +6,7 @@ import org.junit.Test;
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
-import edu.wheaton.simulator.expression.Expression;
+import edu.wheaton.simulator.expression.ExpressionEvaluator;
 import edu.wheaton.simulator.expression.ExpressionEvaluator;
 import edu.wheaton.simulator.simulation.Grid;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
@@ -19,52 +19,52 @@ public class RockPaperScissorsTest {
 	public void setUp(){
 		this.testGrid = new Grid(100, 100);
 		
-		ExpressionEvaluator xMoveRight = new Expression("move('this', #{this.x} + 1, #{this.y})");		
-		ExpressionEvaluator yMoveUp = new Expression("move('this', #{this.x}, #{this.y} + 1)");		
-		ExpressionEvaluator xMoveLeft = new Expression("move('this', #{this.x} - 1, #{this.y})");		
-		ExpressionEvaluator yMoveDown = new Expression("move('this', #{this.x}, #{this.y} - 1)");
+		ExpressionEvaluator xMoveRight = new ExpressionEvaluator("move('this', #{this.x} + 1, #{this.y})");		
+		ExpressionEvaluator yMoveUp = new ExpressionEvaluator("move('this', #{this.x}, #{this.y} + 1)");		
+		ExpressionEvaluator xMoveLeft = new ExpressionEvaluator("move('this', #{this.x} - 1, #{this.y})");		
+		ExpressionEvaluator yMoveDown = new ExpressionEvaluator("move('this', #{this.x}, #{this.y} - 1)");
 		
 		// behavior: turn clockwise
-		ExpressionEvaluator turnClockwise = new Expression("setField('this', 'direction', (#{this.direction} +1)%4)");
+		ExpressionEvaluator turnClockwise = new ExpressionEvaluator("setField('this', 'direction', (#{this.direction} +1)%4)");
 		
 		// behavior: turn to match the direction of the agent in front of me and set my type id to his. I know this does not change the name too.
-		ExpressionEvaluator changeIDAndTurnAround = new Expression("setField('this', 'direciton', (#{this.direction} +2)%4) && setField('this', 'typeID', (#{this.typeID} -1)%3) &&");
+		ExpressionEvaluator changeIDAndTurnAround = new ExpressionEvaluator("setField('this', 'direciton', (#{this.direction} +2)%4) && setField('this', 'typeID', (#{this.typeID} -1)%3) &&");
 		
 		// behavior: change the type of the agent (name) to the type id
-		ExpressionEvaluator changeTypeToRock = new Expression("setField('this', 'type', rock)");
-		ExpressionEvaluator changeTypeToPaper = new Expression("setField('this', 'type', paper)");
-		ExpressionEvaluator changeTypeToScissors = new Expression("setField('this', 'type', scissors)");
+		ExpressionEvaluator changeTypeToRock = new ExpressionEvaluator("setField('this', 'type', rock)");
+		ExpressionEvaluator changeTypeToPaper = new ExpressionEvaluator("setField('this', 'type', paper)");
+		ExpressionEvaluator changeTypeToScissors = new ExpressionEvaluator("setField('this', 'type', scissors)");
 		
 		// condition: if nobody ahead in this direction
-		ExpressionEvaluator dir0 = new Expression("(#{this.direction} == 0) && isSlotOpen(#{this.x},#{this.y}+1)");		
-		ExpressionEvaluator dir1 = new Expression("(#{this.direction} == 1) && isSlotOpen(#{this.x}+1,#{this.y})");
-		ExpressionEvaluator dir2 = new Expression("(#{this.direction} == 2) && isSlotOpen(#{this.x},#{this.y}-1)");
-		ExpressionEvaluator dir3 = new Expression("(#{this.direction} == 3) && isSlotOpen(#{this.x}-1,#{this.y})");
+		ExpressionEvaluator dir0 = new ExpressionEvaluator("(#{this.direction} == 0) && isSlotOpen(#{this.x},#{this.y}+1)");		
+		ExpressionEvaluator dir1 = new ExpressionEvaluator("(#{this.direction} == 1) && isSlotOpen(#{this.x}+1,#{this.y})");
+		ExpressionEvaluator dir2 = new ExpressionEvaluator("(#{this.direction} == 2) && isSlotOpen(#{this.x},#{this.y}-1)");
+		ExpressionEvaluator dir3 = new ExpressionEvaluator("(#{this.direction} == 3) && isSlotOpen(#{this.x}-1,#{this.y})");
 		
 		// condition: if there is an obstruction ahead (should be checked after checking for conflicts)
-		ExpressionEvaluator obstruction0 = new Expression("(#{this.direction} == 0) && !(isSlotOpen(#{this.x},#{this.y}+1))");		
-		ExpressionEvaluator obstruction1 = new Expression("(#{this.direction} == 1) && !(isSlotOpen(#{this.x}+1,#{this.y}))");
-		ExpressionEvaluator obstruction2 = new Expression("(#{this.direction} == 2) && !(isSlotOpen(#{this.x},#{this.y}-1))");
-		ExpressionEvaluator obstruction3 = new Expression("(#{this.direction} == 3) && !(isSlotOpen(#{this.x}-1,#{this.y}))");
+		ExpressionEvaluator obstruction0 = new ExpressionEvaluator("(#{this.direction} == 0) && !(isSlotOpen(#{this.x},#{this.y}+1))");		
+		ExpressionEvaluator obstruction1 = new ExpressionEvaluator("(#{this.direction} == 1) && !(isSlotOpen(#{this.x}+1,#{this.y}))");
+		ExpressionEvaluator obstruction2 = new ExpressionEvaluator("(#{this.direction} == 2) && !(isSlotOpen(#{this.x},#{this.y}-1))");
+		ExpressionEvaluator obstruction3 = new ExpressionEvaluator("(#{this.direction} == 3) && !(isSlotOpen(#{this.x}-1,#{this.y}))");
 		
 		// I am weaker than opponent in front of me condition
-		ExpressionEvaluator loseConflict0 = new Expression("(#{this.direction} == 0) && isValidCoord(#{this.x},#{this.y}+1) && !isSlotOpen(#{this.x},#{this.y}+1)" +
+		ExpressionEvaluator loseConflict0 = new ExpressionEvaluator("(#{this.direction} == 0) && isValidCoord(#{this.x},#{this.y}+1) && !isSlotOpen(#{this.x},#{this.y}+1)" +
 				" && getFieldOfAgentAt(#{this.x},#{this.y}+1, typeID) == #({this.typeID} + 1)%3" +		// agent in front is of type one less than me	
 				" && getFieldOfAgentAt(#{this.x},#{this.y}+1, 'direction') == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
-		ExpressionEvaluator loseConflict1 = new Expression("(#{this.direction} == 1) && isValidCoord(#{this.x}+1,#{this.y}) && !isSlotOpen(#{this.x}+1,#{this.y})" +
+		ExpressionEvaluator loseConflict1 = new ExpressionEvaluator("(#{this.direction} == 1) && isValidCoord(#{this.x}+1,#{this.y}) && !isSlotOpen(#{this.x}+1,#{this.y})" +
 				" && getFieldOfAgentAt(#{this.x} + 1,#{this.y}, typeID) == #({this.typeID} + 1)%3" +		// agent in front is of type one less than me	
 				" && getFieldOfAgentAt(#{this.x} + 1,#{this.y}, 'direction') == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
-		ExpressionEvaluator loseConflict2 = new Expression("(#{this.direction} == 2) && isValidCoord(#{this.x},#{this.y}-1) && !isSlotOpen(#{this.x},#{this.y}-1)" +
+		ExpressionEvaluator loseConflict2 = new ExpressionEvaluator("(#{this.direction} == 2) && isValidCoord(#{this.x},#{this.y}-1) && !isSlotOpen(#{this.x},#{this.y}-1)" +
 				" && getFieldOfAgentAt(#{this.x},#{this.y} - 1, typeID) == #({this.typeID} + 1)%3" +		// agent in front is of type one less than me	
 				" && getFieldOfAgentAt(#{this.x},#{this.y} - 1, 'direction') == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
-		ExpressionEvaluator loseConflict3 = new Expression("(#{this.direction} == 3) && isValidCoord(#{this.x}-1,#{this.y}) && !isSlotOpen(#{this.x}-1,#{this.y})" +
+		ExpressionEvaluator loseConflict3 = new ExpressionEvaluator("(#{this.direction} == 3) && isValidCoord(#{this.x}-1,#{this.y}) && !isSlotOpen(#{this.x}-1,#{this.y})" +
 				" && getFieldOfAgentAt(#{this.x} - 1,#{this.y}, typeID) == #({this.typeID} + 1)%3" +		// agent in front is of type one less than me	
 				" && getFieldOfAgentAt(#{this.x} - 1,#{this.y}, 'direction') == (#{this.direction} +2)%4");		// agent in front of me is facing opposite direction from me
 		
 		// condition: if my id says that my typeName does not match my typeId
-		ExpressionEvaluator checkId0 = new Expression("#{this.typeId}%3 == 0 && !(#{this.type} == rock)");		// my id is rock but m y name is not rock
-		ExpressionEvaluator checkId1 = new Expression("#{this.typeId}%3 == 1 && !(#{this.type} == paper)");		// paper
-		ExpressionEvaluator checkId2 = new Expression("#{this.typeId}%3 == 2 && !(#{this.type} == scissors)");		// scissors
+		ExpressionEvaluator checkId0 = new ExpressionEvaluator("#{this.typeId}%3 == 0 && !(#{this.type} == rock)");		// my id is rock but m y name is not rock
+		ExpressionEvaluator checkId1 = new ExpressionEvaluator("#{this.typeId}%3 == 1 && !(#{this.type} == paper)");		// paper
+		ExpressionEvaluator checkId2 = new ExpressionEvaluator("#{this.typeId}%3 == 2 && !(#{this.type} == scissors)");		// scissors
 				
 		for(int j = 0; j < agentType.length; j ++){
 			Prototype testPrototype = new Prototype(testGrid, "testPrototype");
