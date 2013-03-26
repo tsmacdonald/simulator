@@ -14,13 +14,13 @@ public abstract class AbstractExpressionFunction {
 	// RETURN_TYPE_NUMERIC and RETURN_TYPE_BOOL are supposed to have the same
 	// value.
 	// The distinction here is for clarity.
-	protected static final int RESULT_TYPE_NUMERIC = FunctionConstants.FUNCTION_RESULT_TYPE_NUMERIC;
-	protected static final int RESULT_TYPE_BOOL = FunctionConstants.FUNCTION_RESULT_TYPE_NUMERIC;
-	protected static final int RESULT_TYPE_STRING = FunctionConstants.FUNCTION_RESULT_TYPE_STRING;
+	public static final int RESULT_TYPE_NUMERIC = FunctionConstants.FUNCTION_RESULT_TYPE_NUMERIC;
+	public static final int RESULT_TYPE_BOOL = FunctionConstants.FUNCTION_RESULT_TYPE_NUMERIC;
+	public static final int RESULT_TYPE_STRING = FunctionConstants.FUNCTION_RESULT_TYPE_STRING;
 	
 	//constants for returning boolean results
-	protected static final String TRUE = "1.0";
-	protected static final String FALSE = "0.0";
+	public static final String TRUE = "1.0";
+	public static final String FALSE = "0.0";
 	
 	/*
 	 * A wrapper constructed from a JEval Evaluator instance that is not known until the point at which the
@@ -40,7 +40,7 @@ public abstract class AbstractExpressionFunction {
 
 	/**
 	 * When this method is called from within an Expression, it's parameters are evaluated
-	 * down to either a string ("'i'm a string'"), a boolean ("true"), or a double ("1.0" or "1")
+	 * down to either a string ("'im a string'"), a boolean ("1"), or a double ("1.0" or "1")
 	 * and then passed to this function which then performs the intended logic
 	 */
 	public abstract String execute(String[] args) throws EvaluationException;
@@ -87,7 +87,7 @@ public abstract class AbstractExpressionFunction {
 	 * Formats this object into a form that is usable by JEval such that
 	 * the layer of abstraction is not lost.
 	 */
-	public Function toJEvalFunction() {
+	protected Function toJEvalFunction() {
 		final AbstractExpressionFunction xEnclosingWrapper = this;
 		return new Function() {
 
