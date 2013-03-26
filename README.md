@@ -1,7 +1,14 @@
 Phase 2
 ============
-
 Software Development, Spring 2013, Phase 2
+
+IMPORTANT
+=========
+After pulling, open a terminal to your repository directory and execute the command:
+```sh setup-git-hooks.sh``` This will set up a git pre-commit hook that will prevent code that doesn't compile from being
+committed
+
+
 
 GUI Team
 =========
