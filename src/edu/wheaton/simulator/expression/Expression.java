@@ -14,7 +14,7 @@ import edu.wheaton.simulator.behavior.MoveBehavior;
 import edu.wheaton.simulator.behavior.SetFieldBehavior;
 import edu.wheaton.simulator.entity.Entity;
 
-public class ExpressionEvaluator {
+public class Expression {
 
 	/**
 	 * All variables that JEval evaluates are first passed to an associated instance of
@@ -88,7 +88,7 @@ public class ExpressionEvaluator {
 	 * 
 	 * The expression string is retrieved by calling expr.toString()
 	 */
-	public ExpressionEvaluator(Object exprStr) {
+	public Expression(Object exprStr) {
 		setString(exprStr);
 		evaluator = new Evaluator();
 		resolver = new EntityFieldResolver();
@@ -107,7 +107,7 @@ public class ExpressionEvaluator {
 	/**
 	 * Copy constructor
 	 */
-	private ExpressionEvaluator(ExpressionEvaluator expr) {
+	private Expression(Expression expr) {
 		evaluator = new Evaluator();
 		evaluator.setFunctions(expr.evaluator.getFunctions());
 		evaluator.setVariables(expr.evaluator.getVariables());
@@ -116,7 +116,7 @@ public class ExpressionEvaluator {
 		setString(expr.expr);
 	}
 	
-	protected ExpressionEvaluator(Evaluator eval, EntityFieldResolver res){
+	protected Expression(Evaluator eval, EntityFieldResolver res){
 		this.evaluator = eval;
 		this.resolver = res;
 	}
@@ -125,8 +125,8 @@ public class ExpressionEvaluator {
 	 * calls the copy constructor
 	 */
 	@Override
-	public ExpressionEvaluator clone() {
-		return new ExpressionEvaluator(this);
+	public Expression clone() {
+		return new Expression(this);
 	}
 
 	/**

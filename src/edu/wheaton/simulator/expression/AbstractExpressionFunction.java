@@ -26,7 +26,7 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	 * A wrapper constructed from a JEval Evaluator instance that is not known until the point at which the
 	 * function is called by JEval. For now it is null.
 	 */
-	private ExpressionEvaluator evaluator=null;
+	private Expression evaluator=null;
 	
 	/**
 	 * The name of the function as it is to appear in an Expression (ex: "add")
@@ -53,7 +53,7 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	 * and provides a means to construct an ExpressionEvaluator
 	 * @return
 	 */
-	private ExpressionEvaluator getExprEval(){
+	private Expression getExprEval(){
 		return evaluator;
 	}
 	
@@ -111,7 +111,7 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 				 * wraps the passed 'Evaluator' into an ExpressionEvaluator to provide a higher level
 				 * of abstraction away from the internals of JEval
 				 */
-				setExprEval(new ExpressionEvaluator(evaluator,(ExpressionEvaluator.EntityFieldResolver)evaluator.getVariableResolver()));
+				setExprEval(new Expression(evaluator,(Expression.EntityFieldResolver)evaluator.getVariableResolver()));
 				
 				String[] args = arguments.split(",");
 				try {
@@ -134,7 +134,7 @@ public abstract class AbstractExpressionFunction implements ExpressionFunction {
 	 * Used to set the ExpressionEvaluator once constructed
 	 * @param evaluator
 	 */
-	private void setExprEval(ExpressionEvaluator evaluator) {
+	private void setExprEval(Expression evaluator) {
 		this.evaluator = evaluator;
 	}
 }

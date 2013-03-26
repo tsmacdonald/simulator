@@ -13,7 +13,7 @@ import org.junit.Test;
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
-import edu.wheaton.simulator.expression.ExpressionEvaluator;
+import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class ConwaysGameOfLifeTest {
@@ -45,33 +45,33 @@ public class ConwaysGameOfLifeTest {
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
-		border.addTrigger(new Trigger("place", 1, new ExpressionEvaluator("1==1"), new ExpressionEvaluator("setField('this','alive',0)")));
+		border.addTrigger(new Trigger("place", 1, new Expression("1==1"), new Expression("setField('this','alive',0)")));
 
 		// Set up conditionals
-		ExpressionEvaluator isAlive = new ExpressionEvaluator("#{this.alive} == 1");
-		ExpressionEvaluator neigh1 = new ExpressionEvaluator("getFieldOfAgentAt(#{this.x}-1, #{this.y}-1, 'alive') == 0");
-		ExpressionEvaluator neigh2 = new ExpressionEvaluator("getFieldOfAgentAt(#{this.x}, #{this.y}-1, 'alive') == 0");
-		ExpressionEvaluator neigh3 = new ExpressionEvaluator("getFieldOfAgentAt(#{this.x}+1, #{this.y}-1, 'alive') == 0");
-		ExpressionEvaluator neigh4 = new ExpressionEvaluator("getFieldOfAgentAt(#{this.x}-1, #{this.y}, 'alive') == 0");
-		ExpressionEvaluator neigh5 = new ExpressionEvaluator("getFieldOfAgentAt(#{this.x}+1, #{this.y}, 'alive') == 0");
-		ExpressionEvaluator neigh6 = new ExpressionEvaluator("getFieldOfAgentAt(#{this.x}-1, #{this.y}+1, 'alive') == 0");
-		ExpressionEvaluator neigh7 = new ExpressionEvaluator("getFieldOfAgentAt(#{this.x}, #{this.y}+1, 'alive') == 0");
-		ExpressionEvaluator neigh8 = new ExpressionEvaluator("getFieldOfAgentAt(#{this.x}+1, #{this.y}+1, 'alive') == 0");
-		ExpressionEvaluator dieCond = new ExpressionEvaluator("(#{this.alive} == 1)&& (#{this.neighbors} < 2 || #{this.neighbors} > 3)");
-		ExpressionEvaluator reviveCond = new ExpressionEvaluator("(#{this.alive} == 0) && (#{this.neighbors} == 0)");
+		Expression isAlive = new Expression("#{this.alive} == 1");
+		Expression neigh1 = new Expression("getFieldOfAgentAt(#{this.x}-1, #{this.y}-1, 'alive') == 0");
+		Expression neigh2 = new Expression("getFieldOfAgentAt(#{this.x}, #{this.y}-1, 'alive') == 0");
+		Expression neigh3 = new Expression("getFieldOfAgentAt(#{this.x}+1, #{this.y}-1, 'alive') == 0");
+		Expression neigh4 = new Expression("getFieldOfAgentAt(#{this.x}-1, #{this.y}, 'alive') == 0");
+		Expression neigh5 = new Expression("getFieldOfAgentAt(#{this.x}+1, #{this.y}, 'alive') == 0");
+		Expression neigh6 = new Expression("getFieldOfAgentAt(#{this.x}-1, #{this.y}+1, 'alive') == 0");
+		Expression neigh7 = new Expression("getFieldOfAgentAt(#{this.x}, #{this.y}+1, 'alive') == 0");
+		Expression neigh8 = new Expression("getFieldOfAgentAt(#{this.x}+1, #{this.y}+1, 'alive') == 0");
+		Expression dieCond = new Expression("(#{this.alive} == 1)&& (#{this.neighbors} < 2 || #{this.neighbors} > 3)");
+		Expression reviveCond = new Expression("(#{this.alive} == 0) && (#{this.neighbors} == 0)");
 
 		// Set up behaviors
-		ExpressionEvaluator incrementAge = new ExpressionEvaluator("setField('this', 'age', #{this.age}+1)");
-		ExpressionEvaluator decrementNeighbors = new ExpressionEvaluator("setField('this', 'neighbors', #{this.neighbors}-1)");
-		ExpressionEvaluator die = new ExpressionEvaluator("setField('this', 'alive', 0) && setField('this', 'age', 0) && " +
+		Expression incrementAge = new Expression("setField('this', 'age', #{this.age}+1)");
+		Expression decrementNeighbors = new Expression("setField('this', 'neighbors', #{this.neighbors}-1)");
+		Expression die = new Expression("setField('this', 'alive', 0) && setField('this', 'age', 0) && " +
 				"setField('this', 'colorRed', 255) && setField('this', 'colorGreen', 255) && setField('this', 'colorBlue', 255)");
-		ExpressionEvaluator revive = new ExpressionEvaluator("setField('this', 'alive', 1) && " +
+		Expression revive = new Expression("setField('this', 'alive', 1) && " +
 				"setField('this', 'colorRed', 0) && setField('this', 'colorGreen', 0) && setField('this', 'colorBlue', 0)");
-		ExpressionEvaluator resetNeighbors = new ExpressionEvaluator("setField('this', 'neighbors', 8)");
+		Expression resetNeighbors = new Expression("setField('this', 'neighbors', 8)");
 
 		// Add triggers
 		being.addTrigger(new Trigger("updateAge", 1, isAlive, incrementAge));
-		being.addTrigger(new Trigger("resetNeighbors", 2, new ExpressionEvaluator("1 == 1"), resetNeighbors));
+		being.addTrigger(new Trigger("resetNeighbors", 2, new Expression("1 == 1"), resetNeighbors));
 		being.addTrigger(new Trigger("checkNeigh1", 3, neigh1, decrementNeighbors));
 		being.addTrigger(new Trigger("checkNeigh2", 4, neigh2, decrementNeighbors));
 		being.addTrigger(new Trigger("checkNeigh3", 5, neigh3, decrementNeighbors));

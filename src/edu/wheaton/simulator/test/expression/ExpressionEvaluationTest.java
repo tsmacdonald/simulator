@@ -20,7 +20,7 @@ import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.expression.AbstractExpressionFunction;
-import edu.wheaton.simulator.expression.ExpressionEvaluator;
+import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class ExpressionEvaluationTest {
@@ -42,7 +42,7 @@ public class ExpressionEvaluationTest {
 	@Test
 	public void testSimpleBooleanEvaluation() {
 		try {
-			Assert.assertTrue(ExpressionEvaluator.evaluateBool("1<2"));
+			Assert.assertTrue(Expression.evaluateBool("1<2"));
 		} catch (EvaluationException e) {
 			e.printStackTrace();
 		}
@@ -51,7 +51,7 @@ public class ExpressionEvaluationTest {
 	@Test
 	public void testSimpleBooleanEvaluation2() {
 		try {
-			Assert.assertFalse(ExpressionEvaluator.evaluateBool("1 == 0"));
+			Assert.assertFalse(Expression.evaluateBool("1 == 0"));
 		} catch (EvaluationException e) {
 			e.printStackTrace();
 		}
@@ -60,7 +60,7 @@ public class ExpressionEvaluationTest {
 	@Test
 	public void testSimpleBooleanEqualEvaluation() {
 		try {
-			Assert.assertTrue(ExpressionEvaluator.evaluateBool("1=1"));
+			Assert.assertTrue(Expression.evaluateBool("1=1"));
 		} catch (EvaluationException e) {
 			e.printStackTrace();
 		}
@@ -68,7 +68,7 @@ public class ExpressionEvaluationTest {
 	@Test
 	public void testComplexBooleanEvaluation() {
 		try {
-			Assert.assertFalse(ExpressionEvaluator
+			Assert.assertFalse(Expression
 					.evaluateBool("(1+2) > (2*2) && (3/2) < 3"));
 		} catch (EvaluationException e) {
 			e.printStackTrace();
@@ -79,7 +79,7 @@ public class ExpressionEvaluationTest {
 	public void testDoubleEvaluation() {
 		Double result = 1.0;
 		try {
-			result = ExpressionEvaluator.evaluateDouble("3 * (3 + 1)");
+			result = Expression.evaluateDouble("3 * (3 + 1)");
 		} catch (EvaluationException e) {
 			e.printStackTrace();
 		}
@@ -90,7 +90,7 @@ public class ExpressionEvaluationTest {
 	public void testStringEvaluation() {
 		try {
 			Assert.assertEquals("'tenants'",
-					ExpressionEvaluator.evaluateString("'ten' + 'ants'"));
+					Expression.evaluateString("'ten' + 'ants'"));
 		} catch (EvaluationException e) {
 			e.printStackTrace();
 		}
@@ -98,7 +98,7 @@ public class ExpressionEvaluationTest {
 
 	@Test
 	public void testAddVariables() {
-		ExpressionEvaluator testExpression = new ExpressionEvaluator(
+		Expression testExpression = new Expression(
 				"#{three} < #{ten}");
 		testExpression.importVariable("three", "3");
 		testExpression.importVariable("ten", "10");
@@ -111,7 +111,7 @@ public class ExpressionEvaluationTest {
 	
 	@Test
 	public void testNonStaticTestEquals() {
-		ExpressionEvaluator testExpression = new ExpressionEvaluator("1=1");
+		Expression testExpression = new Expression("1=1");
 		try {
 			Assert.assertTrue(testExpression.evaluateBool());
 		} catch (EvaluationException e) {
@@ -121,7 +121,7 @@ public class ExpressionEvaluationTest {
 	
 	@Test
 	public void testNonStaticTestEqualWithVar() {
-		ExpressionEvaluator testExpression = new ExpressionEvaluator("{one}=1");
+		Expression testExpression = new Expression("{one}=1");
 		testExpression.importVariable("one", "1");
 		try {
 			Assert.assertTrue(testExpression.evaluateBool());
@@ -141,7 +141,7 @@ public class ExpressionEvaluationTest {
 			e1.printStackTrace();
 		}
 
-		ExpressionEvaluator testExpression = new ExpressionEvaluator("#{entity.name}");
+		Expression testExpression = new Expression("#{entity.name}");
 		testExpression.importEntity("entity", entity);
 
 		try {
@@ -162,7 +162,7 @@ public class ExpressionEvaluationTest {
 		xOther.addField("x", "0");
 		xOther.addField("y", "0");
 
-		ExpressionEvaluator distanceExpression = new ExpressionEvaluator(
+		Expression distanceExpression = new Expression(
 				"sqrt(pow(#{this.x}-#{other.x},2) + pow(#{this.y}-#{other.y},2))");
 		distanceExpression.importEntity("this", xThis);
 		distanceExpression.importEntity("other", xOther);
@@ -178,7 +178,7 @@ public class ExpressionEvaluationTest {
 //		ExpressionEvaluator yMoveUp = new Expression("move('this', #{this.x}, #{this.y} + 1)");		
 //		ExpressionEvaluator xMoveLeft = new Expression("move('this', #{this.x} - 1, #{this.y})");		
 //		ExpressionEvaluator yMoveDown = new Expression("move('this', #{this.x}, #{this.y} - 1)");
-		ExpressionEvaluator dir1 = new ExpressionEvaluator("#{this.direction}=1");
+		Expression dir1 = new Expression("#{this.direction}=1");
 		Prototype testPrototype = new Prototype(testGrid, "name");
 		testPrototype.addField("type", "'test'");
 		testPrototype.addField("direction", "1");
@@ -206,7 +206,7 @@ public class ExpressionEvaluationTest {
 		xOther.addField("x", "0");
 		xOther.addField("y", "0");
 
-		final ExpressionEvaluator testExpression = new ExpressionEvaluator(
+		final Expression testExpression = new Expression(
 				"distance('this','other')");
 		testExpression.importEntity("this", xThis);
 		testExpression.importEntity("other", xOther);
@@ -231,7 +231,7 @@ public class ExpressionEvaluationTest {
 				Entity arg0 = resolveEntity(args[0]);
 				Entity arg1 = resolveEntity(args[1]);
 
-				ExpressionEvaluator genericDistanceExpression = new ExpressionEvaluator(
+				Expression genericDistanceExpression = new Expression(
 						"sqrt(pow(#{arg0.x}-#{arg1.x},2) + pow(#{arg0.y}-#{arg1.y},2))");
 
 				genericDistanceExpression.importEntity("arg0", arg0);
@@ -240,7 +240,7 @@ public class ExpressionEvaluationTest {
 			}
 		});
 
-		ExpressionEvaluator expr = testExpression.clone();
+		Expression expr = testExpression.clone();
 		
 		Assert.assertEquals(new Double(5.0), expr.evaluateDouble());
 	}

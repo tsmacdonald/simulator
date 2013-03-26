@@ -13,7 +13,7 @@ import java.awt.Color;
 
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.datastructure.Field;
-import edu.wheaton.simulator.expression.ExpressionEvaluator;
+import edu.wheaton.simulator.expression.Expression;
 
 public class Layer {
 
@@ -111,7 +111,7 @@ public class Layer {
 	 */
 	public Color newShade(Field f) throws EvaluationException {
 		Double degree = 0.0;
-		degree = ExpressionEvaluator.evaluateDouble("(" + f.getValue() + " - "
+		degree = Expression.evaluateDouble("(" + f.getValue() + " - "
 				+ min.getValue() + ") / (" + max.getValue() + " - "
 				+ min.getValue() + ")");
 		return fieldColor.newBrightness(degree.floatValue());
@@ -133,9 +133,9 @@ public class Layer {
 			return;
 		}
 
-		if (ExpressionEvaluator.evaluateBool(f.getValue() + "<" + this.min.getValue()))
+		if (Expression.evaluateBool(f.getValue() + "<" + this.min.getValue()))
 			this.min = f;
-		else if (ExpressionEvaluator.evaluateBool(f.getValue() + ">"
+		else if (Expression.evaluateBool(f.getValue() + ">"
 				+ this.max.getValue()))
 			this.max = f;
 	}
