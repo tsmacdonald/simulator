@@ -1,8 +1,8 @@
 package edu.wheaton.simulator.statistics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,6 +12,7 @@ import javax.naming.NameNotFoundException;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+
 import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.PrototypeID;
 
@@ -37,7 +38,7 @@ public class StatisticsManager {
 	 * Each index in the List stores the prototype snapshot associated with
 	 * that step in the simulation
 	 */
-	private List<Map<PrototypeID, PrototypeSnapshot>> prototypes;
+	private HashMap<Integer, Map<PrototypeID, PrototypeSnapshot>> prototypes;
 
 	// TODO: Some sort of behavior queue mapping AgentID's to behavior
 	// representations.
@@ -48,7 +49,7 @@ public class StatisticsManager {
 	public StatisticsManager() {
 		table = new EntitySnapshotTable();
 		gridObserver = new GridObserver(this);
-		prototypes = new LinkedList<Map<PrototypeID, PrototypeSnapshot>>();
+		prototypes = new HashMap<Integer, Map<PrototypeID, PrototypeSnapshot>>();
 	}
 
 	/**
@@ -68,15 +69,14 @@ public class StatisticsManager {
 		if (prototypeSnapshot.step > lastStep) 
 			lastStep = prototypeSnapshot.step; 
 		Map<PrototypeID, PrototypeSnapshot> typeMap; 
-		try { 
-			typeMap = prototypes.get(prototypeSnapshot.step); 
-		} catch (IndexOutOfBoundsException e) { 
+		if ((typeMap = prototypes.get(prototypeSnapshot.step)) != null) { 
+			typeMap.put(prototypeSnapshot.id, prototypeSnapshot);
+		} else { 
 			typeMap = new TreeMap<PrototypeID, PrototypeSnapshot>();
-			prototypes.add(prototypeSnapshot.step, typeMap); 
+			prototypes.put(new Integer(prototypeSnapshot.step), typeMap); 
 		}
-		typeMap.put(prototypeSnapshot.id, prototypeSnapshot);
 	}
-	
+
 	/**
 	 * Store a snapshot of a gridEntity.
 	 * 
@@ -154,9 +154,12 @@ public class StatisticsManager {
 		int[] data = new int[lastStep];
 
 		for (int i = 0; i < data.length; i++) {
+			Map<PrototypeID, PrototypeSnapshot> map; 
 			PrototypeSnapshot currentSnapshot;
-			if ((currentSnapshot = prototypes.get(i).get(id)) != null) {
-				data[i] = currentSnapshot.population;
+			if((map = prototypes.get(i)) != null){
+				if ((currentSnapshot = prototypes.get(i).get(id)) != null) {
+					data[i] = currentSnapshot.population;
+				}
 			}
 		}
 		return data;
