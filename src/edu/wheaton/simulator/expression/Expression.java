@@ -170,6 +170,18 @@ public class Expression {
 	}
 	
 	/**
+	 * Returns a properly formatted string value
+	 * 
+	 * fStr("I am a banana!") == "'I am a banana!'"
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static String fStr(String value){
+		return "'" + value + "'";
+	}
+	
+	/**
 	 * Returns a properly formatted string to be passed to an Expression method.
 	 * 
 	 * "setField(" + fParam("this") + "," + fParam("x") + "," + fParam("8") + ")"
@@ -190,7 +202,7 @@ public class Expression {
 			} 
 			
 			catch(Exception e){
-				return "'" + param + "'";
+				return fStr(param);
 			}
 		}
 	}
