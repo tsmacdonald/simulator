@@ -99,7 +99,7 @@ public class ExpressionEvaluationTest {
 	@Test
 	public void testAddVariables() {
 		Expression testExpression = new Expression(
-				Expression.formatGet("three") + "<" + Expression.formatGet("ten")
+				Expression.fGet("three") + "<" + Expression.fGet("ten")
 				//"#{three} < #{ten}"
 				);
 		testExpression.importVariable("three", "3");
@@ -124,7 +124,7 @@ public class ExpressionEvaluationTest {
 	@Test
 	public void testNonStaticTestEqualWithVar() {
 		//Expression testExpression = new Expression("#{one}==1");
-		Expression testExpression = new Expression( Expression.formatGet("one") + "==" + "1" );
+		Expression testExpression = new Expression( Expression.fGet("one") + "==" + "1" );
 		testExpression.importVariable("one", "1");
 		try {
 			Assert.assertTrue(testExpression.evaluateBool());
@@ -145,7 +145,7 @@ public class ExpressionEvaluationTest {
 		}
 
 		//Expression testExpression = new Expression("#{entity.name}");
-		Expression testExpression = new Expression( Expression.formatGet("entity.name") );
+		Expression testExpression = new Expression( Expression.fGet("entity.name") );
 		testExpression.importEntity("entity", entity);
 
 		try {
@@ -270,7 +270,7 @@ public class ExpressionEvaluationTest {
 		entity.addField("money", "8");
 
 		final Expression testExpression = new Expression(
-				"setField(" + Expression.formatParams("entity,money,10") + ")");
+				"setField(" + Expression.fParams("entity,money,10") + ")");
 		
 		testExpression.importEntity("entity", entity);
 		

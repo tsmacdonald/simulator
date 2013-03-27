@@ -129,34 +129,34 @@ public class Expression {
 	/**
 	 * Returns a properly formatted variable reference.
 	 * 
-	 * formatGet("x") == "#{x}"
+	 * fGet("x") == "#{x}"
 	 * 
-	 * formatGet("this.x") == "#{this.x}"
+	 * fGet("this.x") == "#{this.x}"
 	 * 
 	 * @param entityName
 	 * @param fieldName
 	 * @return
 	 */
-	public static String formatGet(String variableName){
+	public static String fGet(String variableName){
 		return "#{" + variableName + "}";
 	}
 	
 	/**
 	 * Returns a properly formatted string to be passed to an Expression method.
 	 * 
-	 * "setField(" + formatParams("this,x,8") + ")"
+	 * "setField(" + fParams("this,x,8") + ")"
 	 *      ==
 	 * "setField('this','x',8)
 	 * 
 	 * @param params
 	 * @return
 	 */
-	public static String formatParams(String params){
+	public static String fParams(String params){
 		params = params.replaceAll(" ", "");
 		String[] paramList = params.split(",");
 		
 		for(int i=0; i<paramList.length; ++i){
-			paramList[i] = formatParam(paramList[i]);
+			paramList[i] = fParam(paramList[i]);
 		}
 		
 		String toReturn = "";
@@ -172,14 +172,14 @@ public class Expression {
 	/**
 	 * Returns a properly formatted string to be passed to an Expression method.
 	 * 
-	 * "setField(" + formatParam("this") + "," + formatParam("x") + "," + formatParam("8") + ")"
+	 * "setField(" + fParam("this") + "," + fParam("x") + "," + fParam("8") + ")"
 	 *      ==
 	 * "setField('this','x',8)
 	 * 
 	 * @param name
 	 * @return
 	 */
-	private static String formatParam(String param){
+	private static String fParam(String param){
 		if(param.equalsIgnoreCase("true"))
 			return TRUE;
 		else if(param.equalsIgnoreCase("false"))
