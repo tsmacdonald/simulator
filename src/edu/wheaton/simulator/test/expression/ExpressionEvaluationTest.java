@@ -60,7 +60,7 @@ public class ExpressionEvaluationTest {
 	@Test
 	public void testSimpleBooleanEqualEvaluation() {
 		try {
-			Assert.assertTrue(Expression.evaluateBool("1=1"));
+			Assert.assertTrue(Expression.evaluateBool("1==1"));
 		} catch (EvaluationException e) {
 			e.printStackTrace();
 		}
@@ -111,7 +111,7 @@ public class ExpressionEvaluationTest {
 	
 	@Test
 	public void testNonStaticTestEquals() {
-		Expression testExpression = new Expression("1=1");
+		Expression testExpression = new Expression("1==1");
 		try {
 			Assert.assertTrue(testExpression.evaluateBool());
 		} catch (EvaluationException e) {
@@ -121,7 +121,7 @@ public class ExpressionEvaluationTest {
 	
 	@Test
 	public void testNonStaticTestEqualWithVar() {
-		Expression testExpression = new Expression("{one}=1");
+		Expression testExpression = new Expression("#{one}==1");
 		testExpression.importVariable("one", "1");
 		try {
 			Assert.assertTrue(testExpression.evaluateBool());
@@ -178,7 +178,7 @@ public class ExpressionEvaluationTest {
 //		ExpressionEvaluator yMoveUp = new Expression("move('this', #{this.x}, #{this.y} + 1)");		
 //		ExpressionEvaluator xMoveLeft = new Expression("move('this', #{this.x} - 1, #{this.y})");		
 //		ExpressionEvaluator yMoveDown = new Expression("move('this', #{this.x}, #{this.y} - 1)");
-		Expression dir1 = new Expression("#{this.direction}=1");
+		Expression dir1 = new Expression("#{this.direction}==1");
 		Prototype testPrototype = new Prototype(testGrid, "name");
 		testPrototype.addField("type", "'test'");
 		testPrototype.addField("direction", "1");
