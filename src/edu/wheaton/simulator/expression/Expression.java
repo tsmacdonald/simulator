@@ -80,6 +80,10 @@ public class Expression {
 		}
 	}
 
+	//boolean constants
+	public static final String TRUE = "1.0";
+	public static final String FALSE = "0.0";
+	
 	private Evaluator evaluator;
 	private EntityFieldResolver resolver;
 	private Object expr;
@@ -120,6 +124,75 @@ public class Expression {
 	protected Expression(Evaluator eval, EntityFieldResolver res){
 		this.evaluator = eval;
 		this.resolver = res;
+	}
+	
+	/**
+	 * Returns a properly formatted variable reference.
+	 * 
+	 * formatGet("x") == "#{x}"
+	 * 
+	 * formatGet("this.x") == "#{this.x}"
+	 * 
+	 * @param entityName
+	 * @param fieldName
+	 * @return
+	 */
+	public static String formatGet(String variableName){
+		return "#{" + variableName + "}";
+	}
+	
+	/**
+	 * Returns a properly formatted string to be passed to an Expression method.
+	 * 
+	 * "setField(" + formatParams("this,x,8") + ")"
+	 *      ==
+	 * "setField('this','x',8)
+	 * 
+	 * @param params
+	 * @return
+	 */
+	public static String formatParams(String params){
+		params = params.replaceAll(" ", "");
+		String[] paramList = params.split(",");
+		
+		for(int i=0; i<paramList.length; ++i){
+			paramList[i] = formatParam(paramList[i]);
+		}
+		
+		String toReturn = "";
+		for(int i=0; i<paramList.length; ++i)
+			toReturn += paramList[i] + ",";
+		
+		if(toReturn.isEmpty() == false)
+			toReturn = toReturn.substring(0,toReturn.length()-1);
+		
+		return toReturn;
+	}
+	
+	/**
+	 * Returns a properly formatted string to be passed to an Expression method.
+	 * 
+	 * "setField(" + formatParam("this") + "," + formatParam("x") + "," + formatParam("8") + ")"
+	 *      ==
+	 * "setField('this','x',8)
+	 * 
+	 * @param name
+	 * @return
+	 */
+	private static String formatParam(String param){
+		if(param.equalsIgnoreCase("true"))
+			return TRUE;
+		else if(param.equalsIgnoreCase("false"))
+			return FALSE;
+		else{
+			try{
+				return Double.valueOf(param).toString();
+			} 
+			
+			catch(Exception e){
+				return "'" + param + "'";
+			}
+		}
 	}
 
 	/**

@@ -3,6 +3,7 @@ package edu.wheaton.simulator.behavior;
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.expression.AbstractExpressionFunction;
+import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class SetFieldOfAgentBehavior extends AbstractExpressionFunction {
@@ -28,9 +29,9 @@ public class SetFieldOfAgentBehavior extends AbstractExpressionFunction {
 		Grid grid = target.getGrid();
 		if(grid.isValidCoord(x, y) && grid.getAgent(x,y)==null){
 			target.getGrid().getAgent(x, y).updateField(fieldName, newFieldValue);
-			return TRUE;
+			return Expression.TRUE;
 		}
-		return FALSE;
+		return Expression.FALSE;
 	}
 	
 

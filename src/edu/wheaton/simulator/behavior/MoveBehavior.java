@@ -2,6 +2,7 @@ package edu.wheaton.simulator.behavior;
 
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class MoveBehavior extends AbstractBehavior {
@@ -34,8 +35,8 @@ public class MoveBehavior extends AbstractBehavior {
 		
 		Grid grid = target.getGrid();
 		if(grid.addAgent(target, x, y))
-			return TRUE;
-		return FALSE;
+			return Expression.TRUE;
+		return Expression.FALSE;
 	}
 
 }

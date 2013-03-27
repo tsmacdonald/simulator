@@ -99,7 +99,9 @@ public class ExpressionEvaluationTest {
 	@Test
 	public void testAddVariables() {
 		Expression testExpression = new Expression(
-				"#{three} < #{ten}");
+				Expression.formatGet("three") + "<" + Expression.formatGet("ten")
+				//"#{three} < #{ten}"
+				);
 		testExpression.importVariable("three", "3");
 		testExpression.importVariable("ten", "10");
 		try {
@@ -121,7 +123,8 @@ public class ExpressionEvaluationTest {
 	
 	@Test
 	public void testNonStaticTestEqualWithVar() {
-		Expression testExpression = new Expression("#{one}==1");
+		//Expression testExpression = new Expression("#{one}==1");
+		Expression testExpression = new Expression( Expression.formatGet("one") + "==" + "1" );
 		testExpression.importVariable("one", "1");
 		try {
 			Assert.assertTrue(testExpression.evaluateBool());
@@ -141,7 +144,8 @@ public class ExpressionEvaluationTest {
 			e1.printStackTrace();
 		}
 
-		Expression testExpression = new Expression("#{entity.name}");
+		//Expression testExpression = new Expression("#{entity.name}");
+		Expression testExpression = new Expression( Expression.formatGet("entity.name") );
 		testExpression.importEntity("entity", entity);
 
 		try {
@@ -243,5 +247,35 @@ public class ExpressionEvaluationTest {
 		Expression expr = testExpression.clone();
 		
 		Assert.assertEquals(new Double(5.0), expr.evaluateDouble());
+	}
+	
+	@Test
+	public void testSetFieldBehavior() throws Exception {
+		Entity entity = new Entity();
+		entity.addField("money", "8");
+
+		final Expression testExpression = new Expression(
+				"setField('entity','money',10)");
+		
+		testExpression.importEntity("entity", entity);
+		
+		testExpression.evaluateBool();
+		
+		Assert.assertEquals(new Double(10.0), entity.getField("money").getDoubleValue());  
+	}
+	
+	@Test
+	public void testFormatFunctionParams() throws Exception {
+		Entity entity = new Entity();
+		entity.addField("money", "8");
+
+		final Expression testExpression = new Expression(
+				"setField(" + Expression.formatParams("entity,money,10") + ")");
+		
+		testExpression.importEntity("entity", entity);
+		
+		testExpression.evaluateBool();
+		
+		Assert.assertEquals(new Double(10.0), entity.getField("money").getDoubleValue());  
 	}
 }

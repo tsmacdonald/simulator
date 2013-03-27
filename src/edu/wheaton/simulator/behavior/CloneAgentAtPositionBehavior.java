@@ -3,6 +3,7 @@ package edu.wheaton.simulator.behavior;
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.expression.AbstractExpressionFunction;
+import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.Grid;
 
 public class CloneAgentAtPositionBehavior extends AbstractExpressionFunction{
@@ -29,9 +30,9 @@ public class CloneAgentAtPositionBehavior extends AbstractExpressionFunction{
 		Grid grid = target.getGrid();
 		if(grid.isValidCoord(x2, y2) && grid.getAgent(x2,y2)==null){
 				grid.addAgent(grid.getAgent(x1, y1).getPrototype().clonePrototype(), x2, y2);
-				return TRUE;
+				return Expression.TRUE;
 		}
-		return FALSE;
+		return Expression.FALSE;
 	}
 
 }
