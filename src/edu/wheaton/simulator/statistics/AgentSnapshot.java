@@ -40,7 +40,8 @@ public class AgentSnapshot extends EntitySnapshot {
 	 * Produce a string serializing this object
 	 * @return a String containing all of the data in this snapshot
 	 * 
-	 * Format:
+	 * Format: (Stuff in parentheses is just notes - not actually there)
+	 * -----------------------------------------------------------------
 	 * AgentSnapshot
 	 * 145 (EntityID - just an int)
 	 * Fields: MapString FieldSnapshot Name Value true numberValue

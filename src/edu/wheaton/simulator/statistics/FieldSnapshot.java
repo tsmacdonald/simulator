@@ -64,7 +64,7 @@ public class FieldSnapshot {
 	 * Format: 
 	 * "FieldSnapshot name value isNumber numberValue"
 	 * 
-	 * Eampmple: 
+	 * Example: 
 	 * "FieldSnapshot height 10 true 10.0"
 	 */
 	public String serialize(){

@@ -70,7 +70,8 @@ public class PrototypeSnapshot {
 	 * Produce a string serializing this object
 	 * @return a String containing all of the data in this snapshot
 	 * 
-	 * Format:
+	 * Format: (Stuff in parentheses is just notes - not actually there)
+	 * -----------------------------------------------------------------
 	 * PrototypeSnapshot
 	 * 124 (id)
 	 * Dog (categoryName)
