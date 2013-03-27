@@ -68,15 +68,18 @@ public class StatisticsManagerTest {
 				SnapshotFactory.makeFieldSnapshots(fields), population,
 				children, step);
 		
+	
+		
 		//Add another test PrototypeSnapshot
 		categoryName = "testing2";
 		prototype = new Prototype(grid, "tester2");
 		population = 40;
 		step = new Integer(2);
 		
-		protoSnap = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
+		protoSnap2 = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
 				SnapshotFactory.makeFieldSnapshots(fields), population,
 				children, step);
+		
 	}
 
 	@After
@@ -121,7 +124,10 @@ public class StatisticsManagerTest {
 
 	@Test
 	public void testGetPopVsTime() {
+		sm.addPrototypeSnapshot(protoSnap); 
+		
 		int[] result = sm.getPopVsTime(protoSnap.id);
+		System.out.println(result + "!"); 
 		int[] expected = {1,2,3}; 
 		Assert.assertArrayEquals(expected, result); 
 	}
@@ -159,7 +165,9 @@ public class StatisticsManagerTest {
 	}
 
 	@Test
-	public void testGetAvgLifespan() {				
+	public void testGetAvgLifespan() {
+		sm.addPrototypeSnapshot(protoSnap); 
+		
 		try {
 			double result = sm.getAvgLifespan(protoSnap.id);
 		}

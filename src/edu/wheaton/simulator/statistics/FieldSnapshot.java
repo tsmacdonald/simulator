@@ -56,5 +56,19 @@ public class FieldSnapshot {
 			throw new UnsupportedOperationException("Field " + name + " has no numerical value.");
 		return numberValue; 
 	}
+	
+	/**
+	 * Produce a string serializing this object
+	 * @return a String containing all of the data in this snapshot
+	 * 
+	 * Format: 
+	 * "FieldSnapshot name value isNumber numberValue"
+	 * 
+	 * Example: 
+	 * "FieldSnapshot height 10 true 10.0"
+	 */
+	public String serialize(){
+		return "FieldSnapshot " + name + " " + value + " " + isNumber + " " + numberValue;  
+	}
 
 }

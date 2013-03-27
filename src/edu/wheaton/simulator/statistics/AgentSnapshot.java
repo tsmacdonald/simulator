@@ -36,4 +36,22 @@ public class AgentSnapshot extends EntitySnapshot {
 		this.prototype = prototype;
 	}
 
+	/**
+	 * Produce a string serializing this object
+	 * @return a String containing all of the data in this snapshot
+	 * 
+	 * Format: (Stuff in parentheses is just notes - not actually there)
+	 * -----------------------------------------------------------------
+	 * AgentSnapshot
+	 * 145 (EntityID - just an int)
+	 * Fields: MapString FieldSnapshot Name Value true numberValue
+	 * Fields: MapString FieldSnapshot Name Value true numberValue
+	 * 3 (step - an int)
+	 * 12 (PrototypeID - an int)
+	 */
+	public String serialize(){
+		String s = super.serialize();
+		s.replace("EntitySnapshot", "AgentSnapshot"); 
+		return s + "\n" + prototype.getInt(); 
+	}
 }
