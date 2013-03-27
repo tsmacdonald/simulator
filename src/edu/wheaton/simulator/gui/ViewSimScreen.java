@@ -18,9 +18,12 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+
+import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class ViewSimScreen extends Screen {
 
@@ -96,21 +99,27 @@ public class ViewSimScreen extends Screen {
 
 	}
 	private void runSim() {
+		System.out.println(sm.getEnder().getStepLimit());
 		//program loop yay!
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				while(sm.isRunning()) {
+					try {
 					sm.getFacade().updateEntities();
+				} catch (SimulationPauseException e) {
+					sm.setRunning(false);
+					JOptionPane.showMessageDialog(null, e.getMessage());
+				}
 					//TODO hand grid, stepCount, and Prototype.getProtoypes() to stats observer
-//					sm.setRunning(!(sm.getEnder().evaluate(stepCount, 
-//							sm.getFacade().getGrid())));
+					sm.setRunning(!(sm.getEnder().evaluate(stepCount, 
+							sm.getFacade().getGrid())));
 
 					SwingUtilities.invokeLater(
 							new Thread (new Runnable() {
 								@Override
 								public void run() {
-									repaint();
+									grid.agentPaint(grid.getGraphics());
 								}
 							}));
 					stepCount++;

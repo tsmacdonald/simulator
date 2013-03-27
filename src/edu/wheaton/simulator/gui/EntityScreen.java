@@ -12,12 +12,8 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
@@ -32,7 +28,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -54,22 +49,27 @@ public class EntityScreen extends Screen {
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setPreferredSize(new Dimension(300, 100));
 		this.setLayout(new BorderLayout());
-		JPanel mainPanel = new JPanel(new GridLayout(2, 1));
+		JPanel mainPanel = new JPanel(new FlowLayout());
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel listPanel = new JPanel();
 		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 		listPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		listPanel.setAlignmentX(CENTER_ALIGNMENT);
+		listPanel.setPreferredSize(new Dimension(400, 200));
 		listModel = new DefaultListModel();
-		listModel.addElement("Entity 1");
-		listModel.addElement("Entity 2");
-		listModel.addElement("Entity 3");
 		entityList = new JList(listModel);
 		entityList.setMaximumSize(new Dimension(400, 800));
 		entityList.setLayoutOrientation(JList.VERTICAL_WRAP);
 		entityList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		entityList.setVisibleRowCount(20);
 		entityList.setBorder(BorderFactory.createLineBorder(Color.red));
+		entityList.addListSelectionListener( new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent le){
+				if(!edit.isEnabled())
+					edit.setEnabled(true);
+			}
+		});
 		listPanel.add(entityList);
 		listPanel.setAlignmentX(CENTER_ALIGNMENT);
 		delete = new JButton("Delete");
@@ -111,7 +111,7 @@ public class EntityScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		edit.setEnabled(sm.hasStarted() ? false : true); 
+		edit.setEnabled(false);
 		delete.setEnabled(sm.hasStarted() ? false : true); 
 		Set<String> entities = sm.getFacade().prototypeNames();
 		for (String s : entities) {
@@ -121,6 +121,7 @@ public class EntityScreen extends Screen {
 	
 	class DeleteListener implements ActionListener {
 		
+		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = entityList.getSelectedIndex();
 			listModel.remove(index);

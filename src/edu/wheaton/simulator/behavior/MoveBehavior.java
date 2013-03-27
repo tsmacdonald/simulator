@@ -35,8 +35,8 @@ public class MoveBehavior extends AbstractBehavior {
 		
 		Grid grid = target.getGrid();
 		if(grid.addAgent(target, x, y))
-			return TRUE;
-		return FALSE;
+			return Expression.TRUE;
+		return Expression.FALSE;
 	}
 
 }

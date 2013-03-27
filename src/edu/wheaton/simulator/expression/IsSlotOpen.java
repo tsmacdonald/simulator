@@ -21,8 +21,8 @@ public class IsSlotOpen extends AbstractExpressionFunction {
 		Boolean isOpen = resolveAgent("this").getGrid().emptySlot(x.intValue(),y.intValue());
 		
 		if(isOpen==true)
-			return TRUE;
-		return FALSE;
+			return Expression.TRUE;
+		return Expression.FALSE;
 	}
 
 }

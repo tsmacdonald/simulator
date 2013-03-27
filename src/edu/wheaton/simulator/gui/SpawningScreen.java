@@ -26,8 +26,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import sun.management.resources.agent_zh_TW;
-
 public class SpawningScreen extends Screen {
 	//TODO how do we handle if spawn are set, and then the grid is made smaller,
 	//     and some of the spawns are now out of bounds? delete those fields?
@@ -47,13 +45,13 @@ public class SpawningScreen extends Screen {
 	private ArrayList<JTextField> yLocs;
 
 	private ArrayList<JTextField> numbers;
-	
+
 	private ArrayList<JButton> deleteButtons;
 
 	private ArrayList<JPanel> subPanels;
 
 	private JButton addSpawnButton;
-	
+
 	private JPanel listPanel;
 
 	private Component glue;
@@ -62,7 +60,7 @@ public class SpawningScreen extends Screen {
 	 */
 	private static final long serialVersionUID = 6312784326472662829L;
 
-	//TODO does not read existing entities
+	//TODO does not read entities on first load
 	public SpawningScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -102,18 +100,15 @@ public class SpawningScreen extends Screen {
 		mainPanel.add(labelsPanel);
 		mainPanel.add(listPanel);
 		labelsPanel.setAlignmentX(CENTER_ALIGNMENT);
-		
+
 		entityTypes = new ArrayList<JComboBox>();
 		spawnPatterns = new ArrayList<JComboBox>();
-		entityTypes.add(new JComboBox(entities));
 		xLocs = new ArrayList<JTextField>();
 		yLocs = new ArrayList<JTextField>();
 		numbers = new ArrayList<JTextField>();
 		deleteButtons = new ArrayList<JButton>();
 		subPanels = new ArrayList<JPanel>();
-		
-		entityTypes.get(0).setMaximumSize(new Dimension(250, 30));
-		
+
 		addSpawnButton = new JButton("Add Spawn");
 		addSpawnButton.addActionListener(new ActionListener() {
 			@Override
@@ -125,8 +120,7 @@ public class SpawningScreen extends Screen {
 		addSpawnButton.setAlignmentX(CENTER_ALIGNMENT);
 		glue = Box.createVerticalGlue();
 		listPanel.add(glue);
-		addSpawn();
-		
+
 		JPanel buttonPanel = new JPanel();
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(
@@ -143,16 +137,17 @@ public class SpawningScreen extends Screen {
 					public void actionPerformed(ActionEvent e) {
 						ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
 						conditions.clear();
-				for (int i = 0; i < entityTypes.size(); i++) {
-					new SpawnCondition(sm.getFacade().getPrototype(
-							((String) entityTypes.get(i).getSelectedItem())),
-							Integer.parseInt(xLocs.get(i).getText()), Integer
+						for (int i = 0; i < entityTypes.size(); i++) {
+							SpawnCondition condition = new SpawnCondition(sm.getFacade().getPrototype(
+									((String) entityTypes.get(i).getSelectedItem())),
+									Integer.parseInt(xLocs.get(i).getText()), Integer
 									.parseInt(yLocs.get(i).getText()), Integer
 									.parseInt(numbers.get(i).getText()),
-							(String) spawnPatterns.get(i).getSelectedItem());
-				}
-				sm.update(sm.getScreen("Edit Simulation"));
-			}
+									(String) spawnPatterns.get(i).getSelectedItem());
+							sm.getSpawnConditions().add(condition);
+						}
+						sm.update(sm.getScreen("Edit Simulation"));
+					}
 				});
 		buttonPanel.add(cancelButton);
 		buttonPanel.add(finishButton);
@@ -160,7 +155,7 @@ public class SpawningScreen extends Screen {
 		this.add(listPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
-	
+
 	public void reset() {
 		entityTypes.clear();
 		spawnPatterns.clear();
@@ -168,16 +163,18 @@ public class SpawningScreen extends Screen {
 		yLocs.clear();
 		numbers.clear();
 		subPanels.clear();
+		deleteButtons.clear();
 		listPanel.removeAll();
 		addSpawn();
 	}
-	
+
 	@Override
 	public void load() {
 		reset();
 		entities = sm.getFacade().prototypeNames().toArray(entities);
 		ArrayList<SpawnCondition> spawnConditions = sm.getSpawnConditions(); 
-		
+
+		System.out.println(deleteButtons.size());
 		for (int i = 0; i < spawnConditions.size(); i++) { 
 			addSpawn();
 			entityTypes.get(i).setSelectedItem(spawnConditions.get(i).prototype.toString());
@@ -186,9 +183,9 @@ public class SpawningScreen extends Screen {
 			yLocs.get(i).setText(spawnConditions.get(i).y + "");
 			numbers.get(i).setText(spawnConditions.get(i).number + "");
 		}
-		
+
 	}
-	
+
 	private void addSpawn() {
 		JPanel newPanel = new JPanel();
 		newPanel.setLayout(
@@ -245,7 +242,7 @@ public class SpawningScreen extends Screen {
 		listPanel.validate();
 		repaint();
 	}
-	
+
 	private class DeleteListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e){

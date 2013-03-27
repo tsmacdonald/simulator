@@ -2,7 +2,6 @@ package edu.wheaton.simulator.gui;
 
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.GUIToAgentFacade;
-import edu.wheaton.simulator.simulation.Grid;
 
 public class SpawnCondition {
 

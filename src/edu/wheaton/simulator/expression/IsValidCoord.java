@@ -20,7 +20,7 @@ public class IsValidCoord extends AbstractExpressionFunction {
 		Double y = Double.valueOf(args[1]);
 		Boolean isValid = resolveAgent("this").getGrid().isValidCoord(x.intValue(),y.intValue());
 		if(isValid==true)
-			return TRUE;
-		return FALSE;
+			return Expression.TRUE;
+		return Expression.FALSE;
 	}
 }

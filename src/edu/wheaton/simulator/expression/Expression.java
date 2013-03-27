@@ -14,7 +14,7 @@ import edu.wheaton.simulator.behavior.MoveBehavior;
 import edu.wheaton.simulator.behavior.SetFieldBehavior;
 import edu.wheaton.simulator.entity.Entity;
 
-public class Expression implements ExpressionEvaluator {
+public class Expression {
 
 	/**
 	 * All variables that JEval evaluates are first passed to an associated instance of
@@ -49,6 +49,7 @@ public class Expression implements ExpressionEvaluator {
 		public String resolveVariable(String variableName)
 				throws FunctionException {
 
+			//splits with delimiter '.'
 			String[] args = variableName.split("\\x2e");
 
 			if (args.length != 2) {
@@ -58,7 +59,7 @@ public class Expression implements ExpressionEvaluator {
 			String targetName = args[0];
 			String fieldName = args[1];
 
-			Entity target = entityMap.get(targetName);
+			Entity target = getEntity(targetName);
 			if (target == null) {
 				throw new FunctionException("Target entity not found: " + targetName);
 			}
@@ -79,6 +80,10 @@ public class Expression implements ExpressionEvaluator {
 		}
 	}
 
+	//boolean constants
+	public static final String TRUE = "1.0";
+	public static final String FALSE = "0.0";
+	
 	private Evaluator evaluator;
 	private EntityFieldResolver resolver;
 	private Object expr;
@@ -120,19 +125,99 @@ public class Expression implements ExpressionEvaluator {
 		this.evaluator = eval;
 		this.resolver = res;
 	}
+	
+	/**
+	 * Returns a properly formatted variable reference.
+	 * 
+	 * fGet("x") == "#{x}"
+	 * 
+	 * fGet("this.x") == "#{this.x}"
+	 * 
+	 * @param entityName
+	 * @param fieldName
+	 * @return
+	 */
+	public static String fGet(String variableName){
+		return "#{" + variableName + "}";
+	}
+	
+	/**
+	 * Returns a properly formatted string to be passed to an Expression method.
+	 * 
+	 * "setField(" + fParams("this,x,8") + ")"
+	 *      ==
+	 * "setField('this','x',8)
+	 * 
+	 * @param params
+	 * @return
+	 */
+	public static String fParams(String params){
+		params = params.replaceAll(" ", "");
+		String[] paramList = params.split(",");
+		
+		for(int i=0; i<paramList.length; ++i){
+			paramList[i] = fParam(paramList[i]);
+		}
+		
+		String toReturn = "";
+		for(int i=0; i<paramList.length; ++i)
+			toReturn += paramList[i] + ",";
+		
+		if(toReturn.isEmpty() == false)
+			toReturn = toReturn.substring(0,toReturn.length()-1);
+		
+		return toReturn;
+	}
+	
+	/**
+	 * Returns a properly formatted string value
+	 * 
+	 * fStr("I am a banana!") == "'I am a banana!'"
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static String fStr(String value){
+		return "'" + value + "'";
+	}
+	
+	/**
+	 * Returns a properly formatted string to be passed to an Expression method.
+	 * 
+	 * "setField(" + fParam("this") + "," + fParam("x") + "," + fParam("8") + ")"
+	 *      ==
+	 * "setField('this','x',8)
+	 * 
+	 * @param name
+	 * @return
+	 */
+	private static String fParam(String param){
+		if(param.equalsIgnoreCase("true"))
+			return TRUE;
+		else if(param.equalsIgnoreCase("false"))
+			return FALSE;
+		else{
+			try{
+				return Double.valueOf(param).toString();
+			} 
+			
+			catch(Exception e){
+				return fStr(param);
+			}
+		}
+	}
 
 	/**
 	 * calls the copy constructor
 	 */
 	@Override
-	public ExpressionEvaluator clone() {
+	public Expression clone() {
 		return new Expression(this);
 	}
 
 	/**
 	 * sets the string that is evaluated by JEval/JEval-wrapper
 	 */
-	@Override
 	public void setString(Object exprStr) {
 		this.expr = exprStr;
 	}
@@ -143,7 +228,6 @@ public class Expression implements ExpressionEvaluator {
 	 * @Param name Do not format this String as you must do when creating an
 	 *        expression String. Simply pass the desired variable name.
 	 */
-	@Override
 	public void importVariable(String name, String value) {
 		evaluator.putVariable(name, value);
 	}
@@ -154,7 +238,6 @@ public class Expression implements ExpressionEvaluator {
 	 * @Param aliasName The name used to refer to the Entity in the expression
 	 *        String ("this", "other", etc.)
 	 */
-	@Override
 	public void importEntity(String aliasName, Entity entity) {
 		resolver.setEntity(aliasName, entity);
 	}
@@ -162,7 +245,6 @@ public class Expression implements ExpressionEvaluator {
 	/**
 	 * Make an ExpressionFunction recognizable by this expression and all functions called within
 	 */
-	@Override
 	public void importFunction(AbstractExpressionFunction function) {
 		evaluator.putFunction(function.toJEvalFunction());
 	}
@@ -170,7 +252,6 @@ public class Expression implements ExpressionEvaluator {
 	/**
 	 * get an imported Entity
 	 */
-	@Override
 	public Entity getEntity(String aliasName) {
 		return resolver.getEntity(aliasName);
 	}
@@ -178,7 +259,6 @@ public class Expression implements ExpressionEvaluator {
 	/**
 	 * get the value of an imported variable
 	 */
-	@Override
 	public String getVariableValue(String variableName)
 			throws EvaluationException {
 		return evaluator.getVariableValue(variableName);
@@ -188,7 +268,6 @@ public class Expression implements ExpressionEvaluator {
 	 * clear all variables added with 'importVariable'
 	 * 
 	 */
-	@Override
 	public void clearVariables() {
 		evaluator.clearVariables();
 	}
@@ -196,7 +275,6 @@ public class Expression implements ExpressionEvaluator {
 	/**
 	 * clear all entities added with 'importEntity'
 	 */
-	@Override
 	public void clearEntities(){
 		resolver.entityMap.clear();
 	}
@@ -204,12 +282,10 @@ public class Expression implements ExpressionEvaluator {
 	/**
 	 * clear all functions added with 'importFunction
 	 */
-	@Override
 	public void clearFunctions() {
 		evaluator.clearFunctions();
 	}
 
-	@Override
 	public Boolean evaluateBool() throws EvaluationException {
 		try {
 			return evaluator.getBooleanResult(expr.toString());
@@ -219,7 +295,6 @@ public class Expression implements ExpressionEvaluator {
 		}
 	}
 
-	@Override
 	public Double evaluateDouble() throws EvaluationException {
 		try {
 			return evaluator.getNumberResult(expr.toString());
@@ -229,7 +304,6 @@ public class Expression implements ExpressionEvaluator {
 		}
 	}
 
-	@Override
 	public String evaluateString() throws EvaluationException {
 		try {
 			return evaluator.evaluate(expr.toString());

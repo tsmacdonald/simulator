@@ -1,6 +1,8 @@
 package edu.wheaton.simulator.gui;
 
-
+/**
+ * This class is a singleton which is the sole communicator to the display
+ */
 public class DisplayManager {
 
 	private static Display display;

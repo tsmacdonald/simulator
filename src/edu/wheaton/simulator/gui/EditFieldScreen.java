@@ -33,6 +33,8 @@ public class EditFieldScreen extends Screen {
 	private JTextField initValue;
 
 	private GridEntity ge;
+	
+	private String prevName;
 
 	public EditFieldScreen(final ScreenManager sm) {
 		super(sm);
@@ -67,7 +69,7 @@ public class EditFieldScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Edit Simulation")); 
+						sm.update(sm.getScreen("Fields")); 
 					} 
 				}
 				);
@@ -75,13 +77,7 @@ public class EditFieldScreen extends Screen {
 		finishButton.setPreferredSize(new Dimension(120, 60));
 		//TODO finish button needs to pull information from the screen and update
 		//     simulation accordingly.
-		finishButton.addActionListener(new finishListener());
-//			new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				sm.update(sm.getScreen("Edit Simulation")); 
-//			} 
-//		});
+		finishButton.addActionListener(new FinishListener());
 		panel1.add(nameLabel);
 		panel1.add(nameField);
 		panel2.add(typeLabel);
@@ -112,6 +108,7 @@ public class EditFieldScreen extends Screen {
 		this.ge = ge;
 		nameField.setText(n);
 		initValue.setText(ge.getFieldValue(n));
+		prevName = nameField.getText();
 	}
 	
 	public void load(GridEntity ge) {
@@ -125,20 +122,26 @@ public class EditFieldScreen extends Screen {
 		facade.getPrototype(nameField.getText());
 	}
 
-	private class finishListener implements ActionListener {
+	private class FinishListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			boolean toMove = false;
+			boolean toMove = true;
 			try {
-				ge.updateField(nameField.getText(), initValue.getText());
+				if(FieldScreen.getEditing()){
+					ge.removeField(prevName);
+					ge.addField(nameField.getText(), initValue.getText());
+				}
+				else{
+					ge.addField(nameField.getText(), initValue.getText());
+				}
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, 
-						"Please check your input");
+				JOptionPane.showMessageDialog(null, "Please check your input");
+				toMove = false;
 			}
-			if (toMove) {
+			if(toMove)
 				sm.update(sm.getScreen("Fields"));
-			}
-			
+
+
 		}
 	}
 }
