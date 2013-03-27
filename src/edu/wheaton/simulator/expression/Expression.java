@@ -288,7 +288,7 @@ public class Expression {
 
 	public Boolean evaluateBool() throws EvaluationException {
 		try {
-			return evaluator.getBooleanResult(expr.toString());
+			return evaluator.getBooleanResult( formatExpr(expr) );
 		} catch (EvaluationException e) {
 			System.err.println(e.getMessage());
 			throw e;
@@ -297,7 +297,7 @@ public class Expression {
 
 	public Double evaluateDouble() throws EvaluationException {
 		try {
-			return evaluator.getNumberResult(expr.toString());
+			return evaluator.getNumberResult( formatExpr(expr) );
 		} catch (EvaluationException e) {
 			System.err.println(e.getMessage());
 			throw e;
@@ -306,7 +306,7 @@ public class Expression {
 
 	public String evaluateString() throws EvaluationException {
 		try {
-			return evaluator.evaluate(expr.toString());
+			return evaluator.evaluate( formatExpr(expr) );
 		} catch (EvaluationException e) {
 			System.err.println(e.getMessage());
 			throw e;
@@ -320,19 +320,34 @@ public class Expression {
 
 	public static Boolean evaluateBool(Object exprStr)
 			throws EvaluationException {
-		Evaluator evaluator = new Evaluator();
-		return evaluator.getBooleanResult(exprStr.toString());
+		Expression expr = new Expression(exprStr);
+		return expr.evaluateBool();
 	}
 
 	public static Double evaluateDouble(Object exprStr)
 			throws EvaluationException {
-		Evaluator evaluator = new Evaluator();
-		return evaluator.getNumberResult(exprStr.toString());
+		Expression expr = new Expression(exprStr);
+		return expr.evaluateDouble();
 	}
 
 	public static String evaluateString(Object exprStr)
 			throws EvaluationException {
-		Evaluator evaluator = new Evaluator();
-		return evaluator.evaluate(exprStr.toString());
+		Expression expr = new Expression(exprStr);
+		return expr.evaluateString();
+	}
+	
+	/**
+	 * Parses/formats the parameter according to expression syntax
+	 * 
+	 * This method is called before evaluating the expression.
+	 */
+	private static String formatExpr(Object expr){
+		String str = expr.toString();
+		
+		//format booleans
+		str = str.replaceAll("\\b[Tt][Rr][Uu][Ee]\\b", TRUE);
+		str = str.replaceAll("\\b[Ff][Aa][Ll][Ss][Ee]\\b", FALSE);
+		
+		return str;
 	}
 }

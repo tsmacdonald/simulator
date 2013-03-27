@@ -60,7 +60,7 @@ public class ExpressionEvaluationTest {
 	@Test
 	public void testSimpleBooleanEqualEvaluation() {
 		try {
-			Assert.assertTrue(Expression.evaluateBool("1==1"));
+			Assert.assertTrue(Expression.evaluateBool("true == true"));
 		} catch (EvaluationException e) {
 			e.printStackTrace();
 		}
