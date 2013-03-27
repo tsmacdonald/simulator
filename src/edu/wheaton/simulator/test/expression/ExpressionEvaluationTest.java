@@ -51,7 +51,7 @@ public class ExpressionEvaluationTest {
 	@Test
 	public void testSimpleBooleanEvaluation2() {
 		try {
-			Assert.assertFalse(Expression.evaluateBool("1 == 0"));
+			Assert.assertTrue(Expression.evaluateBool("true!=false"));
 		} catch (EvaluationException e) {
 			e.printStackTrace();
 		}
