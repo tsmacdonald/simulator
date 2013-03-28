@@ -56,15 +56,16 @@ public class SerializerTest {
 	}
 
 	@Test
-	public void makeNewAgentSerializerObject() {
+	public void serializeAgentSnapshot() {
 		AgentSnapshot agentSnap = new AgentSnapshot(entity.getEntityID(),
 				SnapshotFactory.makeFieldSnapshots(fields), step,
 				prototype.getPrototypeID());
 		Assert.assertNotNull("AgentSnapshot not created.", agentSnap);
 		
 		s = agentSnap.serialize();
-		System.out.println(s);
+		System.out.println(s); // Test and see output is as expected
 		
+		System.out.println("\nNow this is what is read from the saved file:");
 		Serializer.serializer(s);
 	}
 }
