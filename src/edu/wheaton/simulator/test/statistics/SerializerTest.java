@@ -14,6 +14,7 @@ import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.Grid;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
+import edu.wheaton.simulator.statistics.Serializer;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
 
 public class SerializerTest {
@@ -64,5 +65,6 @@ public class SerializerTest {
 		s = agentSnap.serialize();
 		System.out.println(s);
 		
+		Serializer.serializer(s);
 	}
 }
