@@ -12,7 +12,7 @@ import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class RockPaperScissorsTest {
 	Grid testGrid;
-	String [] agentType = {"rock", "paper", "scissors"};
+	String [] agentType = {"'rock'", "'paper'", "'scissors'"};
 	
 	@Before
 	public void setUp(){

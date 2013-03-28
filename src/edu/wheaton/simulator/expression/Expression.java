@@ -348,7 +348,7 @@ public class Expression {
 		//format booleans
 		str = formatBools(str);
 		
-		String regexVariableRef = "\\b[_a-zA-Z][_a-zA-Z0-9]*(\\.[_a-zA-Z][_a-zA-Z0-9]*)?\\b(?=([^'(]*'[^']*')*[^']*$)(?!\\()";
+		String regexVariableRef = "\\b[_a-zA-Z][_a-zA-Z0-9]*(\\.[_a-zA-Z][_a-zA-Z0-9]*)?\\b(?![('])(?=([^']*'[^']*')*[^']*$)";
 		
 		//string with all matches replaced with '@'
 		String temp = str.replaceAll(regexVariableRef, "@");
@@ -367,12 +367,11 @@ public class Expression {
 		
 		String toReturn = temp;
 		for(String match : matches){
-			if(match.length()>0)
+			if(match.length()>0){
 				toReturn = toReturn.replaceFirst("@", fGet(match));
+			}
 		}
-		
-		System.out.println(toReturn);
-		
+
 		return toReturn;
 	}
 	
