@@ -48,21 +48,21 @@ public class ConwaysGameOfLifeTest {
 		border.addTrigger(new Trigger("place", 1, new Expression("1==1"), new Expression("setField('this','alive',0)")));
 
 		// Set up conditionals
-		Expression isAlive = new Expression("#{this.alive} == 1");
-		Expression neigh1 = new Expression("getFieldOfAgentAt(#{this.x}-1, #{this.y}-1, 'alive') == 0");
-		Expression neigh2 = new Expression("getFieldOfAgentAt(#{this.x}, #{this.y}-1, 'alive') == 0");
-		Expression neigh3 = new Expression("getFieldOfAgentAt(#{this.x}+1, #{this.y}-1, 'alive') == 0");
-		Expression neigh4 = new Expression("getFieldOfAgentAt(#{this.x}-1, #{this.y}, 'alive') == 0");
-		Expression neigh5 = new Expression("getFieldOfAgentAt(#{this.x}+1, #{this.y}, 'alive') == 0");
-		Expression neigh6 = new Expression("getFieldOfAgentAt(#{this.x}-1, #{this.y}+1, 'alive') == 0");
-		Expression neigh7 = new Expression("getFieldOfAgentAt(#{this.x}, #{this.y}+1, 'alive') == 0");
-		Expression neigh8 = new Expression("getFieldOfAgentAt(#{this.x}+1, #{this.y}+1, 'alive') == 0");
-		Expression dieCond = new Expression("(#{this.alive} == 1)&& (#{this.neighbors} < 2 || #{this.neighbors} > 3)");
-		Expression reviveCond = new Expression("(#{this.alive} == 0) && (#{this.neighbors} == 0)");
+		Expression isAlive = new Expression("this.alive == 1");
+		Expression neigh1 = new Expression("getFieldOfAgentAt(this.x-1, this.y-1, 'alive') == 0");
+		Expression neigh2 = new Expression("getFieldOfAgentAt(this.x, this.y-1, 'alive') == 0");
+		Expression neigh3 = new Expression("getFieldOfAgentAt(this.x+1, this.y-1, 'alive') == 0");
+		Expression neigh4 = new Expression("getFieldOfAgentAt(this.x-1, this.y, 'alive') == 0");
+		Expression neigh5 = new Expression("getFieldOfAgentAt(this.x+1, this.y, 'alive') == 0");
+		Expression neigh6 = new Expression("getFieldOfAgentAt(this.x-1, this.y+1, 'alive') == 0");
+		Expression neigh7 = new Expression("getFieldOfAgentAt(this.x, this.y+1, 'alive') == 0");
+		Expression neigh8 = new Expression("getFieldOfAgentAt(this.x+1, this.y+1, 'alive') == 0");
+		Expression dieCond = new Expression("(this.alive == 1)&& (this.neighbors < 2 || this.neighbors > 3)");
+		Expression reviveCond = new Expression("(this.alive == 0) && (this.neighbors == 0)");
 
 		// Set up behaviors
-		Expression incrementAge = new Expression("setField('this', 'age', #{this.age}+1)");
-		Expression decrementNeighbors = new Expression("setField('this', 'neighbors', #{this.neighbors}-1)");
+		Expression incrementAge = new Expression("setField('this', 'age', this.age+1)");
+		Expression decrementNeighbors = new Expression("setField('this', 'neighbors', this.neighbors-1)");
 		Expression die = new Expression("setField('this', 'alive', 0) && setField('this', 'age', 0) && " +
 				"setField('this', 'colorRed', 255) && setField('this', 'colorGreen', 255) && setField('this', 'colorBlue', 255)");
 		Expression revive = new Expression("setField('this', 'alive', 1) && " +
