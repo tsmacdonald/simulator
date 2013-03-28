@@ -372,6 +372,8 @@ public class Expression {
 				toReturn = toReturn.replaceFirst("@", fGet(match));
 		}
 		
+		System.out.println(toReturn);
+		
 		return toReturn;
 	}
 }

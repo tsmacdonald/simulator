@@ -95,7 +95,8 @@ public class Agent extends GridEntity {
 				System.err.println(e.getMessage());
 				String errorMessage = "Error in Agent: " + this.getName() + 
 						"\n ID: " + this.getAgentID() + "\n Trigger: " + t.getName() +
-						"\n in " + e.getMessage();
+						"\n MSG: " + e.getMessage() +
+						"\n condition: " + t.getConditions().toString();
 				throw new SimulationPauseException(errorMessage);
 		}
 	}
