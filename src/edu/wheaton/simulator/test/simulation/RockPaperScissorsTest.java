@@ -48,16 +48,16 @@ public class RockPaperScissorsTest {
 		
 		// I am weaker than opponent in front of me condition
 		Expression loseConflict0 = new Expression("(this.direction == 0) && isValidCoord(this.x,this.y+1) && !isSlotOpen(this.x,this.y+1)" +
-				" && getFieldOfAgentAt(this.x,this.y+1, typeID) == (this.typeID + 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(this.x,this.y+1, 'typeID') == (this.typeID + 1)%3" +		// agent in front is of type one less than me	
 				" && getFieldOfAgentAt(this.x,this.y+1, 'direction') == (this.direction +2)%4");		// agent in front of me is facing opposite direction from me
 		Expression loseConflict1 = new Expression("(this.direction == 1) && isValidCoord(this.x+1,this.y) && !isSlotOpen(this.x+1,this.y)" +
-				" && getFieldOfAgentAt(this.x + 1,this.y, typeID) == (this.typeID + 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(this.x + 1,this.y, 'typeID') == (this.typeID + 1)%3" +		// agent in front is of type one less than me	
 				" && getFieldOfAgentAt(this.x + 1,this.y, 'direction') == (this.direction +2)%4");		// agent in front of me is facing opposite direction from me
 		Expression loseConflict2 = new Expression("(this.direction == 2) && isValidCoord(this.x,this.y-1) && !isSlotOpen(this.x,this.y-1)" +
-				" && getFieldOfAgentAt(this.x,this.y - 1, typeID) == (this.typeID + 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(this.x,this.y - 1, 'typeID') == (this.typeID + 1)%3" +		// agent in front is of type one less than me	
 				" && getFieldOfAgentAt(this.x,this.y - 1, 'direction') == (this.direction +2)%4");		// agent in front of me is facing opposite direction from me
 		Expression loseConflict3 = new Expression("(this.direction == 3) && isValidCoord(this.x-1,this.y) && !isSlotOpen(this.x-1,this.y)" +
-				" && getFieldOfAgentAt(this.x - 1,this.y, typeID) == (this.typeID + 1)%3" +		// agent in front is of type one less than me	
+				" && getFieldOfAgentAt(this.x - 1,this.y, 'typeID') == (this.typeID + 1)%3" +		// agent in front is of type one less than me	
 				" && getFieldOfAgentAt(this.x - 1,this.y, 'direction') == (this.direction +2)%4");		// agent in front of me is facing opposite direction from me
 		
 		// condition: if my id says that my typeName does not match my typeId

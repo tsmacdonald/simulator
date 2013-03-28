@@ -346,8 +346,7 @@ public class Expression {
 		String str = expr.toString();
 		
 		//format booleans
-		str = str.replaceAll("\\b[Tt][Rr][Uu][Ee]\\b", TRUE);
-		str = str.replaceAll("\\b[Ff][Aa][Ll][Ss][Ee]\\b", FALSE);
+		str = formatBools(str);
 		
 		String regexVariableRef = "\\b[_a-zA-Z][_a-zA-Z0-9]*(\\.[_a-zA-Z][_a-zA-Z0-9]*)?\\b(?=([^'(]*'[^']*')*[^']*$)(?!\\()";
 		
@@ -375,5 +374,11 @@ public class Expression {
 		System.out.println(toReturn);
 		
 		return toReturn;
+	}
+	
+	private static String formatBools(String str){
+		str = str.replaceAll("\\b[Tt][Rr][Uu][Ee]\\b", TRUE);
+		str = str.replaceAll("\\b[Ff][Aa][Ll][Ss][Ee]\\b", FALSE);
+		return str;
 	}
 }
