@@ -61,7 +61,7 @@ public class EntitySnapshot {
 		s += "\n" + entityID.getInt();
 		
 		for (Entry<String, FieldSnapshot> entry : fields.entrySet()) {
-			s += "\nFields: " + entry.getKey() + entry.getValue().serialize();
+			s += "\nFields: " + entry.getKey() + " " + entry.getValue().serialize();
 		}
 		
 		s += "\n" + step; 
