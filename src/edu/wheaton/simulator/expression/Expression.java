@@ -1,8 +1,11 @@
 package edu.wheaton.simulator.expression;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.regex.Pattern;
 
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
@@ -137,7 +140,7 @@ public class Expression {
 	 * @param fieldName
 	 * @return
 	 */
-	public static String fGet(String variableName){
+	private static String fGet(String variableName){
 		return "#{" + variableName + "}";
 	}
 	
@@ -348,6 +351,29 @@ public class Expression {
 		str = str.replaceAll("\\b[Tt][Rr][Uu][Ee]\\b", TRUE);
 		str = str.replaceAll("\\b[Ff][Aa][Ll][Ss][Ee]\\b", FALSE);
 		
-		return str;
+		String regexVariableRef = "\\b[_a-zA-Z][_a-zA-Z0-9]*(\\.[_a-zA-Z][_a-zA-Z0-9]*)?\\b(?=([^'(]*'[^']*')*[^']*$)(?!\\()";
+		
+		//string with all matches replaced with '@'
+		String temp = str.replaceAll(regexVariableRef, "@");
+		
+		//list of all non-matching segments
+		String[] nonMatchingSegs = temp.split("@");
+		
+		//construct string with all non-matches replaced with '@'
+		String temp2 = str;
+		for(String segment : nonMatchingSegs)
+			temp2 = Pattern.compile(segment,Pattern.LITERAL).matcher(temp2).replaceFirst("@");
+			//temp2 = temp2.replaceAll(segment, "@");
+		
+		//list of all matches
+		String[] matches = temp2.split("@");
+		
+		String toReturn = temp;
+		for(String match : matches){
+			if(match.length()>0)
+				toReturn = toReturn.replaceFirst("@", fGet(match));
+		}
+		
+		return toReturn;
 	}
 }
