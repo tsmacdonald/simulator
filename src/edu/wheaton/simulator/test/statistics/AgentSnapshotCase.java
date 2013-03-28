@@ -35,7 +35,7 @@ public class AgentSnapshotCase {
 	 * Initialize variables.
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		entity = new Entity();
 		grid = new Grid(10, 10);
 		prototype = new Prototype(grid, "tester");
@@ -51,7 +51,7 @@ public class AgentSnapshotCase {
 	 * Give variables null pointers.
 	 */
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		entity = null;
 		grid = null;
 		prototype = null;

@@ -38,7 +38,7 @@ public class PrototypeSnapshotCase {
 	 * Initialize variables.
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		categoryName = "testing";
 		grid = new Grid(10, 10);
 		prototype = new Prototype(grid, "tester");
@@ -52,7 +52,7 @@ public class PrototypeSnapshotCase {
 	 * Give variables null pointers.
 	 */
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 	}
 
 	/**

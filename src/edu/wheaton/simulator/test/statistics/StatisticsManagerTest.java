@@ -51,7 +51,7 @@ public class StatisticsManagerTest {
 	PrototypeSnapshot protoSnap2;
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		sm = new StatisticsManager();
 		g = new Grid(10,  10); 		
 		
@@ -83,7 +83,7 @@ public class StatisticsManagerTest {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 	}
 
 	@Test

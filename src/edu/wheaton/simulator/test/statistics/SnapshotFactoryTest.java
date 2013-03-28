@@ -30,16 +30,16 @@ public class SnapshotFactoryTest {
 	Grid g; 
 	
 	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
+	public static void tearDownAfterClass() {
 	}
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		g = new Grid(10, 10);
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 	}
 
 	@Test(expected = UnsupportedOperationException.class)

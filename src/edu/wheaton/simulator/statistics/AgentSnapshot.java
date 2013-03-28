@@ -49,6 +49,7 @@ public class AgentSnapshot extends EntitySnapshot {
 	 * 3 (step - an int)
 	 * 12 (PrototypeID - an int)
 	 */
+	@Override
 	public String serialize(){
 		String s = super.serialize();
 		s.replace("EntitySnapshot", "AgentSnapshot"); 
