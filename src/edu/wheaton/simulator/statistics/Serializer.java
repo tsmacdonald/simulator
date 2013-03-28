@@ -8,15 +8,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Serializer {
-	
-	
 
 	public static void serializer(String serializable) {
 		String filename = "tester.txt"; // TODO: Change if necessary
-		
+
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(
-					filename));
+			BufferedWriter writer = new BufferedWriter(
+					new FileWriter(filename));
 			writer.write(serializable);
 			writer.close();
 		} catch (IOException e) {
@@ -26,11 +24,24 @@ public class Serializer {
 
 		// TODO: Move to a separate method
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(
-					filename));
+			BufferedReader reader = new BufferedReader(
+					new FileReader(filename));
+
+			StringBuilder sb = new StringBuilder();
+			String line = reader.readLine();
+			String savefile;
+
+			while (line != null) {
+				sb.append(line);
+				sb.append("\n");
+				line = reader.readLine();
+			}
+
+			savefile = sb.toString();
 			
-			System.out.println(reader.readLine());
-		
+			reader.close();
+			
+			System.out.println(savefile + "\nDone."); //TODO Console tester.
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
