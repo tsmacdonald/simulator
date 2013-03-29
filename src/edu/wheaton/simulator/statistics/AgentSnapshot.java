@@ -52,7 +52,7 @@ public class AgentSnapshot extends EntitySnapshot {
 	@Override
 	public String serialize(){
 		String s = super.serialize();
-		s.replace("EntitySnapshot", "AgentSnapshot"); 
+		s = s.replace("EntitySnapshot", "AgentSnapshot"); 
 		return s + "\n" + prototype.getInt(); 
 	}
 }
