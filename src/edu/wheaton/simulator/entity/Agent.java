@@ -71,29 +71,30 @@ public class Agent extends GridEntity {
 		super(g, c, d);
 		init(prototype);
 	}
-	
-	private void init(Prototype p){
+
+	private void init(Prototype p) {
 		triggers = new ArrayList<Trigger>();
 		prototype = p;
 	}
 
 	/**
-	 * Causes this Agent to perform 1 action. All triggers with valid conditions will fire.
+	 * Causes this Agent to perform 1 action. All triggers with valid
+	 * conditions will fire.
 	 * 
 	 * @throws Exception
 	 */
-	public void act() throws SimulationPauseException{
+	public void act() throws SimulationPauseException {
 		for (Trigger t : triggers)
 			try {
 				t.evaluate(this);
 			} catch (EvaluationException e) {
 				System.err.println(e.getMessage());
-				String errorMessage = "Error in Agent: " + this.getName() + 
-						"\n ID: " + this.getEntityID() + "\n Trigger: " + t.getName() +
-						"\n MSG: " + e.getMessage() +
-						"\n condition: " + t.getConditions().toString();
+				String errorMessage = "Error in Agent: " + this.getName()
+						+ "\n ID: " + this.getEntityID() + "\n Trigger: "
+						+ t.getName() + "\n MSG: " + e.getMessage()
+						+ "\n condition: " + t.getConditions().toString();
 				throw new SimulationPauseException(errorMessage);
-		}
+			}
 	}
 
 	/**
@@ -146,8 +147,8 @@ public class Agent extends GridEntity {
 			if (getTriggerName(i).equals(name))
 				triggers.set(i, newT);
 	}
-	
-	private String getTriggerName(int index){
+
+	private String getTriggerName(int index) {
 		return triggers.get(index).getName();
 	}
 
@@ -183,7 +184,7 @@ public class Agent extends GridEntity {
 	public Prototype getPrototype() {
 		return prototype;
 	}
-	
+
 	public String getName() {
 		return getPrototype().getName();
 	}

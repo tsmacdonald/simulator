@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
-import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.PrototypeID;
 
