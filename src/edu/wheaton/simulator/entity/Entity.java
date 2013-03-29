@@ -110,7 +110,7 @@ public class Entity {
 	 * @return String to String map
 	 */
 	public Map<String, String> getCustomFieldMap() {
-		Map<String, String> toReturn = fields;
+		Map<String, String> toReturn = new HashMap<String, String>(fields);
 		toReturn.remove("x");
 		toReturn.remove("y");
 		toReturn.remove("colorRed");
