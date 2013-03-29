@@ -57,6 +57,7 @@ public abstract class AbstractExpressionFunction {
 	 * 		the name used to refer to the entity in the expression
 	 */
 	public Entity resolveEntity(String aliasName) {
+		aliasName = Expression.correctNonStrVal(aliasName);
 		return getExprEval().getEntity(aliasName.replaceAll("'", ""));
 	}
 	
@@ -65,6 +66,7 @@ public abstract class AbstractExpressionFunction {
 	 * to Agent
 	 */
 	public Agent resolveAgent(String aliasName){
+		aliasName = Expression.correctNonStrVal(aliasName);
 		return (Agent)resolveEntity(aliasName);
 	}
 
@@ -76,6 +78,7 @@ public abstract class AbstractExpressionFunction {
 	 */
 	public String resolveVariable(String variableName)
 			throws EvaluationException {
+		variableName = Expression.correctNonStrVal(variableName);
 		return getExprEval().getVariableValue(variableName);
 	}
 

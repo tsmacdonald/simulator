@@ -27,7 +27,7 @@ public class SetFieldOfAgentBehavior extends AbstractExpressionFunction {
 		String newFieldValue = args[4];
 		
 		Grid grid = target.getGrid();
-		if(grid.isValidCoord(x, y) && grid.getAgent(x,y)==null){
+		if(grid.isValidCoord(x, y) && grid.getAgent(x,y)!=null){
 			target.getGrid().getAgent(x, y).updateField(fieldName, newFieldValue);
 			return Expression.TRUE;
 		}

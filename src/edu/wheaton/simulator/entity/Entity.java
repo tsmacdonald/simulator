@@ -29,6 +29,7 @@ public class Entity {
 	 */
 	public void addField(Object name, Object value)
 			throws ElementAlreadyContainedException {
+		name = formatFieldName(name);
 		assertNoSuchField(name);
 		putField(name,value);
 	}
@@ -40,6 +41,7 @@ public class Entity {
 	 * @return returns the old field
 	 */
 	public Field updateField(Object name, Object value) {
+		name = formatFieldName(name);
 		assertHasField(name);
 		String oldvalue = putField(name,value);
 		return new Field(name, oldvalue);
@@ -53,17 +55,20 @@ public class Entity {
 	 * Removes a field from this Entity and returns it.
 	 */
 	public Field removeField(Object name) {
+		name = formatFieldName(name);
 		assertHasField(name);
 		String value = fields.remove(name.toString());
 		return new Field(name, value);
 	}
 
 	public Field getField(Object name) {
+		name = formatFieldName(name);
 		assertHasField(name);
 		return new Field(name.toString(), getFieldValue(name));
 	}
 
 	public String getFieldValue(Object name) {
+		name = formatFieldName(name);
 		assertHasField(name);
 		return fields.get(name.toString());
 	}
@@ -94,5 +99,15 @@ public class Entity {
 
 	public EntityID getEntityID() {
 		return id;
+	}
+	
+	private static String formatFieldName(Object name){
+		String fieldName = name.toString();
+		
+		//to make Expression parsing more lenient
+		if(fieldName.charAt(0) == '\'' && fieldName.charAt(fieldName.length()-1)=='\'' )
+			fieldName = fieldName.substring(1,fieldName.length()-1);
+		
+		return fieldName;
 	}
 }

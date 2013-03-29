@@ -173,13 +173,36 @@ public class Expression {
 	/**
 	 * Returns a properly formatted string value
 	 * 
-	 * fStr("I am a banana!") == "'I am a banana!'"
+	 * correctStrVal("I am a banana!") == "'I am a banana!'"
 	 * 
 	 * @param value
 	 * @return
 	 */
-	public static String fStr(String value){
+	public static String correctStrVal(String value){
+		if(isStrVal(value))
+			return value;
 		return "'" + value + "'";
+	}
+	
+	/**
+	 * 
+	 * When a reference is passed to a function (ex: "setField('this','x',8)")
+	 * This method can be used within the example method SetFieldBehavior.execute(...) to
+	 * eliminate the single quotes surrounding the parameter, thus preventing someone from
+	 * accidentally requesting a field with the name "'x'" when they really meant "x".
+	 * 
+	 * @param entity
+	 * @param str
+	 * @return
+	 */
+	public static String correctNonStrVal(String str){
+		if(isStrVal(str))
+			return str.substring(1, str.length()-1);
+		return str;
+	}
+	
+	private static boolean isStrVal(String str){
+		return str.charAt(0)=='\'' && str.charAt(str.length()-1)=='\'';
 	}
 	
 	/**
@@ -203,7 +226,7 @@ public class Expression {
 			} 
 			
 			catch(Exception e){
-				return fStr(param);
+				return correctStrVal(param);
 			}
 		}
 	}

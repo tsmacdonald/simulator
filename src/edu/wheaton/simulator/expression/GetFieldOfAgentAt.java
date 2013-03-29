@@ -31,11 +31,10 @@ public class GetFieldOfAgentAt extends AbstractExpressionFunction {
 		Agent target = grid.getAgent(x.intValue(), y.intValue());
 		
 		if(target==null){
-			System.err.println("grid.getAgent(x,y) returned null therefore no field can be retrieved");
+			throw new NullPointerException("GetFieldOfAgentAt.java : grid.getAgent(x,y) returned null therefore no field can be retrieved");
 		}
 		
 		String fieldName = args[2].replaceAll("'", "");
-		
 		
 		Object fieldValue = target.getFieldValue(fieldName);
 		return fieldValue.toString();
