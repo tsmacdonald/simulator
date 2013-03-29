@@ -36,7 +36,7 @@ public class GetFieldOfAgentAt extends AbstractExpressionFunction {
 		
 		String fieldName = args[2].replaceAll("'", "");
 		
-		Object fieldValue = target.getFieldValue(fieldName);
+		String fieldValue = target.getFieldValue(fieldName);
 		return fieldValue.toString();
 		}
 }
