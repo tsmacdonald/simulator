@@ -84,10 +84,9 @@ public class Trigger implements Comparable<Trigger> {
 		boolean conditionResult = false;
 		try {
 			conditionResult = condition.evaluateBool();
-		} catch (EvaluationException e) {
-			System.out.println("condition threw exception");
-			e.printStackTrace();
-			throw new EvaluationException("Condition");
+		} catch (Exception e) {
+			conditionResult = false;
+			System.out.println("Condition expression failed: " + condition.toString());
 		}
 		
 		if (conditionResult) {

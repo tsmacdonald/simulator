@@ -20,7 +20,7 @@ public class RockPaperScissorsTest {
 		
 		Expression xMoveRight = new Expression("move('this', this.x + 1, this.y)");		
 		Expression yMoveUp = new Expression("move('this', this.x, this.y + 1)");		
-		Expression xMoveLeft = new Expression("move('this', this.x - 1, this.y})");		
+		Expression xMoveLeft = new Expression("move('this', this.x - 1, this.y)");		
 		Expression yMoveDown = new Expression("move('this', this.x, this.y - 1)");
 		
 		// behavior: turn clockwise

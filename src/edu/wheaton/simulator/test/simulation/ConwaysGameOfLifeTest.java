@@ -108,7 +108,7 @@ public class ConwaysGameOfLifeTest {
 	@Test
 	public void test() {
 		// Run through multiple "steps"
-		int numSteps = 300;
+		int numSteps = 25;
 		for (int i = 0; i < numSteps; i++) {
 			try {
 				testGrid.updateEntities();
