@@ -170,7 +170,7 @@ public class FieldScreen extends Screen {
 			}
 		}
 		Map<String, String> map = sm.getFacade().getGrid().getSlot(Integer.parseInt(xPos.getSelectedItem().toString()),
-				Integer.parseInt(yPos.getSelectedItem().toString())).getFieldMap();
+				Integer.parseInt(yPos.getSelectedItem().toString())).getCustomFieldMap();
 		Object[] fieldsA = map.keySet().toArray();
 		for(Object s: fieldsA){
 			System.out.println((String) s);
@@ -185,7 +185,7 @@ public class FieldScreen extends Screen {
 			if (xPos.getSelectedIndex() >= 0 && yPos.getSelectedIndex() >= 0) {
 				Map<String, String> fieldNames = sm.getFacade().getGrid().getSlot(
 						xPos.getSelectedIndex(), yPos.getSelectedIndex()
-						).getFieldMap();
+						).getCustomFieldMap();
 				listModel.clear();
 				if (fieldNames != null) {
 					for (String s : fieldNames.keySet()) {

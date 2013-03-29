@@ -25,7 +25,7 @@ public class SnapshotFactory {
 	public static EntitySnapshot makeSlotSnapshot(GridEntity slot,
 			Integer step) {
 		return new EntitySnapshot(slot.getEntityID(),
-				makeFieldSnapshots(slot.getFieldMap()), step);
+				makeFieldSnapshots(slot.getCustomFieldMap()), step);
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class SnapshotFactory {
 	public static AgentSnapshot makeAgentSnapshot(Agent agent,
 			Integer step) {
 		return new AgentSnapshot(agent.getEntityID(), 
-				makeFieldSnapshots(agent.getFieldMap()), step, 
+				makeFieldSnapshots(agent.getCustomFieldMap()), step, 
 				agent.getPrototype().getPrototypeID());
 	}
 
@@ -75,7 +75,7 @@ public class SnapshotFactory {
 	public static PrototypeSnapshot makePrototypeSnapshot(Prototype prototype,
 			Integer step) {
 		return new PrototypeSnapshot(prototype.getName(), prototype.getPrototypeID(),
-				makeFieldSnapshots(prototype.getFieldMap()),
+				makeFieldSnapshots(prototype.getCustomFieldMap()),
 				prototype.childPopulation(), prototype.childIDs(), step);
 	}
 

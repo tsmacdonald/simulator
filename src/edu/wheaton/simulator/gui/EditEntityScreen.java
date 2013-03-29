@@ -323,7 +323,7 @@ public class EditEntityScreen extends Screen {
 			}
 		}
 
-		Map<String, String> fields = agent.getFieldMap();
+		Map<String, String> fields = agent.getCustomFieldMap();
 		int i = 0;
 		for (String s : fields.keySet()) {
 			addField();

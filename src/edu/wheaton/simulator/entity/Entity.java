@@ -31,7 +31,7 @@ public class Entity {
 			throws ElementAlreadyContainedException {
 		name = formatFieldName(name);
 		assertNoSuchField(name);
-		putField(name,value);
+		putField(name, value);
 	}
 
 	/**
@@ -43,12 +43,12 @@ public class Entity {
 	public Field updateField(Object name, Object value) {
 		name = formatFieldName(name);
 		assertHasField(name);
-		String oldvalue = putField(name,value);
+		String oldvalue = putField(name, value);
 		return new Field(name, oldvalue);
 	}
-	
-	private String putField(Object name, Object value){
-		return fields.put(name.toString(),value.toString());
+
+	private String putField(Object name, Object value) {
+		return fields.put(name.toString(), value.toString());
 	}
 
 	/**
@@ -72,14 +72,15 @@ public class Entity {
 		assertHasField(name);
 		return fields.get(name.toString());
 	}
-	
-	private void assertHasField(Object name){
-		if(hasField(name) == false)
+
+	private void assertHasField(Object name) {
+		if (hasField(name) == false)
 			throw new NoSuchElementException();
 	}
-	
-	private void assertNoSuchField(Object name) throws ElementAlreadyContainedException{
-		if(hasField(name) == true)
+
+	private void assertNoSuchField(Object name)
+			throws ElementAlreadyContainedException {
+		if (hasField(name) == true)
 			throw new ElementAlreadyContainedException();
 	}
 
@@ -93,21 +94,43 @@ public class Entity {
 		return (fields.containsKey(name.toString()));
 	}
 
+	/**
+	 * Provides this Entity's field names and values
+	 * 
+	 * @return String to String map
+	 */
 	public Map<String, String> getFieldMap() {
 		return fields;
+	}
+
+	/**
+	 * Provides this Entity's custom field names and values. This method
+	 * basically removes the default values that are created with Agents.
+	 * 
+	 * @return String to String map
+	 */
+	public Map<String, String> getCustomFieldMap() {
+		Map<String, String> toReturn = fields;
+		toReturn.remove("x");
+		toReturn.remove("y");
+		toReturn.remove("colorRed");
+		toReturn.remove("colorBlue");
+		toReturn.remove("colorGreen");
+		return toReturn;
 	}
 
 	public EntityID getEntityID() {
 		return id;
 	}
-	
-	private static String formatFieldName(Object name){
+
+	private static String formatFieldName(Object name) {
 		String fieldName = name.toString();
-		
-		//to make Expression parsing more lenient
-		if(fieldName.charAt(0) == '\'' && fieldName.charAt(fieldName.length()-1)=='\'' )
-			fieldName = fieldName.substring(1,fieldName.length()-1);
-		
+
+		// to make Expression parsing more lenient
+		if (fieldName.charAt(0) == '\''
+				&& fieldName.charAt(fieldName.length() - 1) == '\'')
+			fieldName = fieldName.substring(1, fieldName.length() - 1);
+
 		return fieldName;
 	}
 }
