@@ -91,17 +91,17 @@ public class ConwaysGameOfLifeTest {
 		for (int x = 1; x < testGrid.getWidth()-1; x++) 
 			for(int y = 1; y < testGrid.getHeight()-1; y++) {
 				if (((x - y) == 0) || x == 4 || x == 5) {
-					testGrid.addAgent(aliveBeing.clonePrototype(), x, y);
+					testGrid.addAgent(aliveBeing.createAgent(), x, y);
 				}
-				testGrid.addAgent(being.clonePrototype(), x, y);
+				testGrid.addAgent(being.createAgent(), x, y);
 			}
 		for (int x = 0; x < testGrid.getWidth(); x++) {
-			testGrid.addAgent(border.clonePrototype(), x, 0);
-			testGrid.addAgent(border.clonePrototype(), x, testGrid.getHeight()-1);
+			testGrid.addAgent(border.createAgent(), x, 0);
+			testGrid.addAgent(border.createAgent(), x, testGrid.getHeight()-1);
 		}
 		for (int y = 0; y < testGrid.getHeight(); y++) {
-			testGrid.addAgent(border.clonePrototype(), 0, y);
-			testGrid.addAgent(border.clonePrototype(), testGrid.getWidth()-1, y);
+			testGrid.addAgent(border.createAgent(), 0, y);
+			testGrid.addAgent(border.createAgent(), testGrid.getWidth()-1, y);
 		}
 	}
 

@@ -187,7 +187,7 @@ public class ExpressionEvaluationTest {
 		testPrototype.addField("direction", "1");
 //		Trigger testTrigger = new Trigger("moveRight", 1, dir1, xMoveRight);
 //		testPrototype.addTrigger(testTrigger);
-		Agent testAgent1 = testPrototype.clonePrototype();
+		Agent testAgent1 = testPrototype.createAgent();
 //		Agent testAgent2 = testPrototype.clonePrototype();
 		testGrid.addAgent(testAgent1, 0, 0);
 //		testGrid.addAgent(testAgent2, 1, 0);

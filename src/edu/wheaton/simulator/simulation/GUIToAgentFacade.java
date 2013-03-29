@@ -121,7 +121,7 @@ public class GUIToAgentFacade {
 	 * @return true if successful (agent added), false otherwise
 	 */
 	public boolean spawnAgent(String prototypeName, int spawnX, int spawnY) {
-		Agent toAdd = getPrototype(prototypeName).clonePrototype();
+		Agent toAdd = getPrototype(prototypeName).createAgent();
 		return grid.spawnAgent(toAdd, spawnX, spawnY);
 	}
 
@@ -132,7 +132,7 @@ public class GUIToAgentFacade {
 	 *            The name of the prototype to build the Agent from.
 	 */
 	public boolean spawnAgent(String prototypeName) {
-		Agent toAdd = getPrototype(prototypeName).clonePrototype();
+		Agent toAdd = getPrototype(prototypeName).createAgent();
 		return grid.spawnAgent(toAdd);
 	}
 

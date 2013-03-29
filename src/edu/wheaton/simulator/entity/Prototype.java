@@ -176,9 +176,9 @@ public class Prototype extends GridEntity {
 	/**
 	 * Does a deep clone of this prototype and returns it as an Agent.
 	 * 
-	 * @return The clone of this prototype
+	 * @return An Agent following this prototype
 	 */
-	public Agent clonePrototype() {
+	public Agent createAgent() {
 		Agent clone = new Agent(getGrid(), this, getColor(), getDesign());
 
 		// copy all fields
