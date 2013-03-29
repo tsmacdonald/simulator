@@ -4,10 +4,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
-import edu.wheaton.simulator.simulation.Grid;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class RockPaperScissorsTest {

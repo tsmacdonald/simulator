@@ -14,6 +14,7 @@ import java.util.Set;
 
 import net.sourceforge.jeval.EvaluationException;
 
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Trigger;

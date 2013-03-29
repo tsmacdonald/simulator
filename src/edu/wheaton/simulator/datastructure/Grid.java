@@ -7,15 +7,15 @@
  * 
  * Wheaton College, CSCI 335, Spring 2013
  */
-package edu.wheaton.simulator.simulation;
+package edu.wheaton.simulator.datastructure;
 
 import java.awt.Color;
 import java.util.Iterator;
 
 import net.sourceforge.jeval.EvaluationException;
-import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.entity.Slot;
+import edu.wheaton.simulator.simulation.Layer;
+import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class Grid implements Iterable<Slot> {
 
@@ -28,7 +28,7 @@ public class Grid implements Iterable<Slot> {
 	private final Integer height;
 
 	/**
-	 * Constuctor. Creates a grid with the given width and height
+	 * Constructor. Creates a grid with the given width and height
 	 * specifications
 	 * 
 	 * @param width
@@ -53,14 +53,14 @@ public class Grid implements Iterable<Slot> {
 	}
 
 	public boolean isValidCoord(int x, int y) {
-		return (x>=0) && (y>=0) && (x < getWidth()) && (y < getHeight());
+		return (x>=0) && (y>=0) && x<getWidth() && y<getHeight();
 	}
 
 	public Slot getSlot(int x, int y) {
 		if(isValidCoord(x,y))
 			return grid[y][x];
 		System.err.println("invalid Coord: " + x + "," + y);
-		throw new NullPointerException("Invalid coord!");
+		throw new ArrayIndexOutOfBoundsException();
 	}
 	
 	public void setSlot(Slot s, int x, int y){
@@ -68,7 +68,7 @@ public class Grid implements Iterable<Slot> {
 			grid[y][x] = s;
 		else{
 			System.err.println("invalid Coord: " + x + "," + y);
-			throw new NullPointerException("Invalid coord!");
+			throw new ArrayIndexOutOfBoundsException();
 		}
 	}
 
@@ -93,9 +93,6 @@ public class Grid implements Iterable<Slot> {
 	 * @param y
 	 */
 	public boolean addAgent(Agent a, int x, int y) {
-		if(isValidCoord(a.getPosX(),a.getPosY())){
-			this.removeAgent(a.getPosX(), a.getPosY());
-		}
 		if(emptySlot(x,y)){
 			getSlot(x, y).setAgent(a);
 			a.setPos(x, y);
@@ -159,7 +156,7 @@ public class Grid implements Iterable<Slot> {
 	 * @return Whether or not the particular slot is empty
 	 */
 	public boolean emptySlot(int x, int y) {
-		if (isValidCoord(x,y) && getAgent(x, y)==null)
+		if (isValidCoord(x,y) && getSlot(x, y).getAgent()==null)
 			return true;
 		return false;
 	}
@@ -171,8 +168,8 @@ public class Grid implements Iterable<Slot> {
 	 *            The Agent to add.
 	 */
 	public boolean spawnAgent(Agent a) {
-		int randomX = (int) (Math.random() * width);
-		int randomY = (int) (Math.random() * height);
+		int randomX = (int) (Math.random() * (width-1));
+		int randomY = (int) (Math.random() * (height-1));
 		return spawnAgent(a, randomX, randomY);
 	}
 
@@ -192,8 +189,14 @@ public class Grid implements Iterable<Slot> {
 	 * @param x
 	 * @param y
 	 */
-	public void removeAgent(int x, int y) {
-		getSlot(x, y).setAgent(null);
+	public boolean removeAgent(int x, int y) {
+		if(isValidCoord(x,y)){
+			Slot slot = getSlot(x,y);
+			if(slot.getAgent()!=null)
+				return slot.setAgent(null);
+		}
+		System.err.println("Grid.removeAgent(" + x + "," + y + ") : invalid coord");
+		return false;
 	}
 
 	/**
@@ -202,11 +205,17 @@ public class Grid implements Iterable<Slot> {
 	 * @param ge
 	 *            The Agent to remove.
 	 */
-	public void removeAgent(Agent a) {
-		for (Slot[] sArr : grid)
-			for (Slot s : sArr)
-				if (s.getAgent() == a)
-					s.setAgent(null);
+	public boolean removeAgent(Agent a) {
+		int x = a.getPosX();
+		int y = a.getPosY();
+		if( isValidCoord(x,y)){
+			Slot slot = getSlot(x,y);
+			Agent b = slot.getAgent();
+			if(b!=null && b.getAgentID().equals(a.getAgentID()) )
+				return slot.setAgent(null);
+		}
+		System.err.println("Grid.removeAgent(Agent a) : agent not found");
+		return false;
 	}
 
 	/**
@@ -231,13 +240,15 @@ public class Grid implements Iterable<Slot> {
 	 * @throws EvaluationException
 	 */
 	public void setLayerExtremes() throws EvaluationException {
-		for (Slot[] sArr : grid)
-			for (Slot s : sArr)
-				if (s.getAgent() != null) {
-					Field currentField = s.getAgent().getField(
-							Layer.getInstance().getFieldName());
-					Layer.getInstance().setExtremes(currentField);
-				}
+		Iterator<Slot> it = iterator();
+		while(it.hasNext()){
+			Slot current = it.next();
+			if (current.getAgent() != null) {
+				Field currentField = current.getAgent().getField(
+						Layer.getInstance().getFieldName());
+				Layer.getInstance().setExtremes(currentField);
+			}
+		}
 	}
 
 	/**

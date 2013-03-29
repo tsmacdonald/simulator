@@ -1,6 +1,7 @@
-package edu.wheaton.simulator.entity;
+package edu.wheaton.simulator.datastructure;
 
-import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.GridEntity;
 
 /**
  * Slot.java
@@ -34,8 +35,9 @@ public class Slot extends GridEntity {
 	 * @param a
 	 *            The new agent
 	 */
-	public void setAgent(Agent a) {
+	public boolean setAgent(Agent a) {
 		agent = a;
+		return true;
 	}
 
 	/**

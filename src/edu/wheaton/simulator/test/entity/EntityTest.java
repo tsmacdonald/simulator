@@ -4,8 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Entity;
-import edu.wheaton.simulator.simulation.Grid;
 
 public class EntityTest {
 	String [] exampleNames = {"hare", "rabbit", "fox", "cat", "bear", "lion", "elephant", "pig", "clover", "tree"};

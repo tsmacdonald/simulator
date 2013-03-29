@@ -25,11 +25,11 @@ import org.junit.Test;
 
 import com.google.common.collect.ImmutableSet;
 
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.Prototype;
-import edu.wheaton.simulator.simulation.Grid;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
 import edu.wheaton.simulator.statistics.EntitySnapshot;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;

@@ -11,10 +11,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
-import edu.wheaton.simulator.simulation.Grid;
 
 public class ConwaysGameOfLifeTest {
 
@@ -85,13 +85,7 @@ public class ConwaysGameOfLifeTest {
 
 		// Make a another prototype that is initially alive
 		Prototype aliveBeing = being;
-		aliveBeing.removeField("alive");
-		try {
-			aliveBeing.addField("alive", "1");
-		} catch (ElementAlreadyContainedException e) {
-			System.err.println("Unable to add \"alive\" field");
-			e.printStackTrace();
-		}
+		aliveBeing.updateField("alive","1");
 
 		// Place dead beings in Grid, accept some that are alive
 		for (int x = 1; x < testGrid.getWidth()-1; x++) 
@@ -103,18 +97,18 @@ public class ConwaysGameOfLifeTest {
 			}
 		for (int x = 0; x < testGrid.getWidth(); x++) {
 			testGrid.addAgent(border.clonePrototype(), x, 0);
-			testGrid.addAgent(border.clonePrototype(), x, testGrid.getHeight());
+			testGrid.addAgent(border.clonePrototype(), x, testGrid.getHeight()-1);
 		}
 		for (int y = 0; y < testGrid.getHeight(); y++) {
 			testGrid.addAgent(border.clonePrototype(), 0, y);
-			testGrid.addAgent(border.clonePrototype(), testGrid.getWidth(), y);
+			testGrid.addAgent(border.clonePrototype(), testGrid.getWidth()-1, y);
 		}
 	}
 
 	@Test
 	public void test() {
 		// Run through multiple "steps"
-		int numSteps = 100;
+		int numSteps = 300;
 		for (int i = 0; i < numSteps; i++) {
 			try {
 				testGrid.updateEntities();

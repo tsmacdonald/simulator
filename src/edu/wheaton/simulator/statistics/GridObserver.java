@@ -1,10 +1,11 @@
 package edu.wheaton.simulator.statistics;
 
 import java.util.Collection;
+
+import edu.wheaton.simulator.datastructure.Grid;
+import edu.wheaton.simulator.datastructure.Slot;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
-import edu.wheaton.simulator.entity.Slot;
-import edu.wheaton.simulator.simulation.Grid;
 
 /**
  * @author Daniel Gill, Nico Lasta

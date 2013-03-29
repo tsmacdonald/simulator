@@ -18,7 +18,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
-import edu.wheaton.simulator.simulation.Grid;
+
+import edu.wheaton.simulator.datastructure.Grid;
 
 public class Prototype extends GridEntity {
 

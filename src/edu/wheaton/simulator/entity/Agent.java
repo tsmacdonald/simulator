@@ -16,7 +16,7 @@ import java.util.List;
 
 import net.sourceforge.jeval.EvaluationException;
 
-import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class Agent extends GridEntity {

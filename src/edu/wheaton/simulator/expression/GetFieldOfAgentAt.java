@@ -1,7 +1,7 @@
 package edu.wheaton.simulator.expression;
 
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.simulation.Grid;
 import net.sourceforge.jeval.EvaluationException;
 
 public class GetFieldOfAgentAt extends AbstractExpressionFunction {
@@ -25,13 +25,13 @@ public class GetFieldOfAgentAt extends AbstractExpressionFunction {
 		Grid grid = xThis.getGrid();
 		
 		if(grid.isValidCoord(x.intValue(), y.intValue())==false){
-			System.err.println("invalid coord sent as param to 'getFieldOfAgentAt(...)': [" + x + "," + y + "]");
+			System.err.println("invalid coord sent as param to 'getFieldOfAgentAt(" + x.intValue() + "," + y.intValue() + ")");
 		}
 		
 		Agent target = grid.getAgent(x.intValue(), y.intValue());
 		
 		if(target==null){
-			throw new NullPointerException("GetFieldOfAgentAt.java : grid.getAgent(x,y) returned null therefore no field can be retrieved");
+			throw new NullPointerException("GetFieldOfAgentAt.java : grid.getAgent(" + x.intValue() + "," + y.intValue() + ") returned null therefore no field can be retrieved");
 		}
 		
 		String fieldName = args[2].replaceAll("'", "");

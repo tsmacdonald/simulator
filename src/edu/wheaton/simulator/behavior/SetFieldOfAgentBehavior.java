@@ -1,10 +1,10 @@
 package edu.wheaton.simulator.behavior;
 
 import net.sourceforge.jeval.EvaluationException;
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.expression.AbstractExpressionFunction;
 import edu.wheaton.simulator.expression.Expression;
-import edu.wheaton.simulator.simulation.Grid;
 
 public class SetFieldOfAgentBehavior extends AbstractExpressionFunction {
 

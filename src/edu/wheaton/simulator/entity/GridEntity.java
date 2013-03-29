@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Field;
-import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.simulation.Layer;
 
 public abstract class GridEntity extends Entity {
