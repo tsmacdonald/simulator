@@ -45,7 +45,7 @@ public class StatisticsManagerTest {
 	Prototype prototype;
 	HashMap<String, String> fields;
 	int population;
-	ImmutableSet<AgentID> children;
+	ImmutableSet<EntityID> children;
 	Integer step;
 	PrototypeSnapshot protoSnap;
 	PrototypeSnapshot protoSnap2;

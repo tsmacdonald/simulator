@@ -21,8 +21,6 @@ import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class Agent extends GridEntity {
 
-	private final AgentID id;
-
 	/**
 	 * The list of all triggers/events associated with this agent.
 	 */
@@ -43,7 +41,6 @@ public class Agent extends GridEntity {
 	 */
 	public Agent(Grid g, Prototype prototype) {
 		super(g);
-		id = new AgentID();
 		init(prototype);
 	}
 
@@ -57,7 +54,6 @@ public class Agent extends GridEntity {
 	 */
 	public Agent(Grid g, Prototype prototype, Color c) {
 		super(g, c);
-		id = new AgentID();
 		init(prototype);
 	}
 
@@ -73,7 +69,6 @@ public class Agent extends GridEntity {
 	 */
 	public Agent(Grid g, Prototype prototype, Color c, byte[] d) {
 		super(g, c, d);
-		id = new AgentID();
 		init(prototype);
 	}
 	
@@ -94,7 +89,7 @@ public class Agent extends GridEntity {
 			} catch (EvaluationException e) {
 				System.err.println(e.getMessage());
 				String errorMessage = "Error in Agent: " + this.getName() + 
-						"\n ID: " + this.getAgentID() + "\n Trigger: " + t.getName() +
+						"\n ID: " + this.getEntityID() + "\n Trigger: " + t.getName() +
 						"\n MSG: " + e.getMessage() +
 						"\n condition: " + t.getConditions().toString();
 				throw new SimulationPauseException(errorMessage);
@@ -183,10 +178,6 @@ public class Agent extends GridEntity {
 	public void setPos(int x, int y) {
 		updateField("x", x);
 		updateField("y", y);
-	}
-
-	public AgentID getAgentID() {
-		return id;
 	}
 
 	public Prototype getPrototype() {

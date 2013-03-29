@@ -280,10 +280,10 @@ public class Prototype extends GridEntity {
 	 * 
 	 * @return An ImmutableSet of AgentIDs.
 	 */
-	public ImmutableSet<AgentID> childIDs() {
-		ImmutableSet.Builder<AgentID> builder = new ImmutableSet.Builder<AgentID>();
+	public ImmutableSet<EntityID> childIDs() {
+		ImmutableSet.Builder<EntityID> builder = new ImmutableSet.Builder<EntityID>();
 		for (Agent current : children) {
-			builder.add(current.getAgentID());
+			builder.add(current.getEntityID());
 		}
 		return builder.build();
 	}

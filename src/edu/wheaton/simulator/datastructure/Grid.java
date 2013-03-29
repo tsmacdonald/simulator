@@ -211,7 +211,7 @@ public class Grid implements Iterable<Slot> {
 		if( isValidCoord(x,y)){
 			Slot slot = getSlot(x,y);
 			Agent b = slot.getAgent();
-			if(b!=null && b.getAgentID().equals(a.getAgentID()) )
+			if(b!=null && b.getEntityID().equals(a.getEntityID()) )
 				return slot.setAgent(null);
 		}
 		System.err.println("Grid.removeAgent(Agent a) : agent not found");

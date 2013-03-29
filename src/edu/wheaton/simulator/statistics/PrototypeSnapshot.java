@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.entity.AgentID;
+import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.PrototypeID;
 
 
@@ -34,7 +35,7 @@ public class PrototypeSnapshot {
 	/**
 	 * The children of this Prototype at this point in time. 
 	 */
-	public final ImmutableSet<AgentID> children;
+	public final ImmutableSet<EntityID> children;
 
 	/**
 	 * The present population of this category of Agent. 
@@ -57,7 +58,7 @@ public class PrototypeSnapshot {
 	 */
 	public PrototypeSnapshot(String categoryName, PrototypeID id,
 			ImmutableMap<String, FieldSnapshot> fields, int population,
-			ImmutableSet<AgentID> children, Integer step) {
+			ImmutableSet<EntityID> children, Integer step) {
 		this.categoryName = categoryName; 
 		this.defaultFields = fields; 
 		this.children = children;
@@ -94,7 +95,7 @@ public class PrototypeSnapshot {
 		}
 		
 		//Serialize the Children set
-		for (AgentID a : children) {
+		for (EntityID a : children) {
 			s += "\nChildren: " + a.getInt(); 
 		}
 		
