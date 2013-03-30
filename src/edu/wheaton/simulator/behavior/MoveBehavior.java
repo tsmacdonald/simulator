@@ -30,12 +30,17 @@ public class MoveBehavior extends AbstractBehavior {
 	@Override
 	public String execute(String[] args) throws EvaluationException {
 		Agent target = resolveAgent(args[0]);
+		int oldX = target.getPosX();
+		int oldY = target.getPosY();
+		
 		Integer x = Double.valueOf(args[1]).intValue();
 		Integer y = Double.valueOf(args[2]).intValue();
 		
 		Grid grid = target.getGrid();
-		if(grid.addAgent(target, x, y))
+		if(grid.addAgent(target, x, y)) {
+			grid.removeAgent(oldX, oldY);
 			return Expression.TRUE;
+		}
 		return Expression.FALSE;
 	}
 
