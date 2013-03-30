@@ -181,7 +181,7 @@ public class ExpressionEvaluationTest {
 //		ExpressionEvaluator yMoveUp = new Expression("move('this', #{this.x}, #{this.y} + 1)");		
 //		ExpressionEvaluator xMoveLeft = new Expression("move('this', #{this.x} - 1, #{this.y})");		
 //		ExpressionEvaluator yMoveDown = new Expression("move('this', #{this.x}, #{this.y} - 1)");
-		ExpressionEvaluator dir1 = new Expression("#{this.direction}=1");
+		ExpressionEvaluator dir1 = new Expression("#{this.direction}==1");
 		Prototype testPrototype = new Prototype(testGrid, "name");
 		testPrototype.addField("type", "'test'");
 		testPrototype.addField("direction", "1");
