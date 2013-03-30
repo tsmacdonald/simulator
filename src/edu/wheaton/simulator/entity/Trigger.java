@@ -11,7 +11,7 @@
 package edu.wheaton.simulator.entity;
 
 import net.sourceforge.jeval.EvaluationException;
-import edu.wheaton.simulator.expression.ExpressionEvaluator;
+import edu.wheaton.simulator.expression.Expression;
 
 public class Trigger implements Comparable<Trigger> {
 
@@ -25,12 +25,12 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Represents the conditions of whether or not the trigger fires.
 	 */
-	private ExpressionEvaluator conditionExpression;
+	private Expression conditionExpression;
 
 	/**
 	 * The behavior that is executed when the trigger condition is met
 	 */
-	private ExpressionEvaluator behaviorExpression;
+	private Expression behaviorExpression;
 
 	/**
 	 * Constructor
@@ -42,8 +42,8 @@ public class Trigger implements Comparable<Trigger> {
 	 *            boolean expression this trigger represents
 	 */
 	public Trigger(String name, int priority,
-			ExpressionEvaluator conditionExpression,
-			ExpressionEvaluator behavior) {
+			Expression conditionExpression,
+			Expression behavior) {
 		this.name = name;
 		this.priority = priority;
 		this.conditionExpression = conditionExpression;
@@ -57,10 +57,10 @@ public class Trigger implements Comparable<Trigger> {
 	 *            The trigger from which to clone.
 	 */
 	public Trigger(Trigger parent) {
-		name = parent.name;
-		priority = parent.priority;
-		conditionExpression = parent.conditionExpression;
-		behaviorExpression = parent.behaviorExpression;
+		name = parent.getName();
+		priority = parent.getPriority();
+		conditionExpression = parent.getConditions();
+		behaviorExpression = parent.getBehavior();
 	}
 
 	/**
@@ -75,8 +75,8 @@ public class Trigger implements Comparable<Trigger> {
 	 *             if the expression was invalid
 	 */
 	public void evaluate(Agent xThis) throws EvaluationException {
-		ExpressionEvaluator condition = conditionExpression.clone();
-		ExpressionEvaluator behavior = behaviorExpression.clone();
+		Expression condition = conditionExpression.clone();
+		Expression behavior = behaviorExpression.clone();
 		
 		condition.importEntity("this", xThis);
 		behavior.importEntity("this", xThis);
@@ -84,9 +84,9 @@ public class Trigger implements Comparable<Trigger> {
 		boolean conditionResult = false;
 		try {
 			conditionResult = condition.evaluateBool();
-		} catch (EvaluationException e) {
-			System.out.println("condition threw exception");
-			e.printStackTrace();
+		} catch (Exception e) {
+			conditionResult = false;
+			System.out.println("Condition expression failed: " + condition.toString());
 		}
 		
 		if (conditionResult) {
@@ -99,22 +99,23 @@ public class Trigger implements Comparable<Trigger> {
 	 * 
 	 * @return the firing condition
 	 */
-	public ExpressionEvaluator getConditions() {
+	public Expression getConditions() {
 		return conditionExpression;
 	}
 
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
-	private static void fire(ExpressionEvaluator behavior) {
+	private static void fire(Expression behavior) throws EvaluationException {
 		try {
 			if(behavior.evaluateBool() == false)
 				System.err.println("behavior '" + behavior.toString() + "' failed");
 			else
 				System.out.println("behavior '" + behavior.toString() + "' succeeded");
 		} catch (EvaluationException e) {
-			System.err.println("malformed expression: " + e.getMessage());
+			System.err.println("malformed expression: " + behavior);
 			e.printStackTrace();
+			throw new EvaluationException("Behavior");
 		}
 	}
 
@@ -142,7 +143,7 @@ public class Trigger implements Comparable<Trigger> {
 	 * @param behavior
 	 *            Behavior to be added to list
 	 */
-	public void setBehavior(ExpressionEvaluator behavior) {
+	public void setBehavior(Expression behavior) {
 		this.behaviorExpression = behavior;
 	}
 
@@ -153,5 +154,13 @@ public class Trigger implements Comparable<Trigger> {
 	 */
 	public String getName() {
 		return name;
+	}
+	
+	public Expression getBehavior() {
+		return behaviorExpression;
+	}
+	
+	public int getPriority() {
+		return priority;
 	}
 }

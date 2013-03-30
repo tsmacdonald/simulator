@@ -14,6 +14,7 @@ import java.util.Set;
 
 import net.sourceforge.jeval.EvaluationException;
 
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Trigger;
@@ -102,7 +103,7 @@ public class GUIToAgentFacade {
 	/**
 	 * Causes all entities in the grid to act()
 	 */
-	public void updateEntities() {
+	public void updateEntities() throws SimulationPauseException{
 		grid.updateEntities();
 	}
 
@@ -120,7 +121,7 @@ public class GUIToAgentFacade {
 	 * @return true if successful (agent added), false otherwise
 	 */
 	public boolean spawnAgent(String prototypeName, int spawnX, int spawnY) {
-		Agent toAdd = getPrototype(prototypeName).clonePrototype();
+		Agent toAdd = getPrototype(prototypeName).createAgent();
 		return grid.spawnAgent(toAdd, spawnX, spawnY);
 	}
 
@@ -131,7 +132,7 @@ public class GUIToAgentFacade {
 	 *            The name of the prototype to build the Agent from.
 	 */
 	public boolean spawnAgent(String prototypeName) {
-		Agent toAdd = getPrototype(prototypeName).clonePrototype();
+		Agent toAdd = getPrototype(prototypeName).createAgent();
 		return grid.spawnAgent(toAdd);
 	}
 

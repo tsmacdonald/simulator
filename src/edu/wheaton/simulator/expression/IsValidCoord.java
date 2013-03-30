@@ -2,11 +2,11 @@ package edu.wheaton.simulator.expression;
 
 import net.sourceforge.jeval.EvaluationException;
 
-public class IsSlotOpen extends AbstractExpressionFunction {
+public class IsValidCoord extends AbstractExpressionFunction {
 
 	@Override
 	public String getName() {
-		return "isSlotOpen";
+		return "isValidCoord";
 	}
 
 	@Override
@@ -18,11 +18,9 @@ public class IsSlotOpen extends AbstractExpressionFunction {
 	public String execute(String[] args) throws EvaluationException {
 		Double x = Double.valueOf(args[0]);
 		Double y = Double.valueOf(args[1]);
-		Boolean isOpen = resolveAgent("this").getGrid().emptySlot(x.intValue(),y.intValue());
-		
-		if(isOpen==true)
+		Boolean isValid = resolveAgent("this").getGrid().isValidCoord(x.intValue(),y.intValue());
+		if(isValid==true)
 			return Expression.TRUE;
 		return Expression.FALSE;
 	}
-
 }

@@ -121,6 +121,7 @@ public class SetupScreen extends Screen {
 		addConditionButton = new JButton("Add Field");
 		addConditionButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						addCondition();
 					}
@@ -183,6 +184,7 @@ public class SetupScreen extends Screen {
 								grid[i][j].setBorder(BorderFactory.createEtchedBorder());
 							}	
 						}
+						sm.getEnder().setStepLimit(Integer.parseInt(timeField.getText()));
 						for (int i = 0; i < values.size(); i++) {
 							sm.getEnder().setPopLimit(
 									sm.getFacade().getPrototype(
@@ -293,6 +295,7 @@ public class SetupScreen extends Screen {
 
 	private class DeleteListener implements ActionListener {
 
+		@Override
 		public void actionPerformed(ActionEvent e){
 			int n = Integer.parseInt(e.getActionCommand());
 			String str = (String) agentTypes.get(n).getSelectedItem();

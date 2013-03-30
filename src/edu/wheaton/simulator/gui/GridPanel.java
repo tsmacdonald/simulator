@@ -1,12 +1,16 @@
 package edu.wheaton.simulator.gui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import edu.wheaton.simulator.entity.Agent;
 
 public class GridPanel extends JPanel {
-
-	private static final long serialVersionUID = -20L;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6168906849044462629L;
 
 	private ScreenManager sm;
 
@@ -47,11 +51,19 @@ public class GridPanel extends JPanel {
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
 		int squareSize = Math.min(pixelWidth, pixelHeight) - 1;
-		for (int i = 0; i < gridWidth; i++) {
-			for (int j = 0; j < gridHeight; j++) {
-				Agent agent = sm.getFacade().getAgent(i, j);
-				if(true/*agent instanceof Agent*/){
+		for (int x = 0; x < gridWidth; x++) {
+			for (int y = 0; y < gridHeight; y++) {
+				Agent agent;
+				if((agent = sm.getFacade().getAgent(x, y)) instanceof Agent && agent != null) {
+					System.out.println("\tg null " + (g == null));
+					System.out.println("\tagent null " + (agent == null));
+					System.out.println("\tcolor null " + (agent.getColor() == null));
 					g.setColor(agent.getColor());
+					
+					g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 
+							squareSize, squareSize);
+					
+					/* TODO Remove when ready for design
 					//If the square is going to be too small
 					//for an icon don't make icons
 					if(squareSize < 10){
@@ -73,8 +85,26 @@ public class GridPanel extends JPanel {
 							}
 						}
 					}
+					*/
 				}
 			}
 		}
 	}
+	
+	public void clearAgents(Graphics g) {
+		width = this.getWidth();
+		height = this.getHeight();
+		gridWidth = sm.getGUIwidth();
+		gridHeight = sm.getGUIheight();
+		int pixelWidth = width / gridWidth;
+		int pixelHeight = height / gridHeight;
+		int squareSize = Math.min(pixelWidth, pixelHeight) - 1;
+		g.setColor(Color.WHITE);
+		for (int x = 0; x < gridWidth; x++) {
+			for (int y = 0; y < gridHeight; y++) {
+				g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), squareSize, squareSize);
+			}
+		}
+	}
+	
 }

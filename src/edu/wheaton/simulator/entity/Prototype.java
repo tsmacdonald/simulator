@@ -18,7 +18,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
-import edu.wheaton.simulator.simulation.Grid;
+
+import edu.wheaton.simulator.datastructure.Grid;
 
 public class Prototype extends GridEntity {
 
@@ -147,6 +148,19 @@ public class Prototype extends GridEntity {
 	}
 	
 	/**
+	 * Provides all of the Prototypes in the HashMap
+	 * 
+	 * @return Immutable set of Prototypes
+	 */
+	public static ImmutableSet<Prototype> getPrototypes() {
+		ImmutableSet.Builder<Prototype> toReturn = new ImmutableSet.Builder<Prototype>();
+		for(String current : prototypes.keySet()) {
+			toReturn.add(getPrototype(current));
+		}
+		return toReturn.build();
+	}
+	
+	/**
 	 * Changes the name of a prototype without resetting its children.
 	 * 
 	 * @param oldName
@@ -162,9 +176,9 @@ public class Prototype extends GridEntity {
 	/**
 	 * Does a deep clone of this prototype and returns it as an Agent.
 	 * 
-	 * @return The clone of this prototype
+	 * @return An Agent following this prototype
 	 */
-	public Agent clonePrototype() {
+	public Agent createAgent() {
 		Agent clone = new Agent(getGrid(), this, getColor(), getDesign());
 
 		// copy all fields
@@ -266,10 +280,10 @@ public class Prototype extends GridEntity {
 	 * 
 	 * @return An ImmutableSet of AgentIDs.
 	 */
-	public ImmutableSet<AgentID> childIDs() {
-		ImmutableSet.Builder<AgentID> builder = new ImmutableSet.Builder<AgentID>();
+	public ImmutableSet<EntityID> childIDs() {
+		ImmutableSet.Builder<EntityID> builder = new ImmutableSet.Builder<EntityID>();
 		for (Agent current : children) {
-			builder.add(current.getAgentID());
+			builder.add(current.getEntityID());
 		}
 		return builder.build();
 	}

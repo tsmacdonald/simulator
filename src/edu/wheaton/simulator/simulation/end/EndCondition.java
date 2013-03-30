@@ -1,6 +1,6 @@
 package edu.wheaton.simulator.simulation.end;
 
-import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.datastructure.Grid;
 
 /**
  * EndCondition.java

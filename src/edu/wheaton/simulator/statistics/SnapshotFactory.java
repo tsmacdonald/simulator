@@ -3,6 +3,8 @@ package edu.wheaton.simulator.statistics;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
+
+import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.GridEntity;
 import edu.wheaton.simulator.entity.Prototype;
 
@@ -23,7 +25,7 @@ public class SnapshotFactory {
 	public static EntitySnapshot makeSlotSnapshot(GridEntity slot,
 			Integer step) {
 		return new EntitySnapshot(slot.getEntityID(),
-				makeFieldSnapshots(slot.getFieldMap()), step);
+				makeFieldSnapshots(slot.getCustomFieldMap()), step);
 	}
 
 	/**
@@ -32,11 +34,11 @@ public class SnapshotFactory {
 	 * @param step The point at which the capture was taken. 
 	 * @return
 	 */
-	public static AgentSnapshot makeAgentSnapshot(GridEntity agent,
+	public static AgentSnapshot makeAgentSnapshot(Agent agent,
 			Integer step) {
 		return new AgentSnapshot(agent.getEntityID(), 
-				makeFieldSnapshots(agent.getFieldMap()), step, 
-				/*entity.getProtype()*/ null);
+				makeFieldSnapshots(agent.getCustomFieldMap()), step, 
+				agent.getPrototype().getPrototypeID());
 	}
 
 	/**
@@ -73,7 +75,7 @@ public class SnapshotFactory {
 	public static PrototypeSnapshot makePrototypeSnapshot(Prototype prototype,
 			Integer step) {
 		return new PrototypeSnapshot(prototype.getName(), prototype.getPrototypeID(),
-				makeFieldSnapshots(prototype.getFieldMap()),
+				makeFieldSnapshots(prototype.getCustomFieldMap()),
 				prototype.childPopulation(), prototype.childIDs(), step);
 	}
 

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+echo "starting pre-commit"
+
+ant build
+if [ $? -eq 0 ]; then
+  exit 0
+else
+  echo "Building your project or running the tests failed"
+  echo "Aborting the commit"
+  exit 1
+fi
+
+echo "ending pre-commit"

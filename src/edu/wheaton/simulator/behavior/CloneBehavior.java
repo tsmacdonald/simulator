@@ -1,8 +1,9 @@
 package edu.wheaton.simulator.behavior;
 
 import net.sourceforge.jeval.EvaluationException;
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.expression.Expression;
 
 public class CloneBehavior extends AbstractBehavior {
 
@@ -41,10 +42,10 @@ public class CloneBehavior extends AbstractBehavior {
 		Grid grid = target.getGrid();
 		
 		if(grid.isValidCoord(x, y) && grid.getAgent(x,y)==null){
-			grid.addAgent(target.getPrototype().clonePrototype(), x, y);
-			return TRUE;
+			grid.addAgent(target.getPrototype().createAgent(), x, y);
+			return Expression.TRUE;
 		}
-		return FALSE;
+		return Expression.FALSE;
 	}
 
 }

@@ -2,6 +2,7 @@ package edu.wheaton.simulator.behavior;
 
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Entity;
+import edu.wheaton.simulator.expression.Expression;
 
 public class SetFieldBehavior extends AbstractBehavior {
 
@@ -24,7 +25,7 @@ public class SetFieldBehavior extends AbstractBehavior {
 		String fieldValue = args[2];
 		
 		target.updateField(fieldName,fieldValue);
-		return TRUE;
+		return Expression.TRUE;
 	}
 
 }

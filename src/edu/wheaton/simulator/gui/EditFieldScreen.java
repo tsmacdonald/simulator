@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.wheaton.simulator.entity.GridEntity;
+import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 
 public class EditFieldScreen extends Screen {
 
@@ -32,9 +33,9 @@ public class EditFieldScreen extends Screen {
 	private JTextField initValue;
 
 	private GridEntity ge;
+	
+	private String prevName;
 
-	//TODO I think this page may need to be reworked a bit based on how 
-	//     slot fields actually work. I'll do that. -Willy
 	public EditFieldScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -68,7 +69,7 @@ public class EditFieldScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Edit Simulation")); 
+						sm.update(sm.getScreen("Fields")); 
 					} 
 				}
 				);
@@ -76,12 +77,7 @@ public class EditFieldScreen extends Screen {
 		finishButton.setPreferredSize(new Dimension(120, 60));
 		//TODO finish button needs to pull information from the screen and update
 		//     simulation accordingly.
-		finishButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				sm.update(sm.getScreen("Edit Simulation")); 
-			} 
-		});
+		finishButton.addActionListener(new FinishListener());
 		panel1.add(nameLabel);
 		panel1.add(nameField);
 		panel2.add(typeLabel);
@@ -112,6 +108,7 @@ public class EditFieldScreen extends Screen {
 		this.ge = ge;
 		nameField.setText(n);
 		initValue.setText(ge.getFieldValue(n));
+		prevName = nameField.getText();
 	}
 	
 	public void load(GridEntity ge) {
@@ -121,13 +118,30 @@ public class EditFieldScreen extends Screen {
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
+		GUIToAgentFacade facade = sm.getFacade();
+		facade.getPrototype(nameField.getText());
 	}
 
-	private class finishListener implements ActionListener {
+	private class FinishListener implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			ge.updateField(nameField.getText(), initValue.getText());
+		public void actionPerformed(ActionEvent ae) {
+			boolean toMove = true;
+			try {
+				if(FieldScreen.getEditing()){
+					ge.removeField(prevName);
+					ge.addField(nameField.getText(), initValue.getText());
+				}
+				else{
+					ge.addField(nameField.getText(), initValue.getText());
+				}
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Please check your input");
+				toMove = false;
+			}
+			if(toMove)
+				sm.update(sm.getScreen("Fields"));
+
+
 		}
 	}
 }

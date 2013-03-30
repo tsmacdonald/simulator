@@ -1,9 +1,9 @@
 package edu.wheaton.simulator.behavior;
 
 import net.sourceforge.jeval.EvaluationException;
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.expression.Expression;
-import edu.wheaton.simulator.simulation.Grid;
 
 public class MoveBehavior extends AbstractBehavior {
 
@@ -30,13 +30,18 @@ public class MoveBehavior extends AbstractBehavior {
 	@Override
 	public String execute(String[] args) throws EvaluationException {
 		Agent target = resolveAgent(args[0]);
+		int oldX = target.getPosX();
+		int oldY = target.getPosY();
+		
 		Integer x = Double.valueOf(args[1]).intValue();
 		Integer y = Double.valueOf(args[2]).intValue();
 		
 		Grid grid = target.getGrid();
-		if(grid.addAgent(target, x, y))
-			return TRUE;
-		return FALSE;
+		if(grid.addAgent(target, x, y)) {
+			grid.removeAgent(oldX, oldY);
+			return Expression.TRUE;
+		}
+		return Expression.FALSE;
 	}
 
 }

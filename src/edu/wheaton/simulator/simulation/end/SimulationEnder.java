@@ -4,9 +4,9 @@ import java.util.TreeMap;
 
 import com.google.common.collect.ImmutableMap;
 
+import edu.wheaton.simulator.datastructure.Grid;
+import edu.wheaton.simulator.datastructure.Slot;
 import edu.wheaton.simulator.entity.Prototype;
-import edu.wheaton.simulator.entity.Slot;
-import edu.wheaton.simulator.simulation.Grid;
 import edu.wheaton.simulator.entity.PrototypeID;
 
 /**

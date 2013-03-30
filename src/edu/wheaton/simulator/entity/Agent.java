@@ -16,11 +16,10 @@ import java.util.List;
 
 import net.sourceforge.jeval.EvaluationException;
 
-import edu.wheaton.simulator.simulation.Grid;
+import edu.wheaton.simulator.datastructure.Grid;
+import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class Agent extends GridEntity {
-
-	private final AgentID id;
 
 	/**
 	 * The list of all triggers/events associated with this agent.
@@ -42,9 +41,7 @@ public class Agent extends GridEntity {
 	 */
 	public Agent(Grid g, Prototype prototype) {
 		super(g);
-		triggers = new ArrayList<Trigger>();
-		id = new AgentID();
-		this.prototype = prototype;
+		init(prototype);
 	}
 
 	/**
@@ -57,9 +54,7 @@ public class Agent extends GridEntity {
 	 */
 	public Agent(Grid g, Prototype prototype, Color c) {
 		super(g, c);
-		triggers = new ArrayList<Trigger>();
-		id = new AgentID();
-		this.prototype = prototype;
+		init(prototype);
 	}
 
 	/**
@@ -74,24 +69,32 @@ public class Agent extends GridEntity {
 	 */
 	public Agent(Grid g, Prototype prototype, Color c, byte[] d) {
 		super(g, c, d);
+		init(prototype);
+	}
+
+	private void init(Prototype p) {
 		triggers = new ArrayList<Trigger>();
-		id = new AgentID();
-		this.prototype = prototype;
+		prototype = p;
 	}
 
 	/**
-	 * Causes this Agent to perform 1 action. The first trigger with valid
+	 * Causes this Agent to perform 1 action. All triggers with valid
 	 * conditions will fire.
 	 * 
 	 * @throws Exception
 	 */
-	public void act() {
-		try {
-			for (Trigger t : triggers)
+	public void act() throws SimulationPauseException {
+		for (Trigger t : triggers)
+			try {
 				t.evaluate(this);
-		} catch (EvaluationException e) {
-			System.err.println(e.getMessage());
-		}
+			} catch (EvaluationException e) {
+				System.err.println(e.getMessage());
+				String errorMessage = "Error in Agent: " + this.getName()
+						+ "\n ID: " + this.getEntityID() + "\n Trigger: "
+						+ t.getName() + "\n MSG: " + e.getMessage()
+						+ "\n condition: " + t.getConditions().toString();
+				throw new SimulationPauseException(errorMessage);
+			}
 	}
 
 	/**
@@ -130,7 +133,7 @@ public class Agent extends GridEntity {
 	 */
 	public void removeTrigger(String name) {
 		for (int i = 0; i < triggers.size(); i++)
-			if (triggers.get(i).getName().equals(name))
+			if (getTriggerName(i).equals(name))
 				triggers.remove(i);
 	}
 
@@ -141,8 +144,12 @@ public class Agent extends GridEntity {
 	 */
 	public void updateTrigger(String name, Trigger newT) {
 		for (int i = 0; i < triggers.size(); i++)
-			if (triggers.get(i).getName().equals(name))
+			if (getTriggerName(i).equals(name))
 				triggers.set(i, newT);
+	}
+
+	private String getTriggerName(int index) {
+		return triggers.get(index).getName();
 	}
 
 	/**
@@ -174,14 +181,10 @@ public class Agent extends GridEntity {
 		updateField("y", y);
 	}
 
-	public AgentID getAgentID() {
-		return id;
-	}
-
 	public Prototype getPrototype() {
 		return prototype;
 	}
-	
+
 	public String getName() {
 		return getPrototype().getName();
 	}

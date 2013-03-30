@@ -7,16 +7,17 @@
  * 
  * Wheaton College, CSCI 335, Spring 2013
  */
-package edu.wheaton.simulator.simulation;
+package edu.wheaton.simulator.datastructure;
 
 import java.awt.Color;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import net.sourceforge.jeval.EvaluationException;
-
-import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.entity.Slot;
+import edu.wheaton.simulator.entity.EntityID;
+import edu.wheaton.simulator.simulation.Layer;
+import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class Grid implements Iterable<Slot> {
 
@@ -29,7 +30,7 @@ public class Grid implements Iterable<Slot> {
 	private final Integer height;
 
 	/**
-	 * Constuctor. Creates a grid with the given width and height
+	 * Constructor. Creates a grid with the given width and height
 	 * specifications
 	 * 
 	 * @param width
@@ -42,7 +43,7 @@ public class Grid implements Iterable<Slot> {
 		grid = new Slot[getHeight()][getWidth()];
 		for (int x = 0; x < getWidth(); x++)
 			for (int y = 0; y < getHeight(); y++)
-				setSlot(new Slot(this),x,y);
+				setSlot(new Slot(this), x, y);
 	}
 
 	public Integer getWidth() {
@@ -54,31 +55,44 @@ public class Grid implements Iterable<Slot> {
 	}
 
 	public boolean isValidCoord(int x, int y) {
-		return (x>=0) && (y>=0) && (x < getWidth()) && (y < getHeight());
+		return (x >= 0) && (y >= 0) && x < getWidth() && y < getHeight();
 	}
 
 	public Slot getSlot(int x, int y) {
-		if(isValidCoord(x,y))
+		if (isValidCoord(x, y))
 			return grid[y][x];
-		throw new NullPointerException("Invalid coord!");
+		System.err.println("invalid Coord: " + x + "," + y);
+		throw new ArrayIndexOutOfBoundsException();
 	}
-	
-	public void setSlot(Slot s, int x, int y){
-		if(isValidCoord(x,y))
+
+	public void setSlot(Slot s, int x, int y) {
+		if (isValidCoord(x, y))
 			grid[y][x] = s;
-		else
-			throw new NullPointerException("Invalid coord!");
+		else {
+			System.err.println("invalid Coord: " + x + "," + y);
+			throw new ArrayIndexOutOfBoundsException();
+		}
 	}
 
 	/**
-	 * Causes all entities in the grid to act()
+	 * Causes all entities in the grid to act(). Checks to make sure each Agent
+	 * has only acted once this iteration.
 	 * 
+	 * @throws SimulationPauseException
 	 */
-	public void updateEntities() {
-		for (Slot[] sArr : grid)
-			for (Slot s : sArr)
-				if (s.getAgent() != null)
-					s.getAgent().act();
+	public void updateEntities() throws SimulationPauseException {
+
+		HashSet<EntityID> processedIDs = new HashSet<EntityID>();
+
+		for (Slot[] row : grid)
+			for (Slot currentSlot : row) {
+				Agent current = currentSlot.getAgent();
+				if (current != null)
+					if (!processedIDs.contains(current.getEntityID())) {
+						current.act();
+						processedIDs.add(current.getEntityID());
+					}
+			}
 	}
 
 	/**
@@ -91,10 +105,7 @@ public class Grid implements Iterable<Slot> {
 	 * @param y
 	 */
 	public boolean addAgent(Agent a, int x, int y) {
-		if(isValidCoord(a.getPosX(),a.getPosY())){
-			this.removeAgent(a.getPosX(), a.getPosY());
-		}
-		if(emptySlot(x,y)){
+		if (emptySlot(x, y)) {
 			getSlot(x, y).setAgent(a);
 			a.setPos(x, y);
 			return true;
@@ -118,29 +129,29 @@ public class Grid implements Iterable<Slot> {
 	public boolean spawnAgent(Agent a, int spawnX, int spawnY) {
 
 		a.setPos(-1, -1);
-		
+
 		for (int distance = 0; distance < height || distance < width; distance++) {
 			int x = spawnX - distance;
 			int y = spawnY - distance;
-			if( spawnAgentHelper(a,x,y) )
+			if (spawnAgentHelper(a, x, y))
 				return true;
 			for (; x < spawnX + distance; x++)
-				if( spawnAgentHelper(a,x,y) )
+				if (spawnAgentHelper(a, x, y))
 					return true;
 			for (; y < spawnY + distance; y++)
-				if( spawnAgentHelper(a,x,y) )
+				if (spawnAgentHelper(a, x, y))
 					return true;
 			for (; x > spawnX - distance; x--)
-				if( spawnAgentHelper(a,x,y) )
+				if (spawnAgentHelper(a, x, y))
 					return true;
 			for (; y > spawnY - distance; y--)
-				if( spawnAgentHelper(a,x,y) )
+				if (spawnAgentHelper(a, x, y))
 					return true;
 		}
 		return false;
 	}
-	
-	private boolean spawnAgentHelper(Agent a, int x, int y){
+
+	private boolean spawnAgentHelper(Agent a, int x, int y) {
 		if (emptySlot(x, y)) {
 			addAgent(a, x, y);
 			return true;
@@ -157,7 +168,7 @@ public class Grid implements Iterable<Slot> {
 	 * @return Whether or not the particular slot is empty
 	 */
 	public boolean emptySlot(int x, int y) {
-		if (isValidCoord(x,y) && getAgent(x, y)==null)
+		if (isValidCoord(x, y) && getSlot(x, y).getAgent() == null)
 			return true;
 		return false;
 	}
@@ -169,8 +180,8 @@ public class Grid implements Iterable<Slot> {
 	 *            The Agent to add.
 	 */
 	public boolean spawnAgent(Agent a) {
-		int randomX = (int) (Math.random() * width);
-		int randomY = (int) (Math.random() * height);
+		int randomX = (int) (Math.random() * (width - 1));
+		int randomY = (int) (Math.random() * (height - 1));
 		return spawnAgent(a, randomX, randomY);
 	}
 
@@ -190,8 +201,15 @@ public class Grid implements Iterable<Slot> {
 	 * @param x
 	 * @param y
 	 */
-	public void removeAgent(int x, int y) {
-		getSlot(x, y).setAgent(null);
+	public boolean removeAgent(int x, int y) {
+		if (isValidCoord(x, y)) {
+			Slot slot = getSlot(x, y);
+			if (slot.getAgent() != null)
+				return slot.setAgent(null);
+		}
+		System.err.println("Grid.removeAgent(" + x + "," + y
+				+ ") : invalid coord");
+		return false;
 	}
 
 	/**
@@ -200,11 +218,17 @@ public class Grid implements Iterable<Slot> {
 	 * @param ge
 	 *            The Agent to remove.
 	 */
-	public void removeAgent(Agent a) {
-		for (Slot[] sArr : grid)
-			for (Slot s : sArr)
-				if (s.getAgent() == a)
-					s.setAgent(null);
+	public boolean removeAgent(Agent a) {
+		int x = a.getPosX();
+		int y = a.getPosY();
+		if (isValidCoord(x, y)) {
+			Slot slot = getSlot(x, y);
+			Agent b = slot.getAgent();
+			if (b != null && b.getEntityID().equals(a.getEntityID()))
+				return slot.setAgent(null);
+		}
+		System.err.println("Grid.removeAgent(Agent a) : agent not found");
+		return false;
 	}
 
 	/**
@@ -229,13 +253,15 @@ public class Grid implements Iterable<Slot> {
 	 * @throws EvaluationException
 	 */
 	public void setLayerExtremes() throws EvaluationException {
-		for (Slot[] sArr : grid)
-			for (Slot s : sArr)
-				if (s.getAgent() != null) {
-					Field currentField = s.getAgent().getField(
-							Layer.getInstance().getFieldName());
-					Layer.getInstance().setExtremes(currentField);
-				}
+		Iterator<Slot> it = iterator();
+		while (it.hasNext()) {
+			Slot current = it.next();
+			if (current.getAgent() != null) {
+				Field currentField = current.getAgent().getField(
+						Layer.getInstance().getFieldName());
+				Layer.getInstance().setExtremes(currentField);
+			}
+		}
 	}
 
 	/**
