@@ -125,6 +125,7 @@ public class ViewSimScreen extends Screen {
 					stepCount++;
 					System.out.println(stepCount);
 					try {
+						System.out.println("Sleep!");
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block

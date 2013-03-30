@@ -59,6 +59,10 @@ public class GridPanel extends JPanel {
 					System.out.println("\tcolor null " + (agent.getColor() == null));
 					g.setColor(agent.getColor());
 					
+					g.fillRect(squareSize * i, squareSize * j, 
+							squareSize, squareSize);
+					
+					/* TODO Remove when ready for design
 					//If the square is going to be too small
 					//for an icon don't make icons
 					if(squareSize < 10){
@@ -80,6 +84,7 @@ public class GridPanel extends JPanel {
 							}
 						}
 					}
+					*/
 					
 				}
 			}
