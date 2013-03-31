@@ -44,8 +44,8 @@ public class AgentSnapshot extends EntitySnapshot {
 	 * -----------------------------------------------------------------
 	 * AgentSnapshot
 	 * 145 (EntityID - just an int)
-	 * Fields: MapString FieldSnapshot Name Value true numberValue
-	 * Fields: MapString FieldSnapshot Name Value true numberValue
+	 * Fields: FieldSnapshot Name Value
+	 * Fields: FieldSnapshot Name Value
 	 * 3 (step - an int)
 	 * 12 (PrototypeID - an int)
 	 */
