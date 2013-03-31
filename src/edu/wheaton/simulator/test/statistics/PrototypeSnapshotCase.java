@@ -32,7 +32,7 @@ public class PrototypeSnapshotCase {
 	HashMap<String, String> fields;
 	int population;
 	ImmutableSet<EntityID> children;
-	Integer step;
+	Integer step; 
 
 	/**
 	 * Initialize variables.
@@ -43,6 +43,7 @@ public class PrototypeSnapshotCase {
 		grid = new Grid(10, 10);
 		prototype = new Prototype(grid, "tester");
 		fields = new HashMap<String, String>();
+		fields.put("Age", "1"); 
 		population = 50;
 		children = prototype.childIDs();
 		step = new Integer(23);
@@ -54,22 +55,28 @@ public class PrototypeSnapshotCase {
 	@After
 	public void tearDown() {
 	}
-
-	/**
-	 * Auto-generated method stub.
-	 */
-	@Test
-	public void test() {
-		//fail("Not yet implemented");
-	}
 	
 	/**
 	 * Tests to make sure a PrototypeSnapshot object was successfully created.
 	 */
+	@Test
 	public void prototypeSnapshotTest() {
 		PrototypeSnapshot protoSnap = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
 				SnapshotFactory.makeFieldSnapshots(fields), population,
 				children, step);
 		Assert.assertNotNull("PrototypeSnapshot not created.", protoSnap);
+	}
+	
+	/**
+	 * Tests the serialize() method 
+	 */
+	@Test
+	public void serializeTest(){
+		PrototypeSnapshot protoSnap = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
+				SnapshotFactory.makeFieldSnapshots(fields), population,
+				children, step);
+		
+		String expected = "PrototypeSnapshot\n1\ntesting\nDefaultFields: FieldSnapshot Age 1\n0\n23"; 
+		Assert.assertEquals(expected, protoSnap.serialize()); 	
 	}
 }

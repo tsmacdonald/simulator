@@ -54,14 +54,6 @@ public class EntitySnapshotCase {
 	}
 
 	/**
-	 * Auto-generated method stub.
-	 */
-	@Test
-	public void test() {
-		// fail("Not yet implemented");
-	}
-
-	/**
 	 * Tests to make sure an EntitySnapshot object was successfully created.
 	 */
 	@Test
@@ -69,5 +61,19 @@ public class EntitySnapshotCase {
 		EntitySnapshot entSnap = new EntitySnapshot(entity.getEntityID(),
 				SnapshotFactory.makeFieldSnapshots(fields), step);
 		Assert.assertNotNull("EntitySnapshot not created.", entSnap);
+	}
+	
+	/**
+	 * Tests the serialize() method 
+	 */
+	@Test
+	public void serializeTest(){
+		EntitySnapshot entSnap = new EntitySnapshot(entity.getEntityID(),
+				SnapshotFactory.makeFieldSnapshots(fields), step);
+		
+		String expected = "EntitySnapshot\n2\nFields: Cat FieldSnapshot Cat Joomba" +
+				"\nFields: Pig FieldSnapshot Pig Tom\nFields: Monkey FieldSnapshot Monkey Olly\n23"; 
+		System.out.println(entSnap.serialize()); 
+		Assert.assertEquals(expected, entSnap.serialize()); 	
 	}
 }
