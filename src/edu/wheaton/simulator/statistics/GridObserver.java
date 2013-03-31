@@ -44,7 +44,7 @@ public class GridObserver {
 		
 		
 		
-		for (Slot s : grid) { 
+//		for (Slot s : grid) { 
 //			EntitySnapshot slotSnap = SnapshotFactory.makeSlotSnapshot(s, step);
 //			statManager.addGridEntity(slotSnap);
 //			Agent agent = s.getAgent();
@@ -58,6 +58,6 @@ public class GridObserver {
 //						prototypes.get(currentPrototypeName), step);
 //			}
 //			// TODO Make sure this method is completely implemented! (for the most part)
-		}
+//		}
 	}
 }
