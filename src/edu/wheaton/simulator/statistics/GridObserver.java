@@ -39,6 +39,7 @@ public class GridObserver {
 			Agent agent; 
 			if ((agent = s.getAgent()) != null) { 
 				statManager.addGridEntity(SnapshotFactory.makeAgentSnapshot(agent, step));
+				System.out.println(SnapshotFactory.makeAgentSnapshot(agent, step).serialize()); //Debugging 
 			}
 		}
 		
