@@ -59,16 +59,16 @@ public class FieldSnapshot {
 	
 	/**
 	 * Produce a string serializing this object
-	 * @return a String containing all of the data in this snapshot
+	 * @return a String containing the data required to recreate this snapshot
 	 * 
 	 * Format: 
-	 * "FieldSnapshot name value isNumber numberValue"
+	 * FieldSnapshot name value
 	 * 
 	 * Example: 
-	 * "FieldSnapshot height 10 true 10.0"
+	 * "FieldSnapshot height 10"
 	 */
 	public String serialize(){
-		return "FieldSnapshot " + name + " " + value + " " + isNumber + " " + numberValue;  
+		return "FieldSnapshot " + name + " " + value;  
 	}
 
 }

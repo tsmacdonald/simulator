@@ -75,8 +75,8 @@ public class PrototypeSnapshot {
 	 * PrototypeSnapshot
 	 * 124 (id)
 	 * Dog (categoryName)
-	 * Fields: MapString FieldSnapshot Name Value true numberValue
-	 * Fields: MapString FieldSnapshot Name Value true numberValue
+	 * DefaultFields: FieldSnapshot Name Value
+	 * DefaultFields: FieldSnapshot Name Value
 	 * Children: 3345
 	 * Children: 1237
 	 * Children: 9457
@@ -90,7 +90,7 @@ public class PrototypeSnapshot {
 		
 		//Serialize the defaultFields map
 		for (Entry<String, FieldSnapshot> entry : defaultFields.entrySet()) {
-			s += "\nDefaultFields: " + entry.getKey() + entry.getValue().serialize();
+			s += "\nDefaultFields: " + entry.getValue().serialize();
 		}
 		
 		//Serialize the Children set

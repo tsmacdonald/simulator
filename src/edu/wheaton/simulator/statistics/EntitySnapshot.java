@@ -52,8 +52,8 @@ public class EntitySnapshot {
 	 * -----------------------------------------------------------------
 	 * EntitySnapshot
 	 * 145 (EntityID - just an int)
-	 * Fields: MapString FieldSnapshot Name Value true numberValue
-	 * Fields: MapString FieldSnapshot Name Value true numberValue
+	 * Fields: FieldSnapshot Name Value
+	 * Fields: FieldSnapshot Name Value
 	 * 3 (step - an int)
 	 */
 	public String serialize(){

@@ -75,7 +75,7 @@ public class Field {
 	 * @return Integer.valueOf(getValue())
 	 */
 	public Integer getIntValue() {
-		return Integer.valueOf(getValue());
+		return getDoubleValue().intValue();
 	}
 
 	/**
