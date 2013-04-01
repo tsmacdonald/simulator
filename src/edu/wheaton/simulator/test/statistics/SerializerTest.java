@@ -1,7 +1,5 @@
 package edu.wheaton.simulator.test.statistics;
 
-import static org.junit.Assert.fail;
-
 import java.util.HashMap;
 
 import junit.framework.Assert;
