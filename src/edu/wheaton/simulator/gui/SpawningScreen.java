@@ -22,6 +22,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -131,22 +132,40 @@ public class SpawningScreen extends Screen {
 					} 
 				});
 		JButton finishButton = new JButton("Finish");
+		//TODO finish adjusting this for spawn window safeguards
 		finishButton.addActionListener(
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
-						conditions.clear();
-						for (int i = 0; i < entityTypes.size(); i++) {
-							SpawnCondition condition = new SpawnCondition(sm.getFacade().getPrototype(
-									((String) entityTypes.get(i).getSelectedItem())),
-									Integer.parseInt(xLocs.get(i).getText()), Integer
-									.parseInt(yLocs.get(i).getText()), Integer
-									.parseInt(numbers.get(i).getText()),
-									(String) spawnPatterns.get(i).getSelectedItem());
-							sm.getSpawnConditions().add(condition);
+						try{
+							for (int i = 0; i < xLocs.size(); i++) {
+								if (Integer.parseInt(xLocs.get(i).getText()) < 0 ||
+										Integer.parseInt(yLocs.get(i).getText()) < 0 ||
+										Integer.parseInt(numbers.get(i).getText()) < 0) {
+									throw new Exception("Coordinates and numbers must be integers greater at least 0");
+								}
+							}
+							ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
+							conditions.clear();
+							for (int i = 0; i < entityTypes.size(); i++) {
+								SpawnCondition condition = new SpawnCondition(sm.getFacade().getPrototype(
+										((String) entityTypes.get(i).getSelectedItem())),
+										Integer.parseInt(xLocs.get(i).getText()), 
+										Integer.parseInt(yLocs.get(i).getText()), 
+										Integer.parseInt(numbers.get(i).getText()),
+										(String) spawnPatterns.get(i).getSelectedItem());
+								sm.getSpawnConditions().add(condition);
+							}
+							sm.update(sm.getScreen("Edit Simulation"));
 						}
-						sm.update(sm.getScreen("Edit Simulation"));
+						catch (NumberFormatException excep) {
+							JOptionPane.showMessageDialog(null,
+									"Priorities field must be an integer greater than 0.");
+							excep.printStackTrace();
+						}
+						catch (Exception excep) {
+							JOptionPane.showMessageDialog(null, excep.getMessage());
+						}
 					}
 				});
 		buttonPanel.add(cancelButton);

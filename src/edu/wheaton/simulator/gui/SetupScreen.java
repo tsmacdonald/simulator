@@ -14,6 +14,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -175,26 +176,47 @@ public class SetupScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						sm.updateGUIManager(nameField.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
-						JPanel[][] grid = new JPanel[GUIManager.getGridWidth()][GUIManager.getGridHeight()];
-						for (int j = 0; j < GUIManager.getGridWidth(); j++){
-							for (int i = 0; i < GUIManager.getGridHeight(); i++) {
-								grid[i][j] = new JPanel();
-								grid[i][j].setOpaque(false);
-								grid[i][j].setBorder(BorderFactory.createEtchedBorder());
-							}	
+						try {
+							if (nameField.getText().equals("")) {
+								throw new Exception("All fields must have input");
+							}
+							if (Integer.parseInt(width.getText()) < 1 || Integer.parseInt(height.getText()) < 1) {
+								throw new Exception("Width and height must be greater than 0");
+							}
+							for (int i = 0; i < values.size(); i++){
+								if (values.get(i).getText().equals("")) {
+									throw new Exception("All fields must have input.");
+								}
+							}
+							
+							sm.updateGUIManager(nameField.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
+							JPanel[][] grid = new JPanel[GUIManager.getGridWidth()][GUIManager.getGridHeight()];
+							for (int j = 0; j < GUIManager.getGridWidth(); j++){
+								for (int i = 0; i < GUIManager.getGridHeight(); i++) {
+									grid[i][j] = new JPanel();
+									grid[i][j].setOpaque(false);
+									grid[i][j].setBorder(BorderFactory.createEtchedBorder());
+								}	
+							}
+							sm.getEnder().setStepLimit(Integer.parseInt(timeField.getText()));
+							for (int i = 0; i < values.size(); i++) {
+								sm.getEnder().setPopLimit(
+										sm.getFacade().getPrototype(
+												(String)(agentTypes.get(i).getSelectedItem())
+												).getPrototypeID(), 
+												Integer.parseInt(values.get(i).getText())
+										);
+							}
+							sm.update(sm.getScreen("Edit Simulation"));
 						}
-						sm.getEnder().setStepLimit(Integer.parseInt(timeField.getText()));
-						for (int i = 0; i < values.size(); i++) {
-							sm.getEnder().setPopLimit(
-									sm.getFacade().getPrototype(
-											(String)(agentTypes.get(i).getSelectedItem())
-											).getPrototypeID(), 
-											Integer.parseInt(values.get(i).getText())
-									);
+						catch (NumberFormatException excep) {
+							JOptionPane.showMessageDialog(null,
+									"Width and Height fields must be integers greater than 0");
+							excep.printStackTrace();
 						}
-
-						sm.update(sm.getScreen("Edit Simulation"));
+						catch (Exception excep) {
+							JOptionPane.showMessageDialog(null, excep.getMessage());
+						} 
 					}
 				}
 				);
@@ -225,6 +247,10 @@ public class SetupScreen extends Screen {
 		nameField.setText(sm.getGUIname());
 		width.setText(sm.getGUIwidth() + "");
 		height.setText(sm.getGUIheight() + "");
+		if (sm.hasStarted()) {
+			width.setEditable(false);
+			height.setEditable(false);
+		}
 
 		SimulationEnder se = sm.getEnder();
 		Set<String> agents = sm.getFacade().prototypeNames();
@@ -299,6 +325,7 @@ public class SetupScreen extends Screen {
 		public void actionPerformed(ActionEvent e){
 			int n = Integer.parseInt(e.getActionCommand());
 			String str = (String) agentTypes.get(n).getSelectedItem();
+			//throws exception when there are no agents to choose from 
 			sm.getEnder().removePopLimit(
 					sm.getFacade().getPrototype(str).getPrototypeID());
 			conListPanel.remove(subPanels.get(n));

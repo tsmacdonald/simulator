@@ -102,7 +102,6 @@ public class ViewSimScreen extends Screen {
 		System.out.println(sm.getEnder().getStepLimit());
 		//program loop yay!
 		new Thread(new Runnable() {
-			@Override
 			public void run() {
 				while(sm.isRunning()) {
 					try {
