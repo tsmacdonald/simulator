@@ -108,9 +108,9 @@ public class Prototype extends GridEntity {
 	 * @param g
 	 * @param c
 	 */
-	public static void addPrototype(String n, Prototype p) {
-		prototypes.put(n, p);
-		idNameMap.put(p.getPrototypeID(), n);
+	public static void addPrototype(Prototype p) {
+		prototypes.put(p.getName(), p);
+		idNameMap.put(p.getPrototypeID(), p.getName());
 	}
 
 	/**
@@ -168,9 +168,9 @@ public class Prototype extends GridEntity {
 	 */
 	public void setPrototypeName(String oldName, String newName) {
 		Prototype p = getPrototype(oldName);
-		addPrototype(newName, p);
-		removePrototype(oldName);
 		name = newName;
+		addPrototype(p);
+		removePrototype(oldName);
 	}
 
 	/**
@@ -305,4 +305,5 @@ public class Prototype extends GridEntity {
 	public String getName() {
 		return name;
 	}
+	
 }
