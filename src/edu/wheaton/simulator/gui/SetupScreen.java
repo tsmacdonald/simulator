@@ -22,6 +22,7 @@ import javax.swing.SwingConstants;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.PrototypeID;
+import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 //TODO commented code for adding operators to ending conditions :
@@ -128,7 +129,7 @@ public class SetupScreen extends Screen {
 					}
 				});
 		glue = Box.createVerticalGlue();
-		addCondition();
+		//addCondition();
 		//TODO line up components
 		conMainPanel.setLayout(
 				new BorderLayout());
@@ -142,9 +143,9 @@ public class SetupScreen extends Screen {
 		conListPanel.setLayout(
 				new BoxLayout(conListPanel, BoxLayout.Y_AXIS)
 				);
-		subPanels.get(0).setLayout(
-				new BoxLayout(subPanels.get(0), BoxLayout.X_AXIS)
-				);
+//		subPanels.get(0).setLayout(
+//				new BoxLayout(subPanels.get(0), BoxLayout.X_AXIS)
+//				);
 		timePanel.add(timeLabel);
 		timePanel.add(timeField);
 		timePanel.setAlignmentX(CENTER_ALIGNMENT);
@@ -158,11 +159,11 @@ public class SetupScreen extends Screen {
 		conLabelsPanel.add(valueLabel);
 		conLabelsPanel.add(Box.createHorizontalGlue());
 		valueLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		subPanels.get(0).add(agentTypes.get(0));
-		//subPanels.get(0).add(operations.get(0));
-		subPanels.get(0).add(values.get(0));
-		subPanels.get(0).add(deleteButtons.get(0));
-		conListPanel.add(subPanels.get(0));
+//		subPanels.get(0).add(agentTypes.get(0));
+//		//subPanels.get(0).add(operations.get(0));
+//		subPanels.get(0).add(values.get(0));
+//		subPanels.get(0).add(deleteButtons.get(0));
+//		conListPanel.add(subPanels.get(0));
 		conListPanel.add(addConditionButton);
 		conListPanel.add(glue);
 		conBodyPanel.add(timePanel);
@@ -188,7 +189,7 @@ public class SetupScreen extends Screen {
 									throw new Exception("All fields must have input.");
 								}
 							}
-							
+
 							sm.updateGUIManager(nameField.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
 							JPanel[][] grid = new JPanel[GUIManager.getGridWidth()][GUIManager.getGridHeight()];
 							for (int j = 0; j < GUIManager.getGridWidth(); j++){
@@ -257,22 +258,25 @@ public class SetupScreen extends Screen {
 		agentNames = agents.toArray(agentNames);
 		timeField.setText(se.getStepLimit() + "");
 		ImmutableMap<PrototypeID, Integer> popLimits = se.getPopLimits();
-		int i = 0;
-		for (PrototypeID p : popLimits.keySet()) {
-			addCondition();
-			for (String s : agentNames) {
-				//this is pretty hackish: there should be a way to get the name
-				//from the ID
-				//TODO see if that can be added
-				if (sm.getFacade().getPrototype(s).getPrototypeID().equals(p)) {
-					agentTypes.get(i).setSelectedItem(s);
-				}
-			}
-			values.get(i).setText(popLimits.get(p) + "");
-		}
 		if (popLimits.size() == 0) {
 			addCondition();
 		}
+		else {
+			int i = 0;
+			for (PrototypeID p : popLimits.keySet()) {
+				addCondition();
+				for (String s : agentNames) {
+					//this is pretty hackish: there should be a way to get the name
+					//from the ID
+					//TODO see if that can be added
+					if (sm.getFacade().getPrototype(s).getPrototypeID().equals(p)) {
+						agentTypes.get(i).setSelectedItem(s);
+					}
+				}
+				values.get(i).setText(popLimits.get(p) + "");
+			}
+		}
+
 	}
 
 
@@ -282,6 +286,9 @@ public class SetupScreen extends Screen {
 				new BoxLayout(newPanel, 
 						BoxLayout.X_AXIS)
 				);
+		//attempting to fix not loading the box on first load
+//		Set<String> f = sm.getFacade().prototypeNames();
+//		agentNames = sm.getFacade().prototypeNames().toArray(agentNames);
 		JComboBox newBox = new JComboBox(agentNames);
 		newBox.setMaximumSize(new Dimension(300, 40));
 		agentTypes.add(newBox);

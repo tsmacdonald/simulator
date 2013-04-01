@@ -160,7 +160,7 @@ public class SpawningScreen extends Screen {
 						}
 						catch (NumberFormatException excep) {
 							JOptionPane.showMessageDialog(null,
-									"Priorities field must be an integer greater than 0.");
+									"Coordinates and numbers must be integers greater than 0");
 							excep.printStackTrace();
 						}
 						catch (Exception excep) {
@@ -184,7 +184,6 @@ public class SpawningScreen extends Screen {
 		subPanels.clear();
 		deleteButtons.clear();
 		listPanel.removeAll();
-		addSpawn();
 	}
 
 	@Override
@@ -201,6 +200,9 @@ public class SpawningScreen extends Screen {
 			xLocs.get(i).setText(spawnConditions.get(i).x + "");
 			yLocs.get(i).setText(spawnConditions.get(i).y + "");
 			numbers.get(i).setText(spawnConditions.get(i).number + "");
+		}
+		if (spawnConditions.size() == 0) {
+			addSpawn();
 		}
 
 	}
