@@ -9,7 +9,7 @@ import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
-public class ScreenManager {
+public class ScreenManager implements Manager{
 
 	private HashMap<String, Screen> screens;
 
@@ -51,9 +51,8 @@ public class ScreenManager {
 	public Screen getScreen(String screenName) {
 		return screens.get(screenName);
 	}
-
 	public void update(Screen update) {
-		dm.updateScreen(update);
+		dm.update(update);
 	}
 	
 	public void setGrid(JPanel[][] grid){

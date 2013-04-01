@@ -3,8 +3,10 @@ package edu.wheaton.simulator.gui;
 /**
  * This class is a singleton which is the sole communicator to the display
  */
-public class DisplayManager {
+public class DisplayManager implements Manager {
 
+	//is this class necessary?
+	
 	private static Display display;
 
 	private static int id = 0;
@@ -24,7 +26,7 @@ public class DisplayManager {
 		return id;
 	}
 
-	public void updateScreen(Screen s) {
+	public void update(Screen s) {
 		display.updateDisplay(s);
 	}
 }
