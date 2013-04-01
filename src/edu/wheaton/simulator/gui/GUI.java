@@ -1,20 +1,11 @@
 package edu.wheaton.simulator.gui;
 
-public final class GUIManager {
+public final class GUI {
 
-	private static GUIManager instance = null;
 	private static String nameOfSimulation;
 	private static int gridHeight = 0;
 	private static int gridWidth = 0;
 	
-	private GUIManager(){
-	}
-	
-	public static GUIManager getInstance(){
-		if(instance == null)
-			instance = new GUIManager();
-		return instance;
-	}
 	
 	public static String getNameOfSim(){
 		return nameOfSimulation;

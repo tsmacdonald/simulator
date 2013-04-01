@@ -13,7 +13,7 @@ public class ScreenManager implements Manager{
 
 	private HashMap<String, Screen> screens;
 
-	private DisplayManager dm;
+	private Display d;
 	
 	private JPanel[][] grid;
 	
@@ -30,10 +30,10 @@ public class ScreenManager implements Manager{
 	//for determining when components should be disabled while running a sim.
 	private boolean hasStarted;
 
-	public ScreenManager(DisplayManager dm, GUIManager gm) {
+	public ScreenManager(Display d) {
 		spawnConditions = new ArrayList<SpawnCondition>();
 		screens = new HashMap<String, Screen>();
-		this.dm = dm;
+		this.d = d;
 		se = new SimulationEnder();
 		screens.put("Title", new TitleScreen(this));
 		screens.put("New Simulation", new NewSimulationScreen(this));
@@ -47,12 +47,16 @@ public class ScreenManager implements Manager{
 		screens.put("Statistics", new StatisticsScreen(this));
 		screens.put("Grid Setup", new SetupScreen(this));
 	}
+	
+	public ScreenManager(){
+		this(new Display());
+	}
 
 	public Screen getScreen(String screenName) {
 		return screens.get(screenName);
 	}
 	public void update(Screen update) {
-		dm.update(update);
+		d.updateDisplay(update);
 	}
 	
 	public void setGrid(JPanel[][] grid){
@@ -80,22 +84,22 @@ public class ScreenManager implements Manager{
 	}
 	
 	public String getGUIname(){
-		return GUIManager.getNameOfSim();
+		return GUI.getNameOfSim();
 	}
 	
 	public int getGUIheight(){
-		return GUIManager.getGridHeight();
+		return GUI.getGridHeight();
 	}
 	
 	public int getGUIwidth(){
-		return GUIManager.getGridWidth();
+		return GUI.getGridWidth();
 	}
 
 	public void updateGUIManager(String nos, int width, int height){
 	
-		GUIManager.setNameOfSim(nos);
-		GUIManager.setGridWidth(width);
-		GUIManager.setGridHeight(height);
+		GUI.setNameOfSim(nos);
+		GUI.setGridWidth(width);
+		GUI.setGridHeight(height);
 
 	}
 	

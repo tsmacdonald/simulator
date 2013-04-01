@@ -157,15 +157,15 @@ public class FieldScreen extends Screen {
 		reset();
 		edit.setEnabled(sm.hasStarted() ? false : true); 
 		delete.setEnabled(sm.hasStarted() ? false : true); 
-		if (xPos.getItemCount() != sm.getGUIwidth()) {
+		if (xPos.getItemCount() != GUI.getGridWidth()) {
 			xPos.removeAllItems();
-			for (int i = 0; i < sm.getGUIwidth(); i++) {
+			for (int i = 0; i < GUI.getGridWidth(); i++) {
 				xPos.addItem(i + "");
 			}
 		}
-		if (yPos.getItemCount() != sm.getGUIheight()) {
+		if (yPos.getItemCount() != GUI.getGridHeight()) {
 			yPos.removeAllItems();
-			for (int j = 0; j < sm.getGUIwidth(); j++) {
+			for (int j = 0; j < GUI.getGridWidth(); j++) {
 				yPos.addItem(j + "");
 			}
 		}

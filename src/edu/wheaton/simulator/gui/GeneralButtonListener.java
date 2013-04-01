@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 public class GeneralButtonListener implements ActionListener {
 
 	private String screenName;
-	private ScreenManager sm;
+	private Manager sm;
 
-	public GeneralButtonListener(String screenName, ScreenManager sm) {
+	public GeneralButtonListener(String screenName, Manager sm) {
 		this.screenName = screenName;
 		this.sm = sm;
 	}

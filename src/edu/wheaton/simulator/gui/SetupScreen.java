@@ -191,9 +191,9 @@ public class SetupScreen extends Screen {
 							}
 
 							sm.updateGUIManager(nameField.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
-							JPanel[][] grid = new JPanel[GUIManager.getGridWidth()][GUIManager.getGridHeight()];
-							for (int j = 0; j < GUIManager.getGridWidth(); j++){
-								for (int i = 0; i < GUIManager.getGridHeight(); i++) {
+							JPanel[][] grid = new JPanel[GUI.getGridWidth()][GUI.getGridHeight()];
+							for (int j = 0; j < GUI.getGridWidth(); j++){
+								for (int i = 0; i < GUI.getGridHeight(); i++) {
 									grid[i][j] = new JPanel();
 									grid[i][j].setOpaque(false);
 									grid[i][j].setBorder(BorderFactory.createEtchedBorder());
@@ -245,9 +245,9 @@ public class SetupScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		nameField.setText(sm.getGUIname());
-		width.setText(sm.getGUIwidth() + "");
-		height.setText(sm.getGUIheight() + "");
+		nameField.setText(GUI.getNameOfSim());
+		width.setText(GUI.getGridWidth() + "");
+		height.setText(GUI.getGridHeight() + "");
 		if (sm.hasStarted()) {
 			width.setEditable(false);
 			height.setEditable(false);
