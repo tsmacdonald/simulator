@@ -16,23 +16,38 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
+import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class StatisticsScreen extends Screen {
-	//TODO instance variables
+
 	private JPanel dataPanel;
 
 	private String[] entities;
 
 	private String[] agentFields;
+	
+	private JComboBox popEntityBox;
+	
+	private JComboBox fieldEntityBox;
+	
+	private JComboBox lifeEntityBox;
+	
+	private ArrayList<JComboBox> agentFieldsBoxes;
+	
+	private JPanel fieldCard;
+	
+	private StatisticsManager statMan;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 714636604315959167L;
 	//TODO fix layout of this screen	
+	//TODO make sure that correctfields box gets put on the panel when an agent is selected.
 	public StatisticsScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -47,7 +62,7 @@ public class StatisticsScreen extends Screen {
 		dataPanel.setLayout(new CardLayout());
 		JPanel populationCard = new JPanel();
 		String populations = "Card with Populations";
-		JPanel fieldCard = new JPanel();
+		fieldCard = new JPanel();
 		String fields = "Card with Fields";
 		JPanel lifespanCard = new JPanel();
 		String lifespans = "Card with Lifespans";
@@ -75,18 +90,19 @@ public class StatisticsScreen extends Screen {
 		//TODO placeholder
 		//String[] entities = {"Fox", "Rabbit", "Clover", "Bear"};
 		entities = new String[0];
-		JComboBox popEntityTypes = new JComboBox(entities);
-		populationCard.add(popEntityTypes);
+		popEntityBox = new JComboBox(entities);
+		populationCard.add(popEntityBox);
 		
-		JComboBox fieldEntityTypes = new JComboBox(entities);
+		fieldEntityBox = new JComboBox(entities);
 		//TODO placeholder
 		//String[] agentFields = {"height", "weight", "speed"};
 		agentFields = new String[0];
-		JComboBox agentFieldsBox = new JComboBox(agentFields);
-		fieldCard.add(fieldEntityTypes);
-		fieldCard.add(agentFieldsBox);
+		agentFieldsBoxes = new ArrayList<JComboBox>();
+		agentFieldsBoxes.add(new JComboBox(agentFields));
+		fieldCard.add(fieldEntityBox);
+		fieldCard.add(agentFieldsBoxes.get(0));
 
-		JComboBox lifeEntityBox = new JComboBox(entities);
+		lifeEntityBox = new JComboBox(entities);
 		lifespanCard.add(lifeEntityBox);
 
 		JButton finishButton = new JButton("Finish");
@@ -99,10 +115,10 @@ public class StatisticsScreen extends Screen {
 			}
 		});
 
-		if(popEntityTypes.getSelectedIndex() >= 0){
+		if(popEntityBox.getSelectedIndex() >= 0){
 			StatisticsManager statMan = sm.getStatManager();
 			int[] p = statMan.getPopVsTime(sm.getFacade().
-					getPrototype(popEntityTypes.getSelectedItem().toString())
+					getPrototype(popEntityBox.getSelectedItem().toString())
 					.getPrototypeID()
 					);
 			String[] popTime = {"Population", "Time"};
@@ -119,7 +135,7 @@ public class StatisticsScreen extends Screen {
 		//COMING SOON: Average Field Table Statistics
 		
 //		if(fieldEntityTypes.getSelectedIndex() >= 0){
-//			StatisticsManager statMan = sm.getStatManager();
+//			statMan = sm.getStatManager();
 //			double[] p = statMan.getAvgFieldValue((sm.getFacade().
 //					getPrototype(popEntityTypes.getSelectedItem().toString())
 //					.getPrototypeID()), (String) agentFieldsBox.getSelectedItem()
@@ -150,14 +166,23 @@ public class StatisticsScreen extends Screen {
 	//TODO finish this
 	@Override
 	public void load() {
-		/*
+		//TODO make sure that listeners are assigned
 		entities = new String[sm.getFacade().prototypeNames().size()];
+		popEntityBox.removeAllItems();
+		fieldEntityBox.removeAllItems();
+		lifeEntityBox.removeAllItems();
+		agentFieldsBoxes.clear();
 		int i = 0;
 		for (String s : sm.getFacade().prototypeNames()) {
 			entities[i++] = s;
+			popEntityBox.addItem(s);
+			fieldEntityBox.addItem(s);
+			lifeEntityBox.addItem(s);
+			agentFields = sm.getFacade().getPrototype(s).getCustomFieldMap().keySet().toArray(agentFields);
+			agentFieldsBoxes.add(new JComboBox(agentFields));
 		}
-
-		 */
+		
+		
 	}
 
 }
