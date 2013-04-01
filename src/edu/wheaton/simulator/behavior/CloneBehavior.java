@@ -36,8 +36,8 @@ public class CloneBehavior extends AbstractBehavior {
 	public String execute(String[] args) throws EvaluationException {
 		Agent target = resolveAgent(args[0]);
 		
-		Integer x = Integer.valueOf(args[1]);
-		Integer y = Integer.valueOf(args[2]);
+		Integer x = Double.valueOf(args[1]).intValue();
+		Integer y = Double.valueOf(args[2]).intValue();
 		
 		Grid grid = target.getGrid();
 		

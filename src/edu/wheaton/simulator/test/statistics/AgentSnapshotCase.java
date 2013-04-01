@@ -63,14 +63,6 @@ public class AgentSnapshotCase {
 	}
 
 	/**
-	 * Auto-generated method stub.
-	 */
-	@Test
-	public void test() {
-		// fail("Not yet implemented");
-	}
-
-	/**
 	 * Tests to make sure an AgentSnapshot object was successfully created.
 	 */
 	@Test
@@ -79,5 +71,21 @@ public class AgentSnapshotCase {
 				SnapshotFactory.makeFieldSnapshots(fields), step,
 				prototype.getPrototypeID());
 		Assert.assertNotNull("AgentSnapshot not created.", agentSnap);
+	}
+	
+	/**
+	 * Tests the serialize() method 
+	 */
+	@Test
+	public void serializeTest(){
+		AgentSnapshot agentSnap = new AgentSnapshot(entity.getEntityID(),
+				SnapshotFactory.makeFieldSnapshots(fields), step,
+				prototype.getPrototypeID());
+		
+		String expected = "AgentSnapshot\n102\nFields: Cat FieldSnapshot Cat Joomba" +
+				"\nFields: Pig FieldSnapshot Pig Tom\nFields: Monkey FieldSnapshot Monkey Olly\n23\n1"; 
+		System.out.println(agentSnap.serialize()); 
+		
+		Assert.assertEquals(expected, agentSnap.serialize()); 	
 	}
 }

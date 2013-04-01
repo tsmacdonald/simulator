@@ -21,14 +21,14 @@ public class SetFieldOfAgentBehavior extends AbstractExpressionFunction {
 	@Override
 	public String execute(String[] args) throws EvaluationException {
 		Agent target = resolveAgent(args[0]);
-		int x = Integer.valueOf(args[1]);
-		int y = Integer.valueOf(args[2]);
-		String fieldName = args[3];
+		int x = Double.valueOf(args[1]).intValue();
+		int y = Double.valueOf(args[2]).intValue();
+		String fieldName = args[3].replaceAll("'", "");
 		String newFieldValue = args[4];
 		
 		Grid grid = target.getGrid();
 		if(grid.isValidCoord(x, y) && grid.getAgent(x,y)!=null){
-			target.getGrid().getAgent(x, y).updateField(fieldName, newFieldValue);
+			grid.getAgent(x, y).updateField(fieldName, newFieldValue);
 			return Expression.TRUE;
 		}
 		return Expression.FALSE;

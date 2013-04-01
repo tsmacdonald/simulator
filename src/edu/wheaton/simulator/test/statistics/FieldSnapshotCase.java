@@ -9,6 +9,7 @@ package edu.wheaton.simulator.test.statistics;
  */
 
 import junit.framework.Assert;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,14 +33,6 @@ public class FieldSnapshotCase {
 	public void tearDown() {
 		//TODO FieldSnapshotCase.setUp() is empty
 	}
-
-	/**
-	 * Auto-generated method stub.
-	 */
-	@Test
-	public void test() {
-		//fail("Not yet implemented");
-	}
 	
 	/**
 	 * Tests the following things:
@@ -55,5 +48,15 @@ public class FieldSnapshotCase {
 		FieldSnapshot fieldSnapWithInt = new FieldSnapshot("akon", "12345");
 		Assert.assertTrue(fieldSnapWithInt.isNumber);
 		Assert.assertNotNull(fieldSnapWithInt);
+	}
+	
+	/**
+	 * Tests the serialize() method 
+	 */
+	@Test
+	public void serializeTest(){
+		FieldSnapshot fieldSnap = new FieldSnapshot("Age", "1");
+		String expected = "FieldSnapshot Age 1"; 
+		Assert.assertEquals(expected, fieldSnap.serialize()); 	
 	}
 }

@@ -22,10 +22,10 @@ public class CloneAgentAtPositionBehavior extends AbstractExpressionFunction{
 	public String execute(String[] args) throws EvaluationException {
 		Agent target = resolveAgent(args[0]);
 	
-		Integer x1 = Integer.valueOf(args[1]);		// the coordinates of the agent to be cloned
-		Integer y1 = Integer.valueOf(args[2]);
-		Integer x2 = Integer.valueOf(args[3]);		// coordinates for the new agent to be placed at
-		Integer y2 = Integer.valueOf(args[4]);
+		Integer x1 = Double.valueOf(args[1]).intValue();		// the coordinates of the agent to be cloned
+		Integer y1 = Double.valueOf(args[2]).intValue();
+		Integer x2 = Double.valueOf(args[3]).intValue();		// coordinates for the new agent to be placed at
+		Integer y2 = Double.valueOf(args[4]).intValue();
 		
 		Grid grid = target.getGrid();
 		if(grid.isValidCoord(x2, y2) && grid.getAgent(x2,y2)==null){

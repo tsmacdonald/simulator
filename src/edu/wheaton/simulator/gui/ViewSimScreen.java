@@ -23,7 +23,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
+import edu.wheaton.simulator.statistics.GridObserver;
+import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class ViewSimScreen extends Screen {
 
@@ -103,14 +106,15 @@ public class ViewSimScreen extends Screen {
 		//program loop yay!
 		new Thread(new Runnable() {
 			public void run() {
+				GridObserver gridObs = new GridObserver(new StatisticsManager());
 				while(sm.isRunning()) {
 					try {
-					sm.getFacade().updateEntities();
-				} catch (SimulationPauseException e) {
-					sm.setRunning(false);
-					JOptionPane.showMessageDialog(null, e.getMessage());
-				}
-					//TODO hand grid, stepCount, and Prototype.getProtoypes() to stats observer
+						sm.getFacade().updateEntities();
+					} catch (SimulationPauseException e) {
+						sm.setRunning(false);
+						JOptionPane.showMessageDialog(null, e.getMessage());
+					}
+					gridObs.recordSimulationStep(sm.getFacade().getGrid(), stepCount, Prototype.getPrototypes());
 					sm.setRunning(!(sm.getEnder().evaluate(stepCount, 
 							sm.getFacade().getGrid())));
 

@@ -9,10 +9,12 @@ import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
 import net.sourceforge.jeval.VariableResolver;
 import net.sourceforge.jeval.function.FunctionException;
+import edu.wheaton.simulator.behavior.CloneAgentAtPositionBehavior;
 import edu.wheaton.simulator.behavior.CloneBehavior;
 import edu.wheaton.simulator.behavior.DieBehavior;
 import edu.wheaton.simulator.behavior.MoveBehavior;
 import edu.wheaton.simulator.behavior.SetFieldBehavior;
+import edu.wheaton.simulator.behavior.SetFieldOfAgentBehavior;
 import edu.wheaton.simulator.entity.Entity;
 
 public class Expression {
@@ -108,6 +110,8 @@ public class Expression {
 		this.importFunction(new IsSlotOpen());
 		this.importFunction(new GetFieldOfAgentAt());
 		this.importFunction(new IsValidCoord());
+		this.importFunction(new CloneAgentAtPositionBehavior());
+		this.importFunction(new SetFieldOfAgentBehavior());
 	}
 
 	/**
