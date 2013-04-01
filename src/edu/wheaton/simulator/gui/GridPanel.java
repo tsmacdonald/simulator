@@ -60,6 +60,10 @@ public class GridPanel extends JPanel {
 					System.out.println("\tcolor null " + (agent.getColor() == null));
 					g.setColor(agent.getColor());
 
+					g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 
+							squareSize, squareSize);
+
+					/*
 					if(squareSize < 10){
 						g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 
 								squareSize, squareSize);
@@ -78,7 +82,9 @@ public class GridPanel extends JPanel {
 								}
 							}
 						}
-						/* TODO Remove when ready for design
+					 */
+
+					/* TODO Remove when ready for design
 					//If the square is going to be too small
 					//for an icon don't make icons
 					if(squareSize < 10){
@@ -100,12 +106,12 @@ public class GridPanel extends JPanel {
 							}
 						}
 					}
-						 */
-					}
+					 */
 				}
 			}
 		}
 	}
+
 
 	public void clearAgents(Graphics g) {
 		width = this.getWidth();
