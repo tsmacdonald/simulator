@@ -204,7 +204,7 @@ public class DemoMenu {
 						System.out.println("Sleep!");
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+						System.err.println("DemoMenu.java: 'Thread.sleep(500)' was interrupted");
 						e.printStackTrace();
 					}
 				}
