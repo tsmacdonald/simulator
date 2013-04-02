@@ -83,6 +83,7 @@ public class StatisticsManagerTest {
 
 	@After
 	public void tearDown() {
+		//Nothing to do here
 	}
 
 	@Test

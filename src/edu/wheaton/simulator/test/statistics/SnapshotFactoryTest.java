@@ -31,6 +31,7 @@ public class SnapshotFactoryTest {
 	
 	@AfterClass
 	public static void tearDownAfterClass() {
+		//Nothing to do here
 	}
 
 	@Before
@@ -40,6 +41,7 @@ public class SnapshotFactoryTest {
 
 	@After
 	public void tearDown() {
+		//Nothing to do here
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
@@ -49,6 +51,8 @@ public class SnapshotFactoryTest {
 			s.addField("foo", "'bar'");
 			s.addField("number", "1");
 		} catch (ElementAlreadyContainedException e) {
+			//This should never happen
+			System.err.println("SnapshotFactoryTest.java (testMakeSlotSnapshot): ElementAlreadyContainedException");
 		}
 		
 		EntitySnapshot ss = SnapshotFactory.makeSlotSnapshot(s, 10); 

@@ -155,6 +155,7 @@ class EntitySnapshotTableTest {
 		 */
 		@After
 		public void tearDown() {
+			//Nothing to do here
 		}
 
 		/**
