@@ -50,4 +50,9 @@ public interface Manager {
 	 * @return The spawn conditions
 	 */
 	public ArrayList<SpawnCondition> getSpawnConditions();
+	/**
+	 * Calls the load method on the given screen
+	 * @param toUpload The given screen
+	 */
+	public void loadScreen(Screen toUpload);
 }

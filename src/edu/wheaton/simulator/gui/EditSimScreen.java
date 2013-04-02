@@ -111,8 +111,7 @@ public class EditSimScreen extends Screen {
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
-		
+		return;
 	}
 	
 }

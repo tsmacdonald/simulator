@@ -122,4 +122,8 @@ public class ScreenManager implements Manager{
 	public ArrayList<SpawnCondition> getSpawnConditions() { 
 		return spawnConditions; 
 	}
+	
+	public void loadScreen(Screen s){
+		s.load();
+	}
 }

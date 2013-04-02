@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ TestDisplay.class, TestGeneralButtonListener.class })
+@SuiteClasses({ TestDisplay.class, TestGeneralButtonListener.class, TestNSSFinishListener.class })
 public class AllTests {
-
+	
 }
