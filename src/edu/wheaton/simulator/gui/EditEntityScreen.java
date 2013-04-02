@@ -37,6 +37,10 @@ public class EditEntityScreen extends Screen {
 	private Boolean editing;
 
 	private Prototype agent;
+	
+	private JTabbedPane tabs;
+	
+	private JPanel generalPanel;
 
 	private JTextField nameField;
 
@@ -46,9 +50,9 @@ public class EditEntityScreen extends Screen {
 
 	private ArrayList<JTextField> fieldValues;
 
-	private ArrayList<JComboBox> fieldTypes;
+	//private ArrayList<JComboBox> fieldTypes;
 
-	private String[] typeNames = { "Integer", "Double", "String", "Boolean" };
+	//private String[] typeNames = { "Integer", "Double", "String", "Boolean" };
 
 	private ArrayList<JButton> fieldDeleteButtons;
 
@@ -90,9 +94,9 @@ public class EditEntityScreen extends Screen {
 		JLabel label = new JLabel("Edit Entities");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setHorizontalTextPosition(SwingConstants.CENTER);
-		JTabbedPane tabs = new JTabbedPane();
+		tabs = new JTabbedPane();
 		JPanel lowerPanel = new JPanel();
-		JPanel generalPanel = new JPanel();
+		generalPanel = new JPanel();
 		JPanel mainPanel = new JPanel();
 		JPanel iconPanel = new JPanel();
 		JPanel fieldMainPanel = new JPanel();
@@ -164,11 +168,11 @@ public class EditEntityScreen extends Screen {
 		fieldNameLabel.setPreferredSize(new Dimension(200, 30));
 		JLabel fieldValueLabel = new JLabel("Field Initial Value");
 		fieldValueLabel.setPreferredSize(new Dimension(400, 30));
-		JLabel fieldTypeLabel = new JLabel("Field Type");
+		//JLabel fieldTypeLabel = new JLabel("Field Type");
 		fieldNameLabel.setPreferredSize(new Dimension(350, 30));
 		fieldNames = new ArrayList<JTextField>();
 		fieldValues = new ArrayList<JTextField>();
-		fieldTypes = new ArrayList<JComboBox>();
+		//fieldTypes = new ArrayList<JComboBox>();
 		fieldDeleteButtons = new ArrayList<JButton>();
 		fieldSubPanels = new ArrayList<JPanel>();
 		addFieldButton = new JButton("Add Field");
@@ -196,13 +200,13 @@ public class EditEntityScreen extends Screen {
 		fieldLabelsPanel.add(fieldNameLabel);
 		fieldNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		fieldNameLabel.setAlignmentX(LEFT_ALIGNMENT);
-		fieldLabelsPanel.add(fieldTypeLabel);
-		fieldTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		//fieldLabelsPanel.add(fieldTypeLabel);
+		//fieldTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		fieldLabelsPanel.add(fieldValueLabel);
 		fieldLabelsPanel.add(Box.createHorizontalGlue());
 		fieldValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		fieldSubPanels.get(0).add(fieldNames.get(0));
-		fieldSubPanels.get(0).add(fieldTypes.get(0));
+		//fieldSubPanels.get(0).add(fieldTypes.get(0));
 		fieldSubPanels.get(0).add(fieldValues.get(0));
 		fieldSubPanels.get(0).add(fieldDeleteButtons.get(0));
 		fieldListPanel.add(fieldSubPanels.get(0));
@@ -307,13 +311,12 @@ public class EditEntityScreen extends Screen {
 
 	public void load(String str) {
 		reset();
+		tabs.setSelectedComponent(generalPanel);
 		agent = sm.getFacade().getPrototype(str);
 		nameField.setText(agent.getName());
 		colorTool.setColor(agent.getColor());
 
 		byte[] designBytes = agent.getDesign();
-		for (byte b : designBytes) 
-			System.out.println("lB:" + b);
 		byte byter = Byte.parseByte("0000001", 2);
 		for (int i = 0; i < 7; i++) {
 			for (int j = 0; j < 7; j++) {
@@ -339,6 +342,7 @@ public class EditEntityScreen extends Screen {
 			triggerConditions.get(j).setText(t.getConditions().toString());
 			triggerResults.get(j).setText(t.getBehavior().toString());
 			triggerPriorities.get(j).setText(t.getPriority() +"");
+			j++;
 		}
 	}
 
@@ -353,7 +357,7 @@ public class EditEntityScreen extends Screen {
 			}
 		}
 		fieldNames.clear();
-		fieldTypes.clear();
+		//fieldTypes.clear();
 		fieldValues.clear();
 		fieldDeleteButtons.clear();
 		fieldSubPanels.clear();
@@ -375,7 +379,7 @@ public class EditEntityScreen extends Screen {
 		boolean toReturn = false;
 		try {
 			for (int i = 0; i < fieldNames.size(); i++) {
-				if (removedFields.contains(i)) {
+				if (!removedFields.contains(i)) {
 					if (fieldNames.get(i).getText().equals("")
 							|| fieldValues.get(i).getText().equals("")) {
 						throw new Exception("All fields must have input");
@@ -383,7 +387,7 @@ public class EditEntityScreen extends Screen {
 				}
 			}
 			for (int j = 0; j < triggerNames.size(); j++) {
-				if (removedTriggers.contains(j)) {
+				if (!removedTriggers.contains(j)) {
 					if (triggerNames.get(j).getText().equals("")
 							|| triggerConditions.get(j).getText().equals("")
 							|| triggerResults.get(j).getText().equals("")) {
@@ -474,9 +478,9 @@ public class EditEntityScreen extends Screen {
 		JTextField newName = new JTextField(25);
 		newName.setMaximumSize(new Dimension(300, 40));
 		fieldNames.add(newName);
-		JComboBox newType = new JComboBox(typeNames);
-		newType.setMaximumSize(new Dimension(200, 40));
-		fieldTypes.add(newType);
+//		JComboBox newType = new JComboBox(typeNames);
+//		newType.setMaximumSize(new Dimension(200, 40));
+//		fieldTypes.add(newType);
 		JTextField newValue = new JTextField(25);
 		newValue.setMaximumSize(new Dimension(300, 40));
 		fieldValues.add(newValue);
@@ -485,7 +489,7 @@ public class EditEntityScreen extends Screen {
 		fieldDeleteButtons.add(newButton);
 		newButton.setActionCommand(fieldDeleteButtons.indexOf(newButton) + "");
 		newPanel.add(newName);
-		newPanel.add(newType);
+//		newPanel.add(newType);
 		newPanel.add(newValue);
 		newPanel.add(newButton);
 		fieldSubPanels.add(newPanel);
@@ -533,21 +537,15 @@ public class EditEntityScreen extends Screen {
 		for (int column = 0; column < 7; column++) {
 			for (int row = 0; row < 7; row++) {
 				if (buttons[column][row].getBackground().equals(Color.BLACK)) {
-					System.out.print("1");
 					str += "1";
 				} else {
-					System.out.print("0");
 					str += "0";
 				}
 			}
 			str += ":";
-			System.out.print(":");
 		}
 		str = str.substring(0, str.lastIndexOf(':'));
 		String[] byteStr = str.split(":");
-		System.out.println("BOO: " + str); 
-		for (String s : byteStr) 
-			System.out.println("genB:" +s);
 		for (int i = 0; i < 7; i++) {
 			toReturn[i] = Byte.parseByte(byteStr[i], 2);
 		}

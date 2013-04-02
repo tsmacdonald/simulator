@@ -41,6 +41,8 @@ public class GridPanel extends JPanel {
 						squareSize, squareSize);
 			}
 		}
+		clearAgents(g);
+		agentPaint(g);
 	}
 
 	public void agentPaint(Graphics g){

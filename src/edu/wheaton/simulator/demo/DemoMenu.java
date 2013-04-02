@@ -87,9 +87,11 @@ public class DemoMenu {
 						prototypes.add(facade.getPrototype(nameField.getText()));
 						facade.spawnAgent(nameField.getText(), 0, 4);
 						frame.setContentPane(simulationScreen);
-						grid.agentPaint(grid.getGraphics());
 						frame.setVisible(true);
+						grid.clearAgents(grid.getGraphics());
+						grid.agentPaint(grid.getGraphics());
 						//TODO try and get it to paint immediately, before start button is called. 
+						//is it automatically repainting after these methods are called and overwriting them?
 					}
 				}
 				);
@@ -157,28 +159,13 @@ public class DemoMenu {
 					}
 				}
 				);
+		statsScreen.add(quitButton);
 
 		frame.setContentPane(startScreen);
 		frame.setVisible(true);
 	}
 
 	private void runSim() {
-
-		//		while(isRunning) {
-		//			try {
-		//				facade.updateEntities();
-		//			} catch (SimulationPauseException e) {
-		//				e.printStackTrace();
-		//				isRunning = false;
-		//			}
-		//			turnCount++;
-		//			observer.recordSimulationStep(facade.getGrid(), turnCount, prototypes);
-		//			//draw grid
-		//			if (turnCount >= 9) {
-		//				isRunning = false;
-		//				finishButton.setEnabled(true);
-		//			}
-		//		}
 
 		new Thread(new Runnable() {
 			public void run() {
@@ -193,8 +180,9 @@ public class DemoMenu {
 					SwingUtilities.invokeLater(
 							new Thread (new Runnable() {
 								public void run() {
-									grid.clearAgents(grid.getGraphics());
-									grid.agentPaint(grid.getGraphics());
+//									grid.clearAgents(grid.getGraphics());
+//									grid.agentPaint(grid.getGraphics());
+									grid.repaint();
 								}
 							}));
 					turnCount++;
@@ -216,5 +204,4 @@ public class DemoMenu {
 		}).start();
 
 	}
-
 }

@@ -122,8 +122,9 @@ public class ViewSimScreen extends Screen {
 							new Thread (new Runnable() {
 								@Override
 								public void run() {
-									grid.clearAgents(grid.getGraphics());
-									grid.agentPaint(grid.getGraphics());
+									grid.repaint();
+//									grid.clearAgents(grid.getGraphics());
+//									grid.agentPaint(grid.getGraphics());
 								}
 							}));
 					stepCount++;

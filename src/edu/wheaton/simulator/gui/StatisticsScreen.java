@@ -16,11 +16,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.*;
 
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class StatisticsScreen extends Screen {
@@ -30,24 +29,24 @@ public class StatisticsScreen extends Screen {
 	private String[] entities;
 
 	private String[] agentFields;
-	
+
 	private JComboBox popEntityBox;
-	
+
 	private JComboBox fieldEntityBox;
-	
+
 	private JComboBox lifeEntityBox;
-	
-	private ArrayList<JComboBox> agentFieldsBoxes;
-	
+
+	private HashMap<String, JComboBox> agentFieldsBoxes;
+
 	private JPanel fieldCard;
-	
+
 	private StatisticsManager statMan;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 714636604315959167L;
 	//TODO fix layout of this screen	
-	//TODO make sure that correctfields box gets put on the panel when an agent is selected.
+	//TODO make sure that correct fields box gets put on the panel when an agent is selected.
 	public StatisticsScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -92,15 +91,25 @@ public class StatisticsScreen extends Screen {
 		entities = new String[0];
 		popEntityBox = new JComboBox(entities);
 		populationCard.add(popEntityBox);
-		
+
 		fieldEntityBox = new JComboBox(entities);
 		//TODO placeholder
 		//String[] agentFields = {"height", "weight", "speed"};
 		agentFields = new String[0];
-		agentFieldsBoxes = new ArrayList<JComboBox>();
-		agentFieldsBoxes.add(new JComboBox(agentFields));
+		agentFieldsBoxes = new HashMap<String, JComboBox>();
+		agentFieldsBoxes.put("", new JComboBox(agentFields));
+		fieldEntityBox.addItemListener(
+				new ItemListener() {
+					public void itemStateChanged(ItemEvent e) {
+						fieldCard.remove(1);
+						fieldCard.add(agentFieldsBoxes.get((String)e.getItem()));
+						validate();
+						repaint();
+					}
+				}
+				);
 		fieldCard.add(fieldEntityBox);
-		fieldCard.add(agentFieldsBoxes.get(0));
+		fieldCard.add(agentFieldsBoxes.get(""));
 
 		lifeEntityBox = new JComboBox(entities);
 		lifespanCard.add(lifeEntityBox);
@@ -131,27 +140,27 @@ public class StatisticsScreen extends Screen {
 			JTable jt = new JTable(timePop ,popTime);
 			populationCard.add(jt);
 		}
-		
+
 		//COMING SOON: Average Field Table Statistics
-		
-//		if(fieldEntityTypes.getSelectedIndex() >= 0){
-//			statMan = sm.getStatManager();
-//			double[] p = statMan.getAvgFieldValue((sm.getFacade().
-//					getPrototype(popEntityTypes.getSelectedItem().toString())
-//					.getPrototypeID()), (String) agentFieldsBox.getSelectedItem()
-//					);
-//			String[] popTime = {"Population", "Time"};
-//			Object[][] timePop = new Object[p.length][2];
-//			for(int i = 0; i < p.length; i++){
-//				Object[] array= {i, p[i]};
-//				timePop[i] = array;
-//			}
-//
-//			JTable jt = new JTable(timePop ,popTime);
-//			populationCard.add(jt);
-//		}
-//
-//		this.add(label, BorderLayout.NORTH);
+
+		//		if(fieldEntityTypes.getSelectedIndex() >= 0){
+		//			statMan = sm.getStatManager();
+		//			double[] p = statMan.getAvgFieldValue((sm.getFacade().
+		//					getPrototype(popEntityTypes.getSelectedItem().toString())
+		//					.getPrototypeID()), (String) agentFieldsBox.getSelectedItem()
+		//					);
+		//			String[] popTime = {"Population", "Time"};
+		//			Object[][] timePop = new Object[p.length][2];
+		//			for(int i = 0; i < p.length; i++){
+		//				Object[] array= {i, p[i]};
+		//				timePop[i] = array;
+		//			}
+		//
+		//			JTable jt = new JTable(timePop ,popTime);
+		//			populationCard.add(jt);
+		//		}
+		//
+		//		this.add(label, BorderLayout.NORTH);
 
 		//TODO MAJOR figure out how to make a graph or something!!
 		graphPanel.add(new JLabel("Graph object goes here"));
@@ -175,14 +184,14 @@ public class StatisticsScreen extends Screen {
 		int i = 0;
 		for (String s : sm.getFacade().prototypeNames()) {
 			entities[i++] = s;
+			agentFields = sm.getFacade().getPrototype(s).getCustomFieldMap().keySet().toArray(agentFields);
+			agentFieldsBoxes.put(s, new JComboBox(agentFields));
 			popEntityBox.addItem(s);
 			fieldEntityBox.addItem(s);
 			lifeEntityBox.addItem(s);
-			agentFields = sm.getFacade().getPrototype(s).getCustomFieldMap().keySet().toArray(agentFields);
-			agentFieldsBoxes.add(new JComboBox(agentFields));
 		}
-		
-		
+
+
 	}
 
 }

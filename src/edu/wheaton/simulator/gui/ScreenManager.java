@@ -35,6 +35,7 @@ public class ScreenManager implements Manager{
 		screens = new HashMap<String, Screen>();
 		this.dm = dm;
 		se = new SimulationEnder();
+		statMan = new StatisticsManager();
 		screens.put("Title", new TitleScreen(this));
 		screens.put("New Simulation", new NewSimulationScreen(this));
 		screens.put("Edit Simulation", new EditSimScreen(this));

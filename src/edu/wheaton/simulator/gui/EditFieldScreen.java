@@ -34,9 +34,9 @@ public class EditFieldScreen extends Screen {
 
 	private JTextField nameField;
 
-	private String[] typeNames =  {"Integer", "Double", "String", "Boolean"};
+	//private String[] typeNames =  {"Integer", "Double", "String", "Boolean"};
 
-	private JComboBox fieldType;
+	//private JComboBox fieldType;
 
 	private JTextField initValue;
 
@@ -63,10 +63,10 @@ public class EditFieldScreen extends Screen {
 		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		nameField = new JTextField(40);
 		nameField.setMaximumSize(new Dimension(300, 40));
-		JLabel typeLabel = new JLabel("Field Type: ");
-		typeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		fieldType = new JComboBox(typeNames);
-		fieldType.setMaximumSize(new Dimension(300, 40));
+//		JLabel typeLabel = new JLabel("Field Type: ");
+//		typeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+//		fieldType = new JComboBox(typeNames);
+//		fieldType.setMaximumSize(new Dimension(300, 40));
 		JLabel valueLabel = new JLabel("Initial Value: ");
 		valueLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		initValue = new JTextField(40);
@@ -83,13 +83,11 @@ public class EditFieldScreen extends Screen {
 				);
 		JButton finishButton = new JButton("Finish");
 		finishButton.setPreferredSize(new Dimension(120, 60));
-		//TODO finish button needs to pull information from the screen and update
-		//     simulation accordingly.
 		finishButton.addActionListener(new FinishListener());
 		panel1.add(nameLabel);
 		panel1.add(nameField);
-		panel2.add(typeLabel);
-		panel2.add(fieldType);
+//		panel2.add(typeLabel);
+//		panel2.add(fieldType);
 		panel3.add(valueLabel);
 		panel3.add(initValue);
 		buttonPanel.add(cancelButton);
