@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import edu.wheaton.simulator.entity.Prototype;
@@ -58,7 +59,7 @@ public class DemoMenu {
 		startScreen.setLayout(new BorderLayout());
 		JLabel startLabel = new JLabel("Starting Information");
 		startLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		startLabel.setHorizontalAlignment(JLabel.CENTER);
+		startLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		startScreen.add(startLabel, BorderLayout.NORTH);
 		JPanel startMainPanel = new JPanel();
 		startMainPanel.setLayout(new BoxLayout(startMainPanel, BoxLayout.Y_AXIS));
