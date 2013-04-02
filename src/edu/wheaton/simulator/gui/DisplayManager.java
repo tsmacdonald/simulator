@@ -3,6 +3,7 @@ package edu.wheaton.simulator.gui;
 /**
  * This class is a singleton which is the sole communicator to the display
  */
+/**
 public class DisplayManager implements Manager {
 
 	//is this class necessary?
@@ -30,3 +31,4 @@ public class DisplayManager implements Manager {
 		display.updateDisplay(s);
 	}
 }
+*/

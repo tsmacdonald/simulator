@@ -159,7 +159,8 @@ public class StatisticsManagerTest {
 		/* test method */
 		double[] avg = sm.getAvgFieldValue(protoSnap.id, "weight");
 		for(double i : avg) {
-			System.out.println("Should be '50.0' and it is: " + i);
+			int a = (int) i;
+			org.junit.Assert.assertEquals(10, a);
 		}
 	}
 

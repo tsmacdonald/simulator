@@ -52,7 +52,7 @@ public class GridPanel extends JPanel {
 		gridHeight = sm.getGUIheight();
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
-		int squareSize = Math.min(pixelWidth, pixelHeight) - 1;
+		int squareSize = Math.min(pixelWidth, pixelHeight);
 		for (int x = 0; x < gridWidth; x++) {
 			for (int y = 0; y < gridHeight; y++) {
 				Agent agent;
@@ -62,17 +62,17 @@ public class GridPanel extends JPanel {
 					System.out.println("\tcolor null " + (agent.getColor() == null));
 					g.setColor(agent.getColor());
 
-					if(squareSize < 10){
+					if(squareSize < 9){
 						g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 
 								squareSize, squareSize);
 					}
 //Still not working yet. Time for bed though. Fix it tomorrow.					
 					else{
-						int iconSize = squareSize/8;
+						int iconSize = squareSize/7;
 						for (int a = 0; x < squareSize; x+=iconSize) {
 							for (int b = 0; y <  squareSize; y+=iconSize) {
 								byte[] icon = agent.getDesign();
-								byte val = new Byte("00000001");
+								byte val = new Byte("0000001");
 								if((icon[a]&(val<<b)) == 1){
 									g.fillRect((squareSize * x) + a*iconSize,
 											(squareSize * y) + b*iconSize, 
@@ -80,29 +80,6 @@ public class GridPanel extends JPanel {
 								}
 							}
 						}
-						/* TODO Remove when ready for design
-					//If the square is going to be too small
-					//for an icon don't make icons
-					if(squareSize < 10){
-						g.fillRect(squareSize * i, squareSize * j, 
-								squareSize, squareSize);
-					}
-					//Otherwise make icons
-					else{
-						int iconSize = squareSize/8;
-						for (int a = 0; i < squareSize; i+=iconSize) {
-							for (int b = 0; j <  squareSize; j+=iconSize) {
-								byte[] icon = agent.getDesign();
-								byte val = new Byte("00000001");
-								if((icon[a]&(val<<b)) == 1){
-									g.fillRect((squareSize * i) + a*iconSize,
-											(squareSize * j) + b*iconSize, 
-											iconSize, iconSize);
-								}
-							}
-						}
-					}
-						 */
 					}
 				}
 			}

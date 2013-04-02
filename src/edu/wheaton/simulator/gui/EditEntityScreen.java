@@ -410,7 +410,7 @@ public class EditEntityScreen extends Screen {
 						nameField.getText());
 				agent.setColor(colorTool.getColor());
 				agent.setDesign(generateBytes());
-				Prototype.addPrototype(agent.getName(), agent);
+				Prototype.addPrototype(agent);
 			}
 
 			for (int i = 0; i < fieldNames.size(); i++) {

@@ -29,8 +29,8 @@ public class TestDisplay extends TestCase{
 	 */
 	public void setUp(){
 		display = new Display();
-		mm = new MockManager(display);
 		ms = new MockScreen(null);
+		mm = new MockManager(display, "Mock Screen", ms);
 		mm.update(ms);
 	}
 	/**

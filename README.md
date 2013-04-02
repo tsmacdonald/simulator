@@ -1,6 +1,6 @@
-Phase 2
+Phase 3
 ============
-Software Development, Spring 2013, Phase 2
+Software Development, Spring 2013, Phase 3
 
 IMPORTANT
 =========
@@ -8,36 +8,30 @@ After pulling, open a terminal to your repository directory and execute the comm
 ```sh setup-git-hooks.sh``` This will set up a git pre-commit hook that will prevent code that doesn't compile from being
 committed
 
-
-
 GUI Team
 =========
-Daniel Davenport   
+Daniel Davenport  
+Caleb Demoss  
+Brandon Garcia  
+Daniel Gill   
 Willy McHie   
-Caleb Demoss   
 Ian Walling   
 
-Agent Team 1
+Agent Team
 =============
-Simon Swenson     
-Brandon Garcia     
-Jonathan Barbalas     
-Sean Power   
-
-Agent Team 2
-============
-Elliot Penson   
-Nathan Schleicher   
+Jonathan Barbalas   
 Emmanuel Pederson   
-Chris Anderson   
+Elliot Penson   
+Sean Power    
+Nathan Schleicher   
+Simon Swenson   
 
-Statistics and Ending Team
-==========================
-Grant Hensel   
-Daniel Gill   
-Nico Lasta   
+Statistics and Saving
+=====================
+Chris Anderson    
+Grant Hensel    
+Nico Lasta    
 Akonwi Ngoh   
-
 
 Eclipse Details
 ===============
