@@ -562,6 +562,7 @@ public class EditEntityScreen extends Screen {
 
 	private class DeleteFieldListener implements ActionListener {
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			removedFields.add(Integer.parseInt(e.getActionCommand()));
 			fieldListPanel.remove(fieldSubPanels.get(Integer.parseInt(e
@@ -572,6 +573,7 @@ public class EditEntityScreen extends Screen {
 
 	private class DeleteTriggerListener implements ActionListener {
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			removedTriggers.add(Integer.parseInt(e.getActionCommand()));
 			triggerListPanel.remove(triggerSubPanels.get(Integer.parseInt(e

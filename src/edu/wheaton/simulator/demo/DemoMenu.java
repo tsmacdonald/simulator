@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import edu.wheaton.simulator.entity.Prototype;
@@ -58,7 +59,7 @@ public class DemoMenu {
 		startScreen.setLayout(new BorderLayout());
 		JLabel startLabel = new JLabel("Starting Information");
 		startLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		startLabel.setHorizontalAlignment(JLabel.CENTER);
+		startLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		startScreen.add(startLabel, BorderLayout.NORTH);
 		JPanel startMainPanel = new JPanel();
 		startMainPanel.setLayout(new BoxLayout(startMainPanel, BoxLayout.Y_AXIS));
@@ -75,6 +76,7 @@ public class DemoMenu {
 		//addActionListener to move to next screen, create the agent, add it to the grid
 		startNextButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						facade.createPrototype(nameField.getText(), facade.getGrid(), colorTool.getColor());
 						//add behavior to that prototype
@@ -109,6 +111,7 @@ public class DemoMenu {
 		JButton startButton = new JButton("Start");
 		startButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						isRunning = true;
 						runSim();
@@ -118,6 +121,7 @@ public class DemoMenu {
 		JButton pauseButton = new JButton("Pause");
 		pauseButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						isRunning = false;
 					}
@@ -127,6 +131,7 @@ public class DemoMenu {
 		//TODO addActionListener to move to next screen; should be active only when simulation ends
 		finishButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						frame.setContentPane(statsScreen);
 						frame.setVisible(true);
@@ -152,6 +157,7 @@ public class DemoMenu {
 		JButton quitButton = new JButton("Quit");
 		quitButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						//close simulation
 						frame.setVisible(false);
@@ -168,6 +174,7 @@ public class DemoMenu {
 	private void runSim() {
 
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				while(isRunning) {
 					try {
@@ -179,6 +186,7 @@ public class DemoMenu {
 
 					SwingUtilities.invokeLater(
 							new Thread (new Runnable() {
+								@Override
 								public void run() {
 //									grid.clearAgents(grid.getGraphics());
 //									grid.agentPaint(grid.getGraphics());
@@ -196,7 +204,7 @@ public class DemoMenu {
 						System.out.println("Sleep!");
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+						System.err.println("DemoMenu.java: 'Thread.sleep(500)' was interrupted");
 						e.printStackTrace();
 					}
 				}

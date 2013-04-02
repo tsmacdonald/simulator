@@ -46,6 +46,11 @@ public class GridPanel extends JPanel {
 	}
 
 	public void agentPaint(Graphics g){
+		if(g==null){
+			System.err.println("GridPanel.java ( agentPaint(Graphics g) ): parameter 'g' is null");
+			throw new NullPointerException();
+		}
+		
 		width = this.getWidth();
 		height = this.getHeight();
 		gridWidth = sm.getGUIwidth();
@@ -55,10 +60,14 @@ public class GridPanel extends JPanel {
 		int squareSize = Math.min(pixelWidth, pixelHeight);
 		for (int x = 0; x < gridWidth; x++) {
 			for (int y = 0; y < gridHeight; y++) {
-				Agent agent;
-				if((agent = sm.getFacade().getAgent(x, y)) instanceof Agent && agent != null) {
-					System.out.println("\tg null " + (g == null));
-					System.out.println("\tagent null " + (agent == null));
+				Agent agent = sm.getFacade().getAgent(x, y);
+				if(agent != null) {
+					//null test for g is handled at start of function
+					System.out.println("\tg null " + false);
+					
+					//agent cannot be null at this location
+					System.out.println("\tagent null " + false);
+					
 					System.out.println("\tcolor null " + (agent.getColor() == null));
 					g.setColor(agent.getColor());
 

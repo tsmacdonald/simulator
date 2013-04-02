@@ -83,6 +83,7 @@ public class StatisticsManagerTest {
 
 	@After
 	public void tearDown() {
+		//Nothing to do here
 	}
 
 	@Test
@@ -169,7 +170,7 @@ public class StatisticsManagerTest {
 		sm.addPrototypeSnapshot(protoSnap); 
 		
 		try {
-			double result = sm.getAvgLifespan(protoSnap.id);
+			sm.getAvgLifespan(protoSnap.id);
 		}
 		catch (NameNotFoundException e) {
 			e.printStackTrace();

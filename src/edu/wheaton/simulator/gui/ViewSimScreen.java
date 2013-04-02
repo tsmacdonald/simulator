@@ -110,6 +110,7 @@ public class ViewSimScreen extends Screen {
 		System.out.println(sm.getEnder().getStepLimit());
 		//program loop yay!
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				GridObserver gridObs = new GridObserver(new StatisticsManager());
 				while(sm.isRunning()) {
@@ -138,7 +139,7 @@ public class ViewSimScreen extends Screen {
 						System.out.println("Sleep!");
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+						System.err.println("ViewSimScreen.java: 'Thread.sleep(500)' was interrupted");
 						e.printStackTrace();
 					}
 				}

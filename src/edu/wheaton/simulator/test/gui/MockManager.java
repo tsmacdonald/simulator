@@ -44,4 +44,8 @@ public class MockManager extends ScreenManager {
 		return setGUIManagerCalled;
 	}
 	
+	public void addScreen(String screenName, MockScreen toAdd){
+		screens.put(screenName, toAdd);
+	}
+	
 }
