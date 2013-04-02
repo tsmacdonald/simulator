@@ -27,7 +27,6 @@ public class EditSimScreen extends Screen {
 		loadExisting.addActionListener(new GeneralButtonListener("Load Existing", sm));
 		JButton save = new JButton("Save");
 		save.setEnabled(false); //serialization not yet implemented
-		
 		save.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -38,25 +37,10 @@ public class EditSimScreen extends Screen {
 		JButton entities = new JButton("Entities");
 		entities.addActionListener(
 				new GeneralButtonListener("Entities", sm));
-//				new ActionListener() {
-//					public void actionPerformed(ActionEvent e) {
-//						((EntityScreen)sm.getScreen("Entities")).load();
-//						sm.update(sm.getScreen("Entities"));
-//					}
-//				}
-//				);
 		JButton fields = new JButton("Fields");
-		fields.addActionListener(
-				new GeneralButtonListener("Fields", sm));
-//				new ActionListener() {
-//					public void actionPerformed(ActionEvent e) {
-//						//TODO indexoutofbounds in load(), fix.
-//						System.out.println("Get to here with fields");
-//						((FieldScreen)sm.getScreen("Fields")).load();
-//						sm.update(sm.getScreen("Fields"));
-//					}
-//				}
-//				);
+		fields.addActionListener(new GeneralButtonListener("Fields", sm));
+		//TODO indexoutofbounds in load(), fix.
+
 		JButton statistics = new JButton("Statistics");
 		statistics.addActionListener(new GeneralButtonListener("Statistics", sm));
 		JButton gridSetup = new JButton("Grid Setup");
@@ -73,13 +57,7 @@ public class EditSimScreen extends Screen {
 		spawning.addActionListener(new GeneralButtonListener("Spawning", sm));
 		JButton viewSimulation = new JButton("View Simulation");
 		viewSimulation.setPreferredSize(new Dimension(400, 120));
-		viewSimulation.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e){
-				sm.update(sm.getScreen("View Simulation"));
-				((ViewSimScreen)sm.getScreen("View Simulation")).load();
-			}
-		});
+		viewSimulation.addActionListener(new GeneralButtonListener("View Simulation", sm));
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.setMaximumSize(new Dimension(800, 1000));

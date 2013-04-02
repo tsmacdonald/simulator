@@ -16,9 +16,9 @@ public class TestGeneralButtonListener extends TestCase {
 	
 	public void setUp(){
 		display = new Display();
-		ms = new MockScreen(mm);
-		mm = new MockManager(display, "Mock Screen", ms);
-		gbl = new GeneralButtonListener("Mock Screen", mm);
+		ms = new MockScreen("Mock Screen", mm);
+		mm = new MockManager(display, ms.getName(), ms);
+		gbl = new GeneralButtonListener(ms.getName(), mm);
 	}
 	public void testScreenNull(){
 		Assert.assertNotNull(ms);

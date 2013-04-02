@@ -17,8 +17,8 @@ public class TestNSSFinishListener extends TestCase {
 	
 	public void setUp() {
 		display = new Display();
-		ms = new MockScreen(mm);
-		mm = new MockManager(display, "Edit Simulation", ms);
+		ms = new MockScreen("Edit Simulation", mm);
+		mm = new MockManager(display, ms.getName(), ms);
 		nssfl = new NewSimScreenFinishListener(new JTextField("Name"), new JTextField("10"), 
 											   new JTextField("10"), mm);
 		finishButton = new JButton();
