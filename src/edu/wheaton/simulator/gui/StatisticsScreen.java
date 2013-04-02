@@ -100,6 +100,7 @@ public class StatisticsScreen extends Screen {
 		agentFieldsBoxes.put("", new JComboBox(agentFields));
 		fieldEntityBox.addItemListener(
 				new ItemListener() {
+					@Override
 					public void itemStateChanged(ItemEvent e) {
 						fieldCard.remove(1);
 						fieldCard.add(agentFieldsBoxes.get((String)e.getItem()));

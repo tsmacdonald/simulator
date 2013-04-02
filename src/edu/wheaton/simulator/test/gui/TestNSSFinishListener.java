@@ -15,6 +15,7 @@ public class TestNSSFinishListener extends TestCase {
 	private Display display;
 	private JButton finishButton;
 	
+	@Override
 	public void setUp() {
 		display = new Display();
 		ms = new MockScreen("Edit Simulation", mm);

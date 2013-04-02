@@ -19,6 +19,7 @@ public class TestFieldAddListener extends TestCase{
 	private FieldAddListener fal;
 	private JButton add;
 	
+	@Override
 	public void setUp(){
 		display = new Display();
 		ms1 = new MockScreen("Edit Fields", mm);

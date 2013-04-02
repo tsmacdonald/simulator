@@ -27,6 +27,7 @@ public class TestDisplay extends TestCase{
 	/**
 	 * Initial setup  
 	 */
+	@Override
 	public void setUp(){
 		display = new Display();
 		ms = new MockScreen("Mock Screen", mm);

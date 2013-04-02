@@ -15,6 +15,7 @@ public class MockScreen extends Screen implements Comparable {
 		this.name = name;
 	}
 
+	@Override
 	public void load() {
 		load = true;
 		return;
@@ -24,6 +25,7 @@ public class MockScreen extends Screen implements Comparable {
 		return load;
 	}
 	
+	@Override
 	public String getName(){
 		return name;
 	}

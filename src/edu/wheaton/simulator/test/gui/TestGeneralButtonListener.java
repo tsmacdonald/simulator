@@ -14,6 +14,7 @@ public class TestGeneralButtonListener extends TestCase {
 	private MockManager mm;
 	private Display display;
 	
+	@Override
 	public void setUp(){
 		display = new Display();
 		ms = new MockScreen("Mock Screen", mm);

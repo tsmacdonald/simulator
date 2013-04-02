@@ -105,6 +105,7 @@ public class ViewSimScreen extends Screen {
 		System.out.println(sm.getEnder().getStepLimit());
 		//program loop yay!
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				GridObserver gridObs = new GridObserver(new StatisticsManager());
 				while(sm.isRunning()) {
