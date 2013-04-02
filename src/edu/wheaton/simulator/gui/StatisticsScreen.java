@@ -49,6 +49,7 @@ public class StatisticsScreen extends Screen {
 	//TODO make sure that correct fields box gets put on the panel when an agent is selected.
 	public StatisticsScreen(final ScreenManager sm) {
 		super(sm);
+		statMan = sm.getStatManager();
 		this.setLayout(new BorderLayout());
 		JLabel label = new JLabel("Statistics");
 		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -144,7 +145,6 @@ public class StatisticsScreen extends Screen {
 		//COMING SOON: Average Field Table Statistics
 
 		//		if(fieldEntityTypes.getSelectedIndex() >= 0){
-		//			statMan = sm.getStatManager();
 		//			double[] p = statMan.getAvgFieldValue((sm.getFacade().
 		//					getPrototype(popEntityTypes.getSelectedItem().toString())
 		//					.getPrototypeID()), (String) agentFieldsBox.getSelectedItem()

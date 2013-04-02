@@ -52,8 +52,13 @@ public class ViewSimScreen extends Screen {
 		this.sm = sm;
 		stepCount = 0;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
-		JPanel panel = new JPanel();
-		panel.setMaximumSize(new Dimension(500, 50));
+		JPanel mainPanel = new JPanel();
+		//set Layout
+		//objects for layers:
+		// - combobox(es) for choosing field, colorchooser to pick primary filter color, 
+		//   labels for these, "apply" button, "clear" button
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setMaximumSize(new Dimension(500, 50));
 		gridPanel = new JPanel();
 		JButton pauseButton = new JButton("Pause");
 		JButton backButton = new JButton("Back");
@@ -92,11 +97,11 @@ public class ViewSimScreen extends Screen {
 				);
 
 		grid = new GridPanel(sm);
-		panel.add(startButton);
-		panel.add(pauseButton);
-		panel.add(backButton);
+		buttonPanel.add(startButton);
+		buttonPanel.add(pauseButton);
+		buttonPanel.add(backButton);
 		this.add(label, BorderLayout.NORTH);
-		this.add(panel, BorderLayout.SOUTH);
+		this.add(buttonPanel, BorderLayout.SOUTH);
 		this.add(grid, BorderLayout.CENTER);
 		this.setVisible(true);	
 
