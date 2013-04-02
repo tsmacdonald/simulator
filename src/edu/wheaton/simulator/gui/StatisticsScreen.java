@@ -103,7 +103,7 @@ public class StatisticsScreen extends Screen {
 					@Override
 					public void itemStateChanged(ItemEvent e) {
 						fieldCard.remove(1);
-						fieldCard.add(agentFieldsBoxes.get((String)e.getItem()));
+						fieldCard.add(agentFieldsBoxes.get(e.getItem()));
 						validate();
 						repaint();
 					}
