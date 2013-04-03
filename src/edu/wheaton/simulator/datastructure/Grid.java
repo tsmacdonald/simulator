@@ -47,18 +47,43 @@ public class Grid extends Entity implements Iterable<Slot> {
 				setSlot(new Slot(this), x, y);
 	}
 
+	/**
+	 * Provides this grid's width
+	 * 
+	 * @return
+	 */
 	public Integer getWidth() {
 		return width;
 	}
 
+	/**
+	 * Provides this grid's height
+	 * 
+	 * @return
+	 */
 	public Integer getHeight() {
 		return height;
 	}
 
+	/**
+	 * Checks whether the given x/y position is a valid coordinate (both larger
+	 * than 0 and smaller than width/height respectively)
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public boolean isValidCoord(int x, int y) {
 		return (x >= 0) && (y >= 0) && x < getWidth() && y < getHeight();
 	}
 
+	/**
+	 * Provides the Slot that corresponds to the given x/y.
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public Slot getSlot(int x, int y) {
 		if (isValidCoord(x, y))
 			return grid[y][x];
@@ -66,6 +91,13 @@ public class Grid extends Entity implements Iterable<Slot> {
 		throw new ArrayIndexOutOfBoundsException();
 	}
 
+	/**
+	 * Put a Slot in the given x/y.
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public void setSlot(Slot s, int x, int y) {
 		if (isValidCoord(x, y))
 			grid[y][x] = s;
@@ -151,7 +183,7 @@ public class Grid extends Entity implements Iterable<Slot> {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Adds an Agent to a free spot along the given row
 	 * 
@@ -162,13 +194,12 @@ public class Grid extends Entity implements Iterable<Slot> {
 	 * @return true if successful (Agent added), false otherwise
 	 */
 	public boolean horizontalSpawn(Agent a, int row) {
-		for(int x = 0; x < width; x++) {
+		for (int x = 0; x < width; x++)
 			if (spawnAgentHelper(a, x, row))
 				return true;
-		}
 		return false;
 	}
-	
+
 	/**
 	 * Adds an Agent to a free spot in the given column
 	 * 
@@ -179,10 +210,9 @@ public class Grid extends Entity implements Iterable<Slot> {
 	 * @return true if successful (Agent added), false otherwise
 	 */
 	public boolean verticalSpawn(Agent a, int column) {
-		for(int y = 0; y < height; y++) {
+		for (int y = 0; y < height; y++)
 			if (spawnAgentHelper(a, column, y))
 				return true;
-		}
 		return false;
 	}
 
