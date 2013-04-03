@@ -250,9 +250,8 @@ public class StatisticsManager {
 	 * @param id
 	 *            The PrototypeID of the GridEntity to be tracked
 	 * @return The average lifespan of the specified GridEntity
-	 * @throws NameNotFoundException
 	 */
-	public double getAvgLifespan(PrototypeID id) throws NameNotFoundException {
+	public double getAvgLifespan(PrototypeID id) {
 		// List with index = step in the simulation, value = set of all agents
 		// alive at that time
 		List<Set<AgentSnapshot>> agentsByStep = new ArrayList<Set<AgentSnapshot>>();
@@ -274,9 +273,12 @@ public class StatisticsManager {
 
 			// Build the sum of all lifetimes - we'll divide by the number of
 			// agents at the end to get the average
+			System.out.println("\t\tB: " + birthTime);
+			System.out.println("\t\tD: " + deathTime);
 			avg += deathTime - birthTime;
 		}
-
+System.out.println("avg: " + avg);
+System.out.println("allAgents.size(): " + allAgents.size());
 		return avg / allAgents.size();
 	}
 
@@ -294,12 +296,12 @@ public class StatisticsManager {
 	 *             the target Agent wasn't found
 	 */
 	private int getBirthStep(List<Set<AgentSnapshot>> agentsByStep,
-			AgentSnapshot target) throws NameNotFoundException {
+			AgentSnapshot target) {
 		for (int i = 0; i < lastStep; i++)
 			if (agentsByStep.get(i).contains(target))
 				return i;
 
-		throw new NameNotFoundException(
+		throw new IllegalArgumentException(
 				"The target AgentSnapshot was not found");
 	}
 
@@ -317,12 +319,12 @@ public class StatisticsManager {
 	 *             the target Agent wasn't found
 	 */
 	private int getDeathStep(List<Set<AgentSnapshot>> agentsByStep,
-			AgentSnapshot target) throws NameNotFoundException {
+			AgentSnapshot target) {
 		for (int i = lastStep; i > 0; i--)
 			if (agentsByStep.get(i).contains(target))
 				return i;
 
-		throw new NameNotFoundException(
+		throw new IllegalArgumentException(
 				"The target AgentSnapshot was not found");
 	}
 }
