@@ -40,7 +40,7 @@ public class EditFieldScreen extends Screen {
 	private JTextField initValue;
 
 	private GridEntity ge;
-	
+
 	private String prevName;
 
 	public EditFieldScreen(final ScreenManager sm) {
@@ -62,10 +62,10 @@ public class EditFieldScreen extends Screen {
 		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		nameField = new JTextField(40);
 		nameField.setMaximumSize(new Dimension(300, 40));
-//		JLabel typeLabel = new JLabel("Field Type: ");
-//		typeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-//		fieldType = new JComboBox(typeNames);
-//		fieldType.setMaximumSize(new Dimension(300, 40));
+		//		JLabel typeLabel = new JLabel("Field Type: ");
+		//		typeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		//		fieldType = new JComboBox(typeNames);
+		//		fieldType.setMaximumSize(new Dimension(300, 40));
 		JLabel valueLabel = new JLabel("Initial Value: ");
 		valueLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		initValue = new JTextField(40);
@@ -85,8 +85,8 @@ public class EditFieldScreen extends Screen {
 		finishButton.addActionListener(new FinishListener());
 		panel1.add(nameLabel);
 		panel1.add(nameField);
-//		panel2.add(typeLabel);
-//		panel2.add(fieldType);
+		//		panel2.add(typeLabel);
+		//		panel2.add(fieldType);
 		panel3.add(valueLabel);
 		panel3.add(initValue);
 		buttonPanel.add(cancelButton);
@@ -106,16 +106,17 @@ public class EditFieldScreen extends Screen {
 		ge = null;
 		nameField.setText("");
 		initValue.setText("");
+		prevName = "";
 	}
-	
+
 	public void load(GridEntity ge, String n) {
 		reset();
 		this.ge = ge;
 		nameField.setText(n);
 		initValue.setText(ge.getFieldValue(n));
-		prevName = nameField.getText();
+		prevName = n;
 	}
-	
+
 	public void load(GridEntity ge) {
 		reset();
 		this.ge = ge;
@@ -132,7 +133,11 @@ public class EditFieldScreen extends Screen {
 		public void actionPerformed(ActionEvent ae) {
 			boolean toMove = true;
 			try {
-				if(FieldScreen.getEditing()){
+				if (nameField.getText().equals("") ||
+						initValue.getText().equals("")) {
+					throw new Exception("All fields must have input");
+				}
+				if (FieldScreen.getEditing()){
 					ge.removeField(prevName);
 					ge.addField(nameField.getText(), initValue.getText());
 				}
@@ -140,12 +145,14 @@ public class EditFieldScreen extends Screen {
 					ge.addField(nameField.getText(), initValue.getText());
 				}
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Please check your input");
 				toMove = false;
+				JOptionPane.showMessageDialog(null, e.getMessage());
 			}
-			if(toMove)
+			if(toMove) {
+				sm.getScreen("Fields").load();
 				sm.update(sm.getScreen("Fields"));
-
+				//TODO should not switch screens if the error message was shown.
+			}
 
 		}
 	}
