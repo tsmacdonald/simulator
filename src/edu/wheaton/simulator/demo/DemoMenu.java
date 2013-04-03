@@ -2,9 +2,14 @@ package edu.wheaton.simulator.demo;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
+
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -41,6 +46,10 @@ public class DemoMenu {
 	private HashSet<Prototype> prototypes;
 	private JButton finishButton;
 	private long startTime;
+	private long endTime;
+	private JLabel movesLabel;
+	private JLabel timesLabel;
+	private JLabel durationLabel;
 
 	public DemoMenu() {
 		//initialize instance variables
@@ -137,7 +146,23 @@ public class DemoMenu {
 					public void actionPerformed(ActionEvent e) {
 						frame.setContentPane(statsScreen);
 						frame.setVisible(true);
-						//loadStats(); //??
+						Date dStart = new Date(statsManager.getSimulationStartTime());
+						Date dEnd = new Date(endTime);
+						SimpleDateFormat ft = new SimpleDateFormat ("hh:mm:ss.SSS a");
+
+						movesLabel.setText("Number of steps taken:  " + 
+								statsManager.getLastStep()
+								);
+						//TODO set text for start/end times
+						timesLabel.setText("Simulation start time:  " + 
+								ft.format(dStart) +
+								"      Simulation end Time:  " + 
+								ft.format(dEnd)
+								);
+						//TODO set text for duration
+						durationLabel.setText("Simulation duration:  " + 
+								statsManager.getSimulationDuration()/1000 + 
+								" seconds");
 					}
 				}
 				);
@@ -152,10 +177,26 @@ public class DemoMenu {
 		statsScreen.setLayout(new BorderLayout());
 		JLabel statsLabel = new JLabel("Statistics");
 		statsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		statsLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		statsLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		statsScreen.add(statsLabel, BorderLayout.NORTH);
 		JPanel statsMainPanel = new JPanel();
 		statsMainPanel.setLayout(new BoxLayout(statsMainPanel, BoxLayout.Y_AXIS));
-		//TODO label + display for # of moves, label + display for # of seconds (was there something else?)
+		statsMainPanel.add(Box.createVerticalGlue());
+		movesLabel = new JLabel();
+		statsMainPanel.add(movesLabel);
+		movesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		movesLabel.setMinimumSize(new Dimension(800, 500));
+		timesLabel = new JLabel();
+		statsMainPanel.add(timesLabel);
+		timesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		timesLabel.setMinimumSize(new Dimension(800, 500));
+		durationLabel = new JLabel();
+		statsMainPanel.add(durationLabel);
+		durationLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		durationLabel.setMinimumSize(new Dimension(800, 500));
+		statsMainPanel.add(Box.createVerticalGlue());
+		statsScreen.add(statsMainPanel, BorderLayout.CENTER);
 		JButton quitButton = new JButton("Quit");
 		quitButton.addActionListener(
 				new ActionListener() {
@@ -167,7 +208,7 @@ public class DemoMenu {
 					}
 				}
 				);
-		statsScreen.add(quitButton);
+		statsScreen.add(quitButton, BorderLayout.SOUTH);
 
 		frame.setContentPane(startScreen);
 		frame.setVisible(true);
@@ -201,6 +242,7 @@ public class DemoMenu {
 					System.out.println(turnCount);
 					if (turnCount >= 9) {
 						isRunning = false;
+						endTime = System.currentTimeMillis();
 						finishButton.setEnabled(true);
 					}
 					try {

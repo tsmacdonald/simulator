@@ -92,6 +92,14 @@ public class StatisticsManager {
 	}
 	
 	/**
+	 * Get the number of steps taken in the simulation so far.
+	 * @return The number of steps taken in the simulation so far.
+	 */
+	public int getLastStep() {
+		return lastStep;
+	}
+	
+	/**
 	 * Get the starting time of the simulation.
 	 * @return The starting time of the simulation (System time, in ms).
 	 */
