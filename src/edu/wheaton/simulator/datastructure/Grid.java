@@ -252,7 +252,7 @@ public class Grid extends Entity implements Iterable<Slot> {
 	 * @param a
 	 *            The Agent to add.
 	 */
-	public boolean spawnAgent(Agent a) {
+	public boolean spiralSpawn(Agent a) {
 		int randomX = (int) (Math.random() * (width - 1));
 		int randomY = (int) (Math.random() * (height - 1));
 		return spiralSpawn(a, randomX, randomY);

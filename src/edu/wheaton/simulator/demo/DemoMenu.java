@@ -98,7 +98,7 @@ public class DemoMenu {
 										new Expression("move('this', this.x + 1, this.y)"))
 								);
 						prototypes.add(facade.getPrototype(nameField.getText()));
-						facade.spawnAgent(nameField.getText(), 0, 4);
+						facade.spiralSpawn(nameField.getText(), 0, 4);
 						frame.setContentPane(simulationScreen);
 						frame.setVisible(true);
 						grid.repaint();
