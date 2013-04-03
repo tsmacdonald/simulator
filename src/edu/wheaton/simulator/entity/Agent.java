@@ -98,6 +98,27 @@ public class Agent extends GridEntity {
 	}
 
 	/**
+	 * Causes this Agent to perform only the triggers of the input priority
+	 * 
+	 * @param priority: the priority of the triggers evaluated
+	 * @throws SimulationPauseException
+	 */
+	public void priorityAct(int priority) throws SimulationPauseException {
+		for (Trigger t: triggers)
+			if (t.getPriority() == priority) {
+				try {
+						t.evaluate(this);
+					} catch (EvaluationException e) {
+						System.err.println(e.getMessage());
+						String errorMessage = "Error in Agent: " + this.getName()
+								+ "\n ID: " + this.getEntityID() + "\n Trigger: "
+								+ t.getName() + "\n MSG: " + e.getMessage()
+								+ "\n condition: " + t.getConditions().toString();
+						throw new SimulationPauseException(errorMessage);
+					}
+			}
+		}
+	/**
 	 * Removes this Agent from the environment's list.
 	 */
 	public void die() {

@@ -22,13 +22,23 @@ import edu.wheaton.simulator.simulation.SimulationPauseException;
 public class Grid implements Iterable<Slot> {
 
 	/**
+	 * The minimum and maximum priorities for priorityUpdateEntities()
+	 * Should be changed so that the user can define these values
+	 * Or that they are defined by checking minimum and maximum priorities
+	 * of all triggers of all agents in a simulation
+	 */
+	private int minPriority = 0;
+	private int maxPriority = 20;
+	
+	/**
 	 * The grid of all slots containing all Agent objects Total # slots = Width
 	 * x Height
 	 */
 	private Slot[][] grid;
 	private final Integer width;
 	private final Integer height;
-
+	private Updater updater = new LinearUpdater();
+	
 	/**
 	 * Constructor. Creates a grid with the given width and height
 	 * specifications
@@ -75,26 +85,92 @@ public class Grid implements Iterable<Slot> {
 	}
 
 	/**
-	 * Causes all entities in the grid to act(). Checks to make sure each Agent
-	 * has only acted once this iteration.
+	 * Causes all the triggers of all the entities in the grid to be fired
 	 * 
 	 * @throws SimulationPauseException
 	 */
 	public void updateEntities() throws SimulationPauseException {
 
-		HashSet<EntityID> processedIDs = new HashSet<EntityID>();
-
-		for (Slot[] row : grid)
-			for (Slot currentSlot : row) {
-				Agent current = currentSlot.getAgent();
-				if (current != null)
-					if (!processedIDs.contains(current.getEntityID())) {
-						current.act();
-						processedIDs.add(current.getEntityID());
-					}
-			}
+		updater.update();
+		
 	}
 
+	public void setLinearUpdater() {
+		updater = new LinearUpdater();
+	}
+	
+	public void setPriorityUpdater() {
+		updater = new PriorityUpdater();
+	}
+	
+	public void setAtomicUpdater() {
+		updater = new AtomicUpdater();
+	}
+	
+	private static interface Updater {
+		
+		public void update() throws SimulationPauseException;
+		
+	}
+	
+	
+	private class LinearUpdater implements Updater {
+		
+		/**
+		 * Causes all entities in the grid to act(). Checks to make sure each Agent
+		 * has only acted once this iteration.
+		 * 
+		 * @throws SimulationPauseException
+		 */
+		public void update() throws SimulationPauseException {
+			HashSet<EntityID> processedIDs = new HashSet<EntityID>();
+
+			for (Slot[] row : grid)
+				for (Slot currentSlot : row) {
+					Agent current = currentSlot.getAgent();
+					if (current != null)
+						if (!processedIDs.contains(current.getEntityID())) {
+							current.act();
+							processedIDs.add(current.getEntityID());
+						}
+				}
+		}
+	}
+	
+	
+	private class PriorityUpdater implements Updater {
+		
+		/**
+		 * Makes the entities in the grid perform their triggers in ascending
+		 * priority order; that is, priority takes precedence over Agent order
+		 * for when triggers are evaluated.
+		 * 
+		 * @throws SimulationPauseException
+		 */
+		public void update() throws SimulationPauseException {
+			for (int priority = minPriority; priority <= maxPriority; priority++) {
+				HashSet<EntityID> processedIDs = new HashSet<EntityID>();
+
+				for (Slot[] row : grid)
+					for (Slot currentSlot : row) {
+						Agent current = currentSlot.getAgent();
+						if (current != null)
+							if (!processedIDs.contains(current.getEntityID())) {
+								current.priorityAct(priority);
+								processedIDs.add(current.getEntityID());
+							}
+					}
+			}
+		}
+	}
+	
+	private class AtomicUpdater implements Updater {
+		
+		public void update() throws SimulationPauseException{
+			//TODO: Implement atomic update
+		}
+	}
+	
 	/**
 	 * Places an Agent to the slot at the given coordinates. This method
 	 * replaces (kills) anything that is currently in that position. The
@@ -215,7 +291,7 @@ public class Grid implements Iterable<Slot> {
 	/**
 	 * Removes the given agent from the grid.
 	 * 
-	 * @param ge
+	 * @param a
 	 *            The Agent to remove.
 	 */
 	public boolean removeAgent(Agent a) {

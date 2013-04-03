@@ -216,7 +216,7 @@ public class GUIToAgentFacade {
 		// grid = new Grid(grid.getWidth(), grid.getHeight());
 
 		Prototype deadBeing = new Prototype(grid, Color.RED, "deadBeing");
-
+		grid.setPriorityUpdater();
 		// Add fields
 		try {
 			deadBeing.addField("alive", 0); // 0 for false, 1 for true
