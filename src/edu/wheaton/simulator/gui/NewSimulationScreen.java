@@ -2,9 +2,6 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -23,12 +20,6 @@ public class NewSimulationScreen extends Screen {
 	private JTextField height;
 
 	private JTextField width;
-
-	private String nameString;
-
-	private int heightInt;
-
-	private int widthInt;
 
 	public NewSimulationScreen(ScreenManager sm) {
 		super(sm);
@@ -59,7 +50,7 @@ public class NewSimulationScreen extends Screen {
 		widthLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		JButton finishButton = new JButton("Finish");
 		finishButton.setPreferredSize(new Dimension(200, 75));
-		finishButton.addActionListener(new FinishListener());
+		finishButton.addActionListener(new NewSimScreenFinishListener(name, width, height, sm));
 		panel1.add(nameLabel);
 		panel1.add(name);
 		panel2.add(heightLabel);
@@ -79,25 +70,6 @@ public class NewSimulationScreen extends Screen {
 		height.setText("10");
 		width.setText("10");
 		this.setVisible(true);
-	}
-
-	private class FinishListener implements ActionListener {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			//TODO The simulation as a whole will be created in here
-			nameString = name.getText();
-			try {
-				heightInt = Integer.parseInt(height.getText());
-				widthInt = Integer.parseInt(width.getText());
-				sm.setFacade(widthInt, heightInt);
-				sm.updateGUIManager(nameString, widthInt, heightInt);
-			} catch(java.lang.NumberFormatException nfe) { 
-				//TODO empty catch block
-			}
-
-			sm.update(sm.getScreen("Edit Simulation"));
-		}
 	}
 
 	@Override

@@ -44,6 +44,8 @@ public class DemoGridPanel extends JPanel{
 						squareSize, squareSize);
 			}
 		}
+		clearAgents(g);
+		agentPaint(g);
 	}
 
 	public void agentPaint(Graphics g){
@@ -56,11 +58,11 @@ public class DemoGridPanel extends JPanel{
 		int squareSize = Math.min(pixelWidth, pixelHeight) - 1;
 		for (int x = 0; x < gridWidth; x++) {
 			for (int y = 0; y < gridHeight; y++) {
-				Agent agent;
-				if((agent = facade.getAgent(x, y)) instanceof Agent && agent != null) {
-					System.out.println("\tg null " + (g == null));
-					System.out.println("\tagent null " + (agent == null));
-					System.out.println("\tcolor null " + (agent.getColor() == null));
+				Agent agent = facade.getAgent(x, y);
+				if(agent != null) {
+//					System.out.println("\tg null " + (g == null));
+//					System.out.println("\tagent null " + (agent == null));
+//					System.out.println("\tcolor null " + (agent.getColor() == null));
 					g.setColor(agent.getColor());
 					
 					g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 

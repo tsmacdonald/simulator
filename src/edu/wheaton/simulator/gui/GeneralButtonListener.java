@@ -6,17 +6,18 @@ import java.awt.event.ActionListener;
 public class GeneralButtonListener implements ActionListener {
 
 	private String screenName;
-	private ScreenManager sm;
+	private Manager sm;
 
-	public GeneralButtonListener(String screenName, ScreenManager sm) {
+	public GeneralButtonListener(String screenName, Manager sm) {
 		this.screenName = screenName;
 		this.sm = sm;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e){
-		sm.update(sm.getScreen(screenName));
-		sm.getScreen(screenName).load();
+		Screen toUpload = sm.getScreen(screenName);
+		sm.update(toUpload);
+		sm.loadScreen(toUpload);
 	}
 	
 }

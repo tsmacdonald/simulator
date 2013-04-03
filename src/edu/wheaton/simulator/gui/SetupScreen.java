@@ -22,7 +22,6 @@ import javax.swing.SwingConstants;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.PrototypeID;
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 //TODO commented code for adding operators to ending conditions :
@@ -109,7 +108,7 @@ public class SetupScreen extends Screen {
 		JLabel timeLabel = new JLabel("Time limit: ");
 		JLabel agentTypeLabel = new JLabel("Agent Type");
 		agentTypeLabel.setPreferredSize(new Dimension(200, 30));
-		JLabel valueLabel = new JLabel("Boundary Value");
+		JLabel valueLabel = new JLabel("Population Limit");
 		valueLabel.setPreferredSize(new Dimension(400, 30));
 		//JLabel operationLabel = new JLabel("Operation");
 		//operationLabel.setPreferredSize(new Dimension(350, 30));
@@ -191,9 +190,9 @@ public class SetupScreen extends Screen {
 							}
 
 							sm.updateGUIManager(nameField.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
-							JPanel[][] grid = new JPanel[GUIManager.getGridWidth()][GUIManager.getGridHeight()];
-							for (int j = 0; j < GUIManager.getGridWidth(); j++){
-								for (int i = 0; i < GUIManager.getGridHeight(); i++) {
+							JPanel[][] grid = new JPanel[GUI.getGridWidth()][GUI.getGridHeight()];
+							for (int j = 0; j < GUI.getGridWidth(); j++){
+								for (int i = 0; i < GUI.getGridHeight(); i++) {
 									grid[i][j] = new JPanel();
 									grid[i][j].setOpaque(false);
 									grid[i][j].setBorder(BorderFactory.createEtchedBorder());
@@ -245,9 +244,9 @@ public class SetupScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		nameField.setText(sm.getGUIname());
-		width.setText(sm.getGUIwidth() + "");
-		height.setText(sm.getGUIheight() + "");
+		nameField.setText(GUI.getNameOfSim());
+		width.setText(GUI.getGridWidth() + "");
+		height.setText(GUI.getGridHeight() + "");
 		if (sm.hasStarted()) {
 			width.setEditable(false);
 			height.setEditable(false);
@@ -257,6 +256,10 @@ public class SetupScreen extends Screen {
 		Set<String> agents = sm.getFacade().prototypeNames();
 		agentNames = agents.toArray(agentNames);
 		timeField.setText(se.getStepLimit() + "");
+		//to prevent accidental starting simulation with time limit of 0
+		if (se.getStepLimit() == 0) {
+			timeField.setText(10 + "");
+		}
 		ImmutableMap<PrototypeID, Integer> popLimits = se.getPopLimits();
 		if (popLimits.size() == 0) {
 			addCondition();

@@ -41,6 +41,8 @@ public class GridPanel extends JPanel {
 						squareSize, squareSize);
 			}
 		}
+		clearAgents(g);
+		agentPaint(g);
 	}
 
 	public void agentPaint(Graphics g){
@@ -50,57 +52,28 @@ public class GridPanel extends JPanel {
 		gridHeight = sm.getGUIheight();
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
-		int squareSize = Math.min(pixelWidth, pixelHeight) - 1;
+		int squareSize = Math.min(pixelWidth, pixelHeight);
 		for (int x = 0; x < gridWidth; x++) {
 			for (int y = 0; y < gridHeight; y++) {
-				Agent agent;
-				if((agent = sm.getFacade().getAgent(x, y)) instanceof Agent && agent != null) {
-					System.out.println("\tg null " + (g == null));
-					System.out.println("\tagent null " + (agent == null));
-					System.out.println("\tcolor null " + (agent.getColor() == null));
-					g.setColor(agent.getColor());
-
-					if(squareSize < 10){
+				Agent agent = sm.getFacade().getAgent(x, y);
+				if(agent != null) {
+					if(squareSize < 9){
 						g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 
 								squareSize, squareSize);
 					}
-//Still not working yet. Time for bed though. Fix it tomorrow.					
 					else{
-						int iconSize = squareSize/8;
-						for (int a = 0; x < squareSize; x+=iconSize) {
-							for (int b = 0; y <  squareSize; y+=iconSize) {
+						int iconSize = squareSize/7;
+						for (int a = 0; a < 7; a+=1) {
+							for (int b = 0; b <  7; b+=1) {
 								byte[] icon = agent.getDesign();
-								byte val = new Byte("00000001");
-								if((icon[a]&(val<<b)) == 1){
-									g.fillRect((squareSize * x) + a*iconSize,
-											(squareSize * y) + b*iconSize, 
+								byte val = new Byte("0000001");
+								if((icon[a]&(val<<b)) > 0){
+									g.fillRect((squareSize * x + 1) + (6-b)*iconSize,
+											(squareSize * y + 1) + (a)*iconSize, 
 											iconSize, iconSize);
 								}
 							}
 						}
-						/* TODO Remove when ready for design
-					//If the square is going to be too small
-					//for an icon don't make icons
-					if(squareSize < 10){
-						g.fillRect(squareSize * i, squareSize * j, 
-								squareSize, squareSize);
-					}
-					//Otherwise make icons
-					else{
-						int iconSize = squareSize/8;
-						for (int a = 0; i < squareSize; i+=iconSize) {
-							for (int b = 0; j <  squareSize; j+=iconSize) {
-								byte[] icon = agent.getDesign();
-								byte val = new Byte("00000001");
-								if((icon[a]&(val<<b)) == 1){
-									g.fillRect((squareSize * i) + a*iconSize,
-											(squareSize * j) + b*iconSize, 
-											iconSize, iconSize);
-								}
-							}
-						}
-					}
-						 */
 					}
 				}
 			}

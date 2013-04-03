@@ -96,14 +96,14 @@ public abstract class AbstractExpressionFunction {
 			protected final AbstractExpressionFunction enclosingWrapper = xEnclosingWrapper;
 
 			@Override
-			public FunctionResult execute(Evaluator evaluator, String arguments)
+			public FunctionResult execute(Evaluator eval, String arguments)
 					throws FunctionException {
 				
 				/*
 				 * wraps the passed 'Evaluator' into an ExpressionEvaluator to provide a higher level
 				 * of abstraction away from the internals of JEval
 				 */
-				setExprEval(wrapEvaluator(evaluator));
+				setExprEval(wrapEvaluator(eval));
 				
 				String[] args = arguments.split(",");
 				try {

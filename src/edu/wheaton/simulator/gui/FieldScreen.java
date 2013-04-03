@@ -33,9 +33,6 @@ import javax.swing.event.ListSelectionListener;
 
 public class FieldScreen extends Screen {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4286820591194407735L;
 
 	private JComboBox xPos;
@@ -97,23 +94,7 @@ public class FieldScreen extends Screen {
 		delete = new JButton("Delete");
 		delete.addActionListener(new DeleteListener(listModel, fields, delete));
 		add = new JButton("Add");
-		add.addActionListener(
-				//new GeneralButtonListener("Edit Fields", sm));
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						if(editing)
-							editing = false;
-						((EditFieldScreen) (sm.getScreen("Edit Fields"))).load(
-								sm.getFacade().getGrid().getSlot(
-										xPos.getSelectedIndex(), 
-										yPos.getSelectedIndex()
-										)
-								);
-						sm.update(sm.getScreen("Edit Fields"));
-					}
-				}
-				);
+		add.addActionListener(new FieldAddListener(xPos, yPos, sm));
 		edit = new JButton("Edit");
 		edit.addActionListener(
 				new ActionListener() {
@@ -157,15 +138,15 @@ public class FieldScreen extends Screen {
 		reset();
 		edit.setEnabled(sm.hasStarted() ? false : true); 
 		delete.setEnabled(sm.hasStarted() ? false : true); 
-		if (xPos.getItemCount() != sm.getGUIwidth()) {
+		if (xPos.getItemCount() != GUI.getGridWidth()) {
 			xPos.removeAllItems();
-			for (int i = 0; i < sm.getGUIwidth(); i++) {
+			for (int i = 0; i < GUI.getGridWidth(); i++) {
 				xPos.addItem(i + "");
 			}
 		}
-		if (yPos.getItemCount() != sm.getGUIheight()) {
+		if (yPos.getItemCount() != GUI.getGridHeight()) {
 			yPos.removeAllItems();
-			for (int j = 0; j < sm.getGUIwidth(); j++) {
+			for (int j = 0; j < GUI.getGridWidth(); j++) {
 				yPos.addItem(j + "");
 			}
 		}

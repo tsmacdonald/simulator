@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
-import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Entity;
 
 public class EntityTest {
@@ -16,7 +15,7 @@ public class EntityTest {
 	 */
 	@Test
 	public void testAddEntityField() {
-		Grid testGrid = new Grid(30, 30);
+		//Grid testGrid = new Grid(30, 30); // commented out for warning fix
 		for(int i = 0; i < 10; i++){
 			Entity newEntity = new Entity();
 			for(int j = 0; j < 5; j ++){

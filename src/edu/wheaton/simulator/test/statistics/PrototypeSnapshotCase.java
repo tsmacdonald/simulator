@@ -54,6 +54,7 @@ public class PrototypeSnapshotCase {
 	 */
 	@After
 	public void tearDown() {
+		//Nothing to do here
 	}
 	
 	/**

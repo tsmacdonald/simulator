@@ -16,7 +16,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -52,59 +54,85 @@ public class ViewSimScreen extends Screen {
 		this.sm = sm;
 		stepCount = 0;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
-		JPanel panel = new JPanel();
-		panel.setMaximumSize(new Dimension(500, 50));
+		JPanel layerPanel = new JPanel();
+		layerPanel.setLayout(new BoxLayout(layerPanel, BoxLayout.Y_AXIS));
+		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
+		JComboBox agentComboBox = new JComboBox();
+		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
+		JComboBox layerComboBox = new JComboBox();
+		
+		
+		//TODO add layer elements
+		//set Layout
+		//objects for layers:
+		// - combobox(es) for choosing field, colorchooser to pick primary filter color, 
+		//   labels for these, "apply" button, "clear" button
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setMaximumSize(new Dimension(500, 50));
 		gridPanel = new JPanel();
 		JButton pauseButton = new JButton("Pause");
 		JButton backButton = new JButton("Back");
 		JButton startButton = new JButton("Start/Resume");
-
 		backButton.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Edit Simulation")); 
-					} 
-				}
+				makeBackButtonListener()
 				);
 		pauseButton.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						sm.setRunning(false);
-					}
-				}
+				makePauseButtonListener()
+				
 				);
-
 		startButton.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
-						for (SpawnCondition condition: conditions) {
-							condition.addToGrid(sm.getFacade());
-						}
-						sm.setRunning(true);
-						sm.setStarted(true);
-						runSim();
-					}
-				}
+				makeStartButtonListener()
 				);
 
 		grid = new GridPanel(sm);
-		panel.add(startButton);
-		panel.add(pauseButton);
-		panel.add(backButton);
+		buttonPanel.add(startButton);
+		buttonPanel.add(pauseButton);
+		buttonPanel.add(backButton);
 		this.add(label, BorderLayout.NORTH);
-		this.add(panel, BorderLayout.SOUTH);
+		this.add(buttonPanel, BorderLayout.SOUTH);
 		this.add(grid, BorderLayout.CENTER);
 		this.setVisible(true);	
 
 	}
+	
+	private ActionListener makeBackButtonListener(){
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sm.update(sm.getScreen("Edit Simulation")); 
+			} 
+		};
+	}
+	
+	private ActionListener makePauseButtonListener(){
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sm.setRunning(false);
+			}
+		};
+	}
+	
+	private ActionListener makeStartButtonListener(){
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
+				for (SpawnCondition condition: conditions) {
+					condition.addToGrid(sm.getFacade());
+				}
+				sm.setRunning(true);
+				sm.setStarted(true);
+				runSim();
+			}
+		};
+	}
+	
 	private void runSim() {
 		System.out.println(sm.getEnder().getStepLimit());
 		//program loop yay!
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				GridObserver gridObs = new GridObserver(new StatisticsManager());
 				while(sm.isRunning()) {
@@ -115,6 +143,7 @@ public class ViewSimScreen extends Screen {
 						JOptionPane.showMessageDialog(null, e.getMessage());
 					}
 					gridObs.recordSimulationStep(sm.getFacade().getGrid(), stepCount, Prototype.getPrototypes());
+					stepCount++;
 					sm.setRunning(!(sm.getEnder().evaluate(stepCount, 
 							sm.getFacade().getGrid())));
 
@@ -122,30 +151,25 @@ public class ViewSimScreen extends Screen {
 							new Thread (new Runnable() {
 								@Override
 								public void run() {
-									grid.clearAgents(grid.getGraphics());
-									grid.agentPaint(grid.getGraphics());
+									grid.repaint();
 								}
 							}));
-					stepCount++;
+					
 					System.out.println(stepCount);
 					try {
 						System.out.println("Sleep!");
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+						System.err.println("ViewSimScreen.java: 'Thread.sleep(500)' was interrupted");
 						e.printStackTrace();
 					}
 				}
 			}
 		}).start();
 	}
-	private void paint(){
-		grid.paint(grid.getGraphics());
-		grid.agentPaint(grid.getGraphics());
-	}
 
 	@Override
 	public void load() {
-		paint();
+		grid.repaint();
 	}
 }

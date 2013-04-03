@@ -124,7 +124,7 @@ public class GUIToAgentFacade {
 	 */
 	public boolean spawnAgent(String prototypeName, int spawnX, int spawnY) {
 		Agent toAdd = getPrototype(prototypeName).createAgent();
-		return grid.spawnAgent(toAdd, spawnX, spawnY);
+		return grid.spiralSpawn(toAdd, spawnX, spawnY);
 	}
 
 	/**
@@ -298,9 +298,9 @@ public class GUIToAgentFacade {
 		for (int x = 0; x < grid.getWidth(); x++) 
 			for(int y = 0; y < grid.getHeight(); y++) {
 				if (x == 4 || x == 5 || y == 5) {
-					grid.spawnAgent(Prototype.getPrototype("aliveBeing").createAgent(), x, y);
+					grid.spiralSpawn(Prototype.getPrototype("aliveBeing").createAgent(), x, y);
 				} else {
-					grid.spawnAgent(Prototype.getPrototype("deadBeing").createAgent(), x, y);
+					grid.spiralSpawn(Prototype.getPrototype("deadBeing").createAgent(), x, y);
 				}
 			}
 	}
