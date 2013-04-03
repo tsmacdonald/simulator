@@ -127,7 +127,7 @@ public class Grid extends Entity implements Iterable<Slot> {
 	 *            Central y location for spawn
 	 * @return true if successful (Agent added), false otherwise
 	 */
-	public boolean spawnAgent(Agent a, int spawnX, int spawnY) {
+	public boolean spiralSpawn(Agent a, int spawnX, int spawnY) {
 
 		a.setPos(-1, -1);
 
@@ -151,7 +151,49 @@ public class Grid extends Entity implements Iterable<Slot> {
 		}
 		return false;
 	}
+	
+	/**
+	 * Adds an Agent to a free spot along the given row
+	 * 
+	 * @param a
+	 *            The Agent to add.
+	 * @param row
+	 *            The y position of the row
+	 * @return true if successful (Agent added), false otherwise
+	 */
+	public boolean horizontalSpawn(Agent a, int row) {
+		for(int x = 0; x < width; x++) {
+			if (spawnAgentHelper(a, x, row))
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Adds an Agent to a free spot in the given column
+	 * 
+	 * @param a
+	 *            The Agent to add.
+	 * @param column
+	 *            The x position of the column
+	 * @return true if successful (Agent added), false otherwise
+	 */
+	public boolean verticalSpawn(Agent a, int column) {
+		for(int y = 0; y < height; y++) {
+			if (spawnAgentHelper(a, column, y))
+				return true;
+		}
+		return false;
+	}
 
+	/**
+	 * Adds an Agent to the specified x/y position if that position is empty.
+	 * 
+	 * @param a
+	 * @param x
+	 * @param y
+	 * @return true when added, false otherwise
+	 */
 	private boolean spawnAgentHelper(Agent a, int x, int y) {
 		if (emptySlot(x, y)) {
 			addAgent(a, x, y);
@@ -183,7 +225,7 @@ public class Grid extends Entity implements Iterable<Slot> {
 	public boolean spawnAgent(Agent a) {
 		int randomX = (int) (Math.random() * (width - 1));
 		int randomY = (int) (Math.random() * (height - 1));
-		return spawnAgent(a, randomX, randomY);
+		return spiralSpawn(a, randomX, randomY);
 	}
 
 	/**
