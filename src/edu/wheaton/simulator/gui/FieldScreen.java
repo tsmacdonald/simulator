@@ -200,6 +200,7 @@ public class FieldScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = fields.getSelectedIndex();
+			//TODO actually remove the field from internal code
 			listModel.remove(index);
 			int size = listModel.getSize();
 			if(size == 0)

@@ -153,13 +153,11 @@ public class DemoMenu {
 						movesLabel.setText("Number of steps taken:  " + 
 								statsManager.getLastStep()
 								);
-						//TODO set text for start/end times
 						timesLabel.setText("Simulation start time:  " + 
 								ft.format(dStart) +
 								"      Simulation end Time:  " + 
 								ft.format(dEnd)
 								);
-						//TODO set text for duration
 						durationLabel.setText("Simulation duration:  " + 
 								statsManager.getSimulationDuration()/1000 + 
 								" seconds");
