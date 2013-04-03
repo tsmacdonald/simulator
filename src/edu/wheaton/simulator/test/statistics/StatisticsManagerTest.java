@@ -33,6 +33,7 @@ import edu.wheaton.simulator.statistics.PrototypeSnapshot;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
+
 public class StatisticsManagerTest {
 
 	StatisticsManager sm;
@@ -141,7 +142,7 @@ public class StatisticsManagerTest {
 			Entity entity = new Entity();
 			Map<String, String> fields = new HashMap<String, String>();
 			fields.put("name", names[i]);
-			fields.put("weight", "50");
+			fields.put("weight", "10");
 			ids.add(entity.getEntityID());
 			for(int s = 1; s < 3; s++) {
 				snaps.add(new AgentSnapshot(entity.getEntityID(), SnapshotFactory.makeFieldSnapshots(fields), s, protoSnap.id));
@@ -153,8 +154,6 @@ public class StatisticsManagerTest {
 			sm.addGridEntity(snap);
 		}
 		
-		
-		
 		/* test method */
 		double[] avg = sm.getAvgFieldValue(protoSnap.id, "weight");
 		for(double i : avg) {
@@ -163,7 +162,7 @@ public class StatisticsManagerTest {
 		}
 	}
 
-	@Test
+	/*@Test
 	public void testGetAvgLifespan() {
 		sm.addPrototypeSnapshot(protoSnap); 
 		
@@ -173,6 +172,6 @@ public class StatisticsManagerTest {
 		catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} 
-	}
+	}*/
 
 }

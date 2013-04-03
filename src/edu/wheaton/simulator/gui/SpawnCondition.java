@@ -27,7 +27,7 @@ public class SpawnCondition {
 		if (pattern.equals("Clustered")) {
 			facade.getGrid().spiralSpawn(prototype.createAgent(), x, y);
 		}
-		else facade.getGrid().spawnAgent(prototype.createAgent());
+		else facade.getGrid().spiralSpawn(prototype.createAgent());
 	}
 	
 }

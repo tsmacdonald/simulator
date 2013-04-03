@@ -11,7 +11,7 @@ import edu.wheaton.simulator.entity.Prototype;
  * @author Daniel Gill, Nico Lasta
  *
  */
-public class GridObserver {
+public class GridRecorder {
 
 	private static int ii = 0; 
 	
@@ -20,7 +20,7 @@ public class GridObserver {
 	/**
 	 * Constructor.
 	 */
-	public GridObserver(StatisticsManager statManager) {
+	public GridRecorder(StatisticsManager statManager) {
 		this.statManager = statManager;
 	}
 

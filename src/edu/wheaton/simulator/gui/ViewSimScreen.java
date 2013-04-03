@@ -27,7 +27,7 @@ import javax.swing.SwingUtilities;
 
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
-import edu.wheaton.simulator.statistics.GridObserver;
+import edu.wheaton.simulator.statistics.GridRecorder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class ViewSimScreen extends Screen {
@@ -134,7 +134,7 @@ public class ViewSimScreen extends Screen {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				GridObserver gridObs = new GridObserver(new StatisticsManager());
+				GridRecorder gridObs = new GridRecorder(new StatisticsManager());
 				while(sm.isRunning()) {
 					try {
 						sm.getFacade().updateEntities();
