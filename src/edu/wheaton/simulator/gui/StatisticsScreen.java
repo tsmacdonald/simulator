@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.*;
 
@@ -39,7 +40,7 @@ public class StatisticsScreen extends Screen {
 
 	private JComboBox lifeEntityBox;
 
-	private HashMap<String, JComboBox> agentFieldsBoxes;
+	private Map<String, JComboBox> agentFieldsBoxes;
 
 	private JPanel fieldCard;
 
@@ -101,13 +102,10 @@ public class StatisticsScreen extends Screen {
 					);
 			
 			Object[][] timePop = new Object[popVsTime.length][2];
-			for(int i = 0; i < popVsTime.length; i++){
-				Object[] array= {i, popVsTime[i]};
-				timePop[i] = array;
-			}
+			for(int i = 0; i < popVsTime.length; i++)
+				timePop[i] = new Object[]{i, popVsTime[i]};
 
-			String[] popTime = {"Population", "Time"};
-			JTable jt = new JTable(timePop ,popTime);
+			JTable jt = makeTable(timePop,"Population","Time");
 			populationCard.add(jt);
 		}
 
@@ -156,6 +154,12 @@ public class StatisticsScreen extends Screen {
 		mainPanel.add(buttonPanel);
 		this.add(mainPanel);
 
+	}
+	
+	private static JTable makeTable(Object[][] data, String label1, String label2){
+		String[] labels = {label1, label2};
+		JTable jt = new JTable(data ,labels);
+		return jt;
 	}
 	
 	private JButton makeDisplayButton(final String populationsStr, final String fieldsStr){
