@@ -46,11 +46,6 @@ public class GridPanel extends JPanel {
 	}
 
 	public void agentPaint(Graphics g){
-		if(g==null){
-			System.err.println("GridPanel.java ( agentPaint(Graphics g) ): parameter 'g' is null");
-			throw new NullPointerException();
-		}
-		
 		width = this.getWidth();
 		height = this.getHeight();
 		gridWidth = sm.getGUIwidth();
@@ -62,29 +57,19 @@ public class GridPanel extends JPanel {
 			for (int y = 0; y < gridHeight; y++) {
 				Agent agent = sm.getFacade().getAgent(x, y);
 				if(agent != null) {
-//					//null test for g is handled at start of function
-//					System.out.println("\tg null " + false);
-//					
-//					//agent cannot be null at this location
-//					System.out.println("\tagent null " + false);
-//					
-//					System.out.println("\tcolor null " + (agent.getColor() == null));
-					g.setColor(agent.getColor());
-
 					if(squareSize < 9){
 						g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 
 								squareSize, squareSize);
 					}
-//Still not working yet. Time for bed though. Fix it tomorrow.					
 					else{
 						int iconSize = squareSize/7;
-						for (int a = 0; x < squareSize; x+=iconSize) {
-							for (int b = 0; y <  squareSize; y+=iconSize) {
+						for (int a = 0; a < 7; a+=1) {
+							for (int b = 0; b <  7; b+=1) {
 								byte[] icon = agent.getDesign();
 								byte val = new Byte("0000001");
-								if((icon[a]&(val<<b)) == 1){
-									g.fillRect((squareSize * x) + a*iconSize,
-											(squareSize * y) + b*iconSize, 
+								if((icon[a]&(val<<b)) > 0){
+									g.fillRect((squareSize * x + 1) + (6-b)*iconSize,
+											(squareSize * y + 1) + (a)*iconSize, 
 											iconSize, iconSize);
 								}
 							}

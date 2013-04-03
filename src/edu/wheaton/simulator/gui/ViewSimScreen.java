@@ -16,7 +16,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -53,6 +55,13 @@ public class ViewSimScreen extends Screen {
 		stepCount = 0;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 		JPanel layerPanel = new JPanel();
+		layerPanel.setLayout(new BoxLayout(layerPanel, BoxLayout.Y_AXIS));
+		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
+		JComboBox agentComboBox = new JComboBox();
+		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
+		JComboBox layerComboBox = new JComboBox();
+		
+		
 		//TODO add layer elements
 		//set Layout
 		//objects for layers:
