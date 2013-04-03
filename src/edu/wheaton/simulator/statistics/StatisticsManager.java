@@ -40,6 +40,16 @@ public class StatisticsManager {
 	 */
 	private HashMap<Integer, Map<PrototypeID, PrototypeSnapshot>> prototypes;
 
+	/**
+	 * The point at which the simulation started. 
+	 */
+	private long startTime; 
+	
+	/**
+	 * The point in time of the most recent step in the simulation. 
+	 */
+	private long mostRecentTime; 
+	
 	// TODO: Some sort of behavior queue mapping AgentID's to behavior
 	// representations.
 
@@ -50,6 +60,30 @@ public class StatisticsManager {
 		table = new EntitySnapshotTable();
 		gridObserver = new GridObserver(this);
 		prototypes = new HashMap<Integer, Map<PrototypeID, PrototypeSnapshot>>();
+	}
+	
+	/**
+	 * Set the point in time at which the simulation began. 
+	 * @param startTime The time (in ms) when the simulation started.
+	 */
+	public void setStartTime(long startTime) { 
+		this.startTime = startTime; 
+	}
+	
+	/**
+	 * Update the most recent point in time in the simulation. 
+	 * @param mostRecentTime The time (in ms) at which the most recent iteration occurred.  
+	 */
+	public void updateRecentTime(long mostRecentTime) { 
+		this.mostRecentTime = Math.max(this.mostRecentTime, mostRecentTime); 
+	}
+	
+	/**
+	 * During the duration of the simulation in ms. 
+	 * @return The duration of the simulation in ms. 
+	 */
+	public long getSimulationDuration() { 
+		return mostRecentTime - startTime;
 	}
 
 	/**

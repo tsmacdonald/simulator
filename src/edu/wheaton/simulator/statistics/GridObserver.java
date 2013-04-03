@@ -44,23 +44,13 @@ public class GridObserver {
 				System.out.println(SnapshotFactory.makeAgentSnapshot(agent, step).serialize()); //Debugging 
 			}
 		}
-		
-		
-		
-//		for (Slot s : grid) { 
-//			EntitySnapshot slotSnap = SnapshotFactory.makeSlotSnapshot(s, step);
-//			statManager.addGridEntity(slotSnap);
-//			Agent agent = s.getAgent();
-//			if (agent == null) 
-//				continue;
-//			AgentSnapshot agentSnap = SnapshotFactory.makeAgentSnapshot(agent, step);
-//			statManager.addGridEntity(agentSnap);
-//			for (String currentPrototypeName : prototypes.keySet()) { 
-//				PrototypeSnapshot currentSnapshot;
-//				currentSnapshot = SnapshotFactory.makePrototypeSnapshot(
-//						prototypes.get(currentPrototypeName), step);
-//			}
-//			// TODO Make sure this method is completely implemented! (for the most part)
-//		}
+	}
+	
+	/**
+	 * Record the time of the most recent iteration. 
+	 * @param timeOfRecentIteration the time (in ms) of the most recent turn of the simulation.
+	 */
+	public void updateTime(long timeOfRecentIteration) { 
+		statManager.updateRecentTime(timeOfRecentIteration);
 	}
 }
