@@ -250,9 +250,14 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * 
 	 * @param x
 	 * @param y
+	 * @return false if invalid coordinates
 	 */
 	public boolean removeAgent(int x, int y) {
-		return addAgent(null, x, y);
+		if (isValidCoord(x, y)) {
+			grid[y][x] = null;
+			return true;
+		}
+		return false;
 	}
 
 	/**
