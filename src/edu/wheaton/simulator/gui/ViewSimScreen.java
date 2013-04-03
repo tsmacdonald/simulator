@@ -74,34 +74,14 @@ public class ViewSimScreen extends Screen {
 		JButton backButton = new JButton("Back");
 		JButton startButton = new JButton("Start/Resume");
 		backButton.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Edit Simulation")); 
-					} 
-				}
+				makeBackButtonListener()
 				);
 		pauseButton.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						sm.setRunning(false);
-					}
-				}
+				makePauseButtonListener()
+				
 				);
 		startButton.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
-						for (SpawnCondition condition: conditions) {
-							condition.addToGrid(sm.getFacade());
-						}
-						sm.setRunning(true);
-						sm.setStarted(true);
-						runSim();
-					}
-				}
+				makeStartButtonListener()
 				);
 
 		grid = new GridPanel(sm);
@@ -114,6 +94,40 @@ public class ViewSimScreen extends Screen {
 		this.setVisible(true);	
 
 	}
+	
+	private ActionListener makeBackButtonListener(){
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sm.update(sm.getScreen("Edit Simulation")); 
+			} 
+		};
+	}
+	
+	private ActionListener makePauseButtonListener(){
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sm.setRunning(false);
+			}
+		};
+	}
+	
+	private ActionListener makeStartButtonListener(){
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
+				for (SpawnCondition condition: conditions) {
+					condition.addToGrid(sm.getFacade());
+				}
+				sm.setRunning(true);
+				sm.setStarted(true);
+				runSim();
+			}
+		};
+	}
+	
 	private void runSim() {
 		System.out.println(sm.getEnder().getStepLimit());
 		//program loop yay!
