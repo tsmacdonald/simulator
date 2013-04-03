@@ -25,13 +25,14 @@ public class SpawnCondition {
 
 	public void addToGrid(GUIToAgentFacade facade) {
 		if (pattern.equals("Clustered")) {
+
 			for (int i = 0; i < number; i++) {
-				facade.getGrid().spawnAgent(prototype.createAgent(), x, y);
+				facade.getGrid().spiralSpawn(prototype.createAgent(), x, y);
 			}
 		}
 		else if (pattern.equals("Random")) {
 			for (int i = 0; i < number; i++) {
-				facade.getGrid().spawnAgent(prototype.createAgent());
+				facade.getGrid().spiralSpawn(prototype.createAgent());
 			}
 		}
 		else if (pattern.equals("Horizontal")) {
@@ -44,6 +45,7 @@ public class SpawnCondition {
 				//vertical line spawn
 			}
 		}
+
 	}
 
 }

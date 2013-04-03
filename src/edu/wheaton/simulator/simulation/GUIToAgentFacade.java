@@ -122,9 +122,37 @@ public class GUIToAgentFacade {
 	 *            Central y location for spawn
 	 * @return true if successful (agent added), false otherwise
 	 */
-	public boolean spawnAgent(String prototypeName, int spawnX, int spawnY) {
+	public boolean spiralSpawn(String prototypeName, int spawnX, int spawnY) {
 		Agent toAdd = getPrototype(prototypeName).createAgent();
-		return grid.spawnAgent(toAdd, spawnX, spawnY);
+		return grid.spiralSpawn(toAdd, spawnX, spawnY);
+	}
+	
+	/**
+	 * Adds an Agent to a free spot along the given row
+	 * 
+	 * @param prototypeName
+	 *            The name of the prototype to build the Agent from.
+	 * @param row
+	 *            The y position of the row
+	 * @return true if successful (Agent added), false otherwise
+	 */
+	public boolean horizontalSpawn(String prototypeName, int row) {
+		Agent toAdd = getPrototype(prototypeName).createAgent();
+		return grid.horizontalSpawn(toAdd, row);
+	}
+	
+	/**
+	 * Adds an Agent to a free spot in the given column
+	 * 
+	 * @param prototypeName
+	 *            The name of the prototype to build the Agent from.
+	 * @param column
+	 *            The x position of the column
+	 * @return true if successful (Agent added), false otherwise
+	 */
+	public boolean verticalSpawn(String prototypeName, int column) {
+		Agent toAdd = getPrototype(prototypeName).createAgent();
+		return grid.verticalSpawn(toAdd, column);
 	}
 
 	/**
@@ -133,9 +161,9 @@ public class GUIToAgentFacade {
 	 * @param prototypeName
 	 *            The name of the prototype to build the Agent from.
 	 */
-	public boolean spawnAgent(String prototypeName) {
+	public boolean spiralSpawn(String prototypeName) {
 		Agent toAdd = getPrototype(prototypeName).createAgent();
-		return grid.spawnAgent(toAdd);
+		return grid.spiralSpawn(toAdd);
 	}
 
 	/**
@@ -298,9 +326,9 @@ public class GUIToAgentFacade {
 		for (int x = 0; x < grid.getWidth(); x++) 
 			for(int y = 0; y < grid.getHeight(); y++) {
 				if (x == 4 || x == 5 || y == 5) {
-					grid.spawnAgent(Prototype.getPrototype("aliveBeing").createAgent(), x, y);
+					grid.spiralSpawn(Prototype.getPrototype("aliveBeing").createAgent(), x, y);
 				} else {
-					grid.spawnAgent(Prototype.getPrototype("deadBeing").createAgent(), x, y);
+					grid.spiralSpawn(Prototype.getPrototype("deadBeing").createAgent(), x, y);
 				}
 			}
 	}

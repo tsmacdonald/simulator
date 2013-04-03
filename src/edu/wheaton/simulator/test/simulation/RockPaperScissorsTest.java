@@ -96,7 +96,7 @@ public class RockPaperScissorsTest {
 			// There is an obstacle ahead of us so we need to turn
 			
 			for(int i = 0; i < 10; i ++){
-				testGrid.spawnAgent(testPrototype.createAgent());
+				testGrid.spiralSpawn(testPrototype.createAgent());
 			}
 		}
 	}
