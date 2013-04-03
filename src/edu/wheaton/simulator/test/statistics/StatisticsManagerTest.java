@@ -172,7 +172,7 @@ public class StatisticsManagerTest {
 		try {
 			sm.getAvgLifespan(protoSnap.id);
 		}
-		catch (NameNotFoundException e) {
+		catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} 
 	}
