@@ -50,6 +50,11 @@ public class StatisticsManager {
 	 */
 	private long mostRecentTime; 
 	
+	/**
+	 * The total duration of the simulation so far.
+	 */
+	private long totalTime;
+	
 	// TODO: Some sort of behavior queue mapping AgentID's to behavior
 	// representations.
 
@@ -79,11 +84,27 @@ public class StatisticsManager {
 	}
 	
 	/**
-	 * During the duration of the simulation in ms. 
+	 * Update the total duration of the simulation.
+	 * @param newTime The new total time (in ms).
+	 */
+	public void updateTotalTime(long newTime) {
+		this.totalTime = newTime;
+	}
+	
+	/**
+	 * Get the starting time of the simulation.
+	 * @return The starting time of the simulation (System time, in ms).
+	 */
+	public long getSimulationStartTime() {
+		return startTime;
+	}
+	
+	/**
+	 * Get the duration of the simulation in ms. 
 	 * @return The duration of the simulation in ms. 
 	 */
 	public long getSimulationDuration() { 
-		return mostRecentTime - startTime;
+		return totalTime;
 	}
 
 	/**

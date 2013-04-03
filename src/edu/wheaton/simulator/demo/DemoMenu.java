@@ -40,6 +40,7 @@ public class DemoMenu {
 	private int turnCount;
 	private HashSet<Prototype> prototypes;
 	private JButton finishButton;
+	private long startTime;
 
 	public DemoMenu() {
 		//initialize instance variables
@@ -48,6 +49,7 @@ public class DemoMenu {
 		observer = new GridObserver(statsManager);
 		isRunning = false;
 		turnCount = 0;
+		startTime = 0;
 		prototypes = new HashSet<Prototype>();
 		frame = new JFrame("Simulator");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,10 +92,7 @@ public class DemoMenu {
 						facade.spawnAgent(nameField.getText(), 0, 4);
 						frame.setContentPane(simulationScreen);
 						frame.setVisible(true);
-						grid.clearAgents(grid.getGraphics());
-						grid.agentPaint(grid.getGraphics());
-						//TODO try and get it to paint immediately, before start button is called. 
-						//is it automatically repainting after these methods are called and overwriting them?
+						grid.repaint();
 					}
 				}
 				);
@@ -114,6 +113,10 @@ public class DemoMenu {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						isRunning = true;
+						startTime = System.currentTimeMillis();
+						if (turnCount == 0) {
+							statsManager.setStartTime(startTime);
+						}
 						runSim();
 					}
 				}
@@ -128,7 +131,6 @@ public class DemoMenu {
 				}
 				);
 		finishButton = new JButton("Finish");
-		//TODO addActionListener to move to next screen; should be active only when simulation ends
 		finishButton.addActionListener(
 				new ActionListener() {
 					@Override
@@ -188,13 +190,14 @@ public class DemoMenu {
 							new Thread (new Runnable() {
 								@Override
 								public void run() {
-//									grid.clearAgents(grid.getGraphics());
-//									grid.agentPaint(grid.getGraphics());
 									grid.repaint();
 								}
 							}));
 					turnCount++;
+					long currentTime = System.currentTimeMillis();
 					observer.recordSimulationStep(facade.getGrid(), turnCount, prototypes);
+					observer.updateTime(currentTime, currentTime - startTime);
+					startTime = currentTime;
 					System.out.println(turnCount);
 					if (turnCount >= 9) {
 						isRunning = false;

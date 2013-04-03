@@ -50,7 +50,8 @@ public class GridObserver {
 	 * Record the time of the most recent iteration. 
 	 * @param timeOfRecentIteration the time (in ms) of the most recent turn of the simulation.
 	 */
-	public void updateTime(long timeOfRecentIteration) { 
+	public void updateTime(long timeOfRecentIteration, long addedDuration) { 
 		statManager.updateRecentTime(timeOfRecentIteration);
+		statManager.updateTotalTime(statManager.getSimulationDuration() + addedDuration);
 	}
 }
