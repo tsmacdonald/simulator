@@ -120,6 +120,7 @@ public class StatisticsScreen extends Screen {
 		displayButton.setPreferredSize(new Dimension(150, 70));
 		displayButton.addActionListener(
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (cardSelector.getSelectedItem().equals("Populations")) {
 							int[] pops = statMan.getPopVsTime(sm.getFacade().

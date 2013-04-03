@@ -16,8 +16,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import javax.naming.NameNotFoundException;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
