@@ -13,6 +13,8 @@ import edu.wheaton.simulator.entity.Prototype;
  */
 public class GridObserver {
 
+	private static int ii = 0; 
+	
 	private StatisticsManager statManager;
 
 	/**
@@ -29,7 +31,7 @@ public class GridObserver {
 	 * @param prototypes
 	 */
 	public void recordSimulationStep(Grid grid, Integer step, Collection<Prototype> prototypes) { 
-		
+		System.out.println("=========" + (++ii));
 		for (Prototype prototype : prototypes) { 
 			statManager.addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(prototype, step));
 		}
