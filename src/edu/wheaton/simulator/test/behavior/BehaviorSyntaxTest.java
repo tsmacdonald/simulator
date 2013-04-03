@@ -41,7 +41,7 @@ public class BehaviorSyntaxTest {
 		Expression alwaysTrue = new Expression("1 < 2");
 		proto.addTrigger(new Trigger("cloneAgentAtPosition", 1, alwaysTrue, cloneAgentAtPosition));
 		testGrid.updateEntities();
-		Assert.assertFalse(testGrid.emptySlot(6, 6));
+		Assert.assertFalse(testGrid.emptyPos(6, 6));
 	}
 	
 	@Test
@@ -50,40 +50,40 @@ public class BehaviorSyntaxTest {
 		Expression alwaysTrue = new Expression("1 < 2");
 		proto.addTrigger(new Trigger("clone", 1, alwaysTrue, clone));
 		testGrid.updateEntities();
-		Assert.assertFalse(testGrid.emptySlot(6, 6));
+		Assert.assertFalse(testGrid.emptyPos(6, 6));
 	}
 
 	@Test
 	public void testDieBehavior() throws SimulationPauseException {
 		// there is an agent at 5, 5
-		Assert.assertFalse(testGrid.emptySlot(5, 5));	
+		Assert.assertFalse(testGrid.emptyPos(5, 5));	
 
 		Expression die = new Expression("die('this')");
 		Expression alwaysTrue = new Expression("1 < 2");
 		proto.addTrigger(new Trigger("clone", 1, alwaysTrue, die));
 		testGrid.updateEntities();
 		// agent is removed from the grid
-		Assert.assertTrue(testGrid.emptySlot(5, 5));	
+		Assert.assertTrue(testGrid.emptyPos(5, 5));	
 		}
 
 	@Test
 	public void testMoveBehavior() throws SimulationPauseException {
 		// one agent was spawned at 5, 5
-		Assert.assertFalse(testGrid.emptySlot(5, 5));
+		Assert.assertFalse(testGrid.emptyPos(5, 5));
 		// 6, 6 is open for an agent to move there
-		Assert.assertTrue(testGrid.emptySlot(6, 6));
+		Assert.assertTrue(testGrid.emptyPos(6, 6));
 		Expression move = new Expression("move('this', 6 , 6)");
 		Expression alwaysTrue = new Expression("1 < 2");
 		proto.addTrigger(new Trigger("move", 1, alwaysTrue, move));
 		testGrid.updateEntities();
-		Assert.assertTrue(testGrid.emptySlot(5, 5));
-		Assert.assertFalse(testGrid.emptySlot(6, 6));	
+		Assert.assertTrue(testGrid.emptyPos(5, 5));
+		Assert.assertFalse(testGrid.emptyPos(6, 6));	
 		}
 	
 	@Test
 	public void testSetFieldBehavior() throws SimulationPauseException {
 		// one agent was spawned at 5, 5
-		Assert.assertFalse(testGrid.emptySlot(5, 5));
+		Assert.assertFalse(testGrid.emptyPos(5, 5));
 		// health starts at 100
 		Assert.assertEquals(testGrid.getAgent(5, 5).getFieldValue("health") + "", "100");
 		Expression setField = new Expression("setField('this', 'health' , 50)");
@@ -96,11 +96,11 @@ public class BehaviorSyntaxTest {
 	@Test
 	public void testSetFieldOfAgentBehavior() throws SimulationPauseException {
 		// one agent was spawned at 5, 5
-		Assert.assertFalse(testGrid.emptySlot(5, 5));
+		Assert.assertFalse(testGrid.emptyPos(5, 5));
 		// spawn another agent at 4, 4 and make sure that it spawned
-		Assert.assertTrue(testGrid.emptySlot(4, 4));
+		Assert.assertTrue(testGrid.emptyPos(4, 4));
 		testGrid.spiralSpawn(proto.createAgent(), 4, 4);
-		Assert.assertFalse(testGrid.emptySlot(4, 4));
+		Assert.assertFalse(testGrid.emptyPos(4, 4));
 		// health starts at 100
 		Assert.assertEquals(testGrid.getAgent(4, 4).getFieldValue("health") + "", "100");
 		Expression setFieldOfAgent = new Expression("setFieldOfAgent('this', 4, 4, 'health', 50)");

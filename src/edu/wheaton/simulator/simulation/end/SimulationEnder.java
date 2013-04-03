@@ -5,7 +5,7 @@ import java.util.TreeMap;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.datastructure.Grid;
-import edu.wheaton.simulator.datastructure.Slot;
+import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.PrototypeID;
 
@@ -148,8 +148,8 @@ public class SimulationEnder {
 	private final class NoAgentsCondition implements EndCondition {
 		@Override
 		public boolean evaluate(int step, Grid grid) {
-			for (Slot s : grid) {
-				if (s.getAgent() != null)
+			for (Agent a : grid) {
+				if (a != null)
 					return false;
 			}
 			return true;

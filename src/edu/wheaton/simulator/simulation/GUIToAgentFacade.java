@@ -167,7 +167,7 @@ public class GUIToAgentFacade {
 	}
 
 	/**
-	 * Returns the Agent in the slot at the given coordinates
+	 * Returns the Agent at the given coordinates
 	 * 
 	 * @param x
 	 * @param y
@@ -177,23 +177,13 @@ public class GUIToAgentFacade {
 	}
 
 	/**
-	 * Removes an Agent from the slot at the given coordinates
+	 * Removes an Agent at the given coordinates
 	 * 
 	 * @param x
 	 * @param y
 	 */
 	public void removeAgent(int x, int y) {
 		grid.removeAgent(x, y);
-	}
-
-	/**
-	 * Removes the given Agent from the grid.
-	 * 
-	 * @param a
-	 *            The Agent to remove.
-	 */
-	public void removeEntity(Agent a) {
-		grid.removeAgent(a);
 	}
 
 	/**
