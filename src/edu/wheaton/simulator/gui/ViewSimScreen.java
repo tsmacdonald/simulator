@@ -52,7 +52,8 @@ public class ViewSimScreen extends Screen {
 		this.sm = sm;
 		stepCount = 0;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
-		JPanel mainPanel = new JPanel();
+		JPanel layerPanel = new JPanel();
+		//TODO add layer elements
 		//set Layout
 		//objects for layers:
 		// - combobox(es) for choosing field, colorchooser to pick primary filter color, 
@@ -63,7 +64,6 @@ public class ViewSimScreen extends Screen {
 		JButton pauseButton = new JButton("Pause");
 		JButton backButton = new JButton("Back");
 		JButton startButton = new JButton("Start/Resume");
-
 		backButton.addActionListener(
 				new ActionListener() {
 					@Override
@@ -80,7 +80,6 @@ public class ViewSimScreen extends Screen {
 					}
 				}
 				);
-
 		startButton.addActionListener(
 				new ActionListener() {
 					@Override
@@ -121,6 +120,7 @@ public class ViewSimScreen extends Screen {
 						JOptionPane.showMessageDialog(null, e.getMessage());
 					}
 					gridObs.recordSimulationStep(sm.getFacade().getGrid(), stepCount, Prototype.getPrototypes());
+					stepCount++;
 					sm.setRunning(!(sm.getEnder().evaluate(stepCount, 
 							sm.getFacade().getGrid())));
 
@@ -129,11 +129,9 @@ public class ViewSimScreen extends Screen {
 								@Override
 								public void run() {
 									grid.repaint();
-//									grid.clearAgents(grid.getGraphics());
-//									grid.agentPaint(grid.getGraphics());
 								}
 							}));
-					stepCount++;
+					
 					System.out.println(stepCount);
 					try {
 						System.out.println("Sleep!");
@@ -146,13 +144,9 @@ public class ViewSimScreen extends Screen {
 			}
 		}).start();
 	}
-	private void paint(){
-		grid.paint(grid.getGraphics());
-		grid.agentPaint(grid.getGraphics());
-	}
 
 	@Override
 	public void load() {
-		paint();
+		grid.repaint();
 	}
 }

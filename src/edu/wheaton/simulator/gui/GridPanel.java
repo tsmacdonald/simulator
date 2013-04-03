@@ -62,13 +62,13 @@ public class GridPanel extends JPanel {
 			for (int y = 0; y < gridHeight; y++) {
 				Agent agent = sm.getFacade().getAgent(x, y);
 				if(agent != null) {
-					//null test for g is handled at start of function
-					System.out.println("\tg null " + false);
-					
-					//agent cannot be null at this location
-					System.out.println("\tagent null " + false);
-					
-					System.out.println("\tcolor null " + (agent.getColor() == null));
+//					//null test for g is handled at start of function
+//					System.out.println("\tg null " + false);
+//					
+//					//agent cannot be null at this location
+//					System.out.println("\tagent null " + false);
+//					
+//					System.out.println("\tcolor null " + (agent.getColor() == null));
 					g.setColor(agent.getColor());
 
 					if(squareSize < 9){
