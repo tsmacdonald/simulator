@@ -114,6 +114,7 @@ public class ViewSimScreen extends Screen {
 	}
 	
 	private ActionListener makeStartButtonListener(){
+		//TODO should not re-spawn agents when resuming
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -152,6 +153,7 @@ public class ViewSimScreen extends Screen {
 								@Override
 								public void run() {
 									grid.repaint();
+									grid.agentPaint(grid.getGraphics());
 								}
 							}));
 					

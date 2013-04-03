@@ -49,7 +49,6 @@ public class StatisticsScreen extends Screen {
 	 */
 	private static final long serialVersionUID = 714636604315959167L;
 	//TODO fix layout of this screen	
-	//TODO make sure that correct fields box gets put on the panel when an agent is selected.
 	public StatisticsScreen(final ScreenManager sm) {
 		super(sm);
 		statMan = sm.getStatManager();
@@ -261,7 +260,6 @@ public class StatisticsScreen extends Screen {
 		return lifespanCard;
 	}
 	
-	//TODO finish this
 	@Override
 	public void load() {
 		entities = new String[sm.getFacade().prototypeNames().size()];

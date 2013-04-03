@@ -57,6 +57,7 @@ public class GridPanel extends JPanel {
 			for (int y = 0; y < gridHeight; y++) {
 				Agent agent = sm.getFacade().getAgent(x, y);
 				if(agent != null) {
+					g.setColor(agent.getColor());
 					if(squareSize < 9){
 						g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 
 								squareSize, squareSize);

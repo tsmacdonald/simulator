@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.entity.GridEntity;
 import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 
@@ -39,7 +40,7 @@ public class EditFieldScreen extends Screen {
 
 	private JTextField initValue;
 
-	private GridEntity ge;
+	private Entity ge;
 
 	private String prevName;
 
@@ -109,7 +110,7 @@ public class EditFieldScreen extends Screen {
 		prevName = "";
 	}
 
-	public void load(GridEntity ge, String n) {
+	public void load(Entity ge, String n) {
 		reset();
 		this.ge = ge;
 		nameField.setText(n);
@@ -117,7 +118,7 @@ public class EditFieldScreen extends Screen {
 		prevName = n;
 	}
 
-	public void load(GridEntity ge) {
+	public void load(Entity ge) {
 		reset();
 		this.ge = ge;
 	}

@@ -37,12 +37,12 @@ public class SpawnCondition {
 		}
 		else if (pattern.equals("Horizontal")) {
 			for (int i = 0; i < number; i++) {
-				//Horizontal line spawn
+				facade.getGrid().horizontalSpawn(prototype.createAgent(), x);
 			}
 		}
 		else if (pattern.equals("Vertical")) {
 			for (int i = 0; i < number; i++) {
-				//vertical line spawn
+				facade.getGrid().verticalSpawn(prototype.createAgent(), y);
 			}
 		}
 
