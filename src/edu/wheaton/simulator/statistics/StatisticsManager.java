@@ -40,6 +40,16 @@ public class StatisticsManager {
 	 */
 	private HashMap<Integer, Map<PrototypeID, PrototypeSnapshot>> prototypes;
 
+	/**
+	 * The point at which the simulation started. 
+	 */
+	private long startTime; 
+	
+	/**
+	 * The point in time of the most recent step in the simulation. 
+	 */
+	private long mostRecentTime; 
+	
 	// TODO: Some sort of behavior queue mapping AgentID's to behavior
 	// representations.
 
@@ -50,6 +60,30 @@ public class StatisticsManager {
 		table = new EntitySnapshotTable();
 		gridObserver = new GridObserver(this);
 		prototypes = new HashMap<Integer, Map<PrototypeID, PrototypeSnapshot>>();
+	}
+	
+	/**
+	 * Set the point in time at which the simulation began. 
+	 * @param startTime The time (in ms) when the simulation started.
+	 */
+	public void setStartTime(long startTime) { 
+		this.startTime = startTime; 
+	}
+	
+	/**
+	 * Update the most recent point in time in the simulation. 
+	 * @param mostRecentTime The time (in ms) at which the most recent iteration occurred.  
+	 */
+	public void updateRecentTime(long mostRecentTime) { 
+		this.mostRecentTime = Math.max(this.mostRecentTime, mostRecentTime); 
+	}
+	
+	/**
+	 * During the duration of the simulation in ms. 
+	 * @return The duration of the simulation in ms. 
+	 */
+	public long getSimulationDuration() { 
+		return mostRecentTime - startTime;
 	}
 
 	/**
@@ -216,9 +250,8 @@ public class StatisticsManager {
 	 * @param id
 	 *            The PrototypeID of the GridEntity to be tracked
 	 * @return The average lifespan of the specified GridEntity
-	 * @throws NameNotFoundException
 	 */
-	public double getAvgLifespan(PrototypeID id) throws NameNotFoundException {
+	public double getAvgLifespan(PrototypeID id) {
 		// List with index = step in the simulation, value = set of all agents
 		// alive at that time
 		List<Set<AgentSnapshot>> agentsByStep = new ArrayList<Set<AgentSnapshot>>();
@@ -240,9 +273,12 @@ public class StatisticsManager {
 
 			// Build the sum of all lifetimes - we'll divide by the number of
 			// agents at the end to get the average
+			System.out.println("\t\tB: " + birthTime);
+			System.out.println("\t\tD: " + deathTime);
 			avg += deathTime - birthTime;
 		}
-
+System.out.println("avg: " + avg);
+System.out.println("allAgents.size(): " + allAgents.size());
 		return avg / allAgents.size();
 	}
 
@@ -260,12 +296,12 @@ public class StatisticsManager {
 	 *             the target Agent wasn't found
 	 */
 	private int getBirthStep(List<Set<AgentSnapshot>> agentsByStep,
-			AgentSnapshot target) throws NameNotFoundException {
+			AgentSnapshot target) {
 		for (int i = 0; i < lastStep; i++)
 			if (agentsByStep.get(i).contains(target))
 				return i;
 
-		throw new NameNotFoundException(
+		throw new IllegalArgumentException(
 				"The target AgentSnapshot was not found");
 	}
 
@@ -283,12 +319,12 @@ public class StatisticsManager {
 	 *             the target Agent wasn't found
 	 */
 	private int getDeathStep(List<Set<AgentSnapshot>> agentsByStep,
-			AgentSnapshot target) throws NameNotFoundException {
+			AgentSnapshot target) {
 		for (int i = lastStep; i > 0; i--)
 			if (agentsByStep.get(i).contains(target))
 				return i;
 
-		throw new NameNotFoundException(
+		throw new IllegalArgumentException(
 				"The target AgentSnapshot was not found");
 	}
 }
