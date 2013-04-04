@@ -407,8 +407,7 @@ public class EditEntityScreen extends Screen {
 
 			if (!editing) {
 				sm.getFacade().createPrototype(nameField.getText(),
-						sm.getFacade().getGrid(), colorTool.getColor(),
-						generateBytes());
+						sm.getFacade().getGrid(), colorTool.getColor(),	generateBytes());
 				agent = sm.getFacade().getPrototype(nameField.getText());
 			}
 			else {
@@ -472,6 +471,20 @@ public class EditEntityScreen extends Screen {
 		} 
 		return toReturn;
 
+	}
+	
+	//TODO: separate sendInfo() method into these methods so that 
+	//individual tabs can update prototype info.
+	public boolean sendGeneralInfo(){
+		return false;
+	}
+	
+	public boolean sendFieldInfo(){
+		return false;
+	}
+	
+	public boolean sendTriggerInfo(){
+		return false;
 	}
 
 	public void setEditing(Boolean b) {
