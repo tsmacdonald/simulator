@@ -1,8 +1,6 @@
 package edu.wheaton.simulator.test.gui;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-
 import junit.framework.TestCase;
 
 import org.junit.Assert;

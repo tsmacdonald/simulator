@@ -3,7 +3,6 @@ package edu.wheaton.simulator.statistics;
 import java.util.Collection;
 
 import edu.wheaton.simulator.datastructure.Grid;
-import edu.wheaton.simulator.datastructure.Slot;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
 
@@ -14,7 +13,7 @@ import edu.wheaton.simulator.entity.Prototype;
 public class GridRecorder {
 
 	private static int ii = 0; 
-	
+
 	private StatisticsManager statManager;
 
 	/**
@@ -31,21 +30,18 @@ public class GridRecorder {
 	 * @param prototypes
 	 */
 	public void recordSimulationStep(Grid grid, Integer step, Collection<Prototype> prototypes) { 
-		System.out.println("=========" + (++ii));
+		//		System.out.println("=========" + (++ii));
 		for (Prototype prototype : prototypes) { 
 			statManager.addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(prototype, step));
 		}
-		
-		for (Slot s : grid) { 
-			statManager.addGridEntity(SnapshotFactory.makeSlotSnapshot(s, step));
-			Agent agent; 
-			if ((agent = s.getAgent()) != null) { 
+		for (Agent agent : grid) { 
+			if(agent != null) {
 				statManager.addGridEntity(SnapshotFactory.makeAgentSnapshot(agent, step));
 				System.out.println(SnapshotFactory.makeAgentSnapshot(agent, step).serialize()); //Debugging 
 			}
 		}
 	}
-	
+
 	/**
 	 * Record the time of the most recent iteration. 
 	 * @param timeOfRecentIteration the time (in ms) of the most recent turn of the simulation.
