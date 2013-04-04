@@ -26,8 +26,7 @@ public class TestFieldAddListener extends TestCase{
 		ms2 = new MockScreen("Edit Field Screen", mm);
 		mm = new MockManager(display, ms1.getName(), ms1);
 		mm.addScreen(ms2.getName(), ms2);
-		fal = new FieldAddListener(new JComboBox(), new JComboBox(), 
-								   mm);
+		fal = new FieldAddListener(mm);
 		add = new JButton();
 		add.addActionListener(fal);
 		add.doClick();

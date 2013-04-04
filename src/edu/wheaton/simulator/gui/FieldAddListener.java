@@ -8,13 +8,8 @@ import javax.swing.JComboBox;
 public class FieldAddListener implements ActionListener{
 
 	private Manager sm;
-	private JComboBox xPos;
-	private JComboBox yPos;
 	
-	public FieldAddListener(JComboBox xPos, JComboBox yPos,
-				  			Manager sm){
-		this.xPos = xPos;
-		this.yPos = yPos;
+	public FieldAddListener(Manager sm){
 		this.sm = sm;
 	}
 	
@@ -24,10 +19,7 @@ public class FieldAddListener implements ActionListener{
 		if(editing)
 			editing = false;
 		((EditFieldScreen) (sm.getScreen("Edit Fields"))).load(
-				sm.getFacade().getGrid().getSlot(
-						xPos.getSelectedIndex(), 
-						yPos.getSelectedIndex()
-						)
+				sm.getFacade().getGrid()
 				);
 		sm.update(sm.getScreen("Edit Fields"));
 	}
