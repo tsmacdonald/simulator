@@ -149,26 +149,44 @@ public class Grid extends Entity implements Iterable<Agent> {
 	public boolean spiralSpawn(Agent a, int spawnX, int spawnY) {
 
 		a.setPos(-1, -1);
-
-		for (int distance = 0; distance < height || distance < width; distance++) {
+		int largestDistance = largestDistanceToSide(spawnX, spawnY);
+		for (int distance = 0; distance < largestDistance; distance++) {
 			int x = spawnX - distance;
 			int y = spawnY - distance;
-			if (spawnAgentHelper(a, x, y))
+			if (spawnHelper(a, x, y))
 				return true;
 			for (; x < spawnX + distance; x++)
-				if (spawnAgentHelper(a, x, y))
+				if (spawnHelper(a, x, y))
 					return true;
 			for (; y < spawnY + distance; y++)
-				if (spawnAgentHelper(a, x, y))
+				if (spawnHelper(a, x, y))
 					return true;
 			for (; x > spawnX - distance; x--)
-				if (spawnAgentHelper(a, x, y))
+				if (spawnHelper(a, x, y))
 					return true;
 			for (; y > spawnY - distance; y--)
-				if (spawnAgentHelper(a, x, y))
+				if (spawnHelper(a, x, y))
 					return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Calculates the biggest distance from this given x/y to a wall.
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	private int largestDistanceToSide(int x, int y) {
+		int presentMax = width - x - 1; // presetMax = (x --> width)
+		if (presentMax < x) // presentMax < (0 --> x)
+			presentMax = x;
+		if (presentMax < (height - y - 1)) // presentMax < (y --> height)
+			presentMax = height - y - 1;
+		if (presentMax < y) // presentMax < (0 --> y)
+			presentMax = y;
+		return presentMax;
 	}
 
 	/**
@@ -182,7 +200,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	public boolean horizontalSpawn(Agent a, int row) {
 		for (int x = 0; x < width; x++)
-			if (spawnAgentHelper(a, x, row))
+			if (spawnHelper(a, x, row))
 				return true;
 		return false;
 	}
@@ -198,7 +216,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	public boolean verticalSpawn(Agent a, int column) {
 		for (int y = 0; y < height; y++)
-			if (spawnAgentHelper(a, column, y))
+			if (spawnHelper(a, column, y))
 				return true;
 		return false;
 	}
@@ -211,7 +229,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * @param y
 	 * @return true when added, false otherwise
 	 */
-	private boolean spawnAgentHelper(Agent a, int x, int y) {
+	private boolean spawnHelper(Agent a, int x, int y) {
 		if (emptyPos(x, y)) {
 			addAgent(a, x, y);
 			return true;
