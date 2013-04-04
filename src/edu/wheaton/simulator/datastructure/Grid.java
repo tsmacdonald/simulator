@@ -47,8 +47,8 @@ public class Grid extends Entity implements Iterable<Agent> {
 	public Grid(int width, int height) {
 		super();
 		try {
-			addField("width", width);
-			addField("height", height);
+			addField("width", width + "");
+			addField("height", height + "");
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 			System.exit(1);

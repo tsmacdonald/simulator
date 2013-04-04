@@ -69,9 +69,9 @@ public class RockPaperScissorsTest {
 			Prototype testPrototype = new Prototype(testGrid, "testPrototype");
 			try {
 				testPrototype.addField("type", agentType[j]);
-				testPrototype.addField("typeID", j);
-				testPrototype.addField("direction", j);
-				testPrototype.addField("initialDIrection", j);
+				testPrototype.addField("typeID", j + "");
+				testPrototype.addField("direction", j + "");
+				testPrototype.addField("initialDIrection", j + "");
 			} catch (ElementAlreadyContainedException e) {
 				e.printStackTrace();
 			}

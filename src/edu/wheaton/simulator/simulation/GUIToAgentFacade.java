@@ -237,9 +237,9 @@ public class GUIToAgentFacade {
 
 		// Add fields
 		try {
-			deadBeing.addField("alive", 0); // 0 for false, 1 for true
-			deadBeing.addField("age", 0);
-			deadBeing.addField("neighbors", 0);
+			deadBeing.addField("alive", 0 + ""); // 0 for false, 1 for true
+			deadBeing.addField("age", 0 + "");
+			deadBeing.addField("neighbors", 0 + "");
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
@@ -288,9 +288,9 @@ public class GUIToAgentFacade {
 
 		// Add fields
 		try {
-			aliveBeing.addField("alive", 1); // 0 for false, 1 for true
-			aliveBeing.addField("age", 0);
-			aliveBeing.addField("neighbors", 0);
+			aliveBeing.addField("alive", 1 + ""); // 0 for false, 1 for true
+			aliveBeing.addField("age", 0 + "");
+			aliveBeing.addField("neighbors", 0 + "");
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}

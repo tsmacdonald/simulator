@@ -98,8 +98,8 @@ public abstract class GridEntity extends Entity {
 
 
 		try {
-			addField("x", -1);
-			addField("y", -1);
+			addField("x", -1 + "");
+			addField("y", -1 + "");
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
@@ -109,9 +109,9 @@ public abstract class GridEntity extends Entity {
 	private void initColor(Color c) {
 
 		try {
-			addField("colorRed", getRed(c));
-			addField("colorBlue", getBlue(c));
-			addField("colorGreen", getGreen(c));
+			addField("colorRed", getRed(c) + "");
+			addField("colorBlue", getBlue(c) + "");
+			addField("colorGreen", getGreen(c) + "");
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
@@ -123,9 +123,9 @@ public abstract class GridEntity extends Entity {
 	 * @param c
 	 */
 	public void setColor(Color c) {
-		updateField("colorRed", getRed(c));
-		updateField("colorBlue", getBlue(c));
-		updateField("colorGreen", getGreen(c));
+		updateField("colorRed", getRed(c) + "");
+		updateField("colorBlue", getBlue(c) + "");
+		updateField("colorGreen", getGreen(c) + "");
 	}
 
 	/**

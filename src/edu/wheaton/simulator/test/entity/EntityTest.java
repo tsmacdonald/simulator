@@ -27,7 +27,7 @@ public class EntityTest {
 	private Entity addExampleFields(Entity newAgent){
 		for(int i = 0; i < 5; i ++)
 			try {
-				newAgent.addField(exampleFields[i], 100);
+				newAgent.addField(exampleFields[i], 100 + "");
 			} catch (ElementAlreadyContainedException e) {
 				e.printStackTrace();
 			}

@@ -31,7 +31,7 @@ public class BehaviorSyntaxTest {
 	public void setUp() throws ElementAlreadyContainedException {
 		testGrid = new Grid(20, 20);
 		proto = new Prototype(testGrid, "cat");
-		proto.addField("health", 100);
+		proto.addField("health", 100 + "");
 		testGrid.spiralSpawn(proto.createAgent(), 5, 5);
 	}
 	

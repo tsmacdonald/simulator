@@ -422,7 +422,7 @@ public class EditEntityScreen extends Screen {
 			for (int i = 0; i < fieldNames.size(); i++) {
 				if (removedFields.contains(i)) {
 					if (agent.hasField(fieldNames.get(i).getText()))
-						agent.removeField(fieldNames.get(i));
+						agent.removeField(fieldNames.get(i).toString());
 				} else {
 					if (agent.hasField(fieldNames.get(i).getText())) {
 						agent.updateField(fieldNames.get(i).getText(),
