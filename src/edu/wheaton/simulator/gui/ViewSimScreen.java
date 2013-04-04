@@ -56,10 +56,10 @@ public class ViewSimScreen extends Screen {
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 		JPanel layerPanel = new JPanel();
 		layerPanel.setLayout(new BoxLayout(layerPanel, BoxLayout.Y_AXIS));
-		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
-		JComboBox agentComboBox = new JComboBox();
-		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
-		JComboBox layerComboBox = new JComboBox();
+//		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
+//		JComboBox agentComboBox = new JComboBox();
+//		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
+//		JComboBox layerComboBox = new JComboBox();
 		
 		
 		//TODO add layer elements
@@ -67,18 +67,23 @@ public class ViewSimScreen extends Screen {
 		//objects for layers:
 		// - combobox(es) for choosing field, colorchooser to pick primary filter color, 
 		//   labels for these, "apply" button, "clear" button
+		
+		gridPanel = new JPanel();
+		grid = new GridPanel(sm);
+		
+		this.add(label, BorderLayout.NORTH);
+		this.add(makeButtonPanel(), BorderLayout.SOUTH);
+		this.add(grid, BorderLayout.CENTER);
+		this.setVisible(true);	
+	}
+	
+	private JPanel makeButtonPanel(){
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setMaximumSize(new Dimension(500, 50));
-		gridPanel = new JPanel();
-		
-		grid = new GridPanel(sm);
 		buttonPanel.add(makeStartButton());
 		buttonPanel.add(makePauseButton());
 		buttonPanel.add(makeBackButton());
-		this.add(label, BorderLayout.NORTH);
-		this.add(buttonPanel, BorderLayout.SOUTH);
-		this.add(grid, BorderLayout.CENTER);
-		this.setVisible(true);	
+		return buttonPanel;
 	}
 	
 	private JButton makeBackButton(){
