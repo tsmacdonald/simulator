@@ -25,6 +25,10 @@ import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class StatisticsScreen extends Screen {
+	
+	private static final String POPS_STR = "Populations";
+	private static final String FIELDS_STR = "Fields";
+	private static final String LIFESPANS_STR = "Lifespans";
 
 	private JPanel dataPanel;
 
@@ -52,33 +56,31 @@ public class StatisticsScreen extends Screen {
 	//TODO fix layout of this screen	
 	public StatisticsScreen(final ScreenManager sm) {
 		super(sm);
+
 		statMan = sm.getStatManager();
-		dataPanel = new JPanel();
-		dataPanel.setLayout(new CardLayout());
 		
 		
 		this.setLayout(new BorderLayout());
-		
-		final String populationsStr = "Populations";
-		final String fieldsStr = "Fields";
-		final String lifespansStr = "Lifespans";
-		
+				
 		JPanel populationCard = makePopulationCard();
-		dataPanel.add(populationCard, populationsStr);
-		
 		fieldCard = makeFieldCard();
-		dataPanel.add(fieldCard, fieldsStr);
-		
 		JPanel lifespanCard = makeLifespanCard();
-		dataPanel.add(lifespanCard, lifespansStr);
+		String[] boxItems = {POPS_STR, FIELDS_STR, LIFESPANS_STR};
 		
-		JPanel boxPanel = new JPanel();
-		String[] boxItems = {populationsStr, fieldsStr, lifespansStr};
+		dataPanel = new JPanel();
+		dataPanel.setLayout(new CardLayout());
+		
+		dataPanel.add(populationCard, POPS_STR);
+		
+		
+		dataPanel.add(fieldCard, FIELDS_STR);
+		
+		
+		dataPanel.add(lifespanCard, LIFESPANS_STR);
+		
 		
 		cardSelector = makeCardSelector(boxItems,dataPanel);
 		
-		boxPanel.add(cardSelector);
-
 		entities = new String[0];
 		popEntityBox = new JComboBox(entities);
 		populationCard.add(popEntityBox);
@@ -108,12 +110,6 @@ public class StatisticsScreen extends Screen {
 			populationCard.add(jt);
 		}
 
-		JButton displayButton = makeDisplayButton(populationsStr,fieldsStr);
-		
-		JButton finishButton = makeFinishButton();
-
-		
-
 		//COMING SOON: Average Field Table Statistics
 
 		//		if(fieldEntityTypes.getSelectedIndex() >= 0){
@@ -138,21 +134,44 @@ public class StatisticsScreen extends Screen {
 		//
 		//		this.add(label, BorderLayout.NORTH);
 		
-		JPanel graphPanel = new JPanel();
-		JPanel buttonPanel = new JPanel();
+		this.add(makeMainPanel(dataPanel,cardSelector));
+	}
+	
+	private JPanel makeMainPanel(JPanel dataPanel, JComboBox cardSelector){
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-
-		//TODO MAJOR figure out how to make a graph or something!!
-		buttonPanel.add(displayButton);
-		buttonPanel.add(finishButton);
-		graphPanel.add(new JLabel("Graph object goes here"));
-		mainPanel.add(graphPanel);
-		mainPanel.add(boxPanel);
+		mainPanel.add(makeGraphPanel());
+		mainPanel.add(makeBoxPanel(cardSelector));
 		mainPanel.add(dataPanel);
-		mainPanel.add(buttonPanel);
-		this.add(mainPanel);
-
+		mainPanel.add(makeButtonPanel());
+		return mainPanel;
+	}
+	
+	private static JPanel makeBoxPanel(JComboBox cardSelector){
+		JPanel boxPanel = new JPanel();
+		boxPanel.add(cardSelector);
+		return boxPanel;
+	}
+	
+	private static JPanel makeGraphPanel(){
+		JPanel graphPanel = new JPanel();
+		
+		//TODO MAJOR figure out how to make a graph or something!!
+		graphPanel.add(new JLabel("Graph object goes here"));
+		
+		return graphPanel;
+	}
+	
+	private JPanel makeButtonPanel(){
+		JPanel buttonPanel = new JPanel();
+		
+		JButton displayButton = makeDisplayButton();
+		buttonPanel.add(displayButton);
+		
+		JButton finishButton = makeFinishButton();
+		buttonPanel.add(finishButton);
+		
+		return buttonPanel;
 	}
 	
 	private static JTable makeTable(Object[][] data, String label1, String label2){
@@ -161,14 +180,14 @@ public class StatisticsScreen extends Screen {
 		return jt;
 	}
 	
-	private JButton makeDisplayButton(final String populationsStr, final String fieldsStr){
+	private JButton makeDisplayButton(){
 		JButton displayButton = new JButton("Display");
 		displayButton.setPreferredSize(new Dimension(150, 70));
 		displayButton.addActionListener(
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						if (cardSelector.getSelectedItem().equals(populationsStr)) {
+						if (cardSelector.getSelectedItem().equals(POPS_STR)) {
 							int[] pops = statMan.getPopVsTime(sm.getFacade().
 														getPrototype((String)popEntityBox.getSelectedItem())
 														.getPrototypeID());
@@ -179,7 +198,7 @@ public class StatisticsScreen extends Screen {
 								System.out.println(i + ":  " + pops[i]);
 							}
 						}
-						else if (cardSelector.getSelectedItem().equals(fieldsStr)) {
+						else if (cardSelector.getSelectedItem().equals(FIELDS_STR)) {
 							String s = (String)fieldEntityBox.getSelectedItem();
 							Prototype p = sm.getFacade().getPrototype(s);
 							double[] vals = statMan.getAvgFieldValue(p.getPrototypeID(),
