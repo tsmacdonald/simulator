@@ -150,7 +150,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 
 		a.setPos(-1, -1);
 		int largestDistance = largestDistanceToSide(spawnX, spawnY);
-		for (int distance = 0; distance < largestDistance; distance++) {
+		for (int distance = 0; distance <= largestDistance; distance++) {
 			int x = spawnX - distance;
 			int y = spawnY - distance;
 			if (spawnHelper(a, x, y))
