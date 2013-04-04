@@ -138,17 +138,22 @@ public class EditEntityScreen extends Screen {
 						JToggleButton jb = buttons[Integer.parseInt(str
 								.charAt(0) + "")][Integer.parseInt(str
 										.charAt(1) + "")];
-						if (jb.getBackground().equals(Color.WHITE))
+						if (jb.getBackground().equals(Color.WHITE)) {
 							jb.setBackground(Color.BLACK);
-						else
+							jb.setForeground(Color.BLACK);
+						}
+						else {
 							jb.setBackground(Color.WHITE);
+							jb.setForeground(Color.WHITE);
+						}
 					}
 				});
 				iconPanel.add(buttons[i][j]);
 			}
 		}
 
-		JButton loadIconButton = new JButton("Load icon");
+		//serialization not yet implemented
+		//JButton loadIconButton = new JButton("Load icon");
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		mainPanel.setMaximumSize(new Dimension(1200, 500));
 		generalPanel
@@ -159,7 +164,7 @@ public class EditEntityScreen extends Screen {
 		generalPanel.add(nameLabel);
 		generalPanel.add(nameField);
 		generalPanel.add(mainPanel);
-		generalPanel.add(loadIconButton);
+		//generalPanel.add(loadIconButton);
 
 		JLabel fieldLabel = new JLabel("Field Info");
 		fieldLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -285,7 +290,7 @@ public class EditEntityScreen extends Screen {
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sm.update(sm.getScreen("Edit Simulation"));
+				sm.update(sm.getScreen("Entities"));
 				reset();
 			}
 		});
@@ -393,6 +398,7 @@ public class EditEntityScreen extends Screen {
 							|| triggerResults.get(j).getText().equals("")) {
 						throw new Exception("All fields must have input");
 					}
+					//TODO add check for correct trigger evaluation?
 				}
 				if (Integer.parseInt(triggerPriorities.get(j).getText()) < 0) {
 					throw new Exception("Priority must be greater than 0");
@@ -416,7 +422,7 @@ public class EditEntityScreen extends Screen {
 			for (int i = 0; i < fieldNames.size(); i++) {
 				if (removedFields.contains(i)) {
 					if (agent.hasField(fieldNames.get(i).getText()))
-						agent.removeField(fieldNames.get(i));
+						agent.removeField(fieldNames.get(i).toString());
 				} else {
 					if (agent.hasField(fieldNames.get(i).getText())) {
 						agent.updateField(fieldNames.get(i).getText(),
@@ -562,6 +568,7 @@ public class EditEntityScreen extends Screen {
 
 	private class DeleteFieldListener implements ActionListener {
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			removedFields.add(Integer.parseInt(e.getActionCommand()));
 			fieldListPanel.remove(fieldSubPanels.get(Integer.parseInt(e
@@ -572,6 +579,7 @@ public class EditEntityScreen extends Screen {
 
 	private class DeleteTriggerListener implements ActionListener {
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			removedTriggers.add(Integer.parseInt(e.getActionCommand()));
 			triggerListPanel.remove(triggerSubPanels.get(Integer.parseInt(e

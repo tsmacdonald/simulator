@@ -26,33 +26,49 @@ public class TitleScreen extends Screen {
 	public TitleScreen(ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
+		
+		// Since serialization is not yet implemented.
+		JPanel panel1 = new JPanel();
+		JPanel panel2 = new JPanel();
+		//
+		
+		initLabel();
+		initMainPanel(panel1,panel2);
+		initButton(panel1,"New Simulation", "New Simulation");
+		initButton(panel2,"Load a saved Simulation", "Load Existing");
+		
+		// Since serialization is not yet implemented.
+		this.setVisible(true);
+		//
+	}
+	
+	private void initLabel(){
 		JLabel label = new JLabel("Welcome to the Simulator!");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setPreferredSize(new Dimension(300, 150));
+		// Since serialization is not yet implemented.
+		this.add(label, BorderLayout.NORTH);
+		//
+	}
+	
+	private void initMainPanel(JPanel panel1, JPanel panel2){
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		JPanel panel1 = new JPanel();
-		JPanel panel2 = new JPanel();
-		JButton newSim = new JButton("New Simulation");
-		newSim.setAlignmentX(CENTER_ALIGNMENT);
-		newSim.setPreferredSize(new Dimension(200, 70));
-		newSim.addActionListener(new GeneralButtonListener("New Simulation", sm));
-		JButton loadSim = new JButton("Load a saved Simulation");
-		loadSim.setAlignmentX(CENTER_ALIGNMENT);
-		loadSim.setPreferredSize(new Dimension(200, 70));
 		// Since serialization is not yet implemented.
-		loadSim.setEnabled(false);
-		loadSim.addActionListener(new GeneralButtonListener("Load Existing", sm));
-		this.add(label, BorderLayout.NORTH);
-		panel1.add(newSim);
-		panel2.add(loadSim);
 		mainPanel.add(Box.createVerticalGlue());
 		mainPanel.add(panel1);
 		mainPanel.add(panel2);
 		mainPanel.add(Box.createVerticalGlue());
 		this.add(mainPanel, BorderLayout.CENTER);
-
-		this.setVisible(true);
+		//
+	}
+	
+	private void initButton(JPanel panel, String buttonName, String listenerName){
+		JButton button = new JButton(buttonName);
+		button.setAlignmentX(CENTER_ALIGNMENT);
+		button.setPreferredSize(new Dimension(200, 70));
+		button.addActionListener(new GeneralButtonListener(listenerName, sm));
+		panel.add(button);
 	}
 
 	@Override

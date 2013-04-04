@@ -35,9 +35,9 @@ public class ConwaysGameOfLifeTest {
 
 				// Add fields
 				try {
-					deadBeing.addField("alive", 0); // 0 for false, 1 for true
-					deadBeing.addField("age", 0);
-					deadBeing.addField("neighbors", 0);
+					deadBeing.addField("alive", 0 + ""); // 0 for false, 1 for true
+					deadBeing.addField("age", 0 + "");
+					deadBeing.addField("neighbors", 0 + "");
 				} catch (ElementAlreadyContainedException e) {
 					e.printStackTrace();
 				}
@@ -86,9 +86,9 @@ public class ConwaysGameOfLifeTest {
 
 				// Add fields
 				try {
-					aliveBeing.addField("alive", 1); // 0 for false, 1 for true
-					aliveBeing.addField("age", 0);
-					aliveBeing.addField("neighbors", 0);
+					aliveBeing.addField("alive", 1 + ""); // 0 for false, 1 for true
+					aliveBeing.addField("age", 0 + "");
+					aliveBeing.addField("neighbors", 0 + "");
 				} catch (ElementAlreadyContainedException e) {
 					e.printStackTrace();
 				}
@@ -114,9 +114,9 @@ public class ConwaysGameOfLifeTest {
 				for (int x = 0; x < grid.getWidth(); x++) 
 					for(int y = 0; y < grid.getHeight(); y++) {
 						if (x == 4 || x == 5 || y == 5) {
-							grid.spawnAgent(Prototype.getPrototype("aliveBeing").createAgent(), x, y);
+							grid.spiralSpawn(Prototype.getPrototype("aliveBeing").createAgent(), x, y);
 						} else {
-							grid.spawnAgent(Prototype.getPrototype("deadBeing").createAgent(), x, y);
+							grid.spiralSpawn(Prototype.getPrototype("deadBeing").createAgent(), x, y);
 						}
 					}
 	}

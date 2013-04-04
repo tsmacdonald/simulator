@@ -53,9 +53,11 @@ public class ScreenManager implements Manager{
 		this(new Display());
 	}
 
+	@Override
 	public Screen getScreen(String screenName) {
 		return screens.get(screenName);
 	}
+	@Override
 	public void update(Screen update) {
 		d.updateDisplay(update);
 	}
@@ -68,14 +70,17 @@ public class ScreenManager implements Manager{
 		return grid;
 	}
 
+	@Override
 	public void setFacade(int x, int y) {
 		facade = new GUIToAgentFacade(x, y);
 	}
 	
+	@Override
 	public GUIToAgentFacade getFacade() {
 		return facade;
 	}
 	
+	@Override
 	public SimulationEnder getEnder() {
 		return se;
 	}
@@ -96,6 +101,7 @@ public class ScreenManager implements Manager{
 		return GUI.getGridWidth();
 	}
 
+	@Override
 	public void updateGUIManager(String nos, int width, int height){
 	
 		GUI.setNameOfSim(nos);
@@ -116,14 +122,17 @@ public class ScreenManager implements Manager{
 		hasStarted = b;
 	}
 	
+	@Override
 	public boolean hasStarted() {
 		return hasStarted;
 	}
 
+	@Override
 	public ArrayList<SpawnCondition> getSpawnConditions() { 
 		return spawnConditions; 
 	}
 	
+	@Override
 	public void loadScreen(Screen s){
 		s.load();
 	}

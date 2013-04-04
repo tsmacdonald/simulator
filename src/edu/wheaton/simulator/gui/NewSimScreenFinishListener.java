@@ -21,16 +21,13 @@ public class NewSimScreenFinishListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//TODO The simulation as a whole will be created in here
-		String nameString = getName();
-		int heightInt = 0;
-		int widthInt = 0;
 		try {
-			heightInt = Integer.parseInt(height.getText());
-			widthInt = Integer.parseInt(width.getText());
+			int heightInt = getHeight();
+			int widthInt = getWidth();
 			sm.setFacade(widthInt, heightInt);
-			sm.updateGUIManager(nameString, widthInt, heightInt);
+			sm.updateGUIManager(getName(), widthInt, heightInt);
 		} catch(java.lang.NumberFormatException nfe) { 
-			//TODO empty catch block
+			System.err.println("Invalid input passed to NewSimScreenFinishListener");
 		}
 		Screen upload = sm.getScreen("Edit Simulation");
 		sm.update(upload);

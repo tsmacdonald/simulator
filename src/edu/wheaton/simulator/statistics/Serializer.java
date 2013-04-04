@@ -18,7 +18,7 @@ public class Serializer {
 			writer.write(serializable);
 			writer.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.err.println("Serializer.java: IOException");
 			e.printStackTrace();
 		}
 
@@ -44,10 +44,10 @@ public class Serializer {
 			System.out.println(savefile + "\nDone."); //TODO Console tester.
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			System.err.println("Serializer.java: FileNotFoundException");
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.err.println("Serializer.java: IOException");
 			e.printStackTrace();
 		}
 	}

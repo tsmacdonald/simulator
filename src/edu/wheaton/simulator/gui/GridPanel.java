@@ -30,52 +30,57 @@ public class GridPanel extends JPanel {
 	public void paint(Graphics g) {
 		width = this.getWidth();
 		height = this.getHeight();
+		
 		gridWidth = sm.getGUIwidth();
 		gridHeight = sm.getGUIheight();
+		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
+		
 		int squareSize = Math.min(pixelWidth, pixelHeight);
+		
 		for (int i = 0; i < gridWidth; i++) {
 			for (int j = 0; j < gridHeight; j++) {
 				g.drawRect(squareSize * i, squareSize * j, 
 						squareSize, squareSize);
 			}
 		}
+		
 		clearAgents(g);
 		agentPaint(g);
 	}
 
 	public void agentPaint(Graphics g){
+		
 		width = this.getWidth();
 		height = this.getHeight();
+		
 		gridWidth = sm.getGUIwidth();
 		gridHeight = sm.getGUIheight();
+		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
+		
 		int squareSize = Math.min(pixelWidth, pixelHeight);
+		
 		for (int x = 0; x < gridWidth; x++) {
 			for (int y = 0; y < gridHeight; y++) {
-				Agent agent;
-				if((agent = sm.getFacade().getAgent(x, y)) instanceof Agent && agent != null) {
-					System.out.println("\tg null " + (g == null));
-					System.out.println("\tagent null " + (agent == null));
-					System.out.println("\tcolor null " + (agent.getColor() == null));
+				Agent agent = sm.getFacade().getAgent(x, y);
+				if(agent != null) {
 					g.setColor(agent.getColor());
-
 					if(squareSize < 9){
 						g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 
 								squareSize, squareSize);
 					}
-//Still not working yet. Time for bed though. Fix it tomorrow.					
 					else{
 						int iconSize = squareSize/7;
-						for (int a = 0; x < squareSize; x+=iconSize) {
-							for (int b = 0; y <  squareSize; y+=iconSize) {
+						for (int a = 0; a < 7; a+=1) {
+							for (int b = 0; b <  7; b+=1) {
 								byte[] icon = agent.getDesign();
 								byte val = new Byte("0000001");
-								if((icon[a]&(val<<b)) == 1){
-									g.fillRect((squareSize * x) + a*iconSize,
-											(squareSize * y) + b*iconSize, 
+								if((icon[a]&(val<<b)) > 0){
+									g.fillRect((squareSize * x + 1) + (6-b)*iconSize,
+											(squareSize * y + 1) + (a)*iconSize, 
 											iconSize, iconSize);
 								}
 							}
@@ -89,12 +94,17 @@ public class GridPanel extends JPanel {
 	public void clearAgents(Graphics g) {
 		width = this.getWidth();
 		height = this.getHeight();
+		
 		gridWidth = sm.getGUIwidth();
 		gridHeight = sm.getGUIheight();
+		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
+		
 		int squareSize = Math.min(pixelWidth, pixelHeight) - 1;
+		
 		g.setColor(Color.WHITE);
+		
 		for (int x = 0; x < gridWidth; x++) {
 			for (int y = 0; y < gridHeight; y++) {
 				g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), squareSize, squareSize);

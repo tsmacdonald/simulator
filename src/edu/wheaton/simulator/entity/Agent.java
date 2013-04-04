@@ -122,7 +122,7 @@ public class Agent extends GridEntity {
 	 * Removes this Agent from the environment's list.
 	 */
 	public void die() {
-		getGrid().removeAgent(this);
+		getGrid().removeAgent(getPosX(), getPosY());
 	}
 
 	/**
@@ -198,8 +198,8 @@ public class Agent extends GridEntity {
 	 * @param y
 	 */
 	public void setPos(int x, int y) {
-		updateField("x", x);
-		updateField("y", y);
+		updateField("x", x + "");
+		updateField("y", y + "");
 	}
 
 	public Prototype getPrototype() {

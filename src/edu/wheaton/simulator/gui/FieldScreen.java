@@ -22,7 +22,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -33,14 +32,11 @@ import javax.swing.event.ListSelectionListener;
 
 public class FieldScreen extends Screen {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4286820591194407735L;
 
-	private JComboBox xPos;
-
-	private JComboBox yPos;
+//	private JComboBox xPos;
+//
+//	private JComboBox yPos;
 
 	private JList fields;
 
@@ -68,23 +64,23 @@ public class FieldScreen extends Screen {
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		JLabel xLabel = new JLabel("X Pos: ");
-		xPos = new JComboBox();
-		xPos.setMaximumSize(new Dimension(150, 40));
-		xPos.addItem(0);
-		xPos.addActionListener(new BoxListener());
-		JLabel yLabel = new JLabel("Y Pos: ");
-		yPos = new JComboBox();
-		yPos.setMaximumSize(new Dimension(150, 40));
-		yPos.addItem(0);
-		yPos.addActionListener(new BoxListener());
-		JPanel posPanel = new JPanel();
-		posPanel.setLayout(new BoxLayout(posPanel, BoxLayout.X_AXIS));
-		posPanel.add(xLabel);
-		posPanel.add(xPos);
-		posPanel.add(yLabel);
-		posPanel.add(yPos);
-		posPanel.setAlignmentX(CENTER_ALIGNMENT);
+//		JLabel xLabel = new JLabel("X Pos: ");
+//		xPos = new JComboBox();
+//		xPos.setMaximumSize(new Dimension(150, 40));
+//		xPos.addItem(0);
+//		xPos.addActionListener(new BoxListener());
+//		JLabel yLabel = new JLabel("Y Pos: ");
+//		yPos = new JComboBox();
+//		yPos.setMaximumSize(new Dimension(150, 40));
+//		yPos.addItem(0);
+//		yPos.addActionListener(new BoxListener());
+//		JPanel posPanel = new JPanel();
+//		posPanel.setLayout(new BoxLayout(posPanel, BoxLayout.X_AXIS));
+//		posPanel.add(xLabel);
+//		posPanel.add(xPos);
+//		posPanel.add(yLabel);
+//		posPanel.add(yPos);
+//		posPanel.setAlignmentX(CENTER_ALIGNMENT);
 		listModel = new DefaultListModel();
 		fields = new JList(listModel);
 		fields.setMaximumSize(new Dimension(400, 800));
@@ -98,18 +94,11 @@ public class FieldScreen extends Screen {
 		delete.addActionListener(new DeleteListener(listModel, fields, delete));
 		add = new JButton("Add");
 		add.addActionListener(
-				//new GeneralButtonListener("Edit Fields", sm));
+//				new FieldAddListener(xPos, yPos, sm)
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						if(editing)
-							editing = false;
-						((EditFieldScreen) (sm.getScreen("Edit Fields"))).load(
-								sm.getFacade().getGrid().getSlot(
-										xPos.getSelectedIndex(), 
-										yPos.getSelectedIndex()
-										)
-								);
+						sm.getScreen("Edit Fields").load();
 						sm.update(sm.getScreen("Edit Fields"));
 					}
 				}
@@ -122,10 +111,9 @@ public class FieldScreen extends Screen {
 						if(!editing)
 							editing = true;
 						((EditFieldScreen) (sm.getScreen("Edit Fields"))).load(
-								sm.getFacade().getGrid().getSlot(
-										xPos.getSelectedIndex(), yPos.getSelectedIndex()
-										), (String) fields.getSelectedValue()
-										//null pointer here /\
+								sm.getFacade().getGrid()
+								//.getSlot(xPos.getSelectedIndex(), yPos.getSelectedIndex())
+								, (String) fields.getSelectedValue()
 								);
 						sm.update(sm.getScreen("Edit Fields"));
 					}
@@ -142,7 +130,7 @@ public class FieldScreen extends Screen {
 		buttonPanel.add(Box.createHorizontalStrut(5));
 		buttonPanel.add(back);
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		mainPanel.add(posPanel);
+		//mainPanel.add(posPanel);
 		mainPanel.add(panel);
 		mainPanel.add(buttonPanel);
 		this.add(label, BorderLayout.NORTH);
@@ -157,20 +145,21 @@ public class FieldScreen extends Screen {
 		reset();
 		edit.setEnabled(sm.hasStarted() ? false : true); 
 		delete.setEnabled(sm.hasStarted() ? false : true); 
-		if (xPos.getItemCount() != GUI.getGridWidth()) {
-			xPos.removeAllItems();
-			for (int i = 0; i < GUI.getGridWidth(); i++) {
-				xPos.addItem(i + "");
-			}
-		}
-		if (yPos.getItemCount() != GUI.getGridHeight()) {
-			yPos.removeAllItems();
-			for (int j = 0; j < GUI.getGridWidth(); j++) {
-				yPos.addItem(j + "");
-			}
-		}
-		Map<String, String> map = sm.getFacade().getGrid().getSlot(Integer.parseInt(xPos.getSelectedItem().toString()),
-				Integer.parseInt(yPos.getSelectedItem().toString())).getCustomFieldMap();
+//		if (xPos.getItemCount() != GUI.getGridWidth()) {
+//			xPos.removeAllItems();
+//			for (int i = 0; i < GUI.getGridWidth(); i++) {
+//				xPos.addItem(i + "");
+//			}
+//		}
+//		if (yPos.getItemCount() != GUI.getGridHeight()) {
+//			yPos.removeAllItems();
+//			for (int j = 0; j < GUI.getGridWidth(); j++) {
+//				yPos.addItem(j + "");
+//			}
+//		}
+		Map<String, String> map = sm.getFacade().getGrid()
+//				.getSlot(Integer.parseInt(xPos.getSelectedItem().toString()),Integer.parseInt(yPos.getSelectedItem().toString()))
+				.getCustomFieldMap();
 		Object[] fieldsA = map.keySet().toArray();
 		for(Object s: fieldsA){
 			System.out.println((String) s);
@@ -179,23 +168,23 @@ public class FieldScreen extends Screen {
 		
 	}
 
-	private class BoxListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			if (xPos.getSelectedIndex() >= 0 && yPos.getSelectedIndex() >= 0) {
-				Map<String, String> fieldNames = sm.getFacade().getGrid().getSlot(
-						xPos.getSelectedIndex(), yPos.getSelectedIndex()
-						).getCustomFieldMap();
-				listModel.clear();
-				if (fieldNames != null) {
-					for (String s : fieldNames.keySet()) {
-						listModel.addElement(s);
-					}
-				}
-			}
-			edit.setEnabled(false);
-		}
-	}
+//	private class BoxListener implements ActionListener {
+//		@Override
+//		public void actionPerformed(ActionEvent arg0) {
+//			if (xPos.getSelectedIndex() >= 0 && yPos.getSelectedIndex() >= 0) {
+//				Map<String, String> fieldNames = sm.getFacade().getGrid().getSlot(
+//						xPos.getSelectedIndex(), yPos.getSelectedIndex()
+//						).getCustomFieldMap();
+//				listModel.clear();
+//				if (fieldNames != null) {
+//					for (String s : fieldNames.keySet()) {
+//						listModel.addElement(s);
+//					}
+//				}
+//			}
+//			edit.setEnabled(false);
+//		}
+//	}
 	
 	private class ListListener implements ListSelectionListener {
 		@Override
@@ -219,6 +208,7 @@ public class FieldScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = fields.getSelectedIndex();
+			//TODO actually remove the field from internal code
 			listModel.remove(index);
 			int size = listModel.getSize();
 			if(size == 0)

@@ -27,10 +27,11 @@ public class TestDisplay extends TestCase{
 	/**
 	 * Initial setup  
 	 */
+	@Override
 	public void setUp(){
 		display = new Display();
-		ms = new MockScreen(null);
-		mm = new MockManager(display, "Mock Screen", ms);
+		ms = new MockScreen("Mock Screen", mm);
+		mm = new MockManager(display, ms.getName(), ms);
 		mm.update(ms);
 	}
 	/**

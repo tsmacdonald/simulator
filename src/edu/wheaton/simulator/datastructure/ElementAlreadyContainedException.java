@@ -3,7 +3,7 @@ package edu.wheaton.simulator.datastructure;
 public class ElementAlreadyContainedException extends Exception {
 
 	/**
-	 * I have no idea what this does.
+	 * Default serialVersionUID
 	 */
 	private static final long serialVersionUID = 1L;
 

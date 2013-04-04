@@ -13,15 +13,12 @@ import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;
 
-import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Grid;
-import edu.wheaton.simulator.datastructure.Slot;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.PrototypeID;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
-import edu.wheaton.simulator.statistics.EntitySnapshot;
 import edu.wheaton.simulator.statistics.FieldSnapshot;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
 
@@ -31,6 +28,7 @@ public class SnapshotFactoryTest {
 	
 	@AfterClass
 	public static void tearDownAfterClass() {
+		//Nothing to do here
 	}
 
 	@Before
@@ -40,31 +38,7 @@ public class SnapshotFactoryTest {
 
 	@After
 	public void tearDown() {
-	}
-
-	@Test(expected = UnsupportedOperationException.class)
-	public void testMakeSlotSnapshot() {
-		Slot s = new Slot(g); 
-		try {
-			s.addField("foo", "'bar'");
-			s.addField("number", "1");
-		} catch (ElementAlreadyContainedException e) {
-		}
-		
-		EntitySnapshot ss = SnapshotFactory.makeSlotSnapshot(s, 10); 
-		
-		Assert.assertNotNull(ss.entityID);
-		Assert.assertNotNull(ss.fields);
-		Assert.assertNotNull(ss.step);
-		Assert.assertNotNull(ss.fields.get("foo"));
-		Assert.assertNotNull(ss.fields.get("number"));
-		Assert.assertEquals(ss.fields.get("foo").value, "'bar'");
-		Assert.assertEquals(ss.fields.get("number").value, "1");
-		Assert.assertTrue(ss.fields.get("number").isNumber); 
-		Assert.assertFalse(ss.fields.get("foo").isNumber); 
-		Assert.assertEquals(ss.fields.get("number").getNumericalValue(), 1.0);
-		ss.fields.get("foo").getNumericalValue();
-		
+		//Nothing to do here
 	}
 
 	@Test

@@ -22,7 +22,6 @@ import javax.swing.SwingConstants;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.PrototypeID;
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 //TODO commented code for adding operators to ending conditions :
@@ -109,7 +108,7 @@ public class SetupScreen extends Screen {
 		JLabel timeLabel = new JLabel("Time limit: ");
 		JLabel agentTypeLabel = new JLabel("Agent Type");
 		agentTypeLabel.setPreferredSize(new Dimension(200, 30));
-		JLabel valueLabel = new JLabel("Boundary Value");
+		JLabel valueLabel = new JLabel("Population Limit");
 		valueLabel.setPreferredSize(new Dimension(400, 30));
 		//JLabel operationLabel = new JLabel("Operation");
 		//operationLabel.setPreferredSize(new Dimension(350, 30));
@@ -257,6 +256,10 @@ public class SetupScreen extends Screen {
 		Set<String> agents = sm.getFacade().prototypeNames();
 		agentNames = agents.toArray(agentNames);
 		timeField.setText(se.getStepLimit() + "");
+		//to prevent accidental starting simulation with time limit of 0
+		if (se.getStepLimit() == 0) {
+			timeField.setText(10 + "");
+		}
 		ImmutableMap<PrototypeID, Integer> popLimits = se.getPopLimits();
 		if (popLimits.size() == 0) {
 			addCondition();

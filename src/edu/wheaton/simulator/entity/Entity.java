@@ -27,7 +27,7 @@ public class Entity {
 	 * 
 	 * @throws ElementAlreadyContainedException
 	 */
-	public void addField(Object name, Object value)
+	public void addField(String name, String value)
 			throws ElementAlreadyContainedException {
 		name = formatFieldName(name);
 		assertNoSuchField(name);
@@ -40,45 +40,45 @@ public class Entity {
 	 * 
 	 * @return returns the old field
 	 */
-	public Field updateField(Object name, Object value) {
+	public Field updateField(String name, String value) {
 		name = formatFieldName(name);
 		assertHasField(name);
 		String oldvalue = putField(name, value);
 		return new Field(name, oldvalue);
 	}
 
-	private String putField(Object name, Object value) {
+	private String putField(String name, String value) {
 		return fields.put(name.toString(), value.toString());
 	}
 
 	/**
 	 * Removes a field from this Entity and returns it.
 	 */
-	public Field removeField(Object name) {
+	public Field removeField(String name) {
 		name = formatFieldName(name);
 		assertHasField(name);
 		String value = fields.remove(name.toString());
 		return new Field(name, value);
 	}
 
-	public Field getField(Object name) {
+	public Field getField(String name) {
 		name = formatFieldName(name);
 		assertHasField(name);
 		return new Field(name.toString(), getFieldValue(name));
 	}
 
-	public String getFieldValue(Object name) {
+	public String getFieldValue(String name) {
 		name = formatFieldName(name);
 		assertHasField(name);
 		return fields.get(name.toString());
 	}
 
-	private void assertHasField(Object name) {
+	private void assertHasField(String name) {
 		if (hasField(name) == false)
 			throw new NoSuchElementException();
 	}
 
-	private void assertNoSuchField(Object name)
+	private void assertNoSuchField(String name)
 			throws ElementAlreadyContainedException {
 		if (hasField(name) == true)
 			throw new ElementAlreadyContainedException();
@@ -90,7 +90,7 @@ public class Entity {
 	 * @param name
 	 * @return
 	 */
-	public boolean hasField(Object name) {
+	public boolean hasField(String name) {
 		return (fields.containsKey(name.toString()));
 	}
 
@@ -123,7 +123,7 @@ public class Entity {
 		return id;
 	}
 
-	private static String formatFieldName(Object name) {
+	private static String formatFieldName(String name) {
 		String fieldName = name.toString();
 
 		// to make Expression parsing more lenient

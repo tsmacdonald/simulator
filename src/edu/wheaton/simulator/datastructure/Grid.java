@@ -15,11 +15,12 @@ import java.util.Iterator;
 
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.simulation.Layer;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 
-public class Grid implements Iterable<Slot> {
+public class Grid extends Entity implements Iterable<Agent> {
 
 	/**
 	 * The minimum and maximum priorities for priorityUpdateEntities()
@@ -31,12 +32,9 @@ public class Grid implements Iterable<Slot> {
 	private int maxPriority = 20;
 	
 	/**
-	 * The grid of all slots containing all Agent objects Total # slots = Width
-	 * x Height
+	 * The grid of all Agents
 	 */
-	private Slot[][] grid;
-	private final Integer width;
-	private final Integer height;
+	private Agent[][] grid;
 	private Updater updater = new LinearUpdater();
 	
 	/**
@@ -47,41 +45,46 @@ public class Grid implements Iterable<Slot> {
 	 * @param height
 	 */
 	public Grid(int width, int height) {
-		this.width = width;
-		this.height = height;
+		super();
+		try {
+			addField("width", width + "");
+			addField("height", height + "");
+		} catch (ElementAlreadyContainedException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 
-		grid = new Slot[getHeight()][getWidth()];
-		for (int x = 0; x < getWidth(); x++)
-			for (int y = 0; y < getHeight(); y++)
-				setSlot(new Slot(this), x, y);
+		grid = new Agent[getHeight()][getWidth()];
 	}
 
+	/**
+	 * Provides this grid's width
+	 * 
+	 * @return
+	 */
 	public Integer getWidth() {
-		return width;
+		return getField("width").getIntValue();
 	}
 
+	/**
+	 * Provides this grid's height
+	 * 
+	 * @return
+	 */
 	public Integer getHeight() {
-		return height;
+		return getField("height").getIntValue();
 	}
 
+	/**
+	 * Checks whether the given x/y position is a valid coordinate (both larger
+	 * than 0 and smaller than width/height respectively)
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public boolean isValidCoord(int x, int y) {
 		return (x >= 0) && (y >= 0) && x < getWidth() && y < getHeight();
-	}
-
-	public Slot getSlot(int x, int y) {
-		if (isValidCoord(x, y))
-			return grid[y][x];
-		System.err.println("invalid Coord: " + x + "," + y);
-		throw new ArrayIndexOutOfBoundsException();
-	}
-
-	public void setSlot(Slot s, int x, int y) {
-		if (isValidCoord(x, y))
-			grid[y][x] = s;
-		else {
-			System.err.println("invalid Coord: " + x + "," + y);
-			throw new ArrayIndexOutOfBoundsException();
-		}
 	}
 
 	/**
@@ -125,9 +128,8 @@ public class Grid implements Iterable<Slot> {
 		public void update() throws SimulationPauseException {
 			HashSet<EntityID> processedIDs = new HashSet<EntityID>();
 
-			for (Slot[] row : grid)
-				for (Slot currentSlot : row) {
-					Agent current = currentSlot.getAgent();
+			for (Agent[] row : grid)
+				for (Agent current : row) {
 					if (current != null)
 						if (!processedIDs.contains(current.getEntityID())) {
 							current.act();
@@ -151,9 +153,8 @@ public class Grid implements Iterable<Slot> {
 			for (int priority = minPriority; priority <= maxPriority; priority++) {
 				HashSet<EntityID> processedIDs = new HashSet<EntityID>();
 
-				for (Slot[] row : grid)
-					for (Slot currentSlot : row) {
-						Agent current = currentSlot.getAgent();
+				for (Agent[] row : grid)
+					for (Agent current : row) {
 						if (current != null)
 							if (!processedIDs.contains(current.getEntityID())) {
 								current.priorityAct(priority);
@@ -172,17 +173,31 @@ public class Grid implements Iterable<Slot> {
 	}
 	
 	/**
-	 * Places an Agent to the slot at the given coordinates. This method
-	 * replaces (kills) anything that is currently in that position. The
-	 * Agent's own position is also updated accordingly.
+	 * Returns the Agent at the given coordinates
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	public Agent getAgent(int x, int y) {
+		if (isValidCoord(x, y))
+			return grid[y][x];
+		System.err.println("invalid Coord: " + x + "," + y);
+		throw new ArrayIndexOutOfBoundsException();
+	}
+
+	/**
+	 * Places an Agent at the given coordinates. This method replaces (kills)
+	 * anything that is currently in that position. The Agent's own position is
+	 * also updated accordingly.
 	 * 
 	 * @param a
 	 * @param x
 	 * @param y
+	 * @return false if the x/y values were invalid
 	 */
 	public boolean addAgent(Agent a, int x, int y) {
-		if (emptySlot(x, y)) {
-			getSlot(x, y).setAgent(a);
+		if (isValidCoord(x, y)) {
+			grid[y][x] = a;
 			a.setPos(x, y);
 			return true;
 		}
@@ -202,33 +217,91 @@ public class Grid implements Iterable<Slot> {
 	 *            Central y location for spawn
 	 * @return true if successful (Agent added), false otherwise
 	 */
-	public boolean spawnAgent(Agent a, int spawnX, int spawnY) {
+	public boolean spiralSpawn(Agent a, int spawnX, int spawnY) {
 
 		a.setPos(-1, -1);
-
-		for (int distance = 0; distance < height || distance < width; distance++) {
+		int largestDistance = largestDistanceToSide(spawnX, spawnY);
+		for (int distance = 0; distance <= largestDistance; distance++) {
 			int x = spawnX - distance;
 			int y = spawnY - distance;
-			if (spawnAgentHelper(a, x, y))
+			if (spawnHelper(a, x, y))
 				return true;
 			for (; x < spawnX + distance; x++)
-				if (spawnAgentHelper(a, x, y))
+				if (spawnHelper(a, x, y))
 					return true;
 			for (; y < spawnY + distance; y++)
-				if (spawnAgentHelper(a, x, y))
+				if (spawnHelper(a, x, y))
 					return true;
 			for (; x > spawnX - distance; x--)
-				if (spawnAgentHelper(a, x, y))
+				if (spawnHelper(a, x, y))
 					return true;
 			for (; y > spawnY - distance; y--)
-				if (spawnAgentHelper(a, x, y))
+				if (spawnHelper(a, x, y))
 					return true;
 		}
 		return false;
 	}
 
-	private boolean spawnAgentHelper(Agent a, int x, int y) {
-		if (emptySlot(x, y)) {
+	/**
+	 * Calculates the biggest distance from this given x/y to a wall.
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	private int largestDistanceToSide(int x, int y) {
+		int presentMax = getField("width").getIntValue() - x - 1; // presetMax = (x --> width)
+		if (presentMax < x) // presentMax < (0 --> x)
+			presentMax = x;
+		if (presentMax < (getField("height").getIntValue() - y - 1)) // presentMax < (y --> height)
+			presentMax = getField("height").getIntValue() - y - 1;
+		if (presentMax < y) // presentMax < (0 --> y)
+			presentMax = y;
+		return presentMax;
+	}
+
+	/**
+	 * Adds an Agent to a free spot along the given row
+	 * 
+	 * @param a
+	 *            The Agent to add.
+	 * @param row
+	 *            The y position of the row
+	 * @return true if successful (Agent added), false otherwise
+	 */
+	public boolean horizontalSpawn(Agent a, int row) {
+		for (int x = 0; x < getField("width").getIntValue(); x++)
+			if (spawnHelper(a, x, row))
+				return true;
+		return false;
+	}
+
+	/**
+	 * Adds an Agent to a free spot in the given column
+	 * 
+	 * @param a
+	 *            The Agent to add.
+	 * @param column
+	 *            The x position of the column
+	 * @return true if successful (Agent added), false otherwise
+	 */
+	public boolean verticalSpawn(Agent a, int column) {
+		for (int y = 0; y < getField("height").getIntValue(); y++)
+			if (spawnHelper(a, column, y))
+				return true;
+		return false;
+	}
+
+	/**
+	 * Adds an Agent to the specified x/y if that position is empty.
+	 * 
+	 * @param a
+	 * @param x
+	 * @param y
+	 * @return true when added, false otherwise
+	 */
+	private boolean spawnHelper(Agent a, int x, int y) {
+		if (emptyPos(x, y)) {
 			addAgent(a, x, y);
 			return true;
 		}
@@ -236,15 +309,15 @@ public class Grid implements Iterable<Slot> {
 	}
 
 	/**
-	 * Returns true if a slot is empty, false otherwise. Also returns false if
-	 * invalid x, y values are given.
+	 * Returns true if the given space is empty, false otherwise. Also returns
+	 * false if invalid x, y values are given.
 	 * 
 	 * @param x
 	 * @param y
-	 * @return Whether or not the particular slot is empty
+	 * @return Whether or not the particular position is empty
 	 */
-	public boolean emptySlot(int x, int y) {
-		if (isValidCoord(x, y) && getSlot(x, y).getAgent() == null)
+	public boolean emptyPos(int x, int y) {
+		if (isValidCoord(x, y) && getAgent(x, y) == null)
 			return true;
 		return false;
 	}
@@ -255,55 +328,24 @@ public class Grid implements Iterable<Slot> {
 	 * @param a
 	 *            The Agent to add.
 	 */
-	public boolean spawnAgent(Agent a) {
-		int randomX = (int) (Math.random() * (width - 1));
-		int randomY = (int) (Math.random() * (height - 1));
-		return spawnAgent(a, randomX, randomY);
+	public boolean spiralSpawn(Agent a) {
+		int randomX = (int) (Math.random() * (getField("width").getIntValue() - 1));
+		int randomY = (int) (Math.random() * (getField("height").getIntValue() - 1));
+		return spiralSpawn(a, randomX, randomY);
 	}
 
 	/**
-	 * Returns the Agent in the slot at the given coordinates
+	 * Removes an Agent at the given coordinates
 	 * 
 	 * @param x
 	 * @param y
-	 */
-	public Agent getAgent(int x, int y) {
-		return getSlot(x, y).getAgent();
-	}
-
-	/**
-	 * Removes an Agent from the slot at the given coordinates
-	 * 
-	 * @param x
-	 * @param y
+	 * @return false if invalid coordinates
 	 */
 	public boolean removeAgent(int x, int y) {
 		if (isValidCoord(x, y)) {
-			Slot slot = getSlot(x, y);
-			if (slot.getAgent() != null)
-				return slot.setAgent(null);
+			grid[y][x] = null;
+			return true;
 		}
-		System.err.println("Grid.removeAgent(" + x + "," + y
-				+ ") : invalid coord");
-		return false;
-	}
-
-	/**
-	 * Removes the given agent from the grid.
-	 * 
-	 * @param a
-	 *            The Agent to remove.
-	 */
-	public boolean removeAgent(Agent a) {
-		int x = a.getPosX();
-		int y = a.getPosY();
-		if (isValidCoord(x, y)) {
-			Slot slot = getSlot(x, y);
-			Agent b = slot.getAgent();
-			if (b != null && b.getEntityID().equals(a.getEntityID()))
-				return slot.setAgent(null);
-		}
-		System.err.println("Grid.removeAgent(Agent a) : agent not found");
 		return false;
 	}
 
@@ -329,25 +371,24 @@ public class Grid implements Iterable<Slot> {
 	 * @throws EvaluationException
 	 */
 	public void setLayerExtremes() throws EvaluationException {
-		Iterator<Slot> it = iterator();
-		while (it.hasNext()) {
-			Slot current = it.next();
-			if (current.getAgent() != null) {
-				Field currentField = current.getAgent().getField(
-						Layer.getInstance().getFieldName());
+		for (Iterator<Agent> it = iterator(); it.hasNext();) {
+			Agent current = it.next();
+			if (current != null) {
+				Field currentField = current.getField(Layer.getInstance()
+						.getFieldName());
 				Layer.getInstance().setExtremes(currentField);
 			}
 		}
 	}
 
 	/**
-	 * Returns an iterator that goes through the Slots in the Grid
+	 * Returns an iterator that goes through the Agents in the Grid
 	 * 
-	 * @return Iterator<Slot>
+	 * @return Iterator<Agent>
 	 */
 	@Override
-	public Iterator<Slot> iterator() {
-		return new Iterator<Slot>() {
+	public Iterator<Agent> iterator() {
+		return new Iterator<Agent>() {
 
 			int x = 0;
 			int y = 0;
@@ -358,8 +399,8 @@ public class Grid implements Iterable<Slot> {
 			}
 
 			@Override
-			public Slot next() {
-				Slot toReturn = getSlot(x, y);
+			public Agent next() {
+				Agent toReturn = getAgent(x, y);
 				if (x < getWidth() - 1) {
 					x++;
 				} else {
@@ -371,7 +412,6 @@ public class Grid implements Iterable<Slot> {
 
 			@Override
 			public void remove() {
-				// TODO method stub
 				throw new UnsupportedOperationException();
 			}
 		};

@@ -11,28 +11,35 @@ package edu.wheaton.simulator.datastructure;
 public class Field {
 
 	/**
-	 * The name for this field.
+	 * The variable name for this field.
 	 */
 	private String name;
+	
+	/**
+	 * The value for this field.
+	 */
 	private String value;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param type
-	 *            Type of variable. Should be int, double, char, or String.
+	 * @param name
+	 *            The variable name for the field.
 	 * @param value
-	 *            Value of variable. Should match the type; an exception will
-	 *            be thrown if not.
-	 * 
+	 *            The starting value for the field.
 	 */
-	public Field(Object name, Object value) {
-		this.name = name.toString();
-		this.value = value.toString();
+	public Field(String name, String value) {
+		this.name = name;
+		this.value = value;
 	}
 
 	public Field(String strRepresentation) {
 		String[] params = strRepresentation.split(":");
+		if(!params[0].equals("Field")) {
+			System.out.println("Tried to parse a Field from string, but assert failed.");
+			(new Exception()).printStackTrace();
+			System.exit(1);
+		}
 		this.name = params[1];
 		this.value = params[2];
 	}
@@ -82,13 +89,13 @@ public class Field {
 	 * @return Integer.valueOf(getValue())
 	 */
 	public Double getDoubleValue() {
-		return Double.valueOf(getValue());
+		return Double.valueOf(value);
 	}
 
 	/**
 	 * @return Boolean.valueOf(getValue())
 	 */
 	public Boolean getBoolValue() {
-		return Boolean.valueOf(getValue());
+		return Boolean.valueOf(value);
 	}
 }

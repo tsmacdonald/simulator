@@ -69,9 +69,9 @@ public class RockPaperScissorsTest {
 			Prototype testPrototype = new Prototype(testGrid, "testPrototype");
 			try {
 				testPrototype.addField("type", agentType[j]);
-				testPrototype.addField("typeID", j);
-				testPrototype.addField("direction", j);
-				testPrototype.addField("initialDIrection", j);
+				testPrototype.addField("typeID", j + "");
+				testPrototype.addField("direction", j + "");
+				testPrototype.addField("initialDIrection", j + "");
 			} catch (ElementAlreadyContainedException e) {
 				e.printStackTrace();
 			}
@@ -96,7 +96,7 @@ public class RockPaperScissorsTest {
 			// There is an obstacle ahead of us so we need to turn
 			
 			for(int i = 0; i < 10; i ++){
-				testGrid.spawnAgent(testPrototype.createAgent());
+				testGrid.spiralSpawn(testPrototype.createAgent());
 			}
 		}
 	}
