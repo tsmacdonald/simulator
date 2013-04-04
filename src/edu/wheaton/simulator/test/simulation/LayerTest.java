@@ -63,9 +63,9 @@ public class LayerTest {
 		Layer.getInstance().setColor(Color.red);
 		Layer.getInstance().resetMinMax();
 
-		Field max = new Field("TestField", 100);
-		Field min = new Field("TestField", 1);
-		Field test = new Field("TestField", 25);
+		Field max = new Field("TestField", 100 + "");
+		Field min = new Field("TestField", 1 + "");
+		Field test = new Field("TestField", 25 + "");
 
 		Layer.getInstance().setExtremes(max);
 		Layer.getInstance().setExtremes(min);
