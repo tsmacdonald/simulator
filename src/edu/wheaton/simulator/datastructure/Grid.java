@@ -28,16 +28,6 @@ public class Grid extends Entity implements Iterable<Agent> {
 	private Agent[][] grid;
 
 	/**
-	 * Width of the grid
-	 */
-	//private final Integer width;
-
-	/**
-	 * Height of the grid
-	 */
-	//private final Integer height;
-
-	/**
 	 * Constructor. Creates a grid with the given width and height
 	 * specifications
 	 * 
