@@ -34,8 +34,8 @@ public class TitleScreen extends Screen {
 		
 		initLabel();
 		initMainPanel(panel1,panel2);
-		initNewSimButton(panel1);
-		initLoadSimButton(panel2);
+		initButton(panel1,"New Simulation", "New Simulation");
+		initButton(panel2,"Load a saved Simulation", "Load Existing");
 		
 		// Since serialization is not yet implemented.
 		this.setVisible(true);
@@ -63,23 +63,12 @@ public class TitleScreen extends Screen {
 		//
 	}
 	
-	private void initNewSimButton(JPanel panel1){
-		JButton newSim = new JButton("New Simulation");
-		newSim.setAlignmentX(CENTER_ALIGNMENT);
-		newSim.setPreferredSize(new Dimension(200, 70));
-		newSim.addActionListener(new GeneralButtonListener("New Simulation", sm));
-		panel1.add(newSim);
-	}
-	
-	private void initLoadSimButton(JPanel panel2){
-		JButton loadSim = new JButton("Load a saved Simulation");
-		loadSim.setAlignmentX(CENTER_ALIGNMENT);
-		loadSim.setPreferredSize(new Dimension(200, 70));
-		// Since serialization is not yet implemented.
-		loadSim.setEnabled(false);
-		loadSim.addActionListener(new GeneralButtonListener("Load Existing", sm));
-		panel2.add(loadSim);
-		//
+	private void initButton(JPanel panel, String buttonName, String listenerName){
+		JButton button = new JButton(buttonName);
+		button.setAlignmentX(CENTER_ALIGNMENT);
+		button.setPreferredSize(new Dimension(200, 70));
+		button.addActionListener(new GeneralButtonListener(listenerName, sm));
+		panel.add(button);
 	}
 
 	@Override
