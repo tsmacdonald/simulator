@@ -153,7 +153,6 @@ public class ViewSimScreen extends Screen {
 								@Override
 								public void run() {
 									grid.repaint();
-									grid.agentPaint(grid.getGraphics());
 								}
 							}));
 					
