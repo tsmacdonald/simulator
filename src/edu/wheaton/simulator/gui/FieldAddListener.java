@@ -3,8 +3,6 @@ package edu.wheaton.simulator.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JComboBox;
-
 public class FieldAddListener implements ActionListener{
 
 	private Manager sm;

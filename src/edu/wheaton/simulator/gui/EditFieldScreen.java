@@ -25,7 +25,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import edu.wheaton.simulator.entity.Entity;
-import edu.wheaton.simulator.entity.GridEntity;
 import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 
 public class EditFieldScreen extends Screen {

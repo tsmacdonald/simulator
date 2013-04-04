@@ -22,7 +22,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -97,6 +96,7 @@ public class FieldScreen extends Screen {
 		add.addActionListener(
 //				new FieldAddListener(xPos, yPos, sm)
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.getScreen("Edit Fields").load();
 						sm.update(sm.getScreen("Edit Fields"));

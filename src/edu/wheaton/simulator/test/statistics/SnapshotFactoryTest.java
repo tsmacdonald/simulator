@@ -13,14 +13,12 @@ import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;
 
-import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.PrototypeID;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
-import edu.wheaton.simulator.statistics.EntitySnapshot;
 import edu.wheaton.simulator.statistics.FieldSnapshot;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
 
