@@ -25,7 +25,6 @@ public class SpawnCondition {
 
 	public void addToGrid(GUIToAgentFacade facade) {
 		if (pattern.equals("Clustered")) {
-
 			for (int i = 0; i < number; i++) {
 				facade.getGrid().spiralSpawn(prototype.createAgent(), x, y);
 			}

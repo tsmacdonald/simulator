@@ -30,29 +30,39 @@ public class GridPanel extends JPanel {
 	public void paint(Graphics g) {
 		width = this.getWidth();
 		height = this.getHeight();
+		
 		gridWidth = sm.getGUIwidth();
 		gridHeight = sm.getGUIheight();
+		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
+		
 		int squareSize = Math.min(pixelWidth, pixelHeight);
+		
 		for (int i = 0; i < gridWidth; i++) {
 			for (int j = 0; j < gridHeight; j++) {
 				g.drawRect(squareSize * i, squareSize * j, 
 						squareSize, squareSize);
 			}
 		}
+		
 		clearAgents(g);
 		agentPaint(g);
 	}
 
 	public void agentPaint(Graphics g){
+		
 		width = this.getWidth();
 		height = this.getHeight();
+		
 		gridWidth = sm.getGUIwidth();
 		gridHeight = sm.getGUIheight();
+		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
+		
 		int squareSize = Math.min(pixelWidth, pixelHeight);
+		
 		for (int x = 0; x < gridWidth; x++) {
 			for (int y = 0; y < gridHeight; y++) {
 				Agent agent = sm.getFacade().getAgent(x, y);
@@ -84,12 +94,17 @@ public class GridPanel extends JPanel {
 	public void clearAgents(Graphics g) {
 		width = this.getWidth();
 		height = this.getHeight();
+		
 		gridWidth = sm.getGUIwidth();
 		gridHeight = sm.getGUIheight();
+		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
+		
 		int squareSize = Math.min(pixelWidth, pixelHeight) - 1;
+		
 		g.setColor(Color.WHITE);
+		
 		for (int x = 0; x < gridWidth; x++) {
 			for (int y = 0; y < gridHeight; y++) {
 				g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), squareSize, squareSize);

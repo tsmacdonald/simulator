@@ -13,9 +13,11 @@ public class FieldAddListener implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		boolean editing = FieldScreen.getEditing();
-		if(editing)
-			editing = false;
+		
+// commented out because it does nothing!
+//		boolean editing = FieldScreen.getEditing();
+//		if(editing)
+//			editing = false;
 		((EditFieldScreen) (sm.getScreen("Edit Fields"))).load(
 				sm.getFacade().getGrid());
 		sm.update(sm.getScreen("Edit Fields"));
