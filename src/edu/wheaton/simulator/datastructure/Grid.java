@@ -30,12 +30,12 @@ public class Grid extends Entity implements Iterable<Agent> {
 	/**
 	 * Width of the grid
 	 */
-	private final Integer width;
+	//private final Integer width;
 
 	/**
 	 * Height of the grid
 	 */
-	private final Integer height;
+	//private final Integer height;
 
 	/**
 	 * Constructor. Creates a grid with the given width and height
@@ -45,8 +45,14 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * @param height
 	 */
 	public Grid(int width, int height) {
-		this.width = width;
-		this.height = height;
+		super();
+		try {
+			addField("width", width);
+			addField("height", height);
+		} catch (ElementAlreadyContainedException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 
 		grid = new Agent[getHeight()][getWidth()];
 	}
@@ -57,7 +63,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * @return
 	 */
 	public Integer getWidth() {
-		return width;
+		return getField("width").getIntValue();
 	}
 
 	/**
@@ -66,7 +72,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * @return
 	 */
 	public Integer getHeight() {
-		return height;
+		return getField("height").getIntValue();
 	}
 
 	/**
@@ -179,11 +185,11 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * @return
 	 */
 	private int largestDistanceToSide(int x, int y) {
-		int presentMax = width - x - 1; // presetMax = (x --> width)
+		int presentMax = getField("width").getIntValue() - x - 1; // presetMax = (x --> width)
 		if (presentMax < x) // presentMax < (0 --> x)
 			presentMax = x;
-		if (presentMax < (height - y - 1)) // presentMax < (y --> height)
-			presentMax = height - y - 1;
+		if (presentMax < (getField("height").getIntValue() - y - 1)) // presentMax < (y --> height)
+			presentMax = getField("height").getIntValue() - y - 1;
 		if (presentMax < y) // presentMax < (0 --> y)
 			presentMax = y;
 		return presentMax;
@@ -199,7 +205,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * @return true if successful (Agent added), false otherwise
 	 */
 	public boolean horizontalSpawn(Agent a, int row) {
-		for (int x = 0; x < width; x++)
+		for (int x = 0; x < getField("width").getIntValue(); x++)
 			if (spawnHelper(a, x, row))
 				return true;
 		return false;
@@ -215,7 +221,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * @return true if successful (Agent added), false otherwise
 	 */
 	public boolean verticalSpawn(Agent a, int column) {
-		for (int y = 0; y < height; y++)
+		for (int y = 0; y < getField("height").getIntValue(); y++)
 			if (spawnHelper(a, column, y))
 				return true;
 		return false;
@@ -258,8 +264,8 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 *            The Agent to add.
 	 */
 	public boolean spiralSpawn(Agent a) {
-		int randomX = (int) (Math.random() * (width - 1));
-		int randomY = (int) (Math.random() * (height - 1));
+		int randomX = (int) (Math.random() * (getField("width").getIntValue() - 1));
+		int randomY = (int) (Math.random() * (getField("height").getIntValue() - 1));
 		return spiralSpawn(a, randomX, randomY);
 	}
 
