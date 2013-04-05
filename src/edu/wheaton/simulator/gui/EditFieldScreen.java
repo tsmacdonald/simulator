@@ -106,6 +106,7 @@ public class EditFieldScreen extends Screen {
 	}
 
 	public void load(String n) {
+		//edit listener should call this?
 		reset();
 		nameField.setText(n);
 		initValue.setText(sm.getFacade().getGlobalField(n).getValue());
@@ -115,8 +116,10 @@ public class EditFieldScreen extends Screen {
 	@Override
 	public void load() {
 		//What is this here for?
-		GUIToAgentFacade facade = sm.getFacade();
-		facade.getPrototype(nameField.getText());
+		//GUIToAgentFacade facade = sm.getFacade();
+		//facade.getPrototype(nameField.getText());
+		//add listener should call this
+		reset();
 	}
 
 	private class FinishListener implements ActionListener {

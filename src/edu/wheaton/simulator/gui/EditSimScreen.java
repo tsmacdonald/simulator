@@ -40,7 +40,7 @@ public class EditSimScreen extends Screen {
 		JButton fields = new JButton("Fields");
 		fields.addActionListener(new GeneralButtonListener("Fields", sm));
 		//TODO fields getting refactored, temporarily disabling this button
-		fields.setEnabled(false);
+		//fields.setEnabled(false);
 
 
 		JButton statistics = new JButton("Statistics");

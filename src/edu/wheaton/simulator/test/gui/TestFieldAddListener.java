@@ -7,6 +7,7 @@ import org.junit.Assert;
 
 import edu.wheaton.simulator.gui.Display;
 import edu.wheaton.simulator.gui.FieldAddListener;
+import edu.wheaton.simulator.gui.FieldScreen;
 
 public class TestFieldAddListener extends TestCase{
 
@@ -27,13 +28,16 @@ public class TestFieldAddListener extends TestCase{
 		add.doClick();
 	}
 	
+	public void testEditing(){
+		Assert.assertFalse("Editing should be set to false", FieldScreen.getEditing());
+	}
 	public void testGetScreen(){
 		Assert.assertEquals("Edit Fields returned from get screen", 0, ((MockScreen) mm.getScreen("Edit Fields")).compareTo(ms1));
 	}
 	public void testLoad(){
-		Assert.assertTrue("load method is called", ms1.getLoad());
+		Assert.assertTrue("Load method is called", ms1.getLoad());
 	}
 	public void testUpdate(){
-		Assert.assertEquals("content pane set to ms1", 0, ms1.compareTo((MockScreen) display.getContentPane()));
+		Assert.assertEquals("Content pane set to ms1", 0, ms1.compareTo((MockScreen) display.getContentPane()));
 	}
 }
