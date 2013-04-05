@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.GridEntity;
 import edu.wheaton.simulator.entity.Prototype;
@@ -15,18 +16,6 @@ import edu.wheaton.simulator.entity.Prototype;
  */
 
 public class SnapshotFactory {
-
-	/**
-	 * Produce a snapshot of the given slot in time. 
-	 * @param slot The relevant slot. 
-	 * @param step The present moment in time. 
-	 * @return An EntitySnapshot representing that slot at that point in time.
-	 */
-	public static EntitySnapshot makeSlotSnapshot(GridEntity slot,
-			Integer step) {
-		return new EntitySnapshot(slot.getEntityID(),
-				makeFieldSnapshots(slot.getCustomFieldMap()), step);
-	}
 
 	/**
 	 * Make a snapshot of an Agent at a particular point in time. 

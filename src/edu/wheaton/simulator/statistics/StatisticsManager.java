@@ -19,7 +19,7 @@ public class StatisticsManager {
 	/**
 	 * The table on which all entity snapshots will be stored.
 	 */
-	private EntitySnapshotTable table;
+	private AgentSnapshotTable table;
 
 	/**
 	 * The number of steps the simulation has taken. Effectively it is the
@@ -60,7 +60,7 @@ public class StatisticsManager {
 	 * Private constructor to prevent wanton instantiation.
 	 */
 	public StatisticsManager() {
-		table = new EntitySnapshotTable();
+		table = new AgentSnapshotTable();
 		gridObserver = new GridRecorder(this);
 		prototypes = new HashMap<Integer, Map<PrototypeID, PrototypeSnapshot>>();
 	}
@@ -141,13 +141,13 @@ public class StatisticsManager {
 	/**
 	 * Store a snapshot of a gridEntity.
 	 * 
-	 * @param gridEntity
+	 * @param agentSnapshot
 	 *            The Snapshot to be stored.
 	 */
-	public void addGridEntity(EntitySnapshot gridEntity) {
-		table.putEntity(gridEntity);
-		if (gridEntity.step > lastStep)
-			lastStep = gridEntity.step;
+	public void addGridEntity(AgentSnapshot agentSnapshot) {
+		table.putEntity(agentSnapshot);
+		if (agentSnapshot.step > lastStep)
+			lastStep = agentSnapshot.step;
 	}
 
 	/**
@@ -189,10 +189,10 @@ public class StatisticsManager {
 	private ImmutableSet<AgentSnapshot> getPopulationAtStep(
 			PrototypeID typeID, Integer step) {
 		ImmutableSet.Builder<AgentSnapshot> builder = new ImmutableSet.Builder<AgentSnapshot>();
-		ImmutableMap<EntityID, EntitySnapshot> totalPopulation = table
+		ImmutableMap<EntityID, AgentSnapshot> totalPopulation = table
 				.getSnapshotsAtStep(step);
 		for (EntityID currentID : table.getSnapshotsAtStep(step).keySet()) {
-			EntitySnapshot currentEntity;
+			AgentSnapshot currentEntity;
 			if ((currentEntity = totalPopulation.get(currentID)) instanceof AgentSnapshot) {
 				AgentSnapshot currentAgent = (AgentSnapshot) currentEntity;
 				if (currentAgent.prototype == typeID)
