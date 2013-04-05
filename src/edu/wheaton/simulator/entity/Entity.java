@@ -13,10 +13,8 @@ public class Entity {
 	 * The list of all fields (variables) associated with this agent.
 	 */
 	private Map<String, String> fields;
-	private final EntityID id;
 
 	public Entity() {
-		id = new EntityID();
 		fields = new HashMap<String, String>();
 	}
 
@@ -117,10 +115,6 @@ public class Entity {
 		toReturn.remove("colorBlue");
 		toReturn.remove("colorGreen");
 		return toReturn;
-	}
-
-	public EntityID getEntityID() {
-		return id;
 	}
 
 	private static String formatFieldName(String name) {

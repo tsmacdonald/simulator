@@ -30,6 +30,8 @@ public class Agent extends GridEntity {
 	 * Prototype of the agent
 	 */
 	private Prototype prototype;
+	
+	private final AgentID id = new AgentID();
 
 	/**
 	 * Constructor.
@@ -90,7 +92,7 @@ public class Agent extends GridEntity {
 			} catch (EvaluationException e) {
 				System.err.println(e.getMessage());
 				String errorMessage = "Error in Agent: " + this.getName()
-						+ "\n ID: " + this.getEntityID() + "\n Trigger: "
+						+ "\n ID: " + this.getID() + "\n Trigger: "
 						+ t.getName() + "\n MSG: " + e.getMessage()
 						+ "\n condition: " + t.getConditions().toString();
 				throw new SimulationPauseException(errorMessage);
@@ -111,7 +113,7 @@ public class Agent extends GridEntity {
 					} catch (EvaluationException e) {
 						System.err.println(e.getMessage());
 						String errorMessage = "Error in Agent: " + this.getName()
-								+ "\n ID: " + this.getEntityID() + "\n Trigger: "
+								+ "\n ID: " + this.getID() + "\n Trigger: "
 								+ t.getName() + "\n MSG: " + e.getMessage()
 								+ "\n condition: " + t.getConditions().toString();
 						throw new SimulationPauseException(errorMessage);
@@ -208,5 +210,9 @@ public class Agent extends GridEntity {
 
 	public String getName() {
 		return getPrototype().getName();
+	}
+	
+	public AgentID getID() {
+		return id;
 	}
 }

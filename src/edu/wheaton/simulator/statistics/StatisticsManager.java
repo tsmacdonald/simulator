@@ -11,7 +11,7 @@ import java.util.TreeMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
-import edu.wheaton.simulator.entity.EntityID;
+import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.PrototypeID;
 
 public class StatisticsManager {
@@ -189,9 +189,9 @@ public class StatisticsManager {
 	private ImmutableSet<AgentSnapshot> getPopulationAtStep(
 			PrototypeID typeID, Integer step) {
 		ImmutableSet.Builder<AgentSnapshot> builder = new ImmutableSet.Builder<AgentSnapshot>();
-		ImmutableMap<EntityID, AgentSnapshot> totalPopulation = table
+		ImmutableMap<AgentID, AgentSnapshot> totalPopulation = table
 				.getSnapshotsAtStep(step);
-		for (EntityID currentID : table.getSnapshotsAtStep(step).keySet()) {
+		for (AgentID currentID : table.getSnapshotsAtStep(step).keySet()) {
 			AgentSnapshot currentEntity;
 			if ((currentEntity = totalPopulation.get(currentID)) instanceof AgentSnapshot) {
 				AgentSnapshot currentAgent = (AgentSnapshot) currentEntity;

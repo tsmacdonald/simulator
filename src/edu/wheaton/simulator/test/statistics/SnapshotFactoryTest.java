@@ -15,7 +15,7 @@ import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.entity.EntityID;
+import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.PrototypeID;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
@@ -46,7 +46,7 @@ public class SnapshotFactoryTest {
 		Prototype p = new Prototype(g, "bear"); 
 		Agent a = new Agent(g, p);
 		PrototypeID pID = p.getPrototypeID();
-		EntityID aID = a.getEntityID(); 
+		AgentID aID = a.getEntityID(); 
 		Integer step = 15; 
 		
 		AgentSnapshot ass = SnapshotFactory.makeAgentSnapshot(a, step);

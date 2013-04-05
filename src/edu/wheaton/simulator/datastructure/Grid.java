@@ -16,7 +16,7 @@ import java.util.Iterator;
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Entity;
-import edu.wheaton.simulator.entity.EntityID;
+import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.simulation.Layer;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 
@@ -126,14 +126,14 @@ public class Grid extends Entity implements Iterable<Agent> {
 		 * @throws SimulationPauseException
 		 */
 		public void update() throws SimulationPauseException {
-			HashSet<EntityID> processedIDs = new HashSet<EntityID>();
+			HashSet<AgentID> processedIDs = new HashSet<AgentID>();
 
 			for (Agent[] row : grid)
 				for (Agent current : row) {
 					if (current != null)
-						if (!processedIDs.contains(current.getEntityID())) {
+						if (!processedIDs.contains(current.getID())) {
 							current.act();
-							processedIDs.add(current.getEntityID());
+							processedIDs.add(current.getID());
 						}
 				}
 		}
@@ -151,14 +151,14 @@ public class Grid extends Entity implements Iterable<Agent> {
 		 */
 		public void update() throws SimulationPauseException {
 			for (int priority = minPriority; priority <= maxPriority; priority++) {
-				HashSet<EntityID> processedIDs = new HashSet<EntityID>();
+				HashSet<AgentID> processedIDs = new HashSet<AgentID>();
 
 				for (Agent[] row : grid)
 					for (Agent current : row) {
 						if (current != null)
-							if (!processedIDs.contains(current.getEntityID())) {
+							if (!processedIDs.contains(current.getID())) {
 								current.priorityAct(priority);
-								processedIDs.add(current.getEntityID());
+								processedIDs.add(current.getID());
 							}
 					}
 			}

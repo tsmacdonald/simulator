@@ -5,7 +5,7 @@ import java.util.Set;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.TreeBasedTable;
 
-import edu.wheaton.simulator.entity.EntityID;
+import edu.wheaton.simulator.entity.AgentID;
 
 /**
  * This class is an abstraction of a database which is represented by a Table,
@@ -18,7 +18,7 @@ public class AgentSnapshotTable {
 	/**
 	 * This table will be used to put the snapshots into
 	 */
-	private TreeBasedTable<EntityID, Integer, AgentSnapshot> table;
+	private TreeBasedTable<AgentID, Integer, AgentSnapshot> table;
 
 	/**
 	 * Constructor.
@@ -46,8 +46,8 @@ public class AgentSnapshotTable {
 	 *            The point in time at which to examine the simulation.
 	 * @return an ImmutableMap from EntityID's to AgentSnapshots.
 	 */
-	public ImmutableMap<EntityID, AgentSnapshot> getSnapshotsAtStep(int step) {
-		return new ImmutableMap.Builder<EntityID, AgentSnapshot>().putAll(
+	public ImmutableMap<AgentID, AgentSnapshot> getSnapshotsAtStep(int step) {
+		return new ImmutableMap.Builder<AgentID, AgentSnapshot>().putAll(
 				table.column(step)).build();
 	}
 
@@ -61,7 +61,7 @@ public class AgentSnapshotTable {
 	 * @return an ImmutableMap<Integer, AgentSnapshot>
 	 */
 	public ImmutableMap<Integer, AgentSnapshot> getSnapshotsOfEntity(
-			EntityID entityID) {
+			AgentID entityID) {
 		ImmutableMap.Builder<Integer, AgentSnapshot> builder = new ImmutableMap.Builder<Integer, AgentSnapshot>();
 		builder.putAll(table.row(entityID));
 		return builder.build();
@@ -75,7 +75,7 @@ public class AgentSnapshotTable {
 	 * @return true or false depending on whether the table has a row for the
 	 *         given id
 	 */
-	public boolean containsEntity(EntityID entityID) {
+	public boolean containsEntity(AgentID entityID) {
 		return table.containsRow(entityID);
 	}
 
@@ -115,7 +115,7 @@ public class AgentSnapshotTable {
 	 * @param step of the game
 	 * @return an AgentSnapshot
 	 */
-	public AgentSnapshot get(EntityID id, int step) {
+	public AgentSnapshot get(AgentID id, int step) {
 		return table.get(id, step);
 	}
 

@@ -25,7 +25,7 @@ import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Entity;
-import edu.wheaton.simulator.entity.EntityID;
+import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
 import edu.wheaton.simulator.statistics.EntitySnapshot;
@@ -43,7 +43,7 @@ public class StatisticsManagerTest {
 	Prototype prototype;
 	HashMap<String, String> fields;
 	int population;
-	ImmutableSet<EntityID> children;
+	ImmutableSet<AgentID> children;
 	Integer step;
 	PrototypeSnapshot protoSnap;
 	PrototypeSnapshot protoSnap2;
@@ -134,7 +134,7 @@ public class StatisticsManagerTest {
 	@Test
 	public void testGetAvgFieldValue() {
 		ArrayList<AgentSnapshot> snaps = new ArrayList<AgentSnapshot>();
-		HashSet<EntityID> ids = new HashSet<EntityID>();
+		HashSet<AgentID> ids = new HashSet<AgentID>();
 		String[] names = new String[] {"bear", "tom", "john", "piglet", "reese"};
 		
 		/* create snapshots */

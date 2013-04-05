@@ -3,7 +3,7 @@ package edu.wheaton.simulator.statistics;
 import java.util.Map.Entry;
 
 import com.google.common.collect.ImmutableMap;
-import edu.wheaton.simulator.entity.EntityID;
+import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.PrototypeID;
 
 
@@ -18,7 +18,7 @@ public class AgentSnapshot {
 	/*
 	 * The unique id of the agent for this snapshot
 	 */
-	public final EntityID entityID;
+	public final AgentID entityID;
 	
 	/**
 	 * The present prototype for the category of this Entity.
@@ -47,7 +47,7 @@ public class AgentSnapshot {
 	 * @param prototype
 	 *            The prototype for this category of Agent.
 	 */
-	public AgentSnapshot(EntityID entityID, ImmutableMap<String, FieldSnapshot> fields,
+	public AgentSnapshot(AgentID entityID, ImmutableMap<String, FieldSnapshot> fields,
 			Integer step, PrototypeID prototype) {
 		this.entityID = entityID;
 		this.step = step;

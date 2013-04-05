@@ -21,7 +21,7 @@ import org.junit.runners.JUnit4;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.Entity;
-import edu.wheaton.simulator.entity.EntityID;
+import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.statistics.EntitySnapshot;
 import edu.wheaton.simulator.statistics.EntitySnapshotTable;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
@@ -31,7 +31,7 @@ public class EntitySnapshotTableCase {
 
 	EntitySnapshotTable table;
 	ArrayList<EntitySnapshot> snaps;
-	HashSet<EntityID> ids;
+	HashSet<AgentID> ids;
 	String[] names = new String[] {"bear", "tom", "john", "piglet", "reese"};
 
 	/**
@@ -40,7 +40,7 @@ public class EntitySnapshotTableCase {
 	@Before
 	public void setUp() {
 		snaps = new ArrayList<EntitySnapshot>();
-		ids = new HashSet<EntityID>();
+		ids = new HashSet<AgentID>();
 		for(int i = 0; i < 5; i++) {
 			Entity entity = new Entity();
 			Map<String, String> fields = new HashMap<String, String>();
@@ -94,7 +94,7 @@ public class EntitySnapshotTableCase {
 	 */
 	@Test
 	public void tableStoresCorrectly() {
-		for(EntityID id : ids) {
+		for(AgentID id : ids) {
 			int s = 1;
 			while(s < 3) {
 				EntitySnapshot snap = table.get(id, s);
@@ -129,7 +129,7 @@ class EntitySnapshotTableTest {
 	public class EntitySnapshotTableCase {
 
 		EntitySnapshotTable t;
-		EntityID id; 
+		AgentID id; 
 
 		/**
 		 */
@@ -188,12 +188,12 @@ class EntitySnapshotTableTest {
 		 */
 		@Test
 		public void testGetSnapshotsAtStep() {
-			ImmutableMap<EntityID, EntitySnapshot> result = t.getSnapshotsAtStep(1);
+			ImmutableMap<AgentID, EntitySnapshot> result = t.getSnapshotsAtStep(1);
 			Assert.assertNotNull(result.get(id)); 
 		}
 
 		/**
-		 * Test method for {@link edu.wheaton.simulator.statistics.EntitySnapshotTable#getSnapshotsOfEntity(edu.wheaton.simulator.entity.EntityID)}.
+		 * Test method for {@link edu.wheaton.simulator.statistics.EntitySnapshotTable#getSnapshotsOfEntity(edu.wheaton.simulator.entity.AgentID)}.
 		 */
 		@Test
 		public void testGetSnapshotsOfEntity() {
@@ -204,7 +204,7 @@ class EntitySnapshotTableTest {
 		}
 
 		/**
-		 * Test method for {@link edu.wheaton.simulator.statistics.EntitySnapshotTable#containsEntity(edu.wheaton.simulator.entity.EntityID)}.
+		 * Test method for {@link edu.wheaton.simulator.statistics.EntitySnapshotTable#containsEntity(edu.wheaton.simulator.entity.AgentID)}.
 		 */
 		@Test
 		public void testContainsEntity() {
