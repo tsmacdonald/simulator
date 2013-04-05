@@ -73,7 +73,7 @@ public class AgentSnapshot {
 		s += "\n" + id.getInt();
 		
 		for (Entry<String, FieldSnapshot> entry : fields.entrySet()) {
-			s += "\nFields: " + entry.getValue().serialize();
+			s += "\nFields: " + entry.getKey() + " " + entry.getValue().serialize();
 		}
 		
 		s += "\n" + step; 

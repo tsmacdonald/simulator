@@ -217,7 +217,8 @@ public class StatisticsManager {
 		for (int i = 0; i < data.length; i++) {
 			Map<PrototypeID, PrototypeSnapshot> map; 
 			PrototypeSnapshot currentSnapshot;
-			if((map = prototypes.get(i)) != null){
+			map = prototypes.get(i);
+			if(map != null){
 				if ((currentSnapshot = prototypes.get(i).get(id)) != null) {
 					data[i] = currentSnapshot.population;
 				}

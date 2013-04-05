@@ -17,34 +17,37 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Grid;
-import edu.wheaton.simulator.entity.Entity;
+import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
 
 public class AgentSnapshotCase {
 
-	Entity entity;
+	Agent agent;
 	Grid grid;
 	Prototype prototype;
 	Integer step;
-	HashMap<String, String> fields;
 
 	/**
 	 * Initialize variables.
 	 */
 	@Before
 	public void setUp() {
-		entity = new Entity();
 		grid = new Grid(10, 10);
 		prototype = new Prototype(grid, "tester");
+		agent = prototype.createAgent();
+		try {
+			agent.addField("Pig", "Tom");
+			agent.addField("Monkey", "Olly");
+			agent.addField("Cat", "Joomba");
+		} catch (ElementAlreadyContainedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		step = new Integer(23);
-		fields = new HashMap<String, String>();
-		fields.put("Pig", "Tom");
-		fields.put("Monkey", "Olly");
-		fields.put("Cat", "Joomba");
-
 	}
 
 	/**
@@ -52,14 +55,10 @@ public class AgentSnapshotCase {
 	 */
 	@After
 	public void tearDown() {
-		entity = null;
+		agent = null;
 		grid = null;
 		prototype = null;
 		step = null;
-		fields.remove("Pig");
-		fields.remove("Monkey");
-		fields.remove("Cat");
-		fields = null;
 	}
 
 	/**
@@ -67,8 +66,8 @@ public class AgentSnapshotCase {
 	 */
 	@Test
 	public void agentSnapshotTest() {
-		AgentSnapshot agentSnap = new AgentSnapshot(entity.getEntityID(),
-				SnapshotFactory.makeFieldSnapshots(fields), step,
+		AgentSnapshot agentSnap = new AgentSnapshot(agent.getID(),
+				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step,
 				prototype.getPrototypeID());
 		Assert.assertNotNull("AgentSnapshot not created.", agentSnap);
 	}
@@ -78,11 +77,11 @@ public class AgentSnapshotCase {
 	 */
 	@Test
 	public void serializeTest(){
-		AgentSnapshot agentSnap = new AgentSnapshot(entity.getEntityID(),
-				SnapshotFactory.makeFieldSnapshots(fields), step,
+		AgentSnapshot agentSnap = new AgentSnapshot(agent.getID(),
+				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step,
 				prototype.getPrototypeID());
 		
-		String expected = "AgentSnapshot\n102\nFields: Cat FieldSnapshot Cat Joomba" +
+		String expected = "AgentSnapshot\n1\nFields: Cat FieldSnapshot Cat Joomba" +
 				"\nFields: Pig FieldSnapshot Pig Tom\nFields: Monkey FieldSnapshot Monkey Olly\n23\n1"; 
 		System.out.println(agentSnap.serialize()); 
 		

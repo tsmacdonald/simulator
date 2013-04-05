@@ -12,7 +12,7 @@ import edu.wheaton.simulator.entity.Prototype;
  */
 public class GridRecorder {
 
-	private static int ii = 0; 
+	//private static int ii = 0; 
 
 	private StatisticsManager statManager;
 
