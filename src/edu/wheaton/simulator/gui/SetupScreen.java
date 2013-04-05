@@ -265,8 +265,7 @@ public class SetupScreen extends Screen {
 		if (popLimits.size() == 0) {
 			conListPanel.add(addConditionButton);
 			conListPanel.add(glue);
-			conListPanel.validate();
-			repaint();
+
 		}
 		else {
 			int i = 0;
@@ -281,7 +280,7 @@ public class SetupScreen extends Screen {
 				i++;
 			}
 		}
-
+		validate();
 
 	}
 
@@ -318,7 +317,7 @@ public class SetupScreen extends Screen {
 		conListPanel.add(addConditionButton);
 		conListPanel.add(glue);
 		conListPanel.validate();
-		repaint();	
+		validate();	
 	}
 
 	private void reset() {

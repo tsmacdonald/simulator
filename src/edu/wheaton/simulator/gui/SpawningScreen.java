@@ -16,6 +16,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -40,7 +42,7 @@ public class SpawningScreen extends Screen {
 	private ArrayList<JComboBox> spawnPatterns;
 
 	//TODO temporary placeholder
-	private String[] spawnOptions = {"Random", "Clustered", "Horizontal", "Vertical"};
+	private String[] spawnOptions = {"Clustered", "Horizontal", "Vertical", "Random"};
 
 	private ArrayList<JTextField> xLocs;
 
@@ -75,10 +77,8 @@ public class SpawningScreen extends Screen {
 		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 		JPanel labelsPanel = new JPanel();
 		labelsPanel.setLayout(new BoxLayout(labelsPanel, BoxLayout.X_AXIS));
-		labelsPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 
 		//TODO mess with sizes of labels to line up with components
-		//TODO labels do not appear at all...
 		JLabel entityLabel = new JLabel("Entity Type");
 		entityLabel.setPreferredSize(new Dimension(200, 30));
 		JLabel patternLabel = new JLabel("Spawn Pattern");
@@ -134,7 +134,6 @@ public class SpawningScreen extends Screen {
 					} 
 				});
 		JButton finishButton = new JButton("Finish");
-		//TODO finish adjusting this for spawn window safeguards
 		finishButton.addActionListener(
 				new ActionListener() {
 					@Override
@@ -173,7 +172,7 @@ public class SpawningScreen extends Screen {
 		buttonPanel.add(cancelButton);
 		buttonPanel.add(finishButton);
 		this.add(label, BorderLayout.NORTH);
-		this.add(listPanel, BorderLayout.CENTER);
+		this.add(mainPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
@@ -205,7 +204,8 @@ public class SpawningScreen extends Screen {
 		if (spawnConditions.size() == 0) {
 			addSpawn();
 		}
-
+		//????
+		validate();
 	}
 
 	private void addSpawn() {
@@ -220,6 +220,7 @@ public class SpawningScreen extends Screen {
 		JComboBox newSpawnType = new JComboBox(spawnOptions);
 		newSpawnType.setMaximumSize(new Dimension(250, 30));
 		spawnPatterns.add(newSpawnType);
+		newSpawnType.addItemListener(new PatternListener(spawnPatterns.indexOf(newSpawnType)));
 		JTextField newXLoc = new JTextField(10);
 		newXLoc.setMaximumSize(new Dimension(100, 30));
 		xLocs.add(newXLoc);
@@ -251,6 +252,7 @@ public class SpawningScreen extends Screen {
 
 	private void deleteSpawn(int n) {
 		entityTypes.remove(n);
+		((PatternListener)spawnPatterns.get(n).getItemListeners()[0]).setNum(n);
 		spawnPatterns.remove(n);
 		xLocs.remove(n);
 		yLocs.remove(n);
@@ -258,6 +260,7 @@ public class SpawningScreen extends Screen {
 		deleteButtons.remove(n);
 		for (int i = n; i < deleteButtons.size(); i++) {
 			deleteButtons.get(i).setActionCommand(i + "");
+			((PatternListener)spawnPatterns.get(i).getItemListeners()[0]).setNum(i);
 		}
 		listPanel.remove(subPanels.get(n));
 		subPanels.remove(n);
@@ -272,4 +275,32 @@ public class SpawningScreen extends Screen {
 			deleteSpawn(Integer.parseInt(action));
 		}
 	}
+
+	private class PatternListener implements ItemListener {
+
+		private int n;
+
+		public PatternListener(int n) {
+			this.n = n;
+		}
+		
+		public void setNum(int n) {
+			this.n = n;
+		}
+		
+		public void itemStateChanged(ItemEvent e) {
+			if (((String)e.getItem()).equals("Random")) {
+				xLocs.get(n).setEnabled(false);
+				yLocs.get(n).setEnabled(false);
+			}
+			else {
+				xLocs.get(n).setEnabled(true);
+				yLocs.get(n).setEnabled(true);
+			}
+			repaint();
+		}
+
+
+	}
+
 }
