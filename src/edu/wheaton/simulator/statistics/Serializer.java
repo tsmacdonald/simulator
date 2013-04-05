@@ -9,7 +9,9 @@ import java.io.IOException;
 
 public class Serializer {
 
-	public static void serializer(String serializable) {
+	public static StringBuilder serializer(String serializable) {
+		StringBuilder sb = null;
+		
 		String filename = "tester.txt"; // TODO: Change if necessary
 
 		try {
@@ -27,7 +29,7 @@ public class Serializer {
 			BufferedReader reader = new BufferedReader(
 					new FileReader(filename));
 
-			StringBuilder sb = new StringBuilder();
+			sb = new StringBuilder();
 			String line = reader.readLine();
 			String savefile;
 
@@ -50,6 +52,8 @@ public class Serializer {
 			System.err.println("Serializer.java: IOException");
 			e.printStackTrace();
 		}
+		
+		return sb;
 	}
 
 }

@@ -1,5 +1,10 @@
 package edu.wheaton.simulator.test.statistics;
 
+/**
+ * Tests for the AgentSnapshotTable class
+ * 
+ * @author akonwi & Grant Hensel
+ */
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;

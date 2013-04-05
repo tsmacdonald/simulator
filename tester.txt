@@ -1,7 +1,7 @@
 AgentSnapshot
-102
-Fields: Cat FieldSnapshot Cat Joomba false null
-Fields: Pig FieldSnapshot Pig Tom false null
-Fields: Monkey FieldSnapshot Monkey Olly false null
+0
+Fields: Cat FieldSnapshot Cat Joomba
+Fields: Pig FieldSnapshot Pig Tom
+Fields: Monkey FieldSnapshot Monkey Olly
 23
-1
+0
