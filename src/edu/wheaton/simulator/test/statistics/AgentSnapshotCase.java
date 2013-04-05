@@ -3,7 +3,7 @@ package edu.wheaton.simulator.test.statistics;
 /**
  * A JUnit test case for testing AgentSnapshot.java.
  * 
- * @author Nico Lasta
+ * @author Nico Lasta & akonwi
  * Wheaton College, CSCI 335
  * Spring 2013
  * 25 Mar 2013
