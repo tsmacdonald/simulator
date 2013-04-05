@@ -24,7 +24,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 
 public class EditFieldScreen extends Screen {
@@ -38,8 +37,6 @@ public class EditFieldScreen extends Screen {
 	//private JComboBox fieldType;
 
 	private JTextField initValue;
-
-	private Entity ge;
 
 	private String prevName;
 
@@ -103,27 +100,21 @@ public class EditFieldScreen extends Screen {
 	}
 
 	public void reset() {
-		ge = null;
 		nameField.setText("");
 		initValue.setText("");
 		prevName = "";
 	}
 
-	public void load(Entity ge, String n) {
+	public void load(String n) {
 		reset();
-		this.ge = ge;
 		nameField.setText(n);
-		initValue.setText(ge.getFieldValue(n));
+		initValue.setText(sm.getFacade().getGlobalField(n).getValue());
 		prevName = n;
-	}
-
-	public void load(Entity ge) {
-		reset();
-		this.ge = ge;
 	}
 
 	@Override
 	public void load() {
+		//What is this here for?
 		GUIToAgentFacade facade = sm.getFacade();
 		facade.getPrototype(nameField.getText());
 	}
@@ -138,11 +129,11 @@ public class EditFieldScreen extends Screen {
 					throw new Exception("All fields must have input");
 				}
 				if (FieldScreen.getEditing()){
-					ge.removeField(prevName);
-					ge.addField(nameField.getText(), initValue.getText());
+					sm.getFacade().removeGlobalField(prevName);
+					sm.getFacade().addGlobalField(nameField.getText(), initValue.getText());
 				}
 				else{
-					ge.addField(nameField.getText(), initValue.getText());
+					sm.getFacade().addGlobalField(nameField.getText(), initValue.getText());
 				}
 			} catch (Exception e) {
 				toMove = false;

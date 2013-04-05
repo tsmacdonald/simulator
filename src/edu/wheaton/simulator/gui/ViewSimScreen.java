@@ -63,8 +63,9 @@ public class ViewSimScreen extends Screen {
 		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
 		JComboBox layerComboBox = new JComboBox();
 		JColorChooser color = new JColorChooser();
-		AbstractColorChooserPanel panels[] = { new DefaultSwatchChoserPanel() };
-		color.setChooserPanels(panels);
+		//Commented out because of type error
+//		AbstractColorChooserPanel panels[] = { new DefaultSwatchChoserPanel() };
+//		color.setChooserPanels(panels);
 		agentComboBox.setSize(new Dimension(500, 50));
 		layerComboBox.setSize(new Dimension(500, 50));
 		layerPanel.setSize(new Dimension(600, 2000));

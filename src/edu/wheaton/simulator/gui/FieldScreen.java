@@ -110,11 +110,7 @@ public class FieldScreen extends Screen {
 					public void actionPerformed(ActionEvent e) {
 						if(!editing)
 							editing = true;
-						((EditFieldScreen) (sm.getScreen("Edit Fields"))).load(
-								sm.getFacade().getGrid()
-								//.getSlot(xPos.getSelectedIndex(), yPos.getSelectedIndex())
-								, (String) fields.getSelectedValue()
-								);
+						((EditFieldScreen) (sm.getScreen("Edit Fields"))).load((String) fields.getSelectedValue());
 						sm.update(sm.getScreen("Edit Fields"));
 					}
 				}
@@ -143,8 +139,9 @@ public class FieldScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		edit.setEnabled(sm.hasStarted() ? false : true); 
-		delete.setEnabled(sm.hasStarted() ? false : true); 
+		edit.setEnabled(false);
+		delete.setEnabled(false);
+		
 //		if (xPos.getItemCount() != GUI.getGridWidth()) {
 //			xPos.removeAllItems();
 //			for (int i = 0; i < GUI.getGridWidth(); i++) {
@@ -189,7 +186,8 @@ public class FieldScreen extends Screen {
 	private class ListListener implements ListSelectionListener {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			edit.setEnabled(true);
+			edit.setEnabled(sm.hasStarted() ? false : true); 
+			delete.setEnabled(sm.hasStarted() ? false : true); 
 		}
 	}
 
@@ -208,7 +206,7 @@ public class FieldScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = fields.getSelectedIndex();
-			//TODO actually remove the field from internal code
+			sm.getFacade().removeGlobalField((String)fields.getSelectedValue());
 			listModel.remove(index);
 			int size = listModel.getSize();
 			if(size == 0)
