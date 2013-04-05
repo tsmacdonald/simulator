@@ -94,14 +94,14 @@ public class FieldScreen extends Screen {
 		delete.addActionListener(new DeleteListener(listModel, fields, delete));
 		add = new JButton("Add");
 		add.addActionListener(
-//				new FieldAddListener(xPos, yPos, sm)
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						sm.getScreen("Edit Fields").load();
-						sm.update(sm.getScreen("Edit Fields"));
-					}
-				}
+				new FieldAddListener(sm)
+//				new ActionListener() {
+//					@Override
+//					public void actionPerformed(ActionEvent e) {
+//						sm.getScreen("Edit Fields").load();
+//						sm.update(sm.getScreen("Edit Fields"));
+//					}
+//				}
 				);
 		edit = new JButton("Edit");
 		edit.addActionListener(

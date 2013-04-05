@@ -30,5 +30,4 @@ public abstract class Screen extends JPanel {
 	
 	public abstract void load();
 	
-	
 }

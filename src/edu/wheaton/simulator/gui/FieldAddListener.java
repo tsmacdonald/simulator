@@ -19,6 +19,7 @@ public class FieldAddListener implements ActionListener{
 //		if(editing)
 //			editing = false;
 		((EditFieldScreen) (sm.getScreen("Edit Fields"))).load();
+		sm.getScreen("Edit Fields").load();
 		sm.update(sm.getScreen("Edit Fields"));
 	}
 }
