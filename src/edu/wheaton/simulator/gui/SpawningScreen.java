@@ -11,12 +11,14 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -30,7 +32,6 @@ import javax.swing.SwingConstants;
 public class SpawningScreen extends Screen {
 	//TODO how do we handle if spawn are set, and then the grid is made smaller,
 	//     and some of the spawns are now out of bounds? delete those fields?
-	//TODO figure out where and how to store spawning information
 
 	private String[] entities;
 
@@ -39,7 +40,7 @@ public class SpawningScreen extends Screen {
 	private ArrayList<JComboBox> spawnPatterns;
 
 	//TODO temporary placeholder
-	private String[] spawnOptions = {"Random", "Clustered"};
+	private String[] spawnOptions = {"Random", "Clustered", "Horizontal", "Vertical"};
 
 	private ArrayList<JTextField> xLocs;
 
@@ -61,7 +62,6 @@ public class SpawningScreen extends Screen {
 	 */
 	private static final long serialVersionUID = 6312784326472662829L;
 
-	//TODO does not read entities on first load
 	public SpawningScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -75,8 +75,10 @@ public class SpawningScreen extends Screen {
 		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 		JPanel labelsPanel = new JPanel();
 		labelsPanel.setLayout(new BoxLayout(labelsPanel, BoxLayout.X_AXIS));
+		labelsPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 
 		//TODO mess with sizes of labels to line up with components
+		//TODO labels do not appear at all...
 		JLabel entityLabel = new JLabel("Entity Type");
 		entityLabel.setPreferredSize(new Dimension(200, 30));
 		JLabel patternLabel = new JLabel("Spawn Pattern");
@@ -192,10 +194,9 @@ public class SpawningScreen extends Screen {
 		entities = sm.getFacade().prototypeNames().toArray(entities);
 		ArrayList<SpawnCondition> spawnConditions = sm.getSpawnConditions(); 
 
-		System.out.println(deleteButtons.size());
 		for (int i = 0; i < spawnConditions.size(); i++) { 
 			addSpawn();
-			entityTypes.get(i).setSelectedItem(spawnConditions.get(i).prototype.toString());
+			entityTypes.get(i).setSelectedItem(spawnConditions.get(i).prototype.getName());
 			spawnPatterns.get(i).setSelectedItem(spawnConditions.get(i).pattern);
 			xLocs.get(i).setText(spawnConditions.get(i).x + "");
 			yLocs.get(i).setText(spawnConditions.get(i).y + "");

@@ -29,7 +29,6 @@ import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
 
-//TODO deletes prototype after editing
 public class EditEntityScreen extends Screen {
 
 	private static final long serialVersionUID = 4021299442173260142L;
@@ -407,8 +406,7 @@ public class EditEntityScreen extends Screen {
 
 			if (!editing) {
 				sm.getFacade().createPrototype(nameField.getText(),
-						sm.getFacade().getGrid(), colorTool.getColor(),
-						generateBytes());
+						sm.getFacade().getGrid(), colorTool.getColor(),	generateBytes());
 				agent = sm.getFacade().getPrototype(nameField.getText());
 			}
 			else {
@@ -472,6 +470,20 @@ public class EditEntityScreen extends Screen {
 		} 
 		return toReturn;
 
+	}
+	
+	//TODO: separate sendInfo() method into these methods so that 
+	//individual tabs can update prototype info.
+	public boolean sendGeneralInfo(){
+		return false;
+	}
+	
+	public boolean sendFieldInfo(){
+		return false;
+	}
+	
+	public boolean sendTriggerInfo(){
+		return false;
 	}
 
 	public void setEditing(Boolean b) {

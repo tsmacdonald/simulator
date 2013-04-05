@@ -1,5 +1,7 @@
 package edu.wheaton.simulator.statistics;
 
+import java.util.Map.Entry;
+
 import com.google.common.collect.ImmutableMap;
 import edu.wheaton.simulator.entity.EntityID;
 import edu.wheaton.simulator.entity.PrototypeID;
@@ -11,12 +13,27 @@ import edu.wheaton.simulator.entity.PrototypeID;
  * @author Akon, Daniel Gill
  * 
  */
-public class AgentSnapshot extends EntitySnapshot {
+public class AgentSnapshot {
 
+	/*
+	 * The unique id of the agent for this snapshot
+	 */
+	public final EntityID entityID;
+	
 	/**
 	 * The present prototype for the category of this Entity.
 	 */
 	public final PrototypeID prototype;
+	
+	/**
+	 * The saved fields of this entity.
+	 */
+	public final ImmutableMap<String, FieldSnapshot> fields;
+
+	/**
+	 * The point in the simulation at which this snapshot was taken.
+	 */
+	public final Integer step;
 
 	/**
 	 * Constructor
@@ -32,7 +49,9 @@ public class AgentSnapshot extends EntitySnapshot {
 	 */
 	public AgentSnapshot(EntityID entityID, ImmutableMap<String, FieldSnapshot> fields,
 			Integer step, PrototypeID prototype) {
-		super(entityID, fields, step);
+		this.entityID = entityID;
+		this.step = step;
+		this.fields = fields;
 		this.prototype = prototype;
 	}
 
@@ -49,10 +68,16 @@ public class AgentSnapshot extends EntitySnapshot {
 	 * 3 (step - an int)
 	 * 12 (PrototypeID - an int)
 	 */
-	@Override
 	public String serialize(){
-		String s = super.serialize();
-		s = s.replace("EntitySnapshot", "AgentSnapshot"); 
-		return s + "\n" + prototype.getInt(); 
+		String s = "AgentSnapshot";
+		s += "\n" + entityID.getInt();
+		
+		for (Entry<String, FieldSnapshot> entry : fields.entrySet()) {
+			s += "\nFields: " + entry.getValue().serialize();
+		}
+		
+		s += "\n" + step; 
+		s += "\n" + prototype.getInt();
+		return s; 
 	}
 }

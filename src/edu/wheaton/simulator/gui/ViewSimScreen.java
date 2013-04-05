@@ -56,10 +56,10 @@ public class ViewSimScreen extends Screen {
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 		JPanel layerPanel = new JPanel();
 		layerPanel.setLayout(new BoxLayout(layerPanel, BoxLayout.Y_AXIS));
-		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
-		JComboBox agentComboBox = new JComboBox();
-		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
-		JComboBox layerComboBox = new JComboBox();
+//		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
+//		JComboBox agentComboBox = new JComboBox();
+//		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
+//		JComboBox layerComboBox = new JComboBox();
 		
 		
 		//TODO add layer elements
@@ -67,66 +67,69 @@ public class ViewSimScreen extends Screen {
 		//objects for layers:
 		// - combobox(es) for choosing field, colorchooser to pick primary filter color, 
 		//   labels for these, "apply" button, "clear" button
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setMaximumSize(new Dimension(500, 50));
+		
 		gridPanel = new JPanel();
-		JButton pauseButton = new JButton("Pause");
-		JButton backButton = new JButton("Back");
-		JButton startButton = new JButton("Start/Resume");
-		backButton.addActionListener(
-				makeBackButtonListener()
-				);
-		pauseButton.addActionListener(
-				makePauseButtonListener()
-				
-				);
-		startButton.addActionListener(
-				makeStartButtonListener()
-				);
-
 		grid = new GridPanel(sm);
-		buttonPanel.add(startButton);
-		buttonPanel.add(pauseButton);
-		buttonPanel.add(backButton);
+		
 		this.add(label, BorderLayout.NORTH);
-		this.add(buttonPanel, BorderLayout.SOUTH);
+		this.add(makeButtonPanel(), BorderLayout.SOUTH);
 		this.add(grid, BorderLayout.CENTER);
 		this.setVisible(true);	
-
 	}
 	
-	private ActionListener makeBackButtonListener(){
-		return new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				sm.update(sm.getScreen("Edit Simulation")); 
-			} 
-		};
+	private JPanel makeButtonPanel(){
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setMaximumSize(new Dimension(500, 50));
+		buttonPanel.add(makeStartButton());
+		buttonPanel.add(makePauseButton());
+		buttonPanel.add(makeBackButton());
+		return buttonPanel;
 	}
 	
-	private ActionListener makePauseButtonListener(){
-		return new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				sm.setRunning(false);
-			}
-		};
-	}
-	
-	private ActionListener makeStartButtonListener(){
-		//TODO should not re-spawn agents when resuming
-		return new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
-				for (SpawnCondition condition: conditions) {
-					condition.addToGrid(sm.getFacade());
+	private JButton makeBackButton(){
+		JButton b = new JButton("Back");
+		b.addActionListener(
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						sm.update(sm.getScreen("Edit Simulation")); 
+					} 
 				}
-				sm.setRunning(true);
-				sm.setStarted(true);
-				runSim();
-			}
-		};
+				);
+		return b;
+	}
+
+	private JButton makePauseButton(){
+		JButton b = new JButton("Pause");
+		b.addActionListener(
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						sm.setRunning(false);
+					}
+				}
+				);
+		return b;
+	}
+
+	private JButton makeStartButton(){
+		JButton b = new JButton("Start/Resume");
+		b.addActionListener(
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
+						for (SpawnCondition condition: conditions) {
+							condition.addToGrid(sm.getFacade());
+							System.out.println("spawning a condition");
+						}
+						sm.setRunning(true);
+						sm.setStarted(true);
+						runSim();
+					}
+				}
+				);
+		return b;
 	}
 	
 	private void runSim() {
@@ -153,7 +156,6 @@ public class ViewSimScreen extends Screen {
 								@Override
 								public void run() {
 									grid.repaint();
-									grid.agentPaint(grid.getGraphics());
 								}
 							}));
 					

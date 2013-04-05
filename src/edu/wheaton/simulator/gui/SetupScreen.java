@@ -131,7 +131,8 @@ public class SetupScreen extends Screen {
 		//addCondition();
 		//TODO line up components
 		conMainPanel.setLayout(
-				new BorderLayout());
+				new BorderLayout()
+				);
 		conBodyPanel.setLayout(
 				new BoxLayout(conBodyPanel, BoxLayout.Y_AXIS)
 				);
@@ -142,9 +143,9 @@ public class SetupScreen extends Screen {
 		conListPanel.setLayout(
 				new BoxLayout(conListPanel, BoxLayout.Y_AXIS)
 				);
-//		subPanels.get(0).setLayout(
-//				new BoxLayout(subPanels.get(0), BoxLayout.X_AXIS)
-//				);
+		//		subPanels.get(0).setLayout(
+		//				new BoxLayout(subPanels.get(0), BoxLayout.X_AXIS)
+		//				);
 		timePanel.add(timeLabel);
 		timePanel.add(timeField);
 		timePanel.setAlignmentX(CENTER_ALIGNMENT);
@@ -158,11 +159,11 @@ public class SetupScreen extends Screen {
 		conLabelsPanel.add(valueLabel);
 		conLabelsPanel.add(Box.createHorizontalGlue());
 		valueLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//		subPanels.get(0).add(agentTypes.get(0));
-//		//subPanels.get(0).add(operations.get(0));
-//		subPanels.get(0).add(values.get(0));
-//		subPanels.get(0).add(deleteButtons.get(0));
-//		conListPanel.add(subPanels.get(0));
+		//		subPanels.get(0).add(agentTypes.get(0));
+		//		//subPanels.get(0).add(operations.get(0));
+		//		subPanels.get(0).add(values.get(0));
+		//		subPanels.get(0).add(deleteButtons.get(0));
+		//		conListPanel.add(subPanels.get(0));
 		conListPanel.add(addConditionButton);
 		conListPanel.add(glue);
 		conBodyPanel.add(timePanel);
@@ -257,28 +258,30 @@ public class SetupScreen extends Screen {
 		agentNames = agents.toArray(agentNames);
 		timeField.setText(se.getStepLimit() + "");
 		//to prevent accidental starting simulation with time limit of 0
-		if (se.getStepLimit() == 0) {
+		if (se.getStepLimit() <= 0) {
 			timeField.setText(10 + "");
 		}
 		ImmutableMap<PrototypeID, Integer> popLimits = se.getPopLimits();
 		if (popLimits.size() == 0) {
-			addCondition();
+			conListPanel.add(addConditionButton);
+			conListPanel.add(glue);
+			conListPanel.validate();
+			repaint();
 		}
 		else {
 			int i = 0;
 			for (PrototypeID p : popLimits.keySet()) {
 				addCondition();
 				for (String s : agentNames) {
-					//this is pretty hackish: there should be a way to get the name
-					//from the ID
-					//TODO see if that can be added
 					if (sm.getFacade().getPrototype(s).getPrototypeID().equals(p)) {
 						agentTypes.get(i).setSelectedItem(s);
 					}
 				}
 				values.get(i).setText(popLimits.get(p) + "");
+				i++;
 			}
 		}
+
 
 	}
 
@@ -290,8 +293,8 @@ public class SetupScreen extends Screen {
 						BoxLayout.X_AXIS)
 				);
 		//attempting to fix not loading the box on first load
-//		Set<String> f = sm.getFacade().prototypeNames();
-//		agentNames = sm.getFacade().prototypeNames().toArray(agentNames);
+		//		Set<String> f = sm.getFacade().prototypeNames();
+		//		agentNames = sm.getFacade().prototypeNames().toArray(agentNames);
 		JComboBox newBox = new JComboBox(agentNames);
 		newBox.setMaximumSize(new Dimension(300, 40));
 		agentTypes.add(newBox);
@@ -305,6 +308,7 @@ public class SetupScreen extends Screen {
 		newButton.addActionListener(new DeleteListener());
 		deleteButtons.add(newButton);
 		newButton.setActionCommand(deleteButtons.indexOf(newButton) + "");
+		System.out.println(deleteButtons.indexOf(newButton) + "");
 		newPanel.add(newBox);
 		//newPanel.add(newOps);
 		newPanel.add(newValue);
@@ -335,7 +339,7 @@ public class SetupScreen extends Screen {
 		public void actionPerformed(ActionEvent e){
 			int n = Integer.parseInt(e.getActionCommand());
 			String str = (String) agentTypes.get(n).getSelectedItem();
-			//throws exception when there are no agents to choose from 
+			//TODO sometimes throws exception when there are no agents to choose from 
 			sm.getEnder().removePopLimit(
 					sm.getFacade().getPrototype(str).getPrototypeID());
 			conListPanel.remove(subPanels.get(n));
@@ -343,6 +347,11 @@ public class SetupScreen extends Screen {
 			values.remove(n);
 			//operations.remove(n);
 			deleteButtons.remove(n);
+			for (int i = n; i < deleteButtons.size(); i++) {
+				deleteButtons.get(i).setActionCommand(
+						(Integer.parseInt(deleteButtons.get(i).getActionCommand()) - 1) + ""
+						);
+			}
 			subPanels.remove(n);
 			conListPanel.validate();
 			repaint();
