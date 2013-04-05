@@ -10,11 +10,13 @@ package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import net.sourceforge.jeval.EvaluationException;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
+import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
@@ -333,6 +335,55 @@ public class GUIToAgentFacade {
 					grid.spiralSpawn(Prototype.getPrototype("deadBeing").createAgent(), x, y);
 				}
 			}
+	}
+	
+	/**
+	 * Gets a field with the given string. Simple wrapper function.
+	 * @param s The name of the field.
+	 * @return The field to return.
+	 */
+	public Field getGlobalField(String s) {
+		return grid.getField(s);
+	}
+	
+	/**
+	 * Updates the field with the given name to the given value.
+	 * @param name The name of the field to update.
+	 * @param value The new value of the field.
+	 */
+	public void updateGlobalField(String name, String value) {
+		grid.updateField(name, value);
+	}
+	
+	/**
+	 * Gets a map holding all values for the global fields.
+	 * @return A map holding all values for the global fields.
+	 */
+	public Map<String, String> getGlobalFieldMap() {
+		return grid.getFieldMap();
+	}
+	
+	/**
+	 * Adds a global field to the simulation.
+	 * @param name
+	 * @param startingValue
+	 */
+	public void addGlobalField(String name, String startingValue) {
+		try {
+			grid.addField(name, startingValue);
+		} catch (ElementAlreadyContainedException e) {
+			System.out.println("Problem adding a global field. Name already in the map. Exiting.");
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+	
+	/**
+	 * Removes the global field with the given name.
+	 * @param name The name of the field to remove.
+	 */
+	public void removeGlobalField(String name) {
+		grid.removeField(name);
 	}
 
 	/**
