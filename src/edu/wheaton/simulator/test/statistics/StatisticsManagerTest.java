@@ -14,7 +14,6 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -23,12 +22,12 @@ import org.junit.Test;
 
 import com.google.common.collect.ImmutableSet;
 
+import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Grid;
-import edu.wheaton.simulator.entity.Entity;
+import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
-import edu.wheaton.simulator.statistics.EntitySnapshot;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
 import edu.wheaton.simulator.statistics.StatisticsManager;
@@ -47,6 +46,7 @@ public class StatisticsManagerTest {
 	Integer step;
 	PrototypeSnapshot protoSnap;
 	PrototypeSnapshot protoSnap2;
+	AgentSnapshot aSnap;
 	
 	@Before
 	public void setUp() {
@@ -77,6 +77,9 @@ public class StatisticsManagerTest {
 		protoSnap2 = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
 				SnapshotFactory.makeFieldSnapshots(fields), population,
 				children, step);
+		
+		Agent a = prototype.createAgent();
+		aSnap = SnapshotFactory.makeAgentSnapshot(a, step);
 		
 	}
 
@@ -124,10 +127,11 @@ public class StatisticsManagerTest {
 	@Test
 	public void testGetPopVsTime() {
 		sm.addPrototypeSnapshot(protoSnap); 
+		sm.addGridEntity(aSnap);
 		
 		int[] result = sm.getPopVsTime(protoSnap.id);
-		System.out.println(result + "!"); 
-		int[] expected = {1,2,3}; 
+		System.out.println(result[0] + " " + result[1]); 
+		int[] expected = {1}; 
 		Assert.assertArrayEquals(expected, result); 
 	}
 
@@ -139,18 +143,21 @@ public class StatisticsManagerTest {
 		
 		/* create snapshots */
 		for(int i = 0; i < 5; i++) {
-			Entity entity = new Entity();
-			Map<String, String> fields = new HashMap<String, String>();
-			fields.put("name", names[i]);
-			fields.put("weight", "10");
-			ids.add(entity.getEntityID());
+			Agent agent = prototype.createAgent();
+			try {
+				agent.addField("name", names[i]);
+				agent.addField("weight", "10");
+			} catch (ElementAlreadyContainedException e) {
+				e.printStackTrace();
+			}
+			ids.add(agent.getID());
 			for(int s = 1; s < 3; s++) {
-				snaps.add(new AgentSnapshot(entity.getEntityID(), SnapshotFactory.makeFieldSnapshots(fields), s, protoSnap.id));
+				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), s, protoSnap.id));
 			}
 		}
 		
 		/* fill table w/ snapshots */
-		for(EntitySnapshot snap: snaps) {
+		for(AgentSnapshot snap: snaps) {
 			sm.addGridEntity(snap);
 		}
 		
