@@ -3,7 +3,7 @@ package edu.wheaton.simulator.test.gui;
 import edu.wheaton.simulator.gui.Manager;
 import edu.wheaton.simulator.gui.Screen;
 
-public class MockScreen extends Screen implements Comparable {
+public class MockScreen extends Screen implements Comparable<MockScreen> {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -29,11 +29,10 @@ public class MockScreen extends Screen implements Comparable {
 	public String getName(){
 		return name;
 	}
-
-	@Override
-	public int compareTo(Object arg0) {
-		// TODO Auto-generated method stub
-		return 0;
+	
+	public int compareTo(MockScreen other) {
+		return other.getName().compareTo(this.name);
 	}
+
 	
 }
