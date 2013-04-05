@@ -1,7 +1,5 @@
 package edu.wheaton.simulator.test.statistics;
 
-import static org.junit.Assert.fail;
-
 import java.util.HashMap;
 
 import junit.framework.Assert;
@@ -44,18 +42,18 @@ public class SnapshotFactoryTest {
 	@Test
 	public void testMakeAgentSnapshot() {
 		Prototype p = new Prototype(g, "bear"); 
-		Agent a = new Agent(g, p);
+		Agent a = p.createAgent();
 		PrototypeID pID = p.getPrototypeID();
-		AgentID aID = a.getEntityID(); 
+		AgentID aID = a.getID(); 
 		Integer step = 15; 
 		
 		AgentSnapshot ass = SnapshotFactory.makeAgentSnapshot(a, step);
 		
-		Assert.assertNotNull(ass.entityID);
+		Assert.assertNotNull(ass.id);
 		Assert.assertNotNull(ass.fields);
 		Assert.assertNotNull(ass.prototype);
 		Assert.assertNotNull(ass.step);
-		Assert.assertEquals(ass.entityID, aID);
+		Assert.assertEquals(ass.id, aID);
 		Assert.assertEquals(ass.prototype, pID);
 		Assert.assertEquals(ass.step, step);
 	}
@@ -128,10 +126,4 @@ public class SnapshotFactoryTest {
 		
 		fieldMap.get(name1).getNumericalValue();
 	}
-
-	@Test
-	public void testMakePrototypeSnapshot() {
-		fail("Not yet implemented");
-	}
-
 }
