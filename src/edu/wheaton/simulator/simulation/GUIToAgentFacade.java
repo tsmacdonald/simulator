@@ -220,6 +220,18 @@ public class GUIToAgentFacade {
 		return grid;
 	}
 
+	public void setPriorityUpdate() {
+		grid.setPriorityUpdater();
+	}
+	
+	public void setAtomicUpdate() {
+		grid.setAtomicUpdater();
+	}
+	
+	public void setLinearUpdate() {
+		grid.setLinearUpdater();
+	}
+	
 	/**
 	 * Returns a List of Triggers for a specific prototype
 	 * 

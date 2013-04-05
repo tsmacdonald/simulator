@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 
+import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+
 public class NewSimScreenFinishListener implements ActionListener {
 	
 	private JTextField name;
@@ -25,6 +27,7 @@ public class NewSimScreenFinishListener implements ActionListener {
 			int heightInt = getHeight();
 			int widthInt = getWidth();
 			sm.setFacade(widthInt, heightInt);
+			sm.getFacade().initGameOfLife();
 			sm.updateGUIManager(getName(), widthInt, heightInt);
 		} catch(java.lang.NumberFormatException nfe) { 
 			System.err.println("Invalid input passed to NewSimScreenFinishListener");
