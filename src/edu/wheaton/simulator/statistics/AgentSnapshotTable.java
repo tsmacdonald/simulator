@@ -13,28 +13,28 @@ import edu.wheaton.simulator.entity.EntityID;
  * 
  * @author Akonwi, Daniel Gill
  */
-public class EntitySnapshotTable {
+public class AgentSnapshotTable {
 
 	/**
 	 * This table will be used to put the snapshots into
 	 */
-	private TreeBasedTable<EntityID, Integer, EntitySnapshot> table;
+	private TreeBasedTable<EntityID, Integer, AgentSnapshot> table;
 
 	/**
 	 * Constructor.
 	 */
-	public EntitySnapshotTable() {
+	public AgentSnapshotTable() {
 		table = TreeBasedTable.create();
 	}
 
 	/**
 	 * Put a snapshot of the given entity into the Grid.
 	 * 
-	 * @param entitySnapshot
+	 * @param AgentSnapshot
 	 *            The Snapshot to be stored. The entity to be captured.
 	 */
-	public void putEntity(EntitySnapshot entitySnapshot) {
-		table.put(entitySnapshot.entityID, entitySnapshot.step, entitySnapshot);
+	public void putEntity(AgentSnapshot AgentSnapshot) {
+		table.put(AgentSnapshot.entityID, AgentSnapshot.step, AgentSnapshot);
 	}
 
 	/**
@@ -44,10 +44,10 @@ public class EntitySnapshotTable {
 	 * 
 	 * @param step
 	 *            The point in time at which to examine the simulation.
-	 * @return an ImmutableMap from EntityID's to EntitySnapshots.
+	 * @return an ImmutableMap from EntityID's to AgentSnapshots.
 	 */
-	public ImmutableMap<EntityID, EntitySnapshot> getSnapshotsAtStep(int step) {
-		return new ImmutableMap.Builder<EntityID, EntitySnapshot>().putAll(
+	public ImmutableMap<EntityID, AgentSnapshot> getSnapshotsAtStep(int step) {
+		return new ImmutableMap.Builder<EntityID, AgentSnapshot>().putAll(
 				table.column(step)).build();
 	}
 
@@ -58,11 +58,11 @@ public class EntitySnapshotTable {
 	 * 
 	 * @param id
 	 *            the EntityID of GridEntity to query for
-	 * @return an ImmutableMap<Integer, EntitySnapshot>
+	 * @return an ImmutableMap<Integer, AgentSnapshot>
 	 */
-	public ImmutableMap<Integer, EntitySnapshot> getSnapshotsOfEntity(
+	public ImmutableMap<Integer, AgentSnapshot> getSnapshotsOfEntity(
 			EntityID entityID) {
-		ImmutableMap.Builder<Integer, EntitySnapshot> builder = new ImmutableMap.Builder<Integer, EntitySnapshot>();
+		ImmutableMap.Builder<Integer, AgentSnapshot> builder = new ImmutableMap.Builder<Integer, AgentSnapshot>();
 		builder.putAll(table.row(entityID));
 		return builder.build();
 	}
@@ -113,9 +113,9 @@ public class EntitySnapshotTable {
 	 * Get the snapshot at given row, column
 	 * @param id of snapshot
 	 * @param step of the game
-	 * @return an entitysnapshot
+	 * @return an AgentSnapshot
 	 */
-	public EntitySnapshot get(EntityID id, int step) {
+	public AgentSnapshot get(EntityID id, int step) {
 		return table.get(id, step);
 	}
 
