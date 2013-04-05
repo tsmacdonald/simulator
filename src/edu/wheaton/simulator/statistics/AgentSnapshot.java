@@ -3,7 +3,6 @@ package edu.wheaton.simulator.statistics;
 import java.util.Map.Entry;
 
 import com.google.common.collect.ImmutableMap;
-import edu.wheaton.simulator.entity.id;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.PrototypeID;
 
