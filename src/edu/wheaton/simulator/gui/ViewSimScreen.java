@@ -18,12 +18,14 @@ import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.colorchooser.AbstractColorChooserPanel;
 
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
@@ -33,7 +35,7 @@ import edu.wheaton.simulator.statistics.StatisticsManager;
 public class ViewSimScreen extends Screen {
 
 	private JPanel gridPanel;
-
+	
 	private int height;
 
 	private int width;
@@ -56,11 +58,16 @@ public class ViewSimScreen extends Screen {
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 		JPanel layerPanel = new JPanel();
 		layerPanel.setLayout(new BoxLayout(layerPanel, BoxLayout.Y_AXIS));
-//		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
-//		JComboBox agentComboBox = new JComboBox();
-//		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
-//		JComboBox layerComboBox = new JComboBox();
-		
+		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
+		JComboBox agentComboBox = new JComboBox();
+		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
+		JComboBox layerComboBox = new JComboBox();
+		JColorChooser color = new JColorChooser();
+		AbstractColorChooserPanel panels[] = { new DefaultSwatchChoserPanel() };
+		color.setChooserPanels(panels);
+		agentComboBox.setSize(new Dimension(500, 50));
+		layerComboBox.setSize(new Dimension(500, 50));
+		layerPanel.setSize(new Dimension(600, 2000));
 		
 		//TODO add layer elements
 		//set Layout
@@ -70,7 +77,11 @@ public class ViewSimScreen extends Screen {
 		
 		gridPanel = new JPanel();
 		grid = new GridPanel(sm);
-		
+		this.add(layerPanel, BorderLayout.WEST);
+		layerPanel.add(agents);
+		layerPanel.add(agentComboBox);
+		layerPanel.add(layers);
+		layerPanel.add(layerComboBox);
 		this.add(label, BorderLayout.NORTH);
 		this.add(makeButtonPanel(), BorderLayout.SOUTH);
 		this.add(grid, BorderLayout.CENTER);
