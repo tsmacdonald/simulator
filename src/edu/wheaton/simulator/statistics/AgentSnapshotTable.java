@@ -33,8 +33,8 @@ public class AgentSnapshotTable {
 	 * @param AgentSnapshot
 	 *            The Snapshot to be stored. The entity to be captured.
 	 */
-	public void putEntity(AgentSnapshot AgentSnapshot) {
-		table.put(AgentSnapshot.entityID, AgentSnapshot.step, AgentSnapshot);
+	public void putEntity(AgentSnapshot snap) {
+		table.put(snap.id, snap.step, snap);
 	}
 
 	/**
@@ -61,9 +61,9 @@ public class AgentSnapshotTable {
 	 * @return an ImmutableMap<Integer, AgentSnapshot>
 	 */
 	public ImmutableMap<Integer, AgentSnapshot> getSnapshotsOfEntity(
-			AgentID entityID) {
+			AgentID id) {
 		ImmutableMap.Builder<Integer, AgentSnapshot> builder = new ImmutableMap.Builder<Integer, AgentSnapshot>();
-		builder.putAll(table.row(entityID));
+		builder.putAll(table.row(id));
 		return builder.build();
 	}
 
@@ -75,8 +75,8 @@ public class AgentSnapshotTable {
 	 * @return true or false depending on whether the table has a row for the
 	 *         given id
 	 */
-	public boolean containsEntity(AgentID entityID) {
-		return table.containsRow(entityID);
+	public boolean containsEntity(AgentID id) {
+		return table.containsRow(id);
 	}
 
 	/**

@@ -3,6 +3,7 @@ package edu.wheaton.simulator.statistics;
 import java.util.Map.Entry;
 
 import com.google.common.collect.ImmutableMap;
+import edu.wheaton.simulator.entity.id;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.PrototypeID;
 
@@ -18,7 +19,7 @@ public class AgentSnapshot {
 	/*
 	 * The unique id of the agent for this snapshot
 	 */
-	public final AgentID entityID;
+	public final AgentID id;
 	
 	/**
 	 * The present prototype for the category of this Entity.
@@ -47,9 +48,9 @@ public class AgentSnapshot {
 	 * @param prototype
 	 *            The prototype for this category of Agent.
 	 */
-	public AgentSnapshot(AgentID entityID, ImmutableMap<String, FieldSnapshot> fields,
+	public AgentSnapshot(AgentID id, ImmutableMap<String, FieldSnapshot> fields,
 			Integer step, PrototypeID prototype) {
-		this.entityID = entityID;
+		this.id = id;
 		this.step = step;
 		this.fields = fields;
 		this.prototype = prototype;
@@ -62,7 +63,7 @@ public class AgentSnapshot {
 	 * Format: (Stuff in parentheses is just notes - not actually there)
 	 * -----------------------------------------------------------------
 	 * AgentSnapshot
-	 * 145 (EntityID - just an int)
+	 * 145 (id - just an int)
 	 * Fields: FieldSnapshot Name Value
 	 * Fields: FieldSnapshot Name Value
 	 * 3 (step - an int)
@@ -70,7 +71,7 @@ public class AgentSnapshot {
 	 */
 	public String serialize(){
 		String s = "AgentSnapshot";
-		s += "\n" + entityID.getInt();
+		s += "\n" + id.getInt();
 		
 		for (Entry<String, FieldSnapshot> entry : fields.entrySet()) {
 			s += "\nFields: " + entry.getValue().serialize();

@@ -4,9 +4,7 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
-import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.entity.GridEntity;
 import edu.wheaton.simulator.entity.Prototype;
 
 /**
@@ -25,7 +23,7 @@ public class SnapshotFactory {
 	 */
 	public static AgentSnapshot makeAgentSnapshot(Agent agent,
 			Integer step) {
-		return new AgentSnapshot(agent.getEntityID(), 
+		return new AgentSnapshot(agent.getID(), 
 				makeFieldSnapshots(agent.getCustomFieldMap()), step, 
 				agent.getPrototype().getPrototypeID());
 	}
