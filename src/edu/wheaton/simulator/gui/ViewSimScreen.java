@@ -121,6 +121,7 @@ public class ViewSimScreen extends Screen {
 						ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
 						for (SpawnCondition condition: conditions) {
 							condition.addToGrid(sm.getFacade());
+							System.out.println("spawning a condition");
 						}
 						sm.setRunning(true);
 						sm.setStarted(true);
