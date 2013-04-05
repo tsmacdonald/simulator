@@ -9,8 +9,6 @@ package edu.wheaton.simulator.test.statistics;
  * 25 Mar 2013
  */
 
-import java.util.HashMap;
-
 import junit.framework.Assert;
 
 import org.junit.After;
