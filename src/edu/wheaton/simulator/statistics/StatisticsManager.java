@@ -42,17 +42,17 @@ public class StatisticsManager {
 	 * The point at which the simulation started. 
 	 */
 	private long startTime; 
-	
+
 	/**
 	 * The point in time of the most recent step in the simulation. 
 	 */
 	private long mostRecentTime; 
-	
+
 	/**
 	 * The total duration of the simulation so far.
 	 */
 	private long totalTime;
-	
+
 	// TODO: Some sort of behavior queue mapping AgentID's to behavior
 	// representations.
 
@@ -64,7 +64,7 @@ public class StatisticsManager {
 		gridObserver = new GridRecorder(this);
 		prototypes = new HashMap<Integer, Map<PrototypeID, PrototypeSnapshot>>();
 	}
-	
+
 	/**
 	 * Set the point in time at which the simulation began. 
 	 * @param startTime The time (in ms) when the simulation started.
@@ -72,7 +72,7 @@ public class StatisticsManager {
 	public void setStartTime(long startTime) { 
 		this.startTime = startTime; 
 	}
-	
+
 	/**
 	 * Update the most recent point in time in the simulation. 
 	 * @param mostRecentTime The time (in ms) at which the most recent iteration occurred.  
@@ -80,7 +80,7 @@ public class StatisticsManager {
 	public void updateRecentTime(long mostRecentTime) { 
 		this.mostRecentTime = Math.max(this.mostRecentTime, mostRecentTime); 
 	}
-	
+
 	/**
 	 * Update the total duration of the simulation.
 	 * @param newTime The new total time (in ms).
@@ -88,7 +88,7 @@ public class StatisticsManager {
 	public void updateTotalTime(long newTime) {
 		this.totalTime = newTime;
 	}
-	
+
 	/**
 	 * Get the number of steps taken in the simulation so far.
 	 * @return The number of steps taken in the simulation so far.
@@ -96,7 +96,7 @@ public class StatisticsManager {
 	public int getLastStep() {
 		return lastStep;
 	}
-	
+
 	/**
 	 * Get the starting time of the simulation.
 	 * @return The starting time of the simulation (System time, in ms).
@@ -104,7 +104,7 @@ public class StatisticsManager {
 	public long getSimulationStartTime() {
 		return startTime;
 	}
-	
+
 	/**
 	 * Get the duration of the simulation in ms. 
 	 * @return The duration of the simulation in ms. 
@@ -305,8 +305,8 @@ public class StatisticsManager {
 			System.out.println("\t\tD: " + deathTime);
 			avg += deathTime - birthTime;
 		}
-System.out.println("avg: " + avg);
-System.out.println("allAgents.size(): " + allAgents.size());
+		System.out.println("avg: " + avg);
+		System.out.println("allAgents.size(): " + allAgents.size());
 		return avg / allAgents.size();
 	}
 

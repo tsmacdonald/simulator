@@ -169,7 +169,7 @@ public class StatisticsManagerTest {
 		}
 	}
 
-	/*@Test
+	@Test
 	public void testGetAvgLifespan() {
 		sm.addPrototypeSnapshot(protoSnap); 
 		
@@ -179,6 +179,6 @@ public class StatisticsManagerTest {
 		catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} 
-	}*/
+	}
 
 }
