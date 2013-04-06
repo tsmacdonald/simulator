@@ -10,7 +10,7 @@ import edu.wheaton.simulator.entity.Prototype;
  * @author Daniel Gill, Nico Lasta
  *
  */
-public class GridRecorder {
+public class SimulationRecorder {
 
 	//private static int ii = 0; 
 
@@ -19,7 +19,7 @@ public class GridRecorder {
 	/**
 	 * Constructor.
 	 */
-	public GridRecorder(StatisticsManager statManager) {
+	public SimulationRecorder(StatisticsManager statManager) {
 		this.statManager = statManager;
 	}
 
