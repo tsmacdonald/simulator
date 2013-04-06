@@ -63,7 +63,7 @@ public class StatisticsManagerTest {
 		children = prototype.childIDs();
 		step = new Integer(1);
 		
-		protoSnap = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
+		protoSnap = new PrototypeSnapshot(categoryName,
 				SnapshotFactory.makeFieldSnapshots(fields), population,
 				children, step);
 		
@@ -75,7 +75,7 @@ public class StatisticsManagerTest {
 		population = 40;
 		step = new Integer(2);
 		
-		protoSnap2 = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
+		protoSnap2 = new PrototypeSnapshot(categoryName,
 				SnapshotFactory.makeFieldSnapshots(fields), population,
 				children, step);
 		
@@ -104,7 +104,7 @@ public class StatisticsManagerTest {
 		Prototype p = new Prototype(g, "TestPrototype"); 
 		Assert.assertNotNull(p); 
 		
-		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname", p.getPrototypeID(),
+		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname",
 				SnapshotFactory.makeFieldSnapshots(new HashMap<String, String>()), 100, p.childIDs(), new Integer(2)); 
 		
 		sm.addPrototypeSnapshot(protoSnap);

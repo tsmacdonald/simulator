@@ -129,11 +129,11 @@ public class StatisticsManager {
 	public void addPrototypeSnapshot(PrototypeSnapshot prototypeSnapshot) { 
 		if (prototypeSnapshot.step > lastStep) 
 			lastStep = prototypeSnapshot.step; 
-		Map<PrototypeID, PrototypeSnapshot> typeMap; 
+		Map<String, PrototypeSnapshot> typeMap; 
 		if ((typeMap = prototypes.get(prototypeSnapshot.step)) != null) { 
-			typeMap.put(prototypeSnapshot.id, prototypeSnapshot);
+			typeMap.put(prototypeSnapshot.categoryName, prototypeSnapshot);
 		} else { 
-			typeMap = new TreeMap<PrototypeID, PrototypeSnapshot>();
+			typeMap = new TreeMap<String, PrototypeSnapshot>();
 			prototypes.put(new Integer(prototypeSnapshot.step), typeMap); 
 		}
 	}
