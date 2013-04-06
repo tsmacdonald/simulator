@@ -27,6 +27,7 @@ import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.entity.PrototypeID;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
@@ -62,7 +63,7 @@ public class StatisticsManagerTest {
 		children = prototype.childIDs();
 		step = new Integer(1);
 		
-		protoSnap = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
+		protoSnap = new PrototypeSnapshot(categoryName,
 				SnapshotFactory.makeFieldSnapshots(fields), population,
 				children, step);
 		
@@ -74,7 +75,7 @@ public class StatisticsManagerTest {
 		population = 40;
 		step = new Integer(2);
 		
-		protoSnap2 = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
+		protoSnap2 = new PrototypeSnapshot(categoryName,
 				SnapshotFactory.makeFieldSnapshots(fields), population,
 				children, step);
 		
@@ -103,7 +104,7 @@ public class StatisticsManagerTest {
 		Prototype p = new Prototype(g, "TestPrototype"); 
 		Assert.assertNotNull(p); 
 		
-		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname", p.getPrototypeID(),
+		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname",
 				SnapshotFactory.makeFieldSnapshots(new HashMap<String, String>()), 100, p.childIDs(), new Integer(2)); 
 		
 		sm.addPrototypeSnapshot(protoSnap);
@@ -115,18 +116,14 @@ public class StatisticsManagerTest {
 	}
 
 	@Test
-	public void testGetPrototypeIDs() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testGetPopVsTime() {
 		sm.addPrototypeSnapshot(protoSnap); 
 		sm.addGridEntity(aSnap);
 		
-		int[] result = sm.getPopVsTime(protoSnap.id);
+		int[] result = sm.getPopVsTime(protoSnap.categoryName);
 		System.out.println(result[0] + " " + result[1]); 
 		int[] expected = {1}; 
+		System.out.println(result.length);
 		Assert.assertArrayEquals(expected, result); 
 	}
 
@@ -147,7 +144,7 @@ public class StatisticsManagerTest {
 			}
 			ids.add(agent.getID());
 			for(int s = 1; s < 3; s++) {
-				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), s, protoSnap.id));
+				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), s, protoSnap.categoryName));
 			}
 		}
 		
@@ -157,7 +154,7 @@ public class StatisticsManagerTest {
 		}
 		
 		/* test method */
-		double[] avg = sm.getAvgFieldValue(protoSnap.id, "weight");
+		double[] avg = sm.getAvgFieldValue(protoSnap.categoryName, "weight");
 		for(double i : avg) {
 			int a = (int) i;
 			org.junit.Assert.assertEquals(10, a);
@@ -166,10 +163,28 @@ public class StatisticsManagerTest {
 
 	@Test
 	public void testGetAvgLifespan() {
-		sm.addPrototypeSnapshot(protoSnap); 
+		ArrayList<AgentSnapshot> snaps = new ArrayList<AgentSnapshot>();
+		HashSet<AgentID> ids = new HashSet<AgentID>();
+		//int[] lifespans = {2, 4, 6, 8, 10}; 
+		
+		/* create snapshots */
+		for(int i = 0; i < 1 /* 5 */; i++) {
+			Agent agent = prototype.createAgent();
+
+			ids.add(agent.getID());
+			for(int step = 0; step < 4 /* lifespans[i] */; step++) {
+				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step, protoSnap.categoryName));
+			}
+		}
+		
+		/* fill table w/ snapshots */
+		for(AgentSnapshot snap: snaps) {
+			sm.addGridEntity(snap);
+		}		
 		
 		try {
-			sm.getAvgLifespan(protoSnap.id);
+			double result = sm.getAvgLifespan(protoSnap.categoryName);
+			System.out.println("Result: " + result); 
 		}
 		catch (IllegalArgumentException e) {
 			e.printStackTrace();
