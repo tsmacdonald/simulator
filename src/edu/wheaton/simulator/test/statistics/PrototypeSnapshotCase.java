@@ -62,7 +62,7 @@ public class PrototypeSnapshotCase {
 	 */
 	@Test
 	public void prototypeSnapshotTest() {
-		PrototypeSnapshot protoSnap = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
+		PrototypeSnapshot protoSnap = new PrototypeSnapshot(categoryName, 
 				SnapshotFactory.makeFieldSnapshots(fields), population,
 				children, step);
 		Assert.assertNotNull("PrototypeSnapshot not created.", protoSnap);
@@ -73,7 +73,7 @@ public class PrototypeSnapshotCase {
 	 */
 	@Test
 	public void serializeTest(){
-		PrototypeSnapshot protoSnap = new PrototypeSnapshot(categoryName, prototype.getPrototypeID(),
+		PrototypeSnapshot protoSnap = new PrototypeSnapshot(categoryName, 
 				SnapshotFactory.makeFieldSnapshots(fields), population,
 				children, step);
 		

@@ -6,8 +6,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.entity.AgentID;
-import edu.wheaton.simulator.entity.PrototypeID;
-
 
 /**
  * Represents a category of agent at a particular moment in time.
@@ -15,11 +13,6 @@ import edu.wheaton.simulator.entity.PrototypeID;
  * @author Daniel Gill, Akon Ngoh
  */
 public class PrototypeSnapshot {
-
-	/**
-	 * The PrototypeID of this Prototype. 
-	 */
-	public final PrototypeID id;
 	
 	/**
 	 * The name of this category of agent.
@@ -55,7 +48,7 @@ public class PrototypeSnapshot {
 	 * @param poulation The number of this prototype's children. 
 	 * @param step The current moment in time. 
 	 */
-	public PrototypeSnapshot(String categoryName, PrototypeID id,
+	public PrototypeSnapshot(String categoryName,
 			ImmutableMap<String, FieldSnapshot> fields, int population,
 			ImmutableSet<AgentID> children, Integer step) {
 		this.categoryName = categoryName; 
@@ -63,7 +56,6 @@ public class PrototypeSnapshot {
 		this.children = children;
 		this.population = children.size(); 
 		this.step = step; 
-		this.id = id; 
 	}
 	
 	/**
@@ -73,7 +65,6 @@ public class PrototypeSnapshot {
 	 * Format: (Stuff in parentheses is just notes - not actually there)
 	 * -----------------------------------------------------------------
 	 * PrototypeSnapshot
-	 * 124 (id)
 	 * Dog (categoryName)
 	 * DefaultFields: FieldSnapshot Name Value
 	 * DefaultFields: FieldSnapshot Name Value
@@ -85,7 +76,6 @@ public class PrototypeSnapshot {
 	 */
 	public String serialize(){
 		String s = "PrototypeSnapshot";
-		s += "\n" + id.getInt();
 		s += "\n" + categoryName; 
 		
 		//Serialize the defaultFields map
