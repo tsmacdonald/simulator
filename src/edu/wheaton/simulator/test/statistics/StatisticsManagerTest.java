@@ -123,6 +123,7 @@ public class StatisticsManagerTest {
 		int[] result = sm.getPopVsTime(protoSnap.categoryName);
 		System.out.println(result[0] + " " + result[1]); 
 		int[] expected = {1}; 
+		System.out.println(result.length);
 		Assert.assertArrayEquals(expected, result); 
 	}
 
