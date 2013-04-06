@@ -159,6 +159,7 @@ public class ViewSimScreen extends Screen {
 								System.out.println("spawning a condition");
 							}
 						}
+						grid.repaint();
 						backButton.setEnabled(false);
 						sm.setRunning(true);
 						sm.setStarted(true);
@@ -185,6 +186,7 @@ public class ViewSimScreen extends Screen {
 					} catch (SimulationPauseException e) {
 						sm.setRunning(false);
 						JOptionPane.showMessageDialog(null, e.getMessage());
+						break;
 					}
 					long currentTime = System.currentTimeMillis();
 					gridRec.recordSimulationStep(sm.getFacade().getGrid(), stepCount, Prototype.getPrototypes());
@@ -193,7 +195,7 @@ public class ViewSimScreen extends Screen {
 					stepCount++;
 					sm.setRunning(!(sm.getEnder().evaluate(stepCount, 
 							sm.getFacade().getGrid())));
-					//setEndTime if it ends; should that be handled in statistics code?
+					//TODO setEndTime if it ends; should that be handled in statistics code?
 
 					SwingUtilities.invokeLater(
 							new Thread (new Runnable() {
