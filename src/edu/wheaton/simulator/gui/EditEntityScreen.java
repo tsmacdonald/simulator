@@ -335,7 +335,7 @@ public class EditEntityScreen extends Screen {
 		for (String s : fields.keySet()) {
 			addField();
 			fieldNames.get(i).setText(s);
-			fieldValues.get(i).setText(s);
+			fieldValues.get(i).setText(fields.get(s));
 			i++;
 		}
 		List<Trigger> triggers = agent.getTriggers();

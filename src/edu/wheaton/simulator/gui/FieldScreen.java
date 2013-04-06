@@ -63,7 +63,8 @@ public class FieldScreen extends Screen {
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		//panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		
 //		JLabel xLabel = new JLabel("X Pos: ");
 //		xPos = new JComboBox();
 //		xPos.setMaximumSize(new Dimension(150, 40));
@@ -84,6 +85,7 @@ public class FieldScreen extends Screen {
 		listModel = new DefaultListModel();
 		fields = new JList(listModel);
 		fields.setMaximumSize(new Dimension(400, 800));
+		fields.setFixedCellWidth(400);
 		fields.setLayoutOrientation(JList.VERTICAL_WRAP);
 		fields.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		fields.setVisibleRowCount(20);
@@ -101,7 +103,7 @@ public class FieldScreen extends Screen {
 					public void actionPerformed(ActionEvent e) {
 						if(!editing)
 							editing = true;
-						((EditFieldScreen) (sm.getScreen("Edit Fields"))).load((String) fields.getSelectedValue());
+						((EditFieldScreen) sm.getScreen("Edit Fields")).load((String) fields.getSelectedValue());
 						sm.update(sm.getScreen("Edit Fields"));
 					}
 				}
