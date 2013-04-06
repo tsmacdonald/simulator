@@ -29,7 +29,7 @@ public class ConwayFinishListener implements ActionListener {
 			System.err.println("Invalid input passed to ConwayFinishListener");
 		}
 		Screen upload = sm.getScreen("Edit Simulation");
-		//TODO Is there anything else that needs to happen here?
+		sm.getFacade().setPriorityUpdate();
 		sm.getFacade().initGameOfLife();
 		sm.update(upload);
 		sm.loadScreen(upload);

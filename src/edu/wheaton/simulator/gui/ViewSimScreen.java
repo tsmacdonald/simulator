@@ -35,7 +35,7 @@ import edu.wheaton.simulator.statistics.StatisticsManager;
 public class ViewSimScreen extends Screen {
 
 	private JPanel gridPanel;
-	
+
 	private int height;
 
 	private int width;
@@ -49,48 +49,65 @@ public class ViewSimScreen extends Screen {
 	private GridPanel grid;
 
 	private int stepCount;
+	
+	private JButton backButton;
+	
+	private long startTime;
+	
+	private long endTime;
+	
+	private GridRecorder gridRec;
 
+	//TODO figure out best way to have agents drawn before pressing start, without creating issues
+	//with later changing spawn conditions
 	public ViewSimScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
 		this.sm = sm;
+		gridRec = new GridRecorder(sm.getStatManager());
 		stepCount = 0;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 		JPanel layerPanel = new JPanel();
 		layerPanel.setLayout(new BoxLayout(layerPanel, BoxLayout.Y_AXIS));
+		JPanel panel1 = new JPanel();
+		panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
 		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
 		JComboBox agentComboBox = new JComboBox();
+		panel1.add(agents);
+		panel1.add(agentComboBox);
+		JPanel panel2 = new JPanel();
+		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
 		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
 		JComboBox layerComboBox = new JComboBox();
+		panel2.add(layers);
+		panel2.add(layerComboBox);
 		JColorChooser color = new JColorChooser();
 		//Commented out because of type error
-//		AbstractColorChooserPanel panels[] = { new DefaultSwatchChoserPanel() };
-//		color.setChooserPanels(panels);
+		//		AbstractColorChooserPanel panels[] = { new DefaultSwatchChoserPanel() };
+		//		color.setChooserPanels(panels);
 		//AbstractColorChooserPanel panels[] = { new DefaultSwatchChoserPanel() };
 		//color.setChooserPanels(panels);
-		agentComboBox.setSize(new Dimension(500, 50));
-		layerComboBox.setSize(new Dimension(500, 50));
-		layerPanel.setSize(new Dimension(600, 2000));
-		
+		agentComboBox.setMinimumSize(new Dimension(500, 50));
+		layerComboBox.setMinimumSize(new Dimension(500, 50));
+		layerPanel.setMinimumSize(new Dimension(600, 1000));
+
 		//TODO add layer elements
 		//set Layout
 		//objects for layers:
 		// - combobox(es) for choosing field, colorchooser to pick primary filter color, 
 		//   labels for these, "apply" button, "clear" button
-		
+
 		gridPanel = new JPanel();
 		grid = new GridPanel(sm);
 		this.add(layerPanel, BorderLayout.WEST);
-		layerPanel.add(agents);
-		layerPanel.add(agentComboBox);
-		layerPanel.add(layers);
-		layerPanel.add(layerComboBox);
+		layerPanel.add(panel1);
+		layerPanel.add(panel2);
 		this.add(label, BorderLayout.NORTH);
 		this.add(makeButtonPanel(), BorderLayout.SOUTH);
 		this.add(grid, BorderLayout.CENTER);
 		this.setVisible(true);	
 	}
-	
+
 	private JPanel makeButtonPanel(){
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setMaximumSize(new Dimension(500, 50));
@@ -99,7 +116,7 @@ public class ViewSimScreen extends Screen {
 		buttonPanel.add(makeBackButton());
 		return buttonPanel;
 	}
-	
+
 	private JButton makeBackButton(){
 		JButton b = new JButton("Back");
 		b.addActionListener(
@@ -110,6 +127,7 @@ public class ViewSimScreen extends Screen {
 					} 
 				}
 				);
+		backButton = b;
 		return b;
 	}
 
@@ -120,6 +138,8 @@ public class ViewSimScreen extends Screen {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.setRunning(false);
+						backButton.setEnabled(true);
+						endTime = System.currentTimeMillis();
 					}
 				}
 				);
@@ -132,27 +152,33 @@ public class ViewSimScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
-						for (SpawnCondition condition: conditions) {
-							condition.addToGrid(sm.getFacade());
-							System.out.println("spawning a condition");
+						if (!sm.hasStarted()) {
+							ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
+							for (SpawnCondition condition: conditions) {
+								condition.addToGrid(sm.getFacade());
+								System.out.println("spawning a condition");
+							}
 						}
+						backButton.setEnabled(false);
 						sm.setRunning(true);
 						sm.setStarted(true);
+						startTime = System.currentTimeMillis();
+						if (stepCount == 0) {
+							sm.getStatManager().setStartTime(startTime);
+						}
 						runSim();
 					}
 				}
 				);
 		return b;
 	}
-	
+
 	private void runSim() {
 		System.out.println(sm.getEnder().getStepLimit());
 		//program loop yay!
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				GridRecorder gridObs = new GridRecorder(new StatisticsManager());
 				while(sm.isRunning()) {
 					try {
 						sm.getFacade().updateEntities();
@@ -160,10 +186,14 @@ public class ViewSimScreen extends Screen {
 						sm.setRunning(false);
 						JOptionPane.showMessageDialog(null, e.getMessage());
 					}
-					gridObs.recordSimulationStep(sm.getFacade().getGrid(), stepCount, Prototype.getPrototypes());
+					long currentTime = System.currentTimeMillis();
+					gridRec.recordSimulationStep(sm.getFacade().getGrid(), stepCount, Prototype.getPrototypes());
+					gridRec.updateTime(currentTime, currentTime - startTime);
+					startTime = currentTime;
 					stepCount++;
 					sm.setRunning(!(sm.getEnder().evaluate(stepCount, 
 							sm.getFacade().getGrid())));
+					//setEndTime if it ends; should that be handled in statistics code?
 
 					SwingUtilities.invokeLater(
 							new Thread (new Runnable() {
@@ -172,7 +202,7 @@ public class ViewSimScreen extends Screen {
 									grid.repaint();
 								}
 							}));
-					
+
 					System.out.println(stepCount);
 					try {
 						System.out.println("Sleep!");
@@ -188,6 +218,7 @@ public class ViewSimScreen extends Screen {
 
 	@Override
 	public void load() {
+		validate();
 		grid.repaint();
 	}
 }

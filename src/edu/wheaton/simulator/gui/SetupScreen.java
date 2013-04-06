@@ -291,9 +291,6 @@ public class SetupScreen extends Screen {
 				new BoxLayout(newPanel, 
 						BoxLayout.X_AXIS)
 				);
-		//attempting to fix not loading the box on first load
-		//		Set<String> f = sm.getFacade().prototypeNames();
-		//		agentNames = sm.getFacade().prototypeNames().toArray(agentNames);
 		JComboBox newBox = new JComboBox(agentNames);
 		newBox.setMaximumSize(new Dimension(300, 40));
 		agentTypes.add(newBox);
@@ -339,8 +336,10 @@ public class SetupScreen extends Screen {
 			int n = Integer.parseInt(e.getActionCommand());
 			String str = (String) agentTypes.get(n).getSelectedItem();
 			//TODO sometimes throws exception when there are no agents to choose from 
-			sm.getEnder().removePopLimit(
-					sm.getFacade().getPrototype(str).getPrototypeID());
+			if (str != null) {
+				sm.getEnder().removePopLimit(
+						sm.getFacade().getPrototype(str).getPrototypeID());
+			}
 			conListPanel.remove(subPanels.get(n));
 			agentTypes.remove(n);
 			values.remove(n);
@@ -352,7 +351,7 @@ public class SetupScreen extends Screen {
 						);
 			}
 			subPanels.remove(n);
-			conListPanel.validate();
+			validate();
 			repaint();
 		}
 
