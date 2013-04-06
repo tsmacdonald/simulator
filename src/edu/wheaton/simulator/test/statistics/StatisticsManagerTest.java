@@ -171,10 +171,28 @@ public class StatisticsManagerTest {
 
 	@Test
 	public void testGetAvgLifespan() {
-		sm.addPrototypeSnapshot(protoSnap); 
+		ArrayList<AgentSnapshot> snaps = new ArrayList<AgentSnapshot>();
+		HashSet<AgentID> ids = new HashSet<AgentID>();
+		//int[] lifespans = {2, 4, 6, 8, 10}; 
+		
+		/* create snapshots */
+		for(int i = 0; i < 1 /* 5 */; i++) {
+			Agent agent = prototype.createAgent();
+
+			ids.add(agent.getID());
+			for(int step = 0; step < 4 /* lifespans[i] */; step++) {
+				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step, protoSnap.id));
+			}
+		}
+		
+		/* fill table w/ snapshots */
+		for(AgentSnapshot snap: snaps) {
+			sm.addGridEntity(snap);
+		}		
 		
 		try {
-			sm.getAvgLifespan(protoSnap.id);
+			double result = sm.getAvgLifespan(protoSnap.id);
+			System.out.println("Result: " + result); 
 		}
 		catch (IllegalArgumentException e) {
 			e.printStackTrace();
