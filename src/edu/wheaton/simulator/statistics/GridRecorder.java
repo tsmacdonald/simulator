@@ -30,7 +30,6 @@ public class GridRecorder {
 	 * @param prototypes
 	 */
 	public void recordSimulationStep(Grid grid, Integer step, Collection<Prototype> prototypes) { 
-		//		System.out.println("=========" + (++ii));
 		for (Prototype prototype : prototypes) { 
 			statManager.addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(prototype, step));
 		}
