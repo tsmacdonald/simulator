@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.naming.NameNotFoundException;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
@@ -151,32 +153,6 @@ public class StatisticsManager {
 	}
 
 	/**
-	 * Get the IDs of all prototypes at the end of the simulation.
-	 * 
-	 * @return An ImmutableMap of PrototypeIDs extant at the end of the
-	 *         simulation.
-	 */
-	public ImmutableMap<String, PrototypeID> getPrototypeIDs() {
-		return getPrototypeIDs(lastStep);
-	}
-
-	/**
-	 * Get the IDs of all prototypes at the given point in time.
-	 * 
-	 * @param step
-	 *            The specified point in the simulation.
-	 * @return An ImmutableMap of PrototypeIDs extant at the given step.
-	 */
-	public ImmutableMap<String, PrototypeID> getPrototypeIDs(int step) {
-		ImmutableMap.Builder<String, PrototypeID> builder = new ImmutableMap.Builder<String, PrototypeID>();
-		Map<PrototypeID, PrototypeSnapshot> map = prototypes.get(lastStep);
-		for (PrototypeID id : map.keySet()) {
-			builder.put(map.get(id).categoryName, id);
-		}
-		return builder.build();
-	}
-
-	/**
 	 * Returns the entire population at a given step of a given category of
 	 * Agent.
 	 * 
@@ -187,7 +163,7 @@ public class StatisticsManager {
 	 * @return An ImmutableSet of AgentSnapshots of typeID at step.
 	 */
 	private ImmutableSet<AgentSnapshot> getPopulationAtStep(
-			PrototypeID typeID, Integer step) {
+			String prototypeName, Integer step) {
 		ImmutableSet.Builder<AgentSnapshot> builder = new ImmutableSet.Builder<AgentSnapshot>();
 		ImmutableMap<AgentID, AgentSnapshot> totalPopulation = table
 				.getSnapshotsAtStep(step);
@@ -195,7 +171,7 @@ public class StatisticsManager {
 			AgentSnapshot currentEntity;
 			if ((currentEntity = totalPopulation.get(currentID)) instanceof AgentSnapshot) {
 				AgentSnapshot currentAgent = (AgentSnapshot) currentEntity;
-				if (currentAgent.prototype == typeID)
+				if (currentAgent.prototypeName.equals(prototypeName))
 					builder.add(currentAgent);
 			}
 		}
@@ -239,7 +215,7 @@ public class StatisticsManager {
 	 * @return An array where indexes refer to the step in the simulation and
 	 *         the value refers to average field value at that time
 	 */
-	public double[] getAvgFieldValue(PrototypeID id, String FieldName) {
+	public double[] getAvgFieldValue(String prototypeName, String FieldName) {
 		// set of steps in table
 		Set<Integer> steps = table.getAllSteps();
 
@@ -281,16 +257,16 @@ public class StatisticsManager {
 	 *            The PrototypeID of the GridEntity to be tracked
 	 * @return The average lifespan of the specified GridEntity
 	 */
-	public double getAvgLifespan(PrototypeID id) {
+	public double getAvgLifespan(String prototypeName) {
 		// List with index = step in the simulation, value = set of all agents
 		// alive at that time
 		List<Set<AgentSnapshot>> agentsByStep = new ArrayList<Set<AgentSnapshot>>();
 
-		// Set of all AgentSnapshots
-		Set<AgentSnapshot> allAgents = new HashSet<AgentSnapshot>();
+		// Set of all AgentIDs
+		Set<AgentID> allAgents = new HashSet<AgentID>();
 
 		for (int i = 0; i < lastStep; i++) {
-			Set<AgentSnapshot> stepData = getPopulationAtStep(id, i);
+			Set<AgentSnapshot> stepData = getPopulationAtStep(prototypeName, i);
 			agentsByStep.add(i, stepData);
 			allAgents.addAll(stepData);
 		}
@@ -308,9 +284,6 @@ public class StatisticsManager {
 			avg += (deathTime - birthTime) + 1;
 		}
 		System.out.println("avg: " + avg);
-		
-		
-		
 		System.out.println("allAgents.size(): " + allAgents.size());
 		return avg / allAgents.size();
 	}
