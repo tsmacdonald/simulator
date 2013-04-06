@@ -3,8 +3,10 @@ package edu.wheaton.simulator.statistics;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
 
 /**
@@ -61,9 +63,12 @@ public class SnapshotFactory {
 	 */
 	public static PrototypeSnapshot makePrototypeSnapshot(Prototype prototype,
 			Integer step) {
-		return new PrototypeSnapshot(prototype.getName(), prototype.getPrototypeID(),
-				makeFieldSnapshots(prototype.getCustomFieldMap()),
-				prototype.childPopulation(), prototype.childIDs(), step);
+		String name = prototype.getName();
+		ImmutableMap<String, FieldSnapshot> fields = makeFieldSnapshots(prototype.getCustomFieldMap()); 
+		int population = prototype.childPopulation();
+		ImmutableSet<AgentID> childIDs = prototype.childIDs(); 
+		
+		return new PrototypeSnapshot(name, fields, population, childIDs, step);	
 	}
 
 	/**
