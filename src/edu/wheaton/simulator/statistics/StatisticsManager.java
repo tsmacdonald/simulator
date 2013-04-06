@@ -36,7 +36,7 @@ public class StatisticsManager {
 	 * Each index in the List stores the prototype snapshot associated with
 	 * that step in the simulation
 	 */
-	private HashMap<Integer, Map<PrototypeID, PrototypeSnapshot>> prototypes;
+	private HashMap<Integer, Map<String, PrototypeSnapshot>> prototypes;
 
 	/**
 	 * The point at which the simulation started. 
@@ -62,7 +62,7 @@ public class StatisticsManager {
 	public StatisticsManager() {
 		table = new AgentSnapshotTable();
 		gridObserver = new SimulationRecorder(this);
-		prototypes = new HashMap<Integer, Map<PrototypeID, PrototypeSnapshot>>();
+		prototypes = new HashMap<Integer, Map<String, PrototypeSnapshot>>();
 	}
 
 	/**
@@ -202,6 +202,7 @@ public class StatisticsManager {
 		return builder.build();
 	}
 
+	// TODO Fix documentation once testing is finished.
 	/**
 	 * Get data for a graph of the population of a certain GridEntity over time
 	 * 
@@ -211,15 +212,16 @@ public class StatisticsManager {
 	 *         the value refers to the population of the targeted entity at
 	 *         that time
 	 */
-	public int[] getPopVsTime(PrototypeID id) {
+	// TODO Make sure getPopVsTime is working correctly
+	public int[] getPopVsTime(String name) { // name - name of Prototype
 		int[] data = new int[lastStep];
 
 		for (int i = 0; i < data.length; i++) {
-			Map<PrototypeID, PrototypeSnapshot> map; 
+			Map<String, PrototypeSnapshot> map; 
 			PrototypeSnapshot currentSnapshot;
 			map = prototypes.get(i);
 			if(map != null){
-				if ((currentSnapshot = prototypes.get(i).get(id)) != null) {
+				if ((currentSnapshot = prototypes.get(i).get(name)) != null) {
 					data[i] = currentSnapshot.population;
 				}
 			}

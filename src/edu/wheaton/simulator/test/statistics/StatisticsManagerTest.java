@@ -120,7 +120,7 @@ public class StatisticsManagerTest {
 		sm.addPrototypeSnapshot(protoSnap); 
 		sm.addGridEntity(aSnap);
 		
-		int[] result = sm.getPopVsTime(protoSnap.id);
+		int[] result = sm.getPopVsTime(prototype.getName());
 		System.out.println(result[0] + " " + result[1]); 
 		int[] expected = {1}; 
 		Assert.assertArrayEquals(expected, result); 
