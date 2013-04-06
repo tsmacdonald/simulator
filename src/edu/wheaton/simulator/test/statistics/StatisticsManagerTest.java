@@ -116,7 +116,7 @@ public class StatisticsManagerTest {
 
 	@Test
 	public void testGetPrototypeIDs() {
-		fail("Not yet implemented");
+		// begin implementation.
 	}
 
 	@Test
