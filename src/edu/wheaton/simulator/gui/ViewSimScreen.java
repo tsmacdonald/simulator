@@ -29,7 +29,7 @@ import javax.swing.colorchooser.AbstractColorChooserPanel;
 
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
-import edu.wheaton.simulator.statistics.GridRecorder;
+import edu.wheaton.simulator.statistics.SimulationRecorder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class ViewSimScreen extends Screen {
@@ -56,7 +56,7 @@ public class ViewSimScreen extends Screen {
 	
 	private long endTime;
 	
-	private GridRecorder gridRec;
+	private SimulationRecorder gridRec;
 
 	//TODO figure out best way to have agents drawn before pressing start, without creating issues
 	//with later changing spawn conditions
@@ -64,7 +64,7 @@ public class ViewSimScreen extends Screen {
 		super(sm);
 		this.setLayout(new BorderLayout());
 		this.sm = sm;
-		gridRec = new GridRecorder(sm.getStatManager());
+		gridRec = new SimulationRecorder(sm.getStatManager());
 		stepCount = 0;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 		JPanel layerPanel = new JPanel();

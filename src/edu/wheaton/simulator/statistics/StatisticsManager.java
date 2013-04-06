@@ -30,7 +30,7 @@ public class StatisticsManager {
 	/**
 	 * The GridOberserver keeps track of changes in the grid.
 	 */
-	private GridRecorder gridObserver;
+	private SimulationRecorder gridObserver;
 
 	/**
 	 * Each index in the List stores the prototype snapshot associated with
@@ -61,7 +61,7 @@ public class StatisticsManager {
 	 */
 	public StatisticsManager() {
 		table = new AgentSnapshotTable();
-		gridObserver = new GridRecorder(this);
+		gridObserver = new SimulationRecorder(this);
 		prototypes = new HashMap<Integer, Map<PrototypeID, PrototypeSnapshot>>();
 	}
 
@@ -118,7 +118,7 @@ public class StatisticsManager {
 	 * 
 	 * @return The GridEntityObserver associated with this StatisticsManager.
 	 */
-	public GridRecorder getGridObserver() {
+	public SimulationRecorder getGridObserver() {
 		return gridObserver;
 	}
 

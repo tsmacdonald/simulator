@@ -26,7 +26,7 @@ import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
-import edu.wheaton.simulator.statistics.GridRecorder;
+import edu.wheaton.simulator.statistics.SimulationRecorder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class DemoMenu {
@@ -40,7 +40,7 @@ public class DemoMenu {
 	private DemoGridPanel grid;
 	private GUIToAgentFacade facade;
 	private StatisticsManager statsManager;
-	private GridRecorder observer;
+	private SimulationRecorder observer;
 	private boolean isRunning;
 	private int turnCount;
 	private HashSet<Prototype> prototypes;
@@ -55,7 +55,7 @@ public class DemoMenu {
 		//initialize instance variables
 		facade = new GUIToAgentFacade(10, 10);
 		statsManager = new StatisticsManager();
-		observer = new GridRecorder(statsManager);
+		observer = new SimulationRecorder(statsManager);
 		isRunning = false;
 		turnCount = 0;
 		startTime = 0;
