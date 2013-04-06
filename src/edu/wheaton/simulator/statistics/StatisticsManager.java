@@ -156,7 +156,7 @@ public class StatisticsManager {
 	 * @return An ImmutableMap of PrototypeIDs extant at the end of the
 	 *         simulation.
 	 */
-	public ImmutableMap<String, PrototypeID> getProtypeIDs() {
+	public ImmutableMap<String, PrototypeID> getPrototypeIDs() {
 		return getPrototypeIDs(lastStep);
 	}
 
