@@ -178,6 +178,7 @@ public class StatisticsManager {
 		return builder.build();
 	}
 
+	// TODO Fix documentation once testing is finished.
 	/**
 	 * Get data for a graph of the population of a certain GridEntity over time
 	 * 
@@ -187,7 +188,8 @@ public class StatisticsManager {
 	 *         the value refers to the population of the targeted entity at
 	 *         that time
 	 */
-	public int[] getPopVsTime(PrototypeID id) {
+	// TODO Make sure getPopVsTime is working correctly
+	public int[] getPopVsTime(String name) { // name - name of Prototype
 		int[] data = new int[lastStep];
 
 		for (int i = 0; i < data.length; i++) {
@@ -195,7 +197,7 @@ public class StatisticsManager {
 			PrototypeSnapshot currentSnapshot;
 			map = prototypes.get(i);
 			if(map != null){
-				if ((currentSnapshot = prototypes.get(i).get(id)) != null) {
+				if ((currentSnapshot = prototypes.get(i).get(name)) != null) {
 					data[i] = currentSnapshot.population;
 				}
 			}
