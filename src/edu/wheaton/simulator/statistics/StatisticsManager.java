@@ -291,7 +291,7 @@ public class StatisticsManager {
 
 		for (int i = 0; i < lastStep; i++) {
 			Set<AgentSnapshot> stepData = getPopulationAtStep(id, i);
-			agentsByStep.set(i, stepData);
+			agentsByStep.add(i, stepData);
 			allAgents.addAll(stepData);
 		}
 
@@ -305,9 +305,12 @@ public class StatisticsManager {
 			// agents at the end to get the average
 			System.out.println("\t\tB: " + birthTime);
 			System.out.println("\t\tD: " + deathTime);
-			avg += deathTime - birthTime;
+			avg += (deathTime - birthTime) + 1;
 		}
 		System.out.println("avg: " + avg);
+		
+		
+		
 		System.out.println("allAgents.size(): " + allAgents.size());
 		return avg / allAgents.size();
 	}
@@ -350,8 +353,8 @@ public class StatisticsManager {
 	 */
 	private int getDeathStep(List<Set<AgentSnapshot>> agentsByStep,
 			AgentSnapshot target) {
-		for (int i = lastStep; i > 0; i--)
-			if (agentsByStep.get(i).contains(target))
+		for (int i = lastStep-1; i >= 0; i--)
+			if (agentsByStep.get(i) != null && agentsByStep.get(i).contains(target))
 				return i;
 
 		throw new IllegalArgumentException(
