@@ -36,9 +36,9 @@ public class EditEntityScreen extends Screen {
 	private Boolean editing;
 
 	private Prototype agent;
-	
+
 	private JTabbedPane tabs;
-	
+
 	private JPanel generalPanel;
 
 	private JTextField nameField;
@@ -380,8 +380,104 @@ public class EditEntityScreen extends Screen {
 	}
 
 	public boolean sendInfo() {
-		boolean toReturn = false;
-		try {
+//		boolean toReturn = false;
+//		try {
+//			for (int i = 0; i < fieldNames.size(); i++) {
+//				if (!removedFields.contains(i)) {
+//					if (fieldNames.get(i).getText().equals("")
+//							|| fieldValues.get(i).getText().equals("")) {
+//						throw new Exception("All fields must have input");
+//					}
+//				}
+//			}
+//			for (int j = 0; j < triggerNames.size(); j++) {
+//				if (!removedTriggers.contains(j)) {
+//					if (triggerNames.get(j).getText().equals("")
+//							|| triggerConditions.get(j).getText().equals("")
+//							|| triggerResults.get(j).getText().equals("")) {
+//						throw new Exception("All fields must have input");
+//					}
+//				}
+//				if (Integer.parseInt(triggerPriorities.get(j).getText()) < 0) {
+//					throw new Exception("Priority must be greater than 0");
+//				}
+//			}
+//
+//			if (!editing) {
+//				sm.getFacade().createPrototype(nameField.getText(),
+//						sm.getFacade().getGrid(), colorTool.getColor(),	generateBytes());
+//				agent = sm.getFacade().getPrototype(nameField.getText());
+//			}
+//			else {
+//				agent.setPrototypeName(agent.getName(),
+//						nameField.getText());
+//				agent.setColor(colorTool.getColor());
+//				agent.setDesign(generateBytes());
+//				Prototype.addPrototype(agent);
+//			}
+//			for (int i = 0; i < fieldNames.size(); i++) {
+//				if (removedFields.contains(i)) {
+//					if (agent.hasField(fieldNames.get(i).getText()))
+//						agent.removeField(fieldNames.get(i).toString());
+//				} else {
+//					if (agent.hasField(fieldNames.get(i).getText())) {
+//						agent.updateField(fieldNames.get(i).getText(),
+//								fieldValues.get(i).getText());
+//					} else
+//						try {
+//							agent.addField(fieldNames.get(i).getText(),
+//									fieldValues.get(i).getText());
+//						} catch (ElementAlreadyContainedException e) {
+//							e.printStackTrace();
+//						}
+//				}
+//			}
+//			for (int i = 0; i < triggerNames.size(); i++) {
+//				if (removedTriggers.contains(i)) {
+//					if (agent.hasTrigger(triggerNames.get(i).getText()))
+//						agent.removeTrigger(triggerNames.get(i).getText());
+//				} else {
+//					if (agent.hasTrigger(triggerNames.get(i).getText()))
+//						agent.updateTrigger(triggerNames.get(i).getText(),
+//								generateTrigger(i));
+//					else
+//						agent.addTrigger(generateTrigger(i));
+//				}
+//			}
+//			toReturn = true;
+//		}
+//		catch (NumberFormatException e) {
+//			JOptionPane.showMessageDialog(null,
+//					"Priorities field must be an integer greater than 0.");
+//			e.printStackTrace();
+//		} catch (Exception e) {
+//			JOptionPane.showMessageDialog(null, e.getMessage());
+//		} 
+		sendGeneralInfo();
+		sendFieldInfo();
+		return sendTriggerInfo();
+
+	}
+
+	//TODO: separate sendInfo() method into these methods so that 
+	//individual tabs can update prototype info.
+	public void sendGeneralInfo(){
+		if (!editing) {
+			sm.getFacade().createPrototype(nameField.getText(),
+					sm.getFacade().getGrid(), colorTool.getColor(),	generateBytes());
+			agent = sm.getFacade().getPrototype(nameField.getText());
+		}
+		else {
+			agent.setPrototypeName(agent.getName(),
+					nameField.getText());
+			agent.setColor(colorTool.getColor());
+			agent.setDesign(generateBytes());
+			Prototype.addPrototype(agent);
+		}
+	}
+
+	public void sendFieldInfo(){
+		try{
 			for (int i = 0; i < fieldNames.size(); i++) {
 				if (!removedFields.contains(i)) {
 					if (fieldNames.get(i).getText().equals("")
@@ -389,32 +485,6 @@ public class EditEntityScreen extends Screen {
 						throw new Exception("All fields must have input");
 					}
 				}
-			}
-			for (int j = 0; j < triggerNames.size(); j++) {
-				if (!removedTriggers.contains(j)) {
-					if (triggerNames.get(j).getText().equals("")
-							|| triggerConditions.get(j).getText().equals("")
-							|| triggerResults.get(j).getText().equals("")) {
-						throw new Exception("All fields must have input");
-					}
-					//TODO add check for correct trigger evaluation?
-				}
-				if (Integer.parseInt(triggerPriorities.get(j).getText()) < 0) {
-					throw new Exception("Priority must be greater than 0");
-				}
-			}
-
-			if (!editing) {
-				sm.getFacade().createPrototype(nameField.getText(),
-						sm.getFacade().getGrid(), colorTool.getColor(),	generateBytes());
-				agent = sm.getFacade().getPrototype(nameField.getText());
-			}
-			else {
-				agent.setPrototypeName(agent.getName(),
-						nameField.getText());
-				agent.setColor(colorTool.getColor());
-				agent.setDesign(generateBytes());
-				Prototype.addPrototype(agent);
 			}
 
 			for (int i = 0; i < fieldNames.size(); i++) {
@@ -434,18 +504,28 @@ public class EditEntityScreen extends Screen {
 						}
 				}
 			}
-			for (int i = 0; i < triggerNames.size(); i++) {
-				if (removedTriggers.contains(i)) {
-					if (agent.hasTrigger(triggerNames.get(i).getText()))
-						agent.removeTrigger(triggerNames.get(i).getText());
-				} else {
-					if (agent.hasTrigger(triggerNames.get(i).getText()))
-						agent.updateTrigger(triggerNames.get(i).getText(),
-								generateTrigger(i));
-					else
-						agent.addTrigger(generateTrigger(i));
+		}
+		catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		} 
+	}
+
+	public boolean sendTriggerInfo(){
+		boolean toReturn = false;
+		try{
+			for (int j = 0; j < triggerNames.size(); j++) {
+				if (!removedTriggers.contains(j)) {
+					if (triggerNames.get(j).getText().equals("")
+							|| triggerConditions.get(j).getText().equals("")
+							|| triggerResults.get(j).getText().equals("")) {
+						throw new Exception("All fields must have input");
+					}
+				}
+				if (Integer.parseInt(triggerPriorities.get(j).getText()) < 0) {
+					throw new Exception("Priority must be greater than 0");
 				}
 			}
+
 			for (int i = 0; i < triggerNames.size(); i++) {
 				if (removedTriggers.contains(i)) {
 					if (agent.hasTrigger(triggerNames.get(i).getText()))
@@ -457,7 +537,6 @@ public class EditEntityScreen extends Screen {
 					else
 						agent.addTrigger(generateTrigger(i));
 				}
-
 			}
 			toReturn = true;
 		}
@@ -468,22 +547,8 @@ public class EditEntityScreen extends Screen {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		} 
-		return toReturn;
 
-	}
-	
-	//TODO: separate sendInfo() method into these methods so that 
-	//individual tabs can update prototype info.
-	public boolean sendGeneralInfo(){
-		return false;
-	}
-	
-	public boolean sendFieldInfo(){
-		return false;
-	}
-	
-	public boolean sendTriggerInfo(){
-		return false;
+		return toReturn;
 	}
 
 	public void setEditing(Boolean b) {
@@ -496,9 +561,9 @@ public class EditEntityScreen extends Screen {
 		JTextField newName = new JTextField(25);
 		newName.setMaximumSize(new Dimension(300, 40));
 		fieldNames.add(newName);
-//		JComboBox newType = new JComboBox(typeNames);
-//		newType.setMaximumSize(new Dimension(200, 40));
-//		fieldTypes.add(newType);
+		//		JComboBox newType = new JComboBox(typeNames);
+		//		newType.setMaximumSize(new Dimension(200, 40));
+		//		fieldTypes.add(newType);
 		JTextField newValue = new JTextField(25);
 		newValue.setMaximumSize(new Dimension(300, 40));
 		fieldValues.add(newValue);
@@ -507,7 +572,7 @@ public class EditEntityScreen extends Screen {
 		fieldDeleteButtons.add(newButton);
 		newButton.setActionCommand(fieldDeleteButtons.indexOf(newButton) + "");
 		newPanel.add(newName);
-//		newPanel.add(newType);
+		//		newPanel.add(newType);
 		newPanel.add(newValue);
 		newPanel.add(newButton);
 		fieldSubPanels.add(newPanel);
