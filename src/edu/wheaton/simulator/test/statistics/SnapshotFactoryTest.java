@@ -51,10 +51,10 @@ public class SnapshotFactoryTest {
 		
 		Assert.assertNotNull(ass.id);
 		Assert.assertNotNull(ass.fields);
-		Assert.assertNotNull(ass.prototype);
+		Assert.assertNotNull(ass.prototypeName);
 		Assert.assertNotNull(ass.step);
 		Assert.assertEquals(ass.id, aID);
-		Assert.assertEquals(ass.prototype, pID);
+		Assert.assertEquals(ass.prototypeName, pID);
 		Assert.assertEquals(ass.step, step);
 	}
 
