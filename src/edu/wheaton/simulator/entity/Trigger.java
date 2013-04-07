@@ -108,11 +108,10 @@ public class Trigger implements Comparable<Trigger> {
 	}
 
 	/**
-	 * Sets the conditional expression. Should only be used in the inner class
-	 * of builder
+	 * Sets the conditional expression.
 	 * @param e
 	 */
-	public void setCondition(Expression e){
+	private void setCondition(Expression e){
 		conditionExpression = e;
 	}
 	
