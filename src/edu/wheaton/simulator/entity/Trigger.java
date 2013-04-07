@@ -11,6 +11,7 @@
 package edu.wheaton.simulator.entity;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import net.sourceforge.jeval.EvaluationException;
@@ -107,6 +108,15 @@ public class Trigger implements Comparable<Trigger> {
 	}
 
 	/**
+	 * Sets the conditional expression. Should only be used in the inner class
+	 * of builder
+	 * @param e
+	 */
+	public void setCondition(Expression e){
+		conditionExpression = e;
+	}
+	
+	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
 	private static void fire(Expression behavior) throws EvaluationException {
@@ -175,16 +185,28 @@ public class Trigger implements Comparable<Trigger> {
 
 		/**
 		 * HashMap of simple values to actual JEval appropriate input for
-		 * conditionals
+		 * conditionals. Hashmap of field and value for prototypes.
 		 */
 		private HashMap<String, String> conditionalValues;
 
 		/**
 		 * HashMap of simple values to actual JEval appropriate input for
-		 * conditionals
+		 * conditionals. Hashmap of field and value. for prototypes
 		 */
 		private HashMap<String, String> behavioralValues;
 
+		/**
+		 * A HashMap of the operations/functions that will be used in the JEval. Comes with all 
+		 * the usual functions, user may be able to add more. First string is name, second is what 
+		 * Jeval will use to evaluate.
+		 */
+		private HashMap<String, String> operations;
+		
+		/**
+		 * A HashMap of the functions that might be used in the JEval
+		 */
+		private HashMap<String, String> functions;
+		
 		/**
 		 * Constructor
 		 * 
@@ -194,13 +216,38 @@ public class Trigger implements Comparable<Trigger> {
 		public Builder(Prototype p) {
 			trigger = new Trigger("", 0, null, null);
 			/*
-			 * TODO Need to add all of the prototype's field variables to both
-			 * HashMaps. This will be in a form like KEY: weight VALUE:
-			 * this.weight. Also need to add all of the possible operations and
-			 * functions
+			 * TODO Need to be able to add functions.
 			 */
-			conditionalValues = null; // TODO
-			behavioralValues = null; // TODO
+			loadOperations(p);
+			loadValues(p);			
+		}
+		
+		/**
+		 * Method to store common operations and initialize them when a Builder is initialized.
+		 */
+		private void loadOperations(Prototype p){
+			operations = new HashMap<String, String>();
+			operations.put("OR", "||");
+			operations.put("AND", "&&");
+			operations.put("NOT_EQUALS", "!=");
+			operations.put("EQUALS", "==");
+			operations.put(">", ">");
+			operations.put("<", "<");
+			//TODO need to add all the basic operations we are using of JEval,
+			
+		}
+		
+		/**
+		 * Method to initialize conditionalValues and behaviorableValues
+		 */
+		private void loadValues(Prototype p){
+			conditionalValues = new HashMap<String, String>();
+			behavioralValues = new HashMap<String, String>();
+			for (Map.Entry<String, String> entry : p.getFieldMap().entrySet())
+			{
+			    conditionalValues.put(entry.getKey(), "this."+entry.getKey());
+			    behavioralValues.put(entry.getKey(), "this."+entry.getKey());
+			}
 		}
 
 		/**
@@ -246,11 +293,41 @@ public class Trigger implements Comparable<Trigger> {
 		 * @param c
 		 */
 		public void addConditional(String c) {
+			String condition = "";
+			String[] stringArray = c.split(" ");
+			for (String a : stringArray){
+				condition+= lookThroughMapsForMatches(a);
+			}
+			trigger.setCondition(new Expression(condition));
+						
 			/*
 			 * TODO Cycle through all of the space separated words in c. Find
 			 * the JEval equivalent value in the HashMap. Make an expression
 			 * and add it to trigger.
 			 */
+		}
+		
+		/**
+		 * Looks through the conditionalvalues, behavirovalues, function and operation 
+		 * hashmaps to convert text to something that can be evaluated by JEval.
+		 * 
+		 * @param s
+		 */
+		private String lookThroughMapsForMatches(String s){
+			String toReturn= "";
+			toReturn = conditionalValues.get(s);
+			if (toReturn != null)
+				return toReturn;
+			toReturn = behavioralValues.get(s);
+			if (toReturn != null)
+				return toReturn;
+			toReturn = operations.get(s);
+			if (toReturn != null)
+				return toReturn;
+			toReturn = functions.get(s);
+			if (toReturn != null)
+				return toReturn;
+			return null;
 		}
 
 		/**
@@ -260,6 +337,13 @@ public class Trigger implements Comparable<Trigger> {
 		 * @param b
 		 */
 		public void addBehavioral(String b) {
+			String behavior = "";
+			String[] stringArray = b.split(" ");
+			for (String a : stringArray){
+				behavior+= lookThroughMapsForMatches(a);
+			}
+			trigger.setCondition(new Expression(behavior));
+			
 			/*
 			 * TODO Cycle through all of the space separated words in b. Find
 			 * the JEval equivalent value in the HashMap. Make an expression
