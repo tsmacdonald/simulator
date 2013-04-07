@@ -33,6 +33,8 @@ public class Agent extends GridEntity {
 	
 	private final AgentID id = new AgentID();
 
+	private int currentTriggerIndex = 0;
+	
 	/**
 	 * Constructor.
 	 * 
@@ -106,7 +108,11 @@ public class Agent extends GridEntity {
 	 * @throws SimulationPauseException
 	 */
 	public void priorityAct(int priority) throws SimulationPauseException {
-		for (Trigger t: triggers)
+		if (triggers.get(currentTriggerIndex).getPriority() > priority) {
+			currentTriggerIndex = 0;
+		}
+		for (int i = currentTriggerIndex; i < triggers.size(); i++) {
+			Trigger t = triggers.get(i);
 			if (t.getPriority() == priority) {
 				try {
 						t.evaluate(this);
@@ -119,7 +125,13 @@ public class Agent extends GridEntity {
 						throw new SimulationPauseException(errorMessage);
 					}
 			}
+			else if (t.getPriority() > priority) {
+				currentTriggerIndex = i - 1;
+				return;
+			}
 		}
+	}
+	
 	/**
 	 * Removes this Agent from the environment's list.
 	 */
