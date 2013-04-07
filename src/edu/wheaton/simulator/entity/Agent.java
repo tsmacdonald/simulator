@@ -108,7 +108,7 @@ public class Agent extends GridEntity {
 	 * @throws SimulationPauseException
 	 */
 	public void priorityAct(int priority) throws SimulationPauseException {
-		if (triggers.get(currentTriggerIndex).getPriority() > priority) {
+		if (triggers.size() < currentTriggerIndex || triggers.get(currentTriggerIndex).getPriority() > priority) {
 			currentTriggerIndex = 0;
 		}
 		for (int i = currentTriggerIndex; i < triggers.size(); i++) {
@@ -127,6 +127,8 @@ public class Agent extends GridEntity {
 			}
 			else if (t.getPriority() > priority) {
 				currentTriggerIndex = i - 1;
+				if (currentTriggerIndex < 0)
+					currentTriggerIndex = 0;
 				return;
 			}
 		}
