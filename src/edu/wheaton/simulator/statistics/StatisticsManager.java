@@ -14,7 +14,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.entity.AgentID;
-import edu.wheaton.simulator.entity.PrototypeID;
 
 public class StatisticsManager {
 
@@ -229,7 +228,7 @@ public class StatisticsManager {
 		ArrayList<Double> stepVals = new ArrayList<Double>();
 
 		for (int step : steps) {
-			ImmutableSet<AgentSnapshot> agents = getPopulationAtStep(id, step);
+			ImmutableSet<AgentSnapshot> agents = getPopulationAtStep(prototypeName, step);
 
 			for (AgentSnapshot agent : agents) {
 				ImmutableMap<String, FieldSnapshot> fields = agent.fields;
@@ -263,7 +262,7 @@ public class StatisticsManager {
 		List<Set<AgentSnapshot>> agentsByStep = new ArrayList<Set<AgentSnapshot>>();
 
 		// Set of all AgentIDs
-		Set<AgentID> allAgents = new HashSet<AgentID>();
+		Set<AgentSnapshot> allAgents = new HashSet<AgentSnapshot>();
 
 		for (int i = 0; i < lastStep; i++) {
 			Set<AgentSnapshot> stepData = getPopulationAtStep(prototypeName, i);

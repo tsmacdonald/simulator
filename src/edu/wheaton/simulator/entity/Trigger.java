@@ -198,7 +198,7 @@ public class Trigger implements Comparable<Trigger> {
 	public Expression getBehavior() {
 		return behaviorExpression;
 	}
-
+	
 	public int getPriority() {
 		return priority;
 	}
@@ -243,7 +243,19 @@ public class Trigger implements Comparable<Trigger> {
 			 * TODO Need to be able to add functions.
 			 */
 			loadOperations(p);
-			loadValues(p);			
+			loadValues(p);	
+			loadFunctions(p);
+		}
+		
+		/*
+		 * Method to store and initialize all the functions that a trigger may use. 
+		 */
+		private void loadFunctions(Prototype p){
+			functions = new HashMap<String,String>();
+			/**TODO
+			 * load all the functions that might be used. still not entirely sure 
+			 * how functions are gonna work in this.
+			 */
 		}
 		
 		/**
@@ -323,17 +335,13 @@ public class Trigger implements Comparable<Trigger> {
 				condition+= lookThroughMapsForMatches(a);
 			}
 			trigger.setCondition(new Expression(condition));
-						
-			/*
-			 * TODO Cycle through all of the space separated words in c. Find
-			 * the JEval equivalent value in the HashMap. Make an expression
-			 * and add it to trigger.
-			 */
 		}
 		
 		/**
 		 * Looks through the conditionalvalues, behavirovalues, function and operation 
 		 * hashmaps to convert text to something that can be evaluated by JEval.
+		 * If it doesn't find anything in the hashmaps, it returns the same string
+		 * Should only happen if user enters something new, like "weight > 0", the 0 part.
 		 * 
 		 * @param s
 		 */
@@ -351,7 +359,7 @@ public class Trigger implements Comparable<Trigger> {
 			toReturn = functions.get(s);
 			if (toReturn != null)
 				return toReturn;
-			return null;
+			return s;
 		}
 
 		/**
@@ -367,12 +375,6 @@ public class Trigger implements Comparable<Trigger> {
 				behavior+= lookThroughMapsForMatches(a);
 			}
 			trigger.setCondition(new Expression(behavior));
-			
-			/*
-			 * TODO Cycle through all of the space separated words in b. Find
-			 * the JEval equivalent value in the HashMap. Make an expression
-			 * and add it to trigger.
-			 */
 		}
 
 		/**
