@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
@@ -284,6 +286,20 @@ public class EditEntityScreen extends Screen {
 		tabs.addTab("General", generalPanel);
 		tabs.addTab("Fields", fieldMainPanel);
 		tabs.addTab("Triggers", triggerMainPanel);
+		tabs.addChangeListener(new ChangeListener(){
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				String current = tabs.getTitleAt(tabs.getSelectedIndex());
+				if (current == "General")
+					sendGeneralInfo();
+				else if (current == "Fields")
+					sendFieldInfo();
+				else
+					sendTriggerInfo();
+			}
+			
+		});
 
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
@@ -380,87 +396,12 @@ public class EditEntityScreen extends Screen {
 	}
 
 	public boolean sendInfo() {
-//		boolean toReturn = false;
-//		try {
-//			for (int i = 0; i < fieldNames.size(); i++) {
-//				if (!removedFields.contains(i)) {
-//					if (fieldNames.get(i).getText().equals("")
-//							|| fieldValues.get(i).getText().equals("")) {
-//						throw new Exception("All fields must have input");
-//					}
-//				}
-//			}
-//			for (int j = 0; j < triggerNames.size(); j++) {
-//				if (!removedTriggers.contains(j)) {
-//					if (triggerNames.get(j).getText().equals("")
-//							|| triggerConditions.get(j).getText().equals("")
-//							|| triggerResults.get(j).getText().equals("")) {
-//						throw new Exception("All fields must have input");
-//					}
-//				}
-//				if (Integer.parseInt(triggerPriorities.get(j).getText()) < 0) {
-//					throw new Exception("Priority must be greater than 0");
-//				}
-//			}
-//
-//			if (!editing) {
-//				sm.getFacade().createPrototype(nameField.getText(),
-//						sm.getFacade().getGrid(), colorTool.getColor(),	generateBytes());
-//				agent = sm.getFacade().getPrototype(nameField.getText());
-//			}
-//			else {
-//				agent.setPrototypeName(agent.getName(),
-//						nameField.getText());
-//				agent.setColor(colorTool.getColor());
-//				agent.setDesign(generateBytes());
-//				Prototype.addPrototype(agent);
-//			}
-//			for (int i = 0; i < fieldNames.size(); i++) {
-//				if (removedFields.contains(i)) {
-//					if (agent.hasField(fieldNames.get(i).getText()))
-//						agent.removeField(fieldNames.get(i).toString());
-//				} else {
-//					if (agent.hasField(fieldNames.get(i).getText())) {
-//						agent.updateField(fieldNames.get(i).getText(),
-//								fieldValues.get(i).getText());
-//					} else
-//						try {
-//							agent.addField(fieldNames.get(i).getText(),
-//									fieldValues.get(i).getText());
-//						} catch (ElementAlreadyContainedException e) {
-//							e.printStackTrace();
-//						}
-//				}
-//			}
-//			for (int i = 0; i < triggerNames.size(); i++) {
-//				if (removedTriggers.contains(i)) {
-//					if (agent.hasTrigger(triggerNames.get(i).getText()))
-//						agent.removeTrigger(triggerNames.get(i).getText());
-//				} else {
-//					if (agent.hasTrigger(triggerNames.get(i).getText()))
-//						agent.updateTrigger(triggerNames.get(i).getText(),
-//								generateTrigger(i));
-//					else
-//						agent.addTrigger(generateTrigger(i));
-//				}
-//			}
-//			toReturn = true;
-//		}
-//		catch (NumberFormatException e) {
-//			JOptionPane.showMessageDialog(null,
-//					"Priorities field must be an integer greater than 0.");
-//			e.printStackTrace();
-//		} catch (Exception e) {
-//			JOptionPane.showMessageDialog(null, e.getMessage());
-//		} 
 		sendGeneralInfo();
 		sendFieldInfo();
 		return sendTriggerInfo();
 
 	}
 
-	//TODO: separate sendInfo() method into these methods so that 
-	//individual tabs can update prototype info.
 	public void sendGeneralInfo(){
 		if (!editing) {
 			sm.getFacade().createPrototype(nameField.getText(),
