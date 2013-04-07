@@ -10,6 +10,9 @@
 
 package edu.wheaton.simulator.entity;
 
+import java.util.HashMap;
+import java.util.Set;
+
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.expression.Expression;
 
@@ -41,8 +44,7 @@ public class Trigger implements Comparable<Trigger> {
 	 * @param conditions
 	 *            boolean expression this trigger represents
 	 */
-	public Trigger(String name, int priority,
-			Expression conditionExpression,
+	public Trigger(String name, int priority, Expression conditionExpression,
 			Expression behavior) {
 		this.name = name;
 		this.priority = priority;
@@ -77,7 +79,7 @@ public class Trigger implements Comparable<Trigger> {
 	public void evaluate(Agent xThis) throws EvaluationException {
 		Expression condition = conditionExpression.clone();
 		Expression behavior = behaviorExpression.clone();
-		
+
 		condition.importEntity("this", xThis);
 		behavior.importEntity("this", xThis);
 
@@ -86,9 +88,10 @@ public class Trigger implements Comparable<Trigger> {
 			conditionResult = condition.evaluateBool();
 		} catch (Exception e) {
 			conditionResult = false;
-			System.out.println("Condition expression failed: " + condition.toString());
+			System.out.println("Condition expression failed: "
+					+ condition.toString());
 		}
-		
+
 		if (conditionResult) {
 			fire(behavior);
 		}
@@ -108,10 +111,12 @@ public class Trigger implements Comparable<Trigger> {
 	 */
 	private static void fire(Expression behavior) throws EvaluationException {
 		try {
-			if(behavior.evaluateBool() == false)
-				System.err.println("behavior '" + behavior.toString() + "' failed");
+			if (behavior.evaluateBool() == false)
+				System.err.println("behavior '" + behavior.toString()
+						+ "' failed");
 			else
-				System.out.println("behavior '" + behavior.toString() + "' succeeded");
+				System.out.println("behavior '" + behavior.toString()
+						+ "' succeeded");
 		} catch (EvaluationException e) {
 			System.err.println("malformed expression: " + behavior);
 			e.printStackTrace();
@@ -155,12 +160,135 @@ public class Trigger implements Comparable<Trigger> {
 	public String getName() {
 		return name;
 	}
-	
+
 	public Expression getBehavior() {
 		return behaviorExpression;
 	}
-	
+
 	public int getPriority() {
 		return priority;
+	}
+
+	public static class Builder {
+
+		private Trigger trigger;
+
+		/**
+		 * HashMap of simple values to actual JEval appropriate input for
+		 * conditionals
+		 */
+		private HashMap<String, String> conditionalValues;
+
+		/**
+		 * HashMap of simple values to actual JEval appropriate input for
+		 * conditionals
+		 */
+		private HashMap<String, String> behavioralValues;
+
+		/**
+		 * Constructor
+		 * 
+		 * @param p
+		 *            A prototype with just fields
+		 */
+		public Builder(Prototype p) {
+			trigger = new Trigger("", 0, null, null);
+			/*
+			 * TODO Need to add all of the prototype's field variables to both
+			 * HashMaps. This will be in a form like KEY: weight VALUE:
+			 * this.weight. Also need to add all of the possible operations and
+			 * functions
+			 */
+			conditionalValues = null; // TODO
+			behavioralValues = null; // TODO
+		}
+
+		/**
+		 * Sets the name of the Trigger
+		 * 
+		 * @param n
+		 */
+		public void addName(String n) {
+			trigger.name = n;
+		}
+
+		/**
+		 * Sets the priority of the Trigger
+		 * 
+		 * @param n
+		 */
+		public void addPriority(int p) {
+			trigger.priority = p;
+		}
+
+		/**
+		 * Returns a set of conditional values
+		 * 
+		 * @return Set of Strings
+		 */
+		public Set<String> conditionalValues() {
+			return conditionalValues.keySet();
+		}
+
+		/**
+		 * Gets a set of possible behavioral values
+		 * 
+		 * @return Set of Strings
+		 */
+		public Set<String> behavioralValues() {
+			return behavioralValues.keySet();
+		}
+
+		/**
+		 * Passes the builder a string of values separated with a space the
+		 * correspond to a conditional
+		 * 
+		 * @param c
+		 */
+		public void addConditional(String c) {
+			/*
+			 * TODO Cycle through all of the space separated words in c. Find
+			 * the JEval equivalent value in the HashMap. Make an expression
+			 * and add it to trigger.
+			 */
+		}
+
+		/**
+		 * Passes the builder a string of values separated with a space the
+		 * correspond to a behavior
+		 * 
+		 * @param b
+		 */
+		public void addBehavioral(String b) {
+			/*
+			 * TODO Cycle through all of the space separated words in b. Find
+			 * the JEval equivalent value in the HashMap. Make an expression
+			 * and add it to trigger.
+			 */
+		}
+
+		/**
+		 * Whether or not the last conditional and behavioral are a valid
+		 * trigger
+		 * 
+		 * @return
+		 */
+		public boolean isValid() {
+			/*
+			 * TODO Attempt to evaluate the trigger. If it throws an exception
+			 * then return false.
+			 */
+			return true; // TODO
+		}
+
+		/**
+		 * Provides the built trigger
+		 * 
+		 * @return
+		 */
+		public Trigger build() {
+			return trigger;
+		}
+
 	}
 }

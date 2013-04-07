@@ -23,7 +23,7 @@ public class AgentSnapshot {
 	/**
 	 * The present prototype for the category of this Entity.
 	 */
-	public final PrototypeID prototype;
+	public final String prototypeName;
 	
 	/**
 	 * The saved fields of this entity.
@@ -48,11 +48,11 @@ public class AgentSnapshot {
 	 *            The prototype for this category of Agent.
 	 */
 	public AgentSnapshot(AgentID id, ImmutableMap<String, FieldSnapshot> fields,
-			Integer step, PrototypeID prototype) {
+			Integer step, String prototypeName) {
 		this.id = id;
 		this.step = step;
 		this.fields = fields;
-		this.prototype = prototype;
+		this.prototypeName = prototypeName;
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class AgentSnapshot {
 	 * Fields: FieldSnapshot Name Value
 	 * Fields: FieldSnapshot Name Value
 	 * 3 (step - an int)
-	 * 12 (PrototypeID - an int)
+	 * 12 (PrototypeID - an int) TODO: Update this to deal with the removal of IDs
 	 */
 	public String serialize(){
 		String s = "AgentSnapshot";
@@ -77,7 +77,7 @@ public class AgentSnapshot {
 		}
 		
 		s += "\n" + step; 
-		s += "\n" + prototype.getInt();
+		s += "\n" + prototypeName; 
 		return s; 
 	}
 }

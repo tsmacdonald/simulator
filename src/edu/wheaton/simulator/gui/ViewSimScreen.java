@@ -78,18 +78,17 @@ public class ViewSimScreen extends Screen {
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
 		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		JComboBox layerComboBox = new JComboBox();
 		panel2.add(layers);
 		panel2.add(layerComboBox);
 		JColorChooser color = new JColorChooser();
-		//Commented out because of type error
-		//		AbstractColorChooserPanel panels[] = { new DefaultSwatchChoserPanel() };
-		//		color.setChooserPanels(panels);
-		//AbstractColorChooserPanel panels[] = { new DefaultSwatchChoserPanel() };
-		//color.setChooserPanels(panels);
-		agentComboBox.setMinimumSize(new Dimension(500, 50));
-		layerComboBox.setMinimumSize(new Dimension(500, 50));
-		layerPanel.setMinimumSize(new Dimension(600, 1000));
+		color.setMaximumSize(new Dimension(250, 500));
+	
+		agentComboBox.setMaximumSize(new Dimension(200, 50));
+		layerComboBox.setMaximumSize(new Dimension(200, 50));
+		//layerPanel.setSize(new Dimension(600, 1000));
 
 		//TODO add layer elements
 		//set Layout
@@ -102,9 +101,12 @@ public class ViewSimScreen extends Screen {
 		this.add(layerPanel, BorderLayout.WEST);
 		layerPanel.add(panel1);
 		layerPanel.add(panel2);
+		layerPanel.add(color);
+		mainPanel.add(layerPanel);
+		mainPanel.add(grid);
 		this.add(label, BorderLayout.NORTH);
 		this.add(makeButtonPanel(), BorderLayout.SOUTH);
-		this.add(grid, BorderLayout.CENTER);
+		this.add(mainPanel, BorderLayout.CENTER);
 		this.setVisible(true);	
 	}
 
@@ -193,9 +195,15 @@ public class ViewSimScreen extends Screen {
 					gridRec.updateTime(currentTime, currentTime - startTime);
 					startTime = currentTime;
 					stepCount++;
-					sm.setRunning(!(sm.getEnder().evaluate(stepCount, 
-							sm.getFacade().getGrid())));
-					//TODO setEndTime if it ends; should that be handled in statistics code?
+					boolean shouldEnd = sm.getEnder().evaluate(stepCount, 
+							sm.getFacade().getGrid());
+					sm.setRunning(!shouldEnd);
+					if (shouldEnd) {
+						//TODO should statistics team add something to keep track of this?
+						endTime = currentTime;
+						backButton.setEnabled(true);
+					}
+					
 
 					SwingUtilities.invokeLater(
 							new Thread (new Runnable() {
