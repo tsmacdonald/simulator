@@ -99,7 +99,7 @@ public class StatisticsScreen extends Screen {
 		if(popEntityBox.getSelectedIndex() >= 0){
 			int[] popVsTime = sm.getStatManager().getPopVsTime(sm.getFacade().
 					getPrototype(popEntityBox.getSelectedItem().toString())
-					.getPrototypeID()
+					.getName()
 					);
 			
 			Object[][] timePop = new Object[popVsTime.length][2];
@@ -190,7 +190,7 @@ public class StatisticsScreen extends Screen {
 						if (cardSelector.getSelectedItem().equals(POPS_STR)) {
 							int[] pops = statMan.getPopVsTime(sm.getFacade().
 														getPrototype((String)popEntityBox.getSelectedItem())
-														.getPrototypeID());
+														.getName());
 							System.out.println("Population over time: ");
 							//TODO temporary solution to demonstrate compatibility
 							//TODO this loop displays nothing for a basic simulation
@@ -201,7 +201,7 @@ public class StatisticsScreen extends Screen {
 						else if (cardSelector.getSelectedItem().equals(FIELDS_STR)) {
 							String s = (String)fieldEntityBox.getSelectedItem();
 							Prototype p = sm.getFacade().getPrototype(s);
-							double[] vals = statMan.getAvgFieldValue(p.getPrototypeID(),
+							double[] vals = statMan.getAvgFieldValue(p.getName(),
 									((String)agentFieldsBoxes.get(s).getSelectedItem()));
 							//TODO temporary solution to demonstrate compatibility
 							//TODO this loop displays nothing for a basic simulation
@@ -215,7 +215,7 @@ public class StatisticsScreen extends Screen {
 							//TODO temporary solution to demonstrate compatibility
 							//getAvgLifespan returns NaN (not a number; 0 / 0 ?)
 							System.out.println("Average lifespan: " + 
-									statMan.getAvgLifespan(p.getPrototypeID()));
+									statMan.getAvgLifespan(p.getName()));
 						}
 					}
 				}
