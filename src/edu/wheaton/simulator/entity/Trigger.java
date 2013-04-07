@@ -25,6 +25,8 @@ public class Trigger implements Comparable<Trigger> {
 	private String name;
 
 	private int priority;
+	
+	private boolean atomicConditionResult;
 
 	/**
 	 * Represents the conditions of whether or not the trigger fires.
@@ -96,6 +98,29 @@ public class Trigger implements Comparable<Trigger> {
 		if (conditionResult) {
 			fire(behavior);
 		}
+	}
+	
+	public void evaluateCond(Agent xThis) throws EvaluationException {
+		Expression condition = conditionExpression.clone();
+		
+		condition.importEntity("this", xThis);
+		
+		atomicConditionResult = false;
+		try {
+			atomicConditionResult = condition.evaluateBool();
+		} catch (Exception e) {
+			atomicConditionResult = false;
+			System.out.println("Condition expression failed: "
+					+ condition.toString());
+		}
+	}
+	
+	public void atomicFire(Agent xThis) throws EvaluationException {
+		Expression behavior = behaviorExpression.clone();
+		
+		behavior.importEntity("this", xThis);
+		if (atomicConditionResult)
+			fire(behavior);
 	}
 
 	/**

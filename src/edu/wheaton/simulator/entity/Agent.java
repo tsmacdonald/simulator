@@ -134,6 +134,34 @@ public class Agent extends GridEntity {
 		}
 	}
 	
+	public void atomicCondEval() throws SimulationPauseException {
+		for (Trigger t : triggers)
+			try {
+				t.evaluateCond(this);
+			} catch (EvaluationException e) {
+				System.err.println(e.getMessage());
+				String errorMessage = "Error in Agent: " + this.getName()
+						+ "\n ID: " + this.getID() + "\n Trigger: "
+						+ t.getName() + "\n MSG: " + e.getMessage()
+						+ "\n condition: " + t.getConditions().toString();
+				throw new SimulationPauseException(errorMessage);
+			}
+	}
+	
+	public void atomicFire() throws SimulationPauseException {
+		for (Trigger t : triggers)
+			try {
+				t.atomicFire(this);
+			} catch (EvaluationException e) {
+				System.err.println(e.getMessage());
+				String errorMessage = "Error in Agent: " + this.getName()
+						+ "\n ID: " + this.getID() + "\n Trigger: "
+						+ t.getName() + "\n MSG: " + e.getMessage()
+						+ "\n behavior: " + t.getConditions().toString();
+				throw new SimulationPauseException(errorMessage);
+			}
+	}
+	
 	/**
 	 * Removes this Agent from the environment's list.
 	 */

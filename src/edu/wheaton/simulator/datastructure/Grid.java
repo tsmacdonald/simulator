@@ -168,7 +168,26 @@ public class Grid extends Entity implements Iterable<Agent> {
 	private class AtomicUpdater implements Updater {
 		
 		public void update() throws SimulationPauseException{
-			//TODO: Implement atomic update
+			HashSet<AgentID> processedIDs = new HashSet<AgentID>();
+
+			for (Agent[] row : grid)
+				for (Agent current : row) {
+					if (current != null)
+						if (!processedIDs.contains(current.getID())) {
+							current.atomicCondEval();
+							processedIDs.add(current.getID());
+						}
+				}
+			processedIDs = new HashSet<AgentID>();
+			
+			for (Agent[] row : grid)
+				for (Agent current : row) {
+					if (current != null)
+						if (!processedIDs.contains(current.getID())) {
+							current.atomicFire();
+							processedIDs.add(current.getID());
+						}
+				}
 		}
 	}
 	
