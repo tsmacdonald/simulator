@@ -27,7 +27,7 @@ public class SnapshotFactory {
 			Integer step) {
 		return new AgentSnapshot(agent.getID(), 
 				makeFieldSnapshots(agent.getCustomFieldMap()), step, 
-				agent.getPrototype().getPrototypeID());
+				agent.getPrototype().getName());
 	}
 
 	/**
