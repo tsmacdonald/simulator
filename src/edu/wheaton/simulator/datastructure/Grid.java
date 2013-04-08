@@ -123,6 +123,11 @@ public class Grid extends Entity implements Iterable<Agent> {
 		return updater.toString();
 	}
 	
+	public void setMinMaxPriority(int min, int max) {
+		minPriority = min;
+		maxPriority = max;
+	}
+	
 	/**
 	 * The interface for the state pattern that allows for switching update
 	 * modes.
