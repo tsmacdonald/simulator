@@ -45,12 +45,12 @@ public class StatisticsManagerTest {
 	Integer step;
 	PrototypeSnapshot protoSnap;
 	PrototypeSnapshot protoSnap2;
-	
+
 	@Before
 	public void setUp() {
 		sm = new StatisticsManager();
 		g = new Grid(10,  10); 		
-		
+
 		//Add a test PrototypeSnapshot
 		categoryName = "testing";
 		grid = new Grid(10, 10);
@@ -59,14 +59,14 @@ public class StatisticsManagerTest {
 		population = 50;
 		children = prototype.childIDs();
 		step = new Integer(1);
-		
+
 		protoSnap = new PrototypeSnapshot(categoryName, SnapshotFactory.makeFieldSnapshots(fields), population, children, step); 
-		
+
 		categoryName = "testing2";
 		prototype = new Prototype(grid, "tester2");
 		population = 40;
 		step = new Integer(2);
-		
+
 		//Add another test PrototypeSnapshot
 		protoSnap2 = new PrototypeSnapshot(categoryName,
 				SnapshotFactory.makeFieldSnapshots(fields), population,
@@ -88,32 +88,31 @@ public class StatisticsManagerTest {
 		Assert.assertNotNull("Failed to get GridObserver", sm.getGridObserver()); 
 	}
 
-//	@Test
-//	public void testAddPrototypeSnapshot() {
-//		Prototype p = new Prototype(g, "TestPrototype"); 
-//		Assert.assertNotNull(p); 
-//		
-//		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname",
-//				SnapshotFactory.makeFieldSnapshots(new HashMap<String, String>()), 100, p.childIDs(), new Integer(2)); 
-//		sm.addPrototypeSnapshot(protoSnap);
-//	}
-
-//	@Test
-//	public void testAddGridEntity() {
-//		fail("Not yet implemented");
-//	}
-
+	@Test
+	public void testAddPrototypeSnapshot() {
+		Prototype p = new Prototype(g, "TestPrototype"); 
+		Assert.assertNotNull(p); 
+		
+		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname",
+				SnapshotFactory.makeFieldSnapshots(new HashMap<String, String>()), 100, p.childIDs(), new Integer(2)); 
+		sm.addPrototypeSnapshot(protoSnap);
+	}
+	
 	@Test
 	public void testGetPopVsTime() {
 		sm.addPrototypeSnapshot(protoSnap); 
-		
+
+		//Create data for a test simulation with a random number of steps
+		//and random population in each step
 		Random R = new Random(); 
-		int numSteps = R.nextInt(10);
+		int numSteps = R.nextInt(10) + 2;
 		int[] expected = new int[numSteps];
-		
+
+		//Populate the test "expected" array and add the data to the StatsManager
 		for(int i = 0; i < numSteps; i++){
 			expected[i] = R.nextInt(100);
-			
+
+			//Add the appropriate AgentSnapshots to the StatsManager
 			for(int pop = 0; pop < expected[i]; pop++){
 				Agent agent = prototype.createAgent();
 				sm.addGridEntity(new AgentSnapshot(agent.getID(), 
@@ -139,7 +138,10 @@ public class StatisticsManagerTest {
 		for(int x : array){
 			ret += x + ", ";  
 		}
-		ret = ret.substring(0, ret.length()-2); 
+
+		if(array.length > 0)
+			ret = ret.substring(0, ret.length()-2);
+
 		return ret + "]";
 	}
 
@@ -148,7 +150,7 @@ public class StatisticsManagerTest {
 		ArrayList<AgentSnapshot> snaps = new ArrayList<AgentSnapshot>();
 		HashSet<AgentID> ids = new HashSet<AgentID>();
 		String[] names = new String[] {"bear", "tom", "john", "piglet", "reese"};
-		
+
 		/* create snapshots */
 		for(int i = 0; i < 5; i++) {
 			Agent agent = prototype.createAgent();
@@ -163,12 +165,12 @@ public class StatisticsManagerTest {
 				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), s, protoSnap.categoryName));
 			}
 		}
-		
+
 		/* fill table w/ snapshots */
 		for(AgentSnapshot snap: snaps) {
 			sm.addGridEntity(snap);
 		}
-		
+
 		/* test method */
 		double[] avg = sm.getAvgFieldValue(protoSnap.categoryName, "weight");
 		for(double i : avg) {
@@ -180,7 +182,7 @@ public class StatisticsManagerTest {
 	@Test
 	public void testGetAvgLifespan() {
 		ArrayList<AgentSnapshot> snaps = new ArrayList<AgentSnapshot>();
-	
+
 		//Generate lifespans for each agent that will be inserted. 
 		Random R = new Random(); 
 		ArrayList<Integer> lifespans = new ArrayList<Integer>(); 
@@ -188,23 +190,23 @@ public class StatisticsManagerTest {
 		for(int i = 0; i < numAgents; i++){
 			lifespans.add(R.nextInt(100)); 
 		} 
-		
+
 		/* create snapshots */
 		for(int i = 0; i < lifespans.size(); i++) {
 			Agent agent = prototype.createAgent();
 			AgentID ID = agent.getID(); 
-			
+
 			//For each agent, add a snapshot of it at each Step it was alive
 			for(int step = 0; step <= lifespans.get(i); step++) {
 				snaps.add(new AgentSnapshot(ID, SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step, protoSnap.categoryName));
 			}
 		}
-		
+
 		/* fill table w/ snapshots */
 		for(AgentSnapshot snap: snaps) {
 			sm.addGridEntity(snap);
 		}		
-		
+
 		double actual = sm.getAvgLifespan(protoSnap.categoryName);
 		double expected = average(lifespans); 
 		System.out.println("\nGetAvgLifesppan()"); 
@@ -212,7 +214,7 @@ public class StatisticsManagerTest {
 		System.out.println("Actual:   " + actual);
 		Assert.assertEquals((int)expected, (int)actual); 
 	}
-	
+
 	/**
 	 * Calculate the average of the values in an int array
 	 * @param array The array of integer values
