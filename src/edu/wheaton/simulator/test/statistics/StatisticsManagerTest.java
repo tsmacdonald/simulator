@@ -62,25 +62,20 @@ public class StatisticsManagerTest {
 		children = prototype.childIDs();
 		step = new Integer(1);
 		
-		protoSnap = new PrototypeSnapshot(categoryName,
-				SnapshotFactory.makeFieldSnapshots(fields), population,
-				children, step);
+		protoSnap = new PrototypeSnapshot(categoryName, SnapshotFactory.makeFieldSnapshots(fields), population, children, step); 
 		
-	
-		
-		//Add another test PrototypeSnapshot
 		categoryName = "testing2";
 		prototype = new Prototype(grid, "tester2");
 		population = 40;
 		step = new Integer(2);
 		
+		//Add another test PrototypeSnapshot
 		protoSnap2 = new PrototypeSnapshot(categoryName,
 				SnapshotFactory.makeFieldSnapshots(fields), population,
 				children, step);
 		
 		Agent a = prototype.createAgent();
 		aSnap = SnapshotFactory.makeAgentSnapshot(a, step);
-		
 	}
 
 	@After
@@ -98,21 +93,20 @@ public class StatisticsManagerTest {
 		Assert.assertNotNull("Failed to get GridObserver", sm.getGridObserver()); 
 	}
 
-	@Test
-	public void testAddPrototypeSnapshot() {
-		Prototype p = new Prototype(g, "TestPrototype"); 
-		Assert.assertNotNull(p); 
-		
-		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname",
-				SnapshotFactory.makeFieldSnapshots(new HashMap<String, String>()), 100, p.childIDs(), new Integer(2)); 
-		
-		sm.addPrototypeSnapshot(protoSnap);
-	}
+//	@Test
+//	public void testAddPrototypeSnapshot() {
+//		Prototype p = new Prototype(g, "TestPrototype"); 
+//		Assert.assertNotNull(p); 
+//		
+//		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname",
+//				SnapshotFactory.makeFieldSnapshots(new HashMap<String, String>()), 100, p.childIDs(), new Integer(2)); 
+//		sm.addPrototypeSnapshot(protoSnap);
+//	}
 
-	@Test
-	public void testAddGridEntity() {
-		fail("Not yet implemented");
-	}
+//	@Test
+//	public void testAddGridEntity() {
+//		fail("Not yet implemented");
+//	}
 
 	@Test
 	public void testGetPopVsTime() {
@@ -163,16 +157,21 @@ public class StatisticsManagerTest {
 	@Test
 	public void testGetAvgLifespan() {
 		ArrayList<AgentSnapshot> snaps = new ArrayList<AgentSnapshot>();
-		HashSet<AgentID> ids = new HashSet<AgentID>();
-		//int[] lifespans = {2, 4, 6, 8, 10}; 
+		ArrayList<AgentID> ids = new ArrayList<AgentID>();
 		
+		System.out.println("--------------------------"); 
+		
+		//The lifespan for each agent that will be inserted. 
+		//The result should be average of these numbers
+		int[] lifespans = {10, 20, 30}; 
+		 
 		/* create snapshots */
-		for(int i = 0; i < 1 /* 5 */; i++) {
+		for(int i = 0; i < lifespans.length; i++) {
 			Agent agent = prototype.createAgent();
-
-			ids.add(agent.getID());
-			for(int step = 0; step < 4 /* lifespans[i] */; step++) {
-				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step, protoSnap.categoryName));
+			AgentID ID = agent.getID(); 
+			
+			for(int step = 0; step <= lifespans[i]; step++) {
+				snaps.add(new AgentSnapshot(ID, SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step, protoSnap.categoryName));
 			}
 		}
 		
@@ -181,13 +180,23 @@ public class StatisticsManagerTest {
 			sm.addGridEntity(snap);
 		}		
 		
-		try {
-			double result = sm.getAvgLifespan(protoSnap.categoryName);
-			System.out.println("Result: " + result); 
-		}
-		catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} 
+		double actual = sm.getAvgLifespan(protoSnap.categoryName);
+		double expected = average(lifespans); 
+		System.out.println("\nExpected: " + expected);
+		System.out.println("Actual:   " + actual);
+		Assert.assertEquals((int)expected, (int)actual); 
+	}
+	
+	/**
+	 * Calculate the average of the values in an int array
+	 * @param array The array of integer values
+	 * @return The average of the values in the given array
+	 */
+	private double average(int[] array){
+		double avg = 0.0; 
+		for(int i : array)
+			avg += i; 
+		return avg / array.length; 
 	}
 
 }

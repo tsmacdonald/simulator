@@ -14,6 +14,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -26,6 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
+
+import net.sourceforge.jeval.EvaluationException;
 
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
@@ -49,22 +53,26 @@ public class ViewSimScreen extends Screen {
 	private GridPanel grid;
 
 	private int stepCount;
-	
+
 	private JButton backButton;
-	
+
 	private long startTime;
-	
+
 	private long endTime;
-	
+
 	private SimulationRecorder gridRec;
-	
+
 	private JComboBox agentComboBox;
-	
+
 	private JComboBox layerComboBox;
-	
+
 	private String[] entities;
-	
+
+	private String[] layers;
+
 	private JPanel panel1;
+
+	private JPanel panel2;
 
 	//TODO figure out best way to have agents drawn before pressing start, without creating issues
 	//with later changing spawn conditions
@@ -84,7 +92,7 @@ public class ViewSimScreen extends Screen {
 		agentComboBox = new JComboBox();
 		panel1.add(agents);
 		panel1.add(agentComboBox);
-		JPanel panel2 = new JPanel();
+		panel2 = new JPanel();
 		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
 		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
 		JPanel mainPanel = new JPanel();
@@ -92,9 +100,42 @@ public class ViewSimScreen extends Screen {
 		layerComboBox = new JComboBox();
 		panel2.add(layers);
 		panel2.add(layerComboBox);
-		JColorChooser color = new JColorChooser();
-		color.setMaximumSize(new Dimension(250, 500));
-	
+		JPanel panel3 = new JPanel();
+		panel3.setLayout(new BoxLayout(panel3, BoxLayout.X_AXIS));
+		JButton apply = new JButton("Apply");
+		final JColorChooser colorTool = new JColorChooser();
+		colorTool.setMaximumSize(new Dimension(250, 500));
+		apply.addActionListener(
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent ae) {
+						sm.getFacade().newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
+						try {
+							sm.getFacade().setLayerExtremes();
+						} catch (EvaluationException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						grid.setLayers(true);
+						grid.repaint();
+					} 
+				}
+				);
+		JButton clear = new JButton("Clear");
+		clear.addActionListener(
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent ae) {
+						grid.setLayers(false);
+						grid.repaint();
+					} 
+				}
+				);
+		panel3.add(apply);
+		panel3.add(clear);
+		
+		
+
 		agentComboBox.setMaximumSize(new Dimension(200, 50));
 		layerComboBox.setMaximumSize(new Dimension(200, 50));
 		//layerPanel.setSize(new Dimension(600, 1000));
@@ -110,7 +151,8 @@ public class ViewSimScreen extends Screen {
 		this.add(layerPanel, BorderLayout.WEST);
 		layerPanel.add(panel1);
 		layerPanel.add(panel2);
-		layerPanel.add(color);
+		layerPanel.add(panel3);
+		layerPanel.add(colorTool);
 		mainPanel.add(layerPanel);
 		mainPanel.add(grid);
 		this.add(label, BorderLayout.NORTH);
@@ -213,7 +255,7 @@ public class ViewSimScreen extends Screen {
 						backButton.setEnabled(true);
 					}
 					else sm.setRunning(false);
-					
+
 
 					SwingUtilities.invokeLater(
 							new Thread (new Runnable() {
@@ -240,11 +282,34 @@ public class ViewSimScreen extends Screen {
 	public void load() {
 		entities = sm.getFacade().prototypeNames().toArray(entities);
 		agentComboBox = new JComboBox(entities);
+		agentComboBox.addItemListener(
+				new ItemListener() {
+					@Override
+					public void itemStateChanged(ItemEvent e) {
+						layerComboBox = new JComboBox(sm.getFacade().getPrototype
+								(agentComboBox.getSelectedItem().toString())
+								.getCustomFieldMap().keySet().toArray());
+						layerComboBox.setMaximumSize(new Dimension(200, 50));
+						panel2.remove(1);
+						panel2.add(layerComboBox);
+						validate();
+						repaint();
+					}
+				}
+				);
+		if(entities.length != 0){
+			layerComboBox = new JComboBox(sm.getFacade().getPrototype
+					(agentComboBox.getItemAt(0).toString())
+					.getCustomFieldMap().keySet().toArray());
+			layerComboBox.setMaximumSize(new Dimension(200, 50));
+			panel2.remove(1);
+			panel2.add(layerComboBox);
+		}
 		agentComboBox.setMaximumSize(new Dimension(200, 50));
 		panel1.remove(1);
 		panel1.add(agentComboBox);
 		validate();
 		grid.repaint();
-		
+
 	}
 }
