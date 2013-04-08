@@ -168,7 +168,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 		}
 		
 		public String toString() {
-			return "Linear Update";
+			return "Linear";
 		}
 	}
 
@@ -200,7 +200,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 		}
 		
 		public String toString() {
-			return "Priority Update";
+			return "Priority";
 		}
 	}
 
@@ -238,7 +238,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 		}
 		
 		public String toString() {
-			return "Atomic Update";
+			return "Atomic";
 		}
 	}
 
