@@ -38,6 +38,68 @@ public class GUIToAgentFacade {
 	 */
 	public GUIToAgentFacade(int gridX, int gridY) {
 		grid = new Grid(gridX, gridY);
+		initSamples();
+	}
+	
+	/**
+	 * Adds the some sample prototypes
+	 */
+	private void initSamples() {
+		initMultiplier();
+	}
+	
+	/**
+	 * Creates a new multiplier (sample Prototype) and adds it to the static list of Prototypes.
+	 */
+	private void initMultiplier() {
+		grid.setAtomicUpdater();
+		
+		Prototype multiplier = new Prototype(grid, Color.RED, "multiplier");
+
+		// Add fields
+		try {
+			multiplier.addField("age", 0 + "");
+		} catch (ElementAlreadyContainedException e) {
+			e.printStackTrace();
+		}
+
+		// Set up conditionals
+		Expression tooOld = new Expression("this.age > 5");
+		Expression emptyNeighbor1 = new Expression("isSlotOpen(this.x, this.y + 1)");
+		Expression emptyNeighbor2 = new Expression("isSlotOpen(this.x + 1, this.y + 1)");
+		Expression emptyNeighbor3 = new Expression("isSlotOpen(this.x + 1, this.y)");
+		Expression emptyNeighbor4 = new Expression("isSlotOpen(this.x + 1, this.y - 1)");
+		Expression emptyNeighbor5 = new Expression("isSlotOpen(this.x, this.y - 1)");
+		Expression emptyNeighbor6 = new Expression("isSlotOpen(this.x - 1, this.y - 1)");
+		Expression emptyNeighbor7 = new Expression("isSlotOpen(this.x - 1, this.y)");
+		Expression emptyNeighbor8 = new Expression("isSlotOpen(this.x - 1, this.y + 1)");
+
+		// Set up behaviors
+		Expression incrementAge = new Expression("setField('this', 'age', this.age + 1)");
+		Expression die = new Expression ("die('this')");
+		Expression cloneToEmpty1 =  new Expression("clone('this', this.x, this.y + 1)");
+		Expression cloneToEmpty2 =  new Expression("clone('this', this.x + 1, this.y + 1)");
+		Expression cloneToEmpty3 =  new Expression("clone('this',  this.x + 1, this.y)");
+		Expression cloneToEmpty4 =  new Expression("clone('this', this.x + 1, this.y - 1)");
+		Expression cloneToEmpty5 =  new Expression("clone('this', this.x, this.y - 1)");
+		Expression cloneToEmpty6 =  new Expression("clone('this', this.x - 1, this.y - 1)");
+		Expression cloneToEmpty7 =  new Expression("clone('this', this.x - 1, this.y)");
+		Expression cloneToEmpty8 =  new Expression("clone('this', this.x - 1, this.y + 1)");
+
+		// Add triggers
+		multiplier.addTrigger(new Trigger("updateAge", 1, new Expression("true"), incrementAge));
+		multiplier.addTrigger(new Trigger("die", 1, tooOld, die));
+		multiplier.addTrigger(new Trigger("clone1", 1, emptyNeighbor1, cloneToEmpty1));
+		multiplier.addTrigger(new Trigger("clone2", 1, emptyNeighbor2, cloneToEmpty2));
+		multiplier.addTrigger(new Trigger("clone3", 1, emptyNeighbor3, cloneToEmpty3));
+		multiplier.addTrigger(new Trigger("clone4", 1, emptyNeighbor4, cloneToEmpty4));
+		multiplier.addTrigger(new Trigger("clone5", 1, emptyNeighbor5, cloneToEmpty5));
+		multiplier.addTrigger(new Trigger("clone6", 1, emptyNeighbor6, cloneToEmpty6));
+		multiplier.addTrigger(new Trigger("clone7", 1, emptyNeighbor7, cloneToEmpty7));
+		multiplier.addTrigger(new Trigger("clone8", 1, emptyNeighbor8, cloneToEmpty8));
+
+		// Add the prototype to the static list of Prototypes
+		Prototype.addPrototype(multiplier);
 	}
 
 	/**
@@ -280,7 +342,7 @@ public class GUIToAgentFacade {
 
 	public void initGameOfLife() {
 
-		// grid = new Grid(grid.getWidth(), grid.getHeight());
+		clearPrototypes();
 
 		Prototype deadBeing = new Prototype(grid, new Color(219, 219, 219), "deadBeing");
 		grid.setPriorityUpdater();
@@ -325,7 +387,7 @@ public class GUIToAgentFacade {
 				"setField('this', 'alive', 0) || setField('this', 'age', 0) || "
 						+ "setField('this', 'colorRed', 219) || setField('this', 'colorGreen', 219) || setField('this', 'colorBlue', 219)");
 		Expression revive = new Expression(
-				"setField('this', 'alive', 1) || "
+				"setField('this', 'alive', 1) || setField('this', 'age', 1) || "
 						+ "setField('this', 'colorRed', 93) || setField('this', 'colorGreen', 198) || setField('this', 'colorBlue', 245)");
 		Expression resetNeighbors = new Expression(
 				"setField('this', 'neighbors', 0)");
@@ -363,7 +425,7 @@ public class GUIToAgentFacade {
 		// Add fields
 		try {
 			aliveBeing.addField("alive", 1 + ""); // 0 for false, 1 for true
-			aliveBeing.addField("age", 0 + "");
+			aliveBeing.addField("age", 1 + "");
 			aliveBeing.addField("neighbors", 0 + "");
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
@@ -424,6 +486,9 @@ public class GUIToAgentFacade {
 	 * then agents are modified mid simulation.
 	 */
 	public void initRockPaperScissors() {
+		
+		clearPrototypes();
+		
 		// names of the agents
 		String[] agentType = { "rock", "paper", "scissors" };
 
