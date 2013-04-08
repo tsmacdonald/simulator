@@ -32,11 +32,11 @@ public class Prototype extends GridEntity {
 	 * HashMap of Prototypes with associated names
 	 */
 	private static Map<String, Prototype> prototypes = new HashMap<String, Prototype>();
-	
+
 	/**
 	 * HashMap of ID->name as a hackish solution to getPrototype(PrototypeID)
 	 */
-	private static Map<PrototypeID,String> idNameMap = new HashMap<PrototypeID,String>();
+	private static Map<PrototypeID, String> idNameMap = new HashMap<PrototypeID, String>();
 
 	/**
 	 * The list of all triggers/events associated with this prototype.
@@ -122,8 +122,8 @@ public class Prototype extends GridEntity {
 	public static Prototype getPrototype(String n) {
 		return prototypes.get(n);
 	}
-	
-	public static Prototype getPrototype(PrototypeID id){
+
+	public static Prototype getPrototype(PrototypeID id) {
 		return getPrototype(idNameMap.get(id));
 	}
 
@@ -139,6 +139,13 @@ public class Prototype extends GridEntity {
 	}
 
 	/**
+	 * Removes a Prototype templates from the HashMap
+	 */
+	public static void clearPrototypes() {
+		prototypes.clear();
+	}
+
+	/**
 	 * Gets a Set of the prototype names
 	 * 
 	 * @return
@@ -146,7 +153,7 @@ public class Prototype extends GridEntity {
 	public static Set<String> prototypeNames() {
 		return prototypes.keySet();
 	}
-	
+
 	/**
 	 * Provides all of the Prototypes in the HashMap
 	 * 
@@ -154,12 +161,12 @@ public class Prototype extends GridEntity {
 	 */
 	public static ImmutableSet<Prototype> getPrototypes() {
 		ImmutableSet.Builder<Prototype> toReturn = new ImmutableSet.Builder<Prototype>();
-		for(String current : prototypes.keySet()) {
+		for (String current : prototypes.keySet()) {
 			toReturn.add(getPrototype(current));
 		}
 		return toReturn.build();
 	}
-	
+
 	/**
 	 * Changes the name of a prototype without resetting its children.
 	 * 
@@ -305,5 +312,5 @@ public class Prototype extends GridEntity {
 	public String getName() {
 		return name;
 	}
-	
+
 }

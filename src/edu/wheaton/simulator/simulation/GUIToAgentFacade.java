@@ -72,6 +72,13 @@ public class GUIToAgentFacade {
 	public Prototype getPrototype(String n) {
 		return Prototype.getPrototype(n);
 	}
+	
+	/**
+	 * Resets the static list of prototypes
+	 */
+	public void clearPrototypes() {
+		Prototype.clearPrototypes();
+	}
 
 	/**
 	 * Gets a Set of the prototype names
