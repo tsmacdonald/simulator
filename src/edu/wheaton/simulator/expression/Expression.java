@@ -12,6 +12,7 @@ import net.sourceforge.jeval.function.FunctionException;
 import edu.wheaton.simulator.behavior.CloneAgentAtPositionBehavior;
 import edu.wheaton.simulator.behavior.CloneBehavior;
 import edu.wheaton.simulator.behavior.DieBehavior;
+import edu.wheaton.simulator.behavior.KillBehavior;
 import edu.wheaton.simulator.behavior.MoveBehavior;
 import edu.wheaton.simulator.behavior.SetFieldBehavior;
 import edu.wheaton.simulator.behavior.SetFieldOfAgentBehavior;
@@ -105,6 +106,7 @@ public class Expression {
 		//make all project-defined ExpressionFunction implementations recognizable by default
 		this.importFunction(new CloneBehavior());
 		this.importFunction(new DieBehavior());
+		this.importFunction(new KillBehavior());
 		this.importFunction(new MoveBehavior());
 		this.importFunction(new SetFieldBehavior());
 		this.importFunction(new IsSlotOpen());

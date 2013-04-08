@@ -191,23 +191,14 @@ public class StatisticsManager {
 	 */
 	// TODO Make sure getPopVsTime is working correctly
 	public int[] getPopVsTime(String prototypeName) { // name - name of Prototype
-		int[] data = new int[lastStep+1];
+		int[] data = new int[lastStep+1];	
 		
 		//Populate agentsByStep
 		for (int i = 0; i <= lastStep; i++) {
-			data[i] = getPopulationAtStep(prototypeName, i).size();
+			Set<AgentSnapshot> stepPop = getPopulationAtStep(prototypeName, i);
+			data[i] = stepPop.size(); 
 		}
 
-//		for (int i = 0; i < data.length; i++) {
-//			Map<String, PrototypeSnapshot> map; 
-//			PrototypeSnapshot currentSnapshot;
-//			map = prototypes.get(i);
-//			if(map != null){
-//				if ((currentSnapshot = prototypes.get(i).get(name)) != null) {
-//					data[i] = currentSnapshot.population;
-//				}
-//			}
-//		}
 		return data;
 	}
 

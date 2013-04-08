@@ -72,6 +72,13 @@ public class GUIToAgentFacade {
 	public Prototype getPrototype(String n) {
 		return Prototype.getPrototype(n);
 	}
+	
+	/**
+	 * Resets the static list of prototypes
+	 */
+	public void clearPrototypes() {
+		Prototype.clearPrototypes();
+	}
 
 	/**
 	 * Gets a Set of the prototype names
@@ -257,7 +264,7 @@ public class GUIToAgentFacade {
 
 		// grid = new Grid(grid.getWidth(), grid.getHeight());
 
-		Prototype deadBeing = new Prototype(grid, Color.RED, "deadBeing");
+		Prototype deadBeing = new Prototype(grid, new Color(219, 219, 219), "deadBeing");
 		grid.setPriorityUpdater();
 		// Add fields
 		try {
@@ -298,10 +305,10 @@ public class GUIToAgentFacade {
 				"setField('this', 'neighbors', this.neighbors+1)");
 		Expression die = new Expression(
 				"setField('this', 'alive', 0) || setField('this', 'age', 0) || "
-						+ "setField('this', 'colorRed', 250) || setField('this', 'colorGreen', 0) || setField('this', 'colorBlue', 0)");
+						+ "setField('this', 'colorRed', 219) || setField('this', 'colorGreen', 219) || setField('this', 'colorBlue', 219)");
 		Expression revive = new Expression(
 				"setField('this', 'alive', 1) || "
-						+ "setField('this', 'colorRed', 0) || setField('this', 'colorGreen', 0) || setField('this', 'colorBlue', 250)");
+						+ "setField('this', 'colorRed', 93) || setField('this', 'colorGreen', 198) || setField('this', 'colorBlue', 245)");
 		Expression resetNeighbors = new Expression(
 				"setField('this', 'neighbors', 0)");
 
@@ -333,7 +340,7 @@ public class GUIToAgentFacade {
 		Prototype.addPrototype(deadBeing);
 
 		// Make a another prototype that is initially alive
-		Prototype aliveBeing = new Prototype(grid, Color.BLUE, "aliveBeing");
+		Prototype aliveBeing = new Prototype(grid, new Color(93, 198, 245), "aliveBeing");
 
 		// Add fields
 		try {
@@ -374,7 +381,7 @@ public class GUIToAgentFacade {
 		// Place dead beings in Grid with some that are alive
 		for (int x = 0; x < grid.getWidth(); x++)
 			for (int y = 0; y < grid.getHeight(); y++) {
-				if (x == 4 || x == 5 || y == 5) {
+				if (x == 4) {
 					grid.spiralSpawn(Prototype.getPrototype("aliveBeing")
 							.createAgent(), x, y);
 				} else {
@@ -438,10 +445,7 @@ public class GUIToAgentFacade {
 				"setField('this', 'agentAhead', 1)");
 
 		// reads flag that is set when there is an agent ahead
-		Expression checkAgentAheadFlag = new Expression("this.endTurn != 1" + // may
-																				// not
-																				// be
-																				// needed
+		Expression checkAgentAheadFlag = new Expression("this.endTurn != 1" +
 				"&& this.agentAhead == 1.0");
 
 		// collect information about conflict
@@ -452,14 +456,13 @@ public class GUIToAgentFacade {
 						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'yNextDirection') == - this.yNextDirection)");
 
 		// check the flag that is set when a conflict is ahead
-		Expression checkConflictAheadFlag = new Expression("this.endTurn != 1"
-				+ // may not be needed
+		Expression checkConflictAheadFlag = new Expression("this.endTurn != 1" +
 				" && this.conflictAhead");
 
 		// conflict behavior
 		Expression engageInConflict = new Expression(
-				"die('this')"
-						+ "&& cloneAgentAtPosition('this',this.x + this.xNextDirection, this.y +this.yNextDirection, this.x, this.y)"
+				"kill(this.x  + this.xNextDirection, this.y + this.yNextDirection)"
+						+ "&& clone('this',this.x  + this.xNextDirection, this.y + this.yNextDirection)"
 						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
 						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
 						+ "&& setField('this', 'endTurn', 1)");
