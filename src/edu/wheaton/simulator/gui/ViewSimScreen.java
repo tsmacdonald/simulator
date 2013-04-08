@@ -57,11 +57,18 @@ public class ViewSimScreen extends Screen {
 	private long endTime;
 	
 	private SimulationRecorder gridRec;
+	
+	private JComboBox agentComboBox;
+	
+	private JComboBox layerComboBox;
+	
+	private String[] entities;
 
 	//TODO figure out best way to have agents drawn before pressing start, without creating issues
 	//with later changing spawn conditions
 	public ViewSimScreen(final ScreenManager sm) {
 		super(sm);
+		entities = new String[0];
 		this.setLayout(new BorderLayout());
 		this.sm = sm;
 		gridRec = new SimulationRecorder(sm.getStatManager());
@@ -72,7 +79,7 @@ public class ViewSimScreen extends Screen {
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
 		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
-		JComboBox agentComboBox = new JComboBox();
+		agentComboBox = new JComboBox();
 		panel1.add(agents);
 		panel1.add(agentComboBox);
 		JPanel panel2 = new JPanel();
@@ -80,7 +87,7 @@ public class ViewSimScreen extends Screen {
 		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
-		JComboBox layerComboBox = new JComboBox();
+		layerComboBox = new JComboBox();
 		panel2.add(layers);
 		panel2.add(layerComboBox);
 		JColorChooser color = new JColorChooser();
@@ -230,5 +237,7 @@ public class ViewSimScreen extends Screen {
 	public void load() {
 		validate();
 		grid.repaint();
+		entities = sm.getFacade().prototypeNames().toArray(entities);
+		agentComboBox = new JComboBox(entities);
 	}
 }
