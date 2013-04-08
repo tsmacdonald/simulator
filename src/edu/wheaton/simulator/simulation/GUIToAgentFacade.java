@@ -438,10 +438,7 @@ public class GUIToAgentFacade {
 				"setField('this', 'agentAhead', 1)");
 
 		// reads flag that is set when there is an agent ahead
-		Expression checkAgentAheadFlag = new Expression("this.endTurn != 1" + // may
-																				// not
-																				// be
-																				// needed
+		Expression checkAgentAheadFlag = new Expression("this.endTurn != 1" +
 				"&& this.agentAhead == 1.0");
 
 		// collect information about conflict
@@ -452,14 +449,13 @@ public class GUIToAgentFacade {
 						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'yNextDirection') == - this.yNextDirection)");
 
 		// check the flag that is set when a conflict is ahead
-		Expression checkConflictAheadFlag = new Expression("this.endTurn != 1"
-				+ // may not be needed
+		Expression checkConflictAheadFlag = new Expression("this.endTurn != 1" +
 				" && this.conflictAhead");
 
 		// conflict behavior
 		Expression engageInConflict = new Expression(
-				"die('this')"
-						+ "&& cloneAgentAtPosition('this',this.x + this.xNextDirection, this.y +this.yNextDirection, this.x, this.y)"
+				"kill(this.x  + this.xNextDirection, this.y + this.yNextDirection)"
+						+ "&& clone('this',this.x  + this.xNextDirection, this.y + this.yNextDirection)"
 						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
 						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
 						+ "&& setField('this', 'endTurn', 1)");
