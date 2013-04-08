@@ -11,6 +11,7 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -63,6 +64,7 @@ public class FieldScreen extends Screen {
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel panel = new JPanel();
+		panel.setPreferredSize(new Dimension(450, 550));
 		//panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 //		JLabel xLabel = new JLabel("X Pos: ");
@@ -84,7 +86,8 @@ public class FieldScreen extends Screen {
 //		posPanel.setAlignmentX(CENTER_ALIGNMENT);
 		listModel = new DefaultListModel();
 		fields = new JList(listModel);
-		fields.setMaximumSize(new Dimension(400, 800));
+		fields.setBackground(Color.white);
+		fields.setPreferredSize(new Dimension(400, 500));
 		fields.setFixedCellWidth(400);
 		fields.setLayoutOrientation(JList.VERTICAL_WRAP);
 		fields.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

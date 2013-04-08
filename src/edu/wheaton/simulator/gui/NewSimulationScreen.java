@@ -48,12 +48,15 @@ public class NewSimulationScreen extends Screen {
 		heightLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		JLabel widthLabel = new JLabel("Width:");
 		widthLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		JButton newSimButton = new JButton("New Blank Simulation");
+		JButton newSimButton = new JButton("Blank Simulation");
 		newSimButton.setPreferredSize(new Dimension(200, 75));
 		newSimButton.addActionListener(new NewSimScreenFinishListener(name, width, height, sm));
 		JButton conwayButton = new JButton("Conway's Game of Life");
 		conwayButton.setPreferredSize(new Dimension(200, 75));
 		conwayButton.addActionListener(new ConwayFinishListener(name, width, height, sm));
+		JButton rpsButton = new JButton("Rock Paper Scissors");
+		rpsButton.setPreferredSize(new Dimension(200, 75));
+		rpsButton.addActionListener(new RockPaperScissorsFinishListener(name, width, height, sm));
 		panel1.add(nameLabel);
 		panel1.add(name);
 		panel2.add(heightLabel);
@@ -67,6 +70,7 @@ public class NewSimulationScreen extends Screen {
 		simPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		buttonPanel.add(newSimButton);
 		buttonPanel.add(conwayButton);
+		buttonPanel.add(rpsButton);
 		simPanel.add(buttonPanel);
 		this.add(label, BorderLayout.NORTH);
 		this.add(simPanel, BorderLayout.CENTER);

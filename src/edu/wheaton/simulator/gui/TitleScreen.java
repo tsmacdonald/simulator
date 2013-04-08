@@ -27,10 +27,10 @@ public class TitleScreen extends Screen {
 		super(sm);
 		this.setLayout(new BorderLayout());
 		
-		// Since serialization is not yet implemented.
+
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
-		//
+
 		
 		initLabel();
 		initMainPanel(panel1,panel2);
@@ -38,8 +38,9 @@ public class TitleScreen extends Screen {
 		initButton(panel2,"Load a saved Simulation", "Load Existing");
 		
 		// Since serialization is not yet implemented.
+		panel2.getComponent(0).setEnabled(false);
 		this.setVisible(true);
-		//
+
 	}
 	
 	private void initLabel(){

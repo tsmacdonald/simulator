@@ -85,6 +85,11 @@ public class SetupScreen extends Screen {
 		heightLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		height = new JTextField(sm.getGUIheight()+"", 0);
 		height.setMaximumSize(new Dimension(80, 30));
+		JLabel updateLabel = new JLabel("Update type: ");
+		updateLabel.setMaximumSize(new Dimension(100, 40));
+		String[] updateTypes = {"Linear", "Atomic", "Priority"};
+		JComboBox updateBox = new JComboBox(updateTypes);
+		updateBox.setMaximumSize(new Dimension(200, 40));
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
 		panel1.add(nameLabel);
@@ -95,6 +100,10 @@ public class SetupScreen extends Screen {
 		panel2.add(height);
 		panel2.add(widthLabel);
 		panel2.add(width);
+		JPanel panel3 = new JPanel();
+		panel3.setLayout(new BoxLayout(panel3, BoxLayout.X_AXIS));
+		panel3.add(updateLabel);
+		panel3.add(updateBox);
 
 		JPanel conMainPanel = new JPanel();
 		JPanel conBodyPanel = new JPanel();
@@ -234,6 +243,7 @@ public class SetupScreen extends Screen {
 		buttonPanel.add(finishButton);
 		mainPanel.add(panel1);
 		mainPanel.add(panel2);
+		mainPanel.add(panel3);
 		JPanel uberPanel = new JPanel();
 		uberPanel.setLayout(new BoxLayout(uberPanel, BoxLayout.Y_AXIS));
 		uberPanel.add(mainPanel);

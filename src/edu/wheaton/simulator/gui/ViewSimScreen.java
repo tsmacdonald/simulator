@@ -58,8 +58,6 @@ public class ViewSimScreen extends Screen {
 
 	private long startTime;
 
-	private long endTime;
-
 	private SimulationRecorder gridRec;
 
 	private JComboBox agentComboBox;
@@ -67,8 +65,6 @@ public class ViewSimScreen extends Screen {
 	private JComboBox layerComboBox;
 
 	private String[] entities;
-
-	private String[] layers;
 
 	private JPanel panel1;
 
@@ -192,7 +188,6 @@ public class ViewSimScreen extends Screen {
 					public void actionPerformed(ActionEvent e) {
 						sm.setRunning(false);
 						backButton.setEnabled(true);
-						endTime = System.currentTimeMillis();
 					}
 				}
 				);
@@ -250,12 +245,9 @@ public class ViewSimScreen extends Screen {
 							sm.getFacade().getGrid());
 					System.out.println("shouldEnd = " + shouldEnd);
 					if (shouldEnd) {
-						//TODO should statistics team add something to keep track of this?
-						endTime = currentTime;
 						backButton.setEnabled(true);
+						sm.setRunning(false);
 					}
-					else sm.setRunning(false);
-
 
 					SwingUtilities.invokeLater(
 							new Thread (new Runnable() {
