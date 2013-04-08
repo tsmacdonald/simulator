@@ -46,6 +46,8 @@ public class GUIToAgentFacade {
 	 */
 	private void initSamples() {
 		initMultiplier();
+		initRightTurner();
+		initBouncer();
 	}
 	
 	/**
@@ -100,6 +102,65 @@ public class GUIToAgentFacade {
 
 		// Add the prototype to the static list of Prototypes
 		Prototype.addPrototype(multiplier);
+	}
+	
+	private void initRightTurner(){
+		Prototype rightTurner = new Prototype(grid, Color.BLUE, "rightTurner");
+
+		// Add fields
+		try {
+			rightTurner.addField("xNextDirection", 0 + "");
+			rightTurner.addField("yNextDirection", 1 + "");
+			rightTurner.addField("temp", 0 + "");
+		} catch (ElementAlreadyContainedException e) {
+			e.printStackTrace();
+		}
+		
+		// openSpot conditionals
+		Expression freeSpot = new Expression("isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)");
+		Expression notFreeSpot = new Expression("!isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)");
+
+		// Move behavior
+		Expression move = new Expression(
+				"move('this', this.x + this.xNextDirection, this.y + this.yNextDirection)");
+		
+		// turn clockwise
+		Expression rotateClockwise = new Expression(
+				" setField('this', 'temp', this.xNextDirection) || setField('this', 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4)))"
+						+ " || setField('this', 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))");
+		
+		rightTurner.addTrigger(new Trigger("turn", 1, notFreeSpot, rotateClockwise));
+		rightTurner.addTrigger(new Trigger("move", 1, freeSpot, move));
+		
+		Prototype.addPrototype(rightTurner);
+	}
+	
+	private void initBouncer(){
+		Prototype bouncer = new Prototype(grid, Color.BLUE, "bouncer");
+
+		// Add fields
+		try {
+			bouncer.addField("xNextDirection", 0 + "");
+			bouncer.addField("yNextDirection", 1 + "");
+		} catch (ElementAlreadyContainedException e) {
+			e.printStackTrace();
+		}
+		
+		// openSpot conditionals
+		Expression freeSpot = new Expression("isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)");
+		Expression notFreeSpot = new Expression("!isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)");
+
+		// Move behavior
+		Expression move = new Expression("move('this', this.x + this.xNextDirection, this.y + this.yNextDirection)");
+		
+		// turn clockwise
+		Expression bounce = new Expression("setField('this', 'xNextDirection', -1 * this.xNextDirection) ||" +
+				"setField('this', 'yNextDirection', -1 * this.yNextDirection)");
+		
+		bouncer.addTrigger(new Trigger("bounce", 1, notFreeSpot, bounce));
+		bouncer.addTrigger(new Trigger("move", 1, freeSpot, move));
+		
+		Prototype.addPrototype(bouncer);
 	}
 
 	/**
