@@ -228,7 +228,7 @@ public class ViewSimScreen extends Screen {
 	}
 
 	private void runSim() {
-		System.out.println(sm.getEnder().getStepLimit());
+		System.out.println("StepLimit = " + sm.getEnder().getStepLimit());
 		//program loop yay!
 		new Thread(new Runnable() {
 			@Override
@@ -248,12 +248,13 @@ public class ViewSimScreen extends Screen {
 					stepCount++;
 					boolean shouldEnd = sm.getEnder().evaluate(stepCount, 
 							sm.getFacade().getGrid());
-					sm.setRunning(!shouldEnd);
+					System.out.println("shouldEnd = " + shouldEnd);
 					if (shouldEnd) {
 						//TODO should statistics team add something to keep track of this?
 						endTime = currentTime;
 						backButton.setEnabled(true);
 					}
+					else sm.setRunning(false);
 
 
 					SwingUtilities.invokeLater(
