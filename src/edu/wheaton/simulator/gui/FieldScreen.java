@@ -97,17 +97,7 @@ public class FieldScreen extends Screen {
 		add = new JButton("Add");
 		add.addActionListener(new FieldAddListener(sm));
 		edit = new JButton("Edit");
-		edit.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						if(!editing)
-							editing = true;
-						((EditFieldScreen) sm.getScreen("Edit Fields")).load((String) fields.getSelectedValue());
-						sm.update(sm.getScreen("Edit Fields"));
-					}
-				}
-				);
+		edit.addActionListener(new FieldEditListener(sm, fields));
 		JButton back = new JButton("Back");
 		back.addActionListener(new GeneralButtonListener("Edit Simulation", sm));
 		JPanel buttonPanel = new JPanel(new FlowLayout());
