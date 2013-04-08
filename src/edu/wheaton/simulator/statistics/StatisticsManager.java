@@ -195,7 +195,8 @@ public class StatisticsManager {
 		
 		//Populate agentsByStep
 		for (int i = 0; i <= lastStep; i++) {
-			data[i] = getPopulationAtStep(prototypeName, i).size();
+			Set<AgentSnapshot> stepPop = getPopulationAtStep(prototypeName, i);
+			data[i] = stepPop.size(); 
 		}
 
 //		for (int i = 0; i < data.length; i++) {
