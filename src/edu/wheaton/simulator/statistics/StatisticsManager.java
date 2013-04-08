@@ -190,19 +190,24 @@ public class StatisticsManager {
 	 *         that time
 	 */
 	// TODO Make sure getPopVsTime is working correctly
-	public int[] getPopVsTime(String name) { // name - name of Prototype
-		int[] data = new int[lastStep];
-
-		for (int i = 0; i < data.length; i++) {
-			Map<String, PrototypeSnapshot> map; 
-			PrototypeSnapshot currentSnapshot;
-			map = prototypes.get(i);
-			if(map != null){
-				if ((currentSnapshot = prototypes.get(i).get(name)) != null) {
-					data[i] = currentSnapshot.population;
-				}
-			}
+	public int[] getPopVsTime(String prototypeName) { // name - name of Prototype
+		int[] data = new int[lastStep+1];
+		
+		//Populate agentsByStep
+		for (int i = 0; i <= lastStep; i++) {
+			data[i] = getPopulationAtStep(prototypeName, i).size();
 		}
+
+//		for (int i = 0; i < data.length; i++) {
+//			Map<String, PrototypeSnapshot> map; 
+//			PrototypeSnapshot currentSnapshot;
+//			map = prototypes.get(i);
+//			if(map != null){
+//				if ((currentSnapshot = prototypes.get(i).get(name)) != null) {
+//					data[i] = currentSnapshot.population;
+//				}
+//			}
+//		}
 		return data;
 	}
 
@@ -288,17 +293,10 @@ public class StatisticsManager {
 
 			// Build the sum of all lifetimes - we'll divide by the number of
 			// agents at the end to get the average
-			System.out.println("\t\tB: " + birthTime);
-			System.out.println("\t\tD: " + deathTime);
-			int lifespan = (deathTime - birthTime);
-
+			int lifespan = (deathTime - birthTime); 
 			avg += lifespan; 
-
-			System.out.println("Lifespan: " + lifespan);  
 		}	
 
-		System.out.println("\navg: " + avg);
-		System.out.println("allIDs.size(): " + allIDs.size());
 		return avg / allIDs.size();
 	}
 

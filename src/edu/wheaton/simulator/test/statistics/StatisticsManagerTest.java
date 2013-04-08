@@ -9,11 +9,10 @@ package edu.wheaton.simulator.test.statistics;
  * 25 Mar 2013
  */
 
-import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -46,7 +45,6 @@ public class StatisticsManagerTest {
 	Integer step;
 	PrototypeSnapshot protoSnap;
 	PrototypeSnapshot protoSnap2;
-	AgentSnapshot aSnap;
 	
 	@Before
 	public void setUp() {
@@ -73,9 +71,6 @@ public class StatisticsManagerTest {
 		protoSnap2 = new PrototypeSnapshot(categoryName,
 				SnapshotFactory.makeFieldSnapshots(fields), population,
 				children, step);
-		
-		Agent a = prototype.createAgent();
-		aSnap = SnapshotFactory.makeAgentSnapshot(a, step);
 	}
 
 	@After
@@ -111,13 +106,41 @@ public class StatisticsManagerTest {
 	@Test
 	public void testGetPopVsTime() {
 		sm.addPrototypeSnapshot(protoSnap); 
-		sm.addGridEntity(aSnap);
+		
+		Random R = new Random(); 
+		int numSteps = 4; //R.nextInt(10);
+		int[] expected = {3, 5, 7, 9}; //new int[numSteps];
+		
+		for(int i = 0; i < numSteps; i++){
+			//expected[i] = R.nextInt(100);
+			
+			for(int pop = 0; pop < expected[i]; pop++){
+				Agent agent = prototype.createAgent();
+				sm.addGridEntity(new AgentSnapshot(agent.getID(), 
+						SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), 
+						numSteps, protoSnap.categoryName));
+			}
+		}
 		
 		int[] result = sm.getPopVsTime(protoSnap.categoryName);
-		System.out.println(result[0] + " " + result[1]); 
-		int[] expected = {1}; 
-		System.out.println(result.length);
+		System.out.println("\ngetPopVsTime()"); 
+		System.out.println("Expected: " + display(expected));
+		System.out.println("Result: " + display(result));
 		Assert.assertArrayEquals(expected, result); 
+	}
+
+	/**
+	 * Display the contents of an int array
+	 * @param array The array to display
+	 * @return The display string
+	 */
+	private String display(int[] array) {
+		String ret = "["; 
+		for(int x : array){
+			ret += x + ", ";  
+		}
+		ret = ret.substring(0, ret.length()-2); 
+		return ret + "]";
 	}
 
 	@Test
@@ -157,20 +180,22 @@ public class StatisticsManagerTest {
 	@Test
 	public void testGetAvgLifespan() {
 		ArrayList<AgentSnapshot> snaps = new ArrayList<AgentSnapshot>();
-		ArrayList<AgentID> ids = new ArrayList<AgentID>();
-		
-		System.out.println("--------------------------"); 
-		
-		//The lifespan for each agent that will be inserted. 
-		//The result should be average of these numbers
-		int[] lifespans = {1, 2, 20, 30, 234, 452, 341}; 
+	
+		//Generate lifespans for each agent that will be inserted. 
+		Random R = new Random(); 
+		ArrayList<Integer> lifespans = new ArrayList<Integer>(); 
+		int numAgents = R.nextInt(41);
+		for(int i = 0; i < numAgents; i++){
+			lifespans.add(R.nextInt(100)); 
+		} 
 		
 		/* create snapshots */
-		for(int i = 0; i < lifespans.length; i++) {
+		for(int i = 0; i < lifespans.size(); i++) {
 			Agent agent = prototype.createAgent();
 			AgentID ID = agent.getID(); 
 			
-			for(int step = 0; step <= lifespans[i]; step++) {
+			//For each agent, add a snapshot of it at each Step it was alive
+			for(int step = 0; step <= lifespans.get(i); step++) {
 				snaps.add(new AgentSnapshot(ID, SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step, protoSnap.categoryName));
 			}
 		}
@@ -182,7 +207,8 @@ public class StatisticsManagerTest {
 		
 		double actual = sm.getAvgLifespan(protoSnap.categoryName);
 		double expected = average(lifespans); 
-		System.out.println("\nExpected: " + expected);
+		System.out.println("\nGetAvgLifesppan()"); 
+		System.out.println("Expected: " + expected);
 		System.out.println("Actual:   " + actual);
 		Assert.assertEquals((int)expected, (int)actual); 
 	}
@@ -192,11 +218,11 @@ public class StatisticsManagerTest {
 	 * @param array The array of integer values
 	 * @return The average of the values in the given array
 	 */
-	private double average(int[] array){
+	private double average(ArrayList<Integer> list){
 		double avg = 0.0; 
-		for(int i : array)
+		for(int i : list)
 			avg += i; 
-		return avg / array.length; 
+		return avg / list.size(); 
 	}
 
 }
