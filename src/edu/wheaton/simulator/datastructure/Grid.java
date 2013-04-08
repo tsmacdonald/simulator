@@ -119,6 +119,10 @@ public class Grid extends Entity implements Iterable<Agent> {
 		updater = new AtomicUpdater();
 	}
 
+	public String currentUpdater() {
+		return updater.toString();
+	}
+	
 	/**
 	 * The interface for the state pattern that allows for switching update
 	 * modes.

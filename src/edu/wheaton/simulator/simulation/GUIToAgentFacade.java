@@ -119,6 +119,14 @@ public class GUIToAgentFacade {
 	}
 
 	/**
+	 * 
+	 * @return a String with the name of the current update method
+	 */
+	public String currentUpdater() {
+		return grid.currentUpdater();
+	}
+	
+	/**
 	 * Adds the given Agent at the closest free spot to the spawn position. The
 	 * search for an open spot begins at the given x/y and then spirals
 	 * outwards.
