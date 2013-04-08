@@ -29,7 +29,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * all agents in a simulation
 	 */
 	private int minPriority = 0;
-	private int maxPriority = 20;
+	private int maxPriority = 50;
 
 	/**
 	 * The grid of all Agents
@@ -157,6 +157,10 @@ public class Grid extends Entity implements Iterable<Agent> {
 						}
 				}
 		}
+		
+		public String toString() {
+			return "Linear Update";
+		}
 	}
 
 	/**
@@ -184,6 +188,10 @@ public class Grid extends Entity implements Iterable<Agent> {
 							}
 					}
 			}
+		}
+		
+		public String toString() {
+			return "Priority Update";
 		}
 	}
 
@@ -218,6 +226,10 @@ public class Grid extends Entity implements Iterable<Agent> {
 							processedIDs.add(current.getID());
 						}
 				}
+		}
+		
+		public String toString() {
+			return "Atomic Update";
 		}
 	}
 
