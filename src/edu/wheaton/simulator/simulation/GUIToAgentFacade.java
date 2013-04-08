@@ -476,11 +476,20 @@ public class GUIToAgentFacade {
 		// add prototypes and fields. The type (RPS) is stored as an ID and
 		// string name.
 		for (int j = 0; j < agentType.length; j++) {
-			Prototype proto = new Prototype(grid, Color.black, agentType[j]);
-			if (j == 1)
-				proto = new Prototype(grid, Color.blue, agentType[j]);
-			if (j == 2)
-				proto = new Prototype(grid, Color.red, agentType[j]);
+			Prototype proto;
+			if (j == 0) {
+				Color brown = new Color(205, 133, 63);
+				byte[] rockDesign = {24, 62, 127, 127, 127, 62, 12};
+				proto = new Prototype(grid, brown, rockDesign, agentType[j]);
+			} else if (j == 1) {
+				Color lightGrey = new Color(225, 225, 225);
+				byte[] paperDesign = {62, 62, 62, 62, 62, 62, 62};
+				proto = new Prototype(grid, lightGrey, paperDesign, agentType[j]);
+			} else { // j == 2
+				Color lightBlue = new Color(93, 198, 245);
+				byte[] scissorsDesign = {113, 82, 116, 8, 116, 82, 113};
+				proto = new Prototype(grid, lightBlue, scissorsDesign, agentType[j]);
+			}
 			try {
 				proto.addField("typeID", j + "");
 				proto.addField("xNextDirection", 0 + "");
