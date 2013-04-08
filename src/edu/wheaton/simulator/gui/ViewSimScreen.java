@@ -63,6 +63,8 @@ public class ViewSimScreen extends Screen {
 	private JComboBox layerComboBox;
 	
 	private String[] entities;
+	
+	private JPanel panel1;
 
 	//TODO figure out best way to have agents drawn before pressing start, without creating issues
 	//with later changing spawn conditions
@@ -76,7 +78,7 @@ public class ViewSimScreen extends Screen {
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 		JPanel layerPanel = new JPanel();
 		layerPanel.setLayout(new BoxLayout(layerPanel, BoxLayout.Y_AXIS));
-		JPanel panel1 = new JPanel();
+		panel1 = new JPanel();
 		panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
 		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
 		agentComboBox = new JComboBox();
@@ -235,9 +237,13 @@ public class ViewSimScreen extends Screen {
 
 	@Override
 	public void load() {
-		validate();
-		grid.repaint();
 		entities = sm.getFacade().prototypeNames().toArray(entities);
 		agentComboBox = new JComboBox(entities);
+		agentComboBox.setMaximumSize(new Dimension(200, 50));
+		panel1.remove(1);
+		panel1.add(agentComboBox);
+		validate();
+		grid.repaint();
+		
 	}
 }
