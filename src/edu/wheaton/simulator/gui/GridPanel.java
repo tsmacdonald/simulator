@@ -3,6 +3,8 @@ package edu.wheaton.simulator.gui;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
+
+import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
 
 public class GridPanel extends JPanel {
@@ -21,9 +23,12 @@ public class GridPanel extends JPanel {
 	private int gridWidth;
 
 	private int gridHeight;
+	
+	private boolean layers;
 
 	public GridPanel(ScreenManager sm) {
 		this.sm = sm;
+		layers = false;
 	}
 
 	@Override
@@ -62,12 +67,22 @@ public class GridPanel extends JPanel {
 		int pixelHeight = height / gridHeight;
 		
 		int squareSize = Math.min(pixelWidth, pixelHeight);
+		Color color;
+		
 		
 		for (int x = 0; x < gridWidth; x++) {
 			for (int y = 0; y < gridHeight; y++) {
 				Agent agent = sm.getFacade().getAgent(x, y);
 				if(agent != null) {
-					g.setColor(agent.getColor());
+					if(layers){
+						try {
+							g.setColor(agent.getLayerColor());
+						} catch (EvaluationException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					else{g.setColor(agent.getColor());}
 					if(squareSize < 9){
 						g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 
 								squareSize, squareSize);
@@ -110,6 +125,10 @@ public class GridPanel extends JPanel {
 				g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), squareSize, squareSize);
 			}
 		}
+	}
+	
+	public void setLayers(boolean args){
+		layers = args;
 	}
 
 }
