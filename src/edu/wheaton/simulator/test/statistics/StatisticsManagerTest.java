@@ -163,8 +163,8 @@ public class StatisticsManagerTest {
 		
 		//The lifespan for each agent that will be inserted. 
 		//The result should be average of these numbers
-		int[] lifespans = {10, 20, 30}; 
-		 
+		int[] lifespans = {1, 2, 20, 30, 234, 452, 341}; 
+		
 		/* create snapshots */
 		for(int i = 0; i < lifespans.length; i++) {
 			Agent agent = prototype.createAgent();

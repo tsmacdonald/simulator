@@ -64,6 +64,7 @@ public class StatisticsManager {
 		table = new AgentSnapshotTable();
 		gridObserver = new SimulationRecorder(this);
 		prototypes = new HashMap<Integer, Map<String, PrototypeSnapshot>>();
+		lastStep = 0; 
 	}
 
 	/**
@@ -147,6 +148,7 @@ public class StatisticsManager {
 	 */
 	public void addGridEntity(AgentSnapshot agentSnapshot) {
 		table.putEntity(agentSnapshot);
+
 		if (agentSnapshot.step > lastStep)
 			lastStep = agentSnapshot.step;
 	}
@@ -260,25 +262,24 @@ public class StatisticsManager {
 		// List with index = step in the simulation, value = set of all agents
 		// alive at that time
 		List<Set<AgentSnapshot>> agentsByStep = new ArrayList<Set<AgentSnapshot>>();
-		
+
 		//Set of all Agent IDs
 		Set<AgentID> allIDs = new HashSet<AgentID>(); 
-		
+
 		//Populate agentsByStep
-		for (int i = 0; i < lastStep; i++) {
+		for (int i = 0; i <= lastStep; i++) {
 			Set<AgentSnapshot> stepData = getPopulationAtStep(prototypeName, i);
-			
+
 			//Populate the list of unique Agent IDs for the Agents we're tracking
 			for(AgentSnapshot snap : stepData){
 				allIDs.add(snap.id); 
 			}
-			
+
 			//Populate the list of agent snapshots by step
 			agentsByStep.add(i, stepData);
 		}
 
 		double avg = 0.0;
-		int numAgents = 0;
 
 		//Get the lifespan of each agent
 		for (AgentID ID : allIDs) {
@@ -289,13 +290,13 @@ public class StatisticsManager {
 			// agents at the end to get the average
 			System.out.println("\t\tB: " + birthTime);
 			System.out.println("\t\tD: " + deathTime);
-			int lifespan = (deathTime - birthTime) + 1;
-			
+			int lifespan = (deathTime - birthTime);
+
 			avg += lifespan; 
-			
+
 			System.out.println("Lifespan: " + lifespan);  
 		}	
-		
+
 		System.out.println("\navg: " + avg);
 		System.out.println("allIDs.size(): " + allIDs.size());
 		return avg / allIDs.size();
@@ -316,10 +317,12 @@ public class StatisticsManager {
 	 */
 	private int getBirthStep(List<Set<AgentSnapshot>> agentsByStep,
 			AgentID target) {
-		for (int i = 0; i < lastStep; i++)
-			for(AgentSnapshot s : agentsByStep.get(i))
+		for (int i = 0; i < lastStep; i++){
+			for(AgentSnapshot s : agentsByStep.get(i)){
 				if(s.id.equals(target))
-				return i;
+					return i;
+			}
+		}
 
 		throw new IllegalArgumentException(
 				"The target AgentID was not found");
@@ -340,12 +343,14 @@ public class StatisticsManager {
 	 */
 	private int getDeathStep(List<Set<AgentSnapshot>> agentsByStep,
 			AgentID target) {
-		for (int i = lastStep-1; i >= 0; i--)
+		for (int i = agentsByStep.size()-1; i >= 0; i--){
 			if (agentsByStep.get(i) != null){
-				for(AgentSnapshot s : agentsByStep.get(i))
+				for(AgentSnapshot s : agentsByStep.get(i)){
 					if(s.id.equals(target))
-					return i;
-			}
+						return i;
+				}
+			}	
+		}
 
 		throw new IllegalArgumentException(
 				"The target AgentID was not found");
