@@ -26,6 +26,7 @@ public class NewSimScreenFinishListener implements ActionListener {
 			int widthInt = getWidth();
 			sm.setFacade(widthInt, heightInt);
 //			sm.getFacade().initGameOfLife();
+//			sm.getFacade().initRockPaperScissors();
 			sm.updateGUIManager(getName(), widthInt, heightInt);
 		} catch(java.lang.NumberFormatException nfe) { 
 			System.err.println("Invalid input passed to NewSimScreenFinishListener");

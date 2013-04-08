@@ -337,6 +337,112 @@ public class GUIToAgentFacade {
 			}
 	}
 	
+	
+	/*
+	 * For details about what Rock Paper Scissors is supposed to do, visit 
+	 * 
+	 * Prototypes for rock, paper and scissors (black, blue, red) are made and added to the grid.
+	 * Uses fields in the agent as flags to indicate what next action the agent should do.
+	 * To simulate the iteration needed to check multiple directions, many static triggers are added to each agent. 
+	 * 
+	 * A call to this function can be added to NewSimScreenFinishListner.java to apply the method to visualize
+	 * the effects of this method.
+	 * 
+	 * Some testing suggests that errors will occur if this method is used and then agents are modified mid simulation.
+	 */
+	public void initRockPaperScissors(){
+		// names of the agents
+		String [] agentType = {"rock", "paper", "scissors"};
+		
+		// openSpot conditionals
+		Expression freeSpot = new Expression("this.endTurn != 1" +
+				"&&isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)");
+		Expression notFreeSpot = new Expression("this.endTurn != 1" +
+				"&&!isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)");
+
+		// Move behavior
+		Expression move = new Expression("move('this', this.x + this.xNextDirection, this.y + this.yNextDirection)" +
+				"&& setField('this', 'endTurn', 1)");
+		/*
+		Turn clockwise (in 8 directions)
+		Uses 'temp' because as JEval evaluates each function in order and xNextDirection would become corrupted in the second use
+		*/
+		Expression rotateClockwise = new Expression(" setField('this', 'temp', this.xNextDirection) || setField('this', 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4)))" +
+				" || setField('this', 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))");
+		
+		// turn counter clockwise
+		Expression rotateCounterClockwise = new Expression(" setField('this', 'temp', this.xNextDirection) || setField('this', 'xNextDirection', round(this.xNextDirection * cos(-PI/4) - this.yNextDirection * sin(-PI/4)))" +
+				" || setField('this', 'yNextDirection', round(this.temp * sin(-PI/4) + this.yNextDirection * cos(-PI/4)))");
+		
+		// Check for agent ahead
+		Expression isAgentAhead = new Expression("this.endTurn != 1" +
+				"&& isValidCoord(this.x + this.xNextDirection, this.y + this.yNextDirection) && !isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)");
+		
+		// setAgentAhead field to true
+		Expression setAgentAhead = new Expression("setField('this', 'agentAhead', 1)");
+		
+		// reads flag that is set when there is an agent ahead
+		Expression checkAgentAheadFlag = new Expression("this.endTurn != 1" +	// may not be needed
+				"&& this.agentAhead == 1.0");
+		
+		// collect information about conflict
+		Expression setConflictAheadFlag = new Expression("setField('this', 'conflictAhead'," +
+				" getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'typeID') == (this.typeID + 2)%3" +
+				" && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection') == - this.xNextDirection" +
+				" && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'yNextDirection') == - this.yNextDirection)");
+
+		// check the flag that is set when a conflict is ahead
+		Expression checkConflictAheadFlag = new Expression("this.endTurn != 1" +	// may not be needed
+				" && this.conflictAhead");
+		
+		// conflict behavior
+		Expression engageInConflict = new Expression("die('this')" +
+				"&& cloneAgentAtPosition('this',this.x + this.xNextDirection, this.y +this.yNextDirection, this.x, this.y)" +
+				"&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)" +
+				"&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)" +
+				"&& setField('this', 'endTurn', 1)");
+		
+		// reset all the flags that are used to determine behavior
+		Expression resetConflictFlags = new Expression("setField('this', 'agentAhead', 0)|| setField('this', 'conflictAhead', 0)");
+		Expression resetEndTurnFlag = new Expression("setField('this', 'endTurn', 0)");
+		
+		// add prototypes and fields. The type (RPS) is stored as an ID and string name.
+		for(int j = 0; j < agentType.length; j ++){
+				Prototype proto = new Prototype(grid, Color.black, agentType[j]);
+			if(j == 1)
+				proto = new Prototype(grid, Color.blue, agentType[j]);
+			if(j == 2)
+				proto = new Prototype(grid, Color.red, agentType[j]);			
+			try {
+				proto.addField("typeID", j + "");
+				proto.addField("xNextDirection", 0 +"");
+				proto.addField("yNextDirection", -1 +"");
+				proto.addField("temp", 0 +"");
+				proto.addField("agentAhead", ""+0);
+				proto.addField("conflictAhead", ""+0);
+				proto.addField("endTurn", ""+0);
+			} catch (ElementAlreadyContainedException e) {
+				e.printStackTrace();
+			}
+			
+			/*
+			Unfortunately, our implementation of triggers makes this the best way to get agents to check 
+			all eight directions before ending their turn. (55 separate triggers are made)
+			*/
+			for (int i =0 ; i < 8; i ++){
+				proto.addTrigger(new Trigger("agentAhead", 1, isAgentAhead, setAgentAhead));
+				proto.addTrigger(new Trigger("conflictAhead", 1, checkAgentAheadFlag, setConflictAheadFlag));
+				proto.addTrigger(new Trigger("engageConflict", 1, checkConflictAheadFlag, engageInConflict));
+				proto.addTrigger(new Trigger("rotateClockwise", 1, notFreeSpot, rotateClockwise));
+				proto.addTrigger(new Trigger("move", 1, freeSpot, move));
+				proto.addTrigger(new Trigger("resetConflictFlags", 1, new Expression("true"), resetConflictFlags));
+			}
+			proto.addTrigger(new Trigger("resetConflictFlags", 1, new Expression("true"), resetEndTurnFlag));
+			
+			Prototype.addPrototype(proto);
+		}
+	}
+	
 	/**
 	 * Gets a field with the given string. Simple wrapper function.
 	 * @param s The name of the field.

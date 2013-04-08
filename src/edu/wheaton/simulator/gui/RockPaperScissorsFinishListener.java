@@ -3,6 +3,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 	
+
+/**
+ * There is a static method in the facade that will create a Rock Paper Scissors simulation.
+ * 
+ * @author David Emmanuel Pederson
+ *
+ */
 public class RockPaperScissorsFinishListener implements ActionListener {
 		
 		private JTextField name;
