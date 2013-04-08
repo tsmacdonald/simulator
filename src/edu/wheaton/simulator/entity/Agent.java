@@ -134,6 +134,11 @@ public class Agent extends GridEntity {
 		}
 	}
 	
+	/**
+	 * Evaluates all the triggers' conditionals but does not fire any of them
+	 * It's one half of AtomicUpdate. It is the preparation for atomicFire().
+	 * @throws SimulationPauseException
+	 */
 	public void atomicCondEval() throws SimulationPauseException {
 		for (Trigger t : triggers)
 			try {
@@ -148,6 +153,13 @@ public class Agent extends GridEntity {
 			}
 	}
 	
+	/**
+	 * fires each trigger based on whether or not their conditionals evaluated
+	 * to true when atomicCondEval() was last run. atomicCondEval() must be
+	 * run before this method.
+	 * One half of AtomicUpdate.
+	 * @throws SimulationPauseException
+	 */
 	public void atomicFire() throws SimulationPauseException {
 		for (Trigger t : triggers)
 			try {

@@ -24,8 +24,24 @@ public class Trigger implements Comparable<Trigger> {
 	 */
 	private String name;
 
+	/**
+	 * Determines when this trigger should be evaluated.
+	 * Only affects the order of triggers within its particular Agent
+	 * in LinearUpdate. That is, the order of importance in LinearUpdate
+	 * for triggers is when the Owning Agent is reached->the trigger's priority.
+	 * 
+	 * In PriorityUpdate, priority supercedes Agent ordering, that is
+	 * trigger's priority->when the Owning Agent is reached.
+	 * 
+	 */
 	private int priority;
 	
+	/**
+	 * Used for AtomicUpdate
+	 * In each iteration, the condition is evaluated, and
+	 * the result is stored hear. It is later checked to see
+	 * whether or not the behavior should be fired.
+	 */
 	private boolean atomicConditionResult;
 
 	/**
@@ -100,6 +116,13 @@ public class Trigger implements Comparable<Trigger> {
 		}
 	}
 	
+	/**
+	 * Just evaluates the condition and stores the result in atomicConditionResult
+	 * for later use (to see if the behavior is fired).
+	 * Vital for AtomicUpdate
+	 * @param xThis the owning Agent
+	 * @throws EvaluationException
+	 */
 	public void evaluateCond(Agent xThis) throws EvaluationException {
 		Expression condition = conditionExpression.clone();
 		
@@ -115,6 +138,13 @@ public class Trigger implements Comparable<Trigger> {
 		}
 	}
 	
+	/**
+	 * Checks atomicConditionResult to see whether or not the behavior should be fired
+	 * rather than evaluating the condition on the spot
+	 * Vital for AtomicUpdate
+	 * @param xThis
+	 * @throws EvaluationException
+	 */
 	public void atomicFire(Agent xThis) throws EvaluationException {
 		Expression behavior = behaviorExpression.clone();
 		

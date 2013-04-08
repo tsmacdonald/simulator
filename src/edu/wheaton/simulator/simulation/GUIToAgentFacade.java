@@ -222,14 +222,24 @@ public class GUIToAgentFacade {
 		return grid;
 	}
 
+	/**
+	 * Sets the update method to use the PriorityUpdate system
+	 */
 	public void setPriorityUpdate() {
 		grid.setPriorityUpdater();
 	}
 	
+	/**
+	 * Sets the update method to use the AtomicUpdate system
+	 */
 	public void setAtomicUpdate() {
 		grid.setAtomicUpdater();
 	}
 	
+	/**
+	 * Sets the update method to use the LinearUpdate system
+	 * LinearUpdate is the default
+	 */
 	public void setLinearUpdate() {
 		grid.setLinearUpdater();
 	}

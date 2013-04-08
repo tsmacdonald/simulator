@@ -98,25 +98,44 @@ public class Grid extends Entity implements Iterable<Agent> {
 		
 	}
 
+	/**
+	 * Makes updater a LinearUpdater
+	 */
 	public void setLinearUpdater() {
 		updater = new LinearUpdater();
 	}
 	
+	/**
+	 * Makes updater a PriorityUpdater
+	 */
 	public void setPriorityUpdater() {
 		updater = new PriorityUpdater();
 	}
 	
+	/**
+	 * makes updater an AtomicUpdater
+	 */
 	public void setAtomicUpdater() {
 		updater = new AtomicUpdater();
 	}
 	
+	/**
+	 * The interface for the state pattern that allows for switching
+	 * update modes.
+	 */
 	private static interface Updater {
 		
+		/**
+		 * Updates the Agents in the simulation by evaluating their triggers
+		 * @throws SimulationPauseException
+		 */
 		public void update() throws SimulationPauseException;
 		
 	}
 	
-	
+	/**
+	 * The class used for LinearUpdate
+	 */
 	private class LinearUpdater implements Updater {
 		
 		/**
@@ -139,7 +158,9 @@ public class Grid extends Entity implements Iterable<Agent> {
 		}
 	}
 	
-	
+	/**
+	 * The class used for PriorityUpdate
+	 */
 	private class PriorityUpdater implements Updater {
 		
 		/**
@@ -165,8 +186,16 @@ public class Grid extends Entity implements Iterable<Agent> {
 		}
 	}
 	
+	/**
+	 * The class used for AtomicUpdate
+	 */
 	private class AtomicUpdater implements Updater {
 		
+		/**
+		 * Evaluates all the conditionals of the Triggers first,
+		 * then fires the behaviors later depending on whether or not
+		 * those conditionals fired.
+		 */
 		public void update() throws SimulationPauseException{
 			HashSet<AgentID> processedIDs = new HashSet<AgentID>();
 
