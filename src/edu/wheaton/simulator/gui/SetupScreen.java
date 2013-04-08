@@ -26,18 +26,21 @@ import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 //TODO commented code for adding operators to ending conditions :
 //     see if it should stay for future use or just be deleted
-//TODO handle "invalid" input
+//TODO commented out code for changing width and height of grid :
+//     causing too many problems and not providing any value atm.
 public class SetupScreen extends Screen {
 
 	private JTextField nameField;
 
-	private JTextField width;
-
-	private JTextField height;
+//	private JTextField width;
+//
+//	private JTextField height;
 
 	private JTextField timeField;
 
 	private String[] agentNames;
+	
+	private JComboBox updateBox;
 
 	private ArrayList<JComboBox> agentTypes;
 
@@ -75,31 +78,31 @@ public class SetupScreen extends Screen {
 		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		nameField = new JTextField(sm.getGUIname(), 25);
 		nameField.setMaximumSize(new Dimension(400, 30));
-		JLabel widthLabel = new JLabel("Width: ");
-		widthLabel.setMaximumSize(new Dimension(100, 40));
-		widthLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		width = new JTextField(sm.getGUIwidth()+"", 10);
-		width.setMaximumSize(new Dimension(80, 30));
-		JLabel heightLabel = new JLabel("Height: ");
-		heightLabel.setMaximumSize(new Dimension(210, 40));
-		heightLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		height = new JTextField(sm.getGUIheight()+"", 0);
-		height.setMaximumSize(new Dimension(80, 30));
+//		JLabel widthLabel = new JLabel("Width: ");
+//		widthLabel.setMaximumSize(new Dimension(100, 40));
+//		widthLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+//		width = new JTextField(sm.getGUIwidth()+"", 10);
+//		width.setMaximumSize(new Dimension(80, 30));
+//		JLabel heightLabel = new JLabel("Height: ");
+//		heightLabel.setMaximumSize(new Dimension(210, 40));
+//		heightLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+//		height = new JTextField(sm.getGUIheight()+"", 0);
+//		height.setMaximumSize(new Dimension(80, 30));
 		JLabel updateLabel = new JLabel("Update type: ");
 		updateLabel.setMaximumSize(new Dimension(100, 40));
 		String[] updateTypes = {"Linear", "Atomic", "Priority"};
-		JComboBox updateBox = new JComboBox(updateTypes);
+		updateBox = new JComboBox(updateTypes);
 		updateBox.setMaximumSize(new Dimension(200, 40));
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
 		panel1.add(nameLabel);
 		panel1.add(nameField);
-		JPanel panel2 = new JPanel();
-		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
-		panel2.add(heightLabel);
-		panel2.add(height);
-		panel2.add(widthLabel);
-		panel2.add(width);
+//		JPanel panel2 = new JPanel();
+//		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
+//		panel2.add(heightLabel);
+//		panel2.add(height);
+//		panel2.add(widthLabel);
+//		panel2.add(width);
 		JPanel panel3 = new JPanel();
 		panel3.setLayout(new BoxLayout(panel3, BoxLayout.X_AXIS));
 		panel3.add(updateLabel);
@@ -190,25 +193,27 @@ public class SetupScreen extends Screen {
 							if (nameField.getText().equals("")) {
 								throw new Exception("All fields must have input");
 							}
-							if (Integer.parseInt(width.getText()) < 1 || Integer.parseInt(height.getText()) < 1) {
-								throw new Exception("Width and height must be greater than 0");
-							}
+//							if (Integer.parseInt(width.getText()) < 1 || Integer.parseInt(height.getText()) < 1) {
+//								throw new Exception("Width and height must be greater than 0");
+//							}
 							for (int i = 0; i < values.size(); i++){
 								if (values.get(i).getText().equals("")) {
 									throw new Exception("All fields must have input.");
 								}
 							}
+//							sm.updateGUIManager(nameField.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
 
-							sm.updateGUIManager(nameField.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
-							JPanel[][] grid = new JPanel[GUI.getGridWidth()][GUI.getGridHeight()];
-							for (int j = 0; j < GUI.getGridWidth(); j++){
-								for (int i = 0; i < GUI.getGridHeight(); i++) {
-									grid[i][j] = new JPanel();
-									grid[i][j].setOpaque(false);
-									grid[i][j].setBorder(BorderFactory.createEtchedBorder());
-								}	
-							}
 							sm.getEnder().setStepLimit(Integer.parseInt(timeField.getText()));
+							String str = (String)updateBox.getSelectedItem();
+							if (str.equals("Linear")) {
+								sm.getFacade().setLinearUpdate();
+							}
+							else if (str.equals("Atomic")) {
+								sm.getFacade().setLinearUpdate();
+							}
+							else {
+								sm.getFacade().setPriorityUpdate();
+							}
 							for (int i = 0; i < values.size(); i++) {
 								sm.getEnder().setPopLimit(
 										sm.getFacade().getPrototype(
@@ -242,7 +247,7 @@ public class SetupScreen extends Screen {
 		buttonPanel.add(backButton);
 		buttonPanel.add(finishButton);
 		mainPanel.add(panel1);
-		mainPanel.add(panel2);
+//		mainPanel.add(panel2);
 		mainPanel.add(panel3);
 		JPanel uberPanel = new JPanel();
 		uberPanel.setLayout(new BoxLayout(uberPanel, BoxLayout.Y_AXIS));
@@ -256,12 +261,13 @@ public class SetupScreen extends Screen {
 	public void load() {
 		reset();
 		nameField.setText(GUI.getNameOfSim());
-		width.setText(GUI.getGridWidth() + "");
-		height.setText(GUI.getGridHeight() + "");
-		if (sm.hasStarted()) {
-			width.setEditable(false);
-			height.setEditable(false);
-		}
+//		width.setText(GUI.getGridWidth() + "");
+//		height.setText(GUI.getGridHeight() + "");
+//		if (sm.hasStarted()) {
+//			width.setEditable(false);
+//			height.setEditable(false);
+//		}
+		updateBox.setSelectedItem(sm.getFacade().currentUpdater());
 
 		SimulationEnder se = sm.getEnder();
 		Set<String> agents = sm.getFacade().prototypeNames();
@@ -329,8 +335,8 @@ public class SetupScreen extends Screen {
 
 	private void reset() {
 		nameField.setText("");
-		width.setText("");
-		height.setText("");
+//		width.setText("");
+//		height.setText("");
 		conListPanel.removeAll();
 		agentTypes.clear();
 		values.clear();
@@ -345,7 +351,6 @@ public class SetupScreen extends Screen {
 		public void actionPerformed(ActionEvent e){
 			int n = Integer.parseInt(e.getActionCommand());
 			String str = (String) agentTypes.get(n).getSelectedItem();
-			//TODO sometimes throws exception when there are no agents to choose from 
 			if (str != null) {
 				sm.getEnder().removePopLimit(
 						sm.getFacade().getPrototype(str).getPrototypeID());

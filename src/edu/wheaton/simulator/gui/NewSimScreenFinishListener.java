@@ -20,7 +20,6 @@ public class NewSimScreenFinishListener implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//TODO The simulation as a whole will be created in here
 		try {
 			int heightInt = getHeight();
 			int widthInt = getWidth();
@@ -31,6 +30,7 @@ public class NewSimScreenFinishListener implements ActionListener {
 			System.err.println("Invalid input passed to NewSimScreenFinishListener");
 		}
 		Screen upload = sm.getScreen("Edit Simulation");
+		((ScreenManager)sm).setStarted(false);
 		sm.update(upload);
 		sm.loadScreen(upload);
 	}

@@ -290,13 +290,13 @@ public class EditEntityScreen extends Screen {
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				String current = tabs.getTitleAt(tabs.getSelectedIndex());
-				if (current == "General")
-					sendGeneralInfo();
-				else if (current == "Fields")
-					sendFieldInfo();
-				else
-					sendTriggerInfo();
+//				String current = tabs.getTitleAt(tabs.getSelectedIndex());
+//				if (current == "General")
+//					sendGeneralInfo();
+//				else if (current == "Fields")
+//					sendFieldInfo();
+//				else
+//					sendTriggerInfo();
 			}
 			
 		});

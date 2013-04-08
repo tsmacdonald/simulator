@@ -38,6 +38,7 @@ public class RockPaperScissorsFinishListener implements ActionListener {
 			sm.getFacade().setPriorityUpdate();
 			sm.getFacade().initRockPaperScissors();
 			sm.getEnder().setStepLimit(1000);
+			((ScreenManager)sm).setStarted(false);
 			sm.update(upload);
 			sm.loadScreen(upload);
 		}

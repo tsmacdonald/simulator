@@ -202,7 +202,6 @@ public class SpawningScreen extends Screen {
 		if (spawnConditions.size() == 0) {
 			addSpawn();
 		}
-		//????
 		validate();
 	}
 
@@ -221,12 +220,15 @@ public class SpawningScreen extends Screen {
 		newSpawnType.addItemListener(new PatternListener(spawnPatterns.indexOf(newSpawnType)));
 		JTextField newXLoc = new JTextField(10);
 		newXLoc.setMaximumSize(new Dimension(100, 30));
+		newXLoc.setText("0");
 		xLocs.add(newXLoc);
 		JTextField newYLoc = new JTextField(10);
 		newYLoc.setMaximumSize(new Dimension(100, 30));
+		newYLoc.setText("0");
 		yLocs.add(newYLoc);
 		JTextField newNumber = new JTextField(10);
 		newNumber.setMaximumSize(new Dimension(100, 30));
+		newNumber.setText("1");
 		numbers.add(newNumber);
 		JButton newButton = new JButton("Delete");
 		newButton.addActionListener(new DeleteListener());

@@ -32,6 +32,7 @@ public class ConwayFinishListener implements ActionListener {
 		sm.getFacade().setPriorityUpdate();
 		sm.getFacade().initGameOfLife();
 		sm.getEnder().setStepLimit(1000);
+		((ScreenManager)sm).setStarted(false);
 		sm.update(upload);
 		sm.loadScreen(upload);
 	}
