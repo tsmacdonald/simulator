@@ -37,6 +37,7 @@ public class GUIToAgentFacade {
 	 * @param gridY
 	 */
 	public GUIToAgentFacade(int gridX, int gridY) {
+		Prototype.clearPrototypes();
 		grid = new Grid(gridX, gridY);
 		initSamples();
 	}
