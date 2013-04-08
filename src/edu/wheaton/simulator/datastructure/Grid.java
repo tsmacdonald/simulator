@@ -23,20 +23,20 @@ import edu.wheaton.simulator.simulation.SimulationPauseException;
 public class Grid extends Entity implements Iterable<Agent> {
 
 	/**
-	 * The minimum and maximum priorities for priorityUpdateEntities()
-	 * Should be changed so that the user can define these values
-	 * Or that they are defined by checking minimum and maximum priorities
-	 * of all triggers of all agents in a simulation
+	 * The minimum and maximum priorities for priorityUpdateEntities() Should
+	 * be changed so that the user can define these values Or that they are
+	 * defined by checking minimum and maximum priorities of all triggers of
+	 * all agents in a simulation
 	 */
 	private int minPriority = 0;
 	private int maxPriority = 20;
-	
+
 	/**
 	 * The grid of all Agents
 	 */
 	private Agent[][] grid;
 	private Updater updater = new LinearUpdater();
-	
+
 	/**
 	 * Constructor. Creates a grid with the given width and height
 	 * specifications
@@ -95,7 +95,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	public void updateEntities() throws SimulationPauseException {
 
 		updater.update();
-		
+
 	}
 
 	/**
@@ -104,43 +104,44 @@ public class Grid extends Entity implements Iterable<Agent> {
 	public void setLinearUpdater() {
 		updater = new LinearUpdater();
 	}
-	
+
 	/**
 	 * Makes updater a PriorityUpdater
 	 */
 	public void setPriorityUpdater() {
 		updater = new PriorityUpdater();
 	}
-	
+
 	/**
 	 * makes updater an AtomicUpdater
 	 */
 	public void setAtomicUpdater() {
 		updater = new AtomicUpdater();
 	}
-	
+
 	/**
-	 * The interface for the state pattern that allows for switching
-	 * update modes.
+	 * The interface for the state pattern that allows for switching update
+	 * modes.
 	 */
 	private static interface Updater {
-		
+
 		/**
 		 * Updates the Agents in the simulation by evaluating their triggers
+		 * 
 		 * @throws SimulationPauseException
 		 */
 		public void update() throws SimulationPauseException;
-		
+
 	}
-	
+
 	/**
 	 * The class used for LinearUpdate
 	 */
 	private class LinearUpdater implements Updater {
-		
+
 		/**
-		 * Causes all entities in the grid to act(). Checks to make sure each Agent
-		 * has only acted once this iteration.
+		 * Causes all entities in the grid to act(). Checks to make sure each
+		 * Agent has only acted once this iteration.
 		 * 
 		 * @throws SimulationPauseException
 		 */
@@ -157,12 +158,12 @@ public class Grid extends Entity implements Iterable<Agent> {
 				}
 		}
 	}
-	
+
 	/**
 	 * The class used for PriorityUpdate
 	 */
 	private class PriorityUpdater implements Updater {
-		
+
 		/**
 		 * Makes the entities in the grid perform their triggers in ascending
 		 * priority order; that is, priority takes precedence over Agent order
@@ -185,18 +186,18 @@ public class Grid extends Entity implements Iterable<Agent> {
 			}
 		}
 	}
-	
+
 	/**
 	 * The class used for AtomicUpdate
 	 */
 	private class AtomicUpdater implements Updater {
-		
+
 		/**
-		 * Evaluates all the conditionals of the Triggers first,
-		 * then fires the behaviors later depending on whether or not
-		 * those conditionals fired.
+		 * Evaluates all the conditionals of the Triggers first, then fires the
+		 * behaviors later depending on whether or not those conditionals
+		 * fired.
 		 */
-		public void update() throws SimulationPauseException{
+		public void update() throws SimulationPauseException {
 			HashSet<AgentID> processedIDs = new HashSet<AgentID>();
 
 			for (Agent[] row : grid)
@@ -208,7 +209,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 						}
 				}
 			processedIDs = new HashSet<AgentID>();
-			
+
 			for (Agent[] row : grid)
 				for (Agent current : row) {
 					if (current != null)
@@ -219,7 +220,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 				}
 		}
 	}
-	
+
 	/**
 	 * Returns the Agent at the given coordinates
 	 * 
@@ -298,10 +299,15 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * @return
 	 */
 	private int largestDistanceToSide(int x, int y) {
-		int presentMax = getField("width").getIntValue() - x - 1; // presetMax = (x --> width)
+		int presentMax = getField("width").getIntValue() - x - 1; // presetMax
+																	// = (x -->
+																	// width)
 		if (presentMax < x) // presentMax < (0 --> x)
 			presentMax = x;
-		if (presentMax < (getField("height").getIntValue() - y - 1)) // presentMax < (y --> height)
+		if (presentMax < (getField("height").getIntValue() - y - 1)) // presentMax
+																		// < (y
+																		// -->
+																		// height)
 			presentMax = getField("height").getIntValue() - y - 1;
 		if (presentMax < y) // presentMax < (0 --> y)
 			presentMax = y;
@@ -413,12 +419,14 @@ public class Grid extends Entity implements Iterable<Agent> {
 	}
 
 	/**
-	 * Loops through the grid and set's the Layer's min/max values
-	 * PRECONDITION: The newLayer method has been called to setup a layer
+	 * Resets the min/max values of the layer and then loops through the grid
+	 * to set's a new Layer's min/max values PRECONDITION: The newLayer method
+	 * has been called to setup a layer
 	 * 
 	 * @throws EvaluationException
 	 */
 	public void setLayerExtremes() throws EvaluationException {
+		Layer.getInstance().resetMinMax();
 		for (Iterator<Agent> it = iterator(); it.hasNext();) {
 			Agent current = it.next();
 			if (current != null) {
