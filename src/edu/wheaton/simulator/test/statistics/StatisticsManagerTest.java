@@ -108,17 +108,17 @@ public class StatisticsManagerTest {
 		sm.addPrototypeSnapshot(protoSnap); 
 		
 		Random R = new Random(); 
-		int numSteps = 4; //R.nextInt(10);
-		int[] expected = {3, 5, 7, 9}; //new int[numSteps];
+		int numSteps = R.nextInt(10);
+		int[] expected = new int[numSteps];
 		
 		for(int i = 0; i < numSteps; i++){
-			//expected[i] = R.nextInt(100);
+			expected[i] = R.nextInt(100);
 			
 			for(int pop = 0; pop < expected[i]; pop++){
 				Agent agent = prototype.createAgent();
 				sm.addGridEntity(new AgentSnapshot(agent.getID(), 
 						SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), 
-						numSteps, protoSnap.categoryName));
+						i, protoSnap.categoryName));
 			}
 		}
 		
