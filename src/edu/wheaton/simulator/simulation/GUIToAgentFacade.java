@@ -381,7 +381,7 @@ public class GUIToAgentFacade {
 		// Place dead beings in Grid with some that are alive
 		for (int x = 0; x < grid.getWidth(); x++)
 			for (int y = 0; y < grid.getHeight(); y++) {
-				if (x == 4) {
+				if (x == grid.getWidth() / 2) {
 					grid.spiralSpawn(Prototype.getPrototype("aliveBeing")
 							.createAgent(), x, y);
 				} else {
