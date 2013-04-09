@@ -79,14 +79,21 @@ public class SpawningScreen extends Screen {
 		//TODO mess with sizes of labels to line up with components
 		JLabel entityLabel = new JLabel("Entity Type");
 		entityLabel.setPreferredSize(new Dimension(200, 30));
+		
 		JLabel patternLabel = new JLabel("Spawn Pattern");
 		patternLabel.setPreferredSize(new Dimension(270, 30));
+		
 		JLabel xLabel = new JLabel("x Loc.");
 		xLabel.setPreferredSize(new Dimension(100, 30));
+		
 		JLabel yLabel = new JLabel("Y Loc.");
 		yLabel.setPreferredSize(new Dimension(100, 30));
+		
 		JLabel numberLabel = new JLabel("Number");
-		numberLabel.setPreferredSize(new Dimension(330, 30));
+		numberLabel.setPreferredSize(new Dimension(290, 30));
+		
+		labelsPanel.add(Box.createHorizontalGlue());
+		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(entityLabel);
 		entityLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -98,8 +105,10 @@ public class SpawningScreen extends Screen {
 		labelsPanel.add(yLabel);
 		labelsPanel.add(numberLabel);
 		labelsPanel.add(Box.createHorizontalGlue());
+		
 		mainPanel.add(labelsPanel);
 		mainPanel.add(listPanel);
+		
 		labelsPanel.setAlignmentX(CENTER_ALIGNMENT);
 
 		entityTypes = new ArrayList<JComboBox>();
