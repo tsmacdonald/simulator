@@ -241,23 +241,23 @@ public class Trigger implements Comparable<Trigger> {
 		 * HashMap of simple values to actual JEval appropriate input for
 		 * conditionals. Hashmap of field and value for prototypes.
 		 */
-		private HashMap<String, String> conditionalValues;
+		private HashMap<String, String> fieldValues;
 
 		/**
 		 * HashMap of simple values to actual JEval appropriate input for
-		 * conditionals. Hashmap of field and value. for prototypes
+		 * conditionals. Hashmap of behavior and Jeval equivalent.
 		 */
 		private HashMap<String, String> behavioralValues;
 
 		/**
-		 * A HashMap of the operations/functions that will be used in the JEval. Comes with all 
+		 * A HashMap of the operations that will be used in the JEval. Comes with all 
 		 * the usual functions, user may be able to add more. First string is name, second is what 
 		 * Jeval will use to evaluate.
 		 */
 		private HashMap<String, String> operations;
 		
 		/**
-		 * A HashMap of the functions that might be used in the JEval
+		 * A HashMap of the functions/expressions that might be used in the JEval
 		 */
 		private HashMap<String, String> functions;
 		
@@ -273,7 +273,8 @@ public class Trigger implements Comparable<Trigger> {
 			 * TODO Need to be able to add functions.
 			 */
 			loadOperations(p);
-			loadValues(p);	
+			loadFieldValues(p);	
+			loadBehaviors(p);
 			loadFunctions(p);
 		}
 		
@@ -284,7 +285,8 @@ public class Trigger implements Comparable<Trigger> {
 			functions = new HashMap<String,String>();
 			/**TODO
 			 * load all the functions that might be used. still not entirely sure 
-			 * how functions are gonna work in this.
+			 * how functions are gonna work in this. Need to figure out something
+			 * about more JCombo boxes or something.
 			 */
 		}
 		
@@ -300,19 +302,25 @@ public class Trigger implements Comparable<Trigger> {
 			operations.put(">", ">");
 			operations.put("<", "<");
 			//TODO need to add all the basic operations we are using of JEval,
-			
+		}
+		
+		/**
+		 * Loads all of the behaviors that we are using and their JEval equivalent.
+		 * @param p
+		 */
+		private void loadBehaviors(Prototype p){
+			behavioralValues = new HashMap<String, String>();
+			//TODO figure out what to do for behaviors too.
 		}
 		
 		/**
 		 * Method to initialize conditionalValues and behaviorableValues
 		 */
-		private void loadValues(Prototype p){
-			conditionalValues = new HashMap<String, String>();
-			behavioralValues = new HashMap<String, String>();
+		private void loadFieldValues(Prototype p){
+			fieldValues = new HashMap<String, String>();
 			for (Map.Entry<String, String> entry : p.getFieldMap().entrySet())
 			{
-			    conditionalValues.put(entry.getKey(), "this."+entry.getKey());
-			    behavioralValues.put(entry.getKey(), "this."+entry.getKey());
+			    fieldValues.put(entry.getKey(), "this."+entry.getKey());
 			}
 		}
 
@@ -340,7 +348,7 @@ public class Trigger implements Comparable<Trigger> {
 		 * @return Set of Strings
 		 */
 		public Set<String> conditionalValues() {
-			return conditionalValues.keySet();
+			return fieldValues.keySet();
 		}
 
 		/**
@@ -377,7 +385,7 @@ public class Trigger implements Comparable<Trigger> {
 		 */
 		private String lookThroughMapsForMatches(String s){
 			String toReturn= "";
-			toReturn = conditionalValues.get(s);
+			toReturn = fieldValues.get(s);
 			if (toReturn != null)
 				return toReturn;
 			toReturn = behavioralValues.get(s);
@@ -414,11 +422,19 @@ public class Trigger implements Comparable<Trigger> {
 		 * @return
 		 */
 		public boolean isValid() {
+			try {
+				trigger.getConditions().evaluateBool();
+				return true; 
+			} catch (Exception e) {
+				System.out.println("Condition expression failed: "
+						+ trigger.getConditions().toString());
+				return false;
+			}
+
 			/*
 			 * TODO Attempt to evaluate the trigger. If it throws an exception
 			 * then return false.
 			 */
-			return true; // TODO
 		}
 
 		/**

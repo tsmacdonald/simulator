@@ -54,7 +54,7 @@ public class BuilderTest {
 		builder.addConditional("1 EQUALS 1");
 		trigger = builder.build();
 		System.out.println(trigger.getConditions());
-		Assert.assertTrue(trigger.getConditions().equals("1==1")); // not sure why 1==1 isnt the same as 1==1.
+		Assert.assertTrue(trigger.getConditions().toString().equals("1==1")); // not sure why 1==1 isnt the same as 1==1.
 	}
 	
 	@Test
@@ -62,7 +62,7 @@ public class BuilderTest {
 		builder.addConditional("weight > health");
 		trigger = builder.build();
 		System.out.println(trigger.getConditions());
-		Assert.assertTrue(trigger.getConditions().equals("this.weight>this.health")); 
+		Assert.assertTrue(trigger.getConditions().toString().equals("this.weight>this.health")); 
 	}
 
 	@Test
