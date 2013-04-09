@@ -131,10 +131,11 @@ public class Trigger implements Comparable<Trigger> {
 		atomicConditionResult = false;
 		try {
 			atomicConditionResult = condition.evaluateBool();
-		} catch (Exception e) {
+		} catch (EvaluationException e) {
 			atomicConditionResult = false;
 			System.out.println("Condition expression failed: "
 					+ condition.toString());
+			throw e;
 		}
 	}
 	
