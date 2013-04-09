@@ -40,6 +40,8 @@ public class EditEntityScreen extends Screen {
 	private Prototype agent;
 
 	private JTabbedPane tabs;
+	
+	private String currentTab;
 
 	private JPanel generalPanel;
 
@@ -286,17 +288,21 @@ public class EditEntityScreen extends Screen {
 		tabs.addTab("General", generalPanel);
 		tabs.addTab("Fields", fieldMainPanel);
 		tabs.addTab("Triggers", triggerMainPanel);
+		currentTab = "General";
 		tabs.addChangeListener(new ChangeListener(){
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
-//				String current = tabs.getTitleAt(tabs.getSelectedIndex());
-//				if (current == "General")
-//					sendGeneralInfo();
-//				else if (current == "Fields")
-//					sendFieldInfo();
-//				else
-//					sendTriggerInfo();
+				
+				if (currentTab == "General")
+					sendGeneralInfo();
+				else if (currentTab == "Fields")
+					sendFieldInfo();
+				else
+					sendTriggerInfo();
+				currentTab = tabs.getTitleAt(tabs.getSelectedIndex());
+				
+				
 			}
 			
 		});
