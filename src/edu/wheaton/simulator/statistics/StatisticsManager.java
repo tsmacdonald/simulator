@@ -328,7 +328,7 @@ public class StatisticsManager {
 	 * @throws NameNotFoundException
 	 *             the target Agent wasn't found
 	 */
-	private int getDeathStep(List<Set<AgentSnapshot>> agentsByStep,
+	private static int getDeathStep(List<Set<AgentSnapshot>> agentsByStep,
 			AgentID target) {
 		for (int i = agentsByStep.size()-1; i >= 0; i--){
 			if (agentsByStep.get(i) != null){
