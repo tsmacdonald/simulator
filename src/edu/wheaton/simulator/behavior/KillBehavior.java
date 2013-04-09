@@ -2,7 +2,6 @@ package edu.wheaton.simulator.behavior;
 
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.datastructure.Grid;
-import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.expression.Expression;
 
 public class KillBehavior extends AbstractBehavior {

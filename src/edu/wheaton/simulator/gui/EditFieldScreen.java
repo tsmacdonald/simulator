@@ -24,8 +24,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
-
 public class EditFieldScreen extends Screen {
 
 	private static final long serialVersionUID = 8001531208716520432L;

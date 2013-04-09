@@ -2,8 +2,6 @@ package edu.wheaton.simulator.test.entity;
 
 import junit.framework.Assert;
 
-import net.sourceforge.jeval.EvaluationException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +9,6 @@ import org.junit.Test;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
-import edu.wheaton.simulator.expression.Expression;
 
 public class BuilderTest {
 

@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import javax.naming.NameNotFoundException;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
@@ -170,8 +168,8 @@ public class StatisticsManager {
 				.getSnapshotsAtStep(step);
 		for (AgentID currentID : table.getSnapshotsAtStep(step).keySet()) {
 			AgentSnapshot currentEntity;
-			if ((currentEntity = totalPopulation.get(currentID)) instanceof AgentSnapshot) {
-				AgentSnapshot currentAgent = (AgentSnapshot) currentEntity;
+			if ((currentEntity = totalPopulation.get(currentID)) != null) {
+				AgentSnapshot currentAgent = currentEntity;
 				if (currentAgent.prototypeName.equals(prototypeName))
 					builder.add(currentAgent);
 			}
