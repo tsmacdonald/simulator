@@ -15,8 +15,8 @@ public class EditTriggerScreen extends Screen {
 	
 	public EditTriggerScreen(Manager sm) {
 		super(sm);
-		addConditional = new JButton();
-		addBehavior = new JButton();
+		addConditional = new JButton("Add Condition");
+		addBehavior = new JButton("Add Behavior");
 		title = new JLabel("Edit Trigger");
 		title.setPreferredSize(new Dimension(300, 100));
 		
