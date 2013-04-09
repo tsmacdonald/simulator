@@ -288,6 +288,7 @@ public class SpawningScreen extends Screen {
 			this.n = n;
 		}
 		
+		@Override
 		public void itemStateChanged(ItemEvent e) {
 			if (((String)e.getItem()).equals("Random")) {
 				xLocs.get(n).setEnabled(false);

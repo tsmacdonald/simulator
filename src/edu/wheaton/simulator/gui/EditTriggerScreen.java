@@ -7,6 +7,11 @@ import javax.swing.JLabel;
 
 public class EditTriggerScreen extends Screen {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3261558461232576081L;
+
 	private JButton addConditional;
 	
 	private JButton addBehavior;

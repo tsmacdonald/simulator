@@ -27,14 +27,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.colorchooser.AbstractColorChooserPanel;
-
 import net.sourceforge.jeval.EvaluationException;
 
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 import edu.wheaton.simulator.statistics.SimulationRecorder;
-import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class ViewSimScreen extends Screen {
 

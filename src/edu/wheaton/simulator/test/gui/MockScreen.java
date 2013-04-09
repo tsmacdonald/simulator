@@ -30,6 +30,7 @@ public class MockScreen extends Screen implements Comparable<MockScreen> {
 		return name;
 	}
 	
+	@Override
 	public int compareTo(MockScreen other) {
 		return other.getName().compareTo(this.name);
 	}

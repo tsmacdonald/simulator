@@ -133,7 +133,7 @@ public class StatisticsManagerTest {
 	 * @param array The array to display
 	 * @return The display string
 	 */
-	private String display(int[] array) {
+	private static String display(int[] array) {
 		String ret = "["; 
 		for(int x : array){
 			ret += x + ", ";  
@@ -220,7 +220,7 @@ public class StatisticsManagerTest {
 	 * @param array The array of integer values
 	 * @return The average of the values in the given array
 	 */
-	private double average(ArrayList<Integer> list){
+	private static double average(ArrayList<Integer> list){
 		double avg = 0.0; 
 		for(int i : list)
 			avg += i; 

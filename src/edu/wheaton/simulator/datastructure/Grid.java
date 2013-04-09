@@ -154,6 +154,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 		 * 
 		 * @throws SimulationPauseException
 		 */
+		@Override
 		public void update() throws SimulationPauseException {
 			HashSet<AgentID> processedIDs = new HashSet<AgentID>();
 
@@ -167,6 +168,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 				}
 		}
 		
+		@Override
 		public String toString() {
 			return "Linear";
 		}
@@ -184,6 +186,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 		 * 
 		 * @throws SimulationPauseException
 		 */
+		@Override
 		public void update() throws SimulationPauseException {
 			for (int priority = minPriority; priority <= maxPriority; priority++) {
 				HashSet<AgentID> processedIDs = new HashSet<AgentID>();
@@ -199,6 +202,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 			}
 		}
 		
+		@Override
 		public String toString() {
 			return "Priority";
 		}
@@ -214,6 +218,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 		 * behaviors later depending on whether or not those conditionals
 		 * fired.
 		 */
+		@Override
 		public void update() throws SimulationPauseException {
 			HashSet<AgentID> processedIDs = new HashSet<AgentID>();
 
@@ -237,6 +242,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 				}
 		}
 		
+		@Override
 		public String toString() {
 			return "Atomic";
 		}
