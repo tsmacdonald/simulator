@@ -3,7 +3,6 @@ package sampleAgents;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 
 /**
@@ -31,7 +30,7 @@ public abstract class SampleAgent {
 	/**
 	 * @return An iterator over all of the sample agent creator classes
 	 */
-	public Iterator getSampleAgents(){
+	public Iterator<SampleAgent> getSampleAgents(){
 		return sampleAgents.iterator();
 	}
 }

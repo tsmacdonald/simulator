@@ -30,7 +30,7 @@ public class GridRecorder {
 	public GridRecorder(StatisticsManager statManager) {
 		this.statManager = statManager;
 		gridPrototype = null;
-		this.behaviors = new HashMap<AgentID, ArrayList<BehaviorSnapshot>>();
+		GridRecorder.behaviors = new HashMap<AgentID, ArrayList<BehaviorSnapshot>>();
 	}
 
 	/**

@@ -1,9 +1,6 @@
 package sampleAgents;
 
-import java.awt.Color;
-
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
-import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
@@ -19,7 +16,7 @@ public class Bouncer extends SampleAgent{
 		return initBouncer(bouncer);
 	}
 	
-	private Prototype initBouncer(Prototype bouncer){
+	private static Prototype initBouncer(Prototype bouncer){
 		// Add fields
 		try {
 			bouncer.addField("xNextDirection", 0 + "");

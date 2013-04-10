@@ -24,7 +24,7 @@ public class Scissors extends SampleAgent{
 		return initScissors(scissors);
 	}
 	
-	private Prototype initScissors(Prototype scissors) {
+	private static Prototype initScissors(Prototype scissors) {
 		
 		Color lightBlue = new Color(93, 198, 245);
 		byte[] scissorsDesign = {113, 82, 116, 8, 116, 82, 113};
