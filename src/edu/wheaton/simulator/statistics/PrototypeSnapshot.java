@@ -71,8 +71,8 @@ public class PrototypeSnapshot {
 	 * Children: 3345
 	 * Children: 1237
 	 * Children: 9457
-	 * 12 (population)
-	 * 35 (step) 
+	 * 3 (population)
+	 * 35 (step)
 	 */
 	public String serialize(){
 		String s = "PrototypeSnapshot";
