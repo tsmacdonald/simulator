@@ -11,8 +11,11 @@
 package edu.wheaton.simulator.entity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.google.common.collect.ImmutableList;
 
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.expression.Expression;
@@ -25,22 +28,21 @@ public class Trigger implements Comparable<Trigger> {
 	private String name;
 
 	/**
-	 * Determines when this trigger should be evaluated.
-	 * Only affects the order of triggers within its particular Agent
-	 * in LinearUpdate. That is, the order of importance in LinearUpdate
-	 * for triggers is when the Owning Agent is reached->the trigger's priority.
+	 * Determines when this trigger should be evaluated. Only affects the order
+	 * of triggers within its particular Agent in LinearUpdate. That is, the
+	 * order of importance in LinearUpdate for triggers is when the Owning Agent
+	 * is reached->the trigger's priority.
 	 * 
-	 * In PriorityUpdate, priority supercedes Agent ordering, that is
-	 * trigger's priority->when the Owning Agent is reached.
+	 * In PriorityUpdate, priority supercedes Agent ordering, that is trigger's
+	 * priority->when the Owning Agent is reached.
 	 * 
 	 */
 	private int priority;
-	
+
 	/**
-	 * Used for AtomicUpdate
-	 * In each iteration, the condition is evaluated, and
-	 * the result is stored hear. It is later checked to see
-	 * whether or not the behavior should be fired.
+	 * Used for AtomicUpdate In each iteration, the condition is evaluated, and
+	 * the result is stored hear. It is later checked to see whether or not the
+	 * behavior should be fired.
 	 */
 	private boolean atomicConditionResult;
 
@@ -115,19 +117,21 @@ public class Trigger implements Comparable<Trigger> {
 			fire(behavior);
 		}
 	}
-	
+
 	/**
-	 * Just evaluates the condition and stores the result in atomicConditionResult
-	 * for later use (to see if the behavior is fired).
+	 * Just evaluates the condition and stores the result in
+	 * atomicConditionResult for later use (to see if the behavior is fired).
 	 * Vital for AtomicUpdate
-	 * @param xThis the owning Agent
+	 * 
+	 * @param xThis
+	 *            the owning Agent
 	 * @throws EvaluationException
 	 */
 	public void evaluateCond(Agent xThis) throws EvaluationException {
 		Expression condition = conditionExpression.clone();
-		
+
 		condition.importEntity("this", xThis);
-		
+
 		atomicConditionResult = false;
 		try {
 			atomicConditionResult = condition.evaluateBool();
@@ -138,17 +142,18 @@ public class Trigger implements Comparable<Trigger> {
 			throw e;
 		}
 	}
-	
+
 	/**
-	 * Checks atomicConditionResult to see whether or not the behavior should be fired
-	 * rather than evaluating the condition on the spot
-	 * Vital for AtomicUpdate
+	 * Checks atomicConditionResult to see whether or not the behavior should be
+	 * fired rather than evaluating the condition on the spot Vital for
+	 * AtomicUpdate
+	 * 
 	 * @param xThis
 	 * @throws EvaluationException
 	 */
 	public void atomicFire(Agent xThis) throws EvaluationException {
 		Expression behavior = behaviorExpression.clone();
-		
+
 		behavior.importEntity("this", xThis);
 		if (atomicConditionResult)
 			fire(behavior);
@@ -165,12 +170,13 @@ public class Trigger implements Comparable<Trigger> {
 
 	/**
 	 * Sets the conditional expression.
+	 * 
 	 * @param e
 	 */
-	private void setCondition(Expression e){
+	private void setCondition(Expression e) {
 		conditionExpression = e;
 	}
-	
+
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
@@ -229,39 +235,33 @@ public class Trigger implements Comparable<Trigger> {
 	public Expression getBehavior() {
 		return behaviorExpression;
 	}
-	
+
 	public int getPriority() {
 		return priority;
 	}
 
 	public static class Builder {
 
+		/**
+		 * Current version of the trigger, will be returned when built
+		 */
 		private Trigger trigger;
 
 		/**
-		 * HashMap of simple values to actual JEval appropriate input for
-		 * conditionals. Hashmap of field and value for prototypes.
+		 * HashMap of simple values to actual JEval appropriate input
 		 */
-		private HashMap<String, String> fieldValues;
+		private HashMap<String, String> converter;
 
 		/**
-		 * HashMap of simple values to actual JEval appropriate input for
-		 * conditionals. Hashmap of behavior and Jeval equivalent.
+		 * Simple (user readable) values for creating conditionals
 		 */
-		private HashMap<String, String> behavioralValues;
+		private List<String> conditionalValues;
 
 		/**
-		 * A HashMap of the operations that will be used in the JEval. Comes with all 
-		 * the usual functions, user may be able to add more. First string is name, second is what 
-		 * Jeval will use to evaluate.
+		 * Simple (user readable) values for creating behaviors
 		 */
-		private HashMap<String, String> operations;
-		
-		/**
-		 * A HashMap of the functions/expressions that might be used in the JEval
-		 */
-		private HashMap<String, String> functions;
-		
+		private List<String> behavioralValues;
+
 		/**
 		 * Constructor
 		 * 
@@ -270,59 +270,74 @@ public class Trigger implements Comparable<Trigger> {
 		 */
 		public Builder(Prototype p) {
 			trigger = new Trigger("", 0, null, null);
-			/*
-			 * TODO Need to be able to add functions.
-			 */
-			loadOperations(p);
-			loadFieldValues(p);	
-			loadBehaviors(p);
-			loadFunctions(p);
+			converter = new HashMap<String, String>();
+			loadFieldValues(p);
+			loadOperations();
+			loadBehaviorFunctions();
+			loadConditionalFunctions();
 		}
-		
-		/*
-		 * Method to store and initialize all the functions that a trigger may use. 
-		 */
-		private void loadFunctions(Prototype p){
-			functions = new HashMap<String,String>();
-			/**TODO
-			 * load all the functions that might be used. still not entirely sure 
-			 * how functions are gonna work in this. Need to figure out something
-			 * about more JCombo boxes or something.
-			 */
-		}
-		
-		/**
-		 * Method to store common operations and initialize them when a Builder is initialized.
-		 */
-		private void loadOperations(Prototype p){
-			operations = new HashMap<String, String>();
-			operations.put("OR", "||");
-			operations.put("AND", "&&");
-			operations.put("NOT_EQUALS", "!=");
-			operations.put("EQUALS", "==");
-			operations.put(">", ">");
-			operations.put("<", "<");
-			//TODO need to add all the basic operations we are using of JEval,
-		}
-		
-		/**
-		 * Loads all of the behaviors that we are using and their JEval equivalent.
-		 * @param p
-		 */
-		private void loadBehaviors(Prototype p){
-			behavioralValues = new HashMap<String, String>();
-			//TODO figure out what to do for behaviors too.
-		}
-		
+
 		/**
 		 * Method to initialize conditionalValues and behaviorableValues
 		 */
-		private void loadFieldValues(Prototype p){
-			fieldValues = new HashMap<String, String>();
-			for (Map.Entry<String, String> entry : p.getFieldMap().entrySet())
-			{
-			    fieldValues.put(entry.getKey(), "this."+entry.getKey());
+		private void loadFieldValues(Prototype p) {
+			conditionalValues.add("-- Values --");
+			behavioralValues.add("-- Values --");
+			for (Map.Entry<String, String> entry : p.getFieldMap().entrySet()) {
+				converter.put(entry.getKey(), "this." + entry.getKey());
+				conditionalValues.add(entry.getKey());
+				behavioralValues.add(entry.getKey());
 			}
+		}
+
+		/**
+		 * Method to store common operations and initialize them when a Builder
+		 * is initialized.
+		 */
+		private void loadOperations() {
+			conditionalValues.add("-- Operations --");
+			behavioralValues.add("-- Operations --");
+
+			converter.put("OR", "||");
+			conditionalValues.add("OR");
+
+			converter.put("AND", "&&");
+			conditionalValues.add("AND");
+			behavioralValues.add("AND");
+
+			converter.put("NOT_EQUALS", "!=");
+			conditionalValues.add("NOT_EQUALS");
+
+			converter.put("EQUALS", "==");
+			conditionalValues.add("EQUALS");
+
+			converter.put(">", ">");
+			conditionalValues.add(">");
+
+			converter.put("<", "<");
+			conditionalValues.add("<");
+		}
+
+		/**
+		 * Method to store and initialize all the functions that a trigger may
+		 * use.
+		 */
+		private void loadConditionalFunctions() {
+			/**
+			 * TODO load all the functions that might be used. still not
+			 * entirely sure how functions are gonna work in this. Need to
+			 * figure out something about more JCombo boxes or something.
+			 */
+		}
+
+		/**
+		 * Loads all of the behaviors that we are using and their JEval
+		 * equivalent.
+		 * 
+		 * @param p
+		 */
+		private void loadBehaviorFunctions() {
+			// TODO figure out what to do for behaviors too.
 		}
 
 		/**
@@ -348,8 +363,10 @@ public class Trigger implements Comparable<Trigger> {
 		 * 
 		 * @return Set of Strings
 		 */
-		public Set<String> conditionalValues() {
-			return fieldValues.keySet();
+		public ImmutableList<String> conditionalValues() {
+			ImmutableList.Builder<String> builder = new ImmutableList.Builder<String>();
+			builder.addAll(conditionalValues);
+			return builder.build();
 		}
 
 		/**
@@ -357,8 +374,10 @@ public class Trigger implements Comparable<Trigger> {
 		 * 
 		 * @return Set of Strings
 		 */
-		public Set<String> behavioralValues() {
-			return behavioralValues.keySet();
+		public ImmutableList<String> behavioralValues() {
+			ImmutableList.Builder<String> builder = new ImmutableList.Builder<String>();
+			builder.addAll(behavioralValues);
+			return builder.build();
 		}
 
 		/**
@@ -370,35 +389,10 @@ public class Trigger implements Comparable<Trigger> {
 		public void addConditional(String c) {
 			String condition = "";
 			String[] stringArray = c.split(" ");
-			for (String a : stringArray){
-				condition+= lookThroughMapsForMatches(a);
+			for (String a : stringArray) {
+				condition += findMatches(a);
 			}
 			trigger.setCondition(new Expression(condition));
-		}
-		
-		/**
-		 * Looks through the conditionalvalues, behavirovalues, function and operation 
-		 * hashmaps to convert text to something that can be evaluated by JEval.
-		 * If it doesn't find anything in the hashmaps, it returns the same string
-		 * Should only happen if user enters something new, like "weight > 0", the 0 part.
-		 * 
-		 * @param s
-		 */
-		private String lookThroughMapsForMatches(String s){
-			String toReturn= "";
-			toReturn = fieldValues.get(s);
-			if (toReturn != null)
-				return toReturn;
-			toReturn = behavioralValues.get(s);
-			if (toReturn != null)
-				return toReturn;
-			toReturn = operations.get(s);
-			if (toReturn != null)
-				return toReturn;
-			toReturn = functions.get(s);
-			if (toReturn != null)
-				return toReturn;
-			return s;
 		}
 
 		/**
@@ -410,10 +404,22 @@ public class Trigger implements Comparable<Trigger> {
 		public void addBehavioral(String b) {
 			String behavior = "";
 			String[] stringArray = b.split(" ");
-			for (String a : stringArray){
-				behavior+= lookThroughMapsForMatches(a);
+			for (String a : stringArray) {
+				behavior += findMatches(a);
 			}
-			trigger.setCondition(new Expression(behavior));
+			trigger.setBehavior(new Expression(behavior));
+		}
+
+		/**
+		 * Provides the expression appropriate version of the inputed string.
+		 * If not are found, it just gives back the String.
+		 * 
+		 * @param s
+		 * @return
+		 */
+		private String findMatches(String s) {
+			String match = converter.get(s);
+			return match == null ? s : match;
 		}
 
 		/**
@@ -425,17 +431,12 @@ public class Trigger implements Comparable<Trigger> {
 		public boolean isValid() {
 			try {
 				trigger.getConditions().evaluateBool();
-				return true; 
+				return true;
 			} catch (Exception e) {
 				System.out.println("Condition expression failed: "
 						+ trigger.getConditions().toString());
 				return false;
 			}
-
-			/*
-			 * TODO Attempt to evaluate the trigger. If it throws an exception
-			 * then return false.
-			 */
 		}
 
 		/**

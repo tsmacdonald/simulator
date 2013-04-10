@@ -55,6 +55,7 @@ public class EditTriggerScreen extends Screen {
 		constraints.gridheight = 1;
 		constraints.gridx = 0;
 		constraints.gridy = 4; 
+		constraints.fill = GridBagConstraints.BOTH;
 		behaviorLayout.setBackground(Color.black);
 		add(behaviorLayout, constraints);
 	}
@@ -65,6 +66,7 @@ public class EditTriggerScreen extends Screen {
 		constraints.gridheight = 1;
 		constraints.gridx = 0;
 		constraints.gridy = 3; 
+		constraints.fill = GridBagConstraints.NONE;
 		add(thenLabel, constraints);
 		
 	}
@@ -75,6 +77,7 @@ public class EditTriggerScreen extends Screen {
 		constraints.gridheight = 1;
 		constraints.gridx = 0;
 		constraints.gridy = 2; 
+		constraints.fill = GridBagConstraints.BOTH;
 		conditionalLayout.setBackground(Color.blue);
 		add(conditionalLayout, constraints);
 	}
@@ -84,7 +87,8 @@ public class EditTriggerScreen extends Screen {
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
 		constraints.gridx = 0;
-		constraints.gridy = 1;  
+		constraints.gridy = 1; 
+		constraints.fill = GridBagConstraints.NONE;  
 		add(ifLabel, constraints);
 	}
 
@@ -93,7 +97,7 @@ public class EditTriggerScreen extends Screen {
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
 		constraints.gridx = 2;
-		constraints.gridy = 0; 
+		constraints.gridy = 0;
 		//TODO: Set minimum value of spinner to 0. 
 		add(prioritySpinner, constraints);
 	}
