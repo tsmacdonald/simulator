@@ -23,7 +23,7 @@ public class Multiplier extends SampleAgent{
 	 * Creates a new multiplier (sample Prototype) and adds it to the static list of Prototypes.
 	 */
 	private Prototype initMultiplier(Prototype multiplier) {
-		//grid.setAtomicUpdater();
+		multiplier.getGrid().setAtomicUpdater();
 		
 		// Add fields
 		try {
