@@ -1,10 +1,12 @@
 package edu.wheaton.simulator.statistics;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
+import edu.wheaton.simulator.behavior.AbstractBehavior;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
@@ -23,11 +25,11 @@ public class SnapshotFactory {
 	 * @param step The point at which the capture was taken. 
 	 * @return
 	 */
-	public static AgentSnapshot makeAgentSnapshot(Agent agent,
+	public static AgentSnapshot makeAgentSnapshot(Agent agent, ArrayList<BehaviorSnapshot> behaviors,
 			Integer step) {
 		return new AgentSnapshot(agent.getID(), 
 				makeFieldSnapshots(agent.getCustomFieldMap()), step, 
-				agent.getPrototype().getName());
+				agent.getPrototype().getName(), behaviors);
 	}
 
 	/**
@@ -70,7 +72,13 @@ public class SnapshotFactory {
 		
 		return new PrototypeSnapshot(name, fields, population, childIDs, step);	
 	}
-
+	
+	// TODO Add documentation
+	public static BehaviorSnapshot makeBehaviorSnapshot(AgentID actor, AbstractBehavior behavior,
+			AgentID recipient, Integer step) {
+		return new BehaviorSnapshot(actor, behavior, recipient, step);
+	}
+ 
 	/**
 	 * Hidden constructor to prevent instantiation. 
 	 */

@@ -1,8 +1,10 @@
 package edu.wheaton.simulator.statistics;
 
+import java.util.ArrayList;
 import java.util.Map.Entry;
 
 import com.google.common.collect.ImmutableMap;
+
 import edu.wheaton.simulator.entity.AgentID;
 
 
@@ -33,13 +35,15 @@ public class AgentSnapshot {
 	 * The point in the simulation at which this snapshot was taken.
 	 */
 	public final Integer step;
+	
+	public final ArrayList<BehaviorSnapshot> behaviors;
 
 	/**
 	 * Constructor
 	 * 
 	 * @param id
 	 *            The ID of the Agent associated with this snapshot.
-	 * @param fields
+	 * @param fieldsbehaviorList.add(behaveSnap)
 	 *            The current values of the fields of the Entity
 	 * @param step
 	 *            The step in the simulation associated with this snapshot.
@@ -47,11 +51,12 @@ public class AgentSnapshot {
 	 *            The prototype for this category of Agent.
 	 */
 	public AgentSnapshot(AgentID id, ImmutableMap<String, FieldSnapshot> fields,
-			Integer step, String prototypeName) {
+			Integer step, String prototypeName, ArrayList<BehaviorSnapshot> behaviors) {
 		this.id = id;
 		this.step = step;
 		this.fields = fields;
 		this.prototypeName = prototypeName;
+		this.behaviors = behaviors;
 	}
 
 	/**
