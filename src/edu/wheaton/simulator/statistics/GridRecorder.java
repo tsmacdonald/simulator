@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
 
 /**
@@ -48,5 +49,16 @@ public class GridRecorder {
 	public void updateTime(long timeOfRecentIteration, long addedDuration) { 
 		statManager.updateRecentTime(timeOfRecentIteration);
 		statManager.updateTotalTime(statManager.getSimulationDuration() + addedDuration);
+	}
+	
+	/**
+	 * TODO Fix documentation if necessary
+	 * Called by behaviors whenever a trigger is activated.
+	 * @param actor The agent acting
+	 * @param behavior The behavior of the agent
+	 * @param recipient The agent that is being acted upon
+	 */
+	public static void notify(AgentID actor, AgentID behavior, AgentID recipient) {
+		
 	}
 }
