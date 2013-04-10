@@ -31,14 +31,14 @@ public class SetupScreen extends Screen {
 
 	private JTextField nameField;
 
-//	private JTextField width;
-//
-//	private JTextField height;
+	//	private JTextField width;
+	//
+	//	private JTextField height;
 
 	private JTextField timeField;
 
 	private String[] agentNames;
-	
+
 	private JComboBox updateBox;
 
 	private ArrayList<JComboBox> agentTypes;
@@ -65,124 +65,233 @@ public class SetupScreen extends Screen {
 		super(sm);
 		this.setLayout(new BorderLayout());
 		agentNames = new String[0];
-		JLabel label = new JLabel("Simulation Setup");
-		label.setPreferredSize(new Dimension(300, 150));
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		this.add(label, BorderLayout.NORTH);
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
-		JLabel nameLabel = new JLabel ("Name: ");
-		nameLabel.setMaximumSize(new Dimension(100, 40));
-		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		nameField = new JTextField(sm.getGUIname(), 25);
-		nameField.setMaximumSize(new Dimension(400, 30));
-//		JLabel widthLabel = new JLabel("Width: ");
-//		widthLabel.setMaximumSize(new Dimension(100, 40));
-//		widthLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-//		width = new JTextField(sm.getGUIwidth()+"", 10);
-//		width.setMaximumSize(new Dimension(80, 30));
-//		JLabel heightLabel = new JLabel("Height: ");
-//		heightLabel.setMaximumSize(new Dimension(210, 40));
-//		heightLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-//		height = new JTextField(sm.getGUIheight()+"", 0);
-//		height.setMaximumSize(new Dimension(80, 30));
-		JLabel updateLabel = new JLabel("Update type: ");
-		updateLabel.setMaximumSize(new Dimension(100, 40));
-		String[] updateTypes = {"Linear", "Atomic", "Priority"};
-		updateBox = new JComboBox(updateTypes);
-		updateBox.setMaximumSize(new Dimension(200, 40));
-		JPanel panel1 = new JPanel();
-		panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
-		panel1.add(nameLabel);
-		panel1.add(nameField);
-//		JPanel panel2 = new JPanel();
-//		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
-//		panel2.add(heightLabel);
-//		panel2.add(height);
-//		panel2.add(widthLabel);
-//		panel2.add(width);
-		JPanel panel3 = new JPanel();
-		panel3.setLayout(new BoxLayout(panel3, BoxLayout.X_AXIS));
-		panel3.add(updateLabel);
-		panel3.add(updateBox);
-
-		JPanel conMainPanel = new JPanel();
-		JPanel conBodyPanel = new JPanel();
-		JPanel timePanel = new JPanel();
-		JPanel conLabelsPanel = new JPanel();
-		conListPanel = new JPanel();
-
-		JLabel endingLabel = new JLabel("Ending Conditions");
-		endingLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		endingLabel.setPreferredSize(new Dimension(300, 100));
-		JLabel timeLabel = new JLabel("Time limit: ");
-		JLabel agentTypeLabel = new JLabel("Agent Type");
-		agentTypeLabel.setPreferredSize(new Dimension(200, 30));
-		JLabel valueLabel = new JLabel("Population Limit");
-		valueLabel.setPreferredSize(new Dimension(400, 30));
-		//JLabel operationLabel = new JLabel("Operation");
-		//operationLabel.setPreferredSize(new Dimension(350, 30));
-		timeField = new JTextField(15);
-		timeField.setMaximumSize(new Dimension(200, 40));
+		this.add(makeWindowLabel(), BorderLayout.NORTH);
 		agentTypes = new ArrayList<JComboBox>();
-		values = new ArrayList<JTextField>();
-		//operations = new ArrayList<JComboBox>();
 		deleteButtons = new ArrayList<JButton>();
 		subPanels = new ArrayList<JPanel>();
-		addConditionButton = new JButton("Add Field");
-		addConditionButton.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						addCondition();
-					}
-				});
 		glue = Box.createVerticalGlue();
+		addConditionButton = makeAddConditionButton(this);
+		conListPanel = makeConListPanel(addConditionButton);
+		nameField = makeNameField(sm);
+		timeField = makeTimeField();
+		updateBox = makeUpdateBox();
+		JPanel uberPanel = makeUberPanel(this, timeField, nameField, updateBox);
+		this.add(uberPanel, BorderLayout.CENTER);
+		agentTypes = new ArrayList<JComboBox>();
+		values = new ArrayList<JTextField>();
+		JPanel buttonPanel = makeButtonPanel(sm, nameField, timeField, updateBox,agentTypes,values);
+		this.add(buttonPanel, BorderLayout.SOUTH);
+
+		//		JLabel widthLabel = new JLabel("Width: ");
+		//		widthLabel.setMaximumSize(new Dimension(100, 40));
+		//		widthLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		//		width = new JTextField(sm.getGUIwidth()+"", 10);
+		//		width.setMaximumSize(new Dimension(80, 30));
+		//		JLabel heightLabel = new JLabel("Height: ");
+		//		heightLabel.setMaximumSize(new Dimension(210, 40));
+		//		heightLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		//		height = new JTextField(sm.getGUIheight()+"", 0);
+		//		height.setMaximumSize(new Dimension(80, 30));
+
+		//JLabel operationLabel = new JLabel("Operation");
+		//operationLabel.setPreferredSize(new Dimension(350, 30));
+
+		//operations = new ArrayList<JComboBox>();
+
 		//addCondition();
 		//TODO line up components
-		conMainPanel.setLayout(
-				new BorderLayout()
-				);
-		conBodyPanel.setLayout(
-				new BoxLayout(conBodyPanel, BoxLayout.Y_AXIS)
-				);
-		timePanel.setLayout(new BoxLayout(timePanel, BoxLayout.X_AXIS));
-		conLabelsPanel.setLayout(
-				new BoxLayout(conLabelsPanel, BoxLayout.X_AXIS)
-				);
-		conListPanel.setLayout(
-				new BoxLayout(conListPanel, BoxLayout.Y_AXIS)
-				);
 		//		subPanels.get(0).setLayout(
 		//				new BoxLayout(subPanels.get(0), BoxLayout.X_AXIS)
 		//				);
-		timePanel.add(timeLabel);
-		timePanel.add(timeField);
-		timePanel.setAlignmentX(CENTER_ALIGNMENT);
-		conMainPanel.add(endingLabel, BorderLayout.NORTH);
-		conLabelsPanel.add(Box.createHorizontalGlue());
-		conLabelsPanel.add(agentTypeLabel);
-		agentTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		agentTypeLabel.setAlignmentX(LEFT_ALIGNMENT);
+
 		//conLabelsPanel.add(operationLabel);
 		//operationLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		conLabelsPanel.add(valueLabel);
-		conLabelsPanel.add(Box.createHorizontalGlue());
-		valueLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
 		//		subPanels.get(0).add(agentTypes.get(0));
 		//		//subPanels.get(0).add(operations.get(0));
 		//		subPanels.get(0).add(values.get(0));
 		//		subPanels.get(0).add(deleteButtons.get(0));
 		//		conListPanel.add(subPanels.get(0));
+
+
+
+		//		JPanel panel2 = new JPanel();
+		//		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
+		//		panel2.add(heightLabel);
+		//		panel2.add(height);
+		//		panel2.add(widthLabel);
+		//		panel2.add(width);
+	}
+
+	private static JLabel makeWindowLabel(){
+		JLabel label = new JLabel("Simulation Setup");
+		label.setPreferredSize(new Dimension(300, 150));
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		return label;
+	}
+
+	private static JLabel makeNameLabel(){
+		JLabel nameLabel = new JLabel ("Name: ");
+		nameLabel.setMaximumSize(new Dimension(100, 40));
+		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		return nameLabel;
+	}
+
+	private static JTextField makeNameField(final ScreenManager sm){
+		JTextField nameField = new JTextField(sm.getGUIname(), 25);
+		nameField.setMaximumSize(new Dimension(400, 30));
+		return nameField;
+	}
+
+	private static JLabel makeUpdateLabel(){
+		JLabel updateLabel = new JLabel("Update type: ");
+		updateLabel.setMaximumSize(new Dimension(100, 40));
+		return updateLabel;
+	}
+
+	private static JComboBox makeUpdateBox(){
+		String[] updateTypes = {"Linear", "Atomic", "Priority"};
+		JComboBox updateBox = new JComboBox(updateTypes);
+		updateBox.setMaximumSize(new Dimension(200, 40));
+		return updateBox;
+	}
+
+	private static JLabel makeEndingLabel(){
+		JLabel endingLabel = new JLabel("Ending Conditions");
+		endingLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		endingLabel.setPreferredSize(new Dimension(300, 100));
+		return endingLabel;
+	}
+
+	private static JLabel makeAgentTypeLabel(){
+		JLabel agentTypeLabel = new JLabel("Agent Type");
+		agentTypeLabel.setPreferredSize(new Dimension(200, 30));
+		agentTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		agentTypeLabel.setAlignmentX(LEFT_ALIGNMENT);
+		return agentTypeLabel;
+	}
+
+	private static JLabel makeValueLabel(){
+		JLabel valueLabel = new JLabel("Population Limit");
+		valueLabel.setPreferredSize(new Dimension(400, 30));
+		valueLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		return valueLabel;
+	}
+
+	private static JTextField makeTimeField(){
+		JTextField timeField = new JTextField(15);
+		timeField.setMaximumSize(new Dimension(200, 40));
+		return timeField;
+	}
+
+	private static JButton makeAddConditionButton(final SetupScreen screen){
+		JButton addConditionButton = new JButton("Add Field");
+		addConditionButton.addActionListener(
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						screen.addCondition();
+					}
+				});
+		return addConditionButton;
+	}
+
+	private static JPanel makeConMainPanel(SetupScreen screen, JTextField timeField){
+		JPanel conMainPanel = new JPanel();
+		conMainPanel.setLayout(
+				new BorderLayout()
+				);
+		conMainPanel.add(makeEndingLabel(), BorderLayout.NORTH);
+
+		JPanel conBodyPanel = makeConBodyPanel(screen, timeField);
+
+		conMainPanel.add(conBodyPanel, BorderLayout.CENTER);
+
+		return conMainPanel;
+	}
+
+	private static JPanel makeTimePanel(JTextField timeField){
+		JPanel timePanel = new JPanel();
+		timePanel.setLayout(new BoxLayout(timePanel, BoxLayout.X_AXIS));
+		JLabel timeLabel = new JLabel("Time limit: ");
+		timePanel.add(timeLabel);
+		timePanel.add(timeField);
+		timePanel.setAlignmentX(CENTER_ALIGNMENT);
+		return timePanel;
+	}
+
+	private static JPanel makeConLabelsPanel(){
+		JPanel conLabelsPanel = new JPanel();
+		conLabelsPanel.setLayout(
+				new BoxLayout(conLabelsPanel, BoxLayout.X_AXIS)
+				);
+		conLabelsPanel.add(Box.createHorizontalGlue());
+		conLabelsPanel.add(makeAgentTypeLabel());
+		conLabelsPanel.add(makeValueLabel());
+		conLabelsPanel.add(Box.createHorizontalGlue());
+		return conLabelsPanel;
+	}
+
+	private static JPanel makeConListPanel(JButton addConditionButton){
+		JPanel conListPanel = new JPanel();
+		conListPanel.setLayout(
+				new BoxLayout(conListPanel, BoxLayout.Y_AXIS)
+				);
 		conListPanel.add(addConditionButton);
-		conListPanel.add(glue);
+		conListPanel.add(Box.createVerticalGlue());
+		return conListPanel;
+	}
+
+	private static JPanel makeConBodyPanel(JPanel conListPanel, JTextField timeField){
+		JPanel conBodyPanel = new JPanel();
+		conBodyPanel.setLayout(
+				new BoxLayout(conBodyPanel, BoxLayout.Y_AXIS)
+				);
+
+		JPanel timePanel = makeTimePanel(timeField);
+
+		JPanel conLabelsPanel = makeConLabelsPanel();
+
 		conBodyPanel.add(timePanel);
 		conBodyPanel.add(conLabelsPanel);
 		conBodyPanel.add(conListPanel);
-		conMainPanel.add(conBodyPanel, BorderLayout.CENTER);
 
+		return conBodyPanel;
+	}
+
+	private static JPanel makeUberPanel(SetupScreen screen, JTextField timeField, JTextField nameField, JComboBox updateBox){
+		JPanel uberPanel = new JPanel();
+		uberPanel.setLayout(new BoxLayout(uberPanel, BoxLayout.Y_AXIS));
+
+		JPanel mainPanel = makeMainPanel(makeNameLabel(), nameField, makeUpdateLabel(), updateBox );
+		uberPanel.add(mainPanel);
+
+		JPanel conMainPanel = makeConMainPanel(screen, timeField);
+		uberPanel.add(conMainPanel);
+		return uberPanel;
+	}
+
+	private static JPanel makeButtonPanel(final ScreenManager sm, final JTextField nameField, final JTextField timeField, final JComboBox updateBox, ArrayList<JComboBox> agentTypes, ArrayList<JTextField> values){
 		JPanel buttonPanel = new JPanel();
+		buttonPanel.add(makeBackButton(sm));
+		buttonPanel.add( makeFinishButton(sm, nameField, timeField, updateBox, values, agentTypes) );
+		return buttonPanel;
+	}
+
+	private static JButton makeBackButton(final ScreenManager sm){
+		JButton backButton = new JButton("Back");
+		backButton.addActionListener(
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						sm.update(sm.getScreen("Edit Simulation"));
+					}
+				}
+				);
+		return backButton;
+	}
+
+	private static JButton makeFinishButton(final ScreenManager sm, final JTextField nameField, final JTextField timeField, final JComboBox updateBox, final ArrayList<JTextField> values, final ArrayList<JComboBox> agentTypes){
 		JButton finishButton = new JButton("Finish");
 		finishButton.addActionListener(
 				new ActionListener() {
@@ -192,15 +301,15 @@ public class SetupScreen extends Screen {
 							if (nameField.getText().equals("")) {
 								throw new Exception("All fields must have input");
 							}
-//							if (Integer.parseInt(width.getText()) < 1 || Integer.parseInt(height.getText()) < 1) {
-//								throw new Exception("Width and height must be greater than 0");
-//							}
+							//							if (Integer.parseInt(width.getText()) < 1 || Integer.parseInt(height.getText()) < 1) {
+							//								throw new Exception("Width and height must be greater than 0");
+							//							}
 							for (int i = 0; i < values.size(); i++){
 								if (values.get(i).getText().equals("")) {
 									throw new Exception("All fields must have input.");
 								}
 							}
-//							sm.updateGUIManager(nameField.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
+							//							sm.updateGUIManager(nameField.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
 
 							sm.getEnder().setStepLimit(Integer.parseInt(timeField.getText()));
 							String str = (String)updateBox.getSelectedItem();
@@ -234,38 +343,47 @@ public class SetupScreen extends Screen {
 					}
 				}
 				);
-		JButton backButton = new JButton("Back");
-		backButton.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Edit Simulation"));
-					}
-				}
-				);
-		buttonPanel.add(backButton);
-		buttonPanel.add(finishButton);
-		mainPanel.add(panel1);
-//		mainPanel.add(panel2);
-		mainPanel.add(panel3);
-		JPanel uberPanel = new JPanel();
-		uberPanel.setLayout(new BoxLayout(uberPanel, BoxLayout.Y_AXIS));
-		uberPanel.add(mainPanel);
-		uberPanel.add(conMainPanel);
-		this.add(uberPanel, BorderLayout.CENTER);
-		this.add(buttonPanel, BorderLayout.SOUTH);
+		return finishButton;
+	}
+
+	private static JPanel makeMainPanel(JLabel nameLabel, JTextField nameField, JLabel updateLabel, JComboBox updateBox ){
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
+
+		mainPanel.add( makePanel1(nameLabel,nameField) );
+		//		mainPanel.add(panel2);
+		mainPanel.add( makePanel3(updateLabel,updateBox) );
+
+		return mainPanel;
+	}
+
+	private static JPanel makePanel1(JLabel nameLabel, JTextField nameField){
+		JPanel panel1 = new JPanel();
+		panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
+		panel1.add(nameLabel);
+		panel1.add(nameField);
+		return panel1;
+	}
+
+	private static JPanel makePanel3(JLabel updateLabel, JComboBox updateBox){
+		JPanel panel3 = new JPanel();
+		panel3.setLayout(new BoxLayout(panel3, BoxLayout.X_AXIS));
+		panel3.add(updateLabel);
+		panel3.add(updateBox);
+		return panel3;
 	}
 
 	@Override
 	public void load() {
 		reset();
 		nameField.setText(GUI.getNameOfSim());
-//		width.setText(GUI.getGridWidth() + "");
-//		height.setText(GUI.getGridHeight() + "");
-//		if (sm.hasStarted()) {
-//			width.setEditable(false);
-//			height.setEditable(false);
-//		}
+		//		width.setText(GUI.getGridWidth() + "");
+		//		height.setText(GUI.getGridHeight() + "");
+		//		if (sm.hasStarted()) {
+		//			width.setEditable(false);
+		//			height.setEditable(false);
+		//		}
 		updateBox.setSelectedItem(sm.getFacade().currentUpdater());
 
 		SimulationEnder se = sm.getEnder();
@@ -334,8 +452,8 @@ public class SetupScreen extends Screen {
 
 	private void reset() {
 		nameField.setText("");
-//		width.setText("");
-//		height.setText("");
+		//		width.setText("");
+		//		height.setText("");
 		conListPanel.removeAll();
 		agentTypes.clear();
 		values.clear();
