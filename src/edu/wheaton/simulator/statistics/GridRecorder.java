@@ -3,7 +3,6 @@ package edu.wheaton.simulator.statistics;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
 
 import edu.wheaton.simulator.behavior.AbstractBehavior;
 import edu.wheaton.simulator.datastructure.Grid;
@@ -23,7 +22,7 @@ public class GridRecorder {
 
 	private Prototype gridPrototype;
 	
-	private static HashMap<AgentID, ArrayList> behaviors;
+	private static HashMap<AgentID, ArrayList<BehaviorSnapshot>> behaviors;
 
 	/**
 	 * Constructor.
@@ -31,7 +30,7 @@ public class GridRecorder {
 	public GridRecorder(StatisticsManager statManager) {
 		this.statManager = statManager;
 		gridPrototype = null;
-		this.behaviors = new HashMap<AgentID, ArrayList>();
+		this.behaviors = new HashMap<AgentID, ArrayList<BehaviorSnapshot>>();
 	}
 
 	/**

@@ -19,14 +19,14 @@ public class SimulationRecorder {
 
 	private StatisticsManager statManager;
 
-	private static HashMap<AgentID, ArrayList> behaviors;
+	private static HashMap<AgentID, ArrayList<BehaviorSnapshot>> behaviors;
 
 	/**
 	 * Constructor.
 	 */
 	public SimulationRecorder(StatisticsManager statManager) {
 		this.statManager = statManager;
-		this.behaviors = new HashMap<AgentID, ArrayList>();
+		this.behaviors = new HashMap<AgentID, ArrayList<BehaviorSnapshot>>();
 	}
 
 	/**
