@@ -65,7 +65,7 @@ public class AgentSnapshot {
 	 * Fields: FieldSnapshot Name Value
 	 * Fields: FieldSnapshot Name Value
 	 * 3 (step - an int)
-	 * 12 (PrototypeID - an int) TODO: Update this to deal with the removal of IDs
+	 * 12 (PrototypeName - a String)
 	 */
 	public String serialize(){
 		String s = "AgentSnapshot";

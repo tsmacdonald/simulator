@@ -16,11 +16,14 @@ public class GridRecorder {
 
 	private StatisticsManager statManager;
 
+	private Prototype gridPrototype;
+	
 	/**
 	 * Constructor.
 	 */
 	public GridRecorder(StatisticsManager statManager) {
 		this.statManager = statManager;
+		gridPrototype = null;
 	}
 
 	/**
@@ -39,6 +42,10 @@ public class GridRecorder {
 				System.out.println(SnapshotFactory.makeAgentSnapshot(agent, step).serialize()); //Debugging 
 			}
 		}
+		if(gridPrototype == null)
+			gridPrototype = new Prototype(grid, "GRID");
+		else
+			statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, step));
 	}
 
 	/**

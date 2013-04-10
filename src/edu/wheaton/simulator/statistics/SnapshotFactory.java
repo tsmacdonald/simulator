@@ -5,6 +5,7 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
@@ -72,8 +73,22 @@ public class SnapshotFactory {
 	}
 
 	/**
+	 * Make a new snapshot of the global fields of the grid.
+	 * This is an AgentSnapshot made out of the grid.
+	 * @param grid The instance of grid being played with.
+	 * @param prototye A custom prototype for the grid.
+	 * @param step The point in the simulation being captured.
+	 * @return
+	 */
+	public static AgentSnapshot makeGlobalVarSnapshot(Grid grid,
+			Prototype prototype, Integer step) {
+		return new AgentSnapshot(null, makeFieldSnapshots(grid.getCustomFieldMap()), step, prototype.getName());
+	}
+	
+	/**
 	 * Hidden constructor to prevent instantiation. 
 	 */
 	private SnapshotFactory() {
 	}
+
 }
