@@ -128,9 +128,12 @@ public class EntityScreen extends Screen {
 		public void actionPerformed(ActionEvent e){
 			int index = entityList.getSelectedIndex();
 			listModel.remove(index);
+			//need to delete prototype here -- Caleb
 			int size = listModel.getSize();
-			if(size == 0)
+			if(size == 0){
 				delete.setEnabled(false);
+				edit.setEnabled(false);
+			}
 			if(index == size)
 				index--;
 			entityList.setSelectedIndex(index);
