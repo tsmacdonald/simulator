@@ -77,7 +77,7 @@ public class PrototypeSnapshotCase {
 				SnapshotFactory.makeFieldSnapshots(fields), population,
 				children, step);
 		
-		String expected = "PrototypeSnapshot\n1\ntesting\nDefaultFields: FieldSnapshot Age 1\n0\n23"; 
+		String expected = "PrototypeSnapshot\ntesting\nDefaultFields: FieldSnapshot Age 1\n0\n23"; 
 		Assert.assertEquals(expected, protoSnap.serialize()); 	
 	}
 }

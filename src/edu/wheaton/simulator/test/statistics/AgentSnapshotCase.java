@@ -84,7 +84,7 @@ public class AgentSnapshotCase {
 				prototype.getName());
 		
 		String expected = "AgentSnapshot\n1\nFields: Cat FieldSnapshot Cat Joomba" +
-				"\nFields: Pig FieldSnapshot Pig Tom\nFields: Monkey FieldSnapshot Monkey Olly\n23\n1"; 
+				"\nFields: Pig FieldSnapshot Pig Tom\nFields: Monkey FieldSnapshot Monkey Olly\n23\ntester"; 
 		System.out.println(agentSnap.serialize()); 
 		
 		Assert.assertEquals(expected, agentSnap.serialize()); 	
