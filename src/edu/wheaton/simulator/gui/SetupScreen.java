@@ -123,30 +123,58 @@ public class SetupScreen extends Screen {
 		//		panel2.add(width);
 	}
 
-	private static JLabel makeWindowLabel(){
-		JLabel label = new JLabel("Simulation Setup");
-		label.setPreferredSize(new Dimension(300, 150));
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		return label;
-	}
-
-	private static JLabel makeNameLabel(){
-		JLabel nameLabel = new JLabel ("Name: ");
-		nameLabel.setMaximumSize(new Dimension(100, 40));
-		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		return nameLabel;
-	}
-
 	private static JTextField makeNameField(final ScreenManager sm){
 		JTextField nameField = new JTextField(sm.getGUIname(), 25);
 		nameField.setMaximumSize(new Dimension(400, 30));
 		return nameField;
 	}
+	
+	private static JLabel makeLabelMaxSize(String name, int maxWidth, int maxHeight){
+		JLabel label = new JLabel(name);
+		label.setMaximumSize(new Dimension(maxWidth, maxHeight));
+		return label;
+	}
+	
+	private static JLabel makeLabelPreferredSize(String name, int prefWidth, int prefHeight){
+		JLabel label = new JLabel(name);
+		label.setPreferredSize(new Dimension(prefWidth, prefHeight));
+		return label;
+	}
+	
+	private static JLabel makeWindowLabel(){
+		JLabel label = makeLabelPreferredSize("Simulation Setup",300,150);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		return label;
+	}
+
+	private static JLabel makeNameLabel(){
+		JLabel nameLabel = makeLabelMaxSize("Name: ",100,40);
+		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		return nameLabel;
+	}
 
 	private static JLabel makeUpdateLabel(){
-		JLabel updateLabel = new JLabel("Update type: ");
-		updateLabel.setMaximumSize(new Dimension(100, 40));
+		JLabel updateLabel = makeLabelMaxSize("Update type: ",100,40);
 		return updateLabel;
+	}
+	
+	private static JLabel makeEndingLabel(){
+		JLabel endingLabel = makeLabelPreferredSize("Ending Conditions",300,100);
+		endingLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		return endingLabel;
+	}
+	
+	private static JLabel makeAgentTypeLabel(){
+		JLabel agentTypeLabel = makeLabelPreferredSize("Agent Type",200,30);
+		agentTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		agentTypeLabel.setAlignmentX(LEFT_ALIGNMENT);
+		return agentTypeLabel;
+	}
+
+	private static JLabel makeValueLabel(){
+		JLabel valueLabel = makeLabelPreferredSize("Population Limit",400,30);
+		valueLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		return valueLabel;
 	}
 
 	private static JComboBox makeUpdateBox(){
@@ -154,28 +182,6 @@ public class SetupScreen extends Screen {
 		JComboBox updateBox = new JComboBox(updateTypes);
 		updateBox.setMaximumSize(new Dimension(200, 40));
 		return updateBox;
-	}
-
-	private static JLabel makeEndingLabel(){
-		JLabel endingLabel = new JLabel("Ending Conditions");
-		endingLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		endingLabel.setPreferredSize(new Dimension(300, 100));
-		return endingLabel;
-	}
-
-	private static JLabel makeAgentTypeLabel(){
-		JLabel agentTypeLabel = new JLabel("Agent Type");
-		agentTypeLabel.setPreferredSize(new Dimension(200, 30));
-		agentTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		agentTypeLabel.setAlignmentX(LEFT_ALIGNMENT);
-		return agentTypeLabel;
-	}
-
-	private static JLabel makeValueLabel(){
-		JLabel valueLabel = new JLabel("Population Limit");
-		valueLabel.setPreferredSize(new Dimension(400, 30));
-		valueLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		return valueLabel;
 	}
 
 	private static JTextField makeTimeField(){
