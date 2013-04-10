@@ -405,7 +405,6 @@ public class EditEntityScreen extends Screen {
 		sendGeneralInfo();
 		sendFieldInfo();
 		return sendTriggerInfo();
-
 	}
 
 	public void sendGeneralInfo(){
