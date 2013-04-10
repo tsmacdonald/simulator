@@ -56,7 +56,15 @@ public class Grid extends Entity implements Iterable<Agent> {
 
 		grid = new Agent[getHeight()][getWidth()];
 	}
-
+	
+	/**
+	 * Hackish solution to Akon's gridrecorder. Should never ever be
+	 * called other than from the stats people.
+	 */
+	public Integer getID(){
+		return -1;
+	}
+	
 	/**
 	 * Provides this grid's width
 	 * 

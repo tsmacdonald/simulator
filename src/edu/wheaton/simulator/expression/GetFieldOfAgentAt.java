@@ -38,5 +38,5 @@ public class GetFieldOfAgentAt extends AbstractExpressionFunction {
 		
 		String fieldValue = target.getFieldValue(fieldName);
 		return fieldValue.toString();
-		}
+	}
 }
