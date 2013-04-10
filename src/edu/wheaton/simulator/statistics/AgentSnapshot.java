@@ -70,7 +70,8 @@ public class AgentSnapshot {
 	 * Fields: FieldSnapshot Name Value
 	 * Fields: FieldSnapshot Name Value
 	 * 3 (step - an int)
-	 * 12 (PrototypeID - an int) TODO: Update this to deal with the removal of IDs
+	 * Dog (prototypeName - a string)
+	 * TODO: Put in an ending character
 	 */
 	public String serialize(){
 		String s = "AgentSnapshot";
