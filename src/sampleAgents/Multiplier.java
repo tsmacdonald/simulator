@@ -1,9 +1,6 @@
 package sampleAgents;
 
-import java.awt.Color;
-
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
-import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
@@ -22,7 +19,7 @@ public class Multiplier extends SampleAgent{
 	/**
 	 * Creates a new multiplier (sample Prototype) and adds it to the static list of Prototypes.
 	 */
-	private Prototype initMultiplier(Prototype multiplier) {
+	private static Prototype initMultiplier(Prototype multiplier) {
 		multiplier.getGrid().setAtomicUpdater();
 		
 		// Add fields

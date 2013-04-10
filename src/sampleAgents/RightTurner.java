@@ -1,9 +1,6 @@
 package sampleAgents;
 
-import java.awt.Color;
-
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
-import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
@@ -19,7 +16,7 @@ public class RightTurner extends SampleAgent{
 		return initRightTurner(rightTurner);
 	}
 
-	private Prototype initRightTurner(Prototype rightTurner){
+	private static Prototype initRightTurner(Prototype rightTurner){
 		
 		// Add fields
 		try {

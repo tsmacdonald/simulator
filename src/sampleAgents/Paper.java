@@ -24,7 +24,7 @@ public class Paper extends SampleAgent {
 		return initPaper(paper);
 	}
 	
-	private Prototype initPaper(Prototype paper) {
+	private static Prototype initPaper(Prototype paper) {
 		
 		Color lightGrey = new Color(225, 225, 225);
 		byte[] paperDesign = {62, 62, 62, 62, 62, 62, 62};

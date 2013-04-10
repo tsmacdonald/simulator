@@ -18,7 +18,6 @@ import sampleAgents.Multiplier;
 import sampleAgents.Paper;
 import sampleAgents.RightTurner;
 import sampleAgents.Rock;
-import sampleAgents.SampleAgent;
 import sampleAgents.Scissors;
 
 import net.sourceforge.jeval.EvaluationException;

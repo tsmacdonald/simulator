@@ -25,7 +25,7 @@ public class Rock extends SampleAgent{
 	 * @param rock Empty prototype
 	 * @return Rock prototype
 	 */
-	private Prototype initRock(Prototype rock) {
+	private static Prototype initRock(Prototype rock) {
 		// names of the agents
 		String[] agentType = { "rock", "paper", "scissors" };
 		
