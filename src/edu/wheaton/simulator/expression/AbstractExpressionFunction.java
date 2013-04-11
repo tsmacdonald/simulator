@@ -30,6 +30,11 @@ public abstract class AbstractExpressionFunction {
 	public abstract String getName();
 
 	/**
+	 * The number of arguments that a function function is supposed to have
+	 */
+	public abstract Integer numArgs();
+	
+	/**
 	 * Returns one of the three constants defined at the top of this class
 	 */
 	public abstract int getResultType();

@@ -16,6 +16,11 @@ public class KillBehavior extends AbstractBehavior {
 	}
 
 	@Override
+	public Integer numArgs() {
+		return 2;
+	}
+
+	@Override
 	public String execute(String[] args) throws EvaluationException {
 		Integer x = Double.valueOf(args[0]).intValue();
 		Integer y = Double.valueOf(args[1]).intValue();

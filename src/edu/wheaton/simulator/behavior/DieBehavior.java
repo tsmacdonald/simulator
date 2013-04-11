@@ -14,10 +14,16 @@ public class DieBehavior extends AbstractBehavior {
 	public String getName() {
 		return "die";
 	}
+	
+
+	@Override
+	public Integer numArgs() {
+		return 0;
+	}
 
 	@Override
 	public String execute(String[] args) throws EvaluationException {
-		Agent target = resolveAgent(args[0]);
+		Agent target = resolveAgent("this");
 		target.die();
 		return Expression.TRUE;
 	}

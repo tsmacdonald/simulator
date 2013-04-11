@@ -13,7 +13,6 @@ package edu.wheaton.simulator.entity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.google.common.collect.ImmutableList;
 
@@ -316,6 +315,9 @@ public class Trigger implements Comparable<Trigger> {
 
 			converter.put("<", "<");
 			conditionalValues.add("<");
+			
+			converter.put("(",  "(");
+			conditionalValues.add("(");
 		}
 
 		/**
@@ -323,10 +325,18 @@ public class Trigger implements Comparable<Trigger> {
 		 * use.
 		 */
 		private void loadConditionalFunctions() {
+			conditionalValues.add("Get_Field_Of_Agent_At:");
+			converter.put("Get_Field_Of_Agent_At", "getFieldOfAgentAt");
+			
+			conditionalValues.add("Is_Slot_Open_At:");
+			converter.put("Is_Slot_Open_At:", "isSlotOpen");
+			
+			conditionalValues.add("Is_Valid_Coord_At:");
+			converter.put("Is_Valid_Coord_At:", "isValidCoord");
+			
+			
 			/**
-			 * TODO load all the functions that might be used. still not
-			 * entirely sure how functions are gonna work in this. Need to
-			 * figure out something about more JCombo boxes or something.
+			 * TODO Need to figure out how the user inputs the parameters.
 			 */
 		}
 
@@ -337,7 +347,9 @@ public class Trigger implements Comparable<Trigger> {
 		 * @param p
 		 */
 		private void loadBehaviorFunctions() {
-			// TODO figure out what to do for behaviors too.
+			behavioralValues.add("Clone_Agent_At_Position:");
+			converter.put("Clone_Agent_At_Position:", "cloneAgentAtPosition");
+			// TODO need to figure out how the user inputs the parameters.
 		}
 
 		/**

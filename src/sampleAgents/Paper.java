@@ -53,8 +53,8 @@ public class Paper extends SampleAgent {
 
 		// Move behavior
 		Expression move = new Expression(
-				"move('this', this.x + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& setField('this', 'endTurn', 1)");
+				"move(this.x + this.xNextDirection, this.y + this.yNextDirection)"
+						+ "&& setField('endTurn', 1)");
 		
 		/*
 		 * Turn clockwise (in 8 directions) Uses 'temp' because as JEval
@@ -62,13 +62,13 @@ public class Paper extends SampleAgent {
 		 * corrupted in the second use
 		 */
 		Expression rotateClockwise = new Expression(
-				" setField('this', 'temp', this.xNextDirection) || setField('this', 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4)))"
-						+ " || setField('this', 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))");
+				" setField('temp', this.xNextDirection) || setField('xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4)))"
+						+ " || setField('yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))");
 
 		// turn counter clockwise
 		Expression rotateCounterClockwise = new Expression(
-				" setField('this', 'temp', this.xNextDirection) || setField('this', 'xNextDirection', round(this.xNextDirection * cos(-PI/4) - this.yNextDirection * sin(-PI/4)))"
-						+ " || setField('this', 'yNextDirection', round(this.temp * sin(-PI/4) + this.yNextDirection * cos(-PI/4)))");
+				" setField('temp', this.xNextDirection) || setField('xNextDirection', round(this.xNextDirection * cos(-PI/4) - this.yNextDirection * sin(-PI/4)))"
+						+ " || setField('yNextDirection', round(this.temp * sin(-PI/4) + this.yNextDirection * cos(-PI/4)))");
 
 		// Check for agent ahead
 		Expression isAgentAhead = new Expression(
@@ -77,7 +77,7 @@ public class Paper extends SampleAgent {
 
 		// setAgentAhead field to true
 		Expression setAgentAhead = new Expression(
-				"setField('this', 'agentAhead', 1)");
+				"setField('agentAhead', 1)");
 
 		// reads flag that is set when there is an agent ahead
 		Expression checkAgentAheadFlag = new Expression("this.endTurn != 1" +
@@ -85,7 +85,7 @@ public class Paper extends SampleAgent {
 
 		// collect information about conflict
 		Expression setConflictAheadFlag = new Expression(
-				"setField('this', 'conflictAhead',"
+				"setField('conflictAhead',"
 						+ " getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'typeID') == (this.typeID + 2)%3"
 						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection') == - this.xNextDirection"
 						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'yNextDirection') == - this.yNextDirection)");
@@ -97,16 +97,16 @@ public class Paper extends SampleAgent {
 		// conflict behavior
 		Expression engageInConflict = new Expression(
 				"kill(this.x  + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& clone('this',this.x  + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
-						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
-						+ "&& setField('this', 'endTurn', 1)");
+						+ "&& clone(this.x  + this.xNextDirection, this.y + this.yNextDirection)"
+						+ "&& setFieldOfAgent(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
 
 		// reset all the flags that are used to determine behavior
 		Expression resetConflictFlags = new Expression(
-				"setField('this', 'agentAhead', 0)|| setField('this', 'conflictAhead', 0)");
+				"setField('agentAhead', 0)|| setField('conflictAhead', 0)");
 		Expression resetEndTurnFlag = new Expression(
-				"setField('this', 'endTurn', 0)");
+				"setField('endTurn', 0)");
 
 			/*
 			 * Unfortunately, our implementation of triggers makes this the

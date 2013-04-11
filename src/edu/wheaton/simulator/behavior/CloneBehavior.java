@@ -26,6 +26,11 @@ public class CloneBehavior extends AbstractBehavior {
 		return "clone";
 	}
 
+	@Override
+	public Integer numArgs() {
+		return 2;
+	}
+
 	/**
 	 * Attempts to clone the target Agent into the slot at (x, y) in global If
 	 * (x, y) is already full, throws an Exception Similarly to Move, it would
@@ -34,10 +39,10 @@ public class CloneBehavior extends AbstractBehavior {
 	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {
-		Agent target = resolveAgent(args[0]);
+		Agent target = resolveAgent("this");
 		
-		Integer x = Double.valueOf(args[1]).intValue();
-		Integer y = Double.valueOf(args[2]).intValue();
+		Integer x = Double.valueOf(args[0]).intValue();
+		Integer y = Double.valueOf(args[1]).intValue();
 		
 		Grid grid = target.getGrid();
 		

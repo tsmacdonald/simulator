@@ -20,6 +20,11 @@ public class MoveBehavior extends AbstractBehavior {
 		return "move";
 	}
 
+	@Override
+	public Integer numArgs() {
+		return 2;
+	}
+
 	/**
 	 * Attempts to move the target Agent to the (x, y) position found by
 	 * evaluating the expressions. If the slot it attempts to move to is
@@ -29,12 +34,12 @@ public class MoveBehavior extends AbstractBehavior {
 	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {
-		Agent target = resolveAgent(args[0]);
+		Agent target = resolveAgent("this");
 		int oldX = target.getPosX();
 		int oldY = target.getPosY();
 		
-		Integer x = Double.valueOf(args[1]).intValue();
-		Integer y = Double.valueOf(args[2]).intValue();
+		Integer x = Double.valueOf(args[0]).intValue();
+		Integer y = Double.valueOf(args[1]).intValue();
 		
 		Grid grid = target.getGrid();
 		if(grid.addAgent(target, x, y)) {

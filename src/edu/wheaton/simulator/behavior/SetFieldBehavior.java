@@ -15,14 +15,19 @@ public class SetFieldBehavior extends AbstractBehavior {
 		return "setField";
 	}
 
+	@Override
+	public Integer numArgs() {
+		return 2;
+	}	
+	
 	/**
 	 * ex: setField('this','x',20)
 	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {
-		Entity target = resolveEntity(args[0]);
-		String fieldName = args[1].replaceAll("'", "");
-		String fieldValue = args[2];
+		Entity target = resolveEntity("this");
+		String fieldName = args[0].replaceAll("'", "");
+		String fieldValue = args[1];
 		
 		target.updateField(fieldName,fieldValue);
 		return Expression.TRUE;
