@@ -31,6 +31,8 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+
 public class EntityScreen extends Screen {
 
 	private static final long serialVersionUID = 8471925846048875713L;
@@ -116,7 +118,8 @@ public class EntityScreen extends Screen {
 		reset();
 		edit.setEnabled(false);
 		delete.setEnabled(sm.hasStarted() ? false : true); 
-		Set<String> entities = sm.getFacade().prototypeNames();
+		sm.getFacade();
+		Set<String> entities = GUIToAgentFacade.prototypeNames();
 		for (String s : entities) {
 			listModel.addElement(s);
 		}

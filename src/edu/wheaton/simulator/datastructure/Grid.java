@@ -63,7 +63,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * Hackish solution to Akon's gridrecorder. Should never ever be called
 	 * other than from the stats people.
 	 */
-	public Integer getID() {
+	public static Integer getID() {
 		return -1;
 	}
 
@@ -448,7 +448,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 *            The Color that will be shaded differently to represent Field
 	 *            values
 	 */
-	public void newLayer(String fieldName, Color c) {
+	public static void newLayer(String fieldName, Color c) {
 		Layer.getInstance().setFieldName(fieldName);
 		Layer.getInstance().setColor(c);
 		Layer.getInstance().resetMinMax();

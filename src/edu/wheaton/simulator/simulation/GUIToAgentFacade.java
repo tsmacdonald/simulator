@@ -69,7 +69,7 @@ public class GUIToAgentFacade {
 	 * @param g
 	 * @param c
 	 */
-	public void createPrototype(String n, Grid g, Color c) {
+	public static void createPrototype(String n, Grid g, Color c) {
 		Prototype.addPrototype(new Prototype(g, c, n));
 	}
 
@@ -81,7 +81,7 @@ public class GUIToAgentFacade {
 	 * @param c
 	 * @param d
 	 */
-	public void createPrototype(String n, Grid g, Color c, byte[] d) {
+	public static void createPrototype(String n, Grid g, Color c, byte[] d) {
 		Prototype.addPrototype(new Prototype(g, c, d, n));
 	}
 
@@ -91,14 +91,14 @@ public class GUIToAgentFacade {
 	 * @param n
 	 * @return
 	 */
-	public Prototype getPrototype(String n) {
+	public static Prototype getPrototype(String n) {
 		return Prototype.getPrototype(n);
 	}
 	
 	/**
 	 * Resets the static list of prototypes
 	 */
-	public void clearPrototypes() {
+	public static void clearPrototypes() {
 		Prototype.clearPrototypes();
 	}
 
@@ -107,7 +107,7 @@ public class GUIToAgentFacade {
 	 * 
 	 * @return
 	 */
-	public Set<String> prototypeNames() {
+	public static Set<String> prototypeNames() {
 		return Prototype.prototypeNames();
 	}
 
@@ -118,7 +118,7 @@ public class GUIToAgentFacade {
 	 * @param fieldName
 	 * @return
 	 */
-	public boolean prototypeHasField(Prototype p, String fieldName) {
+	public static boolean prototypeHasField(Prototype p, String fieldName) {
 		return p.hasField(fieldName);
 	}
 
@@ -129,7 +129,7 @@ public class GUIToAgentFacade {
 	 * @param triggerName
 	 * @return
 	 */
-	public boolean prototypeHasTrigger(Prototype p, String triggerName) {
+	public static boolean prototypeHasTrigger(Prototype p, String triggerName) {
 		return p.hasTrigger(triggerName);
 	}
 
@@ -245,7 +245,7 @@ public class GUIToAgentFacade {
 	 *            values
 	 */
 	public void newLayer(String fieldName, Color c) {
-		grid.newLayer(fieldName, c);
+		Grid.newLayer(fieldName, c);
 	}
 
 	/**
@@ -296,7 +296,7 @@ public class GUIToAgentFacade {
 	 * 
 	 * @return
 	 */
-	public List<Trigger> getPrototypeTriggers(Prototype p) {
+	public static List<Trigger> getPrototypeTriggers(Prototype p) {
 		return p.getTriggers();
 	}
 

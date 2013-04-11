@@ -29,6 +29,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+
 public class SpawningScreen extends Screen {
 	//TODO how do we handle if spawn are set, and then the grid is made smaller,
 	//     and some of the spawns are now out of bounds? delete those fields?
@@ -156,7 +158,8 @@ public class SpawningScreen extends Screen {
 							ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
 							conditions.clear();
 							for (int i = 0; i < entityTypes.size(); i++) {
-								SpawnCondition condition = new SpawnCondition(sm.getFacade().getPrototype(
+								sm.getFacade();
+								SpawnCondition condition = new SpawnCondition(GUIToAgentFacade.getPrototype(
 										((String) entityTypes.get(i).getSelectedItem())),
 										Integer.parseInt(xLocs.get(i).getText()), 
 										Integer.parseInt(yLocs.get(i).getText()), 
@@ -197,7 +200,8 @@ public class SpawningScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		entities = sm.getFacade().prototypeNames().toArray(entities);
+		sm.getFacade();
+		entities = GUIToAgentFacade.prototypeNames().toArray(entities);
 		ArrayList<SpawnCondition> spawnConditions = sm.getSpawnConditions(); 
 
 		for (int i = 0; i < spawnConditions.size(); i++) { 

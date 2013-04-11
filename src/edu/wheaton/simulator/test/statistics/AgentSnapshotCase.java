@@ -94,7 +94,7 @@ public class AgentSnapshotCase {
 	 * Tests making a snapshot for global variables
 	 */
 	@Test
-	public void globalVarTest() {
+	public static void globalVarTest() {
 		Grid grid = new Grid(10, 10);
 		Prototype gType = new Prototype(grid, "GRID");
 		Integer step = 1;
