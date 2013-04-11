@@ -5,6 +5,13 @@ import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
 
+/**
+ * Multiplier is the prototype for an agent that will clone itself into any 
+ * open adjacent spot and will die after 5 time steps.
+ * 
+ * @author Elliot Penson, Emmanuel Pederson
+ *
+ */
 public class Multiplier extends SampleAgent{
 
 	public Multiplier() {

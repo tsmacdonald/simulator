@@ -5,6 +5,13 @@ import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
 
+/**
+ * RightTurner is a prototype for an agent that will turn clockwise when it reaches
+ * any kind of obstruction. 
+ * 
+ * @author David Emmanuel
+ *
+ */
 public class RightTurner extends SampleAgent{
 
 	public RightTurner() {

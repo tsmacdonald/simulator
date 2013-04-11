@@ -9,7 +9,7 @@ import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
 
 /**
- * Fills in all the information for a paper in Rock Paper Scissors demo
+ * Fills in all the triggers and fields for a paper in Rock Paper Scissors demo
  * @author David Emmanuel Pederson
  *
  */

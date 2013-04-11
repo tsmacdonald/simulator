@@ -4,7 +4,13 @@ import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
-
+/**
+ * Bouncer is a prototype for an agent that will begin in one direction and when it reaches
+ * any kind of obstacle, it will reveres that direction.
+ * 
+ * @author David Emmanuel
+ *
+ */
 public class Bouncer extends SampleAgent{
 	
 	public Bouncer(){
@@ -32,7 +38,7 @@ public class Bouncer extends SampleAgent{
 		// Move behavior
 		Expression move = new Expression("move('this', this.x + this.xNextDirection, this.y + this.yNextDirection)");
 		
-		// turn clockwise
+		// bounce
 		Expression bounce = new Expression("setField('this', 'xNextDirection', -1 * this.xNextDirection) ||" +
 				"setField('this', 'yNextDirection', -1 * this.yNextDirection)");
 		

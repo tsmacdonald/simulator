@@ -6,8 +6,8 @@ import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
 
 /**
- * A confuser that bounces back and forth and will change the 
- * direction of any agent with the fields xNextDirection and yNextDirection
+ * A Confuser will change the direction of any agent with the fields xNextDirection and yNextDirection
+ * by rotating that agent in a clockwise direction (8 directions)
  * 
  * @author David Emmanuel
  *
