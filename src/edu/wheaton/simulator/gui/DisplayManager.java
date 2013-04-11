@@ -1,0 +1,34 @@
+package edu.wheaton.simulator.gui;
+
+/**
+ * This class is a singleton which is the sole communicator to the display
+ */
+/**
+public class DisplayManager implements Manager {
+
+	//is this class necessary?
+	
+	private static Display display;
+
+	private static int id = 0;
+
+	private DisplayManager(Display d) {
+		display = d;
+		id++;
+	}
+
+	public static DisplayManager getInstance(Display d) {
+		if (getId() == 0)
+			return new DisplayManager(d);
+		return null;
+	}
+
+	public static int getId() {
+		return id;
+	}
+
+	public void update(Screen s) {
+		display.updateDisplay(s);
+	}
+}
+*/
