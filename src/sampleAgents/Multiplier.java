@@ -48,16 +48,16 @@ public class Multiplier extends SampleAgent{
 		Expression emptyNeighbor8 = new Expression("isSlotOpen(this.x - 1, this.y + 1)");
 
 		// Set up behaviors
-		Expression incrementAge = new Expression("setField('this', 'age', this.age + 1)");
-		Expression die = new Expression ("die('this')");
-		Expression cloneToEmpty1 =  new Expression("clone('this', this.x, this.y + 1)");
-		Expression cloneToEmpty2 =  new Expression("clone('this', this.x + 1, this.y + 1)");
-		Expression cloneToEmpty3 =  new Expression("clone('this',  this.x + 1, this.y)");
-		Expression cloneToEmpty4 =  new Expression("clone('this', this.x + 1, this.y - 1)");
-		Expression cloneToEmpty5 =  new Expression("clone('this', this.x, this.y - 1)");
-		Expression cloneToEmpty6 =  new Expression("clone('this', this.x - 1, this.y - 1)");
-		Expression cloneToEmpty7 =  new Expression("clone('this', this.x - 1, this.y)");
-		Expression cloneToEmpty8 =  new Expression("clone('this', this.x - 1, this.y + 1)");
+		Expression incrementAge = new Expression("setField('age', this.age + 1)");
+		Expression die = new Expression ("die()");
+		Expression cloneToEmpty1 =  new Expression("clone(this.x, this.y + 1)");
+		Expression cloneToEmpty2 =  new Expression("clone(this.x + 1, this.y + 1)");
+		Expression cloneToEmpty3 =  new Expression("clone(this.x + 1, this.y)");
+		Expression cloneToEmpty4 =  new Expression("clone(this.x + 1, this.y - 1)");
+		Expression cloneToEmpty5 =  new Expression("clone(this.x, this.y - 1)");
+		Expression cloneToEmpty6 =  new Expression("clone(this.x - 1, this.y - 1)");
+		Expression cloneToEmpty7 =  new Expression("clone(this.x - 1, this.y)");
+		Expression cloneToEmpty8 =  new Expression("clone(this.x - 1, this.y + 1)");
 
 		// Add triggers
 		multiplier.addTrigger(new Trigger("updateAge", 1, new Expression("true"), incrementAge));

@@ -162,24 +162,26 @@ public class ViewSimScreen extends Screen {
 		buttonPanel.add(makeBackButton());
 		return buttonPanel;
 	}
+	
+	private static JButton makeButton(String name, ActionListener al){
+		JButton b = new JButton(name);
+		b.addActionListener(al);
+		return b;
+	}
 
 	private JButton makeBackButton(){
-		JButton b = new JButton("Back");
-		b.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Edit Simulation")); 
-					} 
-				}
-				);
+		JButton b = makeButton("Back",new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sm.update(sm.getScreen("Edit Simulation")); 
+			} 
+		});
 		backButton = b;
 		return b;
 	}
 
 	private JButton makePauseButton(){
-		JButton b = new JButton("Pause");
-		b.addActionListener(
+		JButton b = makeButton("Pause",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -192,9 +194,7 @@ public class ViewSimScreen extends Screen {
 	}
 
 	private JButton makeStartButton(){
-		JButton b = new JButton("Start/Resume");
-		b.addActionListener(
-				new ActionListener() {
+		JButton b = makeButton("Start/Resume",new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (!sm.hasStarted()) {

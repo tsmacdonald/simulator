@@ -40,12 +40,12 @@ public class RightTurner extends SampleAgent{
 
 		// Move behavior
 		Expression move = new Expression(
-				"move('this', this.x + this.xNextDirection, this.y + this.yNextDirection)");
+				"move(this.x + this.xNextDirection, this.y + this.yNextDirection)");
 		
 		// turn clockwise
 		Expression rotateClockwise = new Expression(
-				" setField('this', 'temp', this.xNextDirection) || setField('this', 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4)))"
-						+ " || setField('this', 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))");
+				" setField('temp', this.xNextDirection) || setField('xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4)))"
+						+ " || setField('yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))");
 		
 		rightTurner.addTrigger(new Trigger("turn", 1, notFreeSpot, rotateClockwise));
 		rightTurner.addTrigger(new Trigger("move", 1, freeSpot, move));

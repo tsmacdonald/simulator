@@ -3,7 +3,7 @@
  *
  * Agents model actors in the simulation's Grid.
  * 
- * @author Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
+ * @author Agent Team
  * Wheaton College, CSCI 335, Spring 2013
  */
 
@@ -30,11 +30,17 @@ public class Agent extends GridEntity {
 	 * Prototype of the agent
 	 */
 	private Prototype prototype;
-	
+
+	/**
+	 * Unique ID
+	 */
 	private final AgentID id = new AgentID();
 
+	/**
+	 * Current priority (used by priorityUpdate)
+	 */
 	private int currentTriggerIndex = 0;
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -76,14 +82,19 @@ public class Agent extends GridEntity {
 		init(prototype);
 	}
 
+	/**
+	 * Helper method for constructors
+	 * 
+	 * @param p
+	 */
 	private void init(Prototype p) {
 		triggers = new ArrayList<Trigger>();
 		prototype = p;
 	}
 
 	/**
-	 * Causes this Agent to perform 1 action. All triggers with valid
-	 * conditions will fire.
+	 * Causes this Agent to perform 1 action. All triggers with valid conditions
+	 * will fire.
 	 * 
 	 * @throws Exception
 	 */
@@ -104,28 +115,29 @@ public class Agent extends GridEntity {
 	/**
 	 * Causes this Agent to perform only the triggers of the input priority
 	 * 
-	 * @param priority: the priority of the triggers evaluated
+	 * @param priority
+	 *            : the priority of the triggers evaluated
 	 * @throws SimulationPauseException
 	 */
 	public void priorityAct(int priority) throws SimulationPauseException {
-		if (triggers.size() < currentTriggerIndex || triggers.get(currentTriggerIndex).getPriority() > priority) {
+		if (triggers.size() < currentTriggerIndex
+				|| triggers.get(currentTriggerIndex).getPriority() > priority) {
 			currentTriggerIndex = 0;
 		}
 		for (int i = currentTriggerIndex; i < triggers.size(); i++) {
 			Trigger t = triggers.get(i);
 			if (t.getPriority() == priority) {
 				try {
-						t.evaluate(this);
-					} catch (EvaluationException e) {
-						System.err.println(e.getMessage());
-						String errorMessage = "Error in Agent: " + this.getName()
-								+ "\n ID: " + this.getID() + "\n Trigger: "
-								+ t.getName() + "\n MSG: " + e.getMessage()
-								+ "\n condition: " + t.getConditions().toString();
-						throw new SimulationPauseException(errorMessage);
-					}
-			}
-			else if (t.getPriority() > priority) {
+					t.evaluate(this);
+				} catch (EvaluationException e) {
+					System.err.println(e.getMessage());
+					String errorMessage = "Error in Agent: " + this.getName()
+							+ "\n ID: " + this.getID() + "\n Trigger: "
+							+ t.getName() + "\n MSG: " + e.getMessage()
+							+ "\n condition: " + t.getConditions().toString();
+					throw new SimulationPauseException(errorMessage);
+				}
+			} else if (t.getPriority() > priority) {
 				currentTriggerIndex = i - 1;
 				if (currentTriggerIndex < 0)
 					currentTriggerIndex = 0;
@@ -133,10 +145,11 @@ public class Agent extends GridEntity {
 			}
 		}
 	}
-	
+
 	/**
 	 * Evaluates all the triggers' conditionals but does not fire any of them
 	 * It's one half of AtomicUpdate. It is the preparation for atomicFire().
+	 * 
 	 * @throws SimulationPauseException
 	 */
 	public void atomicCondEval() throws SimulationPauseException {
@@ -152,12 +165,12 @@ public class Agent extends GridEntity {
 				throw new SimulationPauseException(errorMessage);
 			}
 	}
-	
+
 	/**
 	 * fires each trigger based on whether or not their conditionals evaluated
-	 * to true when atomicCondEval() was last run. atomicCondEval() must be
-	 * run before this method.
-	 * One half of AtomicUpdate.
+	 * to true when atomicCondEval() was last run. atomicCondEval() must be run
+	 * before this method. One half of AtomicUpdate.
+	 * 
 	 * @throws SimulationPauseException
 	 */
 	public void atomicFire() throws SimulationPauseException {
@@ -173,7 +186,7 @@ public class Agent extends GridEntity {
 				throw new SimulationPauseException(errorMessage);
 			}
 	}
-	
+
 	/**
 	 * Removes this Agent from the environment's list.
 	 */
@@ -225,6 +238,12 @@ public class Agent extends GridEntity {
 				triggers.set(i, newT);
 	}
 
+	/**
+	 * Given a trigger index, provides its name
+	 * 
+	 * @param index
+	 * @return
+	 */
 	private String getTriggerName(int index) {
 		return triggers.get(index).getName();
 	}
@@ -265,7 +284,7 @@ public class Agent extends GridEntity {
 	public String getName() {
 		return getPrototype().getName();
 	}
-	
+
 	public AgentID getID() {
 		return id;
 	}

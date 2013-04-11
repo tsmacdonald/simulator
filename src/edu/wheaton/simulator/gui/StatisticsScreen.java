@@ -62,9 +62,9 @@ public class StatisticsScreen extends Screen {
 		
 		this.setLayout(new BorderLayout());
 				
-		JPanel populationCard = makePopulationCard();
-		fieldCard = makeFieldCard();
-		JPanel lifespanCard = makeLifespanCard();
+		JPanel populationCard = makeCard();
+		fieldCard = makeCard();
+		JPanel lifespanCard = makeCard();
 		String[] boxItems = {POPS_STR, FIELDS_STR, LIFESPANS_STR};
 		
 		dataPanel = new JPanel();
@@ -180,11 +180,15 @@ public class StatisticsScreen extends Screen {
 		return jt;
 	}
 	
+	private static JButton makeButton(String name, ActionListener al){
+		JButton b = new JButton(name);
+		b.setPreferredSize(new Dimension(150, 70));
+		b.addActionListener(al);
+		return b;
+	}
+	
 	private JButton makeDisplayButton(){
-		JButton displayButton = new JButton("Display");
-		displayButton.setPreferredSize(new Dimension(150, 70));
-		displayButton.addActionListener(
-				new ActionListener() {
+		JButton displayButton = makeButton("Display",new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (cardSelector.getSelectedItem().equals(POPS_STR)) {
@@ -224,9 +228,8 @@ public class StatisticsScreen extends Screen {
 	}
 	
 	private JButton makeFinishButton(){
-		JButton finishButton = new JButton("Finish");
-		finishButton.setPreferredSize(new Dimension(150, 70));
-		finishButton.addActionListener(new ActionListener() {
+		JButton finishButton = makeButton("Finish",
+				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sm.update(sm.getScreen("Edit Simulation")); 
@@ -265,22 +268,10 @@ public class StatisticsScreen extends Screen {
 		return selector;
 	}
 
-	private static JPanel makePopulationCard(){
-		JPanel popCard = new JPanel();
-		popCard.setLayout(new BoxLayout(popCard, BoxLayout.X_AXIS));
-		return popCard;
-	}
-	
-	private static JPanel makeFieldCard(){
-		JPanel fieldCard = new JPanel();
-		fieldCard.setLayout(new BoxLayout(fieldCard, BoxLayout.X_AXIS));
-		return fieldCard;
-	}
-	
-	private static JPanel makeLifespanCard(){
-		JPanel lifespanCard = new JPanel();
-		lifespanCard.setLayout(new BoxLayout(lifespanCard, BoxLayout.X_AXIS));
-		return lifespanCard;
+	private static JPanel makeCard(){
+		JPanel card = new JPanel();
+		card.setLayout(new BoxLayout(card, BoxLayout.X_AXIS));
+		return card;
 	}
 	
 	@Override

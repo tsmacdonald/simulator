@@ -12,7 +12,7 @@ public class Entity {
 	/**
 	 * The list of all fields (variables) associated with this agent.
 	 */
-	private Map<String, String> fields;
+	protected Map<String, String> fields;
 
 	public Entity() {
 		fields = new HashMap<String, String>();
@@ -103,19 +103,11 @@ public class Entity {
 
 	/**
 	 * Provides this Entity's custom field names and values. This method
-	 * basically removes the default values that are created with Agents.
+	 * will remove the default values that are created.
 	 * 
 	 * @return String to String map
 	 */
-	public Map<String, String> getCustomFieldMap() {
-		Map<String, String> toReturn = new HashMap<String, String>(fields);
-		toReturn.remove("x");
-		toReturn.remove("y");
-		toReturn.remove("colorRed");
-		toReturn.remove("colorBlue");
-		toReturn.remove("colorGreen");
-		return toReturn;
-	}
+	//public abstract Map<String, String> getCustomFieldMap();
 
 	private static String formatFieldName(String name) {
 		String fieldName = name.toString();

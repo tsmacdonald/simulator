@@ -36,12 +36,12 @@ public class Bouncer extends SampleAgent{
 		Expression notFreeSpot = new Expression("!isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)");
 
 		// Move behavior
-		Expression move = new Expression("move('this', this.x + this.xNextDirection, this.y + this.yNextDirection)");
+		Expression move = new Expression("move(this.x + this.xNextDirection, this.y + this.yNextDirection)");
 		
 		// bounce
 		Expression bounce = new Expression("setField('this', 'xNextDirection', -1 * this.xNextDirection) ||" +
 				"setField('this', 'yNextDirection', -1 * this.yNextDirection)");
-		
+
 		bouncer.addTrigger(new Trigger("bounce", 1, notFreeSpot, bounce));
 		bouncer.addTrigger(new Trigger("move", 1, freeSpot, move));
 		
