@@ -53,9 +53,10 @@ public class SerializerTest {
 	 */
 	@Test
 	public void serializeAgentSnapshot() {
-		AgentSnapshot agentSnap = new AgentSnapshot(agent.getID(),
-				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step,
-				prototype.getName());
+		AgentSnapshot agentSnap = new AgentSnapshot(agent.getID(), 
+				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), 
+				step, prototype.getName(), null);  
+				
 		Assert.assertNotNull("AgentSnapshot not created.", agentSnap);
 		
 		s = agentSnap.serialize();
