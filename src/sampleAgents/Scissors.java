@@ -1,6 +1,7 @@
 package sampleAgents;
 
 import java.awt.Color;
+import java.util.Random;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
@@ -39,6 +40,7 @@ public class Scissors extends SampleAgent{
 			scissors.addField("agentAhead", "" + 0);
 			scissors.addField("conflictAhead", "" + 0);
 			scissors.addField("endTurn", "" + 0);
+			scissors.addField("age", 0+"");
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
@@ -102,6 +104,9 @@ public class Scissors extends SampleAgent{
 						+ "&& setFieldOfAgent(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
 						+ "&& setField('endTurn', 1)");
 
+		// increment the age of the unit
+		Expression incrAge = new Expression("setField('this', 'age', this.age +1)");
+		
 		// reset all the flags that are used to determine behavior
 		Expression resetConflictFlags = new Expression(
 				"setField('agentAhead', 0)|| setField('conflictAhead', 0)");
@@ -113,15 +118,21 @@ public class Scissors extends SampleAgent{
 			 * best way to get agents to check all eight directions before
 			 * ending their turn. (55 separate triggers are made)
 			 */
+		int rotateDirection = new Random().nextInt(2);
 			for (int i = 0; i < 8; i++) {
+				scissors.addTrigger(new Trigger("incrementAge", 1, new Expression("TRUE"), incrAge));
 				scissors.addTrigger(new Trigger("agentAhead", 1, isAgentAhead,
 						setAgentAhead));
 				scissors.addTrigger(new Trigger("conflictAhead", 1,
 						checkAgentAheadFlag, setConflictAheadFlag));
 				scissors.addTrigger(new Trigger("engageConflict", 1,
 						checkConflictAheadFlag, engageInConflict));
-				scissors.addTrigger(new Trigger("rotateClockwise", 1,
-						notFreeSpot, rotateClockwise));
+				if(rotateDirection == 1)
+					scissors.addTrigger(new Trigger("rotateCounterClockwise", 1,
+							notFreeSpot, rotateCounterClockwise));
+				else
+					scissors.addTrigger(new Trigger("rotateClockwise", 1,
+							notFreeSpot, rotateClockwise));
 				scissors.addTrigger(new Trigger("move", 1, freeSpot, move));
 				scissors.addTrigger(new Trigger("resetConflictFlags", 1,
 						new Expression("true"), resetConflictFlags));

@@ -1,6 +1,7 @@
 package sampleAgents;
 
 import java.awt.Color;
+import java.util.Random;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
@@ -26,9 +27,6 @@ public class Rock extends SampleAgent{
 	 * @return Rock prototype
 	 */
 	private static Prototype initRock(Prototype rock) {
-		// names of the agents
-		String[] agentType = { "rock", "paper", "scissors" };
-		
 		Color brown = new Color(205, 133, 63);
 		byte[] rockDesign = {24, 62, 127, 127, 127, 62, 12};
 		rock.setColor(brown);
@@ -41,6 +39,7 @@ public class Rock extends SampleAgent{
 			rock.addField("temp", 0 + "");
 			rock.addField("agentAhead", "" + 0);
 			rock.addField("conflictAhead", "" + 0);
+			rock.addField("age", 0+"");
 			rock.addField("endTurn", "" + 0);
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
@@ -100,10 +99,13 @@ public class Rock extends SampleAgent{
 		// conflict behavior
 		Expression engageInConflict = new Expression(
 				"kill(this.x  + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& clone(this.x  + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& setFieldOfAgent(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
-						+ "&& setFieldOfAgent(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
-						+ "&& setField('endTurn', 1)");
+						+ "&& clone('this',this.x  + this.xNextDirection, this.y + this.yNextDirection)"
+						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('this', 'endTurn', 1)");
+		
+		// increment the age of the agent
+		Expression incrAge = new Expression("setField('this', 'age', this.age +1)");
 
 		// reset all the flags that are used to determine behavior
 		Expression resetConflictFlags = new Expression(
@@ -116,15 +118,21 @@ public class Rock extends SampleAgent{
 			 * best way to get agents to check all eight directions before
 			 * ending their turn. (55 separate triggers are made)
 			 */
+		int rotateDirection = new Random().nextInt(2);
 			for (int i = 0; i < 8; i++) {
+				rock.addTrigger(new Trigger("incrementAge", 1, new Expression("TRUE"), incrAge));
 				rock.addTrigger(new Trigger("agentAhead", 1, isAgentAhead,
 						setAgentAhead));
 				rock.addTrigger(new Trigger("conflictAhead", 1,
 						checkAgentAheadFlag, setConflictAheadFlag));
 				rock.addTrigger(new Trigger("engageConflict", 1,
 						checkConflictAheadFlag, engageInConflict));
-				rock.addTrigger(new Trigger("rotateClockwise", 1,
-						notFreeSpot, rotateClockwise));
+				if(rotateDirection == 1)
+					rock.addTrigger(new Trigger("rotateCounterClockwise", 1,
+							notFreeSpot, rotateCounterClockwise));
+				else
+					rock.addTrigger(new Trigger("rotateClockwise", 1,
+							notFreeSpot, rotateClockwise));
 				rock.addTrigger(new Trigger("move", 1, freeSpot, move));
 				rock.addTrigger(new Trigger("resetConflictFlags", 1,
 						new Expression("true"), resetConflictFlags));
