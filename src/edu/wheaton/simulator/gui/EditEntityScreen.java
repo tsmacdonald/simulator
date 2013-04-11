@@ -134,9 +134,9 @@ public class EditEntityScreen extends Screen {
 		
 		generalPanel = makeGeneralPanel();
 		
-		addFieldButton = makeAddFieldButton();
+		addFieldButton = makeAddFieldButton(this);
 		
-		addTriggerButton = makeAddTriggerButton();
+		addTriggerButton = makeAddTriggerButton(this);
 		
 		JPanel iconPanel = makeIconPanel();
 		
@@ -174,7 +174,7 @@ public class EditEntityScreen extends Screen {
 		
 		this.add(makeScreenLabel(), BorderLayout.NORTH);
 		this.add(tabs, BorderLayout.CENTER);
-		this.add(makeLowerPanel(), BorderLayout.SOUTH);
+		this.add(makeLowerPanel(this,sm), BorderLayout.SOUTH);
 
 	}
 	
@@ -275,23 +275,23 @@ public class EditEntityScreen extends Screen {
 		}
 	}
 	
-	private JButton makeAddFieldButton(){
+	private static JButton makeAddFieldButton(final EditEntityScreen screen){
 		JButton addFieldButton = new JButton("Add Field");
 		addFieldButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addField();
+				screen.addField();
 			}
 		});
 		return addFieldButton;
 	}
 	
-	private JButton makeAddTriggerButton(){
+	private static JButton makeAddTriggerButton(final EditEntityScreen screen){
 		JButton addTriggerButton = new JButton("Add Trigger");
 		addTriggerButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addTrigger();
+				screen.addTrigger();
 			}
 		});
 		return addTriggerButton;
@@ -402,10 +402,10 @@ public class EditEntityScreen extends Screen {
 		return fieldMainPanel;
 	}
 	
-	private JPanel makeLowerPanel(){
+	private static JPanel makeLowerPanel(final EditEntityScreen screen, final ScreenManager sm){
 		JPanel lowerPanel = new JPanel();
-		lowerPanel.add(makeCancelButton());
-		lowerPanel.add(makeFinishButton());
+		lowerPanel.add(makeCancelButton(screen,sm));
+		lowerPanel.add(makeFinishButton(screen,sm));
 		return lowerPanel;
 	}
 	
@@ -439,26 +439,26 @@ public class EditEntityScreen extends Screen {
 		return label;
 	}
 	
-	private JButton makeCancelButton(){
+	private static JButton makeCancelButton(final EditEntityScreen screen, final ScreenManager sm){
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sm.update(sm.getScreen("Entities"));
-				reset();
+				screen.reset();
 			}
 		});
 		return cancelButton;
 	}
 	
-	private JButton makeFinishButton(){
+	private static JButton makeFinishButton(final EditEntityScreen screen, final ScreenManager sm){
 		JButton finishButton = new JButton("Finish");
 		finishButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (sendInfo()) {
+				if (screen.sendInfo()) {
 					sm.update(sm.getScreen("Edit Simulation"));
-					reset();
+					screen.reset();
 				}
 			}
 		});
