@@ -187,20 +187,10 @@ public class EditEntityScreen extends Screen {
 		//serialization not yet implemented
 		//JButton loadIconButton = new JButton("Load icon");
 		
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
-		mainPanel.setMaximumSize(new Dimension(1200, 500));
-		mainPanel.add(makeColorPanel(colorTool));
-		mainPanel.add(iconPanel);
-		
-		JLabel generalLabel = makeLabel("General Info",300,80);
-		generalLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		JLabel nameLabel = new JLabel("Name: ");
-		
-		generalPanel.add(generalLabel);
-		generalPanel.add(nameLabel);
+		generalPanel.add(makeGeneralLabel());
+		generalPanel.add(makeNameLabel());
 		generalPanel.add(nameField);
-		generalPanel.add(mainPanel);
+		generalPanel.add(makeMainPanel(colorTool,iconPanel));
 		//generalPanel.add(loadIconButton);
 
 		//JLabel fieldTypeLabel = new JLabel("Field Type");
@@ -273,6 +263,25 @@ public class EditEntityScreen extends Screen {
 		this.add(tabs, BorderLayout.CENTER);
 		this.add(makeLowerPanel(), BorderLayout.SOUTH);
 
+	}
+	
+	private static JLabel makeNameLabel(){
+		return new JLabel("Name: ");
+	}
+	
+	private static JLabel makeGeneralLabel(){
+		JLabel generalLabel = makeLabel("General Info",300,80);
+		generalLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		return generalLabel;
+	}
+	
+	private static JPanel makeMainPanel(JColorChooser colorTool, JPanel iconPanel){
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+		mainPanel.setMaximumSize(new Dimension(1200, 500));
+		mainPanel.add(makeColorPanel(colorTool));
+		mainPanel.add(iconPanel);
+		return mainPanel;
 	}
 	
 	private static JPanel makeIconPanel(){
