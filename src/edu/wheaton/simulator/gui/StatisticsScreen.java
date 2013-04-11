@@ -22,6 +22,7 @@ import java.util.Map;
 import javax.swing.*;
 
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class StatisticsScreen extends Screen {
@@ -62,9 +63,9 @@ public class StatisticsScreen extends Screen {
 		
 		this.setLayout(new BorderLayout());
 				
-		JPanel populationCard = makePopulationCard();
-		fieldCard = makeFieldCard();
-		JPanel lifespanCard = makeLifespanCard();
+		JPanel populationCard = makeCard();
+		fieldCard = makeCard();
+		JPanel lifespanCard = makeCard();
 		String[] boxItems = {POPS_STR, FIELDS_STR, LIFESPANS_STR};
 		
 		dataPanel = new JPanel();
@@ -97,7 +98,8 @@ public class StatisticsScreen extends Screen {
 		lifespanCard.add(lifeEntityBox);
 		
 		if(popEntityBox.getSelectedIndex() >= 0){
-			int[] popVsTime = sm.getStatManager().getPopVsTime(sm.getFacade().
+			sm.getFacade();
+			int[] popVsTime = sm.getStatManager().getPopVsTime(GUIToAgentFacade.
 					getPrototype(popEntityBox.getSelectedItem().toString())
 					.getName()
 					);
@@ -180,15 +182,20 @@ public class StatisticsScreen extends Screen {
 		return jt;
 	}
 	
+	private static JButton makeButton(String name, ActionListener al){
+		JButton b = new JButton(name);
+		b.setPreferredSize(new Dimension(150, 70));
+		b.addActionListener(al);
+		return b;
+	}
+	
 	private JButton makeDisplayButton(){
-		JButton displayButton = new JButton("Display");
-		displayButton.setPreferredSize(new Dimension(150, 70));
-		displayButton.addActionListener(
-				new ActionListener() {
+		JButton displayButton = makeButton("Display",new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (cardSelector.getSelectedItem().equals(POPS_STR)) {
-							int[] pops = statMan.getPopVsTime(sm.getFacade().
+							sm.getFacade();
+							int[] pops = statMan.getPopVsTime(GUIToAgentFacade.
 														getPrototype((String)popEntityBox.getSelectedItem())
 														.getName());
 							System.out.println("Population over time: ");
@@ -200,7 +207,8 @@ public class StatisticsScreen extends Screen {
 						}
 						else if (cardSelector.getSelectedItem().equals(FIELDS_STR)) {
 							String s = (String)fieldEntityBox.getSelectedItem();
-							Prototype p = sm.getFacade().getPrototype(s);
+							sm.getFacade();
+							Prototype p = GUIToAgentFacade.getPrototype(s);
 							double[] vals = statMan.getAvgFieldValue(p.getName(),
 									((String)agentFieldsBoxes.get(s).getSelectedItem()));
 							//TODO temporary solution to demonstrate compatibility
@@ -211,7 +219,8 @@ public class StatisticsScreen extends Screen {
 							}
 						}
 						else {
-							Prototype p = sm.getFacade().getPrototype((String)lifeEntityBox.getSelectedItem());
+							sm.getFacade();
+							Prototype p = GUIToAgentFacade.getPrototype((String)lifeEntityBox.getSelectedItem());
 							//TODO temporary solution to demonstrate compatibility
 							//getAvgLifespan returns NaN (not a number; 0 / 0 ?)
 							System.out.println("Average lifespan: " + 
@@ -224,9 +233,8 @@ public class StatisticsScreen extends Screen {
 	}
 	
 	private JButton makeFinishButton(){
-		JButton finishButton = new JButton("Finish");
-		finishButton.setPreferredSize(new Dimension(150, 70));
-		finishButton.addActionListener(new ActionListener() {
+		JButton finishButton = makeButton("Finish",
+				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sm.update(sm.getScreen("Edit Simulation")); 
@@ -265,35 +273,26 @@ public class StatisticsScreen extends Screen {
 		return selector;
 	}
 
-	private static JPanel makePopulationCard(){
-		JPanel popCard = new JPanel();
-		popCard.setLayout(new BoxLayout(popCard, BoxLayout.X_AXIS));
-		return popCard;
-	}
-	
-	private static JPanel makeFieldCard(){
-		JPanel fieldCard = new JPanel();
-		fieldCard.setLayout(new BoxLayout(fieldCard, BoxLayout.X_AXIS));
-		return fieldCard;
-	}
-	
-	private static JPanel makeLifespanCard(){
-		JPanel lifespanCard = new JPanel();
-		lifespanCard.setLayout(new BoxLayout(lifespanCard, BoxLayout.X_AXIS));
-		return lifespanCard;
+	private static JPanel makeCard(){
+		JPanel card = new JPanel();
+		card.setLayout(new BoxLayout(card, BoxLayout.X_AXIS));
+		return card;
 	}
 	
 	@Override
 	public void load() {
-		entities = new String[sm.getFacade().prototypeNames().size()];
+		sm.getFacade();
+		entities = new String[GUIToAgentFacade.prototypeNames().size()];
 		popEntityBox.removeAllItems();
 		fieldEntityBox.removeAllItems();
 		lifeEntityBox.removeAllItems();
 		agentFieldsBoxes.clear();
 		int i = 0;
-		for (String s : sm.getFacade().prototypeNames()) {
+		sm.getFacade();
+		for (String s : GUIToAgentFacade.prototypeNames()) {
 			entities[i++] = s;
-			agentFields = sm.getFacade().getPrototype(s).getCustomFieldMap().keySet().toArray(agentFields);
+			sm.getFacade();
+			agentFields = GUIToAgentFacade.getPrototype(s).getCustomFieldMap().keySet().toArray(agentFields);
 			agentFieldsBoxes.put(s, new JComboBox(agentFields));
 			popEntityBox.addItem(s);
 			fieldEntityBox.addItem(s);

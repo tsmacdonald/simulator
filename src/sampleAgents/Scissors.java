@@ -1,6 +1,7 @@
 package sampleAgents;
 
 import java.awt.Color;
+import java.util.Random;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
@@ -24,7 +25,7 @@ public class Scissors extends SampleAgent{
 		return initScissors(scissors);
 	}
 	
-	private Prototype initScissors(Prototype scissors) {
+	private static Prototype initScissors(Prototype scissors) {
 		
 		Color lightBlue = new Color(93, 198, 245);
 		byte[] scissorsDesign = {113, 82, 116, 8, 116, 82, 113};
@@ -39,6 +40,7 @@ public class Scissors extends SampleAgent{
 			scissors.addField("agentAhead", "" + 0);
 			scissors.addField("conflictAhead", "" + 0);
 			scissors.addField("endTurn", "" + 0);
+			scissors.addField("age", 0+"");
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
@@ -53,8 +55,8 @@ public class Scissors extends SampleAgent{
 
 		// Move behavior
 		Expression move = new Expression(
-				"move('this', this.x + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& setField('this', 'endTurn', 1)");
+				"move(this.x + this.xNextDirection, this.y + this.yNextDirection)"
+						+ "&& setField('endTurn', 1)");
 		
 		/*
 		 * Turn clockwise (in 8 directions) Uses 'temp' because as JEval
@@ -62,13 +64,13 @@ public class Scissors extends SampleAgent{
 		 * corrupted in the second use
 		 */
 		Expression rotateClockwise = new Expression(
-				" setField('this', 'temp', this.xNextDirection) || setField('this', 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4)))"
-						+ " || setField('this', 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))");
+				" setField('temp', this.xNextDirection) || setField('xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4)))"
+						+ " || setField('yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))");
 
 		// turn counter clockwise
 		Expression rotateCounterClockwise = new Expression(
-				" setField('this', 'temp', this.xNextDirection) || setField('this', 'xNextDirection', round(this.xNextDirection * cos(-PI/4) - this.yNextDirection * sin(-PI/4)))"
-						+ " || setField('this', 'yNextDirection', round(this.temp * sin(-PI/4) + this.yNextDirection * cos(-PI/4)))");
+				" setField('temp', this.xNextDirection) || setField('xNextDirection', round(this.xNextDirection * cos(-PI/4) - this.yNextDirection * sin(-PI/4)))"
+						+ " || setField('yNextDirection', round(this.temp * sin(-PI/4) + this.yNextDirection * cos(-PI/4)))");
 
 		// Check for agent ahead
 		Expression isAgentAhead = new Expression(
@@ -77,7 +79,7 @@ public class Scissors extends SampleAgent{
 
 		// setAgentAhead field to true
 		Expression setAgentAhead = new Expression(
-				"setField('this', 'agentAhead', 1)");
+				"setField('agentAhead', 1)");
 
 		// reads flag that is set when there is an agent ahead
 		Expression checkAgentAheadFlag = new Expression("this.endTurn != 1" +
@@ -85,7 +87,7 @@ public class Scissors extends SampleAgent{
 
 		// collect information about conflict
 		Expression setConflictAheadFlag = new Expression(
-				"setField('this', 'conflictAhead',"
+				"setField('conflictAhead',"
 						+ " getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'typeID') == (this.typeID + 2)%3"
 						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection') == - this.xNextDirection"
 						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'yNextDirection') == - this.yNextDirection)");
@@ -97,31 +99,40 @@ public class Scissors extends SampleAgent{
 		// conflict behavior
 		Expression engageInConflict = new Expression(
 				"kill(this.x  + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& clone('this',this.x  + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
-						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
-						+ "&& setField('this', 'endTurn', 1)");
+						+ "&& clone(this.x  + this.xNextDirection, this.y + this.yNextDirection)"
+						+ "&& setFieldOfAgent(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
 
+		// increment the age of the unit
+		Expression incrAge = new Expression("setField('this', 'age', this.age +1)");
+		
 		// reset all the flags that are used to determine behavior
 		Expression resetConflictFlags = new Expression(
-				"setField('this', 'agentAhead', 0)|| setField('this', 'conflictAhead', 0)");
+				"setField('agentAhead', 0)|| setField('conflictAhead', 0)");
 		Expression resetEndTurnFlag = new Expression(
-				"setField('this', 'endTurn', 0)");
+				"setField('endTurn', 0)");
 
 			/*
 			 * Unfortunately, our implementation of triggers makes this the
 			 * best way to get agents to check all eight directions before
 			 * ending their turn. (55 separate triggers are made)
 			 */
+		int rotateDirection = new Random().nextInt(2);
 			for (int i = 0; i < 8; i++) {
+				scissors.addTrigger(new Trigger("incrementAge", 1, new Expression("TRUE"), incrAge));
 				scissors.addTrigger(new Trigger("agentAhead", 1, isAgentAhead,
 						setAgentAhead));
 				scissors.addTrigger(new Trigger("conflictAhead", 1,
 						checkAgentAheadFlag, setConflictAheadFlag));
 				scissors.addTrigger(new Trigger("engageConflict", 1,
 						checkConflictAheadFlag, engageInConflict));
-				scissors.addTrigger(new Trigger("rotateClockwise", 1,
-						notFreeSpot, rotateClockwise));
+				if(rotateDirection == 1)
+					scissors.addTrigger(new Trigger("rotateCounterClockwise", 1,
+							notFreeSpot, rotateCounterClockwise));
+				else
+					scissors.addTrigger(new Trigger("rotateClockwise", 1,
+							notFreeSpot, rotateClockwise));
 				scissors.addTrigger(new Trigger("move", 1, freeSpot, move));
 				scissors.addTrigger(new Trigger("resetConflictFlags", 1,
 						new Expression("true"), resetConflictFlags));

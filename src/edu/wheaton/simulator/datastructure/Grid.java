@@ -10,8 +10,10 @@
 package edu.wheaton.simulator.datastructure;
 
 import java.awt.Color;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
@@ -23,10 +25,10 @@ import edu.wheaton.simulator.simulation.SimulationPauseException;
 public class Grid extends Entity implements Iterable<Agent> {
 
 	/**
-	 * The minimum and maximum priorities for priorityUpdateEntities() Should
-	 * be changed so that the user can define these values Or that they are
-	 * defined by checking minimum and maximum priorities of all triggers of
-	 * all agents in a simulation
+	 * The minimum and maximum priorities for priorityUpdateEntities() Should be
+	 * changed so that the user can define these values Or that they are defined
+	 * by checking minimum and maximum priorities of all triggers of all agents
+	 * in a simulation
 	 */
 	private int minPriority = 0;
 	private int maxPriority = 50;
@@ -56,15 +58,15 @@ public class Grid extends Entity implements Iterable<Agent> {
 
 		grid = new Agent[getHeight()][getWidth()];
 	}
-	
+
 	/**
-	 * Hackish solution to Akon's gridrecorder. Should never ever be
-	 * called other than from the stats people.
+	 * Hackish solution to Akon's gridrecorder. Should never ever be called
+	 * other than from the stats people.
 	 */
-	public Integer getID(){
+	public static Integer getID() {
 		return -1;
 	}
-	
+
 	/**
 	 * Provides this grid's width
 	 * 
@@ -130,12 +132,12 @@ public class Grid extends Entity implements Iterable<Agent> {
 	public String currentUpdater() {
 		return updater.toString();
 	}
-	
+
 	public void setMinMaxPriority(int min, int max) {
 		minPriority = min;
 		maxPriority = max;
 	}
-	
+
 	/**
 	 * The interface for the state pattern that allows for switching update
 	 * modes.
@@ -175,7 +177,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 						}
 				}
 		}
-		
+
 		@Override
 		public String toString() {
 			return "Linear";
@@ -209,7 +211,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 					}
 			}
 		}
-		
+
 		@Override
 		public String toString() {
 			return "Priority";
@@ -223,8 +225,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 
 		/**
 		 * Evaluates all the conditionals of the Triggers first, then fires the
-		 * behaviors later depending on whether or not those conditionals
-		 * fired.
+		 * behaviors later depending on whether or not those conditionals fired.
 		 */
 		@Override
 		public void update() throws SimulationPauseException {
@@ -249,7 +250,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 						}
 				}
 		}
-		
+
 		@Override
 		public String toString() {
 			return "Atomic";
@@ -335,14 +336,14 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	private int largestDistanceToSide(int x, int y) {
 		int presentMax = getField("width").getIntValue() - x - 1; // presetMax
-																	// = (x -->
-																	// width)
+		// = (x -->
+		// width)
 		if (presentMax < x) // presentMax < (0 --> x)
 			presentMax = x;
 		if (presentMax < (getField("height").getIntValue() - y - 1)) // presentMax
-																		// < (y
-																		// -->
-																		// height)
+			// < (y
+			// -->
+			// height)
 			presentMax = getField("height").getIntValue() - y - 1;
 		if (presentMax < y) // presentMax < (0 --> y)
 			presentMax = y;
@@ -447,16 +448,16 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 *            The Color that will be shaded differently to represent Field
 	 *            values
 	 */
-	public void newLayer(String fieldName, Color c) {
+	public static void newLayer(String fieldName, Color c) {
 		Layer.getInstance().setFieldName(fieldName);
 		Layer.getInstance().setColor(c);
 		Layer.getInstance().resetMinMax();
 	}
 
 	/**
-	 * Resets the min/max values of the layer and then loops through the grid
-	 * to set's a new Layer's min/max values PRECONDITION: The newLayer method
-	 * has been called to setup a layer
+	 * Resets the min/max values of the layer and then loops through the grid to
+	 * set's a new Layer's min/max values PRECONDITION: The newLayer method has
+	 * been called to setup a layer
 	 * 
 	 * @throws EvaluationException
 	 */
@@ -506,6 +507,17 @@ public class Grid extends Entity implements Iterable<Agent> {
 				throw new UnsupportedOperationException();
 			}
 		};
+	}
+
+	/**
+	 * Provides all of the user created fields - thus doesn't include width and
+	 * height
+	 */
+	public Map<String, String> getCustomFieldMap() {
+		Map<String, String> toReturn = new HashMap<String, String>(fields);
+		toReturn.remove("width");
+		toReturn.remove("height");
+		return toReturn;
 	}
 
 }

@@ -10,6 +10,8 @@
 package edu.wheaton.simulator.entity;
 
 import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import net.sourceforge.jeval.EvaluationException;
@@ -41,7 +43,7 @@ public abstract class GridEntity extends Entity {
 	 */
 	public GridEntity(Grid g) {
 		super();
-		init(g,Color.black,makeDesign());
+		init(g, Color.black, makeDesign());
 	}
 
 	/**
@@ -55,7 +57,7 @@ public abstract class GridEntity extends Entity {
 	 */
 	public GridEntity(Grid g, Color c) {
 		super();
-		init(g,c,makeDesign());
+		init(g, c, makeDesign());
 	}
 
 	/**
@@ -70,32 +72,36 @@ public abstract class GridEntity extends Entity {
 	 */
 	public GridEntity(Grid g, Color c, byte[] d) {
 		super();
-		init(g,c,d);
+		init(g, c, d);
 	}
-	
-	private void init(Grid g, Color c, byte[] d){
+
+	private void init(Grid g, Color c, byte[] d) {
 		grid = g;
 		setDesign(d);
 		initFields(c);
 	}
-	
-	private static byte[] makeDesign(){
+
+	/**
+	 * Returns a solid bitmask design
+	 * 
+	 * @return
+	 */
+	private static byte[] makeDesign() {
 		byte[] design = new byte[8];
 		for (int i = 0; i < design.length; i++)
 			design[i] = 127; // sets design to a solid image
 		return design;
 	}
-	
-	private void initFields(Color c){
+
+	private void initFields(Color c) {
 		initPosition();
 		initColor(c);
 	}
-	
-	private void initPosition() {
-		//position fields initialized to invalid coordinates
-		//to catch assumptions that this entity is already
-		//added to the Grid
 
+	private void initPosition() {
+		// position fields initialized to invalid coordinates
+		// to catch assumptions that this entity is already
+		// added to the Grid
 
 		try {
 			addField("x", -1 + "");
@@ -103,9 +109,9 @@ public abstract class GridEntity extends Entity {
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	private void initColor(Color c) {
 
 		try {
@@ -133,7 +139,8 @@ public abstract class GridEntity extends Entity {
 	 * 
 	 */
 	public Color getColor() {
-		return new Color(getFieldInt("colorRed"), getFieldInt("colorGreen"), getFieldInt("colorBlue"));
+		return new Color(getFieldInt("colorRed"), getFieldInt("colorGreen"),
+				getFieldInt("colorBlue"));
 	}
 
 	/**
@@ -151,24 +158,40 @@ public abstract class GridEntity extends Entity {
 					"Entity.getLayerColor() could not find a valid field for return");
 		return getLayer().newShade(field);
 	}
-	
-	private Integer getFieldInt(String fieldName){
+
+	/**
+	 * Provides this GridEntity's custom field names and values. Removes the
+	 * default fields.
+	 * 
+	 * @return String to String map
+	 */
+	public Map<String, String> getCustomFieldMap() {
+		Map<String, String> toReturn = new HashMap<String, String>(fields);
+		toReturn.remove("x");
+		toReturn.remove("y");
+		toReturn.remove("colorRed");
+		toReturn.remove("colorBlue");
+		toReturn.remove("colorGreen");
+		return toReturn;
+	}
+
+	private Integer getFieldInt(String fieldName) {
 		return getField(fieldName).getIntValue();
 	}
-	
-	private static Layer getLayer(){
+
+	private static Layer getLayer() {
 		return Layer.getInstance();
 	}
-	
-	private static Integer getRed(Color c){
+
+	private static Integer getRed(Color c) {
 		return new Integer(c.getRed());
 	}
-	
-	private static Integer getGreen(Color c){
+
+	private static Integer getGreen(Color c) {
 		return new Integer(c.getGreen());
 	}
-	
-	private static Integer getBlue(Color c){
+
+	private static Integer getBlue(Color c) {
 		return new Integer(c.getBlue());
 	}
 

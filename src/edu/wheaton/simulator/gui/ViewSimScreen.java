@@ -30,16 +30,17 @@ import javax.swing.SwingUtilities;
 import net.sourceforge.jeval.EvaluationException;
 
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 import edu.wheaton.simulator.statistics.SimulationRecorder;
 
 public class ViewSimScreen extends Screen {
 
-	private JPanel gridPanel;
+	//private JPanel gridPanel;
 
-	private int height;
+	//private int height;
 
-	private int width;
+	//private int width;
 
 	private ScreenManager sm;
 	/**
@@ -102,7 +103,8 @@ public class ViewSimScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
-						sm.getFacade().newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
+						sm.getFacade();
+						GUIToAgentFacade.newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
 						try {
 							sm.getFacade().setLayerExtremes();
 						} catch (EvaluationException e) {
@@ -139,7 +141,7 @@ public class ViewSimScreen extends Screen {
 		// - combobox(es) for choosing field, colorchooser to pick primary filter color, 
 		//   labels for these, "apply" button, "clear" button
 
-		gridPanel = new JPanel();
+		//gridPanel = new JPanel();
 		grid = new GridPanel(sm);
 		this.add(layerPanel, BorderLayout.WEST);
 		layerPanel.add(panel1);
@@ -162,24 +164,26 @@ public class ViewSimScreen extends Screen {
 		buttonPanel.add(makeBackButton());
 		return buttonPanel;
 	}
+	
+	private static JButton makeButton(String name, ActionListener al){
+		JButton b = new JButton(name);
+		b.addActionListener(al);
+		return b;
+	}
 
 	private JButton makeBackButton(){
-		JButton b = new JButton("Back");
-		b.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Edit Simulation")); 
-					} 
-				}
-				);
+		JButton b = makeButton("Back",new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sm.update(sm.getScreen("Edit Simulation")); 
+			} 
+		});
 		backButton = b;
 		return b;
 	}
 
 	private JButton makePauseButton(){
-		JButton b = new JButton("Pause");
-		b.addActionListener(
+		JButton b = makeButton("Pause",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -192,9 +196,7 @@ public class ViewSimScreen extends Screen {
 	}
 
 	private JButton makeStartButton(){
-		JButton b = new JButton("Start/Resume");
-		b.addActionListener(
-				new ActionListener() {
+		JButton b = makeButton("Start/Resume",new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (!sm.hasStarted()) {
@@ -269,13 +271,15 @@ public class ViewSimScreen extends Screen {
 
 	@Override
 	public void load() {
-		entities = sm.getFacade().prototypeNames().toArray(entities);
+		sm.getFacade();
+		entities = GUIToAgentFacade.prototypeNames().toArray(entities);
 		agentComboBox = new JComboBox(entities);
 		agentComboBox.addItemListener(
 				new ItemListener() {
 					@Override
 					public void itemStateChanged(ItemEvent e) {
-						layerComboBox = new JComboBox(sm.getFacade().getPrototype
+						sm.getFacade();
+						layerComboBox = new JComboBox(GUIToAgentFacade.getPrototype
 								(agentComboBox.getSelectedItem().toString())
 								.getCustomFieldMap().keySet().toArray());
 						layerComboBox.setMaximumSize(new Dimension(200, 50));
@@ -287,7 +291,8 @@ public class ViewSimScreen extends Screen {
 				}
 				);
 		if(entities.length != 0){
-			layerComboBox = new JComboBox(sm.getFacade().getPrototype
+			sm.getFacade();
+			layerComboBox = new JComboBox(GUIToAgentFacade.getPrototype
 					(agentComboBox.getItemAt(0).toString())
 					.getCustomFieldMap().keySet().toArray());
 			layerComboBox.setMaximumSize(new Dimension(200, 50));

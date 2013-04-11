@@ -89,15 +89,15 @@ public class DemoMenu {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						facade.createPrototype(nameField.getText(), facade.getGrid(), colorTool.getColor());
+						GUIToAgentFacade.createPrototype(nameField.getText(), facade.getGrid(), colorTool.getColor());
 						//add behavior to that prototype
-						facade.getPrototype(nameField.getText()).addTrigger(
+						GUIToAgentFacade.getPrototype(nameField.getText()).addTrigger(
 								new Trigger("move right", 
 										1, 
 										new Expression("1==1"), 
 										new Expression("move('this', this.x + 1, this.y)"))
 								);
-						prototypes.add(facade.getPrototype(nameField.getText()));
+						prototypes.add(GUIToAgentFacade.getPrototype(nameField.getText()));
 						facade.spiralSpawn(nameField.getText(), 0, 4);
 						frame.setContentPane(simulationScreen);
 						frame.setVisible(true);

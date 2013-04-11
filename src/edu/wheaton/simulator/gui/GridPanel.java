@@ -36,8 +36,8 @@ public class GridPanel extends JPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		gridWidth = sm.getGUIwidth();
-		gridHeight = sm.getGUIheight();
+		gridWidth = ScreenManager.getGUIwidth();
+		gridHeight = ScreenManager.getGUIheight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
@@ -60,14 +60,14 @@ public class GridPanel extends JPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		gridWidth = sm.getGUIwidth();
-		gridHeight = sm.getGUIheight();
+		gridWidth = ScreenManager.getGUIwidth();
+		gridHeight = ScreenManager.getGUIheight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
 		
 		int squareSize = Math.min(pixelWidth, pixelHeight);
-		Color color;
+		//Color color;
 		
 		if(layers) {
 			try {
@@ -118,8 +118,8 @@ public class GridPanel extends JPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		gridWidth = sm.getGUIwidth();
-		gridHeight = sm.getGUIheight();
+		gridWidth = ScreenManager.getGUIwidth();
+		gridHeight = ScreenManager.getGUIheight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;

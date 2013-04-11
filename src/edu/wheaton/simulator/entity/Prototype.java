@@ -45,6 +45,9 @@ public class Prototype extends GridEntity {
 
 	private String name;
 
+	/**
+	 * Unique ID
+	 */
 	private final PrototypeID id;
 
 	/**
@@ -199,6 +202,11 @@ public class Prototype extends GridEntity {
 		return clone;
 	}
 
+	/**
+	 * Adds the given trigger to this prototype as well as all of its children.
+	 * 
+	 * @param trigger
+	 */
 	public void addTrigger(Trigger trigger) {
 		triggers.add(trigger);
 		Collections.sort(triggers);

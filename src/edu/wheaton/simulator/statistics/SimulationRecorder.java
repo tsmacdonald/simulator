@@ -26,7 +26,7 @@ public class SimulationRecorder {
 	 */
 	public SimulationRecorder(StatisticsManager statManager) {
 		this.statManager = statManager;
-		this.behaviors = new HashMap<AgentID, ArrayList<BehaviorSnapshot>>();
+		SimulationRecorder.behaviors = new HashMap<AgentID, ArrayList<BehaviorSnapshot>>();
 	}
 
 	/**

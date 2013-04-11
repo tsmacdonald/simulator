@@ -1,13 +1,17 @@
 package sampleAgents;
 
-import java.awt.Color;
-
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
-import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
 
+/**
+ * Multiplier is the prototype for an agent that will clone itself into any 
+ * open adjacent spot and will die after 5 time steps.
+ * 
+ * @author Elliot Penson, Emmanuel Pederson
+ *
+ */
 public class Multiplier extends SampleAgent{
 
 	public Multiplier() {
@@ -22,7 +26,7 @@ public class Multiplier extends SampleAgent{
 	/**
 	 * Creates a new multiplier (sample Prototype) and adds it to the static list of Prototypes.
 	 */
-	private Prototype initMultiplier(Prototype multiplier) {
+	private static Prototype initMultiplier(Prototype multiplier) {
 		multiplier.getGrid().setAtomicUpdater();
 		
 		// Add fields
@@ -44,16 +48,16 @@ public class Multiplier extends SampleAgent{
 		Expression emptyNeighbor8 = new Expression("isSlotOpen(this.x - 1, this.y + 1)");
 
 		// Set up behaviors
-		Expression incrementAge = new Expression("setField('this', 'age', this.age + 1)");
-		Expression die = new Expression ("die('this')");
-		Expression cloneToEmpty1 =  new Expression("clone('this', this.x, this.y + 1)");
-		Expression cloneToEmpty2 =  new Expression("clone('this', this.x + 1, this.y + 1)");
-		Expression cloneToEmpty3 =  new Expression("clone('this',  this.x + 1, this.y)");
-		Expression cloneToEmpty4 =  new Expression("clone('this', this.x + 1, this.y - 1)");
-		Expression cloneToEmpty5 =  new Expression("clone('this', this.x, this.y - 1)");
-		Expression cloneToEmpty6 =  new Expression("clone('this', this.x - 1, this.y - 1)");
-		Expression cloneToEmpty7 =  new Expression("clone('this', this.x - 1, this.y)");
-		Expression cloneToEmpty8 =  new Expression("clone('this', this.x - 1, this.y + 1)");
+		Expression incrementAge = new Expression("setField('age', this.age + 1)");
+		Expression die = new Expression ("die()");
+		Expression cloneToEmpty1 =  new Expression("clone(this.x, this.y + 1)");
+		Expression cloneToEmpty2 =  new Expression("clone(this.x + 1, this.y + 1)");
+		Expression cloneToEmpty3 =  new Expression("clone(this.x + 1, this.y)");
+		Expression cloneToEmpty4 =  new Expression("clone(this.x + 1, this.y - 1)");
+		Expression cloneToEmpty5 =  new Expression("clone(this.x, this.y - 1)");
+		Expression cloneToEmpty6 =  new Expression("clone(this.x - 1, this.y - 1)");
+		Expression cloneToEmpty7 =  new Expression("clone(this.x - 1, this.y)");
+		Expression cloneToEmpty8 =  new Expression("clone(this.x - 1, this.y + 1)");
 
 		// Add triggers
 		multiplier.addTrigger(new Trigger("updateAge", 1, new Expression("true"), incrementAge));

@@ -1,6 +1,7 @@
 package sampleAgents;
 
 import java.awt.Color;
+import java.util.Random;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
@@ -8,7 +9,7 @@ import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
 
 /**
- * Fills in all the information for a paper in Rock Paper Scissors demo
+ * Fills in all the triggers and fields for a paper in Rock Paper Scissors demo
  * @author David Emmanuel Pederson
  *
  */
@@ -24,8 +25,7 @@ public class Paper extends SampleAgent {
 		return initPaper(paper);
 	}
 	
-	private Prototype initPaper(Prototype paper) {
-		
+	private static Prototype initPaper(Prototype paper) {		
 		Color lightGrey = new Color(225, 225, 225);
 		byte[] paperDesign = {62, 62, 62, 62, 62, 62, 62};
 		paper.setColor(lightGrey);
@@ -38,6 +38,7 @@ public class Paper extends SampleAgent {
 			paper.addField("temp", 0 + "");
 			paper.addField("agentAhead", "" + 0);
 			paper.addField("conflictAhead", "" + 0);
+			paper.addField("age", 0+"");
 			paper.addField("endTurn", "" + 0);
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
@@ -53,8 +54,8 @@ public class Paper extends SampleAgent {
 
 		// Move behavior
 		Expression move = new Expression(
-				"move('this', this.x + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& setField('this', 'endTurn', 1)");
+				"move(this.x + this.xNextDirection, this.y + this.yNextDirection)"
+						+ "&& setField('endTurn', 1)");
 		
 		/*
 		 * Turn clockwise (in 8 directions) Uses 'temp' because as JEval
@@ -62,13 +63,13 @@ public class Paper extends SampleAgent {
 		 * corrupted in the second use
 		 */
 		Expression rotateClockwise = new Expression(
-				" setField('this', 'temp', this.xNextDirection) || setField('this', 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4)))"
-						+ " || setField('this', 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))");
+				" setField('temp', this.xNextDirection) || setField('xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4)))"
+						+ " || setField('yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))");
 
 		// turn counter clockwise
 		Expression rotateCounterClockwise = new Expression(
-				" setField('this', 'temp', this.xNextDirection) || setField('this', 'xNextDirection', round(this.xNextDirection * cos(-PI/4) - this.yNextDirection * sin(-PI/4)))"
-						+ " || setField('this', 'yNextDirection', round(this.temp * sin(-PI/4) + this.yNextDirection * cos(-PI/4)))");
+				" setField('temp', this.xNextDirection) || setField('xNextDirection', round(this.xNextDirection * cos(-PI/4) - this.yNextDirection * sin(-PI/4)))"
+						+ " || setField('yNextDirection', round(this.temp * sin(-PI/4) + this.yNextDirection * cos(-PI/4)))");
 
 		// Check for agent ahead
 		Expression isAgentAhead = new Expression(
@@ -77,7 +78,7 @@ public class Paper extends SampleAgent {
 
 		// setAgentAhead field to true
 		Expression setAgentAhead = new Expression(
-				"setField('this', 'agentAhead', 1)");
+				"setField('agentAhead', 1)");
 
 		// reads flag that is set when there is an agent ahead
 		Expression checkAgentAheadFlag = new Expression("this.endTurn != 1" +
@@ -85,7 +86,7 @@ public class Paper extends SampleAgent {
 
 		// collect information about conflict
 		Expression setConflictAheadFlag = new Expression(
-				"setField('this', 'conflictAhead',"
+				"setField('conflictAhead',"
 						+ " getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'typeID') == (this.typeID + 2)%3"
 						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection') == - this.xNextDirection"
 						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'yNextDirection') == - this.yNextDirection)");
@@ -97,31 +98,41 @@ public class Paper extends SampleAgent {
 		// conflict behavior
 		Expression engageInConflict = new Expression(
 				"kill(this.x  + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& clone('this',this.x  + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
-						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
-						+ "&& setField('this', 'endTurn', 1)");
+						+ "&& clone(this.x  + this.xNextDirection, this.y + this.yNextDirection)"
+						+ "&& setFieldOfAgent(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
 
+		// increment the age of the agent
+		Expression incrAge = new Expression("setField('this', 'age', this.age +1)");
+		
 		// reset all the flags that are used to determine behavior
 		Expression resetConflictFlags = new Expression(
-				"setField('this', 'agentAhead', 0)|| setField('this', 'conflictAhead', 0)");
+				"setField('agentAhead', 0)|| setField('conflictAhead', 0)");
 		Expression resetEndTurnFlag = new Expression(
-				"setField('this', 'endTurn', 0)");
+				"setField('endTurn', 0)");
 
 			/*
 			 * Unfortunately, our implementation of triggers makes this the
 			 * best way to get agents to check all eight directions before
 			 * ending their turn. (55 separate triggers are made)
 			 */
+		
+			int rotateDirection = new Random().nextInt(2);
 			for (int i = 0; i < 8; i++) {
+				paper.addTrigger(new Trigger("incrementAge", 1, new Expression("TRUE"), incrAge));
 				paper.addTrigger(new Trigger("agentAhead", 1, isAgentAhead,
 						setAgentAhead));
 				paper.addTrigger(new Trigger("conflictAhead", 1,
 						checkAgentAheadFlag, setConflictAheadFlag));
 				paper.addTrigger(new Trigger("engageConflict", 1,
 						checkConflictAheadFlag, engageInConflict));
-				paper.addTrigger(new Trigger("rotateClockwise", 1,
-						notFreeSpot, rotateClockwise));
+				if(rotateDirection == 1)
+					paper.addTrigger(new Trigger("rotateCounterClockwise", 1,
+							notFreeSpot, rotateCounterClockwise));
+				else
+					paper.addTrigger(new Trigger("rotateClockwise", 1,
+							notFreeSpot, rotateClockwise));
 				paper.addTrigger(new Trigger("move", 1, freeSpot, move));
 				paper.addTrigger(new Trigger("resetConflictFlags", 1,
 						new Expression("true"), resetConflictFlags));

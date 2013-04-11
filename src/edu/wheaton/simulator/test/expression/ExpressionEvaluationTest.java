@@ -220,7 +220,8 @@ public class ExpressionEvaluationTest {
 			public String getName() {
 				return "distance";
 			}
-
+		
+			
 			@Override
 			public int getResultType() {
 				return AbstractExpressionFunction.RESULT_TYPE_NUMERIC;
@@ -240,6 +241,11 @@ public class ExpressionEvaluationTest {
 				genericDistanceExpression.importEntity("arg0", arg0);
 				genericDistanceExpression.importEntity("arg1", arg1);
 				return genericDistanceExpression.evaluateString();
+			}
+
+			@Override
+			public Integer numArgs() {
+				return 0;
 			}
 		});
 
