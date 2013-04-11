@@ -31,6 +31,7 @@ public class NewSimScreenFinishListener implements ActionListener {
 		}
 		Screen upload = sm.getScreen("Edit Simulation");
 		((ScreenManager)sm).setStarted(false);
+		sm.getFacade().initSamples();
 		sm.update(upload);
 		sm.loadScreen(upload);
 	}

@@ -89,4 +89,21 @@ public class AgentSnapshotCase {
 		
 		Assert.assertEquals(expected, agentSnap.serialize()); 	
 	}
+	
+	/**
+	 * Tests making a snapshot for global variables
+	 */
+	@Test
+	public void globalVarTest() {
+		Grid grid = new Grid(10, 10);
+		Prototype gType = new Prototype(grid, "GRID");
+		Integer step = 1;
+		AgentSnapshot gSnap = SnapshotFactory.makeGlobalVarSnapshot(grid, gType, step);
+		
+		String expected = "AgentSnapshot\n0000\nFields: height FieldSnapshot height 10" +
+				"\nFields: width FieldSnapshot width 10\n1\nGRID"; 
+		System.out.println(gSnap.serialize());
+		
+		org.junit.Assert.assertEquals(expected, gSnap.serialize());
+	}
 }

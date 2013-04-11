@@ -13,6 +13,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import sampleAgents.Bouncer;
+import sampleAgents.Multiplier;
+import sampleAgents.Paper;
+import sampleAgents.RightTurner;
+import sampleAgents.Rock;
+import sampleAgents.Scissors;
+
 import net.sourceforge.jeval.EvaluationException;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
@@ -39,129 +46,15 @@ public class GUIToAgentFacade {
 	public GUIToAgentFacade(int gridX, int gridY) {
 		Prototype.clearPrototypes();
 		grid = new Grid(gridX, gridY);
-		initSamples();
 	}
 	
 	/**
 	 * Adds the some sample prototypes
 	 */
-	private void initSamples() {
-		initMultiplier();
-		initRightTurner();
-		initBouncer();
-	}
-	
-	/**
-	 * Creates a new multiplier (sample Prototype) and adds it to the static list of Prototypes.
-	 */
-	private void initMultiplier() {
-		grid.setAtomicUpdater();
-		
-		Prototype multiplier = new Prototype(grid, Color.RED, "multiplier");
-
-		// Add fields
-		try {
-			multiplier.addField("age", 0 + "");
-		} catch (ElementAlreadyContainedException e) {
-			e.printStackTrace();
-		}
-
-		// Set up conditionals
-		Expression tooOld = new Expression("this.age > 5");
-		Expression emptyNeighbor1 = new Expression("isSlotOpen(this.x, this.y + 1)");
-		Expression emptyNeighbor2 = new Expression("isSlotOpen(this.x + 1, this.y + 1)");
-		Expression emptyNeighbor3 = new Expression("isSlotOpen(this.x + 1, this.y)");
-		Expression emptyNeighbor4 = new Expression("isSlotOpen(this.x + 1, this.y - 1)");
-		Expression emptyNeighbor5 = new Expression("isSlotOpen(this.x, this.y - 1)");
-		Expression emptyNeighbor6 = new Expression("isSlotOpen(this.x - 1, this.y - 1)");
-		Expression emptyNeighbor7 = new Expression("isSlotOpen(this.x - 1, this.y)");
-		Expression emptyNeighbor8 = new Expression("isSlotOpen(this.x - 1, this.y + 1)");
-
-		// Set up behaviors
-		Expression incrementAge = new Expression("setField('this', 'age', this.age + 1)");
-		Expression die = new Expression ("die('this')");
-		Expression cloneToEmpty1 =  new Expression("clone('this', this.x, this.y + 1)");
-		Expression cloneToEmpty2 =  new Expression("clone('this', this.x + 1, this.y + 1)");
-		Expression cloneToEmpty3 =  new Expression("clone('this',  this.x + 1, this.y)");
-		Expression cloneToEmpty4 =  new Expression("clone('this', this.x + 1, this.y - 1)");
-		Expression cloneToEmpty5 =  new Expression("clone('this', this.x, this.y - 1)");
-		Expression cloneToEmpty6 =  new Expression("clone('this', this.x - 1, this.y - 1)");
-		Expression cloneToEmpty7 =  new Expression("clone('this', this.x - 1, this.y)");
-		Expression cloneToEmpty8 =  new Expression("clone('this', this.x - 1, this.y + 1)");
-
-		// Add triggers
-		multiplier.addTrigger(new Trigger("updateAge", 1, new Expression("true"), incrementAge));
-		multiplier.addTrigger(new Trigger("die", 1, tooOld, die));
-		multiplier.addTrigger(new Trigger("clone1", 1, emptyNeighbor1, cloneToEmpty1));
-		multiplier.addTrigger(new Trigger("clone2", 1, emptyNeighbor2, cloneToEmpty2));
-		multiplier.addTrigger(new Trigger("clone3", 1, emptyNeighbor3, cloneToEmpty3));
-		multiplier.addTrigger(new Trigger("clone4", 1, emptyNeighbor4, cloneToEmpty4));
-		multiplier.addTrigger(new Trigger("clone5", 1, emptyNeighbor5, cloneToEmpty5));
-		multiplier.addTrigger(new Trigger("clone6", 1, emptyNeighbor6, cloneToEmpty6));
-		multiplier.addTrigger(new Trigger("clone7", 1, emptyNeighbor7, cloneToEmpty7));
-		multiplier.addTrigger(new Trigger("clone8", 1, emptyNeighbor8, cloneToEmpty8));
-
-		// Add the prototype to the static list of Prototypes
-		Prototype.addPrototype(multiplier);
-	}
-	
-	private void initRightTurner(){
-		Prototype rightTurner = new Prototype(grid, Color.BLUE, "rightTurner");
-
-		// Add fields
-		try {
-			rightTurner.addField("xNextDirection", 0 + "");
-			rightTurner.addField("yNextDirection", 1 + "");
-			rightTurner.addField("temp", 0 + "");
-		} catch (ElementAlreadyContainedException e) {
-			e.printStackTrace();
-		}
-		
-		// openSpot conditionals
-		Expression freeSpot = new Expression("isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)");
-		Expression notFreeSpot = new Expression("!isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)");
-
-		// Move behavior
-		Expression move = new Expression(
-				"move('this', this.x + this.xNextDirection, this.y + this.yNextDirection)");
-		
-		// turn clockwise
-		Expression rotateClockwise = new Expression(
-				" setField('this', 'temp', this.xNextDirection) || setField('this', 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4)))"
-						+ " || setField('this', 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))");
-		
-		rightTurner.addTrigger(new Trigger("turn", 1, notFreeSpot, rotateClockwise));
-		rightTurner.addTrigger(new Trigger("move", 1, freeSpot, move));
-		
-		Prototype.addPrototype(rightTurner);
-	}
-	
-	private void initBouncer(){
-		Prototype bouncer = new Prototype(grid, Color.BLUE, "bouncer");
-
-		// Add fields
-		try {
-			bouncer.addField("xNextDirection", 0 + "");
-			bouncer.addField("yNextDirection", 1 + "");
-		} catch (ElementAlreadyContainedException e) {
-			e.printStackTrace();
-		}
-		
-		// openSpot conditionals
-		Expression freeSpot = new Expression("isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)");
-		Expression notFreeSpot = new Expression("!isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)");
-
-		// Move behavior
-		Expression move = new Expression("move('this', this.x + this.xNextDirection, this.y + this.yNextDirection)");
-		
-		// turn clockwise
-		Expression bounce = new Expression("setField('this', 'xNextDirection', -1 * this.xNextDirection) ||" +
-				"setField('this', 'yNextDirection', -1 * this.yNextDirection)");
-		
-		bouncer.addTrigger(new Trigger("bounce", 1, notFreeSpot, bounce));
-		bouncer.addTrigger(new Trigger("move", 1, freeSpot, move));
-		
-		Prototype.addPrototype(bouncer);
+	public void initSamples() {
+		new Multiplier().initSampleAgent(new Prototype(grid, Color.BLUE, "Multiplier"));
+		new Bouncer().initSampleAgent(new Prototype(grid, Color.BLUE, "bouncer"));
+		new RightTurner().initSampleAgent(new Prototype(grid, Color.BLUE, "rightTurner"));
 	}
 
 	/**
@@ -442,17 +335,17 @@ public class GUIToAgentFacade {
 
 		// Set up behaviors
 		Expression incrementAge = new Expression(
-				"setField('this', 'age', this.age+1)");
+				"setField('age', this.age+1)");
 		Expression incrementNeighbors = new Expression(
-				"setField('this', 'neighbors', this.neighbors+1)");
+				"setField('neighbors', this.neighbors+1)");
 		Expression die = new Expression(
-				"setField('this', 'alive', 0) || setField('this', 'age', 0) || "
-						+ "setField('this', 'colorRed', 219) || setField('this', 'colorGreen', 219) || setField('this', 'colorBlue', 219)");
+				"setField('alive', 0) || setField('age', 0) || "
+						+ "setField('colorRed', 219) || setField('colorGreen', 219) || setField('colorBlue', 219)");
 		Expression revive = new Expression(
-				"setField('this', 'alive', 1) || setField('this', 'age', 1) || "
-						+ "setField('this', 'colorRed', 93) || setField('this', 'colorGreen', 198) || setField('this', 'colorBlue', 245)");
+				"setField('alive', 1) || setField('age', 1) || "
+						+ "setField('colorRed', 93) || setField('colorGreen', 198) || setField('colorBlue', 245)");
 		Expression resetNeighbors = new Expression(
-				"setField('this', 'neighbors', 0)");
+				"setField('neighbors', 0)");
 
 		// Add triggers
 		deadBeing
@@ -532,144 +425,14 @@ public class GUIToAgentFacade {
 				}
 			}
 	}
-
-	/*
-	 * For details about what Rock Paper Scissors is supposed to do, visit
-	 * 
-	 * Prototypes for rock, paper and scissors (black, blue, red) are made and
-	 * added to the grid. Uses fields in the agent as flags to indicate what
-	 * next action the agent should do. To simulate the iteration needed to
-	 * check multiple directions, many static triggers are added to each agent.
-	 * 
-	 * A call to this function can be added to NewSimScreenFinishListner.java
-	 * to apply the method to visualize the effects of this method.
-	 * 
-	 * Some testing suggests that errors will occur if this method is used and
-	 * then agents are modified mid simulation.
+	
+	/**
+	 * Sets up the rock paper and scissors sample units
 	 */
-	public void initRockPaperScissors() {
-		
-		clearPrototypes();
-		
-		// names of the agents
-		String[] agentType = { "rock", "paper", "scissors" };
-
-		// openSpot conditionals
-		Expression freeSpot = new Expression(
-				"this.endTurn != 1"
-						+ "&&isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)");
-		Expression notFreeSpot = new Expression(
-				"this.endTurn != 1"
-						+ "&&!isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)");
-
-		// Move behavior
-		Expression move = new Expression(
-				"move('this', this.x + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& setField('this', 'endTurn', 1)");
-		/*
-		 * Turn clockwise (in 8 directions) Uses 'temp' because as JEval
-		 * evaluates each function in order and xNextDirection would become
-		 * corrupted in the second use
-		 */
-		Expression rotateClockwise = new Expression(
-				" setField('this', 'temp', this.xNextDirection) || setField('this', 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4)))"
-						+ " || setField('this', 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))");
-
-		// turn counter clockwise
-		Expression rotateCounterClockwise = new Expression(
-				" setField('this', 'temp', this.xNextDirection) || setField('this', 'xNextDirection', round(this.xNextDirection * cos(-PI/4) - this.yNextDirection * sin(-PI/4)))"
-						+ " || setField('this', 'yNextDirection', round(this.temp * sin(-PI/4) + this.yNextDirection * cos(-PI/4)))");
-
-		// Check for agent ahead
-		Expression isAgentAhead = new Expression(
-				"this.endTurn != 1"
-						+ "&& isValidCoord(this.x + this.xNextDirection, this.y + this.yNextDirection) && !isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)");
-
-		// setAgentAhead field to true
-		Expression setAgentAhead = new Expression(
-				"setField('this', 'agentAhead', 1)");
-
-		// reads flag that is set when there is an agent ahead
-		Expression checkAgentAheadFlag = new Expression("this.endTurn != 1" +
-				"&& this.agentAhead == 1.0");
-
-		// collect information about conflict
-		Expression setConflictAheadFlag = new Expression(
-				"setField('this', 'conflictAhead',"
-						+ " getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'typeID') == (this.typeID + 2)%3"
-						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection') == - this.xNextDirection"
-						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'yNextDirection') == - this.yNextDirection)");
-
-		// check the flag that is set when a conflict is ahead
-		Expression checkConflictAheadFlag = new Expression("this.endTurn != 1" +
-				" && this.conflictAhead");
-
-		// conflict behavior
-		Expression engageInConflict = new Expression(
-				"kill(this.x  + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& clone('this',this.x  + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
-						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
-						+ "&& setField('this', 'endTurn', 1)");
-
-		// reset all the flags that are used to determine behavior
-		Expression resetConflictFlags = new Expression(
-				"setField('this', 'agentAhead', 0)|| setField('this', 'conflictAhead', 0)");
-		Expression resetEndTurnFlag = new Expression(
-				"setField('this', 'endTurn', 0)");
-
-		// add prototypes and fields. The type (RPS) is stored as an ID and
-		// string name.
-		for (int j = 0; j < agentType.length; j++) {
-			Prototype proto;
-			if (j == 0) {
-				Color brown = new Color(205, 133, 63);
-				byte[] rockDesign = {24, 62, 127, 127, 127, 62, 12};
-				proto = new Prototype(grid, brown, rockDesign, agentType[j]);
-			} else if (j == 1) {
-				Color lightGrey = new Color(225, 225, 225);
-				byte[] paperDesign = {62, 62, 62, 62, 62, 62, 62};
-				proto = new Prototype(grid, lightGrey, paperDesign, agentType[j]);
-			} else { // j == 2
-				Color lightBlue = new Color(93, 198, 245);
-				byte[] scissorsDesign = {113, 82, 116, 8, 116, 82, 113};
-				proto = new Prototype(grid, lightBlue, scissorsDesign, agentType[j]);
-			}
-			try {
-				proto.addField("typeID", j + "");
-				proto.addField("xNextDirection", 0 + "");
-				proto.addField("yNextDirection", -1 + "");
-				proto.addField("temp", 0 + "");
-				proto.addField("agentAhead", "" + 0);
-				proto.addField("conflictAhead", "" + 0);
-				proto.addField("endTurn", "" + 0);
-			} catch (ElementAlreadyContainedException e) {
-				e.printStackTrace();
-			}
-
-			/*
-			 * Unfortunately, our implementation of triggers makes this the
-			 * best way to get agents to check all eight directions before
-			 * ending their turn. (55 separate triggers are made)
-			 */
-			for (int i = 0; i < 8; i++) {
-				proto.addTrigger(new Trigger("agentAhead", 1, isAgentAhead,
-						setAgentAhead));
-				proto.addTrigger(new Trigger("conflictAhead", 1,
-						checkAgentAheadFlag, setConflictAheadFlag));
-				proto.addTrigger(new Trigger("engageConflict", 1,
-						checkConflictAheadFlag, engageInConflict));
-				proto.addTrigger(new Trigger("rotateClockwise", 1,
-						notFreeSpot, rotateClockwise));
-				proto.addTrigger(new Trigger("move", 1, freeSpot, move));
-				proto.addTrigger(new Trigger("resetConflictFlags", 1,
-						new Expression("true"), resetConflictFlags));
-			}
-			proto.addTrigger(new Trigger("resetConflictFlags", 1,
-					new Expression("true"), resetEndTurnFlag));
-
-			Prototype.addPrototype(proto);
-		}
+	public void initRockPaperScissors(){
+		new Rock().initSampleAgent(new Prototype(grid, "rock"));
+		new Paper().initSampleAgent(new Prototype(grid, "paper"));
+		new Scissors().initSampleAgent(new Prototype(grid, "scissors"));
 	}
 
 	/**

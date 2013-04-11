@@ -15,6 +15,12 @@ public class IsValidCoord extends AbstractExpressionFunction {
 	}
 
 	@Override
+	public Integer numArgs() {
+		return 2;
+	}
+	
+
+	@Override
 	public String execute(String[] args) throws EvaluationException {
 		Double x = Double.valueOf(args[0]);
 		Double y = Double.valueOf(args[1]);

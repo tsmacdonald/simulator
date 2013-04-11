@@ -13,7 +13,7 @@ import edu.wheaton.simulator.entity.Trigger;
 public class BuilderTest {
 
 	private Grid grid;
-	private Prototype test;
+	private Prototype prototype;
 	private Trigger.Builder builder;
 	private Trigger trigger;
 
@@ -21,7 +21,7 @@ public class BuilderTest {
 	public void setUp() {
 		try{
 			grid = new Grid(1,1);
-			Prototype prototype = new Prototype(grid, "test");
+			prototype = new Prototype(grid, "test");
 			prototype.addField("weight", "1");
 			prototype.addField("health", "10");
 			builder = new Trigger.Builder(prototype);
@@ -65,7 +65,16 @@ public class BuilderTest {
 	@Test
 	public void tesetIsValidMethod(){
 		builder.addConditional("TRUE");
-		builder.addBehavioral("DieBehavior(this)");
+		builder.addBehavioral("TRUE");
 		Assert.assertTrue(builder.isValid() == java.lang.Boolean.TRUE);
 	}
+	
+	@Test
+	public void tesetIsValidMethod2(){
+		builder.addConditional("abcdefg");
+		builder.addBehavioral("DieBehavior(this)");
+		Assert.assertTrue(builder.isValid() == java.lang.Boolean.FALSE);
+	}
+	
+	
 }

@@ -18,14 +18,25 @@ public class CloneAgentAtPositionBehavior extends AbstractExpressionFunction{
 		return AbstractExpressionFunction.RESULT_TYPE_BOOL;
 	}
 
+
+	@Override
+	public Integer numArgs() {
+		return 4;
+	}
+	
+	/**
+	 * this is basically a method cloneAgentAtPosition(int x, int y, int x2, int y2)
+	 * where the first coordinate is the coords of the agent to be clones
+	 * and the second one is the coords of where to put the new agent. 
+	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {
-		Agent target = resolveAgent(args[0]);
+		Agent target = resolveAgent("this");
 	
-		Integer x1 = Double.valueOf(args[1]).intValue();		// the coordinates of the agent to be cloned
-		Integer y1 = Double.valueOf(args[2]).intValue();
-		Integer x2 = Double.valueOf(args[3]).intValue();		// coordinates for the new agent to be placed at
-		Integer y2 = Double.valueOf(args[4]).intValue();
+		Integer x1 = Double.valueOf(args[0]).intValue();		
+		Integer y1 = Double.valueOf(args[1]).intValue();
+		Integer x2 = Double.valueOf(args[2]).intValue();		
+		Integer y2 = Double.valueOf(args[3]).intValue();
 		
 		Grid grid = target.getGrid();
 		if(grid.isValidCoord(x2, y2) && grid.getAgent(x2,y2)==null){
