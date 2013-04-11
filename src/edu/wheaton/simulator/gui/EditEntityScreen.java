@@ -110,7 +110,6 @@ public class EditEntityScreen extends Screen {
 		
 		//fieldTypes = new ArrayList<JComboBox>();
 		
-		
 		fieldSubPanels = new ArrayList<JPanel>();
 		triggerSubPanels = new ArrayList<JPanel>();
 		
@@ -133,28 +132,119 @@ public class EditEntityScreen extends Screen {
 		
 		tabs = new JTabbedPane();
 		
-		generalPanel = new JPanel();
-		generalPanel
-		.setLayout(new BoxLayout(generalPanel, BoxLayout.PAGE_AXIS));
+		generalPanel = makeGeneralPanel();
 		
-		addFieldButton = new JButton("Add Field");
-		addFieldButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				addField();
-			}
-		});
+		addFieldButton = makeAddFieldButton();
 		
-		addTriggerButton = new JButton("Add Trigger");
-		addTriggerButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				addTrigger();
-			}
-		});
+		addTriggerButton = makeAddTriggerButton();
 		
 		JPanel iconPanel = makeIconPanel();
+		
+		initIconDesignObject(iconPanel);
 	
+		//serialization not yet implemented
+		//JButton loadIconButton = new JButton("Load icon");
+		
+		
+		initGeneralPanel(iconPanel);
+
+		//JLabel fieldTypeLabel = new JLabel("Field Type");
+		
+		addField();
+		
+		// TODO make sure components line up
+		
+		initFieldSubPanels();
+		
+		//fieldTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		//fieldLabelsPanel.add(fieldTypeLabel);
+		
+		initFieldListPanel();
+		
+		
+		// fieldSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
+		
+		addTrigger();
+		
+		initTriggerSubPanels();
+		initTriggerListPanel();
+		
+		initTabs();
+		
+		this.add(makeScreenLabel(), BorderLayout.NORTH);
+		this.add(tabs, BorderLayout.CENTER);
+		this.add(makeLowerPanel(), BorderLayout.SOUTH);
+
+	}
+	
+	private void initTabs(){
+		tabs.addTab("General", generalPanel);
+		tabs.addTab("Fields", makeFieldMainPanel(fieldListPanel));
+		tabs.addTab("Triggers", makeTriggerMainPanel(triggerListPanel));
+		tabs.addChangeListener(new ChangeListener(){
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				
+				if (currentTab == "General")
+					sendGeneralInfo();
+				else if (currentTab == "Fields")
+					sendFieldInfo();
+				else
+					sendTriggerInfo();
+				currentTab = tabs.getTitleAt(tabs.getSelectedIndex());	
+			}
+			
+		});
+	}
+	
+	private void initTriggerListPanel(){
+		triggerListPanel.setLayout(new BoxLayout(triggerListPanel,
+				BoxLayout.Y_AXIS));
+		triggerListPanel.add(triggerSubPanels.get(0));
+		triggerListPanel.add(addTriggerButton);
+		triggerListPanel.add(glue2);
+	}
+	
+	private void initTriggerSubPanels(){
+		triggerSubPanels.get(0).setLayout(
+				new BoxLayout(triggerSubPanels.get(0), BoxLayout.X_AXIS));
+		triggerSubPanels.get(0).add(triggerNames.get(0));
+		triggerSubPanels.get(0).add(triggerPriorities.get(0));
+		triggerSubPanels.get(0).add(triggerConditions.get(0));
+		triggerSubPanels.get(0).add(triggerResults.get(0));
+		triggerSubPanels.get(0).add(triggerDeleteButtons.get(0));
+		triggerSubPanels.get(0).setAlignmentX(CENTER_ALIGNMENT);
+		// triggerSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
+	}
+	
+	private void initFieldListPanel(){
+		fieldListPanel.setLayout(new BoxLayout(fieldListPanel,
+				BoxLayout.Y_AXIS));
+		fieldListPanel.add(fieldSubPanels.get(0));
+		fieldListPanel.add(addFieldButton);
+		fieldListPanel.add(glue);
+	}
+	
+	private void initFieldSubPanels(){
+		fieldSubPanels.get(0).setLayout(
+				new BoxLayout(fieldSubPanels.get(0), BoxLayout.X_AXIS));
+		fieldSubPanels.get(0).add(fieldNames.get(0));
+		//fieldSubPanels.get(0).add(fieldTypes.get(0));
+		fieldSubPanels.get(0).add(fieldValues.get(0));
+		fieldSubPanels.get(0).add(fieldDeleteButtons.get(0));
+	}
+	
+	private void initGeneralPanel(JPanel iconPanel){
+		generalPanel.add(makeGeneralLabel());
+		generalPanel.add(makeNameLabel());
+		generalPanel.add(nameField);
+		generalPanel.add(makeMainPanel(colorTool,iconPanel));
+		//generalPanel.add(loadIconButton);
+	}
+	
+	private void initIconDesignObject(JPanel iconPanel){
 		//Creates the icon design object.
 		for (int i = 0; i < 7; i++) {
 			for (int j = 0; j < 7; j++) {
@@ -183,86 +273,35 @@ public class EditEntityScreen extends Screen {
 				iconPanel.add(buttons[i][j]);
 			}
 		}
-
-		//serialization not yet implemented
-		//JButton loadIconButton = new JButton("Load icon");
-		
-		generalPanel.add(makeGeneralLabel());
-		generalPanel.add(makeNameLabel());
-		generalPanel.add(nameField);
-		generalPanel.add(makeMainPanel(colorTool,iconPanel));
-		//generalPanel.add(loadIconButton);
-
-		//JLabel fieldTypeLabel = new JLabel("Field Type");
-		
-		addField();
-		
-		// TODO make sure components line up
-		
-		fieldSubPanels.get(0).setLayout(
-				new BoxLayout(fieldSubPanels.get(0), BoxLayout.X_AXIS));
-		fieldSubPanels.get(0).add(fieldNames.get(0));
-		//fieldSubPanels.get(0).add(fieldTypes.get(0));
-		fieldSubPanels.get(0).add(fieldValues.get(0));
-		fieldSubPanels.get(0).add(fieldDeleteButtons.get(0));
-		
-		//fieldTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		
-		//fieldLabelsPanel.add(fieldTypeLabel);
-		
-		fieldListPanel.setLayout(new BoxLayout(fieldListPanel,
-				BoxLayout.Y_AXIS));
-		fieldListPanel.add(fieldSubPanels.get(0));
-		fieldListPanel.add(addFieldButton);
-		fieldListPanel.add(glue);
-		
-		// fieldSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
-		
-		addTrigger();
-		
-		// TODO make sure components line up
-		triggerSubPanels.get(0).setLayout(
-				new BoxLayout(triggerSubPanels.get(0), BoxLayout.X_AXIS));
-		triggerSubPanels.get(0).add(triggerNames.get(0));
-		triggerSubPanels.get(0).add(triggerPriorities.get(0));
-		triggerSubPanels.get(0).add(triggerConditions.get(0));
-		triggerSubPanels.get(0).add(triggerResults.get(0));
-		triggerSubPanels.get(0).add(triggerDeleteButtons.get(0));
-		triggerSubPanels.get(0).setAlignmentX(CENTER_ALIGNMENT);
-		// triggerSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
-		
-		
-		triggerListPanel.setLayout(new BoxLayout(triggerListPanel,
-				BoxLayout.Y_AXIS));
-		triggerListPanel.add(triggerSubPanels.get(0));
-		triggerListPanel.add(addTriggerButton);
-		triggerListPanel.add(glue2);
-
-		tabs.addTab("General", generalPanel);
-		tabs.addTab("Fields", makeFieldMainPanel(fieldListPanel));
-		tabs.addTab("Triggers", makeTriggerMainPanel(triggerListPanel));
-		tabs.addChangeListener(new ChangeListener(){
-
+	}
+	
+	private JButton makeAddFieldButton(){
+		JButton addFieldButton = new JButton("Add Field");
+		addFieldButton.addActionListener(new ActionListener() {
 			@Override
-			public void stateChanged(ChangeEvent e) {
-				
-				if (currentTab == "General")
-					sendGeneralInfo();
-				else if (currentTab == "Fields")
-					sendFieldInfo();
-				else
-					sendTriggerInfo();
-				currentTab = tabs.getTitleAt(tabs.getSelectedIndex());
-				
-				
+			public void actionPerformed(ActionEvent e) {
+				addField();
 			}
-			
 		});
-		
-		this.add(makeScreenLabel(), BorderLayout.NORTH);
-		this.add(tabs, BorderLayout.CENTER);
-		this.add(makeLowerPanel(), BorderLayout.SOUTH);
-
+		return addFieldButton;
+	}
+	
+	private JButton makeAddTriggerButton(){
+		JButton addTriggerButton = new JButton("Add Trigger");
+		addTriggerButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addTrigger();
+			}
+		});
+		return addTriggerButton;
+	}
+	
+	private static JPanel makeGeneralPanel(){
+		JPanel generalPanel = new JPanel();
+		generalPanel
+		.setLayout(new BoxLayout(generalPanel, BoxLayout.PAGE_AXIS));
+		return generalPanel;
 	}
 	
 	private static JLabel makeNameLabel(){
