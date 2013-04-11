@@ -95,33 +95,47 @@ public class EditEntityScreen extends Screen {
 		super(sm);
 		this.setLayout(new BorderLayout());
 		
-		JLabel label = new JLabel("Edit Entities");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setHorizontalTextPosition(SwingConstants.CENTER);
-		
-		tabs = new JTabbedPane();
-		generalPanel = new JPanel();
-		fieldListPanel = new JPanel();
-		triggerListPanel = new JPanel();
-		
 		removedFields = new HashSet<Integer>();
-		
 		removedTriggers = new HashSet<Integer>();
 		
 		nameField = new JTextField(25);
 		nameField.setMaximumSize(new Dimension(400, 40));
+		
 		colorTool = new JColorChooser();
+		
 		buttons = new JToggleButton[7][7];
 		
 		fieldNames = new ArrayList<JTextField>();
-		
 		fieldValues = new ArrayList<JTextField>();
 		
 		//fieldTypes = new ArrayList<JComboBox>();
 		
-		fieldDeleteButtons = new ArrayList<JButton>();
 		
 		fieldSubPanels = new ArrayList<JPanel>();
+		triggerSubPanels = new ArrayList<JPanel>();
+		
+		triggerNames = new ArrayList<JTextField>();
+		triggerPriorities = new ArrayList<JTextField>();
+		triggerConditions = new ArrayList<JTextField>();
+		triggerResults = new ArrayList<JTextField>();
+		
+		fieldDeleteButtons = new ArrayList<JButton>();
+		triggerDeleteButtons = new ArrayList<JButton>();
+		
+		glue = Box.createVerticalGlue();
+		glue2 = Box.createVerticalGlue();
+		
+		currentTab = "General";
+		
+		fieldListPanel = new JPanel();
+		
+		triggerListPanel = new JPanel();
+		
+		tabs = new JTabbedPane();
+		
+		generalPanel = new JPanel();
+		generalPanel
+		.setLayout(new BoxLayout(generalPanel, BoxLayout.PAGE_AXIS));
 		
 		addFieldButton = new JButton("Add Field");
 		addFieldButton.addActionListener(new ActionListener() {
@@ -131,20 +145,6 @@ public class EditEntityScreen extends Screen {
 			}
 		});
 		
-		glue = Box.createVerticalGlue();
-		
-		triggerNames = new ArrayList<JTextField>();
-		
-		triggerPriorities = new ArrayList<JTextField>();
-		
-		triggerConditions = new ArrayList<JTextField>();
-		
-		triggerResults = new ArrayList<JTextField>();
-		
-		triggerDeleteButtons = new ArrayList<JButton>();
-		
-		triggerSubPanels = new ArrayList<JPanel>();
-		
 		addTriggerButton = new JButton("Add Trigger");
 		addTriggerButton.addActionListener(new ActionListener() {
 			@Override
@@ -153,36 +153,7 @@ public class EditEntityScreen extends Screen {
 			}
 		});
 		
-		glue2 = Box.createVerticalGlue();
-		
-		currentTab = "General";
-		
-		JPanel lowerPanel = new JPanel();
-		
-		JPanel mainPanel = new JPanel();
-		
-		JPanel iconPanel = new JPanel();
-		
-		JPanel fieldMainPanel = new JPanel();
-		
-		JPanel fieldLabelsPanel = new JPanel();
-		
-		JPanel triggerMainPanel = new JPanel();
-		
-		JPanel triggerLabelsPanel = new JPanel();
-
-		JLabel generalLabel = makeLabel("General Info",300,80);
-		generalLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		JLabel nameLabel = new JLabel("Name: ");
-		
-		JPanel colorPanel = new JPanel();
-		colorPanel.add(colorTool);
-		colorPanel.setAlignmentX(LEFT_ALIGNMENT);
-		
-		iconPanel.setLayout(new GridLayout(7, 7));
-		iconPanel.setMinimumSize(new Dimension(500, 500));
-		iconPanel.setAlignmentX(RIGHT_ALIGNMENT);
+		JPanel iconPanel = makeIconPanel();
 	
 		//Creates the icon design object.
 		for (int i = 0; i < 7; i++) {
@@ -216,14 +187,15 @@ public class EditEntityScreen extends Screen {
 		//serialization not yet implemented
 		//JButton loadIconButton = new JButton("Load icon");
 		
+		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		mainPanel.setMaximumSize(new Dimension(1200, 500));
-		
-		generalPanel
-		.setLayout(new BoxLayout(generalPanel, BoxLayout.PAGE_AXIS));
-		
-		mainPanel.add(colorPanel);
+		mainPanel.add(makeColorPanel(colorTool));
 		mainPanel.add(iconPanel);
+		
+		JLabel generalLabel = makeLabel("General Info",300,80);
+		generalLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel nameLabel = new JLabel("Name: ");
 		
 		generalPanel.add(generalLabel);
 		generalPanel.add(nameLabel);
@@ -231,136 +203,54 @@ public class EditEntityScreen extends Screen {
 		generalPanel.add(mainPanel);
 		//generalPanel.add(loadIconButton);
 
-		JLabel fieldLabel = makeLabel("Field Info",300,100);
-		fieldLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		JLabel fieldNameLabel = makeLabel("Field Name",200,30);
-		
-		JLabel fieldValueLabel = makeLabel("Field Initial Value",400,30);
-		fieldValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		
 		//JLabel fieldTypeLabel = new JLabel("Field Type");
-		fieldNameLabel.setPreferredSize(new Dimension(350, 30));
 		
 		addField();
 		
 		// TODO make sure components line up
 		
-		fieldMainPanel.setLayout(new BorderLayout());
-		
-		JPanel fieldBodyPanel = new JPanel();
-		fieldBodyPanel.setLayout(new BoxLayout(fieldBodyPanel,
-				BoxLayout.Y_AXIS));
-		
-		fieldLabelsPanel.setLayout(new BoxLayout(fieldLabelsPanel,
-				BoxLayout.X_AXIS));
-		
-		fieldListPanel.setLayout(new BoxLayout(fieldListPanel,
-				BoxLayout.Y_AXIS));
-		
 		fieldSubPanels.get(0).setLayout(
 				new BoxLayout(fieldSubPanels.get(0), BoxLayout.X_AXIS));
-		
-		fieldMainPanel.add(fieldLabel, BorderLayout.NORTH);
-		
-		fieldLabelsPanel.add(Box.createHorizontalGlue());
-		fieldLabelsPanel.add(fieldNameLabel);
-		
-		fieldNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		fieldNameLabel.setAlignmentX(LEFT_ALIGNMENT);
-		
-		//fieldTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		
-		//fieldLabelsPanel.add(fieldTypeLabel);
-		fieldLabelsPanel.add(fieldValueLabel);
-		fieldLabelsPanel.add(Box.createHorizontalGlue());
-		
 		fieldSubPanels.get(0).add(fieldNames.get(0));
 		//fieldSubPanels.get(0).add(fieldTypes.get(0));
 		fieldSubPanels.get(0).add(fieldValues.get(0));
 		fieldSubPanels.get(0).add(fieldDeleteButtons.get(0));
 		
+		//fieldTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		//fieldLabelsPanel.add(fieldTypeLabel);
+		
+		fieldListPanel.setLayout(new BoxLayout(fieldListPanel,
+				BoxLayout.Y_AXIS));
 		fieldListPanel.add(fieldSubPanels.get(0));
 		fieldListPanel.add(addFieldButton);
 		fieldListPanel.add(glue);
 		
 		// fieldSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
 		
-		fieldBodyPanel.add(fieldLabelsPanel);
-		fieldBodyPanel.add(fieldListPanel);
-		
-		fieldMainPanel.add(fieldBodyPanel, BorderLayout.CENTER);
-
-		JLabel triggerLabel = makeLabel("Trigger Info",300,100);
-		triggerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		JLabel triggerNameLabel = makeLabel("Trigger Name",130,30);
-		
-		JLabel triggerPriorityLabel = makeLabel("Trigger Priority",180,30);
-
-		
-		JLabel triggerConditionLabel = makeLabel("Trigger Condition",300,30);
-
-		
-		JLabel triggerResultLabel = makeLabel("Trigger Result",300,30);
-		
-		
-		
 		addTrigger();
 		
 		// TODO make sure components line up
-		
-		triggerMainPanel.setLayout(new BorderLayout());
-		
-		JPanel triggerBodyPanel = new JPanel();
-		triggerBodyPanel.setLayout(new BoxLayout(triggerBodyPanel,
-				BoxLayout.Y_AXIS));
-		
-		triggerLabelsPanel.setLayout(new BoxLayout(triggerLabelsPanel,
-				BoxLayout.X_AXIS));
-		
-		triggerListPanel.setLayout(new BoxLayout(triggerListPanel,
-				BoxLayout.Y_AXIS));
-		
 		triggerSubPanels.get(0).setLayout(
 				new BoxLayout(triggerSubPanels.get(0), BoxLayout.X_AXIS));
-		
-		triggerMainPanel.add(triggerLabel, BorderLayout.NORTH);
-		
-		triggerNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		
-		triggerLabelsPanel.add(Box.createHorizontalGlue());
-		triggerLabelsPanel.add(triggerNameLabel);
-		triggerLabelsPanel.add(triggerPriorityLabel);
-		triggerLabelsPanel.add(triggerConditionLabel);
-		triggerLabelsPanel.add(triggerResultLabel);
-		triggerLabelsPanel.add(Box.createHorizontalGlue());
-		
 		triggerSubPanels.get(0).add(triggerNames.get(0));
 		triggerSubPanels.get(0).add(triggerPriorities.get(0));
 		triggerSubPanels.get(0).add(triggerConditions.get(0));
 		triggerSubPanels.get(0).add(triggerResults.get(0));
 		triggerSubPanels.get(0).add(triggerDeleteButtons.get(0));
-		
-		triggerListPanel.add(triggerSubPanels.get(0));
-		triggerListPanel.add(addTriggerButton);
-		triggerListPanel.add(glue2);
-		
-		triggerLabelsPanel.setAlignmentX(CENTER_ALIGNMENT);
-		
-		triggerBodyPanel.add(triggerLabelsPanel);
-		triggerBodyPanel.add(triggerListPanel);
-		
 		triggerSubPanels.get(0).setAlignmentX(CENTER_ALIGNMENT);
 		// triggerSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
 		
-		triggerMainPanel.add(triggerBodyPanel, BorderLayout.CENTER);
+		
+		triggerListPanel.setLayout(new BoxLayout(triggerListPanel,
+				BoxLayout.Y_AXIS));
+		triggerListPanel.add(triggerSubPanels.get(0));
+		triggerListPanel.add(addTriggerButton);
+		triggerListPanel.add(glue2);
 
-		
-		
 		tabs.addTab("General", generalPanel);
-		tabs.addTab("Fields", fieldMainPanel);
-		tabs.addTab("Triggers", triggerMainPanel);
+		tabs.addTab("Fields", makeFieldMainPanel(fieldListPanel));
+		tabs.addTab("Triggers", makeTriggerMainPanel(triggerListPanel));
 		tabs.addChangeListener(new ChangeListener(){
 
 			@Override
@@ -378,19 +268,126 @@ public class EditEntityScreen extends Screen {
 			}
 			
 		});
+		
+		this.add(makeScreenLabel(), BorderLayout.NORTH);
+		this.add(tabs, BorderLayout.CENTER);
+		this.add(makeLowerPanel(), BorderLayout.SOUTH);
 
+	}
+	
+	private static JPanel makeIconPanel(){
+		JPanel iconPanel = new JPanel();
+		iconPanel.setLayout(new GridLayout(7, 7));
+		iconPanel.setMinimumSize(new Dimension(500, 500));
+		iconPanel.setAlignmentX(RIGHT_ALIGNMENT);
+		return iconPanel;
+	}
+	
+	private static JPanel makeColorPanel(JColorChooser colorTool){
+		JPanel colorPanel = new JPanel();
+		colorPanel.add(colorTool);
+		colorPanel.setAlignmentX(LEFT_ALIGNMENT);
+		return colorPanel;
+	}
+	
+	private static JPanel makeTriggerMainPanel(JPanel triggerListPanel){
+		
+		JLabel triggerNameLabel = makeLabel("Trigger Name",130,30);
+		triggerNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		JLabel triggerPriorityLabel = makeLabel("Trigger Priority",180,30);
+		
+		JLabel triggerConditionLabel = makeLabel("Trigger Condition",300,30);
+		
+		JLabel triggerResultLabel = makeLabel("Trigger Result",300,30);
+		
+		JPanel triggerLabelsPanel = new JPanel();
+		triggerLabelsPanel.setLayout(new BoxLayout(triggerLabelsPanel,
+				BoxLayout.X_AXIS));
+		triggerLabelsPanel.add(Box.createHorizontalGlue());
+		triggerLabelsPanel.add(triggerNameLabel);
+		triggerLabelsPanel.add(triggerPriorityLabel);
+		triggerLabelsPanel.add(triggerConditionLabel);
+		triggerLabelsPanel.add(triggerResultLabel);
+		triggerLabelsPanel.add(Box.createHorizontalGlue());
+		triggerLabelsPanel.setAlignmentX(CENTER_ALIGNMENT);
+		
+		JLabel triggerLabel = makeLabel("Trigger Info",300,100);
+		triggerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JPanel triggerBodyPanel = makeTriggerBodyPanel();
+		triggerBodyPanel.add(triggerLabelsPanel);
+		triggerBodyPanel.add(triggerListPanel);
+		
+		JPanel triggerMainPanel = new JPanel();
+		triggerMainPanel.setLayout(new BorderLayout());
+		triggerMainPanel.add(triggerLabel, BorderLayout.NORTH);
+		triggerMainPanel.add(triggerBodyPanel, BorderLayout.CENTER);
+		return triggerMainPanel;
+	}
+	
+	private static JPanel makeFieldMainPanel(JPanel fieldListPanel){
+		JLabel fieldNameLabel = makeLabel("Field Name",350,30);
+		fieldNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		fieldNameLabel.setAlignmentX(LEFT_ALIGNMENT);
+		
+		JLabel fieldValueLabel = makeLabel("Field Initial Value",400,30);
+		fieldValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JPanel fieldLabelsPanel = new JPanel();
+		fieldLabelsPanel.setLayout(new BoxLayout(fieldLabelsPanel,
+				BoxLayout.X_AXIS));
+		fieldLabelsPanel.add(Box.createHorizontalGlue());
+		fieldLabelsPanel.add(fieldNameLabel);
+		fieldLabelsPanel.add(fieldValueLabel);
+		fieldLabelsPanel.add(Box.createHorizontalGlue());
+		
+		JPanel fieldBodyPanel = makeFieldBodyPanel(fieldLabelsPanel,fieldListPanel);
+		
+		JLabel fieldLabel = makeLabel("Field Info",300,100);
+		fieldLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JPanel fieldMainPanel = new JPanel();
+		fieldMainPanel.setLayout(new BorderLayout());
+		fieldMainPanel.add(fieldLabel, BorderLayout.NORTH);
+		fieldMainPanel.add(fieldBodyPanel, BorderLayout.CENTER);
+		return fieldMainPanel;
+	}
+	
+	private JPanel makeLowerPanel(){
+		JPanel lowerPanel = new JPanel();
 		lowerPanel.add(makeCancelButton());
 		lowerPanel.add(makeFinishButton());
-
-		this.add(label, BorderLayout.NORTH);
-		this.add(tabs, BorderLayout.CENTER);
-		this.add(lowerPanel, BorderLayout.SOUTH);
-
+		return lowerPanel;
+	}
+	
+	private static JPanel makeFieldBodyPanel(JPanel fieldLabelsPanel, JPanel fieldListPanel){
+		JPanel fieldBodyPanel = new JPanel();
+		fieldBodyPanel.setLayout(new BoxLayout(fieldBodyPanel,
+				BoxLayout.Y_AXIS));
+		
+		fieldBodyPanel.add(fieldLabelsPanel);
+		fieldBodyPanel.add(fieldListPanel);
+		return fieldBodyPanel;
+	}
+	
+	private static JPanel makeTriggerBodyPanel(){
+		JPanel triggerBodyPanel = new JPanel();
+		triggerBodyPanel.setLayout(new BoxLayout(triggerBodyPanel,
+				BoxLayout.Y_AXIS));
+		return triggerBodyPanel;
 	}
 	
 	private static JLabel makeLabel(String name, int width, int height){
 		JLabel label = new JLabel(name);
 		label.setPreferredSize(new Dimension(width, height));
+		return label;
+	}
+	
+	private static JLabel makeScreenLabel(){
+		JLabel label = new JLabel("Edit Entities");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setHorizontalTextPosition(SwingConstants.CENTER);
 		return label;
 	}
 	
