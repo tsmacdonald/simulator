@@ -41,7 +41,7 @@ public class FieldSnapshotCase {
 	 * 		3. One of the parameters passed into FieldSnapshot is an integer.
 	 */
 	@Test
-	public void fieldSnapshotTest() {
+	public static void fieldSnapshotTest() {
 		FieldSnapshot fieldSnap = new FieldSnapshot("name", "akon");
 		Assert.assertNotNull(fieldSnap);
 		Assert.assertFalse(fieldSnap.isNumber);

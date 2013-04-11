@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.PrototypeID;
+import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 //TODO commented code for adding operators to ending conditions :
@@ -72,7 +73,7 @@ public class SetupScreen extends Screen {
 		glue = Box.createVerticalGlue();
 		addConditionButton = makeAddConditionButton(this);
 		conListPanel = makeConListPanel(addConditionButton);
-		nameField = makeNameField(sm);
+		nameField = makeNameField();
 		timeField = makeTimeField();
 		updateBox = makeUpdateBox();
 		JPanel uberPanel = makeUberPanel(this, timeField, nameField, updateBox);
@@ -123,8 +124,8 @@ public class SetupScreen extends Screen {
 		//		panel2.add(width);
 	}
 
-	private static JTextField makeNameField(final ScreenManager sm){
-		JTextField nameField = new JTextField(sm.getGUIname(), 25);
+	private static JTextField makeNameField(){
+		JTextField nameField = new JTextField(ScreenManager.getGUIname(), 25);
 		nameField.setMaximumSize(new Dimension(400, 30));
 		return nameField;
 	}
@@ -329,8 +330,9 @@ public class SetupScreen extends Screen {
 								sm.getFacade().setPriorityUpdate();
 							}
 							for (int i = 0; i < values.size(); i++) {
+								sm.getFacade();
 								sm.getEnder().setPopLimit(
-										sm.getFacade().getPrototype(
+										GUIToAgentFacade.getPrototype(
 												(String)(agentTypes.get(i).getSelectedItem())
 												).getPrototypeID(), 
 												Integer.parseInt(values.get(i).getText())
@@ -393,7 +395,8 @@ public class SetupScreen extends Screen {
 		updateBox.setSelectedItem(sm.getFacade().currentUpdater());
 
 		SimulationEnder se = sm.getEnder();
-		Set<String> agents = sm.getFacade().prototypeNames();
+		sm.getFacade();
+		Set<String> agents = GUIToAgentFacade.prototypeNames();
 		agentNames = agents.toArray(agentNames);
 		timeField.setText(se.getStepLimit() + "");
 		//to prevent accidental starting simulation with time limit of 0
@@ -411,7 +414,8 @@ public class SetupScreen extends Screen {
 			for (PrototypeID p : popLimits.keySet()) {
 				addCondition();
 				for (String s : agentNames) {
-					if (sm.getFacade().getPrototype(s).getPrototypeID().equals(p)) {
+					sm.getFacade();
+					if (GUIToAgentFacade.getPrototype(s).getPrototypeID().equals(p)) {
 						agentTypes.get(i).setSelectedItem(s);
 					}
 				}
@@ -475,8 +479,9 @@ public class SetupScreen extends Screen {
 			int n = Integer.parseInt(e.getActionCommand());
 			String str = (String) agentTypes.get(n).getSelectedItem();
 			if (str != null) {
+				sm.getFacade();
 				sm.getEnder().removePopLimit(
-						sm.getFacade().getPrototype(str).getPrototypeID());
+						GUIToAgentFacade.getPrototype(str).getPrototypeID());
 			}
 			conListPanel.remove(subPanels.get(n));
 			agentTypes.remove(n);

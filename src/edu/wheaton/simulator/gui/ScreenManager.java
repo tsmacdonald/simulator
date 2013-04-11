@@ -89,15 +89,15 @@ public class ScreenManager implements Manager{
 		return statMan;
 	}
 	
-	public String getGUIname(){
+	public static String getGUIname(){
 		return GUI.getNameOfSim();
 	}
 	
-	public int getGUIheight(){
+	public static int getGUIheight(){
 		return GUI.getGridHeight();
 	}
 	
-	public int getGUIwidth(){
+	public static int getGUIwidth(){
 		return GUI.getGridWidth();
 	}
 
