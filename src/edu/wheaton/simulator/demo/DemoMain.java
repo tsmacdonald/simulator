@@ -22,6 +22,7 @@ public class DemoMain {
 					System.err.println("L&F trouble.");
 					e.printStackTrace();
 				}
+				
 				@SuppressWarnings("unused")
 				DemoMenu dm = new DemoMenu();
 			}

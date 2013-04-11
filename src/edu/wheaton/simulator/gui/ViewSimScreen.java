@@ -103,7 +103,8 @@ public class ViewSimScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
-						sm.getFacade().newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
+						sm.getFacade();
+						GUIToAgentFacade.newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
 						try {
 							sm.getFacade().setLayerExtremes();
 						} catch (EvaluationException e) {

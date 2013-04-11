@@ -242,7 +242,7 @@ public class GUIToAgentFacade {
 	 *            The Color that will be shaded differently to represent Field
 	 *            values
 	 */
-	public void newLayer(String fieldName, Color c) {
+	public static void newLayer(String fieldName, Color c) {
 		Grid.newLayer(fieldName, c);
 	}
 
