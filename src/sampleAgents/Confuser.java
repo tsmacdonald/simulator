@@ -19,10 +19,10 @@ public class Confuser extends SampleAgent {
 	
 	@Override
 	public Prototype initSampleAgent(Prototype confuser) {
-		return initBouncer(confuser);
+		return initConfuser(confuser);
 	}
 	
-	private static Prototype initBouncer(Prototype confuser){
+	private static Prototype initConfuser(Prototype confuser){
 		// Add fields
 		try {
 			confuser.addField("xNextDirection", 0 + "");

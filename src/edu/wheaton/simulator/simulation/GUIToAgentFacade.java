@@ -17,6 +17,7 @@ import sampleAgents.Bouncer;
 import sampleAgents.Confuser;
 import sampleAgents.ConwaysAliveBeing;
 import sampleAgents.ConwaysDeadBeing;
+import sampleAgents.Killer;
 import sampleAgents.Multiplier;
 import sampleAgents.Paper;
 import sampleAgents.RightTurner;
@@ -58,6 +59,7 @@ public class GUIToAgentFacade {
 		new Bouncer().initSampleAgent(new Prototype(grid, Color.RED, "bouncer"));
 		new RightTurner().initSampleAgent(new Prototype(grid, Color.BLACK, "rightTurner"));
 		new Confuser().initSampleAgent(new Prototype(grid, Color.GREEN, "confuser"));
+		new Killer().initSampleAgent(new Prototype(grid, Color.YELLOW, "killer"));
 	}
 
 	/**
