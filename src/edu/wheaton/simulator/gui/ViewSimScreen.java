@@ -36,11 +36,11 @@ import edu.wheaton.simulator.statistics.SimulationRecorder;
 
 public class ViewSimScreen extends Screen {
 
-	private JPanel gridPanel;
+	//private JPanel gridPanel;
 
-	private int height;
+	//private int height;
 
-	private int width;
+	//private int width;
 
 	private ScreenManager sm;
 	/**
@@ -103,7 +103,8 @@ public class ViewSimScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
-						sm.getFacade().newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
+						sm.getFacade();
+						GUIToAgentFacade.newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
 						try {
 							sm.getFacade().setLayerExtremes();
 						} catch (EvaluationException e) {
@@ -140,7 +141,7 @@ public class ViewSimScreen extends Screen {
 		// - combobox(es) for choosing field, colorchooser to pick primary filter color, 
 		//   labels for these, "apply" button, "clear" button
 
-		gridPanel = new JPanel();
+		//gridPanel = new JPanel();
 		grid = new GridPanel(sm);
 		this.add(layerPanel, BorderLayout.WEST);
 		layerPanel.add(panel1);

@@ -67,7 +67,7 @@ public class GridPanel extends JPanel {
 		int pixelHeight = height / gridHeight;
 		
 		int squareSize = Math.min(pixelWidth, pixelHeight);
-		Color color;
+		//Color color;
 		
 		if(layers) {
 			try {
