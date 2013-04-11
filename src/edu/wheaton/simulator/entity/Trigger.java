@@ -39,7 +39,7 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Used for AtomicUpdate
 	 * In each iteration, the condition is evaluated, and
-	 * the result is stored hear. It is later checked to see
+	 * the result is stored here. It is later checked to see
 	 * whether or not the behavior should be fired.
 	 */
 	private boolean atomicConditionResult;
