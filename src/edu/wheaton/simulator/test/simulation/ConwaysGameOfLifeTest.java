@@ -56,13 +56,13 @@ public class ConwaysGameOfLifeTest {
 				Expression reviveCond = new Expression("(this.alive == 0) && (this.neighbors == 3)");
 
 				// Set up behaviors
-				Expression incrementAge = new Expression("setField('this', 'age', this.age+1)");
-				Expression incrementNeighbors = new Expression("setField('this', 'neighbors', this.neighbors+1)");
-				Expression die = new Expression("setField('this', 'alive', 0) || setField('this', 'age', 0) || " +
-						"setField('this', 'colorRed', 250) || setField('this', 'colorGreen', 0) || setField('this', 'colorBlue', 0)");
-				Expression revive = new Expression("setField('this', 'alive', 1) || " +
-						"setField('this', 'colorRed', 0) || setField('this', 'colorGreen', 0) || setField('this', 'colorBlue', 250)");
-				Expression resetNeighbors = new Expression("setField('this', 'neighbors', 0)");
+				Expression incrementAge = new Expression("setField( 'age', this.age+1)");
+				Expression incrementNeighbors = new Expression("setField( 'neighbors', this.neighbors+1)");
+				Expression die = new Expression("setField( 'alive', 0) || setField( 'age', 0) || " +
+						"setField( 'colorRed', 250) || setField( 'colorGreen', 0) || setField( 'colorBlue', 0)");
+				Expression revive = new Expression("setField( 'alive', 1) || " +
+						"setField( 'colorRed', 0) || setField( 'colorGreen', 0) || setField( 'colorBlue', 250)");
+				Expression resetNeighbors = new Expression("setField( 'neighbors', 0)");
 
 				// Add triggers
 				deadBeing.addTrigger(new Trigger("updateAge", 1, isAlive, incrementAge));

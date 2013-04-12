@@ -37,7 +37,7 @@ public class BehaviorSyntaxTest {
 	
 	@Test
 	public void testCloneAgentAtPositionBehavior() throws SimulationPauseException {
-		Expression cloneAgentAtPosition = new Expression("cloneAgentAtPosition('this', 5, 5, 6 , 6)");
+		Expression cloneAgentAtPosition = new Expression("cloneAgentAtPosition( 5, 5, 6 , 6)");
 		Expression alwaysTrue = new Expression("1 < 2");
 		proto.addTrigger(new Trigger("cloneAgentAtPosition", 1, alwaysTrue, cloneAgentAtPosition));
 		testGrid.updateEntities();
@@ -46,7 +46,7 @@ public class BehaviorSyntaxTest {
 	
 	@Test
 	public void testCloneBehavior() throws SimulationPauseException {
-		Expression clone = new Expression("clone('this', 6 , 6)");
+		Expression clone = new Expression("clone( 6 , 6)");
 		Expression alwaysTrue = new Expression("1 < 2");
 		proto.addTrigger(new Trigger("clone", 1, alwaysTrue, clone));
 		testGrid.updateEntities();
@@ -72,7 +72,7 @@ public class BehaviorSyntaxTest {
 		Assert.assertFalse(testGrid.emptyPos(5, 5));
 		// 6, 6 is open for an agent to move there
 		Assert.assertTrue(testGrid.emptyPos(6, 6));
-		Expression move = new Expression("move('this', 6 , 6)");
+		Expression move = new Expression("move( 6 , 6)");
 		Expression alwaysTrue = new Expression("1 < 2");
 		proto.addTrigger(new Trigger("move", 1, alwaysTrue, move));
 		testGrid.updateEntities();
@@ -86,7 +86,7 @@ public class BehaviorSyntaxTest {
 		Assert.assertFalse(testGrid.emptyPos(5, 5));
 		// health starts at 100
 		Assert.assertEquals(testGrid.getAgent(5, 5).getFieldValue("health") + "", "100");
-		Expression setField = new Expression("setField('this', 'health' , 50)");
+		Expression setField = new Expression("setField( 'health' , 50)");
 		Expression alwaysTrue = new Expression("1 < 2");
 		proto.addTrigger(new Trigger("setAgent", 1, alwaysTrue, setField));
 		testGrid.updateEntities();
@@ -103,7 +103,7 @@ public class BehaviorSyntaxTest {
 		Assert.assertFalse(testGrid.emptyPos(4, 4));
 		// health starts at 100
 		Assert.assertEquals(testGrid.getAgent(4, 4).getFieldValue("health") + "", "100");
-		Expression setFieldOfAgent = new Expression("setFieldOfAgent('this', 4, 4, 'health', 50)");
+		Expression setFieldOfAgent = new Expression("setFieldOfAgent( 4, 4, 'health', 50)");
 		Expression alwaysTrue = new Expression("1 < 2");
 		proto.addTrigger(new Trigger("setFieldOfAgent", 1, alwaysTrue, setFieldOfAgent));
 		testGrid.updateEntities();
