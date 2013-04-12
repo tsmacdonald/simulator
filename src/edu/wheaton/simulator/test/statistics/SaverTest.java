@@ -52,11 +52,11 @@ public class SaverTest {
 		//Create two AgentSnapshots
 		AgentSnapshot agentSnap1 = new AgentSnapshot(agent.getID(), 
 				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), 
-				step, prototype.getName(), null);  
+				step, prototype.getName(), null, 0, 0);  
 		
 		AgentSnapshot agentSnap2 = new AgentSnapshot(prototype.createAgent().getID(), 
 				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), 
-				step, prototype.getName(), null);  
+				step, prototype.getName(), null, 0, 0);  
 		
 		//Create the table, add two AgentSnapshots
 		AgentSnapshotTable table = new AgentSnapshotTable();

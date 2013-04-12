@@ -31,7 +31,7 @@ public class SnapshotFactory {
 			Integer step) {
 		return new AgentSnapshot(agent.getID(), 
 				makeFieldSnapshots(agent.getCustomFieldMap()), step, 
-				agent.getPrototype().getName(), behaviors);
+				agent.getPrototype().getName(), behaviors, agent.getPosX(), agent.getPosY());
 	}
 
 	/**
@@ -93,7 +93,8 @@ public class SnapshotFactory {
 	 */
 	public static AgentSnapshot makeGlobalVarSnapshot(Grid grid,
 			Prototype prototype, Integer step) {
-		return new AgentSnapshot(null, makeFieldSnapshots(grid.getCustomFieldMap()), step, prototype.getName(), null);
+		//TODO: Note that AgentSnapshots now require an xPos and yPos in the constructor
+		return new AgentSnapshot(null, makeFieldSnapshots(grid.getCustomFieldMap()), step, prototype.getName(), null, step, step);
 	}
 	
 	/**
