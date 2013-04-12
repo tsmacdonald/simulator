@@ -106,6 +106,7 @@ public class Loader {
 			throw new RuntimeException("Could not read file: " + file.getAbsolutePath(), e);
 		} finally {
 			try {
+				assert(reader!=null);
 				reader.close();
 			}
 			catch (IOException e) {
@@ -119,7 +120,7 @@ public class Loader {
 	 * @param s String representing a byte array in the form "010111000"
 	 * @return The create byte array
 	 */
-	private byte[] createByteArray(String s){
+	private static byte[] createByteArray(String s){
 		byte[] ret = new byte[s.length()]; 
 		
 		for(int i = 0; i < s.length(); i++)

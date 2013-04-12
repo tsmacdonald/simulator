@@ -25,7 +25,7 @@ public class SaverTest {
 	Integer step;
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		grid = new Grid(10, 10);
 		prototype = new Prototype(grid, "tester");
 		agent = prototype.createAgent();
@@ -40,7 +40,7 @@ public class SaverTest {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		agent = null;
 		grid = null;
 		prototype = null;
