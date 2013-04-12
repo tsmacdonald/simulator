@@ -40,13 +40,12 @@ public class EditTriggerScreen extends Screen {
 	public EditTriggerScreen(Manager sm) {
 		super(sm);
 		this.setLayout(new GridBagLayout());
-		GridBagConstraints constraints = new GridBagConstraints();
-		addNameField(constraints);
-		addSpinner(constraints); 
-		addIf(constraints); 
-		addConditionsLayout(constraints);
-		addThen(constraints);
-		addBehaviorLayout(constraints);		
+		addNameField(new GridBagConstraints());
+		addSpinner(new GridBagConstraints()); 
+		addIf(new GridBagConstraints()); 
+		addConditionsLayout(new GridBagConstraints());
+		addThen(new GridBagConstraints());
+		addBehaviorLayout(new GridBagConstraints());		
 	}
 
 	private void addBehaviorLayout(GridBagConstraints constraints) {
