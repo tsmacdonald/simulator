@@ -52,8 +52,7 @@ public class TitleScreen extends Screen {
 	}
 	
 	private void initMainPanel(JPanel panel1, JPanel panel2){
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		// Since serialization is not yet implemented.
 		mainPanel.add(Box.createVerticalGlue());
 		mainPanel.add(panel1);

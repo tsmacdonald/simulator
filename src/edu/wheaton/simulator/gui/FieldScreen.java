@@ -60,8 +60,7 @@ public class FieldScreen extends Screen {
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		this.setLayout(new BorderLayout());
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(450, 550));
@@ -95,12 +94,9 @@ public class FieldScreen extends Screen {
 		fields.addListSelectionListener(new ListListener());
 		panel.add(fields);
 		fields.setAlignmentX(CENTER_ALIGNMENT);
-		delete = new JButton("Delete");
-		delete.addActionListener(new DeleteListener(listModel, fields, delete));
-		add = new JButton("Add");
-		add.addActionListener(new FieldAddListener(sm));
-		edit = new JButton("Edit");
-		edit.addActionListener(new FieldEditListener(sm, fields));
+		delete = makeButton("Delete",new DeleteListener(listModel, fields, delete));
+		add = makeButton("Add",new FieldAddListener(sm));
+		edit = makeButton("Edit",new FieldEditListener(sm, fields));
 		JButton back = makeButton("Back",
 				new GeneralButtonListener("Edit Simulation", sm));
 		JPanel buttonPanel = new JPanel(new FlowLayout());

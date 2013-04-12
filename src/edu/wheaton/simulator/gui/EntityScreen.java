@@ -50,8 +50,7 @@ public class EntityScreen extends Screen {
 		JLabel label = makeLabelPreferredSize("Entities",300, 100);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		this.setLayout(new BorderLayout());
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel listPanel = new JPanel();
 		//listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));

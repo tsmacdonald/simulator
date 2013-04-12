@@ -44,14 +44,10 @@ public class EditFieldScreen extends Screen {
 		JLabel label = makeLabelPreferredSize("Edit Field",300, 150);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		JPanel panel1 = new JPanel();
-		panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
-		JPanel panel2 = new JPanel();
-		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
-		JPanel panel3 = new JPanel();
-		panel3.setLayout(new BoxLayout(panel3, BoxLayout.X_AXIS));
+		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel panel1 = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel panel2 = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel panel3 = makeBoxPanel(BoxLayout.X_AXIS);
 		JPanel buttonPanel = new JPanel();
 		JLabel nameLabel = new JLabel("Field Name: ");
 		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);

@@ -127,9 +127,9 @@ public class EditEntityScreen extends Screen {
 		
 		currentTab = "General";
 		
-		fieldListPanel = new JPanel();
+		fieldListPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		
-		triggerListPanel = new JPanel();
+		triggerListPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		
 		tabs = new JTabbedPane();
 		
@@ -201,8 +201,6 @@ public class EditEntityScreen extends Screen {
 	}
 	
 	private void initTriggerListPanel(){
-		triggerListPanel.setLayout(new BoxLayout(triggerListPanel,
-				BoxLayout.Y_AXIS));
 		triggerListPanel.add(triggerSubPanels.get(0));
 		triggerListPanel.add(addTriggerButton);
 		triggerListPanel.add(glue2);
@@ -221,8 +219,6 @@ public class EditEntityScreen extends Screen {
 	}
 	
 	private void initFieldListPanel(){
-		fieldListPanel.setLayout(new BoxLayout(fieldListPanel,
-				BoxLayout.Y_AXIS));
 		fieldListPanel.add(fieldSubPanels.get(0));
 		fieldListPanel.add(addFieldButton);
 		fieldListPanel.add(glue);
@@ -297,9 +293,7 @@ public class EditEntityScreen extends Screen {
 	}
 	
 	private static JPanel makeGeneralPanel(){
-		JPanel generalPanel = new JPanel();
-		generalPanel
-		.setLayout(new BoxLayout(generalPanel, BoxLayout.PAGE_AXIS));
+		JPanel generalPanel = makeBoxPanel(BoxLayout.PAGE_AXIS);
 		return generalPanel;
 	}
 	
@@ -314,8 +308,7 @@ public class EditEntityScreen extends Screen {
 	}
 	
 	private static JPanel makeMainPanel(JColorChooser colorTool, JPanel iconPanel){
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+		JPanel mainPanel = makeBoxPanel(BoxLayout.X_AXIS);
 		mainPanel.setMaximumSize(new Dimension(1200, 500));
 		mainPanel.add(makeColorPanel(colorTool));
 		mainPanel.add(iconPanel);
@@ -348,9 +341,7 @@ public class EditEntityScreen extends Screen {
 		
 		JLabel triggerResultLabel = makeLabelPreferredSize("Trigger Result",300,30);
 		
-		JPanel triggerLabelsPanel = new JPanel();
-		triggerLabelsPanel.setLayout(new BoxLayout(triggerLabelsPanel,
-				BoxLayout.X_AXIS));
+		JPanel triggerLabelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
 		triggerLabelsPanel.add(triggerNameLabel);
 		triggerLabelsPanel.add(triggerPriorityLabel);
@@ -366,8 +357,7 @@ public class EditEntityScreen extends Screen {
 		triggerBodyPanel.add(triggerLabelsPanel);
 		triggerBodyPanel.add(triggerListPanel);
 		
-		JPanel triggerMainPanel = new JPanel();
-		triggerMainPanel.setLayout(new BorderLayout());
+		JPanel triggerMainPanel = makeBorderPanel(new BorderLayout());
 		triggerMainPanel.add(triggerLabel, BorderLayout.NORTH);
 		triggerMainPanel.add(triggerBodyPanel, BorderLayout.CENTER);
 		return triggerMainPanel;
@@ -381,9 +371,7 @@ public class EditEntityScreen extends Screen {
 		JLabel fieldValueLabel = makeLabelPreferredSize("Field Initial Value",400,30);
 		fieldValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JPanel fieldLabelsPanel = new JPanel();
-		fieldLabelsPanel.setLayout(new BoxLayout(fieldLabelsPanel,
-				BoxLayout.X_AXIS));
+		JPanel fieldLabelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
 		fieldLabelsPanel.add(Box.createHorizontalGlue());
 		fieldLabelsPanel.add(fieldNameLabel);
 		fieldLabelsPanel.add(fieldValueLabel);
@@ -394,8 +382,7 @@ public class EditEntityScreen extends Screen {
 		JLabel fieldLabel = makeLabelPreferredSize("Field Info",300,100);
 		fieldLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JPanel fieldMainPanel = new JPanel();
-		fieldMainPanel.setLayout(new BorderLayout());
+		JPanel fieldMainPanel = makeBorderPanel(new BorderLayout());
 		fieldMainPanel.add(fieldLabel, BorderLayout.NORTH);
 		fieldMainPanel.add(fieldBodyPanel, BorderLayout.CENTER);
 		return fieldMainPanel;
@@ -409,19 +396,14 @@ public class EditEntityScreen extends Screen {
 	}
 	
 	private static JPanel makeFieldBodyPanel(JPanel fieldLabelsPanel, JPanel fieldListPanel){
-		JPanel fieldBodyPanel = new JPanel();
-		fieldBodyPanel.setLayout(new BoxLayout(fieldBodyPanel,
-				BoxLayout.Y_AXIS));
-		
+		JPanel fieldBodyPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		fieldBodyPanel.add(fieldLabelsPanel);
 		fieldBodyPanel.add(fieldListPanel);
 		return fieldBodyPanel;
 	}
 	
 	private static JPanel makeTriggerBodyPanel(){
-		JPanel triggerBodyPanel = new JPanel();
-		triggerBodyPanel.setLayout(new BoxLayout(triggerBodyPanel,
-				BoxLayout.Y_AXIS));
+		JPanel triggerBodyPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		return triggerBodyPanel;
 	}
 	
@@ -626,8 +608,7 @@ public class EditEntityScreen extends Screen {
 	}
 
 	private void addField() {
-		JPanel newPanel = new JPanel();
-		newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.X_AXIS));
+		JPanel newPanel = makeBoxPanel(BoxLayout.X_AXIS);
 		JTextField newName = new JTextField(25);
 		newName.setMaximumSize(new Dimension(300, 40));
 		fieldNames.add(newName);
@@ -652,8 +633,7 @@ public class EditEntityScreen extends Screen {
 	}
 
 	private void addTrigger() {
-		JPanel newPanel = new JPanel();
-		newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.X_AXIS));
+		JPanel newPanel = makeBoxPanel(BoxLayout.X_AXIS);
 		JTextField newName = new JTextField(25);
 		newName.setMaximumSize(new Dimension(200, 40));
 		triggerNames.add(newName);

@@ -70,12 +70,9 @@ public class SpawningScreen extends Screen {
 		entities = new String[0];
 		JLabel label = makeLabelPreferredSize("Spawning",300, 150);
 		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		listPanel = new JPanel();
-		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
-		JPanel labelsPanel = new JPanel();
-		labelsPanel.setLayout(new BoxLayout(labelsPanel, BoxLayout.X_AXIS));
+		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
+		listPanel = makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel labelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
 
 		//TODO mess with sizes of labels to line up with components
 		JLabel entityLabel = makeLabelPreferredSize("Entity Type",200, 30);
@@ -210,11 +207,7 @@ public class SpawningScreen extends Screen {
 	}
 
 	private void addSpawn() {
-		JPanel newPanel = new JPanel();
-		newPanel.setLayout(
-				new BoxLayout(newPanel, 
-						BoxLayout.X_AXIS)
-				);
+		JPanel newPanel = makeBoxPanel(BoxLayout.X_AXIS);
 		JComboBox newBox = new JComboBox(entities);
 		newBox.setMaximumSize(new Dimension(250, 30));
 		entityTypes.add(newBox);
@@ -234,8 +227,7 @@ public class SpawningScreen extends Screen {
 		newNumber.setMaximumSize(new Dimension(100, 30));
 		newNumber.setText("1");
 		numbers.add(newNumber);
-		JButton newButton = new JButton("Delete");
-		newButton.addActionListener(new DeleteListener());
+		JButton newButton = makeButton("Delete",new DeleteListener());
 		deleteButtons.add(newButton);
 		newButton.setActionCommand(
 				deleteButtons.indexOf(newButton) + ""
