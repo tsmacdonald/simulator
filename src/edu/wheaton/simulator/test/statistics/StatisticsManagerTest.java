@@ -118,7 +118,7 @@ public class StatisticsManagerTest {
 				Agent agent = prototype.createAgent();
 				sm.addGridEntity(new AgentSnapshot(agent.getID(), 
 						SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), 
-						i, protoSnap.categoryName, null));
+						i, protoSnap.categoryName, null, 0, 0));
 			}
 		}
 		
@@ -165,7 +165,7 @@ public class StatisticsManagerTest {
 			for(int s = 1; s < 3; s++) {
 				snaps.add(new AgentSnapshot(agent.getID(), 
 						SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), 
-						s, protoSnap.categoryName, null));
+						s, protoSnap.categoryName, null, 0, 0));
 			}
 		}
 
@@ -202,7 +202,7 @@ public class StatisticsManagerTest {
 			//For each agent, add a snapshot of it at each Step it was alive
 			for(int step = 0; step <= lifespans.get(i); step++) {
 				snaps.add(new AgentSnapshot(ID, SnapshotFactory.makeFieldSnapshots(
-						agent.getCustomFieldMap()), step, protoSnap.categoryName, null));
+						agent.getCustomFieldMap()), step, protoSnap.categoryName, null, 0, 0));
 			}
 		}
 

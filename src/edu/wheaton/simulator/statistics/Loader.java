@@ -6,11 +6,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Grid;
+import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
 
 public class Loader {
@@ -21,10 +22,10 @@ public class Loader {
 	 * Map of all PrototypeSnapshots for the simulation
 	 * Since PrototypeSnapshots are immutable, this collection is the same for each step
 	 */
-	private Map<String, PrototypeSnapshot> prototypes; 
+	private Set<Prototype> prototypes; 
 
 	public Loader(){
-		this.prototypes = new HashMap<String, PrototypeSnapshot>(); 
+		this.prototypes = new HashSet<Prototype>(); 
 	}
 
 	/**
@@ -43,8 +44,30 @@ public class Loader {
 			while (readLine != null) {
 				
 				
-				if(readLine.equals("AgentSnapshot")){
-					 
+				if(readLine.equals("AgentSnapshot")){ 				
+					//Find the appropriate prototype
+					Prototype parent = getPrototype(reader.readLine());  
+					
+					//Create the Agent
+					Agent agent = new Agent(grid, parent);
+					
+					//Get the Agent's position on the Grid
+					int xpos = Integer.parseInt(reader.readLine()); 
+					int ypos = Integer.parseInt(reader.readLine()); 
+					
+					//Add the agent's default fields
+					readLine = reader.readLine(); 
+					while(readLine.substring(0,  13).equals("FieldSnapshot")){
+						String[] tokens = readLine.split(" ");
+						try {
+							agent.addField(tokens[1], tokens[2]);
+						} catch (ElementAlreadyContainedException e) {
+							System.out.println("Field already exists"); 
+							e.printStackTrace();
+						}
+					}
+
+					grid.addAgent(agent, xpos, ypos);  					
 				}
 				else if(readLine.equals("PrototypeSnapshot")){
 					//Parse the required prototype data
@@ -53,19 +76,20 @@ public class Loader {
 					byte[] design = createByteArray(reader.readLine());
 					
 					//Create the prototype
-					Prototype p = new Prototype(grid, color, design, name);
+					Prototype proto = new Prototype(grid, color, design, name);
 					
 					//Add the prototype's default fields
 					readLine = reader.readLine(); 
 					while(readLine.substring(0,  13).equals("FieldSnapshot")){
 						String[] tokens = readLine.split(" ");
 						try {
-							p.addField(tokens[1], tokens[2]);
+							proto.addField(tokens[1], tokens[2]);
 						} catch (ElementAlreadyContainedException e) {
-							System.out.println("Element Already Contained"); 
+							System.out.println("Field already exists"); 
 							e.printStackTrace();
 						}
 					}
+					prototypes.add(proto); 
 				}
 				else if(readLine.equals("Globals")){
 					
@@ -90,11 +114,34 @@ public class Loader {
 		}
 	}
 	
+	/**
+	 * Create a byte array from a string
+	 * @param s String representing a byte array in the form "010111000"
+	 * @return The create byte array
+	 */
 	private byte[] createByteArray(String s){
 		byte[] ret = new byte[s.length()]; 
 		
 		for(int i = 0; i < s.length(); i++)
 			ret[i] = (byte) s.charAt(i); 
+		
+		return ret; 
+	}
+	
+	/**
+	 * Get the Prototype in this class's internal list with the supplied name
+	 * @param name The name of the prototype to retrieve
+	 * @return The prototype with the supplied name
+	 */
+	private Prototype getPrototype(String name){
+		Prototype ret = null; 
+		
+		for(Prototype p : prototypes)
+			if(p.getName().equals(name))
+				ret = p; 
+		
+		if(ret == null) 
+			System.out.println("Parent Not Found");
 		
 		return ret; 
 	}
