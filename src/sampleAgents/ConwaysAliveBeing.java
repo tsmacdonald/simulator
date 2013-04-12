@@ -57,17 +57,17 @@ public class ConwaysAliveBeing extends SampleAgent{
 
 				// Set up behaviors
 				Expression incrementAge = new Expression(
-						"setField('this', 'age', this.age+1)");
+						"setField('age', this.age+1)");
 				Expression incrementNeighbors = new Expression(
-						"setField('this', 'neighbors', this.neighbors+1)");
+						"setField('neighbors', this.neighbors+1)");
 				Expression die = new Expression(
-						"setField('this', 'alive', 0) || setField('this', 'age', 0) || "
-								+ "setField('this', 'colorRed', 219) || setField('this', 'colorGreen', 219) || setField('this', 'colorBlue', 219)");
+						"setField('alive', 0) || setField('age', 0) || "
+								+ "setField('colorRed', 219) || setField('colorGreen', 219) || setField('colorBlue', 219)");
 				Expression revive = new Expression(
-						"setField('this', 'alive', 1) || setField('this', 'age', 1) || "
-								+ "setField('this', 'colorRed', 93) || setField('this', 'colorGreen', 198) || setField('this', 'colorBlue', 245)");
+						"setField('alive', 1) || setField('age', 1) || "
+								+ "setField('colorRed', 93) || setField('colorGreen', 198) || setField('colorBlue', 245)");
 				Expression resetNeighbors = new Expression(
-						"setField('this', 'neighbors', 0)");
+						"setField('neighbors', 0)");
 
 				// Add triggers
 				aliveBeing.addTrigger(new Trigger("updateAge", 1, isAlive,
