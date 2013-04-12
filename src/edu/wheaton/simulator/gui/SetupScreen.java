@@ -76,7 +76,7 @@ public class SetupScreen extends Screen {
 		nameField = makeNameField();
 		timeField = makeTimeField();
 		updateBox = makeUpdateBox();
-		JPanel uberPanel = makeUberPanel(this, timeField, nameField, updateBox);
+		JPanel uberPanel = makeUberPanel(conListPanel, timeField, nameField, updateBox);
 		this.add(uberPanel, BorderLayout.CENTER);
 		agentTypes = new ArrayList<JComboBox>();
 		values = new ArrayList<JTextField>();
@@ -203,14 +203,14 @@ public class SetupScreen extends Screen {
 		return addConditionButton;
 	}
 
-	private static JPanel makeConMainPanel(SetupScreen screen, JTextField timeField){
+	private static JPanel makeConMainPanel(JPanel conListPanel, JTextField timeField){
 		JPanel conMainPanel = new JPanel();
 		conMainPanel.setLayout(
 				new BorderLayout()
 				);
 		conMainPanel.add(makeEndingLabel(), BorderLayout.NORTH);
 
-		JPanel conBodyPanel = makeConBodyPanel(screen, timeField);
+		JPanel conBodyPanel = makeConBodyPanel(conListPanel, timeField);
 
 		conMainPanel.add(conBodyPanel, BorderLayout.CENTER);
 
@@ -266,14 +266,14 @@ public class SetupScreen extends Screen {
 		return conBodyPanel;
 	}
 
-	private static JPanel makeUberPanel(SetupScreen screen, JTextField timeField, JTextField nameField, JComboBox updateBox){
+	private static JPanel makeUberPanel(JPanel conListPanel, JTextField timeField, JTextField nameField, JComboBox updateBox){
 		JPanel uberPanel = new JPanel();
 		uberPanel.setLayout(new BoxLayout(uberPanel, BoxLayout.Y_AXIS));
 
 		JPanel mainPanel = makeMainPanel(makeNameLabel(), nameField, makeUpdateLabel(), updateBox );
 		uberPanel.add(mainPanel);
 
-		JPanel conMainPanel = makeConMainPanel(screen, timeField);
+		JPanel conMainPanel = makeConMainPanel(conListPanel, timeField);
 		uberPanel.add(conMainPanel);
 		return uberPanel;
 	}
