@@ -182,13 +182,6 @@ public class StatisticsScreen extends Screen {
 		return jt;
 	}
 	
-	private static JButton makeButton(String name, ActionListener al){
-		JButton b = new JButton(name);
-		b.setPreferredSize(new Dimension(150, 70));
-		b.addActionListener(al);
-		return b;
-	}
-	
 	private JButton makeDisplayButton(){
 		JButton displayButton = makeButton("Display",new ActionListener() {
 					@Override

@@ -68,9 +68,8 @@ public class SpawningScreen extends Screen {
 		super(sm);
 		this.setLayout(new BorderLayout());
 		entities = new String[0];
-		JLabel label = new JLabel("Spawning");
+		JLabel label = makeLabelPreferredSize("Spawning",300, 150);
 		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		label.setPreferredSize(new Dimension(300, 150));
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		listPanel = new JPanel();
@@ -79,20 +78,15 @@ public class SpawningScreen extends Screen {
 		labelsPanel.setLayout(new BoxLayout(labelsPanel, BoxLayout.X_AXIS));
 
 		//TODO mess with sizes of labels to line up with components
-		JLabel entityLabel = new JLabel("Entity Type");
-		entityLabel.setPreferredSize(new Dimension(200, 30));
+		JLabel entityLabel = makeLabelPreferredSize("Entity Type",200, 30);
 		
-		JLabel patternLabel = new JLabel("Spawn Pattern");
-		patternLabel.setPreferredSize(new Dimension(270, 30));
+		JLabel patternLabel = makeLabelPreferredSize("Spawn Pattern",270, 30);
 		
-		JLabel xLabel = new JLabel("x Loc.");
-		xLabel.setPreferredSize(new Dimension(100, 30));
+		JLabel xLabel = makeLabelPreferredSize("x Loc.",100, 30);
 		
-		JLabel yLabel = new JLabel("Y Loc.");
-		yLabel.setPreferredSize(new Dimension(100, 30));
+		JLabel yLabel = makeLabelPreferredSize("Y Loc.",100, 30);
 		
-		JLabel numberLabel = new JLabel("Number");
-		numberLabel.setPreferredSize(new Dimension(290, 30));
+		JLabel numberLabel = makeLabelPreferredSize("Number",290, 30);
 		
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(Box.createHorizontalGlue());
@@ -121,8 +115,7 @@ public class SpawningScreen extends Screen {
 		deleteButtons = new ArrayList<JButton>();
 		subPanels = new ArrayList<JPanel>();
 
-		addSpawnButton = new JButton("Add Spawn");
-		addSpawnButton.addActionListener(new ActionListener() {
+		addSpawnButton = makeButton("Add Spawn",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				addSpawn();
@@ -134,16 +127,14 @@ public class SpawningScreen extends Screen {
 		listPanel.add(glue);
 
 		JPanel buttonPanel = new JPanel();
-		JButton cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(
+		JButton cancelButton = makeButton("Cancel",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.update(sm.getScreen("Edit Simulation")); 
 					} 
 				});
-		JButton finishButton = new JButton("Finish");
-		finishButton.addActionListener(
+		JButton finishButton = makeButton("Finish",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {

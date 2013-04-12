@@ -96,10 +96,9 @@ public class ViewSimScreen extends Screen {
 		panel2.add(layerComboBox);
 		JPanel panel3 = new JPanel();
 		panel3.setLayout(new BoxLayout(panel3, BoxLayout.X_AXIS));
-		JButton apply = new JButton("Apply");
 		final JColorChooser colorTool = new JColorChooser();
 		colorTool.setMaximumSize(new Dimension(250, 500));
-		apply.addActionListener(
+		JButton apply = makeButton("Apply",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
@@ -116,8 +115,7 @@ public class ViewSimScreen extends Screen {
 					} 
 				}
 				);
-		JButton clear = new JButton("Clear");
-		clear.addActionListener(
+		JButton clear = makeButton("Clear",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
@@ -164,12 +162,7 @@ public class ViewSimScreen extends Screen {
 		buttonPanel.add(makeBackButton());
 		return buttonPanel;
 	}
-	
-	private static JButton makeButton(String name, ActionListener al){
-		JButton b = new JButton(name);
-		b.addActionListener(al);
-		return b;
-	}
+
 
 	private JButton makeBackButton(){
 		JButton b = makeButton("Back",new ActionListener() {

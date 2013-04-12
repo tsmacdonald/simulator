@@ -56,9 +56,9 @@ public class FieldScreen extends Screen {
 	public FieldScreen(final ScreenManager sm) {
 		super(sm);
 		editing = false;
-		JLabel label = new JLabel("Fields");
+		JLabel label = makeLabelPreferredSize("Fields",300, 100);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setPreferredSize(new Dimension(300, 100));
+		
 		this.setLayout(new BorderLayout());
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -101,8 +101,8 @@ public class FieldScreen extends Screen {
 		add.addActionListener(new FieldAddListener(sm));
 		edit = new JButton("Edit");
 		edit.addActionListener(new FieldEditListener(sm, fields));
-		JButton back = new JButton("Back");
-		back.addActionListener(new GeneralButtonListener("Edit Simulation", sm));
+		JButton back = makeButton("Back",
+				new GeneralButtonListener("Edit Simulation", sm));
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(add);
 		buttonPanel.add(Box.createHorizontalStrut(5));

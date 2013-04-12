@@ -129,18 +129,7 @@ public class SetupScreen extends Screen {
 		nameField.setMaximumSize(new Dimension(400, 30));
 		return nameField;
 	}
-	
-	private static JLabel makeLabelMaxSize(String name, int maxWidth, int maxHeight){
-		JLabel label = new JLabel(name);
-		label.setMaximumSize(new Dimension(maxWidth, maxHeight));
-		return label;
-	}
-	
-	private static JLabel makeLabelPreferredSize(String name, int prefWidth, int prefHeight){
-		JLabel label = new JLabel(name);
-		label.setPreferredSize(new Dimension(prefWidth, prefHeight));
-		return label;
-	}
+
 	
 	private static JLabel makeWindowLabel(){
 		JLabel label = makeLabelPreferredSize("Simulation Setup",300,150);
@@ -192,9 +181,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JButton makeAddConditionButton(final SetupScreen screen){
-		JButton addConditionButton = new JButton("Add Field");
-		addConditionButton.addActionListener(
-				new ActionListener() {
+		JButton addConditionButton = makeButton("Add Field",new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						screen.addCondition();
@@ -286,9 +273,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JButton makeBackButton(final ScreenManager sm){
-		JButton backButton = new JButton("Back");
-		backButton.addActionListener(
-				new ActionListener() {
+		JButton backButton = makeButton("Back",new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.update(sm.getScreen("Edit Simulation"));
@@ -299,9 +284,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JButton makeFinishButton(final ScreenManager sm, final JTextField nameField, final JTextField timeField, final JComboBox updateBox, final ArrayList<JTextField> values, final ArrayList<JComboBox> agentTypes){
-		JButton finishButton = new JButton("Finish");
-		finishButton.addActionListener(
-				new ActionListener() {
+		JButton finishButton = makeButton("Finish",new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						try {

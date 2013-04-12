@@ -47,9 +47,8 @@ public class EntityScreen extends Screen {
 	
 	public EntityScreen(final ScreenManager sm) {
 		super(sm);
-		JLabel label = new JLabel("Entities");
+		JLabel label = makeLabelPreferredSize("Entities",300, 100);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setPreferredSize(new Dimension(300, 100));
 		this.setLayout(new BorderLayout());
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -77,12 +76,9 @@ public class EntityScreen extends Screen {
 		});
 		listPanel.add(entityList);
 		listPanel.setAlignmentX(CENTER_ALIGNMENT);
-		delete = new JButton("Delete");
-		delete.addActionListener(new DeleteListener());
-		JButton add = new JButton("Add");
-		add.addActionListener(new AddListener(sm));
-		edit = new JButton("Edit");
-		edit.addActionListener(new EditListener(sm));
+		delete = makeButton("Delete",new DeleteListener());
+		JButton add = makeButton("Add",new AddListener(sm));
+		edit = makeButton("Edit",new EditListener(sm));
 		edit.setEnabled(false);
 		entityList.addListSelectionListener(
 				new ListSelectionListener() {
@@ -92,8 +88,7 @@ public class EntityScreen extends Screen {
 					}
 				}
 				);
-		JButton back = new JButton("Back");
-		back.addActionListener(new BackListener(sm));
+		JButton back = makeButton("Back",new BackListener(sm));
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(add);
 		buttonPanel.add(Box.createHorizontalStrut(5));
