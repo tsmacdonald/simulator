@@ -103,9 +103,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * @throws SimulationPauseException
 	 */
 	public void updateEntities() throws SimulationPauseException {
-
 		updater.update();
-
 	}
 
 	/**

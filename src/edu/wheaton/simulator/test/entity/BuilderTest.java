@@ -29,7 +29,6 @@ public class BuilderTest {
 		catch (Exception e){
 			System.out.println(e.getMessage());
 			e.printStackTrace();
-			Assert.fail("didn't setup right");
 		}
 	}
 
@@ -50,29 +49,36 @@ public class BuilderTest {
 	public void testConditionOperation(){
 		builder.addConditional("1 EQUALS 1");
 		trigger = builder.build();
-		System.out.println(trigger.getConditions());
-		Assert.assertTrue(trigger.getConditions().toString().equals("1==1")); // not sure why 1==1 isnt the same as 1==1.
+		Assert.assertTrue(trigger.getConditions().toString().equals("1==1")); 
 	}
 	
 	@Test
 	public void testConditionValues(){
 		builder.addConditional("weight > health");
 		trigger = builder.build();
-		System.out.println(trigger.getConditions());
 		Assert.assertTrue(trigger.getConditions().toString().equals("this.weight>this.health")); 
 	}
 
+	//need to add an agent to test it. Thats annoying. Need to rewrite isValid.
 	@Test
-	public void tesetIsValidMethod(){
-		builder.addConditional("TRUE");
-		builder.addBehavioral("TRUE");
+	public void testIsValidMethod(){
+		builder.addConditional("TRUE"); 
+		builder.addBehavioral("move(2,2)");
+		Assert.assertTrue(builder.isValid() == java.lang.Boolean.TRUE);
+	}
+	
+	//need to add an agent to test it. Thats annoying. Need to rewrite isValid.
+	@Test
+	public void testForUserEnteredExpression(){
+		builder.addConditional("this.weight > 2");
+		builder.addBehavioral("move(this.x+1,this.y+1)");
 		Assert.assertTrue(builder.isValid() == java.lang.Boolean.TRUE);
 	}
 	
 	@Test
-	public void tesetIsValidMethod2(){
-		builder.addConditional("abcdefg");
-		builder.addBehavioral("DieBehavior(this)");
+	public void testIsValidMethod2(){
+		builder.addConditional("blah blah blah");
+		builder.addBehavioral("gibberish");
 		Assert.assertTrue(builder.isValid() == java.lang.Boolean.FALSE);
 	}
 	

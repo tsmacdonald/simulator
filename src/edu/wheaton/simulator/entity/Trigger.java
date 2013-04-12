@@ -10,6 +10,7 @@
 
 package edu.wheaton.simulator.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -240,7 +241,6 @@ public class Trigger implements Comparable<Trigger> {
 	}
 
 	public static class Builder {
-
 		/**
 		 * Current version of the trigger, will be returned when built
 		 */
@@ -270,6 +270,8 @@ public class Trigger implements Comparable<Trigger> {
 		public Builder(Prototype p) {
 			trigger = new Trigger("", 0, null, null);
 			converter = new HashMap<String, String>();
+			conditionalValues = new ArrayList<String>();
+			behavioralValues = new ArrayList<String>();
 			loadFieldValues(p);
 			loadOperations();
 			loadBehaviorFunctions();
@@ -431,7 +433,7 @@ public class Trigger implements Comparable<Trigger> {
 		 */
 		private String findMatches(String s) {
 			String match = converter.get(s);
-			return match == null ? s : match;
+			return (match == null) ? s : match;
 		}
 
 		/**
@@ -441,12 +443,23 @@ public class Trigger implements Comparable<Trigger> {
 		 * @return
 		 */
 		public boolean isValid() {
+			/**
+			 * TODO Need to figure out how to test triggers without having an agent. 
+			 */
 			try {
 				trigger.getConditions().evaluateBool();
-				return true;
 			} catch (Exception e) {
 				System.out.println("Condition expression failed: "
 						+ trigger.getConditions().toString());
+				return false;
+			}		
+			try {
+				trigger.getBehavior().evaluateBool();
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Behavior expression failed: "
+						+ trigger.getBehavior().toString());
 				return false;
 			}
 		}
