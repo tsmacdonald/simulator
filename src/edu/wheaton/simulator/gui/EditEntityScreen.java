@@ -182,8 +182,8 @@ public class EditEntityScreen extends Screen {
 	private void initTabs(){
 		tabs.addTab("General", generalPanel);
 		tabs.addTab("Fields", makeFieldMainPanel(fieldListPanel));
-//		tabs.addTab("Triggers", makeTriggerMainPanel(triggerListPanel));
-		tabs.addTab("Triggers", new EditTriggerScreen(sm));
+		tabs.addTab("Triggers", makeTriggerMainPanel(triggerListPanel));
+		//tabs.addTab("Triggers", new EditTriggerScreen(sm));
 		tabs.addChangeListener(new ChangeListener(){
 
 			@Override
