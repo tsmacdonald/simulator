@@ -1,5 +1,6 @@
 package edu.wheaton.simulator.statistics;
 
+import java.awt.Color;
 import java.util.Map.Entry;
 
 import com.google.common.collect.ImmutableMap;
@@ -38,6 +39,16 @@ public class PrototypeSnapshot {
 	 * The point in the simulation at which this snapshot was taken. 
 	 */
 	public final int step; 
+	
+	/**
+	 * The color the agents are displayed
+	 */
+	public final Color color; 
+	
+	/**
+	 * A bitmap of the design for displaying the agents 
+	 */
+	public final byte[] design; 
 
 	/**
 	 * Constructor. 
@@ -50,12 +61,14 @@ public class PrototypeSnapshot {
 	 */
 	public PrototypeSnapshot(String categoryName,
 			ImmutableMap<String, FieldSnapshot> fields, int population,
-			ImmutableSet<AgentID> children, Integer step) {
+			ImmutableSet<AgentID> children, Integer step, Color color, byte[] design) {
 		this.categoryName = categoryName; 
 		this.defaultFields = fields; 
 		this.children = children;
 		this.population = children.size(); 
 		this.step = step; 
+		this.color = color; 
+		this.design = design; 
 	}
 	
 	/**
@@ -66,32 +79,33 @@ public class PrototypeSnapshot {
 	 * -----------------------------------------------------------------
 	 * PrototypeSnapshot
 	 * Dog (categoryName)
+	 * Color (color)
+	 * Bitmask (design)
 	 * DefaultFields: FieldSnapshot Name Value
 	 * DefaultFields: FieldSnapshot Name Value
-	 * Children: 3345
-	 * Children: 1237
-	 * Children: 9457
-	 * 3 (population)
-	 * 35 (step)
+	 * #
 	 */
 	public String serialize(){
 		String s = "PrototypeSnapshot";
 		s += "\n" + categoryName; 
+		s += "\n" + String.valueOf(color.getRGB());
+		s += "\n" + displayByteArray(design); 
 		
 		//Serialize the defaultFields map
 		for (Entry<String, FieldSnapshot> entry : defaultFields.entrySet()) {
-			s += "\nDefaultFields: " + entry.getValue().serialize();
+			s += "\n" + entry.getValue().serialize();
 		}
-		
-		//Serialize the Children set
-		for (AgentID a : children) {
-			s += "\nChildren: " + a.getInt(); 
-		}
-		
-		s += "\n" + population; 
-		s += "\n" + step; 
 		
 		return s; 
+	}
+	
+	private String displayByteArray(byte[] array){
+		String ret = ""; 
+		
+		for(byte b : array)
+			ret += b; 
+		
+		return ret; 
 	}
 
 }

@@ -12,7 +12,7 @@ public class Serializer {
 	public static StringBuilder serializer(String serializable) {
 		StringBuilder sb = null;
 		
-		String filename = "SimSave.txt"; //TODO: Change if needed
+		String filename = "tester.txt"; //TODO: Change if needed
 
 		try {
 			BufferedWriter writer = new BufferedWriter(

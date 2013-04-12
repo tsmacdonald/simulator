@@ -1,13 +1,14 @@
 package edu.wheaton.simulator.statistics;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
-import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.behavior.AbstractBehavior;
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
@@ -69,9 +70,11 @@ public class SnapshotFactory {
 		String name = prototype.getName();
 		ImmutableMap<String, FieldSnapshot> fields = makeFieldSnapshots(prototype.getCustomFieldMap()); 
 		int population = prototype.childPopulation();
-		ImmutableSet<AgentID> childIDs = prototype.childIDs(); 
+		ImmutableSet<AgentID> childIDs = prototype.childIDs();
+		Color color = prototype.getColor(); 
+		byte[] design = prototype.getDesign(); 
 		
-		return new PrototypeSnapshot(name, fields, population, childIDs, step);	
+		return new PrototypeSnapshot(name, fields, population, childIDs, step, color, design);	
 	}
 	
 	// TODO Add documentation

@@ -66,23 +66,22 @@ public class AgentSnapshot {
 	 * Format: (Stuff in parentheses is just notes - not actually there)
 	 * -----------------------------------------------------------------
 	 * AgentSnapshot
-	 * 145 (id - just an int)
+	 * Dog (prototypeName - a string)
 	 * Fields: FieldSnapshot Name Value
 	 * Fields: FieldSnapshot Name Value
 	 * 3 (step - an int)
-	 * Dog (prototypeName - a string)
-	 * TODO: Put in an ending character
+	 * #
 	 */
 	public String serialize(){
 		String s = "AgentSnapshot";
-		s += "\n" + id.getInt();
+		s += "\n" + prototypeName; 
 		
 		for (Entry<String, FieldSnapshot> entry : fields.entrySet()) {
-			s += "\nFields: " + entry.getKey() + " " + entry.getValue().serialize();
+			s += "\n" + entry.getValue().serialize();
 		}
 		
 		s += "\n" + step; 
-		s += "\n" + prototypeName; 
+		s += "\n#"; 
 		return s; 
 	}
 }

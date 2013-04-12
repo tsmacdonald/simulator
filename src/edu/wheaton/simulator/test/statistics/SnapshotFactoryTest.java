@@ -47,7 +47,7 @@ public class SnapshotFactoryTest {
 		AgentID aID = a.getID(); 
 		Integer step = 15; 
 		
-		AgentSnapshot ass = SnapshotFactory.makeAgentSnapshot(a, step);
+		AgentSnapshot ass = SnapshotFactory.makeAgentSnapshot(a, null, step);
 		
 		Assert.assertNotNull(ass.id);
 		Assert.assertNotNull(ass.fields);

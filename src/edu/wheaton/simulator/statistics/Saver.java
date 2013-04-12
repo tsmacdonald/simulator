@@ -41,15 +41,22 @@ public class Saver {
 		int currentStep = getCurrentStep();  
 		ImmutableMap<AgentID, AgentSnapshot> snaps = table.getSnapshotsAtStep(currentStep); 
 		
-		//Serialize and write all AgentSnapshots to file
-		for(AgentSnapshot snap : snaps.values()){
-			sb.append(snap.serialize()); 
-		}
+		//TODO: Write the dimensions of the grid and other global variables
+		sb.append("Globals"); 
 		
 		//Serialize and write all PrototypeSnapshots to file
 		for(PrototypeSnapshot proto : prototypes.values()){
+			System.out.println(proto.serialize()); 
 			sb.append(proto.serialize()); 
 		}
+		
+		//Serialize and write all AgentSnapshots to file
+		for(AgentSnapshot snap : snaps.values()){
+			System.out.println(snap.serialize()); 
+			sb.append(snap.serialize()); 
+		}
+		
+
 	}
 	
 	/**

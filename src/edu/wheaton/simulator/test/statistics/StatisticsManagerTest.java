@@ -60,7 +60,7 @@ public class StatisticsManagerTest {
 		children = prototype.childIDs();
 		step = new Integer(1);
 
-		protoSnap = new PrototypeSnapshot(categoryName, SnapshotFactory.makeFieldSnapshots(fields), population, children, step); 
+		protoSnap = new PrototypeSnapshot(categoryName, SnapshotFactory.makeFieldSnapshots(fields), population, children, step, null, null); 
 
 		categoryName = "testing2";
 		prototype = new Prototype(grid, "tester2");
@@ -70,7 +70,7 @@ public class StatisticsManagerTest {
 		//Add another test PrototypeSnapshot
 		protoSnap2 = new PrototypeSnapshot(categoryName,
 				SnapshotFactory.makeFieldSnapshots(fields), population,
-				children, step);
+				children, step, null, null);
 	}
 
 	@After
@@ -94,7 +94,8 @@ public class StatisticsManagerTest {
 		Assert.assertNotNull(p); 
 		
 		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname",
-				SnapshotFactory.makeFieldSnapshots(new HashMap<String, String>()), 100, p.childIDs(), new Integer(2)); 
+				SnapshotFactory.makeFieldSnapshots(new HashMap<String, String>()), 
+				100, p.childIDs(), new Integer(2), null, null); 
 		sm.addPrototypeSnapshot(protoSnap);
 	}
 	
@@ -117,7 +118,7 @@ public class StatisticsManagerTest {
 				Agent agent = prototype.createAgent();
 				sm.addGridEntity(new AgentSnapshot(agent.getID(), 
 						SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), 
-						i, protoSnap.categoryName));
+						i, protoSnap.categoryName, null));
 			}
 		}
 		
@@ -162,7 +163,9 @@ public class StatisticsManagerTest {
 			}
 			ids.add(agent.getID());
 			for(int s = 1; s < 3; s++) {
-				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), s, protoSnap.categoryName));
+				snaps.add(new AgentSnapshot(agent.getID(), 
+						SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), 
+						s, protoSnap.categoryName, null));
 			}
 		}
 
@@ -198,7 +201,8 @@ public class StatisticsManagerTest {
 
 			//For each agent, add a snapshot of it at each Step it was alive
 			for(int step = 0; step <= lifespans.get(i); step++) {
-				snaps.add(new AgentSnapshot(ID, SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step, protoSnap.categoryName));
+				snaps.add(new AgentSnapshot(ID, SnapshotFactory.makeFieldSnapshots(
+						agent.getCustomFieldMap()), step, protoSnap.categoryName, null));
 			}
 		}
 
