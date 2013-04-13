@@ -11,6 +11,7 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -40,9 +41,10 @@ public class EditEntityScreen extends Screen {
 
 	private Prototype agent;
 
-	private JTabbedPane tabs;
-	
-	private String currentTab;
+	private JPanel cards;
+	//private JTabbedPane tabs;
+
+	private String currentCard;
 
 	private JPanel generalPanel;
 
@@ -91,122 +93,115 @@ public class EditEntityScreen extends Screen {
 	private HashSet<Integer> removedFields;
 
 	private HashSet<Integer> removedTriggers;
+	
+	private JButton nextButton;
+	
+	private JButton previousButton;
+	
+	private JButton finishButton;
 
+	
+	//TODO addField/Trigger buttons don't work, some polishing to do on next/previous buttons
 	public EditEntityScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
-		
+
 		removedFields = new HashSet<Integer>();
 		removedTriggers = new HashSet<Integer>();
-		
+
 		nameField = new JTextField(25);
 		nameField.setMaximumSize(new Dimension(400, 40));
-		
+
 		colorTool = new JColorChooser();
-		
+
 		buttons = new JToggleButton[7][7];
-		
+
 		fieldNames = new ArrayList<JTextField>();
 		fieldValues = new ArrayList<JTextField>();
-		
+
 		//fieldTypes = new ArrayList<JComboBox>();
-		
+
 		fieldSubPanels = new ArrayList<JPanel>();
 		triggerSubPanels = new ArrayList<JPanel>();
-		
+
 		triggerNames = new ArrayList<JTextField>();
 		triggerPriorities = new ArrayList<JTextField>();
 		triggerConditions = new ArrayList<JTextField>();
 		triggerResults = new ArrayList<JTextField>();
-		
+
 		fieldDeleteButtons = new ArrayList<JButton>();
 		triggerDeleteButtons = new ArrayList<JButton>();
-		
+
 		glue = Box.createVerticalGlue();
 		glue2 = Box.createVerticalGlue();
-		
-		currentTab = "General";
-		
+
+		currentCard = "General";
+
 		fieldListPanel = makeBoxPanel(BoxLayout.Y_AXIS);
-		
+
 		triggerListPanel = makeBoxPanel(BoxLayout.Y_AXIS);
-		
-		tabs = new JTabbedPane();
-		
+
+		cards = new JPanel(new CardLayout());
+		//tabs = new JTabbedPane();
+
 		generalPanel = makeBoxPanel(BoxLayout.PAGE_AXIS);
-		
+
 		addFieldButton = makeAddFieldButton(this);
-		
+
 		addTriggerButton = makeAddTriggerButton(this);
-		
+
 		JPanel iconPanel = makeIconPanel();
-		
+
 		initIconDesignObject(iconPanel);
-	
+
 		//serialization not yet implemented
 		//JButton loadIconButton = new JButton("Load icon");
-		
-		
+
+
 		initGeneralPanel(iconPanel);
 
 		//JLabel fieldTypeLabel = new JLabel("Field Type");
-		
+
 		addField();
-		
+
 		// TODO make sure components line up
-		
+
 		initFieldSubPanels();
-		
+
 		//fieldTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		
+
 		//fieldLabelsPanel.add(fieldTypeLabel);
-		
+
 		initFieldListPanel();
-		
-		
+
+
 		// fieldSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
-		
+
 		addTrigger();
-		
+
 		initTriggerSubPanels();
 		initTriggerListPanel();
-		
-		initTabs();
-		
+
+		initCards();
+
 		this.add(makeScreenLabel(), BorderLayout.NORTH);
-		this.add(tabs, BorderLayout.CENTER);
+		this.add(cards, BorderLayout.CENTER);
 		this.add(makeLowerPanel(this,sm), BorderLayout.SOUTH);
 
 	}
-	
-	private void initTabs(){
-		tabs.addTab("General", generalPanel);
-		tabs.addTab("Fields", makeFieldMainPanel(fieldListPanel));
-		tabs.addTab("Triggers", makeTriggerMainPanel(triggerListPanel));
-		//tabs.addTab("Triggers", new EditTriggerScreen(sm));
-		tabs.addChangeListener(new ChangeListener(){
 
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				
-				if (currentTab == "General")
-					sendGeneralInfo();
-				else if (currentTab == "Fields")
-					sendFieldInfo();
-				else
-					sendTriggerInfo();
-				currentTab = tabs.getTitleAt(tabs.getSelectedIndex());	
-			}
-			
-		});
+	private void initCards(){
+		cards.add(generalPanel, "General");
+		cards.add(makeFieldMainPanel(fieldListPanel), "Fields");
+		cards.add(makeTriggerMainPanel(triggerListPanel), "Triggers");
 	}
-	
+
 	private void initTriggerListPanel(){
 		triggerListPanel.add(triggerSubPanels.get(0));
 		triggerListPanel.add(addTriggerButton);
 		triggerListPanel.add(glue2);
 	}
-	
+
 	private void initTriggerSubPanels(){
 		triggerSubPanels.get(0).setLayout(
 				new BoxLayout(triggerSubPanels.get(0), BoxLayout.X_AXIS));
@@ -218,13 +213,13 @@ public class EditEntityScreen extends Screen {
 		triggerSubPanels.get(0).setAlignmentX(CENTER_ALIGNMENT);
 		// triggerSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
 	}
-	
+
 	private void initFieldListPanel(){
 		fieldListPanel.add(fieldSubPanels.get(0));
 		fieldListPanel.add(addFieldButton);
 		fieldListPanel.add(glue);
 	}
-	
+
 	private void initFieldSubPanels(){
 		fieldSubPanels.get(0).setLayout(
 				new BoxLayout(fieldSubPanels.get(0), BoxLayout.X_AXIS));
@@ -233,7 +228,7 @@ public class EditEntityScreen extends Screen {
 		fieldSubPanels.get(0).add(fieldValues.get(0));
 		fieldSubPanels.get(0).add(fieldDeleteButtons.get(0));
 	}
-	
+
 	private void initGeneralPanel(JPanel iconPanel){
 		generalPanel.add(makeGeneralLabel());
 		generalPanel.add(makeNameLabel());
@@ -241,7 +236,7 @@ public class EditEntityScreen extends Screen {
 		generalPanel.add(makeMainPanel(colorTool,iconPanel));
 		//generalPanel.add(loadIconButton);
 	}
-	
+
 	private void initIconDesignObject(JPanel iconPanel){
 		//Creates the icon design object.
 		for (int i = 0; i < 7; i++) {
@@ -272,7 +267,7 @@ public class EditEntityScreen extends Screen {
 			}
 		}
 	}
-	
+
 	private static JButton makeAddFieldButton(final EditEntityScreen screen){
 		JButton addFieldButton = makeButton("Add Field",new ActionListener() {
 			@Override
@@ -282,7 +277,7 @@ public class EditEntityScreen extends Screen {
 		});
 		return addFieldButton;
 	}
-	
+
 	private static JButton makeAddTriggerButton(final EditEntityScreen screen){
 		JButton addTriggerButton = makeButton("Add Trigger",new ActionListener() {
 			@Override
@@ -292,16 +287,16 @@ public class EditEntityScreen extends Screen {
 		});
 		return addTriggerButton;
 	}
-	
+
 	private static JLabel makeNameLabel(){
 		return new JLabel("Name: ");
 	}
-	
+
 	private static JLabel makeGeneralLabel(){
 		JLabel generalLabel = makeLabel("General Info",new PrefSize(300,80),HorizontalAlignment.CENTER);
 		return generalLabel;
 	}
-	
+
 	private static JPanel makeMainPanel(JColorChooser colorTool, JPanel iconPanel){
 		JPanel mainPanel = makeBoxPanel(BoxLayout.X_AXIS);
 		mainPanel.setMaximumSize(new Dimension(1200, 500));
@@ -309,7 +304,7 @@ public class EditEntityScreen extends Screen {
 		mainPanel.add(iconPanel);
 		return mainPanel;
 	}
-	
+
 	private static JPanel makeIconPanel(){
 		JPanel iconPanel = new JPanel();
 		iconPanel.setLayout(new GridLayout(7, 7));
@@ -317,24 +312,24 @@ public class EditEntityScreen extends Screen {
 		iconPanel.setAlignmentX(RIGHT_ALIGNMENT);
 		return iconPanel;
 	}
-	
+
 	private static JPanel makeColorPanel(JColorChooser colorTool){
 		JPanel colorPanel = new JPanel();
 		colorPanel.add(colorTool);
 		colorPanel.setAlignmentX(LEFT_ALIGNMENT);
 		return colorPanel;
 	}
-	
+
 	private static JPanel makeTriggerMainPanel(JPanel triggerListPanel){
-		
+
 		JLabel triggerNameLabel = makeLabel("Trigger Name",new PrefSize(130,30),HorizontalAlignment.LEFT);
-		
+
 		JLabel triggerPriorityLabel = makeLabel("Trigger Priority",new PrefSize(180,30),null);
-		
+
 		JLabel triggerConditionLabel = makeLabel("Trigger Condition",new PrefSize(300,30),null);
-		
+
 		JLabel triggerResultLabel = makeLabel("Trigger Result",new PrefSize(300,30),null);
-		
+
 		JPanel triggerLabelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
 		triggerLabelsPanel.add(triggerNameLabel);
@@ -343,67 +338,72 @@ public class EditEntityScreen extends Screen {
 		triggerLabelsPanel.add(triggerResultLabel);
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
 		triggerLabelsPanel.setAlignmentX(CENTER_ALIGNMENT);
-		
+
 		JLabel triggerLabel = makeLabel("Trigger Info",new PrefSize(300,100),HorizontalAlignment.CENTER);
-		
+
 		JPanel triggerBodyPanel = makeTriggerBodyPanel();
 		triggerBodyPanel.add(triggerLabelsPanel);
 		triggerBodyPanel.add(triggerListPanel);
-		
+
 		JPanel triggerMainPanel = makeBorderPanel(new BorderLayout());
 		triggerMainPanel.add(triggerLabel, BorderLayout.NORTH);
 		triggerMainPanel.add(triggerBodyPanel, BorderLayout.CENTER);
 		return triggerMainPanel;
 	}
-	
+
 	private static JPanel makeFieldMainPanel(JPanel fieldListPanel){
 		JLabel fieldNameLabel = makeLabel("Field Name",new PrefSize(350,30),HorizontalAlignment.LEFT);
 		fieldNameLabel.setAlignmentX(LEFT_ALIGNMENT);
-		
+
 		JLabel fieldValueLabel = makeLabel("Field Initial Value",new PrefSize(400,30),HorizontalAlignment.CENTER);
-		
+
 		JPanel fieldLabelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
 		fieldLabelsPanel.add(Box.createHorizontalGlue());
 		fieldLabelsPanel.add(fieldNameLabel);
 		fieldLabelsPanel.add(fieldValueLabel);
 		fieldLabelsPanel.add(Box.createHorizontalGlue());
-		
+
 		JPanel fieldBodyPanel = makeFieldBodyPanel(fieldLabelsPanel,fieldListPanel);
-		
+
 		JLabel fieldLabel = makeLabel("Field Info",new PrefSize(300,100),HorizontalAlignment.CENTER);
-		
+
 		JPanel fieldMainPanel = makeBorderPanel(new BorderLayout());
 		fieldMainPanel.add(fieldLabel, BorderLayout.NORTH);
 		fieldMainPanel.add(fieldBodyPanel, BorderLayout.CENTER);
 		return fieldMainPanel;
 	}
-	
-	private static JPanel makeLowerPanel(final EditEntityScreen screen, final ScreenManager sm){
+
+	private JPanel makeLowerPanel(final EditEntityScreen screen, final ScreenManager sm){
 		JPanel lowerPanel = new JPanel();
 		lowerPanel.add(makeCancelButton(screen,sm));
-		lowerPanel.add(makeFinishButton(screen,sm));
+		finishButton = makeFinishButton(screen,sm);
+		lowerPanel.add(finishButton);
+		previousButton = makePreviousButton();
+		lowerPanel.add(previousButton);
+		nextButton = makeNextButton();
+		lowerPanel.add(nextButton);
 		return lowerPanel;
 	}
-	
+
 	private static JPanel makeFieldBodyPanel(JPanel fieldLabelsPanel, JPanel fieldListPanel){
 		JPanel fieldBodyPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		fieldBodyPanel.add(fieldLabelsPanel);
 		fieldBodyPanel.add(fieldListPanel);
 		return fieldBodyPanel;
 	}
-	
+
 	private static JPanel makeTriggerBodyPanel(){
 		JPanel triggerBodyPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		return triggerBodyPanel;
 	}
-	
+
 	private static JLabel makeScreenLabel(){
 		JLabel label = new JLabel("Edit Entities");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setHorizontalTextPosition(SwingConstants.CENTER);
 		return label;
 	}
-	
+
 	private static JButton makeCancelButton(final EditEntityScreen screen, final ScreenManager sm){
 		JButton cancelButton = makeButton("Cancel",new ActionListener() {
 			@Override
@@ -414,7 +414,7 @@ public class EditEntityScreen extends Screen {
 		});
 		return cancelButton;
 	}
-	
+
 	private static JButton makeFinishButton(final EditEntityScreen screen, final ScreenManager sm){
 		JButton finishButton = makeButton("Finish",new ActionListener() {
 			@Override
@@ -430,7 +430,7 @@ public class EditEntityScreen extends Screen {
 
 	public void load(String str) {
 		reset();
-		tabs.setSelectedComponent(generalPanel);
+		((CardLayout)cards.getLayout()).next(cards);
 		sm.getFacade();
 		agent = GUIToAgentFacade.getPrototype(str);
 		nameField.setText(agent.getName());
@@ -701,6 +701,61 @@ public class EditEntityScreen extends Screen {
 					.getActionCommand())));
 			repaint();
 		}
+	}
+
+	private class NextListener implements ActionListener {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			CardLayout c1 = (CardLayout)cards.getLayout();
+			if (currentCard == "General"){
+				sendGeneralInfo();
+				previousButton.setEnabled(true);
+				c1.next(cards);
+				currentCard = "Fields";
+			}
+			else if (currentCard == "Fields"){
+				sendFieldInfo();
+				c1.next(cards);
+				nextButton.setEnabled(false);
+				finishButton.setEnabled(true);
+				currentCard = "Triggers";
+			}
+		}
+	}
+	
+private class PreviousListener implements ActionListener {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			CardLayout c1 = (CardLayout)cards.getLayout();
+			if (currentCard == "Fields"){
+				sendFieldInfo();
+				previousButton.setEnabled(false);
+				c1.previous(cards);
+				currentCard = "General";
+			}
+			else if (currentCard == "Triggers"){
+				sendTriggerInfo();
+				c1.previous(cards);
+				nextButton.setEnabled(true);
+				finishButton.setEnabled(false);
+				currentCard = "Fields";
+			}
+		}
+	}
+	
+	//TODO where does this need to go?
+	private JButton makeNextButton(){
+		JButton next = new JButton("Next");
+		next.addActionListener(new NextListener());
+		return next;
+	}
+	
+	private JButton makePreviousButton(){
+		JButton previous = new JButton("Previous");
+		previous.addActionListener(new PreviousListener());
+		return previous;
 	}
 
 	@Override
