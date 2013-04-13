@@ -27,7 +27,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -47,8 +46,7 @@ public class EntityScreen extends Screen {
 	
 	public EntityScreen(final ScreenManager sm) {
 		super(sm);
-		JLabel label = makeLabelPreferredSize("Entities",300, 100);
-		label.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel label = makeLabel("Entities",new PrefSize(300, 100),HorizontalAlignment.CENTER);
 		this.setLayout(new BorderLayout());
 		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
@@ -183,7 +181,7 @@ public class EntityScreen extends Screen {
 		
 		@Override
 		public void actionPerformed(ActionEvent e){
-			sm.update(sm.getScreen("Edit Simulation"));
+			sm.update(sm.getScreen("View Simulation"));
 		}
 	}
 

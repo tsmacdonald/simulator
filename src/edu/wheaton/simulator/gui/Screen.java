@@ -10,7 +10,6 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
@@ -37,19 +36,26 @@ public abstract class Screen extends JPanel {
 	
 	protected static JButton makeButton(String name, ActionListener al){
 		JButton b = new JButton(name);
-		b.addActionListener(al);
+		if(al != null)
+			b.addActionListener(al);
 		return b;
 	}
 	
-	protected static JLabel makeLabelMaxSize(String name, int maxWidth, int maxHeight){
+	protected static JLabel makeLabel(String name, MaxSize size, HorizontalAlignment alignment){
 		JLabel label = new JLabel(name);
-		label.setMaximumSize(new Dimension(maxWidth, maxHeight));
+		if(alignment!=null)
+			label.setHorizontalAlignment(alignment.code);
+		if(size != null)
+			label.setMaximumSize(size);
 		return label;
 	}
 	
-	protected static JLabel makeLabelPreferredSize(String name, int prefWidth, int prefHeight){
+	protected static JLabel makeLabel(String name, PrefSize size, HorizontalAlignment alignment){
 		JLabel label = new JLabel(name);
-		label.setPreferredSize(new Dimension(prefWidth, prefHeight));
+		if(alignment!=null)
+			label.setHorizontalAlignment(alignment.code);
+		if(size!=null)
+			label.setPreferredSize(size);
 		return label;
 	}
 	

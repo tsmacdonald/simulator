@@ -11,7 +11,6 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -224,7 +223,7 @@ public class StatisticsScreen extends Screen {
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sm.update(sm.getScreen("Edit Simulation")); 
+				sm.update(sm.getScreen("View Simulation")); 
 			}
 		});
 		return finishButton;

@@ -34,7 +34,7 @@ public class RockPaperScissorsFinishListener implements ActionListener {
 			} catch(java.lang.NumberFormatException nfe) { 
 				System.err.println("Invalid input passed to RockPaperScissorsListener");
 			}
-			Screen upload = sm.getScreen("Edit Simulation");
+			Screen upload = sm.getScreen("View Simulation");
 			sm.getFacade().setPriorityUpdate();
 			sm.getFacade().initRockPaperScissors();
 			sm.getEnder().setStepLimit(1000);
