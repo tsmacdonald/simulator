@@ -52,7 +52,7 @@ public class ViewSimScreen extends Screen {
 
 	private int stepCount;
 
-	private JButton backButton;
+	//private JButton backButton;
 
 	private long startTime;
 
@@ -185,7 +185,7 @@ public class ViewSimScreen extends Screen {
 				sm.update(sm.getScreen("Edit Simulation")); 
 			} 
 		});
-		backButton = b;
+		//backButton = b;
 		return b;
 	}
 
@@ -195,7 +195,7 @@ public class ViewSimScreen extends Screen {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.setRunning(false);
-						backButton.setEnabled(true);
+						//backButton.setEnabled(true);
 					}
 				}
 				);
@@ -214,7 +214,7 @@ public class ViewSimScreen extends Screen {
 							}
 						}
 						grid.repaint();
-						backButton.setEnabled(false);
+						//backButton.setEnabled(false);
 						sm.setRunning(true);
 						sm.setStarted(true);
 						startTime = System.currentTimeMillis();
@@ -251,7 +251,7 @@ public class ViewSimScreen extends Screen {
 							sm.getFacade().getGrid());
 					System.out.println("shouldEnd = " + shouldEnd);
 					if (shouldEnd) {
-						backButton.setEnabled(true);
+						//backButton.setEnabled(true);
 						sm.setRunning(false);
 					}
 
