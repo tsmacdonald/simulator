@@ -41,7 +41,7 @@ public abstract class Screen extends JPanel {
 		return b;
 	}
 	
-	protected static JLabel makeLabel(String name, MaxDimension size, HorizontalAlignment alignment){
+	protected static JLabel makeLabel(String name, MaxSize size, HorizontalAlignment alignment){
 		JLabel label = new JLabel(name);
 		if(alignment!=null)
 			label.setHorizontalAlignment(alignment.code);
@@ -50,7 +50,7 @@ public abstract class Screen extends JPanel {
 		return label;
 	}
 	
-	protected static JLabel makeLabel(String name, PrefDimension size, HorizontalAlignment alignment){
+	protected static JLabel makeLabel(String name, PrefSize size, HorizontalAlignment alignment){
 		JLabel label = new JLabel(name);
 		if(alignment!=null)
 			label.setHorizontalAlignment(alignment.code);

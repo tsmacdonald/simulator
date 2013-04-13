@@ -66,21 +66,21 @@ public class SpawningScreen extends Screen {
 		super(sm);
 		this.setLayout(new BorderLayout());
 		entities = new String[0];
-		JLabel label = makeLabel("Spawning",new PrefDimension(300, 150),HorizontalAlignment.CENTER);
+		JLabel label = makeLabel("Spawning",new PrefSize(300, 150),HorizontalAlignment.CENTER);
 		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		listPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		JPanel labelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
 
 		//TODO mess with sizes of labels to line up with components
-		JLabel entityLabel = makeLabel("Entity Type",new PrefDimension(200, 30),HorizontalAlignment.CENTER);
+		JLabel entityLabel = makeLabel("Entity Type",new PrefSize(200, 30),HorizontalAlignment.CENTER);
 		
-		JLabel patternLabel = makeLabel("Spawn Pattern",new PrefDimension(270, 30),HorizontalAlignment.CENTER);
+		JLabel patternLabel = makeLabel("Spawn Pattern",new PrefSize(270, 30),HorizontalAlignment.CENTER);
 		
-		JLabel xLabel = makeLabel("x Loc.",new PrefDimension(100, 30),null);
+		JLabel xLabel = makeLabel("x Loc.",new PrefSize(100, 30),null);
 		
-		JLabel yLabel = makeLabel("Y Loc.",new PrefDimension(100, 30),null);
+		JLabel yLabel = makeLabel("Y Loc.",new PrefSize(100, 30),null);
 		
-		JLabel numberLabel = makeLabel("Number",new PrefDimension(290, 30),null);
+		JLabel numberLabel = makeLabel("Number",new PrefSize(290, 30),null);
 		
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(Box.createHorizontalGlue());

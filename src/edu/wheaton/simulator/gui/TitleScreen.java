@@ -43,7 +43,7 @@ public class TitleScreen extends Screen {
 	}
 	
 	private void initLabel(){
-		JLabel label = makeLabel("Welcome to the Simulator!",new PrefDimension(300,150),HorizontalAlignment.CENTER);
+		JLabel label = makeLabel("Welcome to the Simulator!",new PrefSize(300,150),HorizontalAlignment.CENTER);
 		this.add(label, BorderLayout.NORTH);
 	}
 	

@@ -16,7 +16,7 @@ public class EditSimScreen extends Screen {
 	public EditSimScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		JLabel label = makeLabel("Edit Simulation",new PrefDimension(500, 200),null);
+		JLabel label = makeLabel("Edit Simulation",new PrefSize(500, 200),null);
 		label.setAlignmentX(CENTER_ALIGNMENT);
 		JButton newSimulation = makeButton("New Simulation",new GeneralButtonListener("New Simulation", sm));
 		JButton loadExisting = makeButton("Load Existing",new GeneralButtonListener("Load Existing", sm));

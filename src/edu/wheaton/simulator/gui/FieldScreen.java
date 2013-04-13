@@ -55,7 +55,7 @@ public class FieldScreen extends Screen {
 	public FieldScreen(final ScreenManager sm) {
 		super(sm);
 		editing = false;
-		JLabel label = makeLabel("Fields",new PrefDimension(300, 100),HorizontalAlignment.CENTER);
+		JLabel label = makeLabel("Fields",new PrefSize(300, 100),HorizontalAlignment.CENTER);
 		
 		this.setLayout(new BorderLayout());
 		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);

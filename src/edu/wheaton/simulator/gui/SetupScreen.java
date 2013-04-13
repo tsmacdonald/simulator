@@ -130,33 +130,33 @@ public class SetupScreen extends Screen {
 
 	
 	private static JLabel makeWindowLabel(){
-		JLabel label = makeLabel("Simulation Setup",new PrefDimension(300,150),HorizontalAlignment.CENTER );
+		JLabel label = makeLabel("Simulation Setup",new PrefSize(300,150),HorizontalAlignment.CENTER );
 		return label;
 	}
 
 	private static JLabel makeNameLabel(){
-		JLabel nameLabel = makeLabel("Name: ",new MaxDimension(100,40), HorizontalAlignment.RIGHT);
+		JLabel nameLabel = makeLabel("Name: ",new MaxSize(100,40), HorizontalAlignment.RIGHT);
 		return nameLabel;
 	}
 
 	private static JLabel makeUpdateLabel(){
-		JLabel updateLabel = makeLabel("Update type: ",new MaxDimension(100,40),null);
+		JLabel updateLabel = makeLabel("Update type: ",new MaxSize(100,40),null);
 		return updateLabel;
 	}
 	
 	private static JLabel makeEndingLabel(){
-		JLabel endingLabel = makeLabel("Ending Conditions",new PrefDimension(300,100),HorizontalAlignment.CENTER );
+		JLabel endingLabel = makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
 		return endingLabel;
 	}
 	
 	private static JLabel makeAgentTypeLabel(){
-		JLabel agentTypeLabel = makeLabel("Agent Type",new PrefDimension(200,30),HorizontalAlignment.LEFT);
+		JLabel agentTypeLabel = makeLabel("Agent Type",new PrefSize(200,30),HorizontalAlignment.LEFT);
 		agentTypeLabel.setAlignmentX(LEFT_ALIGNMENT);
 		return agentTypeLabel;
 	}
 
 	private static JLabel makeValueLabel(){
-		JLabel valueLabel = makeLabel("Population Limit",new PrefDimension(400,30),HorizontalAlignment.CENTER);
+		JLabel valueLabel = makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
 		return valueLabel;
 	}
 
