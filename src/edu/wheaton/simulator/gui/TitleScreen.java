@@ -11,6 +11,8 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -25,44 +27,41 @@ public class TitleScreen extends Screen {
 
 	public TitleScreen(ScreenManager sm) {
 		super(sm);
-		this.setLayout(new BorderLayout());
-		
-
-		JPanel panel1 = new JPanel();
-		JPanel panel2 = new JPanel();
-
+		this.setLayout(new GridBagLayout());
 		
 		initLabel();
-		initMainPanel(panel1,panel2);
-		initButton(panel1,"New Simulation", "New Simulation");
-		initButton(panel2,"Load a saved Simulation", "Load Existing");
+		initButton("New Simulation", "New Simulation");
+		initButton("Load a saved Simulation", "Load Existing");
 		
 		// Since serialization is not yet implemented.
-		panel2.getComponent(0).setEnabled(false);
+		this.getComponent(2).setEnabled(false);
+		
 		this.setVisible(true);
-
 	}
 	
 	private void initLabel(){
-		JLabel label = makeLabelPreferredSize("Welcome to the Simulator!",300,150);
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = 50;
+		c.gridx = 0;
+		c.gridy = 0;
+		
+		JLabel label = new JLabel("Welcome to the Simulator!");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		this.add(label, BorderLayout.NORTH);
+		this.add(label, c);
 	}
 	
-	private void initMainPanel(JPanel panel1, JPanel panel2){
-		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
-		mainPanel.add(Box.createVerticalGlue());
-		mainPanel.add(panel1);
-		mainPanel.add(panel2);
-		mainPanel.add(Box.createVerticalGlue());
-		this.add(mainPanel, BorderLayout.CENTER);
-	}
-	
-	private void initButton(JPanel panel, String buttonName, String listenerName){
+	private void initButton(String buttonName, String listenerName){
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = GridBagConstraints.RELATIVE;
+		
 		JButton button = makeButton(buttonName,new GeneralButtonListener(listenerName, sm));
 		button.setAlignmentX(CENTER_ALIGNMENT);
+		button.setMinimumSize(new Dimension(200, 70));
 		button.setPreferredSize(new Dimension(200, 70));
-		panel.add(button);
+		this.add(button, c);
 	}
 
 	@Override
