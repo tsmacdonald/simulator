@@ -27,8 +27,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 
 public class SpawningScreen extends Screen {
@@ -68,31 +66,30 @@ public class SpawningScreen extends Screen {
 		super(sm);
 		this.setLayout(new BorderLayout());
 		entities = new String[0];
-		JLabel label = makeLabelPreferredSize("Spawning",300, 150);
-		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		JLabel label = makeLabel("Spawning",new PrefDimension(300, 150),HorizontalAlignment.CENTER);
 		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		listPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		JPanel labelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
 
 		//TODO mess with sizes of labels to line up with components
-		JLabel entityLabel = makeLabelPreferredSize("Entity Type",200, 30);
+		JLabel entityLabel = makeLabel("Entity Type",new PrefDimension(200, 30),HorizontalAlignment.CENTER);
 		
-		JLabel patternLabel = makeLabelPreferredSize("Spawn Pattern",270, 30);
+		JLabel patternLabel = makeLabel("Spawn Pattern",new PrefDimension(270, 30),HorizontalAlignment.CENTER);
 		
-		JLabel xLabel = makeLabelPreferredSize("x Loc.",100, 30);
+		JLabel xLabel = makeLabel("x Loc.",new PrefDimension(100, 30),null);
 		
-		JLabel yLabel = makeLabelPreferredSize("Y Loc.",100, 30);
+		JLabel yLabel = makeLabel("Y Loc.",new PrefDimension(100, 30),null);
 		
-		JLabel numberLabel = makeLabelPreferredSize("Number",290, 30);
+		JLabel numberLabel = makeLabel("Number",new PrefDimension(290, 30),null);
 		
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(entityLabel);
-		entityLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(patternLabel);
-		patternLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(xLabel);
 		labelsPanel.add(yLabel);

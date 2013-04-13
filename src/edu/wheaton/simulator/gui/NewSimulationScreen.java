@@ -24,8 +24,7 @@ public class NewSimulationScreen extends Screen {
 	public NewSimulationScreen(ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
-		JLabel label = makeLabelPreferredSize("New Simulation",300, 150);
-		label.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel label = makeLabel("New Simulation",new PrefDimension(300, 150),HorizontalAlignment.CENTER);
 		JPanel simPanel = makeBoxPanel(BoxLayout.PAGE_AXIS);
 		JPanel panel1 = makeBoxPanel(BoxLayout.LINE_AXIS);
 		JPanel panel2 = makeBoxPanel(BoxLayout.LINE_AXIS);

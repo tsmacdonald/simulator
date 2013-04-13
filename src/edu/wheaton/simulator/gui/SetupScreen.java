@@ -16,8 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.PrototypeID;
@@ -132,38 +130,33 @@ public class SetupScreen extends Screen {
 
 	
 	private static JLabel makeWindowLabel(){
-		JLabel label = makeLabelPreferredSize("Simulation Setup",300,150);
-		label.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel label = makeLabel("Simulation Setup",new PrefDimension(300,150),HorizontalAlignment.CENTER );
 		return label;
 	}
 
 	private static JLabel makeNameLabel(){
-		JLabel nameLabel = makeLabelMaxSize("Name: ",100,40);
-		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		JLabel nameLabel = makeLabel("Name: ",new MaxDimension(100,40), HorizontalAlignment.RIGHT);
 		return nameLabel;
 	}
 
 	private static JLabel makeUpdateLabel(){
-		JLabel updateLabel = makeLabelMaxSize("Update type: ",100,40);
+		JLabel updateLabel = makeLabel("Update type: ",new MaxDimension(100,40),null);
 		return updateLabel;
 	}
 	
 	private static JLabel makeEndingLabel(){
-		JLabel endingLabel = makeLabelPreferredSize("Ending Conditions",300,100);
-		endingLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel endingLabel = makeLabel("Ending Conditions",new PrefDimension(300,100),HorizontalAlignment.CENTER );
 		return endingLabel;
 	}
 	
 	private static JLabel makeAgentTypeLabel(){
-		JLabel agentTypeLabel = makeLabelPreferredSize("Agent Type",200,30);
-		agentTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		JLabel agentTypeLabel = makeLabel("Agent Type",new PrefDimension(200,30),HorizontalAlignment.LEFT);
 		agentTypeLabel.setAlignmentX(LEFT_ALIGNMENT);
 		return agentTypeLabel;
 	}
 
 	private static JLabel makeValueLabel(){
-		JLabel valueLabel = makeLabelPreferredSize("Population Limit",400,30);
-		valueLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel valueLabel = makeLabel("Population Limit",new PrefDimension(400,30),HorizontalAlignment.CENTER);
 		return valueLabel;
 	}
 

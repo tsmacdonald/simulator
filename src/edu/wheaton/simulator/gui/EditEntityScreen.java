@@ -133,7 +133,7 @@ public class EditEntityScreen extends Screen {
 		
 		tabs = new JTabbedPane();
 		
-		generalPanel = makeGeneralPanel();
+		generalPanel = makeBoxPanel(BoxLayout.PAGE_AXIS);
 		
 		addFieldButton = makeAddFieldButton(this);
 		
@@ -293,18 +293,12 @@ public class EditEntityScreen extends Screen {
 		return addTriggerButton;
 	}
 	
-	private static JPanel makeGeneralPanel(){
-		JPanel generalPanel = makeBoxPanel(BoxLayout.PAGE_AXIS);
-		return generalPanel;
-	}
-	
 	private static JLabel makeNameLabel(){
 		return new JLabel("Name: ");
 	}
 	
 	private static JLabel makeGeneralLabel(){
-		JLabel generalLabel = makeLabelPreferredSize("General Info",300,80);
-		generalLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel generalLabel = makeLabel("General Info",new PrefDimension(300,80),HorizontalAlignment.CENTER);
 		return generalLabel;
 	}
 	
@@ -333,14 +327,13 @@ public class EditEntityScreen extends Screen {
 	
 	private static JPanel makeTriggerMainPanel(JPanel triggerListPanel){
 		
-		JLabel triggerNameLabel = makeLabelPreferredSize("Trigger Name",130,30);
-		triggerNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		JLabel triggerNameLabel = makeLabel("Trigger Name",new PrefDimension(130,30),HorizontalAlignment.LEFT);
 		
-		JLabel triggerPriorityLabel = makeLabelPreferredSize("Trigger Priority",180,30);
+		JLabel triggerPriorityLabel = makeLabel("Trigger Priority",new PrefDimension(180,30),null);
 		
-		JLabel triggerConditionLabel = makeLabelPreferredSize("Trigger Condition",300,30);
+		JLabel triggerConditionLabel = makeLabel("Trigger Condition",new PrefDimension(300,30),null);
 		
-		JLabel triggerResultLabel = makeLabelPreferredSize("Trigger Result",300,30);
+		JLabel triggerResultLabel = makeLabel("Trigger Result",new PrefDimension(300,30),null);
 		
 		JPanel triggerLabelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
@@ -351,8 +344,7 @@ public class EditEntityScreen extends Screen {
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
 		triggerLabelsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		
-		JLabel triggerLabel = makeLabelPreferredSize("Trigger Info",300,100);
-		triggerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel triggerLabel = makeLabel("Trigger Info",new PrefDimension(300,100),HorizontalAlignment.CENTER);
 		
 		JPanel triggerBodyPanel = makeTriggerBodyPanel();
 		triggerBodyPanel.add(triggerLabelsPanel);
@@ -365,12 +357,10 @@ public class EditEntityScreen extends Screen {
 	}
 	
 	private static JPanel makeFieldMainPanel(JPanel fieldListPanel){
-		JLabel fieldNameLabel = makeLabelPreferredSize("Field Name",350,30);
-		fieldNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		JLabel fieldNameLabel = makeLabel("Field Name",new PrefDimension(350,30),HorizontalAlignment.LEFT);
 		fieldNameLabel.setAlignmentX(LEFT_ALIGNMENT);
 		
-		JLabel fieldValueLabel = makeLabelPreferredSize("Field Initial Value",400,30);
-		fieldValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel fieldValueLabel = makeLabel("Field Initial Value",new PrefDimension(400,30),HorizontalAlignment.CENTER);
 		
 		JPanel fieldLabelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
 		fieldLabelsPanel.add(Box.createHorizontalGlue());
@@ -380,8 +370,7 @@ public class EditEntityScreen extends Screen {
 		
 		JPanel fieldBodyPanel = makeFieldBodyPanel(fieldLabelsPanel,fieldListPanel);
 		
-		JLabel fieldLabel = makeLabelPreferredSize("Field Info",300,100);
-		fieldLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel fieldLabel = makeLabel("Field Info",new PrefDimension(300,100),HorizontalAlignment.CENTER);
 		
 		JPanel fieldMainPanel = makeBorderPanel(new BorderLayout());
 		fieldMainPanel.add(fieldLabel, BorderLayout.NORTH);

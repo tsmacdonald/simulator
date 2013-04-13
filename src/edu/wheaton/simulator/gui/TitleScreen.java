@@ -17,7 +17,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 public class TitleScreen extends Screen {
 
@@ -44,8 +43,7 @@ public class TitleScreen extends Screen {
 	}
 	
 	private void initLabel(){
-		JLabel label = makeLabelPreferredSize("Welcome to the Simulator!",300,150);
-		label.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel label = makeLabel("Welcome to the Simulator!",new PrefDimension(300,150),HorizontalAlignment.CENTER);
 		this.add(label, BorderLayout.NORTH);
 	}
 	

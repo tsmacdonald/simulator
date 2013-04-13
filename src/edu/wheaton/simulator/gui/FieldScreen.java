@@ -27,7 +27,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -56,8 +55,7 @@ public class FieldScreen extends Screen {
 	public FieldScreen(final ScreenManager sm) {
 		super(sm);
 		editing = false;
-		JLabel label = makeLabelPreferredSize("Fields",300, 100);
-		label.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel label = makeLabel("Fields",new PrefDimension(300, 100),HorizontalAlignment.CENTER);
 		
 		this.setLayout(new BorderLayout());
 		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
