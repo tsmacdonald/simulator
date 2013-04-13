@@ -98,7 +98,7 @@ public class FieldScreen extends Screen {
 		add = makeButton("Add",new FieldAddListener(sm));
 		edit = makeButton("Edit",new FieldEditListener(sm, fields));
 		JButton back = makeButton("Back",
-				new GeneralButtonListener("Edit Simulation", sm));
+				new GeneralButtonListener("View Simulation", sm));
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(add);
 		buttonPanel.add(Box.createHorizontalStrut(5));

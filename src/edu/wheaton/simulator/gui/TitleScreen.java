@@ -46,20 +46,16 @@ public class TitleScreen extends Screen {
 	private void initLabel(){
 		JLabel label = makeLabelPreferredSize("Welcome to the Simulator!",300,150);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		// Since serialization is not yet implemented.
 		this.add(label, BorderLayout.NORTH);
-		//
 	}
 	
 	private void initMainPanel(JPanel panel1, JPanel panel2){
 		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
-		// Since serialization is not yet implemented.
 		mainPanel.add(Box.createVerticalGlue());
 		mainPanel.add(panel1);
 		mainPanel.add(panel2);
 		mainPanel.add(Box.createVerticalGlue());
 		this.add(mainPanel, BorderLayout.CENTER);
-		//
 	}
 	
 	private void initButton(JPanel panel, String buttonName, String listenerName){
@@ -72,6 +68,5 @@ public class TitleScreen extends Screen {
 	@Override
 	public void load() {
 		// Nothing to load
-		
 	}
 }

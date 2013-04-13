@@ -224,7 +224,7 @@ public class StatisticsScreen extends Screen {
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sm.update(sm.getScreen("Edit Simulation")); 
+				sm.update(sm.getScreen("View Simulation")); 
 			}
 		});
 		return finishButton;

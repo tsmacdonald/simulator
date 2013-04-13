@@ -44,11 +44,14 @@ public class NewSimulationScreen extends Screen {
 		JLabel widthLabel = new JLabel("Width:");
 		widthLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		JButton newSimButton = makeButton("Blank Simulation",new NewSimScreenFinishListener(name, width, height, sm));
+		
+		//These simulations forms should eventually be loaded through normal serialization process
 		newSimButton.setPreferredSize(new Dimension(200, 75));
 		JButton conwayButton = makeButton("Conway's Game of Life",new ConwayFinishListener(name, width, height, sm));
 		conwayButton.setPreferredSize(new Dimension(200, 75));
 		JButton rpsButton = makeButton("Rock Paper Scissors",new RockPaperScissorsFinishListener(name, width, height, sm));
 		rpsButton.setPreferredSize(new Dimension(200, 75));
+		
 		panel1.add(nameLabel);
 		panel1.add(name);
 		panel2.add(heightLabel);

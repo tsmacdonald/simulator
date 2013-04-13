@@ -29,7 +29,7 @@ public class NewSimScreenFinishListener implements ActionListener {
 		} catch(java.lang.NumberFormatException nfe) { 
 			System.err.println("Invalid input passed to NewSimScreenFinishListener");
 		}
-		Screen upload = sm.getScreen("Edit Simulation");
+		Screen upload = sm.getScreen("View Simulation");
 		((ScreenManager)sm).setStarted(false);
 		sm.getFacade().initSamples();
 		sm.update(upload);

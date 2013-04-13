@@ -183,7 +183,7 @@ public class EntityScreen extends Screen {
 		
 		@Override
 		public void actionPerformed(ActionEvent e){
-			sm.update(sm.getScreen("Edit Simulation"));
+			sm.update(sm.getScreen("View Simulation"));
 		}
 	}
 

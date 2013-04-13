@@ -68,8 +68,6 @@ public class ViewSimScreen extends Screen {
 
 	private JPanel panel2;
 
-	//TODO figure out best way to have agents drawn before pressing start, without creating issues
-	//with later changing spawn conditions
 	public ViewSimScreen(final ScreenManager sm) {
 		super(sm);
 		entities = new String[0];
@@ -154,11 +152,32 @@ public class ViewSimScreen extends Screen {
 		buttonPanel.setMaximumSize(new Dimension(500, 50));
 		buttonPanel.add(makeStartButton());
 		buttonPanel.add(makePauseButton());
-		buttonPanel.add(makeBackButton());
+		//TODO most of these will become tabs, adding temporarily for navigation purposes
+		buttonPanel.add(makeEntitiesButton());
+		buttonPanel.add(makeGlobalFieldsButton());
+		buttonPanel.add(makeSetupButton());
+		buttonPanel.add(makeStatsButton());
+		//buttonPanel.add(makeBackButton());
 		return buttonPanel;
 	}
 
 
+	private JButton makeEntitiesButton(){
+		return makeButton("Entities", new GeneralButtonListener("Entities", sm));
+	}
+	
+	private JButton makeGlobalFieldsButton(){
+		return makeButton("Global Fields", new GeneralButtonListener("Fields", sm));
+	}
+	
+	private JButton makeSetupButton(){
+		return makeButton("Setup options", new GeneralButtonListener("Grid Setup", sm));
+	}
+	
+	private JButton makeStatsButton(){
+		return makeButton("Statistics", new GeneralButtonListener("Statistics", sm));
+	}
+	
 	private JButton makeBackButton(){
 		JButton b = makeButton("Back",new ActionListener() {
 			@Override

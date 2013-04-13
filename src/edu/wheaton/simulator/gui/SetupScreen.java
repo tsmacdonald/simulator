@@ -262,7 +262,7 @@ public class SetupScreen extends Screen {
 		JButton backButton = makeButton("Back",new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Edit Simulation"));
+						sm.update(sm.getScreen("View Simulation"));
 					}
 				}
 				);
@@ -307,7 +307,7 @@ public class SetupScreen extends Screen {
 												Integer.parseInt(values.get(i).getText())
 										);
 							}
-							sm.update(sm.getScreen("Edit Simulation"));
+							sm.update(sm.getScreen("View Simulation"));
 						}
 						catch (NumberFormatException excep) {
 							JOptionPane.showMessageDialog(null,
