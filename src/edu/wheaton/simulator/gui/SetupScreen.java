@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Set;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -157,8 +158,7 @@ public class SetupScreen extends Screen {
 
 	private static JComboBox makeUpdateBox(){
 		String[] updateTypes = {"Linear", "Atomic", "Priority"};
-		JComboBox updateBox = new JComboBox(updateTypes);
-		updateBox.setMaximumSize(new Dimension(200, 40));
+		JComboBox updateBox = GuiUtility.makeComboBox(updateTypes, new MaxSize(200,40));
 		return updateBox;
 	}
 
@@ -200,17 +200,17 @@ public class SetupScreen extends Screen {
 
 	private static JPanel makeConLabelsPanel(){
 		JPanel conLabelsPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
-		conLabelsPanel.add(GuiUtility.createHorizontalGlue());
+		conLabelsPanel.add(Box.createHorizontalGlue());
 		conLabelsPanel.add(makeAgentTypeLabel());
 		conLabelsPanel.add(makeValueLabel());
-		conLabelsPanel.add(GuiUtility.createHorizontalGlue());
+		conLabelsPanel.add(Box.createHorizontalGlue());
 		return conLabelsPanel;
 	}
 
 	private static JPanel makeConListPanel(JButton addConditionButton){
 		JPanel conListPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
 		conListPanel.add(addConditionButton);
-		conListPanel.add(GuiUtility.createVerticalGlue());
+		conListPanel.add(Box.createVerticalGlue());
 		return conListPanel;
 	}
 
@@ -360,7 +360,7 @@ public class SetupScreen extends Screen {
 		ImmutableMap<PrototypeID, Integer> popLimits = se.getPopLimits();
 		if (popLimits.size() == 0) {
 			conListPanel.add(addConditionButton);
-			conListPanel.add(GuiUtility.createVerticalGlue());
+			conListPanel.add(Box.createVerticalGlue());
 
 		}
 		else {
@@ -384,8 +384,7 @@ public class SetupScreen extends Screen {
 
 	private void addCondition() {
 		JPanel newPanel = GuiUtility.makeBoxPanel( BoxLayout.X_AXIS);
-		JComboBox newBox = new JComboBox(agentNames);
-		newBox.setMaximumSize(new Dimension(300, 40));
+		JComboBox newBox = GuiUtility.makeComboBox(agentNames,new MaxSize(300,40));
 		agentTypes.add(newBox);
 		//		JComboBox newOps = new JComboBox(opNames);
 		//		newOps.setMaximumSize(new Dimension(200, 40));
@@ -404,7 +403,7 @@ public class SetupScreen extends Screen {
 		subPanels.add(newPanel);
 		conListPanel.add(newPanel);
 		conListPanel.add(addConditionButton);
-		conListPanel.add(GuiUtility.createVerticalGlue());
+		conListPanel.add(Box.createVerticalGlue());
 		conListPanel.validate();
 		validate();	
 	}

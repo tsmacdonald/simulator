@@ -115,7 +115,7 @@ public class SpawningScreen extends Screen {
 		});
 		listPanel.add(addSpawnButton);
 		addSpawnButton.setAlignmentX(CENTER_ALIGNMENT);
-		listPanel.add(GuiUtility.createVerticalGlue());
+		listPanel.add(Box.createVerticalGlue());
 
 		JPanel buttonPanel = new JPanel();
 		JButton cancelButton = GuiUtility.makeButton("Cancel",
@@ -235,7 +235,7 @@ public class SpawningScreen extends Screen {
 		subPanels.add(newPanel);
 		listPanel.add(newPanel);
 		listPanel.add(addSpawnButton);
-		listPanel.add(GuiUtility.createVerticalGlue());
+		listPanel.add(Box.createVerticalGlue());
 		listPanel.validate();
 		repaint();	
 	}

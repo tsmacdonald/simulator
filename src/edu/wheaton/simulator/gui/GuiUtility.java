@@ -1,12 +1,11 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.event.ActionListener;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -17,14 +16,6 @@ public final class GuiUtility {
 	
 	private GuiUtility() {
 		// Auto-generated constructor stub
-	}
-	
-	public static final Component createHorizontalGlue(){
-		return Box.createHorizontalGlue();
-	}
-	
-	public static final Component createVerticalGlue(){
-		return Box.createVerticalGlue();
 	}
 	
 	public static JButton makeButton(String name, ActionListener al){
@@ -63,5 +54,15 @@ public final class GuiUtility {
 		panel.setLayout(new BoxLayout(panel, axis));
 		return panel;
 	}
-
+	
+	public static JComboBox makeComboBox(String[] items, MaxSize size){
+		JComboBox cb;
+		if(items != null)
+			cb = new JComboBox(items);
+		else
+			cb = new JComboBox();
+		if(size != null)
+			cb.setMaximumSize(size);
+		return cb;	
+	}
 }

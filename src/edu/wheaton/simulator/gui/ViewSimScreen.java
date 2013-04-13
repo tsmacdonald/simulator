@@ -79,13 +79,13 @@ public class ViewSimScreen extends Screen {
 		JPanel layerPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
 		panel1 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
-		agentComboBox = new JComboBox();
+		agentComboBox = GuiUtility.makeComboBox(null,new MaxSize(200,50));
 		panel1.add(agents);
 		panel1.add(agentComboBox);
 		panel2 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
 		JPanel mainPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
-		layerComboBox = new JComboBox();
+		layerComboBox = GuiUtility.makeComboBox(null, new MaxSize(200,50));
 		panel2.add(layers);
 		panel2.add(layerComboBox);
 		JPanel panel3 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
@@ -120,10 +120,6 @@ public class ViewSimScreen extends Screen {
 		panel3.add(apply);
 		panel3.add(clear);
 		
-		
-
-		agentComboBox.setMaximumSize(new Dimension(200, 50));
-		layerComboBox.setMaximumSize(new Dimension(200, 50));
 		//layerPanel.setSize(new Dimension(600, 1000));
 
 		//TODO add layer elements

@@ -73,7 +73,7 @@ public class EditSimScreen extends Screen {
 		mainPanel.add(panel1);
 		mainPanel.add(panel2);
 		mainPanel.add(panel3);
-		mainPanel.add(GuiUtility.createVerticalGlue());
+		mainPanel.add(Box.createVerticalGlue());
 		mainPanel.add(panel4);
 		this.add(label);
 		this.add(mainPanel);
