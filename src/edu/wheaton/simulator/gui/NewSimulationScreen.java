@@ -1,13 +1,10 @@
 package edu.wheaton.simulator.gui;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -67,8 +64,7 @@ public class NewSimulationScreen extends Screen {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 50;
 
-		JLabel label = new JLabel("New Simulation");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel label = new JLabel("New Simulation",SwingConstants.CENTER);
 		this.add(label, c);
 	}
 
@@ -117,8 +113,7 @@ public class NewSimulationScreen extends Screen {
 		c.gridx = 2;
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JLabel widthLabel = new JLabel(label);
-		widthLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		JLabel widthLabel = new JLabel(label,SwingConstants.RIGHT);
 		this.add(widthLabel, c);
 
 		c.gridx = 3;
@@ -135,12 +130,12 @@ public class NewSimulationScreen extends Screen {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(3,1));
 		
-		JButton newSimButton = makeButton("Blank Simulation",new NewSimScreenFinishListener(name, width, height, sm));
+		JButton newSimButton = GuiUtility.makeButton("Blank Simulation",new NewSimScreenFinishListener(name, width, height, sm));
 		newSimButton.setPreferredSize(new Dimension(120, 40));
 		//These simulation forms should eventually be loaded through normal serialization process
-		JButton conwayButton = makeButton("Conway's Game of Life",new ConwayFinishListener(name, width, height, sm));
+		JButton conwayButton = GuiUtility.makeButton("Conway's Game of Life",new ConwayFinishListener(name, width, height, sm));
 		conwayButton.setPreferredSize(new Dimension(120, 40));
-		JButton rpsButton = makeButton("Rock Paper Scissors",new RockPaperScissorsFinishListener(name, width, height, sm));
+		JButton rpsButton = GuiUtility.makeButton("Rock Paper Scissors",new RockPaperScissorsFinishListener(name, width, height, sm));
 		rpsButton.setPreferredSize(new Dimension(120, 40));
 		
 		buttonPanel.add(newSimButton);

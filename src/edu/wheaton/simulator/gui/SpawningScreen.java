@@ -11,7 +11,6 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -55,8 +54,7 @@ public class SpawningScreen extends Screen {
 	private JButton addSpawnButton;
 
 	private JPanel listPanel;
-
-	private Component glue;
+	
 	/**
 	 * 
 	 */
@@ -66,21 +64,21 @@ public class SpawningScreen extends Screen {
 		super(sm);
 		this.setLayout(new BorderLayout());
 		entities = new String[0];
-		JLabel label = makeLabel("Spawning",new PrefSize(300, 150),HorizontalAlignment.CENTER);
-		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
-		listPanel = makeBoxPanel(BoxLayout.Y_AXIS);
-		JPanel labelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
+		JLabel label = GuiUtility.makeLabel("Spawning",new PrefSize(300, 150),HorizontalAlignment.CENTER);
+		JPanel mainPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
+		listPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel labelsPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 
 		//TODO mess with sizes of labels to line up with components
-		JLabel entityLabel = makeLabel("Entity Type",new PrefSize(200, 30),HorizontalAlignment.CENTER);
+		JLabel entityLabel = GuiUtility.makeLabel("Entity Type",new PrefSize(200, 30),HorizontalAlignment.CENTER);
 		
-		JLabel patternLabel = makeLabel("Spawn Pattern",new PrefSize(270, 30),HorizontalAlignment.CENTER);
+		JLabel patternLabel = GuiUtility.makeLabel("Spawn Pattern",new PrefSize(270, 30),HorizontalAlignment.CENTER);
 		
-		JLabel xLabel = makeLabel("x Loc.",new PrefSize(100, 30),null);
+		JLabel xLabel = GuiUtility.makeLabel("x Loc.",new PrefSize(100, 30),null);
 		
-		JLabel yLabel = makeLabel("Y Loc.",new PrefSize(100, 30),null);
+		JLabel yLabel = GuiUtility.makeLabel("Y Loc.",new PrefSize(100, 30),null);
 		
-		JLabel numberLabel = makeLabel("Number",new PrefSize(290, 30),null);
+		JLabel numberLabel = GuiUtility.makeLabel("Number",new PrefSize(290, 30),null);
 		
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(Box.createHorizontalGlue());
@@ -109,7 +107,7 @@ public class SpawningScreen extends Screen {
 		deleteButtons = new ArrayList<JButton>();
 		subPanels = new ArrayList<JPanel>();
 
-		addSpawnButton = makeButton("Add Spawn",new ActionListener() {
+		addSpawnButton = GuiUtility.makeButton("Add Spawn",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				addSpawn();
@@ -117,18 +115,17 @@ public class SpawningScreen extends Screen {
 		});
 		listPanel.add(addSpawnButton);
 		addSpawnButton.setAlignmentX(CENTER_ALIGNMENT);
-		glue = Box.createVerticalGlue();
-		listPanel.add(glue);
+		listPanel.add(GuiUtility.createVerticalGlue());
 
 		JPanel buttonPanel = new JPanel();
-		JButton cancelButton = makeButton("Cancel",
+		JButton cancelButton = GuiUtility.makeButton("Cancel",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.update(sm.getScreen("Edit Simulation")); 
 					} 
 				});
-		JButton finishButton = makeButton("Finish",
+		JButton finishButton = GuiUtility.makeButton("Finish",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -204,7 +201,7 @@ public class SpawningScreen extends Screen {
 	}
 
 	private void addSpawn() {
-		JPanel newPanel = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel newPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		JComboBox newBox = new JComboBox(entities);
 		newBox.setMaximumSize(new Dimension(250, 30));
 		entityTypes.add(newBox);
@@ -224,7 +221,7 @@ public class SpawningScreen extends Screen {
 		newNumber.setMaximumSize(new Dimension(100, 30));
 		newNumber.setText("1");
 		numbers.add(newNumber);
-		JButton newButton = makeButton("Delete",new DeleteListener());
+		JButton newButton = GuiUtility.makeButton("Delete",new DeleteListener());
 		deleteButtons.add(newButton);
 		newButton.setActionCommand(
 				deleteButtons.indexOf(newButton) + ""
@@ -238,7 +235,7 @@ public class SpawningScreen extends Screen {
 		subPanels.add(newPanel);
 		listPanel.add(newPanel);
 		listPanel.add(addSpawnButton);
-		listPanel.add(glue);
+		listPanel.add(GuiUtility.createVerticalGlue());
 		listPanel.validate();
 		repaint();	
 	}

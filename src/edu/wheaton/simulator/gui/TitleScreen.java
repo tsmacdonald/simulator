@@ -9,16 +9,12 @@
 
 package edu.wheaton.simulator.gui;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class TitleScreen extends Screen {
@@ -46,8 +42,7 @@ public class TitleScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 0;
 		
-		JLabel label = new JLabel("Welcome to the Simulator!");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel label = new JLabel("Welcome to the Simulator!",SwingConstants.CENTER);
 		this.add(label, c);
 	}
 	
@@ -57,7 +52,7 @@ public class TitleScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = GridBagConstraints.RELATIVE;
 		
-		JButton button = makeButton(buttonName,new GeneralButtonListener(listenerName, sm));
+		JButton button = GuiUtility.makeButton(buttonName,new GeneralButtonListener(listenerName, sm));
 		button.setAlignmentX(CENTER_ALIGNMENT);
 		button.setMinimumSize(new Dimension(200, 70));
 		button.setPreferredSize(new Dimension(200, 70));

@@ -1,14 +1,12 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Set;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -56,8 +54,6 @@ public class SetupScreen extends Screen {
 
 	private JButton addConditionButton;
 
-	private Component glue;
-
 	private static final long serialVersionUID = -8347080877399964861L;
 
 	public SetupScreen(final ScreenManager sm) {
@@ -68,7 +64,6 @@ public class SetupScreen extends Screen {
 		agentTypes = new ArrayList<JComboBox>();
 		deleteButtons = new ArrayList<JButton>();
 		subPanels = new ArrayList<JPanel>();
-		glue = Box.createVerticalGlue();
 		addConditionButton = makeAddConditionButton(this);
 		conListPanel = makeConListPanel(addConditionButton);
 		nameField = makeNameField();
@@ -130,33 +125,33 @@ public class SetupScreen extends Screen {
 
 	
 	private static JLabel makeWindowLabel(){
-		JLabel label = makeLabel("Simulation Setup",new PrefSize(300,150),HorizontalAlignment.CENTER );
+		JLabel label = GuiUtility.makeLabel("Simulation Setup",new PrefSize(300,150),HorizontalAlignment.CENTER );
 		return label;
 	}
 
 	private static JLabel makeNameLabel(){
-		JLabel nameLabel = makeLabel("Name: ",new MaxSize(100,40), HorizontalAlignment.RIGHT);
+		JLabel nameLabel = GuiUtility.makeLabel("Name: ",new MaxSize(100,40), HorizontalAlignment.RIGHT);
 		return nameLabel;
 	}
 
 	private static JLabel makeUpdateLabel(){
-		JLabel updateLabel = makeLabel("Update type: ",new MaxSize(100,40),null);
+		JLabel updateLabel = GuiUtility.makeLabel("Update type: ",new MaxSize(100,40),null);
 		return updateLabel;
 	}
 	
 	private static JLabel makeEndingLabel(){
-		JLabel endingLabel = makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
+		JLabel endingLabel = GuiUtility.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
 		return endingLabel;
 	}
 	
 	private static JLabel makeAgentTypeLabel(){
-		JLabel agentTypeLabel = makeLabel("Agent Type",new PrefSize(200,30),HorizontalAlignment.LEFT);
+		JLabel agentTypeLabel = GuiUtility.makeLabel("Agent Type",new PrefSize(200,30),HorizontalAlignment.LEFT);
 		agentTypeLabel.setAlignmentX(LEFT_ALIGNMENT);
 		return agentTypeLabel;
 	}
 
 	private static JLabel makeValueLabel(){
-		JLabel valueLabel = makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
+		JLabel valueLabel = GuiUtility.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
 		return valueLabel;
 	}
 
@@ -174,7 +169,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JButton makeAddConditionButton(final SetupScreen screen){
-		JButton addConditionButton = makeButton("Add Field",new ActionListener() {
+		JButton addConditionButton = GuiUtility.makeButton("Add Field",new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						screen.addCondition();
@@ -184,7 +179,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeConMainPanel(JPanel conListPanel, JTextField timeField){
-		JPanel conMainPanel = makeBorderPanel(new BorderLayout());
+		JPanel conMainPanel = GuiUtility.makeBorderPanel(new BorderLayout());
 		conMainPanel.add(makeEndingLabel(), BorderLayout.NORTH);
 
 		JPanel conBodyPanel = makeConBodyPanel(conListPanel, timeField);
@@ -195,7 +190,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeTimePanel(JTextField timeField){
-		JPanel timePanel = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel timePanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		JLabel timeLabel = new JLabel("Time limit: ");
 		timePanel.add(timeLabel);
 		timePanel.add(timeField);
@@ -204,23 +199,23 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeConLabelsPanel(){
-		JPanel conLabelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
-		conLabelsPanel.add(Box.createHorizontalGlue());
+		JPanel conLabelsPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
+		conLabelsPanel.add(GuiUtility.createHorizontalGlue());
 		conLabelsPanel.add(makeAgentTypeLabel());
 		conLabelsPanel.add(makeValueLabel());
-		conLabelsPanel.add(Box.createHorizontalGlue());
+		conLabelsPanel.add(GuiUtility.createHorizontalGlue());
 		return conLabelsPanel;
 	}
 
 	private static JPanel makeConListPanel(JButton addConditionButton){
-		JPanel conListPanel = makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel conListPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
 		conListPanel.add(addConditionButton);
-		conListPanel.add(Box.createVerticalGlue());
+		conListPanel.add(GuiUtility.createVerticalGlue());
 		return conListPanel;
 	}
 
 	private static JPanel makeConBodyPanel(JPanel conListPanel, JTextField timeField){
-		JPanel conBodyPanel = makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel conBodyPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
 
 		JPanel timePanel = makeTimePanel(timeField);
 
@@ -234,7 +229,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeUberPanel(JPanel conListPanel, JTextField timeField, JTextField nameField, JComboBox updateBox){
-		JPanel uberPanel = makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel uberPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
 
 		JPanel mainPanel = makeMainPanel(makeNameLabel(), nameField, makeUpdateLabel(), updateBox );
 		uberPanel.add(mainPanel);
@@ -252,7 +247,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JButton makeBackButton(final ScreenManager sm){
-		JButton backButton = makeButton("Back",new ActionListener() {
+		JButton backButton = GuiUtility.makeButton("Back",new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.update(sm.getScreen("View Simulation"));
@@ -263,7 +258,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JButton makeFinishButton(final ScreenManager sm, final JTextField nameField, final JTextField timeField, final JComboBox updateBox, final ArrayList<JTextField> values, final ArrayList<JComboBox> agentTypes){
-		JButton finishButton = makeButton("Finish",new ActionListener() {
+		JButton finishButton = GuiUtility.makeButton("Finish",new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						try {
@@ -317,7 +312,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeMainPanel(JLabel nameLabel, JTextField nameField, JLabel updateLabel, JComboBox updateBox ){
-		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel mainPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
 
 		mainPanel.add( makePanel1(nameLabel,nameField) );
@@ -328,14 +323,14 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makePanel1(JLabel nameLabel, JTextField nameField){
-		JPanel panel1 = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel panel1 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		panel1.add(nameLabel);
 		panel1.add(nameField);
 		return panel1;
 	}
 
 	private static JPanel makePanel3(JLabel updateLabel, JComboBox updateBox){
-		JPanel panel3 = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel panel3 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		panel3.add(updateLabel);
 		panel3.add(updateBox);
 		return panel3;
@@ -365,7 +360,7 @@ public class SetupScreen extends Screen {
 		ImmutableMap<PrototypeID, Integer> popLimits = se.getPopLimits();
 		if (popLimits.size() == 0) {
 			conListPanel.add(addConditionButton);
-			conListPanel.add(glue);
+			conListPanel.add(GuiUtility.createVerticalGlue());
 
 		}
 		else {
@@ -388,7 +383,7 @@ public class SetupScreen extends Screen {
 
 
 	private void addCondition() {
-		JPanel newPanel = makeBoxPanel( BoxLayout.X_AXIS);
+		JPanel newPanel = GuiUtility.makeBoxPanel( BoxLayout.X_AXIS);
 		JComboBox newBox = new JComboBox(agentNames);
 		newBox.setMaximumSize(new Dimension(300, 40));
 		agentTypes.add(newBox);
@@ -398,7 +393,7 @@ public class SetupScreen extends Screen {
 		JTextField newValue = new JTextField(25);
 		newValue.setMaximumSize(new Dimension(300, 40));
 		values.add(newValue);
-		JButton newButton = makeButton("Delete",new DeleteListener());
+		JButton newButton = GuiUtility.makeButton("Delete",new DeleteListener());
 		deleteButtons.add(newButton);
 		newButton.setActionCommand(deleteButtons.indexOf(newButton) + "");
 		System.out.println(deleteButtons.indexOf(newButton) + "");
@@ -409,7 +404,7 @@ public class SetupScreen extends Screen {
 		subPanels.add(newPanel);
 		conListPanel.add(newPanel);
 		conListPanel.add(addConditionButton);
-		conListPanel.add(glue);
+		conListPanel.add(GuiUtility.createVerticalGlue());
 		conListPanel.validate();
 		validate();	
 	}

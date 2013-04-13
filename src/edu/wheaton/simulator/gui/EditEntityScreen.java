@@ -12,7 +12,6 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -61,10 +60,6 @@ public class EditEntityScreen extends Screen {
 	private ArrayList<JButton> fieldDeleteButtons;
 
 	private ArrayList<JPanel> fieldSubPanels;
-
-	private Component glue;
-
-	private Component glue2;
 
 	private JButton addFieldButton;
 
@@ -122,18 +117,15 @@ public class EditEntityScreen extends Screen {
 		fieldDeleteButtons = new ArrayList<JButton>();
 		triggerDeleteButtons = new ArrayList<JButton>();
 		
-		glue = Box.createVerticalGlue();
-		glue2 = Box.createVerticalGlue();
-		
 		currentTab = "General";
 		
-		fieldListPanel = makeBoxPanel(BoxLayout.Y_AXIS);
+		fieldListPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
 		
-		triggerListPanel = makeBoxPanel(BoxLayout.Y_AXIS);
+		triggerListPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
 		
 		tabs = new JTabbedPane();
 		
-		generalPanel = makeBoxPanel(BoxLayout.PAGE_AXIS);
+		generalPanel = GuiUtility.makeBoxPanel(BoxLayout.PAGE_AXIS);
 		
 		addFieldButton = makeAddFieldButton(this);
 		
@@ -204,7 +196,7 @@ public class EditEntityScreen extends Screen {
 	private void initTriggerListPanel(){
 		triggerListPanel.add(triggerSubPanels.get(0));
 		triggerListPanel.add(addTriggerButton);
-		triggerListPanel.add(glue2);
+		triggerListPanel.add(GuiUtility.createVerticalGlue());
 	}
 	
 	private void initTriggerSubPanels(){
@@ -222,7 +214,7 @@ public class EditEntityScreen extends Screen {
 	private void initFieldListPanel(){
 		fieldListPanel.add(fieldSubPanels.get(0));
 		fieldListPanel.add(addFieldButton);
-		fieldListPanel.add(glue);
+		fieldListPanel.add(GuiUtility.createVerticalGlue());
 	}
 	
 	private void initFieldSubPanels(){
@@ -274,7 +266,7 @@ public class EditEntityScreen extends Screen {
 	}
 	
 	private static JButton makeAddFieldButton(final EditEntityScreen screen){
-		JButton addFieldButton = makeButton("Add Field",new ActionListener() {
+		JButton addFieldButton = GuiUtility.makeButton("Add Field",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				screen.addField();
@@ -284,7 +276,7 @@ public class EditEntityScreen extends Screen {
 	}
 	
 	private static JButton makeAddTriggerButton(final EditEntityScreen screen){
-		JButton addTriggerButton = makeButton("Add Trigger",new ActionListener() {
+		JButton addTriggerButton = GuiUtility.makeButton("Add Trigger",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				screen.addTrigger();
@@ -298,12 +290,12 @@ public class EditEntityScreen extends Screen {
 	}
 	
 	private static JLabel makeGeneralLabel(){
-		JLabel generalLabel = makeLabel("General Info",new PrefSize(300,80),HorizontalAlignment.CENTER);
+		JLabel generalLabel = GuiUtility.makeLabel("General Info",new PrefSize(300,80),HorizontalAlignment.CENTER);
 		return generalLabel;
 	}
 	
 	private static JPanel makeMainPanel(JColorChooser colorTool, JPanel iconPanel){
-		JPanel mainPanel = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel mainPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		mainPanel.setMaximumSize(new Dimension(1200, 500));
 		mainPanel.add(makeColorPanel(colorTool));
 		mainPanel.add(iconPanel);
@@ -327,15 +319,15 @@ public class EditEntityScreen extends Screen {
 	
 	private static JPanel makeTriggerMainPanel(JPanel triggerListPanel){
 		
-		JLabel triggerNameLabel = makeLabel("Trigger Name",new PrefSize(130,30),HorizontalAlignment.LEFT);
+		JLabel triggerNameLabel = GuiUtility.makeLabel("Trigger Name",new PrefSize(130,30),HorizontalAlignment.LEFT);
 		
-		JLabel triggerPriorityLabel = makeLabel("Trigger Priority",new PrefSize(180,30),null);
+		JLabel triggerPriorityLabel = GuiUtility.makeLabel("Trigger Priority",new PrefSize(180,30),null);
 		
-		JLabel triggerConditionLabel = makeLabel("Trigger Condition",new PrefSize(300,30),null);
+		JLabel triggerConditionLabel = GuiUtility.makeLabel("Trigger Condition",new PrefSize(300,30),null);
 		
-		JLabel triggerResultLabel = makeLabel("Trigger Result",new PrefSize(300,30),null);
+		JLabel triggerResultLabel = GuiUtility.makeLabel("Trigger Result",new PrefSize(300,30),null);
 		
-		JPanel triggerLabelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel triggerLabelsPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
 		triggerLabelsPanel.add(triggerNameLabel);
 		triggerLabelsPanel.add(triggerPriorityLabel);
@@ -344,25 +336,25 @@ public class EditEntityScreen extends Screen {
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
 		triggerLabelsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		
-		JLabel triggerLabel = makeLabel("Trigger Info",new PrefSize(300,100),HorizontalAlignment.CENTER);
+		JLabel triggerLabel = GuiUtility.makeLabel("Trigger Info",new PrefSize(300,100),HorizontalAlignment.CENTER);
 		
 		JPanel triggerBodyPanel = makeTriggerBodyPanel();
 		triggerBodyPanel.add(triggerLabelsPanel);
 		triggerBodyPanel.add(triggerListPanel);
 		
-		JPanel triggerMainPanel = makeBorderPanel(new BorderLayout());
+		JPanel triggerMainPanel = GuiUtility.makeBorderPanel(new BorderLayout());
 		triggerMainPanel.add(triggerLabel, BorderLayout.NORTH);
 		triggerMainPanel.add(triggerBodyPanel, BorderLayout.CENTER);
 		return triggerMainPanel;
 	}
 	
 	private static JPanel makeFieldMainPanel(JPanel fieldListPanel){
-		JLabel fieldNameLabel = makeLabel("Field Name",new PrefSize(350,30),HorizontalAlignment.LEFT);
+		JLabel fieldNameLabel = GuiUtility.makeLabel("Field Name",new PrefSize(350,30),HorizontalAlignment.LEFT);
 		fieldNameLabel.setAlignmentX(LEFT_ALIGNMENT);
 		
-		JLabel fieldValueLabel = makeLabel("Field Initial Value",new PrefSize(400,30),HorizontalAlignment.CENTER);
+		JLabel fieldValueLabel = GuiUtility.makeLabel("Field Initial Value",new PrefSize(400,30),HorizontalAlignment.CENTER);
 		
-		JPanel fieldLabelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel fieldLabelsPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		fieldLabelsPanel.add(Box.createHorizontalGlue());
 		fieldLabelsPanel.add(fieldNameLabel);
 		fieldLabelsPanel.add(fieldValueLabel);
@@ -370,9 +362,9 @@ public class EditEntityScreen extends Screen {
 		
 		JPanel fieldBodyPanel = makeFieldBodyPanel(fieldLabelsPanel,fieldListPanel);
 		
-		JLabel fieldLabel = makeLabel("Field Info",new PrefSize(300,100),HorizontalAlignment.CENTER);
+		JLabel fieldLabel = GuiUtility.makeLabel("Field Info",new PrefSize(300,100),HorizontalAlignment.CENTER);
 		
-		JPanel fieldMainPanel = makeBorderPanel(new BorderLayout());
+		JPanel fieldMainPanel = GuiUtility.makeBorderPanel(new BorderLayout());
 		fieldMainPanel.add(fieldLabel, BorderLayout.NORTH);
 		fieldMainPanel.add(fieldBodyPanel, BorderLayout.CENTER);
 		return fieldMainPanel;
@@ -386,14 +378,14 @@ public class EditEntityScreen extends Screen {
 	}
 	
 	private static JPanel makeFieldBodyPanel(JPanel fieldLabelsPanel, JPanel fieldListPanel){
-		JPanel fieldBodyPanel = makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel fieldBodyPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
 		fieldBodyPanel.add(fieldLabelsPanel);
 		fieldBodyPanel.add(fieldListPanel);
 		return fieldBodyPanel;
 	}
 	
 	private static JPanel makeTriggerBodyPanel(){
-		JPanel triggerBodyPanel = makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel triggerBodyPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
 		return triggerBodyPanel;
 	}
 	
@@ -405,7 +397,7 @@ public class EditEntityScreen extends Screen {
 	}
 	
 	private static JButton makeCancelButton(final EditEntityScreen screen, final ScreenManager sm){
-		JButton cancelButton = makeButton("Cancel",new ActionListener() {
+		JButton cancelButton = GuiUtility.makeButton("Cancel",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sm.update(sm.getScreen("Entities"));
@@ -416,7 +408,7 @@ public class EditEntityScreen extends Screen {
 	}
 	
 	private static JButton makeFinishButton(final EditEntityScreen screen, final ScreenManager sm){
-		JButton finishButton = makeButton("Finish",new ActionListener() {
+		JButton finishButton = GuiUtility.makeButton("Finish",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (screen.sendInfo()) {
@@ -598,7 +590,7 @@ public class EditEntityScreen extends Screen {
 	}
 
 	private void addField() {
-		JPanel newPanel = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel newPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		JTextField newName = new JTextField(25);
 		newName.setMaximumSize(new Dimension(300, 40));
 		fieldNames.add(newName);
@@ -608,7 +600,7 @@ public class EditEntityScreen extends Screen {
 		JTextField newValue = new JTextField(25);
 		newValue.setMaximumSize(new Dimension(300, 40));
 		fieldValues.add(newValue);
-		JButton newButton = makeButton("Delete",new DeleteFieldListener());
+		JButton newButton = GuiUtility.makeButton("Delete",new DeleteFieldListener());
 		fieldDeleteButtons.add(newButton);
 		newButton.setActionCommand(fieldDeleteButtons.indexOf(newButton) + "");
 		newPanel.add(newName);
@@ -618,12 +610,12 @@ public class EditEntityScreen extends Screen {
 		fieldSubPanels.add(newPanel);
 		fieldListPanel.add(newPanel);
 		fieldListPanel.add(addFieldButton);
-		fieldListPanel.add(glue);
+		fieldListPanel.add(GuiUtility.createVerticalGlue());
 		repaint();
 	}
 
 	private void addTrigger() {
-		JPanel newPanel = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel newPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		JTextField newName = new JTextField(25);
 		newName.setMaximumSize(new Dimension(200, 40));
 		triggerNames.add(newName);
@@ -636,7 +628,7 @@ public class EditEntityScreen extends Screen {
 		JTextField newResult = new JTextField(50);
 		newResult.setMaximumSize(new Dimension(300, 40));
 		triggerResults.add(newResult);
-		JButton newButton = makeButton("Delete",new DeleteTriggerListener());
+		JButton newButton = GuiUtility.makeButton("Delete",new DeleteTriggerListener());
 		triggerDeleteButtons.add(newButton);
 		newButton.setActionCommand(triggerDeleteButtons.indexOf(newButton)
 				+ "");
@@ -648,7 +640,7 @@ public class EditEntityScreen extends Screen {
 		triggerSubPanels.add(newPanel);
 		triggerListPanel.add(newPanel);
 		triggerListPanel.add(addTriggerButton);
-		triggerListPanel.add(glue2);
+		triggerListPanel.add(GuiUtility.createVerticalGlue());
 		repaint();
 	}
 

@@ -76,22 +76,22 @@ public class ViewSimScreen extends Screen {
 		gridRec = new SimulationRecorder(sm.getStatManager());
 		stepCount = 0;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
-		JPanel layerPanel = makeBoxPanel(BoxLayout.Y_AXIS);
-		panel1 = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel layerPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
+		panel1 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
 		agentComboBox = new JComboBox();
 		panel1.add(agents);
 		panel1.add(agentComboBox);
-		panel2 = makeBoxPanel(BoxLayout.X_AXIS);
+		panel2 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
-		JPanel mainPanel = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel mainPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		layerComboBox = new JComboBox();
 		panel2.add(layers);
 		panel2.add(layerComboBox);
-		JPanel panel3 = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel panel3 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		final JColorChooser colorTool = new JColorChooser();
 		colorTool.setMaximumSize(new Dimension(250, 500));
-		JButton apply = makeButton("Apply",
+		JButton apply = GuiUtility.makeButton("Apply",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
@@ -108,7 +108,7 @@ public class ViewSimScreen extends Screen {
 					} 
 				}
 				);
-		JButton clear = makeButton("Clear",
+		JButton clear = GuiUtility.makeButton("Clear",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
@@ -163,23 +163,23 @@ public class ViewSimScreen extends Screen {
 
 
 	private JButton makeEntitiesButton(){
-		return makeButton("Entities", new GeneralButtonListener("Entities", sm));
+		return GuiUtility.makeButton("Entities", new GeneralButtonListener("Entities", sm));
 	}
 	
 	private JButton makeGlobalFieldsButton(){
-		return makeButton("Global Fields", new GeneralButtonListener("Fields", sm));
+		return GuiUtility.makeButton("Global Fields", new GeneralButtonListener("Fields", sm));
 	}
 	
 	private JButton makeSetupButton(){
-		return makeButton("Setup options", new GeneralButtonListener("Grid Setup", sm));
+		return GuiUtility.makeButton("Setup options", new GeneralButtonListener("Grid Setup", sm));
 	}
 	
 	private JButton makeStatsButton(){
-		return makeButton("Statistics", new GeneralButtonListener("Statistics", sm));
+		return GuiUtility.makeButton("Statistics", new GeneralButtonListener("Statistics", sm));
 	}
 	
 	private JButton makeBackButton(){
-		JButton b = makeButton("Back",new ActionListener() {
+		JButton b = GuiUtility.makeButton("Back",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sm.update(sm.getScreen("Edit Simulation")); 
@@ -190,7 +190,7 @@ public class ViewSimScreen extends Screen {
 	}
 
 	private JButton makePauseButton(){
-		JButton b = makeButton("Pause",
+		JButton b = GuiUtility.makeButton("Pause",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -203,7 +203,7 @@ public class ViewSimScreen extends Screen {
 	}
 
 	private JButton makeStartButton(){
-		JButton b = makeButton("Start/Resume",new ActionListener() {
+		JButton b = GuiUtility.makeButton("Start/Resume",new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (!sm.hasStarted()) {

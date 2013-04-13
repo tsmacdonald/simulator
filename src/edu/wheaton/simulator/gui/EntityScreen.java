@@ -46,9 +46,9 @@ public class EntityScreen extends Screen {
 	
 	public EntityScreen(final ScreenManager sm) {
 		super(sm);
-		JLabel label = makeLabel("Entities",new PrefSize(300, 100),HorizontalAlignment.CENTER);
+		JLabel label = GuiUtility.makeLabel("Entities",new PrefSize(300, 100),HorizontalAlignment.CENTER);
 		this.setLayout(new BorderLayout());
-		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel mainPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel listPanel = new JPanel();
 		//listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
@@ -73,9 +73,9 @@ public class EntityScreen extends Screen {
 		});
 		listPanel.add(entityList);
 		listPanel.setAlignmentX(CENTER_ALIGNMENT);
-		delete = makeButton("Delete",new DeleteListener());
-		JButton add = makeButton("Add",new AddListener(sm));
-		edit = makeButton("Edit",new EditListener(sm));
+		delete = GuiUtility.makeButton("Delete",new DeleteListener());
+		JButton add = GuiUtility.makeButton("Add",new AddListener(sm));
+		edit = GuiUtility.makeButton("Edit",new EditListener(sm));
 		edit.setEnabled(false);
 		entityList.addListSelectionListener(
 				new ListSelectionListener() {
@@ -85,7 +85,7 @@ public class EntityScreen extends Screen {
 					}
 				}
 				);
-		JButton back = makeButton("Back",new BackListener(sm));
+		JButton back = GuiUtility.makeButton("Back",new BackListener(sm));
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(add);
 		buttonPanel.add(Box.createHorizontalStrut(5));
