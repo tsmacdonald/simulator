@@ -51,7 +51,7 @@ public class EditFieldScreen extends Screen {
 		JPanel buttonPanel = new JPanel();
 		JLabel nameLabel = new JLabel("Field Name: ");
 		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		nameField = new JTextField(40);
+		nameField = new JTextField(40);   
 		nameField.setMaximumSize(new Dimension(300, 40));
 		//		JLabel typeLabel = new JLabel("Field Type: ");
 		//		typeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
