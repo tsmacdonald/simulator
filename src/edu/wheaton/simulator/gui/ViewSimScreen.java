@@ -113,6 +113,30 @@ public class ViewSimScreen extends Screen {
 				}
 				);
 		
+		
+		
+		layerPanelAgents = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
+		layerPanelAgents.add(agents);
+		layerPanelAgents.add(agentComboBox);
+		
+		layerPanelLayers = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
+		layerPanelLayers.add(layers);
+		layerPanelLayers.add(layerComboBox);
+		
+		JPanel layerPanelButtons = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
+		layerPanelButtons.add(apply);
+		layerPanelButtons.add(clear);
+		
+		JPanel upperLayerPanel = GuiUtility.makePanel(BoxLayoutAxis.PAGE_AXIS, null, null);
+		upperLayerPanel.add(layerPanelAgents);
+		upperLayerPanel.add(layerPanelLayers);
+		upperLayerPanel.add(layerPanelButtons);
+		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
+		
+		JPanel colorPanel = GuiUtility.makeColorChooserPanel(colorTool);
+		
+		grid = new GridPanel(sm);
+		grid.setAlignmentY(CENTER_ALIGNMENT);
 		grid.addMouseListener(
 				new MouseListener() {
 
@@ -145,30 +169,8 @@ public class ViewSimScreen extends Screen {
 						return;						
 					}
 			
-		}
+		});
 		
-		layerPanelAgents = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
-		layerPanelAgents.add(agents);
-		layerPanelAgents.add(agentComboBox);
-		
-		layerPanelLayers = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
-		layerPanelLayers.add(layers);
-		layerPanelLayers.add(layerComboBox);
-		
-		JPanel layerPanelButtons = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
-		layerPanelButtons.add(apply);
-		layerPanelButtons.add(clear);
-		
-		JPanel upperLayerPanel = GuiUtility.makePanel(BoxLayoutAxis.PAGE_AXIS, null, null);
-		upperLayerPanel.add(layerPanelAgents);
-		upperLayerPanel.add(layerPanelLayers);
-		upperLayerPanel.add(layerPanelButtons);
-		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
-		
-		JPanel colorPanel = GuiUtility.makeColorChooserPanel(colorTool);
-		
-		grid = new GridPanel(sm);
-		grid.setAlignmentY(CENTER_ALIGNMENT);
 		
 		JPanel layerPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		layerPanel.setAlignmentY(CENTER_ALIGNMENT);

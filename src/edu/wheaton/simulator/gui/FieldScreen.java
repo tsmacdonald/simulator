@@ -34,9 +34,9 @@ public class FieldScreen extends Screen {
 
 	private static final long serialVersionUID = -4286820591194407735L;
 
-//	private JComboBox xPos;
-//
-//	private JComboBox yPos;
+	//	private JComboBox xPos;
+	//
+	//	private JComboBox yPos;
 
 	private JList fields;
 
@@ -45,9 +45,9 @@ public class FieldScreen extends Screen {
 	private JButton delete;
 
 	private JButton add;
-	
+
 	private JButton edit;
-	
+
 	private static boolean editing;
 
 	//TODO prevent clicking edit when no object is selected 
@@ -62,24 +62,24 @@ public class FieldScreen extends Screen {
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel panel = GuiUtility.makePanel((LayoutManager)null , MaxSize.NULL, new PrefSize(450,550));
 		//panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		
-//		JLabel xLabel = new JLabel("X Pos: ");
-//		xPos = new JComboBox();
-//		xPos.setMaximumSize(new Dimension(150, 40));
-//		xPos.addItem(0);
-//		xPos.addActionListener(new BoxListener());
-//		JLabel yLabel = new JLabel("Y Pos: ");
-//		yPos = new JComboBox();
-//		yPos.setMaximumSize(new Dimension(150, 40));
-//		yPos.addItem(0);
-//		yPos.addActionListener(new BoxListener());
-//		JPanel posPanel = new JPanel();
-//		posPanel.setLayout(new BoxLayout(posPanel, BoxLayout.X_AXIS));
-//		posPanel.add(xLabel);
-//		posPanel.add(xPos);
-//		posPanel.add(yLabel);
-//		posPanel.add(yPos);
-//		posPanel.setAlignmentX(CENTER_ALIGNMENT);
+
+		//		JLabel xLabel = new JLabel("X Pos: ");
+		//		xPos = new JComboBox();
+		//		xPos.setMaximumSize(new Dimension(150, 40));
+		//		xPos.addItem(0);
+		//		xPos.addActionListener(new BoxListener());
+		//		JLabel yLabel = new JLabel("Y Pos: ");
+		//		yPos = new JComboBox();
+		//		yPos.setMaximumSize(new Dimension(150, 40));
+		//		yPos.addItem(0);
+		//		yPos.addActionListener(new BoxListener());
+		//		JPanel posPanel = new JPanel();
+		//		posPanel.setLayout(new BoxLayout(posPanel, BoxLayout.X_AXIS));
+		//		posPanel.add(xLabel);
+		//		posPanel.add(xPos);
+		//		posPanel.add(yLabel);
+		//		posPanel.add(yPos);
+		//		posPanel.setAlignmentX(CENTER_ALIGNMENT);
 		listModel = new DefaultListModel();
 		fields = new JList(listModel);
 		fields.setBackground(Color.white);
@@ -91,7 +91,7 @@ public class FieldScreen extends Screen {
 		fields.addListSelectionListener(new ListListener());
 		panel.add(fields);
 		fields.setAlignmentX(CENTER_ALIGNMENT);
-		delete = GuiUtility.makeButton("Delete",new DeleteListener(listModel, fields, delete));
+		delete = GuiUtility.makeButton("Delete",new DeleteListener(listModel, fields));
 		add = GuiUtility.makeButton("Add",new FieldAddListener(sm));
 		edit = GuiUtility.makeButton("Edit",new FieldEditListener(sm, fields));
 		JButton back = GuiUtility.makeButton("Back",
@@ -118,50 +118,50 @@ public class FieldScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		edit.setEnabled(false);
-		delete.setEnabled(false);
-		
-//		if (xPos.getItemCount() != GUI.getGridWidth()) {
-//			xPos.removeAllItems();
-//			for (int i = 0; i < GUI.getGridWidth(); i++) {
-//				xPos.addItem(i + "");
-//			}
-//		}
-//		if (yPos.getItemCount() != GUI.getGridHeight()) {
-//			yPos.removeAllItems();
-//			for (int j = 0; j < GUI.getGridWidth(); j++) {
-//				yPos.addItem(j + "");
-//			}
-//		}
+
+		//		if (xPos.getItemCount() != GUI.getGridWidth()) {
+		//			xPos.removeAllItems();
+		//			for (int i = 0; i < GUI.getGridWidth(); i++) {
+		//				xPos.addItem(i + "");
+		//			}
+		//		}
+		//		if (yPos.getItemCount() != GUI.getGridHeight()) {
+		//			yPos.removeAllItems();
+		//			for (int j = 0; j < GUI.getGridWidth(); j++) {
+		//				yPos.addItem(j + "");
+		//			}
+		//		}
 		Map<String, String> map = sm.getFacade().getGrid()
-//				.getSlot(Integer.parseInt(xPos.getSelectedItem().toString()),Integer.parseInt(yPos.getSelectedItem().toString()))
+				//				.getSlot(Integer.parseInt(xPos.getSelectedItem().toString()),Integer.parseInt(yPos.getSelectedItem().toString()))
 				.getCustomFieldMap();
 		Object[] fieldsA = map.keySet().toArray();
 		for(Object s: fieldsA){
 			System.out.println((String) s);
 			listModel.addElement(s);
 		}
-		
+		edit.setEnabled(false);
+		delete.setEnabled(false);
+
 	}
 
-//	private class BoxListener implements ActionListener {
-//		@Override
-//		public void actionPerformed(ActionEvent arg0) {
-//			if (xPos.getSelectedIndex() >= 0 && yPos.getSelectedIndex() >= 0) {
-//				Map<String, String> fieldNames = sm.getFacade().getGrid().getSlot(
-//						xPos.getSelectedIndex(), yPos.getSelectedIndex()
-//						).getCustomFieldMap();
-//				listModel.clear();
-//				if (fieldNames != null) {
-//					for (String s : fieldNames.keySet()) {
-//						listModel.addElement(s);
-//					}
-//				}
-//			}
-//			edit.setEnabled(false);
-//		}
-//	}
-	
+	//	private class BoxListener implements ActionListener {
+	//		@Override
+	//		public void actionPerformed(ActionEvent arg0) {
+	//			if (xPos.getSelectedIndex() >= 0 && yPos.getSelectedIndex() >= 0) {
+	//				Map<String, String> fieldNames = sm.getFacade().getGrid().getSlot(
+	//						xPos.getSelectedIndex(), yPos.getSelectedIndex()
+	//						).getCustomFieldMap();
+	//				listModel.clear();
+	//				if (fieldNames != null) {
+	//					for (String s : fieldNames.keySet()) {
+	//						listModel.addElement(s);
+	//					}
+	//				}
+	//			}
+	//			edit.setEnabled(false);
+	//		}
+	//	}
+
 	private class ListListener implements ListSelectionListener {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
@@ -174,12 +174,10 @@ public class FieldScreen extends Screen {
 
 		private DefaultListModel listModel;
 		private JList fields;
-		private JButton delete;
 
-		public DeleteListener(DefaultListModel listModel, JList fields, JButton delete){
+		public DeleteListener(DefaultListModel listModel, JList fields){
 			this.listModel = listModel;
 			this.fields = fields;
-			this.delete = delete;
 		}
 
 		@Override
@@ -188,15 +186,18 @@ public class FieldScreen extends Screen {
 			sm.getFacade().removeGlobalField((String)fields.getSelectedValue());
 			listModel.remove(index);
 			int size = listModel.getSize();
-			if(size == 0)
+			if(size == 0) {
+				edit.setEnabled(false);
 				delete.setEnabled(false);
+				
+			}
 			if(index == size)
 				index--;
 			fields.setSelectedIndex(index);
 			fields.ensureIndexIsVisible(index);
 		}	
 	}
-	
+
 	public static boolean getEditing(){
 		return editing;
 	}

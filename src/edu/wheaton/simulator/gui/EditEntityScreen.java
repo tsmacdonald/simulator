@@ -14,6 +14,8 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -91,6 +93,8 @@ public class EditEntityScreen extends Screen {
 	private JButton previousButton;
 	
 	private JButton finishButton;
+	
+	private GridBagConstraints c;
 
 	
 	//TODO addField/Trigger buttons don't work, some polishing to do on next/previous buttons
@@ -101,6 +105,8 @@ public class EditEntityScreen extends Screen {
 		removedFields = new HashSet<Integer>();
 		removedTriggers = new HashSet<Integer>();
 
+		JLabel nameLabel = new JLabel("Agent Name: ");
+		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		nameField = new JTextField(25);
 		nameField.setMaximumSize(new Dimension(400, 40));
 
@@ -131,9 +137,9 @@ public class EditEntityScreen extends Screen {
 		triggerListPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,MaxSize.NULL,PrefSize.NULL);
 
 		cards = new JPanel(new CardLayout());
-		//tabs = new JTabbedPane();
 
-		generalPanel = GuiUtility.makePanel(BoxLayoutAxis.PAGE_AXIS,MaxSize.NULL,PrefSize.NULL);
+		generalPanel = new JPanel(new GridBagLayout());
+		//generalPanel = GuiUtility.makePanel(BoxLayoutAxis.PAGE_AXIS,MaxSize.NULL,PrefSize.NULL);
 
 		final EditEntityScreen xThis = this;
 		addFieldButton = GuiUtility.makeButton("Add Field",new ActionListener() {
@@ -163,20 +169,50 @@ public class EditEntityScreen extends Screen {
 
 		JLabel generalLabel = GuiUtility.makeLabel("General Info",new PrefSize(300,80),HorizontalAlignment.CENTER);
 		
-		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,MaxSize.NULL,PrefSize.NULL);
+		//JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,MaxSize.NULL,PrefSize.NULL);
 		
 		JPanel colorPanel = GuiUtility.makeColorChooserPanel(colorTool);
 		Dimension maxSize = colorPanel.getMaximumSize();
 		maxSize.height += 50;
 		colorPanel.setMaximumSize(maxSize);
-		mainPanel.add(colorPanel);
 		
-		mainPanel.add(iconPanel);
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.PAGE_START;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 4;
+		generalPanel.add(generalLabel, c);
 		
-		generalPanel.add(generalLabel);
-		generalPanel.add(new JLabel("Name: "));
-		generalPanel.add(nameField);
-		generalPanel.add(mainPanel);
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		generalPanel.add(nameLabel, c);
+		
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		generalPanel.add(nameField, c);
+		
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.weighty = 1.0;
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 2;
+		generalPanel.add(colorPanel, c);
+		
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.weighty = 1.0;
+		c.gridx = 2;
+		c.gridy = 2;
+		c.gridwidth = 2;
+		generalPanel.add(iconPanel, c);
 		//generalPanel.add(loadIconButton);
 
 		//JLabel fieldTypeLabel = new JLabel("Field Type");
@@ -348,7 +384,6 @@ public class EditEntityScreen extends Screen {
 
 	public void load(String str) {
 		reset();
-		((CardLayout)cards.getLayout()).next(cards);
 		sm.getFacade();
 		agent = GUIToAgentFacade.getPrototype(str);
 		nameField.setText(agent.getName());
@@ -386,6 +421,8 @@ public class EditEntityScreen extends Screen {
 
 	public void reset() {
 		agent = null;
+		currentCard = "General";
+		((CardLayout)cards.getLayout()).first(cards);
 		nameField.setText("");
 		colorTool.setColor(Color.WHITE);
 		for (int x = 0; x < 7; x++) {
@@ -411,6 +448,9 @@ public class EditEntityScreen extends Screen {
 		removedTriggers.clear();
 		triggerListPanel.removeAll();
 		triggerListPanel.add(addTriggerButton);
+		previousButton.setEnabled(false);
+		nextButton.setEnabled(true);
+		finishButton.setEnabled(false);
 	}
 
 	public boolean sendInfo() {
@@ -535,6 +575,7 @@ public class EditEntityScreen extends Screen {
 		fieldListPanel.add(newPanel);
 		fieldListPanel.add(addFieldButton);
 		fieldListPanel.add(Box.createVerticalGlue());
+		validate();
 		repaint();
 	}
 
@@ -600,6 +641,7 @@ public class EditEntityScreen extends Screen {
 			removedFields.add(Integer.parseInt(e.getActionCommand()));
 			fieldListPanel.remove(fieldSubPanels.get(Integer.parseInt(e
 					.getActionCommand())));
+			validate();
 			repaint();
 		}
 	}
@@ -609,8 +651,10 @@ public class EditEntityScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			removedTriggers.add(Integer.parseInt(e.getActionCommand()));
-			triggerListPanel.remove(triggerSubPanels.get(Integer.parseInt(e
-					.getActionCommand())));
+			triggerListPanel.remove(triggerSubPanels.get(Integer.parseInt(
+					e.getActionCommand()))
+					);
+			validate();
 			repaint();
 		}
 	}
@@ -642,16 +686,15 @@ private class PreviousListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			CardLayout c1 = (CardLayout)cards.getLayout();
 			if (currentCard == "Fields"){
-				sendFieldInfo();
+				//sendFieldInfo();
 				previousButton.setEnabled(false);
 				c1.previous(cards);
 				currentCard = "General";
 			}
 			else if (currentCard == "Triggers"){
-				sendTriggerInfo();
+				//sendTriggerInfo();
 				c1.previous(cards);
 				nextButton.setEnabled(true);
-				finishButton.setEnabled(false);
 				currentCard = "Fields";
 			}
 		}

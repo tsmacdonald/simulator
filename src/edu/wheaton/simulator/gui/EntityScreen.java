@@ -62,8 +62,7 @@ public class EntityScreen extends Screen {
 		entityList.addListSelectionListener( new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent le){
-				if(!edit.isEnabled())
-					edit.setEnabled(true);
+					edit.setEnabled(!sm.hasStarted());
 			}
 		});
 		delete = GuiUtility.makeButton("Delete",new DeleteListener());
@@ -74,7 +73,7 @@ public class EntityScreen extends Screen {
 				new ListSelectionListener() {
 					@Override
 					public void valueChanged(ListSelectionEvent e) {
-						edit.setEnabled(sm.hasStarted() ? false : true);
+						edit.setEnabled(!sm.hasStarted());
 					}
 				}
 				);
@@ -83,28 +82,32 @@ public class EntityScreen extends Screen {
 		//formatting needs a little work but this is now in GridBagLayout 
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipadx = 0;
+		c.gridx = 0;
 		c.gridy = 2;
 		this.add(add, c); 
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipadx = 0;
+		c.gridx = 1;
 		c.gridy = 2;
 		this.add(edit, c);
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipadx = 0;
+		c.gridx = 2;
 		c.gridy = 2;
 		this.add(delete, c);
 		//The code between this comment and the next
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipadx = 0;
+		c.gridx = 3;
 		c.gridy = 2;
 		this.add(back, c);
 		//will be removed once added to tabbed pane
 		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
 		c.gridy = 0;
+		c.gridwidth = 4;
 		this.add(label, c);
 		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
 		c.gridy = 1;
+		c.gridwidth = 4;
 		this.add(entityList, c);
 		
 	}
@@ -116,13 +119,13 @@ public class EntityScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		edit.setEnabled(false);
 		delete.setEnabled(sm.hasStarted() ? false : true); 
 		sm.getFacade();
 		Set<String> entities = GUIToAgentFacade.prototypeNames();
 		for (String s : entities) {
 			listModel.addElement(s);
 		}
+		edit.setEnabled(false);
 	}
 	
 	class DeleteListener implements ActionListener {
