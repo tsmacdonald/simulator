@@ -1,6 +1,6 @@
 package edu.wheaton.simulator.gui;
 
-import java.awt.BorderLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
@@ -44,15 +44,27 @@ public final class GuiUtility {
 		return label;
 	}
 	
-	public static JPanel makeBorderPanel(BorderLayout layout){
+	public static JPanel makePanel(LayoutManager layout, MaxSize maxSize, PrefSize prefSize){
 		JPanel panel = new JPanel();
-		panel.setLayout(layout);
+		
+		if(layout != null)
+			panel.setLayout(layout);
+		if(maxSize != null)
+			panel.setMaximumSize(maxSize);
+		if(prefSize != null)
+			panel.setPreferredSize(prefSize);
 		return panel;
 	}
 	
-	public static JPanel makeBoxPanel(int axis){
+	public static JPanel makePanel(BoxLayoutAxis axis, MaxSize maxSize, PrefSize prefSize){
 		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, axis));
+		
+		if(axis != null)
+			panel.setLayout(new BoxLayout(panel, axis.code));
+		if(maxSize != null)
+			panel.setMaximumSize(maxSize);
+		if(prefSize != null)
+			panel.setPreferredSize(prefSize);
 		return panel;
 	}
 	

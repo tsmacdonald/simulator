@@ -20,7 +20,6 @@ import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -48,7 +47,7 @@ public class EntityScreen extends Screen {
 		super(sm);
 		JLabel label = GuiUtility.makeLabel("Entities",new PrefSize(300, 100),HorizontalAlignment.CENTER);
 		this.setLayout(new BorderLayout());
-		JPanel mainPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel listPanel = new JPanel();
 		//listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));

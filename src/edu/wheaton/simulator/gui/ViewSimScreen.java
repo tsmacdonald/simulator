@@ -12,13 +12,13 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
@@ -76,19 +76,19 @@ public class ViewSimScreen extends Screen {
 		gridRec = new SimulationRecorder(sm.getStatManager());
 		stepCount = 0;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
-		JPanel layerPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
-		panel1 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel layerPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		panel1 = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
 		agentComboBox = GuiUtility.makeComboBox(null,new MaxSize(200,50));
 		panel1.add(agents);
 		panel1.add(agentComboBox);
-		panel2 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
+		panel2 = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
-		JPanel mainPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		layerComboBox = GuiUtility.makeComboBox(null, new MaxSize(200,50));
 		panel2.add(layers);
 		panel2.add(layerComboBox);
-		JPanel panel3 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel panel3 = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		final JColorChooser colorTool = new JColorChooser();
 		colorTool.setMaximumSize(new Dimension(250, 500));
 		JButton apply = GuiUtility.makeButton("Apply",
@@ -144,8 +144,7 @@ public class ViewSimScreen extends Screen {
 	}
 
 	private JPanel makeButtonPanel(){
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setMaximumSize(new Dimension(500, 50));
+		JPanel buttonPanel = GuiUtility.makePanel((LayoutManager)null,new MaxSize(500,50),PrefSize.NULL);
 		buttonPanel.add(makeStartButton());
 		buttonPanel.add(makePauseButton());
 		//TODO most of these will become tabs, adding temporarily for navigation purposes

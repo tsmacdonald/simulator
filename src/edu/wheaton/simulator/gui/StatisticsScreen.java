@@ -139,7 +139,7 @@ public class StatisticsScreen extends Screen {
 	}
 	
 	private JPanel makeMainPanel(JPanel dataPanel, JComboBox cardSelector){
-		JPanel mainPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		mainPanel.add(makeGraphPanel());
 		mainPanel.add(makeBoxPanel(cardSelector));
 		mainPanel.add(dataPanel);

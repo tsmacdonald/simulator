@@ -51,15 +51,11 @@ public class EditSimScreen extends Screen {
 		JButton viewSimulation = GuiUtility.makeButton("View Simulation",new GeneralButtonListener("View Simulation", sm));
 		viewSimulation.setPreferredSize(new Dimension(400, 120));
 		
-		JPanel mainPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
-		mainPanel.setMaximumSize(new Dimension(800, 1000));
+		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,new MaxSize(800,1000),null);
 		mainPanel.setPreferredSize(new Dimension(800, 1000));
-		JPanel panel1 = new JPanel();
-		panel1.setLayout(new GridLayout(1, 3));
-		JPanel panel2 = new JPanel();
-		panel2.setLayout(new GridLayout(1, 3));
-		JPanel panel3 = new JPanel();
-		panel3.setLayout(new GridLayout(1, 2));
+		JPanel panel1 = new JPanel(new GridLayout(1, 3));
+		JPanel panel2 = new JPanel(new GridLayout(1, 3));
+		JPanel panel3 = new JPanel(new GridLayout(1, 2));
 		JPanel panel4 = new JPanel();
 		panel1.add(newSimulation);
 		panel1.add(loadExisting);

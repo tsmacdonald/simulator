@@ -1,14 +1,12 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Set;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -144,7 +142,7 @@ public class SetupScreen extends Screen {
 	private static JPanel makeConMainPanel(JPanel conListPanel, JTextField timeField){
 		JLabel endingLabel = GuiUtility.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
 		
-		JPanel conMainPanel = GuiUtility.makeBorderPanel(new BorderLayout());
+		JPanel conMainPanel = GuiUtility.makePanel(new BorderLayout(),MaxSize.NULL,PrefSize.NULL);
 		conMainPanel.add(endingLabel, BorderLayout.NORTH);
 
 		JPanel conBodyPanel = makeConBodyPanel(conListPanel, timeField);
@@ -155,7 +153,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeTimePanel(JTextField timeField){
-		JPanel timePanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel timePanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		JLabel timeLabel = new JLabel("Time limit: ");
 		timePanel.add(timeLabel);
 		timePanel.add(timeField);
@@ -164,7 +162,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeConLabelsPanel(){
-		JPanel conLabelsPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel conLabelsPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		conLabelsPanel.add(Box.createHorizontalGlue());
 		conLabelsPanel.add(makeAgentTypeLabel());
 		
@@ -176,14 +174,14 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeConListPanel(JButton addConditionButton){
-		JPanel conListPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel conListPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		conListPanel.add(addConditionButton);
 		conListPanel.add(Box.createVerticalGlue());
 		return conListPanel;
 	}
 
 	private static JPanel makeConBodyPanel(JPanel conListPanel, JTextField timeField){
-		JPanel conBodyPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel conBodyPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 
 		JPanel timePanel = makeTimePanel(timeField);
 
@@ -197,7 +195,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeUberPanel(JPanel conListPanel, JTextField timeField, JTextField nameField, JComboBox updateBox){
-		JPanel uberPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel uberPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 
 		JLabel nameLabel = GuiUtility.makeLabel("Name: ",new MaxSize(100,40), HorizontalAlignment.RIGHT);
 		JLabel updateLabel = GuiUtility.makeLabel("Update type: ",new MaxSize(100,40),null);
@@ -283,7 +281,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeMainPanel(JLabel nameLabel, JTextField nameField, JLabel updateLabel, JComboBox updateBox ){
-		JPanel mainPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
 
 		mainPanel.add( makePanel1(nameLabel,nameField) );
@@ -294,14 +292,14 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makePanel1(JLabel nameLabel, JTextField nameField){
-		JPanel panel1 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel panel1 = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		panel1.add(nameLabel);
 		panel1.add(nameField);
 		return panel1;
 	}
 
 	private static JPanel makePanel3(JLabel updateLabel, JComboBox updateBox){
-		JPanel panel3 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel panel3 = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		panel3.add(updateLabel);
 		panel3.add(updateBox);
 		return panel3;
@@ -354,14 +352,13 @@ public class SetupScreen extends Screen {
 
 
 	private void addCondition() {
-		JPanel newPanel = GuiUtility.makeBoxPanel( BoxLayout.X_AXIS);
+		JPanel newPanel = GuiUtility.makePanel( BoxLayoutAxis.X_AXIS,null,null);
 		JComboBox newBox = GuiUtility.makeComboBox(agentNames,new MaxSize(300,40));
 		agentTypes.add(newBox);
 		//		JComboBox newOps = new JComboBox(opNames);
 		//		newOps.setMaximumSize(new Dimension(200, 40));
 		//		operations.add(newOps);
-		JTextField newValue = new JTextField(25);
-		newValue.setMaximumSize(new Dimension(300, 40));
+		JTextField newValue = GuiUtility.makeTextField(null,25,new MaxSize(300,40),MinSize.NULL);
 		values.add(newValue);
 		JButton newButton = GuiUtility.makeButton("Delete",new DeleteListener());
 		deleteButtons.add(newButton);

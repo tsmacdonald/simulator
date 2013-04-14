@@ -11,7 +11,6 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -19,7 +18,6 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -65,9 +63,9 @@ public class SpawningScreen extends Screen {
 		this.setLayout(new BorderLayout());
 		entities = new String[0];
 		JLabel label = GuiUtility.makeLabel("Spawning",new PrefSize(300, 150),HorizontalAlignment.CENTER);
-		JPanel mainPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
-		listPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
-		JPanel labelsPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		listPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		JPanel labelsPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 
 		//TODO mess with sizes of labels to line up with components
 		JLabel entityLabel = GuiUtility.makeLabel("Entity Type",new PrefSize(200, 30),HorizontalAlignment.CENTER);
@@ -201,21 +199,17 @@ public class SpawningScreen extends Screen {
 	}
 
 	private void addSpawn() {
-		JPanel newPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
-		JComboBox newBox = new JComboBox(entities);
-		newBox.setMaximumSize(new Dimension(250, 30));
+		JPanel newPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		JComboBox newBox = GuiUtility.makeComboBox(entities,new MaxSize(250,30));
 		entityTypes.add(newBox);
-		JComboBox newSpawnType = new JComboBox(spawnOptions);
-		newSpawnType.setMaximumSize(new Dimension(250, 30));
+		JComboBox newSpawnType = GuiUtility.makeComboBox(spawnOptions,new MaxSize(250,30));
 		spawnPatterns.add(newSpawnType);
 		newSpawnType.addItemListener(new PatternListener(spawnPatterns.indexOf(newSpawnType)));
 		
 		JTextField newXLoc = GuiUtility.makeTextField("0",10,new MaxSize(100,30),MinSize.NULL);
 		
 		xLocs.add(newXLoc);
-		JTextField newYLoc = new JTextField(10);
-		newYLoc.setMaximumSize(new Dimension(100, 30));
-		newYLoc.setText("0");
+		JTextField newYLoc = GuiUtility.makeTextField("0",10,new MaxSize(100,30),null);
 		yLocs.add(newYLoc);
 		
 		JTextField newNumber = GuiUtility.makeTextField("1",10, new MaxSize(100,30),MinSize.NULL);

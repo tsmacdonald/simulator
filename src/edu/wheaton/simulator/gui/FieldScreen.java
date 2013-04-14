@@ -14,13 +14,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -58,10 +58,9 @@ public class FieldScreen extends Screen {
 		JLabel label = GuiUtility.makeLabel("Fields",new PrefSize(300, 100),HorizontalAlignment.CENTER);
 		
 		this.setLayout(new BorderLayout());
-		JPanel mainPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
-		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(450, 550));
+		JPanel panel = GuiUtility.makePanel((LayoutManager)null , MaxSize.NULL, new PrefSize(450,550));
 		//panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 //		JLabel xLabel = new JLabel("X Pos: ");

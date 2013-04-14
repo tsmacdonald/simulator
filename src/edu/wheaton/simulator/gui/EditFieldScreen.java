@@ -16,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -43,21 +42,19 @@ public class EditFieldScreen extends Screen {
 		this.setLayout(new BorderLayout());
 		JLabel label = GuiUtility.makeLabel("Edit Field",new PrefSize(300, 150),HorizontalAlignment.CENTER);
 		
-		JPanel mainPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
-		JPanel panel1 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
-		JPanel panel2 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
-		JPanel panel3 = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		JPanel panel1 = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		JPanel panel2 = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		JPanel panel3 = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		JPanel buttonPanel = new JPanel();
 		JLabel nameLabel = GuiUtility.makeLabel("Field Name: ",MaxSize.NULL,HorizontalAlignment.RIGHT);
-		nameField = new JTextField(40);
-		nameField.setMaximumSize(new Dimension(300, 40));
+		nameField = GuiUtility.makeTextField(null,40, new MaxSize(300,40),null);
 		//		JLabel typeLabel = new JLabel("Field Type: ");
 		//		typeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		//		fieldType = new JComboBox(typeNames);
 		//		fieldType.setMaximumSize(new Dimension(300, 40));
 		JLabel valueLabel = new JLabel("Initial Value: ",SwingConstants.RIGHT);
-		initValue = new JTextField(40);
-		initValue.setMaximumSize(new Dimension(300, 40));
+		initValue = GuiUtility.makeTextField(null,40,new MaxSize(300,40),null);
 		JButton cancelButton = GuiUtility.makeButton("Cancel",
 				new ActionListener() {
 					@Override
