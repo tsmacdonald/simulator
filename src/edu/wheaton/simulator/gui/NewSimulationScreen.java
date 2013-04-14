@@ -80,9 +80,7 @@ public class NewSimulationScreen extends Screen {
 		c.gridy = 1;
 		c.gridwidth = 3;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JTextField nameField = new JTextField(30);
-		//nameField.setPreferredSize(new Dimension(400, 30));
-		nameField.setText(initText);
+		JTextField nameField = GuiUtility.makeTextField(initText,30,MaxSize.NULL,MinSize.NULL);
 		this.add(nameField, c);
 		return nameField;
 
@@ -93,16 +91,13 @@ public class NewSimulationScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JLabel heightLabel = new JLabel(label);
-		heightLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		JLabel heightLabel = GuiUtility.makeLabel(label,MaxSize.NULL,HorizontalAlignment.RIGHT);
 		this.add(heightLabel, c);
 
 		c.gridx = 1;
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JTextField heightField = new JTextField(10);
-		heightField.setMinimumSize(new Dimension(70, 30));
-		heightField.setText(initText);
+		JTextField heightField = GuiUtility.makeTextField(initText,10,MaxSize.NULL,new MinSize(70,30));
 		this.add(heightField, c);
 		return heightField;
 
@@ -119,9 +114,7 @@ public class NewSimulationScreen extends Screen {
 		c.gridx = 3;
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JTextField widthField = new JTextField(10);
-		widthField.setText(initText);
-		widthField.setMinimumSize(new Dimension(70, 30));
+		JTextField widthField = GuiUtility.makeTextField(initText,10,MaxSize.NULL,new MinSize(70,30));
 		this.add(widthField, c);
 		return widthField;
 	}

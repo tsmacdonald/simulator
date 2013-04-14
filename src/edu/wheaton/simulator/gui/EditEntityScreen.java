@@ -219,8 +219,9 @@ public class EditEntityScreen extends Screen {
 	}
 
 	private void initGeneralPanel(JPanel iconPanel){
-		generalPanel.add(makeGeneralLabel());
-		generalPanel.add(makeNameLabel());
+		JLabel generalLabel = GuiUtility.makeLabel("General Info",new PrefSize(300,80),HorizontalAlignment.CENTER);
+		generalPanel.add(generalLabel);
+		generalPanel.add(new JLabel("Name: "));
 		generalPanel.add(nameField);
 		generalPanel.add(makeMainPanel(colorTool,iconPanel));
 		//generalPanel.add(loadIconButton);
@@ -277,15 +278,6 @@ public class EditEntityScreen extends Screen {
 		return addTriggerButton;
 	}
 
-	private static JLabel makeNameLabel(){
-		return new JLabel("Name: ");
-	}
-
-	private static JLabel makeGeneralLabel(){
-		JLabel generalLabel = GuiUtility.makeLabel("General Info",new PrefSize(300,80),HorizontalAlignment.CENTER);
-		return generalLabel;
-	}
-
 	private static JPanel makeMainPanel(JColorChooser colorTool, JPanel iconPanel){
 		JPanel mainPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		mainPanel.setMaximumSize(new Dimension(1200, 500));
@@ -333,7 +325,7 @@ public class EditEntityScreen extends Screen {
 		
 		JLabel triggerLabel = GuiUtility.makeLabel("Trigger Info",new PrefSize(300,100),HorizontalAlignment.CENTER);
 		
-		JPanel triggerBodyPanel = makeTriggerBodyPanel();
+		JPanel triggerBodyPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
 		triggerBodyPanel.add(triggerLabelsPanel);
 		triggerBodyPanel.add(triggerListPanel);
 		
@@ -387,11 +379,6 @@ public class EditEntityScreen extends Screen {
 		fieldBodyPanel.add(fieldLabelsPanel);
 		fieldBodyPanel.add(fieldListPanel);
 		return fieldBodyPanel;
-	}
-
-	private static JPanel makeTriggerBodyPanel(){
-		JPanel triggerBodyPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
-		return triggerBodyPanel;
 	}
 
 	private static JLabel makeScreenLabel(){

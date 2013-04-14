@@ -209,17 +209,17 @@ public class SpawningScreen extends Screen {
 		newSpawnType.setMaximumSize(new Dimension(250, 30));
 		spawnPatterns.add(newSpawnType);
 		newSpawnType.addItemListener(new PatternListener(spawnPatterns.indexOf(newSpawnType)));
-		JTextField newXLoc = new JTextField(10);
-		newXLoc.setMaximumSize(new Dimension(100, 30));
-		newXLoc.setText("0");
+		
+		JTextField newXLoc = GuiUtility.makeTextField("0",10,new MaxSize(100,30),MinSize.NULL);
+		
 		xLocs.add(newXLoc);
 		JTextField newYLoc = new JTextField(10);
 		newYLoc.setMaximumSize(new Dimension(100, 30));
 		newYLoc.setText("0");
 		yLocs.add(newYLoc);
-		JTextField newNumber = new JTextField(10);
-		newNumber.setMaximumSize(new Dimension(100, 30));
-		newNumber.setText("1");
+		
+		JTextField newNumber = GuiUtility.makeTextField("1",10, new MaxSize(100,30),MinSize.NULL);
+		
 		numbers.add(newNumber);
 		JButton newButton = GuiUtility.makeButton("Delete",new DeleteListener());
 		deleteButtons.add(newButton);

@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public final class GuiUtility {
 
@@ -64,5 +65,18 @@ public final class GuiUtility {
 		if(size != null)
 			cb.setMaximumSize(size);
 		return cb;	
+	}
+	
+	public static JTextField makeTextField(String text, int columns, MaxSize maxSize, MinSize minSize){
+		JTextField tf;
+		if(text != null)
+			tf = new JTextField(text,columns);
+		else
+			tf = new JTextField(columns);
+		if(maxSize!=null)
+			tf.setMaximumSize(maxSize);
+		if(minSize!=null)
+			tf.setMinimumSize(minSize);
+		return tf;
 	}
 }

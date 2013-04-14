@@ -61,14 +61,15 @@ public class SetupScreen extends Screen {
 		super(sm);
 		this.setLayout(new BorderLayout());
 		agentNames = new String[0];
-		this.add(makeWindowLabel(), BorderLayout.NORTH);
+		JLabel windowLabel = GuiUtility.makeLabel("Simulation Setup",new PrefSize(300,150),HorizontalAlignment.CENTER );
+		this.add(windowLabel, BorderLayout.NORTH);
 		agentTypes = new ArrayList<JComboBox>();
 		deleteButtons = new ArrayList<JButton>();
 		subPanels = new ArrayList<JPanel>();
 		addConditionButton = makeAddConditionButton(this);
 		conListPanel = makeConListPanel(addConditionButton);
-		nameField = makeNameField();
-		timeField = makeTimeField();
+		nameField = GuiUtility.makeTextField(ScreenManager.getGUIname(), 25,new MaxSize(400,30),MinSize.NULL);
+		timeField = GuiUtility.makeTextField(null,15,new MaxSize(200,40),MinSize.NULL);
 		updateBox = makeUpdateBox();
 		JPanel uberPanel = makeUberPanel(conListPanel, timeField, nameField, updateBox);
 		this.add(uberPanel, BorderLayout.CENTER);
@@ -117,33 +118,6 @@ public class SetupScreen extends Screen {
 		//		panel2.add(widthLabel);
 		//		panel2.add(width);
 	}
-
-	private static JTextField makeNameField(){
-		JTextField nameField = new JTextField(ScreenManager.getGUIname(), 25);
-		nameField.setMaximumSize(new Dimension(400, 30));
-		return nameField;
-	}
-
-	
-	private static JLabel makeWindowLabel(){
-		JLabel label = GuiUtility.makeLabel("Simulation Setup",new PrefSize(300,150),HorizontalAlignment.CENTER );
-		return label;
-	}
-
-	private static JLabel makeNameLabel(){
-		JLabel nameLabel = GuiUtility.makeLabel("Name: ",new MaxSize(100,40), HorizontalAlignment.RIGHT);
-		return nameLabel;
-	}
-
-	private static JLabel makeUpdateLabel(){
-		JLabel updateLabel = GuiUtility.makeLabel("Update type: ",new MaxSize(100,40),null);
-		return updateLabel;
-	}
-	
-	private static JLabel makeEndingLabel(){
-		JLabel endingLabel = GuiUtility.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
-		return endingLabel;
-	}
 	
 	private static JLabel makeAgentTypeLabel(){
 		JLabel agentTypeLabel = GuiUtility.makeLabel("Agent Type",new PrefSize(200,30),HorizontalAlignment.LEFT);
@@ -151,21 +125,10 @@ public class SetupScreen extends Screen {
 		return agentTypeLabel;
 	}
 
-	private static JLabel makeValueLabel(){
-		JLabel valueLabel = GuiUtility.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
-		return valueLabel;
-	}
-
 	private static JComboBox makeUpdateBox(){
 		String[] updateTypes = {"Linear", "Atomic", "Priority"};
 		JComboBox updateBox = GuiUtility.makeComboBox(updateTypes, new MaxSize(200,40));
 		return updateBox;
-	}
-
-	private static JTextField makeTimeField(){
-		JTextField timeField = new JTextField(15);
-		timeField.setMaximumSize(new Dimension(200, 40));
-		return timeField;
 	}
 
 	private static JButton makeAddConditionButton(final SetupScreen screen){
@@ -179,8 +142,10 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeConMainPanel(JPanel conListPanel, JTextField timeField){
+		JLabel endingLabel = GuiUtility.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
+		
 		JPanel conMainPanel = GuiUtility.makeBorderPanel(new BorderLayout());
-		conMainPanel.add(makeEndingLabel(), BorderLayout.NORTH);
+		conMainPanel.add(endingLabel, BorderLayout.NORTH);
 
 		JPanel conBodyPanel = makeConBodyPanel(conListPanel, timeField);
 
@@ -202,7 +167,10 @@ public class SetupScreen extends Screen {
 		JPanel conLabelsPanel = GuiUtility.makeBoxPanel(BoxLayout.X_AXIS);
 		conLabelsPanel.add(Box.createHorizontalGlue());
 		conLabelsPanel.add(makeAgentTypeLabel());
-		conLabelsPanel.add(makeValueLabel());
+		
+		JLabel valueLabel = GuiUtility.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
+		conLabelsPanel.add(valueLabel);
+		
 		conLabelsPanel.add(Box.createHorizontalGlue());
 		return conLabelsPanel;
 	}
@@ -231,7 +199,10 @@ public class SetupScreen extends Screen {
 	private static JPanel makeUberPanel(JPanel conListPanel, JTextField timeField, JTextField nameField, JComboBox updateBox){
 		JPanel uberPanel = GuiUtility.makeBoxPanel(BoxLayout.Y_AXIS);
 
-		JPanel mainPanel = makeMainPanel(makeNameLabel(), nameField, makeUpdateLabel(), updateBox );
+		JLabel nameLabel = GuiUtility.makeLabel("Name: ",new MaxSize(100,40), HorizontalAlignment.RIGHT);
+		JLabel updateLabel = GuiUtility.makeLabel("Update type: ",new MaxSize(100,40),null);
+		
+		JPanel mainPanel = makeMainPanel(nameLabel, nameField, updateLabel, updateBox );
 		uberPanel.add(mainPanel);
 
 		JPanel conMainPanel = makeConMainPanel(conListPanel, timeField);
