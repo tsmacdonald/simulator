@@ -3,7 +3,7 @@
  * 
  * Models a cartesian-based coordinate plane for the actors to interact within.
  * 
- * @author Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
+ * @author Agent team
  * 
  * Wheaton College, CSCI 335, Spring 2013
  */
@@ -11,11 +11,14 @@ package edu.wheaton.simulator.datastructure;
 
 import java.awt.Color;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.simulation.Layer;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
@@ -26,8 +29,17 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * The grid of all Agents
 	 */
 	private Agent[][] grid;
+	
+	/**
+	 * Current update state 
+	 */
 	private Updater updater = new LinearUpdater(this);
-
+	
+	/**
+	 * Observers to watch the grid
+	 */
+	private Set<GridObserver> observers;
+	
 	/**
 	 * Constructor. Creates a grid with the given width and height
 	 * specifications
@@ -44,8 +56,9 @@ public class Grid extends Entity implements Iterable<Agent> {
 			e.printStackTrace();
 			System.exit(1);
 		}
-
 		grid = new Agent[getHeight()][getWidth()];
+		updater = new LinearUpdater(this);
+		observers = new HashSet<GridObserver>();
 	}
 
 	/**
@@ -335,6 +348,22 @@ public class Grid extends Entity implements Iterable<Agent> {
 				Layer.getInstance().setExtremes(currentField);
 			}
 		}
+	}
+	
+	/**
+	 * Adds an observer to the grid's list
+	 * @param ob
+	 */
+	public void addObserver(GridObserver ob) {
+		observers.add(ob);
+	}
+	
+	/**
+	 * Notifies all of the observers watching this grid
+	 */
+	public void notifyObservers() {
+		for(GridObserver current : observers)
+			current.update(this);
 	}
 
 	/**
