@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import sun.awt.SunHints.Value;
+
 import com.google.common.collect.ImmutableList;
 
 import net.sourceforge.jeval.EvaluationException;
@@ -260,7 +262,12 @@ public class Trigger implements Comparable<Trigger> {
 		 * Simple (user readable) values for creating behaviors
 		 */
 		private List<String> behavioralValues;
-
+		
+		/**
+		 * Reference to prototype that is being created
+		 */
+		private Prototype prototype;
+		
 		/**
 		 * Constructor
 		 * 
@@ -268,6 +275,7 @@ public class Trigger implements Comparable<Trigger> {
 		 *            A prototype with just fields
 		 */
 		public Builder(Prototype p) {
+			prototype = p;
 			trigger = new Trigger("", 0, null, null);
 			converter = new HashMap<String, String>();
 			conditionalValues = new ArrayList<String>();
@@ -447,21 +455,23 @@ public class Trigger implements Comparable<Trigger> {
 			 * TODO Need to figure out how to test triggers without having an agent. 
 			 */
 			try {
-				trigger.getConditions().evaluateBool();
-			} catch (Exception e) {
-				System.out.println("Condition expression failed: "
-						+ trigger.getConditions().toString());
-				return false;
-			}		
-			try {
-				trigger.getBehavior().evaluateBool();
+				String condition = trigger.getConditions().toString();
+				while(condition.indexOf("this.") != -1){
+					//take the field value and convert it to an actual value using the 
+					//hashmap of fields.
+					Map<String, String> map = prototype.getFieldMap();
+//					for (iterate through all of the map)
+//						if the key is the next thing, then replace it with the value
+				}
+				System.out.println("condition " + condition);
+				Expression behavior = trigger.getBehavior();
+				System.out.println("behavior " + behavior);
 				return true;
 			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("Behavior expression failed: "
-						+ trigger.getBehavior().toString());
+				System.out.println("Trigger failed: "
+						+ trigger.getConditions() + "\n"+trigger.getBehavior());
 				return false;
-			}
+			}		
 		}
 
 		/**
