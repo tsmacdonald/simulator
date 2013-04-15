@@ -236,7 +236,7 @@ public class EditEntityScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (xThis.sendInfo()) {
-					sm.update(sm.getScreen("Edit Simulation"));
+					sm.update(sm.getScreen("View Simulation"));
 					xThis.reset();
 				}
 			}

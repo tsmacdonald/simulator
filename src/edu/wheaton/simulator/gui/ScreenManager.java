@@ -3,6 +3,8 @@ package edu.wheaton.simulator.gui;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import edu.wheaton.simulator.simulation.GUIToAgentFacade;
@@ -34,6 +36,7 @@ public class ScreenManager implements Manager{
 		spawnConditions = new ArrayList<SpawnCondition>();
 		screens = new HashMap<String, Screen>();
 		this.d = d;
+		this.d.setJMenuBar(makeMenuBar());
 		se = new SimulationEnder();
 		statMan = new StatisticsManager();
 		screens.put("Title", new TitleScreen(this));
@@ -48,7 +51,7 @@ public class ScreenManager implements Manager{
 		screens.put("Statistics", new StatisticsScreen(this));
 		screens.put("Grid Setup", new SetupScreen(this));
 	}
-	
+
 	public ScreenManager(){
 		this(new Display());
 	}
@@ -135,5 +138,24 @@ public class ScreenManager implements Manager{
 	@Override
 	public void loadScreen(Screen s){
 		s.load();
+	}
+	
+	private JMenuBar makeMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setEnabled(true);
+		menuBar.setVisible(true);
+		menuBar.add(makeFileMenu());
+		menuBar.add(makeHelpMenu());
+		return menuBar;
+	}
+
+	private JMenu makeFileMenu() {
+		JMenu menu = new JMenu("File");
+		return menu;
+	}
+	
+	private JMenu makeHelpMenu() {
+		JMenu menu = new JMenu("Help");
+		return menu;
 	}
 }
