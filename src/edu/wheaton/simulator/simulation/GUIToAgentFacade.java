@@ -147,16 +147,6 @@ public class GUIToAgentFacade {
 	}
 	
 	/**
-	 * Sets the minimum and maximum priority
-	 * Important for PriorityUpdate
-	 * @param min The minimum priority
-	 * @param max The maximum priority
-	 */
-	public void setMinMaxPriority(int min, int max) {
-		grid.setMinMaxPriority(min, max);
-	}
-	
-	/**
 	 * Adds the given Agent at the closest free spot to the spawn position. The
 	 * search for an open spot begins at the given x/y and then spirals
 	 * outwards.
@@ -270,8 +260,8 @@ public class GUIToAgentFacade {
 	/**
 	 * Sets the update method to use the PriorityUpdate system
 	 */
-	public void setPriorityUpdate() {
-		grid.setPriorityUpdater();
+	public void setPriorityUpdate(int minPriority, int maxPriority) {
+		grid.setPriorityUpdater(minPriority, maxPriority);
 	}
 
 	/**
@@ -303,7 +293,7 @@ public class GUIToAgentFacade {
 	 */
 	public void initGameOfLife() {
 		clearPrototypes();
-		grid.setPriorityUpdater();
+		grid.setPriorityUpdater(0, 50);
 		
 		// add prototypes
 		new ConwaysDeadBeing().initSampleAgent(new Prototype(grid, new Color(219, 219, 219), "deadBeing"));
@@ -326,6 +316,7 @@ public class GUIToAgentFacade {
 	 * Sets up the rock paper and scissors sample units
 	 */
 	public void initRockPaperScissors(){
+		setPriorityUpdate(0, 60);
 		new Rock().initSampleAgent(new Prototype(grid, "rock"));
 		new Paper().initSampleAgent(new Prototype(grid, "paper"));
 		new Scissors().initSampleAgent(new Prototype(grid, "scissors"));

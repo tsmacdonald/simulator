@@ -296,7 +296,7 @@ public class SetupScreen extends Screen {
 								sm.getFacade().setLinearUpdate();
 							}
 							else {
-								sm.getFacade().setPriorityUpdate();
+								sm.getFacade().setPriorityUpdate(0, 50);
 							}
 							for (int i = 0; i < values.size(); i++) {
 								sm.getFacade();

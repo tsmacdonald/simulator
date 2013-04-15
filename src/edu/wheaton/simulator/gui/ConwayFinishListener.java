@@ -29,7 +29,6 @@ public class ConwayFinishListener implements ActionListener {
 			System.err.println("Invalid input passed to ConwayFinishListener");
 		}
 		Screen upload = sm.getScreen("Edit Simulation");
-		sm.getFacade().setPriorityUpdate();
 		sm.getFacade().initGameOfLife();
 		sm.getEnder().setStepLimit(1000);
 		((ScreenManager)sm).setStarted(false);

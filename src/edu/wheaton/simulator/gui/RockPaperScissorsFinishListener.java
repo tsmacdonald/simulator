@@ -35,7 +35,6 @@ public class RockPaperScissorsFinishListener implements ActionListener {
 				System.err.println("Invalid input passed to RockPaperScissorsListener");
 			}
 			Screen upload = sm.getScreen("Edit Simulation");
-			sm.getFacade().setPriorityUpdate();
 			sm.getFacade().initRockPaperScissors();
 			sm.getEnder().setStepLimit(1000);
 			((ScreenManager)sm).setStarted(false);
