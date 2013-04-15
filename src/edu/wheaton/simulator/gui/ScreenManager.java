@@ -8,6 +8,7 @@ import java.util.HashMap;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import edu.wheaton.simulator.simulation.GUIToAgentFacade;
@@ -148,6 +149,7 @@ public class ScreenManager implements Manager{
 		menuBar.setEnabled(true);
 		menuBar.setVisible(true);
 		menuBar.add(makeFileMenu(this));
+		menuBar.add(makeEditMenu(this));
 		menuBar.add(makeHelpMenu(this));
 		return menuBar;
 	}
@@ -156,12 +158,7 @@ public class ScreenManager implements Manager{
 		JMenu menu = new JMenu("File");
 		
 		JMenuItem newSimulation = new JMenuItem("New Simulation");
-		newSimulation.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				sm.update(sm.getScreen("New Simulation"));
-			}
-		});
+		newSimulation.addActionListener(new GeneralButtonListener("New Simulation",sm));
 		menu.add(newSimulation);
 		
 		JMenuItem exit = new JMenuItem("Exit");
@@ -177,8 +174,35 @@ public class ScreenManager implements Manager{
 		return menu;
 	}
 	
+	private static JMenu makeEditMenu(final ScreenManager sm) {
+		JMenu menu = new JMenu("Edit");
+		
+		JMenuItem editEntities = new JMenuItem("Edit Entities");
+		editEntities.addActionListener(new GeneralButtonListener("Entities",sm));
+		menu.add(editEntities);
+		
+		JMenuItem editGlobalFields = new JMenuItem("Edit Global Fields");
+		editGlobalFields.addActionListener(new GeneralButtonListener("Fields",sm));
+		menu.add(editGlobalFields);
+		
+		return menu;
+	}
+	
 	private static JMenu makeHelpMenu(final ScreenManager sm) {
 		JMenu menu = new JMenu("Help");
+		
+		JMenuItem about = new JMenuItem("About");
+		about.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(sm.d,
+					    "Wheaton College. Software Development 2013.",
+					    "About",
+					    JOptionPane.PLAIN_MESSAGE);
+			}
+		});
+		menu.add(about);
+		
 		return menu;
 	}
 }
