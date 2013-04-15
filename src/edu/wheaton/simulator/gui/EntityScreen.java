@@ -31,6 +31,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.GUIToAgentFacade;
 
 public class EntityScreen extends Screen {
@@ -133,8 +134,9 @@ public class EntityScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = entityList.getSelectedIndex();
+			String toRemove = (String)entityList.getSelectedValue();
+			Prototype.removePrototype(toRemove);
 			listModel.remove(index);
-			//need to delete prototype here -- Caleb
 			int size = listModel.getSize();
 			if(size == 0){
 				delete.setEnabled(false);
@@ -174,7 +176,6 @@ public class EntityScreen extends Screen {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//TODO replace this with the load() method on the selected entity
 			((EditEntityScreen)sm.getScreen("Edit Entities")).load(
 					(String)entityList.getSelectedValue());
 			((EditEntityScreen)sm.getScreen("Edit Entities")).setEditing(true);

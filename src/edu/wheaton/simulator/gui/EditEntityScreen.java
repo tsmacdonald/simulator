@@ -87,16 +87,16 @@ public class EditEntityScreen extends Screen {
 	private HashSet<Integer> removedFields;
 
 	private HashSet<Integer> removedTriggers;
-	
+
 	private JButton nextButton;
-	
+
 	private JButton previousButton;
-	
+
 	private JButton finishButton;
-	
+
 	private GridBagConstraints c;
 
-	
+
 	//TODO addField/Trigger buttons don't work, some polishing to do on next/previous buttons
 	public EditEntityScreen(final ScreenManager sm) {
 		super(sm);
@@ -168,14 +168,14 @@ public class EditEntityScreen extends Screen {
 
 
 		JLabel generalLabel = GuiUtility.makeLabel("General Info",new PrefSize(300,80),HorizontalAlignment.CENTER);
-		
+
 		//JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,MaxSize.NULL,PrefSize.NULL);
-		
+
 		JPanel colorPanel = GuiUtility.makeColorChooserPanel(colorTool);
 		Dimension maxSize = colorPanel.getMaximumSize();
 		maxSize.height += 50;
 		colorPanel.setMaximumSize(maxSize);
-		
+
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.PAGE_START;
@@ -183,21 +183,21 @@ public class EditEntityScreen extends Screen {
 		c.gridy = 0;
 		c.gridwidth = 4;
 		generalPanel.add(generalLabel, c);
-		
+
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 1;
 		c.gridwidth = 1;
 		generalPanel.add(nameLabel, c);
-		
+
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
 		c.gridy = 1;
 		c.gridwidth = 1;
 		generalPanel.add(nameField, c);
-		
+
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.weighty = 1.0;
@@ -205,7 +205,7 @@ public class EditEntityScreen extends Screen {
 		c.gridy = 2;
 		c.gridwidth = 2;
 		generalPanel.add(colorPanel, c);
-		
+
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.weighty = 1.0;
@@ -249,7 +249,7 @@ public class EditEntityScreen extends Screen {
 		triggerSubPanels.get(0).add(triggerResults.get(0));
 		triggerSubPanels.get(0).add(triggerDeleteButtons.get(0));
 		triggerSubPanels.get(0).setAlignmentX(CENTER_ALIGNMENT);
-		
+
 		triggerListPanel.add(triggerSubPanels.get(0));
 		triggerListPanel.add(addTriggerButton);
 		triggerListPanel.add(Box.createVerticalGlue());
@@ -257,9 +257,9 @@ public class EditEntityScreen extends Screen {
 		cards.add(generalPanel, "General");
 		cards.add(makeFieldMainPanel(fieldListPanel), "Fields");
 		cards.add(makeTriggerMainPanel(triggerListPanel), "Triggers");
-		
+
 		JPanel lowerPanel = new JPanel();
-		
+
 		lowerPanel.add(GuiUtility.makeButton("Cancel",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -267,7 +267,7 @@ public class EditEntityScreen extends Screen {
 				xThis.reset();
 			}
 		}));
-		
+
 		finishButton = GuiUtility.makeButton("Finish",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -288,7 +288,7 @@ public class EditEntityScreen extends Screen {
 		this.add(lowerPanel, BorderLayout.SOUTH);
 
 	}
-	
+
 	private void initIconDesignObject(JPanel iconPanel){
 		//Creates the icon design object.
 		for (int i = 0; i < 7; i++) {
@@ -322,15 +322,15 @@ public class EditEntityScreen extends Screen {
 
 	private static JPanel makeTriggerMainPanel(JPanel triggerListPanel){
 
-		
+
 		JLabel triggerNameLabel = GuiUtility.makeLabel("Trigger Name",new PrefSize(130,30),HorizontalAlignment.LEFT);
-		
+
 		JLabel triggerPriorityLabel = GuiUtility.makeLabel("Trigger Priority",new PrefSize(180,30),null);
-		
+
 		JLabel triggerConditionLabel = GuiUtility.makeLabel("Trigger Condition",new PrefSize(300,30),null);
-		
+
 		JLabel triggerResultLabel = GuiUtility.makeLabel("Trigger Result",new PrefSize(300,30),null);
-		
+
 		JPanel triggerLabelsPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,MaxSize.NULL,PrefSize.NULL);
 
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
@@ -341,13 +341,13 @@ public class EditEntityScreen extends Screen {
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
 		triggerLabelsPanel.setAlignmentX(CENTER_ALIGNMENT);
 
-		
+
 		JLabel triggerLabel = GuiUtility.makeLabel("Trigger Info",new PrefSize(300,100),HorizontalAlignment.CENTER);
-		
+
 		JPanel triggerBodyPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,MaxSize.NULL,PrefSize.NULL);
 		triggerBodyPanel.add(triggerLabelsPanel);
 		triggerBodyPanel.add(triggerListPanel);
-		
+
 		JPanel triggerMainPanel = GuiUtility.makePanel(new BorderLayout(),MaxSize.NULL,PrefSize.NULL);
 
 		triggerMainPanel.add(triggerLabel, BorderLayout.NORTH);
@@ -356,29 +356,46 @@ public class EditEntityScreen extends Screen {
 	}
 
 	private static JPanel makeFieldMainPanel(JPanel fieldListPanel){
-		JLabel fieldNameLabel = GuiUtility.makeLabel("Field Name",new PrefSize(350,30),HorizontalAlignment.LEFT);
-		fieldNameLabel.setAlignmentX(LEFT_ALIGNMENT);
 
-		
-		JLabel fieldValueLabel = GuiUtility.makeLabel("Field Initial Value",new PrefSize(400,30),HorizontalAlignment.CENTER);
-		
-		JPanel fieldLabelsPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,MaxSize.NULL,PrefSize.NULL);
+		JPanel fieldMainPanel = GuiUtility.makePanel(new GridBagLayout(),MaxSize.NULL,PrefSize.NULL);
 
-		fieldLabelsPanel.add(Box.createHorizontalGlue());
-		fieldLabelsPanel.add(fieldNameLabel);
-		fieldLabelsPanel.add(fieldValueLabel);
-		fieldLabelsPanel.add(Box.createHorizontalGlue());
 
-		JPanel fieldBodyPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,MaxSize.NULL,PrefSize.NULL);
-		fieldBodyPanel.add(fieldLabelsPanel);
-		fieldBodyPanel.add(fieldListPanel);
-		
 		JLabel fieldLabel = GuiUtility.makeLabel("Field Info",new PrefSize(300,100),HorizontalAlignment.CENTER);
 		
-		JPanel fieldMainPanel = GuiUtility.makePanel(new BorderLayout(),MaxSize.NULL,PrefSize.NULL);
+		JLabel fieldNameLabel = GuiUtility.makeLabel("Field Name",new PrefSize(350,30),HorizontalAlignment.LEFT);
+		fieldNameLabel.setAlignmentX(LEFT_ALIGNMENT);
+		JLabel fieldValueLabel = GuiUtility.makeLabel("Field Initial Value",new PrefSize(400,30),HorizontalAlignment.CENTER);
+		fieldValueLabel.setAlignmentX(LEFT_ALIGNMENT);
 
-		fieldMainPanel.add(fieldLabel, BorderLayout.NORTH);
-		fieldMainPanel.add(fieldBodyPanel, BorderLayout.CENTER);
+		
+		GridBagConstraints constraint = new GridBagConstraints();
+		//constraint.fill = GridBagConstraints.HORIZONTAL;
+		constraint.gridx = 0;
+		constraint.gridy = 0;
+		constraint.gridwidth = 2;
+		fieldMainPanel.add(fieldLabel, constraint);
+		
+		constraint = new GridBagConstraints();
+		//constraint.fill = GridBagConstraints.HORIZONTAL;
+		constraint.gridx = 0;
+		constraint.gridy = 1;
+		fieldMainPanel.add(fieldNameLabel, constraint);
+
+		constraint = new GridBagConstraints();
+		//constraint.fill = GridBagConstraints.HORIZONTAL;
+		constraint.gridx = 1;
+		constraint.gridy = 1;
+		fieldMainPanel.add(fieldValueLabel, constraint);
+
+		constraint = new GridBagConstraints();
+		//constraint.fill = GridBagConstraints.HORIZONTAL;
+		constraint.gridx = 0;
+		constraint.gridy = 2;
+		constraint.gridwidth = 3;
+		constraint.weighty = 1.0;
+		constraint.anchor = GridBagConstraints.PAGE_START;
+		fieldMainPanel.add(fieldListPanel, constraint);
+		
 		return fieldMainPanel;
 	}
 
@@ -660,7 +677,7 @@ public class EditEntityScreen extends Screen {
 	}
 
 	private class NextListener implements ActionListener {
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			CardLayout c1 = (CardLayout)cards.getLayout();
@@ -679,9 +696,9 @@ public class EditEntityScreen extends Screen {
 			}
 		}
 	}
-	
-private class PreviousListener implements ActionListener {
-		
+
+	private class PreviousListener implements ActionListener {
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			CardLayout c1 = (CardLayout)cards.getLayout();
