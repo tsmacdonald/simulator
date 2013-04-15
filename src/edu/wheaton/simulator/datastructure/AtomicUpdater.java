@@ -21,6 +21,7 @@ public class AtomicUpdater implements Updater {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param g
 	 */
 	public AtomicUpdater(Grid g) {
@@ -35,7 +36,7 @@ public class AtomicUpdater implements Updater {
 	public void update() throws SimulationPauseException {
 		HashSet<AgentID> processedIDs = new HashSet<AgentID>();
 
-		for(Agent current : grid) {
+		for (Agent current : grid) {
 			if (current != null)
 				if (!processedIDs.contains(current.getID())) {
 					current.atomicCondEval();
@@ -44,14 +45,13 @@ public class AtomicUpdater implements Updater {
 		}
 		processedIDs = new HashSet<AgentID>();
 
-		for(Agent current : grid)
+		for (Agent current : grid)
 			if (current != null)
 				if (!processedIDs.contains(current.getID())) {
 					current.atomicFire();
 					processedIDs.add(current.getID());
 				}
 	}
-
 
 	@Override
 	public String toString() {

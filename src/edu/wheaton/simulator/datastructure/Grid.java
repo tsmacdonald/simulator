@@ -29,17 +29,17 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * The grid of all Agents
 	 */
 	private Agent[][] grid;
-	
+
 	/**
-	 * Current update state 
+	 * Current update state
 	 */
 	private Updater updater = new LinearUpdater(this);
-	
+
 	/**
 	 * Observers to watch the grid
 	 */
 	private Set<GridObserver> observers;
-	
+
 	/**
 	 * Constructor. Creates a grid with the given width and height
 	 * specifications
@@ -349,20 +349,21 @@ public class Grid extends Entity implements Iterable<Agent> {
 			}
 		}
 	}
-	
+
 	/**
 	 * Adds an observer to the grid's list
+	 * 
 	 * @param ob
 	 */
 	public void addObserver(GridObserver ob) {
 		observers.add(ob);
 	}
-	
+
 	/**
 	 * Notifies all of the observers watching this grid
 	 */
 	public void notifyObservers() {
-		for(GridObserver current : observers)
+		for (GridObserver current : observers)
 			current.update(this);
 	}
 

@@ -21,6 +21,7 @@ public class LinearUpdater implements Updater {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param g
 	 */
 	public LinearUpdater(Grid g) {
@@ -28,8 +29,8 @@ public class LinearUpdater implements Updater {
 	}
 
 	/**
-	 * Causes all entities in the grid to act(). Checks to make sure each
-	 * Agent has only acted once this iteration.
+	 * Causes all entities in the grid to act(). Checks to make sure each Agent
+	 * has only acted once this iteration.
 	 * 
 	 * @throws SimulationPauseException
 	 */
