@@ -1,10 +1,13 @@
 package edu.wheaton.simulator.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import edu.wheaton.simulator.simulation.GUIToAgentFacade;
@@ -144,17 +147,37 @@ public class ScreenManager implements Manager{
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setEnabled(true);
 		menuBar.setVisible(true);
-		menuBar.add(makeFileMenu());
-		menuBar.add(makeHelpMenu());
+		menuBar.add(makeFileMenu(this));
+		menuBar.add(makeHelpMenu(this));
 		return menuBar;
 	}
 
-	private JMenu makeFileMenu() {
+	private static JMenu makeFileMenu(final ScreenManager sm) {
 		JMenu menu = new JMenu("File");
+		
+		JMenuItem newSimulation = new JMenuItem("New Simulation");
+		newSimulation.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sm.update(sm.getScreen("New Simulation"));
+			}
+		});
+		menu.add(newSimulation);
+		
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sm.setRunning(false);
+				System.exit(0);
+			}
+		});
+		menu.add(exit);
+		
 		return menu;
 	}
 	
-	private JMenu makeHelpMenu() {
+	private static JMenu makeHelpMenu(final ScreenManager sm) {
 		JMenu menu = new JMenu("Help");
 		return menu;
 	}
