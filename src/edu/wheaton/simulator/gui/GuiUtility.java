@@ -1,14 +1,21 @@
 package edu.wheaton.simulator.gui;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.colorchooser.AbstractColorChooserPanel;
 
 public final class GuiUtility {
 
@@ -90,5 +97,21 @@ public final class GuiUtility {
 		if(minSize!=null)
 			tf.setMinimumSize(minSize);
 		return tf;
+	}
+	
+	public static JColorChooser makeColorChooser(){
+		JColorChooser cc = new JColorChooser();
+		cc.setPreviewPanel(new JPanel());
+		return cc;
+	}
+	
+	public static JPanel makeColorChooserPanel(JColorChooser cc){
+		JPanel panel = GuiUtility.makePanel(new GridBagLayout(), null, null);
+		GridBagConstraints constraints = new GridBagConstraints();
+		
+		panel.setMaximumSize(new MaxSize(550,140));
+		
+		panel.add(cc,constraints);
+		return panel;
 	}
 }

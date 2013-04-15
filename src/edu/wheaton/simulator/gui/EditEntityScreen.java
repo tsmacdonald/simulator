@@ -104,7 +104,7 @@ public class EditEntityScreen extends Screen {
 		nameField = new JTextField(25);
 		nameField.setMaximumSize(new Dimension(400, 40));
 
-		colorTool = new JColorChooser();
+		colorTool = GuiUtility.makeColorChooser();
 
 		buttons = new JToggleButton[7][7];
 
@@ -279,8 +279,9 @@ public class EditEntityScreen extends Screen {
 	}
 
 	private static JPanel makeMainPanel(JColorChooser colorTool, JPanel iconPanel){
-		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,new MaxSize(1200,500),PrefSize.NULL);
-		mainPanel.add(makeColorPanel(colorTool));
+		//JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,new MaxSize(1200,500),PrefSize.NULL);
+		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,MaxSize.NULL,PrefSize.NULL);
+		mainPanel.add(GuiUtility.makeColorChooserPanel(colorTool));
 		mainPanel.add(iconPanel);
 		return mainPanel;
 	}
@@ -291,13 +292,6 @@ public class EditEntityScreen extends Screen {
 		iconPanel.setMinimumSize(new Dimension(500, 500));
 		iconPanel.setAlignmentX(RIGHT_ALIGNMENT);
 		return iconPanel;
-	}
-
-	private static JPanel makeColorPanel(JColorChooser colorTool){
-		JPanel colorPanel = new JPanel();
-		colorPanel.add(colorTool);
-		colorPanel.setAlignmentX(LEFT_ALIGNMENT);
-		return colorPanel;
 	}
 
 	private static JPanel makeTriggerMainPanel(JPanel triggerListPanel){

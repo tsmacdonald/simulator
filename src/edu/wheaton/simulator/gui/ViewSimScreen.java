@@ -64,9 +64,9 @@ public class ViewSimScreen extends Screen {
 
 	private String[] entities;
 
-	private JPanel panel1;
+	private JPanel layerPanelAgents;
 
-	private JPanel panel2;
+	private JPanel layerPanelLayers;
 
 	public ViewSimScreen(final ScreenManager sm) {
 		super(sm);
@@ -76,21 +76,15 @@ public class ViewSimScreen extends Screen {
 		gridRec = new SimulationRecorder(sm.getStatManager());
 		stepCount = 0;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
-		JPanel layerPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-		panel1 = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		
 		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
 		agentComboBox = GuiUtility.makeComboBox(null,new MaxSize(200,50));
-		panel1.add(agents);
-		panel1.add(agentComboBox);
-		panel2 = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		
 		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
-		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		layerComboBox = GuiUtility.makeComboBox(null, new MaxSize(200,50));
-		panel2.add(layers);
-		panel2.add(layerComboBox);
-		JPanel panel3 = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
-		final JColorChooser colorTool = new JColorChooser();
-		colorTool.setMaximumSize(new Dimension(250, 500));
+		
+		final JColorChooser colorTool = GuiUtility.makeColorChooser();
+		
 		JButton apply = GuiUtility.makeButton("Apply",
 				new ActionListener() {
 					@Override
@@ -108,6 +102,7 @@ public class ViewSimScreen extends Screen {
 					} 
 				}
 				);
+		
 		JButton clear = GuiUtility.makeButton("Clear",
 				new ActionListener() {
 					@Override
@@ -117,8 +112,6 @@ public class ViewSimScreen extends Screen {
 					} 
 				}
 				);
-		panel3.add(apply);
-		panel3.add(clear);
 		
 		//layerPanel.setSize(new Dimension(600, 1000));
 
@@ -127,76 +120,78 @@ public class ViewSimScreen extends Screen {
 		//objects for layers:
 		// - combobox(es) for choosing field, colorchooser to pick primary filter color, 
 		//   labels for these, "apply" button, "clear" button
-
 		//gridPanel = new JPanel();
+		//this.add(layerPanel, BorderLayout.WEST);
+		
+		layerPanelAgents = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
+		layerPanelAgents.add(agents);
+		layerPanelAgents.add(agentComboBox);
+		
+		layerPanelLayers = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
+		layerPanelLayers.add(layers);
+		layerPanelLayers.add(layerComboBox);
+		
+		JPanel layerPanelButtons = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
+		layerPanelButtons.add(apply);
+		layerPanelButtons.add(clear);
+		
+		JPanel upperLayerPanel = GuiUtility.makePanel(BoxLayoutAxis.PAGE_AXIS, null, null);
+		upperLayerPanel.add(layerPanelAgents);
+		upperLayerPanel.add(layerPanelLayers);
+		upperLayerPanel.add(layerPanelButtons);
+		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
+		
+		JPanel colorPanel = GuiUtility.makeColorChooserPanel(colorTool);
+		
 		grid = new GridPanel(sm);
-		this.add(layerPanel, BorderLayout.WEST);
-		layerPanel.add(panel1);
-		layerPanel.add(panel2);
-		layerPanel.add(panel3);
-		layerPanel.add(colorTool);
+		grid.setAlignmentY(CENTER_ALIGNMENT);
+		
+		JPanel layerPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		layerPanel.setAlignmentY(CENTER_ALIGNMENT);
+		layerPanel.add(upperLayerPanel);
+		layerPanel.add(colorPanel);
+		
+		
+		
+		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
 		mainPanel.add(layerPanel);
 		mainPanel.add(grid);
+		
 		this.add(label, BorderLayout.NORTH);
 		this.add(makeButtonPanel(), BorderLayout.SOUTH);
 		this.add(mainPanel, BorderLayout.CENTER);
+		
 		this.setVisible(true);	
 	}
 
 	private JPanel makeButtonPanel(){
 		JPanel buttonPanel = GuiUtility.makePanel((LayoutManager)null,new MaxSize(500,50),PrefSize.NULL);
 		buttonPanel.add(makeStartButton());
-		buttonPanel.add(makePauseButton());
+		
+		buttonPanel.add(GuiUtility.makeButton("Pause",
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sm.setRunning(false);
+				//backButton.setEnabled(true);
+			}
+		}
+		));
+		
 		//TODO most of these will become tabs, adding temporarily for navigation purposes
-		buttonPanel.add(makeEntitiesButton());
-		buttonPanel.add(makeGlobalFieldsButton());
-		buttonPanel.add(makeSetupButton());
-		buttonPanel.add(makeStatsButton());
-		//buttonPanel.add(makeBackButton());
-		return buttonPanel;
-	}
-
-
-	private JButton makeEntitiesButton(){
-		return GuiUtility.makeButton("Entities", new GeneralButtonListener("Entities", sm));
-	}
-	
-	private JButton makeGlobalFieldsButton(){
-		return GuiUtility.makeButton("Global Fields", new GeneralButtonListener("Fields", sm));
-	}
-	
-	private JButton makeSetupButton(){
-		return GuiUtility.makeButton("Setup options", new GeneralButtonListener("Grid Setup", sm));
-	}
-	
-	private JButton makeStatsButton(){
-		return GuiUtility.makeButton("Statistics", new GeneralButtonListener("Statistics", sm));
-	}
-	
-	private JButton makeBackButton(){
-		JButton b = GuiUtility.makeButton("Back",new ActionListener() {
+		buttonPanel.add(GuiUtility.makeButton("Entities", new GeneralButtonListener("Entities", sm)));
+		buttonPanel.add(GuiUtility.makeButton("Global Fields", new GeneralButtonListener("Fields", sm)));
+		buttonPanel.add(GuiUtility.makeButton("Setup options", new GeneralButtonListener("Grid Setup", sm)));
+		buttonPanel.add(GuiUtility.makeButton("Statistics", new GeneralButtonListener("Statistics", sm)));
+		/*buttonPanel.add(GuiUtility.makeButton("Back",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sm.update(sm.getScreen("Edit Simulation")); 
 			} 
-		});
-		//backButton = b;
-		return b;
+		});*/
+		return buttonPanel;
 	}
-
-	private JButton makePauseButton(){
-		JButton b = GuiUtility.makeButton("Pause",
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						sm.setRunning(false);
-						//backButton.setEnabled(true);
-					}
-				}
-				);
-		return b;
-	}
-
+	
 	private JButton makeStartButton(){
 		JButton b = GuiUtility.makeButton("Start/Resume",new ActionListener() {
 					@Override
@@ -285,8 +280,8 @@ public class ViewSimScreen extends Screen {
 								(agentComboBox.getSelectedItem().toString())
 								.getCustomFieldMap().keySet().toArray());
 						layerComboBox.setMaximumSize(new Dimension(200, 50));
-						panel2.remove(1);
-						panel2.add(layerComboBox);
+						layerPanelLayers.remove(1);
+						layerPanelLayers.add(layerComboBox);
 						validate();
 						repaint();
 					}
@@ -298,12 +293,12 @@ public class ViewSimScreen extends Screen {
 					(agentComboBox.getItemAt(0).toString())
 					.getCustomFieldMap().keySet().toArray());
 			layerComboBox.setMaximumSize(new Dimension(200, 50));
-			panel2.remove(1);
-			panel2.add(layerComboBox);
+			layerPanelLayers.remove(1);
+			layerPanelLayers.add(layerComboBox);
 		}
 		agentComboBox.setMaximumSize(new Dimension(200, 50));
-		panel1.remove(1);
-		panel1.add(agentComboBox);
+		layerPanelAgents.remove(1);
+		layerPanelAgents.add(agentComboBox);
 		validate();
 		grid.repaint();
 
