@@ -9,6 +9,14 @@ public class AgentID implements Comparable<AgentID> {
 		value = genIDValue();
 	}
 
+	/**
+	 * Used for the grid ID, for stats team. Hackish method tho.
+	 * @param id
+	 */
+	public AgentID(int id){
+		value = id;
+	}
+	
 	public final Integer getInt() {
 		return value;
 	}

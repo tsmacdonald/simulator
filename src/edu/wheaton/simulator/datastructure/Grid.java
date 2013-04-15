@@ -63,8 +63,9 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * Hackish solution to Akon's gridrecorder. Should never ever be called
 	 * other than from the stats people.
 	 */
-	public static Integer getID() {
-		return -1;
+	public static AgentID getID() {
+		AgentID id = new AgentID(-1);
+		return id;
 	}
 
 	/**
