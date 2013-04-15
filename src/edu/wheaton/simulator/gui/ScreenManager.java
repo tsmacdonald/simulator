@@ -52,7 +52,7 @@ public class ScreenManager implements Manager{
 		screens.put("Edit Entities", new EditEntityScreen(this));
 		screens.put("Spawning", new SpawningScreen(this));
 		screens.put("View Simulation", new ViewSimScreen(this));
-		screens.put("Statistics", new StatisticsScreen(this));
+		screens.put("Statistics", new StatDisplayScreen(this));
 		screens.put("Grid Setup", new SetupScreen(this));
 	}
 
