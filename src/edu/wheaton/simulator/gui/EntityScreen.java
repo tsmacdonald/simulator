@@ -14,6 +14,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
@@ -46,14 +48,8 @@ public class EntityScreen extends Screen {
 	public EntityScreen(final ScreenManager sm) {
 		super(sm);
 		JLabel label = GuiUtility.makeLabel("Entities",new PrefSize(300, 100),HorizontalAlignment.CENTER);
-		this.setLayout(new BorderLayout());
-		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
-		JPanel listPanel = new JPanel();
-		//listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
-		listPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		listPanel.setAlignmentX(CENTER_ALIGNMENT);
-		listPanel.setPreferredSize(new Dimension(450, 550));
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
 		listModel = new DefaultListModel();
 		entityList = new JList(listModel);
 		entityList.setBackground(Color.white);
@@ -62,7 +58,7 @@ public class EntityScreen extends Screen {
 		entityList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		entityList.setFixedCellWidth(400);
 		entityList.setVisibleRowCount(20);
-		entityList.setBorder(BorderFactory.createLineBorder(Color.red));
+		entityList.setBorder(BorderFactory.createLineBorder(Color.RED));
 		entityList.addListSelectionListener( new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent le){
@@ -70,8 +66,6 @@ public class EntityScreen extends Screen {
 					edit.setEnabled(true);
 			}
 		});
-		listPanel.add(entityList);
-		listPanel.setAlignmentX(CENTER_ALIGNMENT);
 		delete = GuiUtility.makeButton("Delete",new DeleteListener());
 		JButton add = GuiUtility.makeButton("Add",new AddListener(sm));
 		edit = GuiUtility.makeButton("Edit",new EditListener(sm));
@@ -85,19 +79,34 @@ public class EntityScreen extends Screen {
 				}
 				);
 		JButton back = GuiUtility.makeButton("Back",new BackListener(sm));
-		JPanel buttonPanel = new JPanel(new FlowLayout());
-		buttonPanel.add(add);
-		buttonPanel.add(Box.createHorizontalStrut(5));
-		buttonPanel.add(edit);
-		buttonPanel.add(Box.createHorizontalStrut(5));
-		buttonPanel.add(delete);
-		buttonPanel.add(Box.createHorizontalStrut(5));
-		buttonPanel.add(back);
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		mainPanel.add(listPanel);
-		mainPanel.add(buttonPanel);
-		this.add(label, BorderLayout.NORTH);
-		this.add(mainPanel, BorderLayout.CENTER);
+
+		//formatting needs a little work but this is now in GridBagLayout 
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipadx = 0;
+		c.gridy = 2;
+		this.add(add, c); 
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipadx = 0;
+		c.gridy = 2;
+		this.add(edit, c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipadx = 0;
+		c.gridy = 2;
+		this.add(delete, c);
+		//The code between this comment and the next
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipadx = 0;
+		c.gridy = 2;
+		this.add(back, c);
+		//will be removed once added to tabbed pane
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridy = 0;
+		this.add(label, c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridy = 1;
+		this.add(entityList, c);
+		
 	}
 	
 	public void reset() {

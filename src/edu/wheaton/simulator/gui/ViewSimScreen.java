@@ -17,6 +17,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -35,8 +37,6 @@ import edu.wheaton.simulator.simulation.SimulationPauseException;
 import edu.wheaton.simulator.statistics.SimulationRecorder;
 
 public class ViewSimScreen extends Screen {
-
-	//private JPanel gridPanel;
 
 	//private int height;
 
@@ -113,15 +113,39 @@ public class ViewSimScreen extends Screen {
 				}
 				);
 		
-		//layerPanel.setSize(new Dimension(600, 1000));
+		grid.addMouseListener(
+				new MouseListener() {
 
-		//TODO add layer elements
-		//set Layout
-		//objects for layers:
-		// - combobox(es) for choosing field, colorchooser to pick primary filter color, 
-		//   labels for these, "apply" button, "clear" button
-		//gridPanel = new JPanel();
-		//this.add(layerPanel, BorderLayout.WEST);
+					@Override
+					public void mouseClicked(MouseEvent me) {
+						int x = me.getX();
+						int y = me.getY();
+						int height = grid.getHeight()/sm.getGUIheight();
+						int width = grid.getWidth()/sm.getGUIwidth();
+						
+					}
+
+					@Override
+					public void mouseEntered(MouseEvent arg0) {
+						return;
+						}
+
+					@Override
+					public void mouseExited(MouseEvent arg0) {
+						return;						
+					}
+
+					@Override
+					public void mousePressed(MouseEvent arg0) {
+						return;						
+					}
+
+					@Override
+					public void mouseReleased(MouseEvent arg0) {
+						return;						
+					}
+			
+		}
 		
 		layerPanelAgents = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
 		layerPanelAgents.add(agents);
