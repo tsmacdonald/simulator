@@ -78,28 +78,22 @@ public class ViewSimScreen extends Screen {
 		gridRec = new SimulationRecorder(sm.getStatManager());
 		stepCount = 0;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
-		JPanel layerPanel = new JPanel();
-		layerPanel.setLayout(new BoxLayout(layerPanel, BoxLayout.Y_AXIS));
-		panel1 = new JPanel();
-		panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
+		JPanel layerPanel = makeBoxPanel(BoxLayout.Y_AXIS);
+		panel1 = makeBoxPanel(BoxLayout.X_AXIS);
 		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
 		agentComboBox = new JComboBox();
 		panel1.add(agents);
 		panel1.add(agentComboBox);
-		panel2 = new JPanel();
-		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
+		panel2 = makeBoxPanel(BoxLayout.X_AXIS);
 		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+		JPanel mainPanel = makeBoxPanel(BoxLayout.X_AXIS);
 		layerComboBox = new JComboBox();
 		panel2.add(layers);
 		panel2.add(layerComboBox);
-		JPanel panel3 = new JPanel();
-		panel3.setLayout(new BoxLayout(panel3, BoxLayout.X_AXIS));
-		JButton apply = new JButton("Apply");
+		JPanel panel3 = makeBoxPanel(BoxLayout.X_AXIS);
 		final JColorChooser colorTool = new JColorChooser();
 		colorTool.setMaximumSize(new Dimension(250, 500));
-		apply.addActionListener(
+		JButton apply = makeButton("Apply",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
@@ -116,8 +110,7 @@ public class ViewSimScreen extends Screen {
 					} 
 				}
 				);
-		JButton clear = new JButton("Clear");
-		clear.addActionListener(
+		JButton clear = makeButton("Clear",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
@@ -164,12 +157,7 @@ public class ViewSimScreen extends Screen {
 		buttonPanel.add(makeBackButton());
 		return buttonPanel;
 	}
-	
-	private static JButton makeButton(String name, ActionListener al){
-		JButton b = new JButton(name);
-		b.addActionListener(al);
-		return b;
-	}
+
 
 	private JButton makeBackButton(){
 		JButton b = makeButton("Back",new ActionListener() {

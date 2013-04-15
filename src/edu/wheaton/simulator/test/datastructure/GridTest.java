@@ -13,7 +13,7 @@ public class GridTest {
 	private Grid grid;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		grid = new Grid(20, 30);
 	}
 

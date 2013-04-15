@@ -24,7 +24,8 @@ public class BehaviorSnapshot {
 	}
 
 	public String serialize() {
-		return "BehaviorSnapshot " + actor + " " + behavior + " " + recipient
-				+ " " + step;
+		return "BehaviorSnapshot " + "\nActor: " + actor.getInt()
+				+ "\nBehavior: " + behavior.getName() + "\nRecipient: "
+				+ recipient.getInt() + "\nStep: " + step;
 	}
 }

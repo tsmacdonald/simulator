@@ -9,6 +9,13 @@
 
 package edu.wheaton.simulator.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -26,6 +33,36 @@ public abstract class Screen extends JPanel {
 	
 	public Screen(Manager sm) {
 		this.sm = sm;
+	}
+	
+	protected static JButton makeButton(String name, ActionListener al){
+		JButton b = new JButton(name);
+		b.addActionListener(al);
+		return b;
+	}
+	
+	protected static JLabel makeLabelMaxSize(String name, int maxWidth, int maxHeight){
+		JLabel label = new JLabel(name);
+		label.setMaximumSize(new Dimension(maxWidth, maxHeight));
+		return label;
+	}
+	
+	protected static JLabel makeLabelPreferredSize(String name, int prefWidth, int prefHeight){
+		JLabel label = new JLabel(name);
+		label.setPreferredSize(new Dimension(prefWidth, prefHeight));
+		return label;
+	}
+	
+	protected static JPanel makeBorderPanel(BorderLayout layout){
+		JPanel panel = new JPanel();
+		panel.setLayout(layout);
+		return panel;
+	}
+	
+	protected static JPanel makeBoxPanel(int axis){
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, axis));
+		return panel;
 	}
 	
 	public abstract void load();

@@ -25,7 +25,7 @@ public class SaverTest {
 	Integer step;
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		grid = new Grid(10, 10);
 		prototype = new Prototype(grid, "tester");
 		agent = prototype.createAgent();
@@ -40,7 +40,7 @@ public class SaverTest {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		agent = null;
 		grid = null;
 		prototype = null;
@@ -52,11 +52,11 @@ public class SaverTest {
 		//Create two AgentSnapshots
 		AgentSnapshot agentSnap1 = new AgentSnapshot(agent.getID(), 
 				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), 
-				step, prototype.getName(), null);  
+				step, prototype.getName(), null, 0, 0);  
 		
 		AgentSnapshot agentSnap2 = new AgentSnapshot(prototype.createAgent().getID(), 
 				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), 
-				step, prototype.getName(), null);  
+				step, prototype.getName(), null, 0, 0);  
 		
 		//Create the table, add two AgentSnapshots
 		AgentSnapshotTable table = new AgentSnapshotTable();

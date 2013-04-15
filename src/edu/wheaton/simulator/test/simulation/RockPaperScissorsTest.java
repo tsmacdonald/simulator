@@ -24,7 +24,7 @@ public class RockPaperScissorsTest {
 		Expression yMoveDown = new Expression("move( this.x, this.y - 1)");
 		
 		// behavior: turn clockwise
-		//Expression turnClockwise = new Expression("setField( 'direction', (this.direction +1)%4)");
+		Expression turnClockwise = new Expression("setField( 'direction', (this.direction +1)%4)");
 		
 		// behavior: turn to match the direction of the agent in front of me and set my type id to his. I know this does not change the name too.
 		Expression changeIDAndTurnAround = new Expression("setField( 'direciton', (this.direction +2)%4) && setField( 'typeID', (this.typeID -1)%3)");
@@ -41,10 +41,10 @@ public class RockPaperScissorsTest {
 		Expression dir3 = new Expression("(this.direction == 3) && isSlotOpen(this.x-1,this.y)");
 		
 		// condition: if there is an obstruction ahead (should be checked after checking for conflicts)
-		//Expression obstruction0 = new Expression("(this.direction == 0) && !(isSlotOpen(this.x,this.y+1))");		
-		//Expression obstruction1 = new Expression("(this.direction == 1) && !(isSlotOpen(this.x+1,this.y))");
-		//Expression obstruction2 = new Expression("(this.direction == 2) && !(isSlotOpen(this.x,this.y-1))");
-		//Expression obstruction3 = new Expression("(this.direction == 3) && !(isSlotOpen(this.x-1,this.y))");
+		Expression obstruction0 = new Expression("(this.direction == 0) && !(isSlotOpen(this.x,this.y+1))");		
+		Expression obstruction1 = new Expression("(this.direction == 1) && !(isSlotOpen(this.x+1,this.y))");
+		Expression obstruction2 = new Expression("(this.direction == 2) && !(isSlotOpen(this.x,this.y-1))");
+		Expression obstruction3 = new Expression("(this.direction == 3) && !(isSlotOpen(this.x-1,this.y))");
 		
 		// I am weaker than opponent in front of me condition
 		Expression loseConflict0 = new Expression("(this.direction == 0) && isValidCoord(this.x,this.y+1) && !isSlotOpen(this.x,this.y+1)" +

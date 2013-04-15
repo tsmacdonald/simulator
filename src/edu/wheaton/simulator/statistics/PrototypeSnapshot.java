@@ -99,7 +99,7 @@ public class PrototypeSnapshot {
 		return s; 
 	}
 	
-	private String displayByteArray(byte[] array){
+	private static String displayByteArray(byte[] array){
 		String ret = ""; 
 		
 		for(byte b : array)

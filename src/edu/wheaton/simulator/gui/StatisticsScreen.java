@@ -140,8 +140,7 @@ public class StatisticsScreen extends Screen {
 	}
 	
 	private JPanel makeMainPanel(JPanel dataPanel, JComboBox cardSelector){
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		mainPanel.add(makeGraphPanel());
 		mainPanel.add(makeBoxPanel(cardSelector));
 		mainPanel.add(dataPanel);
@@ -166,13 +165,8 @@ public class StatisticsScreen extends Screen {
 	
 	private JPanel makeButtonPanel(){
 		JPanel buttonPanel = new JPanel();
-		
-		JButton displayButton = makeDisplayButton();
-		buttonPanel.add(displayButton);
-		
-		JButton finishButton = makeFinishButton();
-		buttonPanel.add(finishButton);
-		
+		buttonPanel.add(makeDisplayButton());
+		buttonPanel.add(makeFinishButton());
 		return buttonPanel;
 	}
 	
@@ -180,13 +174,6 @@ public class StatisticsScreen extends Screen {
 		String[] labels = {label1, label2};
 		JTable jt = new JTable(data ,labels);
 		return jt;
-	}
-	
-	private static JButton makeButton(String name, ActionListener al){
-		JButton b = new JButton(name);
-		b.setPreferredSize(new Dimension(150, 70));
-		b.addActionListener(al);
-		return b;
 	}
 	
 	private JButton makeDisplayButton(){

@@ -41,21 +41,17 @@ public class EditFieldScreen extends Screen {
 	public EditFieldScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
-		JLabel label = new JLabel("Edit Field");
+		JLabel label = makeLabelPreferredSize("Edit Field",300, 150);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setPreferredSize(new Dimension(300, 150));
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		JPanel panel1 = new JPanel();
-		panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
-		JPanel panel2 = new JPanel();
-		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
-		JPanel panel3 = new JPanel();
-		panel3.setLayout(new BoxLayout(panel3, BoxLayout.X_AXIS));
+		
+		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
+		JPanel panel1 = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel panel2 = makeBoxPanel(BoxLayout.X_AXIS);
+		JPanel panel3 = makeBoxPanel(BoxLayout.X_AXIS);
 		JPanel buttonPanel = new JPanel();
 		JLabel nameLabel = new JLabel("Field Name: ");
 		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		nameField = new JTextField(40);
+		nameField = new JTextField(40);   
 		nameField.setMaximumSize(new Dimension(300, 40));
 		//		JLabel typeLabel = new JLabel("Field Type: ");
 		//		typeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -65,9 +61,7 @@ public class EditFieldScreen extends Screen {
 		valueLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		initValue = new JTextField(40);
 		initValue.setMaximumSize(new Dimension(300, 40));
-		JButton cancelButton = new JButton("Cancel");
-		cancelButton.setPreferredSize(new Dimension(120, 60));
-		cancelButton.addActionListener(
+		JButton cancelButton = makeButton("Cancel",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -75,9 +69,9 @@ public class EditFieldScreen extends Screen {
 					} 
 				}
 				);
-		JButton finishButton = new JButton("Finish");
+		cancelButton.setPreferredSize(new Dimension(120, 60));
+		JButton finishButton = makeButton("Finish",new FinishListener());
 		finishButton.setPreferredSize(new Dimension(120, 60));
-		finishButton.addActionListener(new FinishListener());
 		panel1.add(nameLabel);
 		panel1.add(nameField);
 		//		panel2.add(typeLabel);

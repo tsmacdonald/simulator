@@ -129,18 +129,7 @@ public class SetupScreen extends Screen {
 		nameField.setMaximumSize(new Dimension(400, 30));
 		return nameField;
 	}
-	
-	private static JLabel makeLabelMaxSize(String name, int maxWidth, int maxHeight){
-		JLabel label = new JLabel(name);
-		label.setMaximumSize(new Dimension(maxWidth, maxHeight));
-		return label;
-	}
-	
-	private static JLabel makeLabelPreferredSize(String name, int prefWidth, int prefHeight){
-		JLabel label = new JLabel(name);
-		label.setPreferredSize(new Dimension(prefWidth, prefHeight));
-		return label;
-	}
+
 	
 	private static JLabel makeWindowLabel(){
 		JLabel label = makeLabelPreferredSize("Simulation Setup",300,150);
@@ -192,9 +181,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JButton makeAddConditionButton(final SetupScreen screen){
-		JButton addConditionButton = new JButton("Add Field");
-		addConditionButton.addActionListener(
-				new ActionListener() {
+		JButton addConditionButton = makeButton("Add Field",new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						screen.addCondition();
@@ -204,10 +191,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeConMainPanel(JPanel conListPanel, JTextField timeField){
-		JPanel conMainPanel = new JPanel();
-		conMainPanel.setLayout(
-				new BorderLayout()
-				);
+		JPanel conMainPanel = makeBorderPanel(new BorderLayout());
 		conMainPanel.add(makeEndingLabel(), BorderLayout.NORTH);
 
 		JPanel conBodyPanel = makeConBodyPanel(conListPanel, timeField);
@@ -218,8 +202,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeTimePanel(JTextField timeField){
-		JPanel timePanel = new JPanel();
-		timePanel.setLayout(new BoxLayout(timePanel, BoxLayout.X_AXIS));
+		JPanel timePanel = makeBoxPanel(BoxLayout.X_AXIS);
 		JLabel timeLabel = new JLabel("Time limit: ");
 		timePanel.add(timeLabel);
 		timePanel.add(timeField);
@@ -228,10 +211,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeConLabelsPanel(){
-		JPanel conLabelsPanel = new JPanel();
-		conLabelsPanel.setLayout(
-				new BoxLayout(conLabelsPanel, BoxLayout.X_AXIS)
-				);
+		JPanel conLabelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
 		conLabelsPanel.add(Box.createHorizontalGlue());
 		conLabelsPanel.add(makeAgentTypeLabel());
 		conLabelsPanel.add(makeValueLabel());
@@ -240,20 +220,14 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeConListPanel(JButton addConditionButton){
-		JPanel conListPanel = new JPanel();
-		conListPanel.setLayout(
-				new BoxLayout(conListPanel, BoxLayout.Y_AXIS)
-				);
+		JPanel conListPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		conListPanel.add(addConditionButton);
 		conListPanel.add(Box.createVerticalGlue());
 		return conListPanel;
 	}
 
 	private static JPanel makeConBodyPanel(JPanel conListPanel, JTextField timeField){
-		JPanel conBodyPanel = new JPanel();
-		conBodyPanel.setLayout(
-				new BoxLayout(conBodyPanel, BoxLayout.Y_AXIS)
-				);
+		JPanel conBodyPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 
 		JPanel timePanel = makeTimePanel(timeField);
 
@@ -267,8 +241,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeUberPanel(JPanel conListPanel, JTextField timeField, JTextField nameField, JComboBox updateBox){
-		JPanel uberPanel = new JPanel();
-		uberPanel.setLayout(new BoxLayout(uberPanel, BoxLayout.Y_AXIS));
+		JPanel uberPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 
 		JPanel mainPanel = makeMainPanel(makeNameLabel(), nameField, makeUpdateLabel(), updateBox );
 		uberPanel.add(mainPanel);
@@ -286,9 +259,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JButton makeBackButton(final ScreenManager sm){
-		JButton backButton = new JButton("Back");
-		backButton.addActionListener(
-				new ActionListener() {
+		JButton backButton = makeButton("Back",new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.update(sm.getScreen("Edit Simulation"));
@@ -299,9 +270,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JButton makeFinishButton(final ScreenManager sm, final JTextField nameField, final JTextField timeField, final JComboBox updateBox, final ArrayList<JTextField> values, final ArrayList<JComboBox> agentTypes){
-		JButton finishButton = new JButton("Finish");
-		finishButton.addActionListener(
-				new ActionListener() {
+		JButton finishButton = makeButton("Finish",new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						try {
@@ -355,8 +324,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeMainPanel(JLabel nameLabel, JTextField nameField, JLabel updateLabel, JComboBox updateBox ){
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
 
 		mainPanel.add( makePanel1(nameLabel,nameField) );
@@ -367,16 +335,14 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makePanel1(JLabel nameLabel, JTextField nameField){
-		JPanel panel1 = new JPanel();
-		panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
+		JPanel panel1 = makeBoxPanel(BoxLayout.X_AXIS);
 		panel1.add(nameLabel);
 		panel1.add(nameField);
 		return panel1;
 	}
 
 	private static JPanel makePanel3(JLabel updateLabel, JComboBox updateBox){
-		JPanel panel3 = new JPanel();
-		panel3.setLayout(new BoxLayout(panel3, BoxLayout.X_AXIS));
+		JPanel panel3 = makeBoxPanel(BoxLayout.X_AXIS);
 		panel3.add(updateLabel);
 		panel3.add(updateBox);
 		return panel3;
@@ -429,11 +395,7 @@ public class SetupScreen extends Screen {
 
 
 	private void addCondition() {
-		JPanel newPanel = new JPanel();
-		newPanel.setLayout(
-				new BoxLayout(newPanel, 
-						BoxLayout.X_AXIS)
-				);
+		JPanel newPanel = makeBoxPanel( BoxLayout.X_AXIS);
 		JComboBox newBox = new JComboBox(agentNames);
 		newBox.setMaximumSize(new Dimension(300, 40));
 		agentTypes.add(newBox);
@@ -443,8 +405,7 @@ public class SetupScreen extends Screen {
 		JTextField newValue = new JTextField(25);
 		newValue.setMaximumSize(new Dimension(300, 40));
 		values.add(newValue);
-		JButton newButton = new JButton("Delete");
-		newButton.addActionListener(new DeleteListener());
+		JButton newButton = makeButton("Delete",new DeleteListener());
 		deleteButtons.add(newButton);
 		newButton.setActionCommand(deleteButtons.indexOf(newButton) + "");
 		System.out.println(deleteButtons.indexOf(newButton) + "");
