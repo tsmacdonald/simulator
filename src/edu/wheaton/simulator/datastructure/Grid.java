@@ -38,7 +38,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	/**
 	 * Observers to watch the grid
 	 */
-	private static Set<GridObserver> observers = new HashSet<GridObserver>();
+	private Set<GridObserver> observers;
 
 	/**
 	 * Constructor. Creates a grid with the given width and height
@@ -58,6 +58,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 		}
 		grid = new Agent[getHeight()][getWidth()];
 		updater = new LinearUpdater(this);
+		observers = new HashSet<GridObserver>();
 	}
 
 	/**
@@ -354,14 +355,14 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * 
 	 * @param ob
 	 */
-	public static void addObserver(GridObserver ob) {
+	public void addObserver(GridObserver ob) {
 		observers.add(ob);
 	}
 
 	/**
 	 * Notifies all of the observers watching this grid
 	 */
-	public static void notifyObservers(Grid grid) {
+	public void notifyObservers(Grid grid) {
 		for (GridObserver current : observers)
 			current.update(grid);
 	}

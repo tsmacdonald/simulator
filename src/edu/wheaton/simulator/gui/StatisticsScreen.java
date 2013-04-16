@@ -22,7 +22,7 @@ import java.util.Map;
 import javax.swing.*;
 
 import edu.wheaton.simulator.entity.Prototype;
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class StatisticsScreen extends Screen {
@@ -99,7 +99,7 @@ public class StatisticsScreen extends Screen {
 		
 		if(popEntityBox.getSelectedIndex() >= 0){
 			sm.getFacade();
-			int[] popVsTime = sm.getStatManager().getPopVsTime(GUIToAgentFacade.
+			int[] popVsTime = sm.getStatManager().getPopVsTime(Simulator.
 					getPrototype(popEntityBox.getSelectedItem().toString())
 					.getName()
 					);
@@ -182,7 +182,7 @@ public class StatisticsScreen extends Screen {
 					public void actionPerformed(ActionEvent e) {
 						if (cardSelector.getSelectedItem().equals(POPS_STR)) {
 							sm.getFacade();
-							int[] pops = statMan.getPopVsTime(GUIToAgentFacade.
+							int[] pops = statMan.getPopVsTime(Simulator.
 														getPrototype((String)popEntityBox.getSelectedItem())
 														.getName());
 							System.out.println("Population over time: ");
@@ -195,7 +195,7 @@ public class StatisticsScreen extends Screen {
 						else if (cardSelector.getSelectedItem().equals(FIELDS_STR)) {
 							String s = (String)fieldEntityBox.getSelectedItem();
 							sm.getFacade();
-							Prototype p = GUIToAgentFacade.getPrototype(s);
+							Prototype p = Simulator.getPrototype(s);
 							double[] vals = statMan.getAvgFieldValue(p.getName(),
 									((String)agentFieldsBoxes.get(s).getSelectedItem()));
 							//TODO temporary solution to demonstrate compatibility
@@ -207,7 +207,7 @@ public class StatisticsScreen extends Screen {
 						}
 						else {
 							sm.getFacade();
-							Prototype p = GUIToAgentFacade.getPrototype((String)lifeEntityBox.getSelectedItem());
+							Prototype p = Simulator.getPrototype((String)lifeEntityBox.getSelectedItem());
 							//TODO temporary solution to demonstrate compatibility
 							//getAvgLifespan returns NaN (not a number; 0 / 0 ?)
 							System.out.println("Average lifespan: " + 
@@ -269,17 +269,17 @@ public class StatisticsScreen extends Screen {
 	@Override
 	public void load() {
 		sm.getFacade();
-		entities = new String[GUIToAgentFacade.prototypeNames().size()];
+		entities = new String[Simulator.prototypeNames().size()];
 		popEntityBox.removeAllItems();
 		fieldEntityBox.removeAllItems();
 		lifeEntityBox.removeAllItems();
 		agentFieldsBoxes.clear();
 		int i = 0;
 		sm.getFacade();
-		for (String s : GUIToAgentFacade.prototypeNames()) {
+		for (String s : Simulator.prototypeNames()) {
 			entities[i++] = s;
 			sm.getFacade();
-			agentFields = GUIToAgentFacade.getPrototype(s).getCustomFieldMap().keySet().toArray(agentFields);
+			agentFields = Simulator.getPrototype(s).getCustomFieldMap().keySet().toArray(agentFields);
 			agentFieldsBoxes.put(s, new JComboBox(agentFields));
 			popEntityBox.addItem(s);
 			fieldEntityBox.addItem(s);

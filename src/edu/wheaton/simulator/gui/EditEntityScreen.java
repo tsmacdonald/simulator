@@ -30,7 +30,7 @@ import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+import edu.wheaton.simulator.simulation.Simulator;
 
 public class EditEntityScreen extends Screen {
 
@@ -443,7 +443,7 @@ public class EditEntityScreen extends Screen {
 		reset();
 		tabs.setSelectedComponent(generalPanel);
 		sm.getFacade();
-		agent = GUIToAgentFacade.getPrototype(str);
+		agent = Simulator.getPrototype(str);
 		nameField.setText(agent.getName());
 		colorTool.setColor(agent.getColor());
 
@@ -515,10 +515,10 @@ public class EditEntityScreen extends Screen {
 	public void sendGeneralInfo(){
 		if (!editing) {
 			sm.getFacade();
-			GUIToAgentFacade.createPrototype(nameField.getText(),
+			Simulator.createPrototype(nameField.getText(),
 					sm.getFacade().getGrid(), colorTool.getColor(),	generateBytes());
 			sm.getFacade();
-			agent = GUIToAgentFacade.getPrototype(nameField.getText());
+			agent = Simulator.getPrototype(nameField.getText());
 		}
 		else {
 			agent.setPrototypeName(agent.getName(),

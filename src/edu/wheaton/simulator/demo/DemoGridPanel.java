@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+import edu.wheaton.simulator.simulation.Simulator;
 
 public class DemoGridPanel extends JPanel{
 
@@ -23,9 +23,9 @@ public class DemoGridPanel extends JPanel{
 
 	private int gridHeight;
 	
-	private GUIToAgentFacade facade;
+	private Simulator facade;
 
-	public DemoGridPanel(GUIToAgentFacade facade) {
+	public DemoGridPanel(Simulator facade) {
 		this.facade = facade;
 	}
 

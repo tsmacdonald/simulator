@@ -30,7 +30,7 @@ import javax.swing.SwingUtilities;
 import net.sourceforge.jeval.EvaluationException;
 
 import edu.wheaton.simulator.entity.Prototype;
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 import edu.wheaton.simulator.statistics.SimulationRecorder;
 
@@ -98,7 +98,7 @@ public class ViewSimScreen extends Screen {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
 						sm.getFacade();
-						GUIToAgentFacade.newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
+						Simulator.newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
 						try {
 							sm.getFacade().setLayerExtremes();
 						} catch (EvaluationException e) {
@@ -260,14 +260,14 @@ public class ViewSimScreen extends Screen {
 	@Override
 	public void load() {
 		sm.getFacade();
-		entities = GUIToAgentFacade.prototypeNames().toArray(entities);
+		entities = Simulator.prototypeNames().toArray(entities);
 		agentComboBox = new JComboBox(entities);
 		agentComboBox.addItemListener(
 				new ItemListener() {
 					@Override
 					public void itemStateChanged(ItemEvent e) {
 						sm.getFacade();
-						layerComboBox = new JComboBox(GUIToAgentFacade.getPrototype
+						layerComboBox = new JComboBox(Simulator.getPrototype
 								(agentComboBox.getSelectedItem().toString())
 								.getCustomFieldMap().keySet().toArray());
 						layerComboBox.setMaximumSize(new Dimension(200, 50));
@@ -280,7 +280,7 @@ public class ViewSimScreen extends Screen {
 				);
 		if(entities.length != 0){
 			sm.getFacade();
-			layerComboBox = new JComboBox(GUIToAgentFacade.getPrototype
+			layerComboBox = new JComboBox(Simulator.getPrototype
 					(agentComboBox.getItemAt(0).toString())
 					.getCustomFieldMap().keySet().toArray());
 			layerComboBox.setMaximumSize(new Dimension(200, 50));

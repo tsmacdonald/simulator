@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import javax.swing.JPanel;
 
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
@@ -21,7 +21,7 @@ public class ScreenManager implements Manager{
 	
 	private StatisticsManager statMan;
 	
-	private GUIToAgentFacade facade;
+	private Simulator facade;
 	
 	private boolean simulationIsRunning;
 	
@@ -72,11 +72,11 @@ public class ScreenManager implements Manager{
 
 	@Override
 	public void setFacade(int x, int y) {
-		facade = new GUIToAgentFacade(x, y);
+		facade = new Simulator(x, y);
 	}
 	
 	@Override
-	public GUIToAgentFacade getFacade() {
+	public Simulator getFacade() {
 		return facade;
 	}
 	

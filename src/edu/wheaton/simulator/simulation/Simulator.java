@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import sampleAgents.Bouncer;
 import sampleAgents.Confuser;
@@ -32,12 +33,22 @@ import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Trigger;
 
-public class GUIToAgentFacade {
+public class Simulator implements Runnable {
 
 	/**
 	 * The Grid to hold all the Agents
 	 */
 	private Grid grid;
+	
+	/**
+	 * Whether or not the simulation will pause on the next step
+	 */
+	private AtomicBoolean shouldPause;
+	
+	/**
+	 * Time (in milliseconds) in between each step
+	 */
+	private int sleepPeriod;
 
 	/**
 	 * Constructor.
@@ -45,9 +56,51 @@ public class GUIToAgentFacade {
 	 * @param gridX
 	 * @param gridY
 	 */
-	public GUIToAgentFacade(int gridX, int gridY) {
+	public Simulator(int gridX, int gridY) {
 		Prototype.clearPrototypes();
 		grid = new Grid(gridX, gridY);
+	}
+	
+	@Override
+	/**
+	 * Runs the simulation by updating all the entities
+	 */
+	public void run() {
+		while(!shouldPause.get()) {
+			try {
+				grid.updateEntities();
+				grid.notifyObservers(grid);
+				Thread.sleep(sleepPeriod);
+			} catch (SimulationPauseException e) {
+				shouldPause.set(true); 
+				System.err.println(e.getMessage());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Begins a new thread for this simulation
+	 */
+	public void resume() {
+		shouldPause.set(false);
+		new Thread(this).run();
+	}
+	
+	/**
+	 * Stops the flow of the simulation. This will happen on the next iteration
+	 */
+	public void pause() {
+		shouldPause.set(true);
+	}
+	
+	/**
+	 * Changes how long the simulation waits after each step
+	 * @param sleepPeriod Time in milliseconds
+	 */
+	public void setSleepPeriod(int sleepPeriod) {
+		this.sleepPeriod = sleepPeriod;
 	}
 	
 	/**

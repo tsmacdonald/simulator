@@ -542,7 +542,6 @@ public class Trigger implements Comparable<Trigger> {
 		public Trigger build() {
 			return trigger;
 		}
-
 	}
 	
 	/**
@@ -560,7 +559,6 @@ public class Trigger implements Comparable<Trigger> {
 	public static void notifyObservers(Agent caller, Trigger trigger) {
 		for (TriggerObserver current : observers)
 			current.update(caller, trigger);
-		System.out.println("NOTIFIED TRIGGER OBS: Caller - " + caller.getName() + " Trigger - " + trigger.getName());
 	}
 
 }
