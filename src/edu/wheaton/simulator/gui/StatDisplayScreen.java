@@ -12,8 +12,6 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-
 import edu.wheaton.simulator.statistics.StatisticsManager;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JButton;
@@ -128,15 +126,22 @@ public class StatDisplayScreen extends Screen {
 	
 	class DisplayPanel extends JPanel {
 
-	    public DisplayPanel() {
+	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = -3096004693285149953L;
+
+		public DisplayPanel() {
 	        setBorder(BorderFactory.createLineBorder(Color.black));
 	    }
 
-	    public Dimension getPreferredSize() {
+	    @Override
+		public Dimension getPreferredSize() {
 	        return new Dimension(250,200);
 	    }
 
-	    public void paintComponent(Graphics g) {
+	    @Override
+		public void paintComponent(Graphics g) {
 	        super.paintComponent(g);       
 
 	        // Draw Text
