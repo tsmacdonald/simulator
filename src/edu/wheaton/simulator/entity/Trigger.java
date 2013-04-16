@@ -14,9 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import sun.awt.SunHints.Value;
-
 import com.google.common.collect.ImmutableList;
 
 import net.sourceforge.jeval.EvaluationException;
@@ -111,8 +108,8 @@ public class Trigger implements Comparable<Trigger> {
 			conditionResult = condition.evaluateBool();
 		} catch (Exception e) {
 			conditionResult = false;
-//			System.out.println("Condition expression failed: "
-//					+ condition.toString());
+			//			System.out.println("Condition expression failed: "
+			//					+ condition.toString());
 		}
 
 		if (conditionResult) {
@@ -139,8 +136,8 @@ public class Trigger implements Comparable<Trigger> {
 			atomicConditionResult = condition.evaluateBool();
 		} catch (EvaluationException e) {
 			atomicConditionResult = false;
-//			System.out.println("Condition expression failed: "
-//					+ condition.toString());
+			//			System.out.println("Condition expression failed: "
+			//					+ condition.toString());
 			throw e;
 		}
 	}
@@ -185,16 +182,16 @@ public class Trigger implements Comparable<Trigger> {
 	private static void fire(Expression behavior) throws EvaluationException {
 		try {
 			if (behavior.evaluateBool() == false) {
-//				System.err.println("behavior '" + behavior.toString()
-//						+ "' failed");
+				//				System.err.println("behavior '" + behavior.toString()
+				//						+ "' failed");
 			}
 			else {
-//				System.out.println("behavior '" + behavior.toString()
-//						+ "' succeeded");
+				//				System.out.println("behavior '" + behavior.toString()
+				//						+ "' succeeded");
 			}
 		} catch (EvaluationException e) {
-//			System.err.println("malformed expression: " + behavior);
-//			e.printStackTrace();
+			//			System.err.println("malformed expression: " + behavior);
+			//			e.printStackTrace();
 			throw new EvaluationException("Behavior");
 		}
 	}
@@ -264,12 +261,23 @@ public class Trigger implements Comparable<Trigger> {
 		 * Simple (user readable) values for creating behaviors
 		 */
 		private List<String> behavioralValues;
-		
+
+		/**
+		 * Hashmap of the functions. It will have the JEval name of the function
+		 * and the number of arguments it is supposed to take.
+		 */
+		private HashMap<String, Integer> functionNumArgs;
+
+		/**
+		 * Hashmap of the function return types. Has the name and a sample return type
+		 */
+		private HashMap<String, String> functionReturn;
+
 		/**
 		 * Reference to prototype that is being created
 		 */
 		private Prototype prototype;
-		
+
 		/**
 		 * Constructor
 		 * 
@@ -282,6 +290,8 @@ public class Trigger implements Comparable<Trigger> {
 			converter = new HashMap<String, String>();
 			conditionalValues = new ArrayList<String>();
 			behavioralValues = new ArrayList<String>();
+			functionNumArgs = new HashMap<String, Integer>();
+			functionReturn = new HashMap<String,String>();
 			loadFieldValues(p);
 			loadOperations();
 			loadBehaviorFunctions();
@@ -327,7 +337,7 @@ public class Trigger implements Comparable<Trigger> {
 
 			converter.put("<", "<");
 			conditionalValues.add("<");
-			
+
 			converter.put("(",  "(");
 			conditionalValues.add("(");
 		}
@@ -339,14 +349,14 @@ public class Trigger implements Comparable<Trigger> {
 		private void loadConditionalFunctions() {
 			conditionalValues.add("Get_Field_Of_Agent_At:");
 			converter.put("Get_Field_Of_Agent_At", "getFieldOfAgentAt");
-			
+
 			conditionalValues.add("Is_Slot_Open_At:");
 			converter.put("Is_Slot_Open_At:", "isSlotOpen");
-			
+
 			conditionalValues.add("Is_Valid_Coord_At:");
 			converter.put("Is_Valid_Coord_At:", "isValidCoord");
-			
-			
+
+
 			/**
 			 * TODO Need to figure out how the user inputs the parameters.
 			 */
@@ -458,22 +468,60 @@ public class Trigger implements Comparable<Trigger> {
 			 */
 			try {
 				String condition = trigger.getConditions().toString();
-				while(condition.indexOf("this.") != -1){
-					//take the field value and convert it to an actual value using the 
-					//hashmap of fields.
-					Map<String, String> map = prototype.getFieldMap();
-//					for (iterate through all of the map)
-//						if the key is the next thing, then replace it with the value
-				}
+				new Expression(isValidHelper(condition)).evaluateBool();
 				System.out.println("condition " + condition);
-				Expression behavior = trigger.getBehavior();
+				String behavior =  trigger.getBehavior().toString();
+				new Expression(isValidHelper(behavior)).evaluateBool();
 				System.out.println("behavior " + behavior);
 				return true;
 			} catch (Exception e) {
 				System.out.println("Trigger failed: "
 						+ trigger.getConditions() + "\n"+trigger.getBehavior());
+				System.out.println(e);
 				return false;
 			}		
+		}
+
+		/**
+		 * Helper method for isValid method to avoid having same loops twice.
+		 * @param s
+		 * @return simplified expression that we can evaluate
+		 */
+		private String isValidHelper(String s) throws Exception{
+			while(s.indexOf("this.") != -1){
+				int index = s.indexOf("this.");
+				String beginning = s.substring(0, index);
+				s = s.substring(index+5);
+				Map<String, String> map = prototype.getFieldMap();
+				for (String a : map.keySet()){
+					if (s.indexOf(a) == 0){
+						String value = map.get(a);
+						s = value + s.substring(a.length());
+						System.out.println(s);
+						break;
+					}
+				}
+				s = beginning + s;
+			}
+			/**
+			 * TODO need to change this section to reflect how functions are 
+			 * actually implemented and needs to be tested.
+			 */
+			for (String f : functionNumArgs.keySet()){
+				while (s.indexOf(f)!= -1){
+					int index = s.indexOf(f);
+					String beginning = s.substring(0, index);
+					s= s.substring(index);
+					String test = s.substring(0, s.indexOf(")"));
+					String[] numArgs = test.split(",");
+					if (numArgs.length != functionNumArgs.get(f)){
+						throw new Exception("function has wrong number of arguments"); 
+					}
+					s = s.substring(s.indexOf(")"));
+					s = beginning + functionReturn.get(f)+s;
+				}
+			}
+			return s;
 		}
 
 		/**
