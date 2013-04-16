@@ -12,8 +12,11 @@ package edu.wheaton.simulator.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import com.google.common.collect.ImmutableList;
 
 import net.sourceforge.jeval.EvaluationException;
@@ -54,6 +57,11 @@ public class Trigger implements Comparable<Trigger> {
 	 * The behavior that is executed when the trigger condition is met
 	 */
 	private Expression behaviorExpression;
+	
+	/**
+	 * Observers to watch this trigger
+	 */
+	private static Set<TriggerObserver> observers = new HashSet<TriggerObserver>();
 
 	/**
 	 * Constructor
@@ -113,7 +121,7 @@ public class Trigger implements Comparable<Trigger> {
 		}
 
 		if (conditionResult) {
-			fire(behavior);
+			fire(xThis, this, behavior);
 		}
 	}
 
@@ -155,7 +163,7 @@ public class Trigger implements Comparable<Trigger> {
 
 		behavior.importEntity("this", xThis);
 		if (atomicConditionResult)
-			fire(behavior);
+			fire(xThis, this, behavior);
 	}
 
 	/**
@@ -179,7 +187,7 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
-	private static void fire(Expression behavior) throws EvaluationException {
+	private static void fire(Agent a, Trigger t, Expression behavior) throws EvaluationException {
 		try {
 			if (behavior.evaluateBool() == false) {
 				//				System.err.println("behavior '" + behavior.toString()
@@ -194,6 +202,7 @@ public class Trigger implements Comparable<Trigger> {
 			//			e.printStackTrace();
 			throw new EvaluationException("Behavior");
 		}
+		notifyObservers(a, t);
 	}
 
 	/**
@@ -242,6 +251,7 @@ public class Trigger implements Comparable<Trigger> {
 	}
 
 	public static class Builder {
+		
 		/**
 		 * Current version of the trigger, will be returned when built
 		 */
@@ -534,4 +544,23 @@ public class Trigger implements Comparable<Trigger> {
 		}
 
 	}
+	
+	/**
+	 * Adds an observer to the trigger's list
+	 * 
+	 * @param ob
+	 */
+	public static void addObserver(TriggerObserver ob) {
+		observers.add(ob);
+	}
+
+	/**
+	 * Notifies all of the observers watching this grid
+	 */
+	public static void notifyObservers(Agent caller, Trigger trigger) {
+		for (TriggerObserver current : observers)
+			current.update(caller, trigger);
+		System.out.println("NOTIFIED TRIGGER OBS: Caller - " + caller.getName() + " Trigger - " + trigger.getName());
+	}
+
 }
