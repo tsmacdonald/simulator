@@ -40,9 +40,9 @@ public class StatDisplayScreen extends Screen {
 		super(sm);
 		//Setup GridBagLayout & demensions.
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{239, 220, 0, 0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{69, 81, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -62,7 +62,7 @@ public class StatDisplayScreen extends Screen {
 		JComboBox agentList = new JComboBox();
 		GridBagConstraints gbc_agentList = new GridBagConstraints();
 		//Setup agentList's GridBagConstraints
-		gbc_agentList.insets = new Insets(0, 25, 10, 5);
+		gbc_agentList.insets = new Insets(0, 30, 10, 5);
 		gbc_agentList.fill = GridBagConstraints.HORIZONTAL;
 		gbc_agentList.gridx = 0;
 		gbc_agentList.gridy = 1;
@@ -91,8 +91,9 @@ public class StatDisplayScreen extends Screen {
 		//Setup the backButton. 
 		JButton backButton = new JButton("Back");
 		GridBagConstraints gbc_backButton = new GridBagConstraints();
+		gbc_backButton.gridwidth = 2;
 		//Setup backButton's GridBagConstraints
-		gbc_backButton.insets = new Insets(-5, -3, 4, 2);
+		gbc_backButton.insets = new Insets(-5, -30, 6, 30);
 		gbc_backButton.gridx = 3;
 		gbc_backButton.gridy = 1;
 		add(backButton, gbc_backButton);
@@ -108,6 +109,16 @@ public class StatDisplayScreen extends Screen {
 	
 	private void displayAvgLifespan() { 
 		
+	}
+	
+	private void setBackButtonListener(JButton backButton) { 
+		backButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sm.getScreen("View Simulation").load();
+				sm.update(sm.getScreen("View Simulation"));
+			}
+		});
 	}
 	
 	@Override
