@@ -96,8 +96,6 @@ public class EditEntityScreen extends Screen {
 
 	private GridBagConstraints c;
 
-
-	//TODO addField/Trigger buttons don't work, some polishing to do on next/previous buttons
 	public EditEntityScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -163,10 +161,6 @@ public class EditEntityScreen extends Screen {
 
 		initIconDesignObject(iconPanel);
 
-		//serialization not yet implemented
-		//JButton loadIconButton = new JButton("Load icon");
-
-
 		JLabel generalLabel = GuiUtility.makeLabel("General Info",new PrefSize(300,80),HorizontalAlignment.CENTER);
 
 		//JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,MaxSize.NULL,PrefSize.NULL);
@@ -213,7 +207,6 @@ public class EditEntityScreen extends Screen {
 		c.gridy = 2;
 		c.gridwidth = 2;
 		generalPanel.add(iconPanel, c);
-		//generalPanel.add(loadIconButton);
 
 		//JLabel fieldTypeLabel = new JLabel("Field Type");
 
@@ -264,6 +257,9 @@ public class EditEntityScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sm.update(sm.getScreen("Entities"));
+				if (!editing) {
+					Prototype.removePrototype(nameField.getText());
+				}
 				xThis.reset();
 			}
 		}));
