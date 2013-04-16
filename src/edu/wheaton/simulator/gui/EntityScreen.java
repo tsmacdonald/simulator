@@ -28,7 +28,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import edu.wheaton.simulator.entity.Prototype;
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+import edu.wheaton.simulator.simulation.Simulator;
 
 public class EntityScreen extends Screen {
 
@@ -118,7 +118,7 @@ public class EntityScreen extends Screen {
 		reset();
 		delete.setEnabled(sm.hasStarted() ? false : true); 
 		sm.getFacade();
-		Set<String> entities = GUIToAgentFacade.prototypeNames();
+		Set<String> entities = Simulator.prototypeNames();
 		for (String s : entities) {
 			listModel.addElement(s);
 		}

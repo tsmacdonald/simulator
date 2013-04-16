@@ -91,6 +91,8 @@ public class Expression {
 	private Evaluator evaluator;
 	private EntityFieldResolver resolver;
 	private Object expr;
+	
+	private static HashMap<String, AbstractExpressionFunction> functions;
 
 	/**
 	 * Default constructor
@@ -102,6 +104,7 @@ public class Expression {
 		evaluator = new Evaluator();
 		resolver = new EntityFieldResolver();
 		evaluator.setVariableResolver(resolver);
+		functions = new HashMap<String, AbstractExpressionFunction>();
 		
 		//make all project-defined ExpressionFunction implementations recognizable by default
 		this.importFunction(new CloneBehavior());
@@ -114,6 +117,18 @@ public class Expression {
 		this.importFunction(new IsValidCoord());
 		this.importFunction(new CloneAgentAtPositionBehavior());
 		this.importFunction(new SetFieldOfAgentBehavior());
+		
+		//make a hashmap of names and actual objects.
+		functions.put("clone", new CloneBehavior());
+		functions.put("cloneAgentAtPosition", new CloneAgentAtPositionBehavior());
+		functions.put("die", new DieBehavior());
+		functions.put("kill", new KillBehavior());
+		functions.put("move", new MoveBehavior());
+		functions.put("setField", new SetFieldBehavior());
+		functions.put("setFieldOfAgent", new SetFieldOfAgentBehavior());
+		functions.put("getFieldOfAgent", new GetFieldOfAgentAt());
+		functions.put("isSlotOpen", new IsSlotOpen());
+		functions.put("isValidCoord", new IsValidCoord());	
 	}
 
 	/**
@@ -131,6 +146,10 @@ public class Expression {
 	protected Expression(Evaluator eval, EntityFieldResolver res){
 		this.evaluator = eval;
 		this.resolver = res;
+	}
+	
+	public static Map<String,AbstractExpressionFunction> getFunction(){
+		return functions;
 	}
 	
 	/**

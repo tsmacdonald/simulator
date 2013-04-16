@@ -2,7 +2,7 @@ package edu.wheaton.simulator.gui;
 
 import java.util.ArrayList;
 
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 public interface Manager {
@@ -21,7 +21,7 @@ public interface Manager {
 	 * Access to the GUI Facade
 	 * @return The Facade
 	 */
-	public GUIToAgentFacade getFacade();
+	public Simulator getFacade();
 	/**
 	 * Tells whether Entities has been added or not
 	 * @return

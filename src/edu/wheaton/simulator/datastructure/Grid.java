@@ -3,7 +3,7 @@
  * 
  * Models a cartesian-based coordinate plane for the actors to interact within.
  * 
- * @author Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
+ * @author Agent team
  * 
  * Wheaton College, CSCI 335, Spring 2013
  */
@@ -14,30 +14,31 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.entity.AgentID;
+import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.simulation.Layer;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class Grid extends Entity implements Iterable<Agent> {
 
 	/**
-	 * The minimum and maximum priorities for priorityUpdateEntities() Should be
-	 * changed so that the user can define these values Or that they are defined
-	 * by checking minimum and maximum priorities of all triggers of all agents
-	 * in a simulation
-	 */
-	private int minPriority = 0;
-	private int maxPriority = 50;
-
-	/**
 	 * The grid of all Agents
 	 */
 	private Agent[][] grid;
-	private Updater updater = new LinearUpdater();
+
+	/**
+	 * Current update state
+	 */
+	private Updater updater = new LinearUpdater(this);
+
+	/**
+	 * Observers to watch the grid
+	 */
+	private Set<GridObserver> observers;
 
 	/**
 	 * Constructor. Creates a grid with the given width and height
@@ -55,16 +56,18 @@ public class Grid extends Entity implements Iterable<Agent> {
 			e.printStackTrace();
 			System.exit(1);
 		}
-
 		grid = new Agent[getHeight()][getWidth()];
+		updater = new LinearUpdater(this);
+		observers = new HashSet<GridObserver>();
 	}
 
 	/**
 	 * Hackish solution to Akon's gridrecorder. Should never ever be called
 	 * other than from the stats people.
 	 */
-	public static Integer getID() {
-		return -1;
+	public static AgentID getID() {
+		AgentID id = new AgentID(-1);
+		return id;
 	}
 
 	/**
@@ -110,149 +113,25 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * Makes updater a LinearUpdater
 	 */
 	public void setLinearUpdater() {
-		updater = new LinearUpdater();
+		updater = new LinearUpdater(this);
 	}
 
 	/**
 	 * Makes updater a PriorityUpdater
 	 */
-	public void setPriorityUpdater() {
-		updater = new PriorityUpdater();
+	public void setPriorityUpdater(int minPriority, int maxPriority) {
+		updater = new PriorityUpdater(this, minPriority, maxPriority);
 	}
 
 	/**
 	 * makes updater an AtomicUpdater
 	 */
 	public void setAtomicUpdater() {
-		updater = new AtomicUpdater();
+		updater = new AtomicUpdater(this);
 	}
 
 	public String currentUpdater() {
 		return updater.toString();
-	}
-
-	public void setMinMaxPriority(int min, int max) {
-		minPriority = min;
-		maxPriority = max;
-	}
-
-	/**
-	 * The interface for the state pattern that allows for switching update
-	 * modes.
-	 */
-	private static interface Updater {
-
-		/**
-		 * Updates the Agents in the simulation by evaluating their triggers
-		 * 
-		 * @throws SimulationPauseException
-		 */
-		public void update() throws SimulationPauseException;
-
-	}
-
-	/**
-	 * The class used for LinearUpdate
-	 */
-	private class LinearUpdater implements Updater {
-
-		/**
-		 * Causes all entities in the grid to act(). Checks to make sure each
-		 * Agent has only acted once this iteration.
-		 * 
-		 * @throws SimulationPauseException
-		 */
-		@Override
-		public void update() throws SimulationPauseException {
-			HashSet<AgentID> processedIDs = new HashSet<AgentID>();
-
-			for (Agent[] row : grid)
-				for (Agent current : row) {
-					if (current != null)
-						if (!processedIDs.contains(current.getID())) {
-							current.act();
-							processedIDs.add(current.getID());
-						}
-				}
-		}
-
-		@Override
-		public String toString() {
-			return "Linear";
-		}
-	}
-
-	/**
-	 * The class used for PriorityUpdate
-	 */
-	private class PriorityUpdater implements Updater {
-
-		/**
-		 * Makes the entities in the grid perform their triggers in ascending
-		 * priority order; that is, priority takes precedence over Agent order
-		 * for when triggers are evaluated.
-		 * 
-		 * @throws SimulationPauseException
-		 */
-		@Override
-		public void update() throws SimulationPauseException {
-			for (int priority = minPriority; priority <= maxPriority; priority++) {
-				HashSet<AgentID> processedIDs = new HashSet<AgentID>();
-
-				for (Agent[] row : grid)
-					for (Agent current : row) {
-						if (current != null)
-							if (!processedIDs.contains(current.getID())) {
-								current.priorityAct(priority);
-								processedIDs.add(current.getID());
-							}
-					}
-			}
-		}
-
-		@Override
-		public String toString() {
-			return "Priority";
-		}
-	}
-
-	/**
-	 * The class used for AtomicUpdate
-	 */
-	private class AtomicUpdater implements Updater {
-
-		/**
-		 * Evaluates all the conditionals of the Triggers first, then fires the
-		 * behaviors later depending on whether or not those conditionals fired.
-		 */
-		@Override
-		public void update() throws SimulationPauseException {
-			HashSet<AgentID> processedIDs = new HashSet<AgentID>();
-
-			for (Agent[] row : grid)
-				for (Agent current : row) {
-					if (current != null)
-						if (!processedIDs.contains(current.getID())) {
-							current.atomicCondEval();
-							processedIDs.add(current.getID());
-						}
-				}
-			processedIDs = new HashSet<AgentID>();
-
-			for (Agent[] row : grid)
-				for (Agent current : row) {
-					if (current != null)
-						if (!processedIDs.contains(current.getID())) {
-							current.atomicFire();
-							processedIDs.add(current.getID());
-						}
-				}
-		}
-
-		@Override
-		public String toString() {
-			return "Atomic";
-		}
 	}
 
 	/**
@@ -469,6 +348,23 @@ public class Grid extends Entity implements Iterable<Agent> {
 				Layer.getInstance().setExtremes(currentField);
 			}
 		}
+	}
+
+	/**
+	 * Adds an observer to the grid's list
+	 * 
+	 * @param ob
+	 */
+	public void addObserver(GridObserver ob) {
+		observers.add(ob);
+	}
+
+	/**
+	 * Notifies all of the observers watching this grid
+	 */
+	public void notifyObservers(Grid grid) {
+		for (GridObserver current : observers)
+			current.update(grid);
 	}
 
 	/**

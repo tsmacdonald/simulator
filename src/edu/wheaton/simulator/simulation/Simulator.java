@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import sampleAgents.Bouncer;
 import sampleAgents.Confuser;
@@ -32,12 +33,22 @@ import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Trigger;
 
-public class GUIToAgentFacade {
+public class Simulator implements Runnable {
 
 	/**
 	 * The Grid to hold all the Agents
 	 */
 	private Grid grid;
+	
+	/**
+	 * Whether or not the simulation will pause on the next step
+	 */
+	private AtomicBoolean shouldPause;
+	
+	/**
+	 * Time (in milliseconds) in between each step
+	 */
+	private int sleepPeriod;
 
 	/**
 	 * Constructor.
@@ -45,9 +56,51 @@ public class GUIToAgentFacade {
 	 * @param gridX
 	 * @param gridY
 	 */
-	public GUIToAgentFacade(int gridX, int gridY) {
+	public Simulator(int gridX, int gridY) {
 		Prototype.clearPrototypes();
 		grid = new Grid(gridX, gridY);
+	}
+	
+	@Override
+	/**
+	 * Runs the simulation by updating all the entities
+	 */
+	public void run() {
+		while(!shouldPause.get()) {
+			try {
+				grid.updateEntities();
+				grid.notifyObservers(grid);
+				Thread.sleep(sleepPeriod);
+			} catch (SimulationPauseException e) {
+				shouldPause.set(true); 
+				System.err.println(e.getMessage());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Begins a new thread for this simulation
+	 */
+	public void resume() {
+		shouldPause.set(false);
+		new Thread(this).run();
+	}
+	
+	/**
+	 * Stops the flow of the simulation. This will happen on the next iteration
+	 */
+	public void pause() {
+		shouldPause.set(true);
+	}
+	
+	/**
+	 * Changes how long the simulation waits after each step
+	 * @param sleepPeriod Time in milliseconds
+	 */
+	public void setSleepPeriod(int sleepPeriod) {
+		this.sleepPeriod = sleepPeriod;
 	}
 	
 	/**
@@ -144,16 +197,6 @@ public class GUIToAgentFacade {
 	 */
 	public String currentUpdater() {
 		return grid.currentUpdater();
-	}
-	
-	/**
-	 * Sets the minimum and maximum priority
-	 * Important for PriorityUpdate
-	 * @param min The minimum priority
-	 * @param max The maximum priority
-	 */
-	public void setMinMaxPriority(int min, int max) {
-		grid.setMinMaxPriority(min, max);
 	}
 	
 	/**
@@ -270,8 +313,8 @@ public class GUIToAgentFacade {
 	/**
 	 * Sets the update method to use the PriorityUpdate system
 	 */
-	public void setPriorityUpdate() {
-		grid.setPriorityUpdater();
+	public void setPriorityUpdate(int minPriority, int maxPriority) {
+		grid.setPriorityUpdater(minPriority, maxPriority);
 	}
 
 	/**
@@ -303,7 +346,7 @@ public class GUIToAgentFacade {
 	 */
 	public void initGameOfLife() {
 		clearPrototypes();
-		grid.setPriorityUpdater();
+		grid.setPriorityUpdater(0, 50);
 		
 		// add prototypes
 		new ConwaysDeadBeing().initSampleAgent(new Prototype(grid, new Color(219, 219, 219), "deadBeing"));
@@ -326,6 +369,7 @@ public class GUIToAgentFacade {
 	 * Sets up the rock paper and scissors sample units
 	 */
 	public void initRockPaperScissors(){
+		setPriorityUpdate(0, 60);
 		new Rock().initSampleAgent(new Prototype(grid, "rock"));
 		new Paper().initSampleAgent(new Prototype(grid, "paper"));
 		new Scissors().initSampleAgent(new Prototype(grid, "scissors"));

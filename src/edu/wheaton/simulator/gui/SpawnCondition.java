@@ -1,7 +1,7 @@
 package edu.wheaton.simulator.gui;
 
 import edu.wheaton.simulator.entity.Prototype;
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+import edu.wheaton.simulator.simulation.Simulator;
 
 public class SpawnCondition {
 
@@ -23,7 +23,7 @@ public class SpawnCondition {
 		this.number = number; 
 	}
 
-	public void addToGrid(GUIToAgentFacade facade) {
+	public void addToGrid(Simulator facade) {
 		if (pattern.equals("Clustered")) {
 			for (int i = 0; i < number; i++) {
 				facade.getGrid().spiralSpawn(prototype.createAgent(), x, y);

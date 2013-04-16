@@ -24,7 +24,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+import javax.swing.SwingConstants;
+import edu.wheaton.simulator.simulation.Simulator;
 
 public class SpawningScreen extends Screen {
 	//TODO how do we handle if spawn are set, and then the grid is made smaller,
@@ -139,7 +140,7 @@ public class SpawningScreen extends Screen {
 							conditions.clear();
 							for (int i = 0; i < entityTypes.size(); i++) {
 								sm.getFacade();
-								SpawnCondition condition = new SpawnCondition(GUIToAgentFacade.getPrototype(
+								SpawnCondition condition = new SpawnCondition(Simulator.getPrototype(
 										((String) entityTypes.get(i).getSelectedItem())),
 										Integer.parseInt(xLocs.get(i).getText()), 
 										Integer.parseInt(yLocs.get(i).getText()), 
@@ -181,7 +182,7 @@ public class SpawningScreen extends Screen {
 	public void load() {
 		reset();
 		sm.getFacade();
-		entities = GUIToAgentFacade.prototypeNames().toArray(entities);
+		entities = Simulator.prototypeNames().toArray(entities);
 		ArrayList<SpawnCondition> spawnConditions = sm.getSpawnConditions(); 
 
 		for (int i = 0; i < spawnConditions.size(); i++) { 

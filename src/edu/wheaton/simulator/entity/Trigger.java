@@ -12,8 +12,10 @@ package edu.wheaton.simulator.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.ImmutableList;
 
@@ -55,6 +57,11 @@ public class Trigger implements Comparable<Trigger> {
 	 * The behavior that is executed when the trigger condition is met
 	 */
 	private Expression behaviorExpression;
+	
+	/**
+	 * Observers to watch this trigger
+	 */
+	private static Set<TriggerObserver> observers = new HashSet<TriggerObserver>();
 
 	/**
 	 * Constructor
@@ -109,12 +116,12 @@ public class Trigger implements Comparable<Trigger> {
 			conditionResult = condition.evaluateBool();
 		} catch (Exception e) {
 			conditionResult = false;
-			System.out.println("Condition expression failed: "
-					+ condition.toString());
+			//			System.out.println("Condition expression failed: "
+			//					+ condition.toString());
 		}
 
 		if (conditionResult) {
-			fire(behavior);
+			fire(xThis, this, behavior);
 		}
 	}
 
@@ -137,8 +144,8 @@ public class Trigger implements Comparable<Trigger> {
 			atomicConditionResult = condition.evaluateBool();
 		} catch (EvaluationException e) {
 			atomicConditionResult = false;
-			System.out.println("Condition expression failed: "
-					+ condition.toString());
+			//			System.out.println("Condition expression failed: "
+			//					+ condition.toString());
 			throw e;
 		}
 	}
@@ -156,7 +163,7 @@ public class Trigger implements Comparable<Trigger> {
 
 		behavior.importEntity("this", xThis);
 		if (atomicConditionResult)
-			fire(behavior);
+			fire(xThis, this, behavior);
 	}
 
 	/**
@@ -180,19 +187,22 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
-	private static void fire(Expression behavior) throws EvaluationException {
+	private static void fire(Agent a, Trigger t, Expression behavior) throws EvaluationException {
 		try {
-			if (behavior.evaluateBool() == false)
-				System.err.println("behavior '" + behavior.toString()
-						+ "' failed");
-			else
-				System.out.println("behavior '" + behavior.toString()
-						+ "' succeeded");
+			if (behavior.evaluateBool() == false) {
+				//				System.err.println("behavior '" + behavior.toString()
+				//						+ "' failed");
+			}
+			else {
+				//				System.out.println("behavior '" + behavior.toString()
+				//						+ "' succeeded");
+			}
 		} catch (EvaluationException e) {
-			System.err.println("malformed expression: " + behavior);
-			e.printStackTrace();
+			//			System.err.println("malformed expression: " + behavior);
+			//			e.printStackTrace();
 			throw new EvaluationException("Behavior");
 		}
+		notifyObservers(a, t);
 	}
 
 	/**
@@ -241,6 +251,7 @@ public class Trigger implements Comparable<Trigger> {
 	}
 
 	public static class Builder {
+		
 		/**
 		 * Current version of the trigger, will be returned when built
 		 */
@@ -262,16 +273,35 @@ public class Trigger implements Comparable<Trigger> {
 		private List<String> behavioralValues;
 
 		/**
+		 * Hashmap of the functions. It will have the JEval name of the function
+		 * and the number of arguments it is supposed to take.
+		 */
+		private HashMap<String, Integer> functionNumArgs;
+
+		/**
+		 * Hashmap of the function return types. Has the name and a sample return type
+		 */
+		private HashMap<String, String> functionReturn;
+
+		/**
+		 * Reference to prototype that is being created
+		 */
+		private Prototype prototype;
+
+		/**
 		 * Constructor
 		 * 
 		 * @param p
 		 *            A prototype with just fields
 		 */
 		public Builder(Prototype p) {
+			prototype = p;
 			trigger = new Trigger("", 0, null, null);
 			converter = new HashMap<String, String>();
 			conditionalValues = new ArrayList<String>();
 			behavioralValues = new ArrayList<String>();
+			functionNumArgs = new HashMap<String, Integer>();
+			functionReturn = new HashMap<String,String>();
 			loadFieldValues(p);
 			loadOperations();
 			loadBehaviorFunctions();
@@ -317,7 +347,7 @@ public class Trigger implements Comparable<Trigger> {
 
 			converter.put("<", "<");
 			conditionalValues.add("<");
-			
+
 			converter.put("(",  "(");
 			conditionalValues.add("(");
 		}
@@ -329,14 +359,14 @@ public class Trigger implements Comparable<Trigger> {
 		private void loadConditionalFunctions() {
 			conditionalValues.add("Get_Field_Of_Agent_At:");
 			converter.put("Get_Field_Of_Agent_At", "getFieldOfAgentAt");
-			
+
 			conditionalValues.add("Is_Slot_Open_At:");
 			converter.put("Is_Slot_Open_At:", "isSlotOpen");
-			
+
 			conditionalValues.add("Is_Valid_Coord_At:");
 			converter.put("Is_Valid_Coord_At:", "isValidCoord");
-			
-			
+
+
 			/**
 			 * TODO Need to figure out how the user inputs the parameters.
 			 */
@@ -447,21 +477,61 @@ public class Trigger implements Comparable<Trigger> {
 			 * TODO Need to figure out how to test triggers without having an agent. 
 			 */
 			try {
-				trigger.getConditions().evaluateBool();
-			} catch (Exception e) {
-				System.out.println("Condition expression failed: "
-						+ trigger.getConditions().toString());
-				return false;
-			}		
-			try {
-				trigger.getBehavior().evaluateBool();
+				String condition = trigger.getConditions().toString();
+				new Expression(isValidHelper(condition)).evaluateBool();
+				System.out.println("condition " + condition);
+				String behavior =  trigger.getBehavior().toString();
+				new Expression(isValidHelper(behavior)).evaluateBool();
+				System.out.println("behavior " + behavior);
 				return true;
 			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("Behavior expression failed: "
-						+ trigger.getBehavior().toString());
+				System.out.println("Trigger failed: "
+						+ trigger.getConditions() + "\n"+trigger.getBehavior());
+				System.out.println(e);
 				return false;
+			}		
+		}
+
+		/**
+		 * Helper method for isValid method to avoid having same loops twice.
+		 * @param s
+		 * @return simplified expression that we can evaluate
+		 */
+		private String isValidHelper(String s) throws Exception{
+			while(s.indexOf("this.") != -1){
+				int index = s.indexOf("this.");
+				String beginning = s.substring(0, index);
+				s = s.substring(index+5);
+				Map<String, String> map = prototype.getFieldMap();
+				for (String a : map.keySet()){
+					if (s.indexOf(a) == 0){
+						String value = map.get(a);
+						s = value + s.substring(a.length());
+						System.out.println(s);
+						break;
+					}
+				}
+				s = beginning + s;
 			}
+			/**
+			 * TODO need to change this section to reflect how functions are 
+			 * actually implemented and needs to be tested.
+			 */
+			for (String f : functionNumArgs.keySet()){
+				while (s.indexOf(f)!= -1){
+					int index = s.indexOf(f);
+					String beginning = s.substring(0, index);
+					s= s.substring(index);
+					String test = s.substring(0, s.indexOf(")"));
+					String[] numArgs = test.split(",");
+					if (numArgs.length != functionNumArgs.get(f)){
+						throw new Exception("function has wrong number of arguments"); 
+					}
+					s = s.substring(s.indexOf(")"));
+					s = beginning + functionReturn.get(f)+s;
+				}
+			}
+			return s;
 		}
 
 		/**
@@ -472,6 +542,23 @@ public class Trigger implements Comparable<Trigger> {
 		public Trigger build() {
 			return trigger;
 		}
-
 	}
+	
+	/**
+	 * Adds an observer to the trigger's list
+	 * 
+	 * @param ob
+	 */
+	public static void addObserver(TriggerObserver ob) {
+		observers.add(ob);
+	}
+
+	/**
+	 * Notifies all of the observers watching this grid
+	 */
+	public static void notifyObservers(Agent caller, Trigger trigger) {
+		for (TriggerObserver current : observers)
+			current.update(caller, trigger);
+	}
+
 }

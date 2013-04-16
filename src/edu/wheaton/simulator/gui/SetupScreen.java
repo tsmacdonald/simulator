@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.PrototypeID;
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 //TODO commented code for adding operators to ending conditions :
@@ -253,12 +253,12 @@ public class SetupScreen extends Screen {
 								sm.getFacade().setLinearUpdate();
 							}
 							else {
-								sm.getFacade().setPriorityUpdate();
+								sm.getFacade().setPriorityUpdate(0, 50);
 							}
 							for (int i = 0; i < values.size(); i++) {
 								sm.getFacade();
 								sm.getEnder().setPopLimit(
-										GUIToAgentFacade.getPrototype(
+										Simulator.getPrototype(
 												(String)(agentTypes.get(i).getSelectedItem())
 												).getPrototypeID(), 
 												Integer.parseInt(values.get(i).getText())
@@ -319,7 +319,7 @@ public class SetupScreen extends Screen {
 
 		SimulationEnder se = sm.getEnder();
 		sm.getFacade();
-		Set<String> agents = GUIToAgentFacade.prototypeNames();
+		Set<String> agents = Simulator.prototypeNames();
 		agentNames = agents.toArray(agentNames);
 		timeField.setText(se.getStepLimit() + "");
 		//to prevent accidental starting simulation with time limit of 0
@@ -338,7 +338,7 @@ public class SetupScreen extends Screen {
 				addCondition();
 				for (String s : agentNames) {
 					sm.getFacade();
-					if (GUIToAgentFacade.getPrototype(s).getPrototypeID().equals(p)) {
+					if (Simulator.getPrototype(s).getPrototypeID().equals(p)) {
 						agentTypes.get(i).setSelectedItem(s);
 					}
 				}
@@ -397,7 +397,7 @@ public class SetupScreen extends Screen {
 			if (str != null) {
 				sm.getFacade();
 				sm.getEnder().removePopLimit(
-						GUIToAgentFacade.getPrototype(str).getPrototypeID());
+						Simulator.getPrototype(str).getPrototypeID());
 			}
 			conListPanel.remove(subPanels.get(n));
 			agentTypes.remove(n);

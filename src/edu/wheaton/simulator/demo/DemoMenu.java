@@ -24,7 +24,7 @@ import javax.swing.SwingUtilities;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
+import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 import edu.wheaton.simulator.statistics.SimulationRecorder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
@@ -38,7 +38,7 @@ public class DemoMenu {
 	private JTextField nameField;
 	private JColorChooser colorTool;
 	private DemoGridPanel grid;
-	private GUIToAgentFacade facade;
+	private Simulator facade;
 	private StatisticsManager statsManager;
 	private SimulationRecorder observer;
 	private boolean isRunning;
@@ -53,7 +53,7 @@ public class DemoMenu {
 
 	public DemoMenu() {
 		//initialize instance variables
-		facade = new GUIToAgentFacade(10, 10);
+		facade = new Simulator(10, 10);
 		statsManager = new StatisticsManager();
 		observer = new SimulationRecorder(statsManager);
 		isRunning = false;
@@ -89,15 +89,15 @@ public class DemoMenu {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						GUIToAgentFacade.createPrototype(nameField.getText(), facade.getGrid(), colorTool.getColor());
+						Simulator.createPrototype(nameField.getText(), facade.getGrid(), colorTool.getColor());
 						//add behavior to that prototype
-						GUIToAgentFacade.getPrototype(nameField.getText()).addTrigger(
+						Simulator.getPrototype(nameField.getText()).addTrigger(
 								new Trigger("move right", 
 										1, 
 										new Expression("1==1"), 
 										new Expression("move('this', this.x + 1, this.y)"))
 								);
-						prototypes.add(GUIToAgentFacade.getPrototype(nameField.getText()));
+						prototypes.add(Simulator.getPrototype(nameField.getText()));
 						facade.spiralSpawn(nameField.getText(), 0, 4);
 						frame.setContentPane(simulationScreen);
 						frame.setVisible(true);

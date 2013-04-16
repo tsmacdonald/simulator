@@ -14,7 +14,7 @@ public class Field {
 	 * The variable name for this field.
 	 */
 	private String name;
-	
+
 	/**
 	 * The value for this field.
 	 */
@@ -35,7 +35,7 @@ public class Field {
 
 	public Field(String strRepresentation) {
 		String[] params = strRepresentation.split(":");
-		if(!params[0].equals("Field")) {
+		if (!params[0].equals("Field")) {
 			System.out.println("Tried to parse a Field from string, but assert failed.");
 			(new Exception()).printStackTrace();
 			System.exit(1);
@@ -55,8 +55,8 @@ public class Field {
 	}
 
 	/**
-	 * @return The string representation of this field. Note: easily parsed
-	 *         with toString().split(":")
+	 * @return The string representation of this field. Note: easily parsed with
+	 *         toString().split(":")
 	 */
 	@Override
 	public String toString() {
