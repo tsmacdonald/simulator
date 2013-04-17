@@ -39,8 +39,8 @@ public class Bouncer extends SampleAgent{
 		Expression move = new Expression("move(this.x + this.xNextDirection, this.y + this.yNextDirection)");
 		
 		// bounce
-		Expression bounce = new Expression("setField('this', 'xNextDirection', -1 * this.xNextDirection) ||" +
-				"setField('this', 'yNextDirection', -1 * this.yNextDirection)");
+		Expression bounce = new Expression("setField('xNextDirection', -1 * this.xNextDirection) ||" +
+				"setField('yNextDirection', -1 * this.yNextDirection)");
 
 		bouncer.addTrigger(new Trigger("bounce", 1, notFreeSpot, bounce));
 		bouncer.addTrigger(new Trigger("move", 1, freeSpot, move));

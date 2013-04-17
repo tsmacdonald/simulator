@@ -104,7 +104,7 @@ public class Paper extends SampleAgent {
 						+ "&& setField('endTurn', 1)");
 
 		// increment the age of the agent
-		Expression incrAge = new Expression("setField('this', 'age', this.age +1)");
+		Expression incrAge = new Expression("setField('age', this.age +1)");
 		
 		// reset all the flags that are used to determine behavior
 		Expression resetConflictFlags = new Expression(
