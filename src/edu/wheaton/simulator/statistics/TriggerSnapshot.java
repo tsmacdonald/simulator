@@ -1,8 +1,6 @@
 package edu.wheaton.simulator.statistics;
 
 import edu.wheaton.simulator.entity.AgentID;
-import edu.wheaton.simulator.expression.Expression;
-
 
 /**
  * A class representing all the information to track a specified trigger

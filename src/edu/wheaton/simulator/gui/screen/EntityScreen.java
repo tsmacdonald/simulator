@@ -128,6 +128,10 @@ public class EntityScreen extends Screen {
 		edit.setEnabled(false);
 	}
 	
+	public JList getEntityList(){
+		return entityList;
+	}
+	
 	class DeleteListener implements ActionListener {	
 		@Override
 		public void actionPerformed(ActionEvent e){

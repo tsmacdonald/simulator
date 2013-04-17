@@ -58,7 +58,7 @@ public class BehaviorSyntaxTest {
 		// there is an agent at 5, 5
 		Assert.assertFalse(testGrid.emptyPos(5, 5));	
 
-		Expression die = new Expression("die('this')");
+		Expression die = new Expression("die()");
 		Expression alwaysTrue = new Expression("1 < 2");
 		proto.addTrigger(new Trigger("clone", 1, alwaysTrue, die));
 		testGrid.updateEntities();
