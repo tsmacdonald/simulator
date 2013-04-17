@@ -28,8 +28,6 @@ public class SimulatorGuiManager {
 	
 	private ScreenManager sm;
 	
-	private JPanel[][] grid;
-	
 	private SimulationEnder se;
 	
 	private StatisticsManager statMan;
@@ -78,15 +76,6 @@ public class SimulatorGuiManager {
 	public ScreenManager getScreenManager(){
 		return sm;
 	}
-	
-	public void setGrid(JPanel[][] grid){
-		this.grid = grid;
-	}
-	
-	public JPanel[][] getGrid(){
-		return grid;
-	}
-
 	 
 	public void setSim(String name,int x, int y) {
 		simulator = new Simulator(name,x, y);
