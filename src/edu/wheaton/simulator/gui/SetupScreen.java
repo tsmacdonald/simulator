@@ -66,7 +66,7 @@ public class SetupScreen extends Screen {
 		nameField = GuiUtility.makeTextField(ScreenManager.getGUIname(), 25,new MaxSize(400,30),MinSize.NULL);
 		timeField = GuiUtility.makeTextField(null,15,new MaxSize(200,40),MinSize.NULL);
 		//TODO add interfacing with facade
-		delayField = GuiUtility.makeTextField("not yet added", 4, new MaxSize(200, 40), MinSize.NULL);
+		delayField = GuiUtility.makeTextField("not yet added", 4, new MaxSize(400, 40), MinSize.NULL);
 		updateBox = makeUpdateBox();
 		JPanel uberPanel = makeUberPanel(conListPanel, timeField, nameField, updateBox, delayField);
 		this.add(uberPanel, BorderLayout.CENTER);
@@ -181,7 +181,7 @@ public class SetupScreen extends Screen {
 		c.gridy = 1;
 		uberPanel.add(updateBox, c);
 
-		JLabel delayLabel = GuiUtility.makeLabel("Step Delay: ",new MaxSize(100,40),null);
+		JLabel delayLabel = GuiUtility.makeLabel("Step Delay: ",new MaxSize(100,40),HorizontalAlignment.RIGHT);
 		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 1;
@@ -192,17 +192,52 @@ public class SetupScreen extends Screen {
 		c.gridy = 1;
 		uberPanel.add(delayField, c);
 
-		//		JPanel mainPanel = makeMainPanel(nameLabel, nameField, updateLabel, updateBox );
-		//		uberPanel.add(mainPanel);
-
-		//TODO pull this code into this method
-		JPanel conMainPanel = makeConMainPanel(conListPanel, timeField);
+		JLabel endingLabel = GuiUtility.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER);
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 4;
-		uberPanel.add(conMainPanel, c);
+		uberPanel.add(endingLabel, c);
+
+		JLabel timeLabel = GuiUtility.makeLabel("TimeLimit",new PrefSize(300,100),HorizontalAlignment.RIGHT);
+		c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 3;
+		uberPanel.add(timeLabel, c);
+
+		c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 3;
+		c.gridwidth = 3;
+		uberPanel.add(timeField, c);
+
+		JLabel agentTypeLabel = makeAgentTypeLabel();
+		c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 4;
+		c.gridwidth = 2;
+		uberPanel.add(agentTypeLabel, c);
 		
+		JLabel valueLabel = GuiUtility.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
+		c = new GridBagConstraints();
+		c.gridx = 2;
+		c.gridy = 4;
+		c.gridwidth = 2;
+		uberPanel.add(valueLabel, c);
+
+		c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 5;
+		c.gridwidth = 4;
+		uberPanel.add(conListPanel, c);
+		
+		/*
+		JPanel conLabelsPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		conLabelsPanel.add(makeAgentTypeLabel());
+
+		
+		 */
+
 		return uberPanel;
 	}
 

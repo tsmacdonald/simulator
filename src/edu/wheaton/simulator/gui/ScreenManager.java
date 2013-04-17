@@ -185,8 +185,9 @@ public class ScreenManager {
 	private static JMenu makeEditMenu(final ScreenManager sm) {
 		JMenu menu = GuiUtility.makeMenu("Edit");
 		
-		menu.add(GuiUtility.makeMenuItem("Edit Entities", 
-				new GeneralButtonListener("Entities",sm)));
+		//temporarily commented to avoid removing the agents tab on viewSimScreen
+		//menu.add(GuiUtility.makeMenuItem("Edit Entities", 
+		//		new GeneralButtonListener("Entities",sm)));
 
 		menu.add(GuiUtility.makeMenuItem("Edit Global Fields", 
 				new GeneralButtonListener("Fields",sm)));
