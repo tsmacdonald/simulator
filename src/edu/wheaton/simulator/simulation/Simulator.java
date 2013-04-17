@@ -67,7 +67,7 @@ public class Simulator implements Runnable {
 	 * Runs the simulation by updating all the entities
 	 */
 	public void run() {
-		// StatisticsManager.initialize(grid, Prototype.getPrototypes());
+		StatisticsManager.getInstance().initialize(grid, Prototype.getPrototypes());
 		// Stats team needs to:
 		// Add observer to the Grid
 		// Add observer to the Trigger class
