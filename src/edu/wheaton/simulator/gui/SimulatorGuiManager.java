@@ -86,23 +86,23 @@ public class SimulatorGuiManager {
 	}
 	
 	public static String getGUIname(){
-		return GUI.getNameOfSim();
+		return getNameOfSim();
 	}
 	
 	public static int getGUIheight(){
-		return GUI.getGridHeight();
+		return getGridHeight();
 	}
 	
 	public static int getGUIwidth(){
-		return GUI.getGridWidth();
+		return getGridWidth();
 	}
 
 	 
 	public static void updateGUIManager(String nos, int width, int height){
 	
-		GUI.setNameOfSim(nos);
-		GUI.setGridWidth(width);
-		GUI.setGridHeight(height);
+		setNameOfSim(nos);
+		setGridWidth(width);
+		setGridHeight(height);
 
 	}
 	
@@ -142,12 +142,12 @@ public class SimulatorGuiManager {
 	}
 
 	private static JMenu makeFileMenu(final SimulatorGuiManager guiManager) {
-		JMenu menu = GuiUtility.makeMenu("File");
+		JMenu menu = Gui.makeMenu("File");
 		
-		menu.add(GuiUtility.makeMenuItem("New Simulation", 
+		menu.add(Gui.makeMenuItem("New Simulation", 
 				new GeneralButtonListener("New Simulation",guiManager.sm)));
 		
-		menu.add(GuiUtility.makeMenuItem("Exit",new ActionListener(){
+		menu.add(Gui.makeMenuItem("Exit",new ActionListener(){
 			 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -160,21 +160,21 @@ public class SimulatorGuiManager {
 	}
 	
 	private static JMenu makeEditMenu(final ScreenManager sm) {
-		JMenu menu = GuiUtility.makeMenu("Edit");
+		JMenu menu = Gui.makeMenu("Edit");
 		
-		menu.add(GuiUtility.makeMenuItem("Edit Entities", 
+		menu.add(Gui.makeMenuItem("Edit Entities", 
 				new GeneralButtonListener("Entities",sm)));
 
-		menu.add(GuiUtility.makeMenuItem("Edit Global Fields", 
+		menu.add(Gui.makeMenuItem("Edit Global Fields", 
 				new GeneralButtonListener("Fields",sm)));
 		
 		return menu;
 	}
 	
 	private static JMenu makeHelpMenu(final ScreenManager sm) {
-		JMenu menu = GuiUtility.makeMenu("Help");
+		JMenu menu = Gui.makeMenu("Help");
 		
-		menu.add(GuiUtility.makeMenuItem("About",new ActionListener(){
+		menu.add(Gui.makeMenuItem("About",new ActionListener(){
 			 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -185,7 +185,7 @@ public class SimulatorGuiManager {
 			}
 		}));
 		
-		menu.add(GuiUtility.makeMenuItem("Help Contents",new ActionListener(){
+		menu.add(Gui.makeMenuItem("Help Contents",new ActionListener(){
 			 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -197,5 +197,34 @@ public class SimulatorGuiManager {
 		}));
 		
 		return menu;
+	}
+	
+	private static String nameOfSimulation;
+	private static int gridHeight = 0;
+	private static int gridWidth = 0;
+	
+	
+	public static String getNameOfSim(){
+		return nameOfSimulation;
+	}
+	
+	public static void setNameOfSim(String nos){
+		nameOfSimulation = nos;
+	}
+	
+	public static int getGridHeight(){
+		return gridHeight;
+	}
+	
+	public static void setGridHeight(int gh){
+			gridHeight = gh;
+	}
+	
+	public static int getGridWidth(){
+		return gridWidth;
+	}
+	
+	public static void setGridWidth(int gw){
+			gridWidth = gw;
 	}
 }

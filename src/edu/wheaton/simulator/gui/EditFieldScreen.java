@@ -36,18 +36,18 @@ public class EditFieldScreen extends Screen {
 	public EditFieldScreen(final SimulatorGuiManager gm) {
 		super(gm);
 		this.setLayout(new BorderLayout());
-		JLabel label = GuiUtility.makeLabel("Edit Field",new PrefSize(300, 150),HorizontalAlignment.CENTER);
+		JLabel label = Gui.makeLabel("Edit Field",new PrefSize(300, 150),HorizontalAlignment.CENTER);
 		
-		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-		JPanel panel1 = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
-		JPanel panel2 = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
-		JPanel panel3 = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		JPanel panel1 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		JPanel panel2 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		JPanel panel3 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		JPanel buttonPanel = new JPanel();
-		JLabel nameLabel = GuiUtility.makeLabel("Field Name: ",MaxSize.NULL,HorizontalAlignment.RIGHT);
-		nameField = GuiUtility.makeTextField(null,40, new MaxSize(300,40),null);
+		JLabel nameLabel = Gui.makeLabel("Field Name: ",MaxSize.NULL,HorizontalAlignment.RIGHT);
+		nameField = Gui.makeTextField(null,40, new MaxSize(300,40),null);
 		JLabel valueLabel = new JLabel("Initial Value: ",SwingConstants.RIGHT);
-		initValue = GuiUtility.makeTextField(null,40,new MaxSize(300,40),null);
-		JButton cancelButton = GuiUtility.makeButton("Cancel",
+		initValue = Gui.makeTextField(null,40,new MaxSize(300,40),null);
+		JButton cancelButton = Gui.makeButton("Cancel",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -56,7 +56,7 @@ public class EditFieldScreen extends Screen {
 				}
 				);
 		cancelButton.setPreferredSize(new Dimension(120, 60));
-		JButton finishButton = GuiUtility.makeButton("Finish",new FinishListener());
+		JButton finishButton = Gui.makeButton("Finish",new FinishListener());
 		finishButton.setPreferredSize(new Dimension(120, 60));
 		panel1.add(nameLabel);
 		panel1.add(nameField);

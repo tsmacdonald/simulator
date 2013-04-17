@@ -44,7 +44,7 @@ public class EntityScreen extends Screen {
 	
 	public EntityScreen(final SimulatorGuiManager gm) {
 		super(gm);
-		JLabel label = GuiUtility.makeLabel("Entities",new PrefSize(300, 100),HorizontalAlignment.CENTER);
+		JLabel label = Gui.makeLabel("Entities",new PrefSize(300, 100),HorizontalAlignment.CENTER);
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		listModel = new DefaultListModel();
@@ -62,9 +62,9 @@ public class EntityScreen extends Screen {
 					edit.setEnabled(!gm.hasStarted());
 			}
 		});
-		delete = GuiUtility.makeButton("Delete",new DeleteListener());
-		JButton add = GuiUtility.makeButton("Add",new AddListener(gm.getScreenManager()));
-		edit = GuiUtility.makeButton("Edit",new EditListener(gm.getScreenManager()));
+		delete = Gui.makeButton("Delete",new DeleteListener());
+		JButton add = Gui.makeButton("Add",new AddListener(gm.getScreenManager()));
+		edit = Gui.makeButton("Edit",new EditListener(gm.getScreenManager()));
 		edit.setEnabled(false);
 		entityList.addListSelectionListener(
 				new ListSelectionListener() {
@@ -74,7 +74,7 @@ public class EntityScreen extends Screen {
 					}
 				}
 				);
-		JButton back = GuiUtility.makeButton("Back",new BackListener(gm.getScreenManager()));
+		JButton back = Gui.makeButton("Back",new BackListener(gm.getScreenManager()));
 
 		//formatting needs a little work but this is now in GridBagLayout 
 		

@@ -51,12 +51,12 @@ public class FieldScreen extends Screen {
 	public FieldScreen(final SimulatorGuiManager gm) {
 		super(gm);
 		editing = false;
-		JLabel label = GuiUtility.makeLabel("Fields",new PrefSize(300, 100),HorizontalAlignment.CENTER);
+		JLabel label = Gui.makeLabel("Fields",new PrefSize(300, 100),HorizontalAlignment.CENTER);
 		
 		this.setLayout(new BorderLayout());
-		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
-		JPanel panel = GuiUtility.makePanel((LayoutManager)null , MaxSize.NULL, new PrefSize(450,550));
+		JPanel panel = Gui.makePanel((LayoutManager)null , MaxSize.NULL, new PrefSize(450,550));
 		listModel = new DefaultListModel();
 		fields = new JList(listModel);
 		fields.setBackground(Color.white);
@@ -68,8 +68,8 @@ public class FieldScreen extends Screen {
 		fields.addListSelectionListener(new ListListener());
 		panel.add(fields);
 		fields.setAlignmentX(CENTER_ALIGNMENT);
-		delete = GuiUtility.makeButton("Delete",new DeleteListener(listModel, fields));
-		add = GuiUtility.makeButton("Add",new ActionListener() {
+		delete = Gui.makeButton("Delete",new DeleteListener(listModel, fields));
+		add = Gui.makeButton("Add",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae){
 				FieldScreen.setEditing(false);
@@ -77,7 +77,7 @@ public class FieldScreen extends Screen {
 				gm.getScreenManager().update(gm.getScreenManager().getScreen("Edit Fields"));
 			}
 		});
-		edit = GuiUtility.makeButton("Edit",new ActionListener() {
+		edit = Gui.makeButton("Edit",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				FieldScreen.setEditing(true);
@@ -85,7 +85,7 @@ public class FieldScreen extends Screen {
 				gm.getScreenManager().update(gm.getScreenManager().getScreen("Edit Fields"));
 			}
 		});
-		JButton back = GuiUtility.makeButton("Back",
+		JButton back = Gui.makeButton("Back",
 				new GeneralButtonListener("View Simulation", gm.getScreenManager()));
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(add);

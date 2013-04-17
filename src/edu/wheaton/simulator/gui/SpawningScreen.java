@@ -64,28 +64,28 @@ public class SpawningScreen extends Screen {
 		super(gm);
 		this.setLayout(new BorderLayout());
 		entities = new String[0];
-		JLabel label = GuiUtility.makeLabel("Spawning",
+		JLabel label = Gui.makeLabel("Spawning",
 				new PrefSize(300, 150), HorizontalAlignment.CENTER);
-		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS, null,
+		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS, null,
 				null);
-		listPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS, null, null);
-		JPanel labelsPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS, null,
+		listPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS, null, null);
+		JPanel labelsPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS, null,
 				null);
 
 		// TODO mess with sizes of labels to line up with components
-		JLabel entityLabel = GuiUtility.makeLabel("Entity Type", new PrefSize(
+		JLabel entityLabel = Gui.makeLabel("Entity Type", new PrefSize(
 				200, 30), HorizontalAlignment.CENTER);
 
-		JLabel patternLabel = GuiUtility.makeLabel("Spawn Pattern",
+		JLabel patternLabel = Gui.makeLabel("Spawn Pattern",
 				new PrefSize(270, 30), HorizontalAlignment.CENTER);
 
-		JLabel xLabel = GuiUtility.makeLabel("x Loc.", new PrefSize(100, 30),
+		JLabel xLabel = Gui.makeLabel("x Loc.", new PrefSize(100, 30),
 				null);
 
-		JLabel yLabel = GuiUtility.makeLabel("Y Loc.", new PrefSize(100, 30),
+		JLabel yLabel = Gui.makeLabel("Y Loc.", new PrefSize(100, 30),
 				null);
 
-		JLabel numberLabel = GuiUtility.makeLabel("Number", new PrefSize(290,
+		JLabel numberLabel = Gui.makeLabel("Number", new PrefSize(290,
 				30), null);
 
 		labelsPanel.add(Box.createHorizontalGlue());
@@ -115,7 +115,7 @@ public class SpawningScreen extends Screen {
 		deleteButtons = new ArrayList<JButton>();
 		subPanels = new ArrayList<JPanel>();
 
-		addSpawnButton = GuiUtility.makeButton("Add Spawn",
+		addSpawnButton = Gui.makeButton("Add Spawn",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -127,7 +127,7 @@ public class SpawningScreen extends Screen {
 		listPanel.add(Box.createVerticalGlue());
 
 		JPanel buttonPanel = new JPanel();
-		JButton cancelButton = GuiUtility.makeButton("Cancel",
+		JButton cancelButton = Gui.makeButton("Cancel",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -136,7 +136,7 @@ public class SpawningScreen extends Screen {
 										"Edit Simulation"));
 					}
 				});
-		JButton finishButton = GuiUtility.makeButton("Finish",
+		JButton finishButton = Gui.makeButton("Finish",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -227,30 +227,30 @@ public class SpawningScreen extends Screen {
 	}
 
 	private void addSpawn() {
-		JPanel newPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS, null,
+		JPanel newPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS, null,
 				null);
-		JComboBox newBox = GuiUtility.makeComboBox(entities, new MaxSize(250,
+		JComboBox newBox = Gui.makeComboBox(entities, new MaxSize(250,
 				30));
 		entityTypes.add(newBox);
-		JComboBox newSpawnType = GuiUtility.makeComboBox(spawnOptions,
+		JComboBox newSpawnType = Gui.makeComboBox(spawnOptions,
 				new MaxSize(250, 30));
 		spawnPatterns.add(newSpawnType);
 		newSpawnType.addItemListener(new PatternListener(spawnPatterns
 				.indexOf(newSpawnType)));
 
-		JTextField newXLoc = GuiUtility.makeTextField("0", 10, new MaxSize(
+		JTextField newXLoc = Gui.makeTextField("0", 10, new MaxSize(
 				100, 30), MinSize.NULL);
 
 		xLocs.add(newXLoc);
-		JTextField newYLoc = GuiUtility.makeTextField("0", 10, new MaxSize(
+		JTextField newYLoc = Gui.makeTextField("0", 10, new MaxSize(
 				100, 30), null);
 		yLocs.add(newYLoc);
 
-		JTextField newNumber = GuiUtility.makeTextField("1", 10, new MaxSize(
+		JTextField newNumber = Gui.makeTextField("1", 10, new MaxSize(
 				100, 30), MinSize.NULL);
 
 		numbers.add(newNumber);
-		JButton newButton = GuiUtility.makeButton("Delete",
+		JButton newButton = Gui.makeButton("Delete",
 				new DeleteListener());
 		deleteButtons.add(newButton);
 		newButton.setActionCommand(deleteButtons.indexOf(newButton) + "");

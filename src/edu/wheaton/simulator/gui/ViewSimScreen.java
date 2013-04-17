@@ -69,14 +69,14 @@ public class ViewSimScreen extends Screen {
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 
 		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
-		agentComboBox = GuiUtility.makeComboBox(null,new MaxSize(200,50));
+		agentComboBox = Gui.makeComboBox(null,new MaxSize(200,50));
 
 		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
-		layerComboBox = GuiUtility.makeComboBox(null, new MaxSize(200,50));
+		layerComboBox = Gui.makeComboBox(null, new MaxSize(200,50));
 
-		final JColorChooser colorTool = GuiUtility.makeColorChooser();
+		final JColorChooser colorTool = Gui.makeColorChooser();
 
-		JButton apply = GuiUtility.makeButton("Apply",
+		JButton apply = Gui.makeButton("Apply",
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
@@ -94,7 +94,7 @@ public class ViewSimScreen extends Screen {
 		}
 				);
 
-		JButton clear = GuiUtility.makeButton("Clear",
+		JButton clear = Gui.makeButton("Clear",
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
@@ -106,25 +106,25 @@ public class ViewSimScreen extends Screen {
 
 
 
-		layerPanelAgents = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
+		layerPanelAgents = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
 		layerPanelAgents.add(agents);
 		layerPanelAgents.add(agentComboBox);
 
-		layerPanelLayers = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
+		layerPanelLayers = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
 		layerPanelLayers.add(layers);
 		layerPanelLayers.add(layerComboBox);
 
-		JPanel layerPanelButtons = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
+		JPanel layerPanelButtons = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
 		layerPanelButtons.add(apply);
 		layerPanelButtons.add(clear);
 
-		JPanel upperLayerPanel = GuiUtility.makePanel(BoxLayoutAxis.PAGE_AXIS, null, null);
+		JPanel upperLayerPanel = Gui.makePanel(BoxLayoutAxis.PAGE_AXIS, null, null);
 		upperLayerPanel.add(layerPanelAgents);
 		upperLayerPanel.add(layerPanelLayers);
 		upperLayerPanel.add(layerPanelButtons);
 		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
 
-		JPanel colorPanel = GuiUtility.makeColorChooserPanel(colorTool);
+		JPanel colorPanel = Gui.makeColorChooserPanel(colorTool);
 
 		grid = new GridPanel(gm);
 		grid.setAlignmentY(CENTER_ALIGNMENT);
@@ -164,14 +164,14 @@ public class ViewSimScreen extends Screen {
 				});
 
 
-		JPanel layerPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		JPanel layerPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		layerPanel.setAlignmentY(CENTER_ALIGNMENT);
 		layerPanel.add(upperLayerPanel);
 		layerPanel.add(colorPanel);
 
 
 
-		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
+		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
 		mainPanel.add(layerPanel);
 		mainPanel.add(grid);
 
@@ -183,10 +183,10 @@ public class ViewSimScreen extends Screen {
 	}
 
 	private JPanel makeButtonPanel(){
-		JPanel buttonPanel = GuiUtility.makePanel((LayoutManager)null,new MaxSize(500,50),PrefSize.NULL);
+		JPanel buttonPanel = Gui.makePanel((LayoutManager)null,new MaxSize(500,50),PrefSize.NULL);
 		buttonPanel.add(makeStartButton());
 
-		buttonPanel.add(GuiUtility.makeButton("Pause",
+		buttonPanel.add(Gui.makeButton("Pause",
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -198,15 +198,15 @@ public class ViewSimScreen extends Screen {
 				));
 
 		//TODO most of these will become tabs, adding temporarily for navigation purposes
-		buttonPanel.add(GuiUtility.makeButton("Entities", new GeneralButtonListener("Entities", gm.getScreenManager())));
-		buttonPanel.add(GuiUtility.makeButton("Global Fields", new GeneralButtonListener("Fields", gm.getScreenManager())));
-		buttonPanel.add(GuiUtility.makeButton("Setup options", new GeneralButtonListener("Grid Setup", gm.getScreenManager())));
-		buttonPanel.add(GuiUtility.makeButton("Statistics", new GeneralButtonListener("Statistics", gm.getScreenManager())));
+		buttonPanel.add(Gui.makeButton("Entities", new GeneralButtonListener("Entities", gm.getScreenManager())));
+		buttonPanel.add(Gui.makeButton("Global Fields", new GeneralButtonListener("Fields", gm.getScreenManager())));
+		buttonPanel.add(Gui.makeButton("Setup options", new GeneralButtonListener("Grid Setup", gm.getScreenManager())));
+		buttonPanel.add(Gui.makeButton("Statistics", new GeneralButtonListener("Statistics", gm.getScreenManager())));
 		return buttonPanel;
 	}
 
 	private JButton makeStartButton(){
-		JButton b = GuiUtility.makeButton("Start/Resume",new ActionListener() {
+		JButton b = Gui.makeButton("Start/Resume",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (!gm.hasStarted()) {

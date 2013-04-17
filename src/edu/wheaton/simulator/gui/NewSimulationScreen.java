@@ -64,7 +64,7 @@ public class NewSimulationScreen extends Screen {
 		c.gridy = 1;
 		c.gridwidth = 3;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JTextField nameField = GuiUtility.makeTextField(initText,30,MaxSize.NULL,MinSize.NULL);
+		JTextField nameField = Gui.makeTextField(initText,30,MaxSize.NULL,MinSize.NULL);
 		this.add(nameField, c);
 		return nameField;
 
@@ -75,13 +75,13 @@ public class NewSimulationScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JLabel heightLabel = GuiUtility.makeLabel(label,MaxSize.NULL,HorizontalAlignment.RIGHT);
+		JLabel heightLabel = Gui.makeLabel(label,MaxSize.NULL,HorizontalAlignment.RIGHT);
 		this.add(heightLabel, c);
 
 		c.gridx = 1;
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JTextField heightField = GuiUtility.makeTextField(initText,10,MaxSize.NULL,new MinSize(70,30));
+		JTextField heightField = Gui.makeTextField(initText,10,MaxSize.NULL,new MinSize(70,30));
 		this.add(heightField, c);
 		return heightField;
 
@@ -98,7 +98,7 @@ public class NewSimulationScreen extends Screen {
 		c.gridx = 3;
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JTextField widthField = GuiUtility.makeTextField(initText,10,MaxSize.NULL,new MinSize(70,30));
+		JTextField widthField = Gui.makeTextField(initText,10,MaxSize.NULL,new MinSize(70,30));
 		this.add(widthField, c);
 		return widthField;
 	}
@@ -107,12 +107,12 @@ public class NewSimulationScreen extends Screen {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(3,1));
 		
-		JButton newSimButton = GuiUtility.makeButton("Blank Simulation",new NewSimScreenFinishListener(name, width, height, getGuiManager()));
+		JButton newSimButton = Gui.makeButton("Blank Simulation",new NewSimScreenFinishListener(name, width, height, getGuiManager()));
 		newSimButton.setPreferredSize(new Dimension(120, 40));
 		//These simulation forms should eventually be loaded through normal serialization process
-		JButton conwayButton = GuiUtility.makeButton("Conway's Game of Life",new ConwayFinishListener(name, width, height, getGuiManager()));
+		JButton conwayButton = Gui.makeButton("Conway's Game of Life",new ConwayFinishListener(name, width, height, getGuiManager()));
 		conwayButton.setPreferredSize(new Dimension(120, 40));
-		JButton rpsButton = GuiUtility.makeButton("Rock Paper Scissors",new RockPaperScissorsFinishListener(name, width, height, getGuiManager()));
+		JButton rpsButton = Gui.makeButton("Rock Paper Scissors",new RockPaperScissorsFinishListener(name, width, height, getGuiManager()));
 		rpsButton.setPreferredSize(new Dimension(120, 40));
 		
 		buttonPanel.add(newSimButton);

@@ -52,7 +52,7 @@ public class TitleScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = GridBagConstraints.RELATIVE;
 		
-		JButton button = GuiUtility.makeButton(buttonName,new GeneralButtonListener(listenerName, getScreenManager()));
+		JButton button = Gui.makeButton(buttonName,new GeneralButtonListener(listenerName, getScreenManager()));
 		button.setAlignmentX(CENTER_ALIGNMENT);
 		button.setMinimumSize(new Dimension(200, 70));
 		button.setPreferredSize(new Dimension(200, 70));

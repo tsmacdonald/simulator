@@ -18,10 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 
-public final class GuiUtility {
+public final class Gui {
 
 	
-	private GuiUtility() {
+	private Gui() {
 		// Auto-generated constructor stub
 	}
 	
@@ -105,7 +105,7 @@ public final class GuiUtility {
 	}
 	
 	public static JPanel makeColorChooserPanel(JColorChooser cc){
-		JPanel panel = GuiUtility.makePanel(new GridBagLayout(), null, null);
+		JPanel panel = Gui.makePanel(new GridBagLayout(), null, null);
 		GridBagConstraints constraints = new GridBagConstraints();
 		
 		panel.setMaximumSize(new MaxSize(550,140));
