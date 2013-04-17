@@ -23,15 +23,12 @@ import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import net.sourceforge.jeval.EvaluationException;
 
 import edu.wheaton.simulator.gui.BoxLayoutAxis;
 import edu.wheaton.simulator.gui.GeneralButtonListener;
-import edu.wheaton.simulator.gui.GridPanel;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
@@ -39,7 +36,6 @@ import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
 import edu.wheaton.simulator.gui.SpawnCondition;
 import edu.wheaton.simulator.simulation.Simulator;
-import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class ViewSimScreen extends Screen {
 
@@ -79,7 +75,7 @@ public class ViewSimScreen extends Screen {
 					public void actionPerformed(ActionEvent ae) {
 						Simulator.newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
 						try {
-							gm.getSim().setLayerExtremes();
+							gm.setSimLayerExtremes();
 						} catch (EvaluationException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -110,19 +106,17 @@ public class ViewSimScreen extends Screen {
 			public void mouseClicked(MouseEvent me) {
 				if(getGuiManager().canSpawn){
 					int standardSize = Math.min(
-							gm.getGridPanel().getWidth()/gm.getGridWidth(),
-							gm.getGridPanel().getHeight()/gm.getGridHeight()
+							gm.getGridPanel().getWidth()/gm.getSimGridWidth(),
+							gm.getGridPanel().getHeight()/gm.getSimGridHeight()
 					);
 					
 					int x = me.getX()/standardSize;
 					int y = me.getY()/standardSize;
 					
-					Simulator sim = gm.getSim();
-					
-					if(sim.getAgent(x,y) == null)
-						sim.spiralSpawn(agentComboBox.getSelectedItem().toString(), x, y);
+					if(gm.getSimAgent(x,y) == null)
+						gm.spiralSpawnSimAgent(agentComboBox.getSelectedItem().toString(), x, y);
 					else
-						sim.removeAgent(x,y);
+						gm.removeSimAgent(x,y);
 					gm.getGridPanel().repaint();
 				}
 			}
@@ -177,9 +171,9 @@ public class ViewSimScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SimulatorGuiManager gm = getGuiManager();
-				if (!gm.hasStarted()) {
-					for (SpawnCondition condition: gm.getSpawnConditions()) {
-						condition.addToGrid(gm.getSim());
+				if (!gm.hasSimStarted()) {
+					for (SpawnCondition condition: gm.getSimSpawnConditions()) {
+						condition.addToGrid(gm.getSimGrid());
 					}
 				}
 				gm.getGridPanel().repaint();

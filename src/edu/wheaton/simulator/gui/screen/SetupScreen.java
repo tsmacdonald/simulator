@@ -165,17 +165,17 @@ public class SetupScreen extends Screen {
 						if (values.get(i).getText().equals(""))
 							throw new Exception("All fields must have input.");
 					
-					SimulationEnder ender = guiManager.getEnder();
+					SimulationEnder ender = guiManager.getSimEnder();
 
 					ender.setStepLimit(Integer.parseInt(timeField.getText()));
 					String str = (String)updateBox.getSelectedItem();
 					
 					if (str.equals("Linear"))
-						guiManager.getSim().setLinearUpdate();
+						guiManager.setSimLinearUpdate();
 					else if (str.equals("Atomic"))
-						guiManager.getSim().setLinearUpdate();
+						guiManager.setSimAtomicUpdate();
 					else
-						guiManager.getSim().setPriorityUpdate(0, 50);
+						guiManager.setSimPriorityUpdate(0, 50);
 					
 					for (int i = 0; i < values.size(); i++) {
 						ender.setPopLimit(
@@ -220,9 +220,9 @@ public class SetupScreen extends Screen {
 	public void load() {
 		reset();
 		nameField.setText(getGuiManager().getSimName());
-		updateBox.setSelectedItem(getGuiManager().getSim().currentUpdater());
+		updateBox.setSelectedItem(getGuiManager().getCurrentSimUpdater());
 
-		SimulationEnder se = getGuiManager().getEnder();
+		SimulationEnder se = getGuiManager().getSimEnder();
 		int stepLimit = se.getStepLimit();
 		agentNames = Simulator.prototypeNames().toArray(agentNames);
 		timeField.setText(stepLimit + "");
@@ -293,7 +293,7 @@ public class SetupScreen extends Screen {
 			String str = (String) agentTypes.get(n).getSelectedItem();
 			
 			if (str != null) 
-				getGuiManager().getEnder().removePopLimit(
+				getGuiManager().getSimEnder().removePopLimit(
 					Simulator.getPrototype(str).getPrototypeID());
 			
 			conListPanel.remove(subPanels.get(n));

@@ -32,14 +32,14 @@ public class RockPaperScissorsFinishListener implements ActionListener {
 				int heightInt = getHeight();
 				int widthInt = getWidth();
 				gm.setSim(name.getText(),widthInt, heightInt);
-				gm.updateGUIManager(getName(), widthInt, heightInt);
+				gm.updateGuiManager(getName(), widthInt, heightInt);
 			} catch(java.lang.NumberFormatException nfe) { 
 				System.err.println("Invalid input passed to RockPaperScissorsListener");
 			}
 			Screen upload = gm.getScreenManager().getScreen("View Simulation");
-			gm.getSim().initRockPaperScissors();
-			gm.getEnder().setStepLimit(1000);
-			gm.setStarted(false);
+			gm.initRockPaperScissorsSim();
+			gm.getSimEnder().setStepLimit(1000);
+			gm.setSimStarted(false);
 			gm.getScreenManager().update(upload);
 			ScreenManager.loadScreen(upload);
 		}
