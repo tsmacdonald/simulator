@@ -167,6 +167,10 @@ public class ScreenManager {
 		menu.add(GuiUtility.makeMenuItem("New Simulation", 
 				new GeneralButtonListener("New Simulation",sm)));
 		
+		//TODO add "Load Simulation" option
+		
+		//TODO add "Save simulation" option??
+		
 		menu.add(GuiUtility.makeMenuItem("Exit",new ActionListener(){
 			 
 			public void actionPerformed(ActionEvent e) {

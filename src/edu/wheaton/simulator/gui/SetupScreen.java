@@ -1,6 +1,8 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -29,6 +31,8 @@ public class SetupScreen extends Screen {
 
 	private JTextField timeField;
 
+	private JTextField delayField;
+
 	private String[] agentNames;
 
 	private JComboBox updateBox;
@@ -47,6 +51,7 @@ public class SetupScreen extends Screen {
 
 	private static final long serialVersionUID = -8347080877399964861L;
 
+	//TODO need grid size options
 	public SetupScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
@@ -60,15 +65,17 @@ public class SetupScreen extends Screen {
 		conListPanel = makeConListPanel(addConditionButton);
 		nameField = GuiUtility.makeTextField(ScreenManager.getGUIname(), 25,new MaxSize(400,30),MinSize.NULL);
 		timeField = GuiUtility.makeTextField(null,15,new MaxSize(200,40),MinSize.NULL);
+		//TODO add interfacing with facade
+		delayField = GuiUtility.makeTextField("not yet added", 4, new MaxSize(200, 40), MinSize.NULL);
 		updateBox = makeUpdateBox();
-		JPanel uberPanel = makeUberPanel(conListPanel, timeField, nameField, updateBox);
+		JPanel uberPanel = makeUberPanel(conListPanel, timeField, nameField, updateBox, delayField);
 		this.add(uberPanel, BorderLayout.CENTER);
 		agentTypes = new ArrayList<JComboBox>();
 		values = new ArrayList<JTextField>();
 		JPanel buttonPanel = makeButtonPanel(sm, nameField, timeField, updateBox,agentTypes,values);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
-	
+
 	private static JLabel makeAgentTypeLabel(){
 		JLabel agentTypeLabel = GuiUtility.makeLabel("Agent Type",new PrefSize(200,30),HorizontalAlignment.LEFT);
 		agentTypeLabel.setAlignmentX(LEFT_ALIGNMENT);
@@ -83,17 +90,17 @@ public class SetupScreen extends Screen {
 
 	private static JButton makeAddConditionButton(final SetupScreen screen){
 		JButton addConditionButton = GuiUtility.makeButton("Add Field",new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						screen.addCondition();
-					}
-				});
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				screen.addCondition();
+			}
+		});
 		return addConditionButton;
 	}
 
 	private static JPanel makeConMainPanel(JPanel conListPanel, JTextField timeField){
 		JLabel endingLabel = GuiUtility.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
-		
+
 		JPanel conMainPanel = GuiUtility.makePanel(new BorderLayout(),MaxSize.NULL,PrefSize.NULL);
 		conMainPanel.add(endingLabel, BorderLayout.NORTH);
 
@@ -117,10 +124,10 @@ public class SetupScreen extends Screen {
 		JPanel conLabelsPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		conLabelsPanel.add(Box.createHorizontalGlue());
 		conLabelsPanel.add(makeAgentTypeLabel());
-		
+
 		JLabel valueLabel = GuiUtility.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
 		conLabelsPanel.add(valueLabel);
-		
+
 		conLabelsPanel.add(Box.createHorizontalGlue());
 		return conLabelsPanel;
 	}
@@ -146,17 +153,56 @@ public class SetupScreen extends Screen {
 		return conBodyPanel;
 	}
 
-	private static JPanel makeUberPanel(JPanel conListPanel, JTextField timeField, JTextField nameField, JComboBox updateBox){
-		JPanel uberPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+	private static JPanel makeUberPanel(JPanel conListPanel, JTextField timeField, JTextField nameField, JComboBox updateBox, JTextField delayField){
+		//JPanel uberPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		JPanel uberPanel = new JPanel(new GridBagLayout());
+		GridBagConstraints c;
 
 		JLabel nameLabel = GuiUtility.makeLabel("Name: ",new MaxSize(100,40), HorizontalAlignment.RIGHT);
-		JLabel updateLabel = GuiUtility.makeLabel("Update type: ",new MaxSize(100,40),null);
-		
-		JPanel mainPanel = makeMainPanel(nameLabel, nameField, updateLabel, updateBox );
-		uberPanel.add(mainPanel);
+		c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 0;
+		uberPanel.add(nameLabel, c);
 
+		c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		uberPanel.add(nameField, c);
+
+		JLabel updateLabel = GuiUtility.makeLabel("Update type: ",new MaxSize(100,40),null);
+		c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 1;
+		uberPanel.add(updateLabel, c);
+
+		c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 1;
+		uberPanel.add(updateBox, c);
+
+		JLabel delayLabel = GuiUtility.makeLabel("Step Delay: ",new MaxSize(100,40),null);
+		c = new GridBagConstraints();
+		c.gridx = 2;
+		c.gridy = 1;
+		uberPanel.add(delayLabel, c);
+
+		c = new GridBagConstraints();
+		c.gridx = 3;
+		c.gridy = 1;
+		uberPanel.add(delayField, c);
+
+		//		JPanel mainPanel = makeMainPanel(nameLabel, nameField, updateLabel, updateBox );
+		//		uberPanel.add(mainPanel);
+
+		//TODO pull this code into this method
 		JPanel conMainPanel = makeConMainPanel(conListPanel, timeField);
-		uberPanel.add(conMainPanel);
+		c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 4;
+		uberPanel.add(conMainPanel, c);
+		
 		return uberPanel;
 	}
 
@@ -169,65 +215,66 @@ public class SetupScreen extends Screen {
 
 	private static JButton makeBackButton(final ScreenManager sm){
 		JButton backButton = GuiUtility.makeButton("Back",new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("View Simulation"));
-					}
-				}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sm.update(sm.getScreen("View Simulation"));
+			}
+		}
 				);
 		return backButton;
 	}
 
 	private static JButton makeFinishButton(final ScreenManager sm, final JTextField nameField, final JTextField timeField, final JComboBox updateBox, final ArrayList<JTextField> values, final ArrayList<JComboBox> agentTypes){
 		JButton finishButton = GuiUtility.makeButton("Finish",new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						try {
-							if (nameField.getText().equals("")) {
-								throw new Exception("All fields must have input");
-							}
-							//							if (Integer.parseInt(width.getText()) < 1 || Integer.parseInt(height.getText()) < 1) {
-							//								throw new Exception("Width and height must be greater than 0");
-							//							}
-							for (int i = 0; i < values.size(); i++){
-								if (values.get(i).getText().equals("")) {
-									throw new Exception("All fields must have input.");
-								}
-							}
-							//							sm.updateGUIManager(nameField.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
-
-							sm.getEnder().setStepLimit(Integer.parseInt(timeField.getText()));
-							String str = (String)updateBox.getSelectedItem();
-							if (str.equals("Linear")) {
-								sm.getFacade().setLinearUpdate();
-							}
-							else if (str.equals("Atomic")) {
-								sm.getFacade().setLinearUpdate();
-							}
-							else {
-								sm.getFacade().setPriorityUpdate(0, 50);
-							}
-							for (int i = 0; i < values.size(); i++) {
-								sm.getFacade();
-								sm.getEnder().setPopLimit(
-										Simulator.getPrototype(
-												(String)(agentTypes.get(i).getSelectedItem())
-												).getPrototypeID(), 
-												Integer.parseInt(values.get(i).getText())
-										);
-							}
-							sm.update(sm.getScreen("View Simulation"));
-						}
-						catch (NumberFormatException excep) {
-							JOptionPane.showMessageDialog(null,
-									"Width and Height fields must be integers greater than 0");
-							excep.printStackTrace();
-						}
-						catch (Exception excep) {
-							JOptionPane.showMessageDialog(null, excep.getMessage());
-						} 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if (nameField.getText().equals("")) {
+						throw new Exception("All fields must have input");
 					}
+					//							if (Integer.parseInt(width.getText()) < 1 || Integer.parseInt(height.getText()) < 1) {
+					//								throw new Exception("Width and height must be greater than 0");
+					//							}
+					for (int i = 0; i < values.size(); i++){
+						if (values.get(i).getText().equals("")) {
+							throw new Exception("All fields must have input.");
+						}
+					}
+					//							sm.updateGUIManager(nameField.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
+
+					//TODO add the ability to set step delay
+					sm.getEnder().setStepLimit(Integer.parseInt(timeField.getText()));
+					String str = (String)updateBox.getSelectedItem();
+					if (str.equals("Linear")) {
+						sm.getFacade().setLinearUpdate();
+					}
+					else if (str.equals("Atomic")) {
+						sm.getFacade().setLinearUpdate();
+					}
+					else {
+						sm.getFacade().setPriorityUpdate(0, 50);
+					}
+					for (int i = 0; i < values.size(); i++) {
+						sm.getFacade();
+						sm.getEnder().setPopLimit(
+								Simulator.getPrototype(
+										(String)(agentTypes.get(i).getSelectedItem())
+										).getPrototypeID(), 
+										Integer.parseInt(values.get(i).getText())
+								);
+					}
+					sm.update(sm.getScreen("View Simulation"));
 				}
+				catch (NumberFormatException excep) {
+					JOptionPane.showMessageDialog(null,
+							"Width and Height fields must be integers greater than 0");
+					excep.printStackTrace();
+				}
+				catch (Exception excep) {
+					JOptionPane.showMessageDialog(null, excep.getMessage());
+				} 
+			}
+		}
 				);
 		return finishButton;
 	}
