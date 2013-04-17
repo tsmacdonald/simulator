@@ -1,13 +1,14 @@
-package edu.wheaton.simulator.datastructure;
-
 /**
  * Field class for modeling variables. The name and type of the field will not
  * be changeable throughout the life of the field. The value of the field will
  * be changeable.
  * 
- * @author Simon Swenson
+ * @author Agent Team
  * 
  */
+
+package edu.wheaton.simulator.datastructure;
+
 public class Field {
 
 	/**

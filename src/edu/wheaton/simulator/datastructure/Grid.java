@@ -75,6 +75,16 @@ public class Grid extends Entity implements Iterable<Agent> {
 		AgentID id = new AgentID(-1);
 		return id;
 	}
+	
+	/**
+	 * Changes the size of the grid
+	 * 
+	 * @param width
+	 * @param height
+	 */
+	public void resizeGrid(int width, int height) {
+		// TODO
+	}
 
 	/**
 	 * Provides this grid's width

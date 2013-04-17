@@ -66,11 +66,11 @@ public class Simulator implements Runnable {
 		this.name = name;
 		Prototype.clearPrototypes();
 		grid = new Grid(gridX, gridY);
-		//StatisticsManager.getInstance().initialize(grid);
+		StatisticsManager.getInstance().initialize(grid);
 	}
 	
 	/**
-	 * Provides this Simulators name
+	 * Provides this simulator's name
 	 * 
 	 * @return
 	 */
@@ -486,6 +486,16 @@ public class Simulator implements Runnable {
 	 */
 	public void removeGlobalField(String name) {
 		grid.removeField(name);
+	}
+	
+	/**
+	 * Changes the size of the grid
+	 * 
+	 * @param width
+	 * @param height
+	 */
+	public void resizeGrid(int width, int height) {
+		grid.resizeGrid(width, height);
 	}
 
 	/**
