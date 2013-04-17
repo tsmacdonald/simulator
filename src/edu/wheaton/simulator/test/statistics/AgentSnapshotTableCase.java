@@ -109,7 +109,7 @@ public class AgentSnapshotTableCase {
 		Integer step = 1;
 		AgentSnapshot gSnap = SnapshotFactory.makeGlobalVarSnapshot(grid, gType, step);
 		table.putEntity(gSnap);
-		org.junit.Assert.assertNotNull("failure-Snap should not be null(" + table.get(null, step) +")", table.get(null, step));
+		org.junit.Assert.assertNotNull("failure-Snap should not be null(" + table.get(grid.getID(), step) +")", table.get(grid.getID(), step));
 
 	}
 
