@@ -28,6 +28,7 @@ import edu.wheaton.simulator.gui.screen.SpawningScreen;
 import edu.wheaton.simulator.gui.screen.StatDisplayScreen;
 import edu.wheaton.simulator.gui.screen.TitleScreen;
 import edu.wheaton.simulator.gui.screen.ViewSimScreen;
+import edu.wheaton.simulator.gui.screen.ViewSimScreen1;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
@@ -62,13 +63,14 @@ public class SimulatorGuiManager {
 		sm.putScreen("Entities", new EntityScreen(this));
 		sm.putScreen("Edit Entities", new EditEntityScreen(this));
 		sm.putScreen("Spawning", new SpawningScreen(this));
-		sm.putScreen("View Simulation", new ViewSimScreen(this));
+		sm.putScreen("View Simulation", new ViewSimScreen1(this));
 		sm.putScreen("Statistics", new StatDisplayScreen(this));
 		sm.putScreen("Grid Setup", new SetupScreen(this));
 		
 		sm.getDisplay().setJMenuBar(makeMenuBar());
 		se = new SimulationEnder();
 		statMan = StatisticsManager.getInstance();
+		hasStarted = false;
 	}
 
 	public SimulatorGuiManager(){
