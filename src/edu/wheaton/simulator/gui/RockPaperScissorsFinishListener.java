@@ -15,10 +15,10 @@ public class RockPaperScissorsFinishListener implements ActionListener {
 		private JTextField name;
 		private JTextField width;
 		private JTextField height;
-		private Manager sm;
+		private ScreenManager sm;
 		
 		public RockPaperScissorsFinishListener(JTextField name, JTextField width, JTextField height, 
-										  Manager sm){
+										  ScreenManager sm){
 			this.name = name;
 			this.width = width;
 			this.height = height;

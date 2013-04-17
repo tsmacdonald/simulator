@@ -6,18 +6,20 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.plaf.metal.MetalBorders;
 
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
-public class ScreenManager implements Manager{
+public class ScreenManager {
 
 	private HashMap<String, Screen> screens;
 
@@ -47,7 +49,6 @@ public class ScreenManager implements Manager{
 		statMan = new StatisticsManager();
 		screens.put("Title", new TitleScreen(this));
 		screens.put("New Simulation", new NewSimulationScreen(this));
-		//screens.put("Edit Simulation", new EditSimScreen(this));
 		screens.put("Fields", new FieldScreen(this));
 		screens.put("Edit Fields", new EditFieldScreen(this));
 		screens.put("Entities", new EntityScreen(this));
@@ -62,11 +63,11 @@ public class ScreenManager implements Manager{
 		this(new Display());
 	}
 
-	@Override
+	 
 	public Screen getScreen(String screenName) {
 		return screens.get(screenName);
 	}
-	@Override
+	 
 	public void update(Screen update) {
 		d.updateDisplay(update);
 	}
@@ -79,17 +80,17 @@ public class ScreenManager implements Manager{
 		return grid;
 	}
 
-	@Override
+	 
 	public void setFacade(int x, int y) {
 		facade = new Simulator(x, y);
 	}
 	
-	@Override
+	 
 	public Simulator getFacade() {
 		return facade;
 	}
 	
-	@Override
+	 
 	public SimulationEnder getEnder() {
 		return se;
 	}
@@ -110,7 +111,7 @@ public class ScreenManager implements Manager{
 		return GUI.getGridWidth();
 	}
 
-	@Override
+	 
 	public void updateGUIManager(String nos, int width, int height){
 	
 		GUI.setNameOfSim(nos);
@@ -131,24 +132,23 @@ public class ScreenManager implements Manager{
 		hasStarted = b;
 	}
 	
-	@Override
+	 
 	public boolean hasStarted() {
 		return hasStarted;
 	}
 
-	@Override
+	 
 	public ArrayList<SpawnCondition> getSpawnConditions() { 
 		return spawnConditions; 
 	}
 	
-	@Override
+	 
 	public void loadScreen(Screen s){
 		s.load();
 	}
 	
 	private JMenuBar makeMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setForeground(Color.white);
 		
 		JMenu fileMenu = makeFileMenu(this);
 		JMenu editMenu = makeEditMenu(this);
@@ -161,61 +161,56 @@ public class ScreenManager implements Manager{
 	}
 
 	private static JMenu makeFileMenu(final ScreenManager sm) {
-		JMenu menu = new JMenu("File");
-		menu.getPopupMenu().setBorder(new MetalBorders.PopupMenuBorder());
+		JMenu menu = GuiUtility.makeMenu("File");
 		
-		JMenuItem newSimulation = new JMenuItem("New Simulation");
-		newSimulation.addActionListener(new GeneralButtonListener("New Simulation",sm));
-		newSimulation.setForeground(Color.black);
-		menu.add(newSimulation);
+		menu.add(GuiUtility.makeMenuItem("New Simulation", 
+				new GeneralButtonListener("New Simulation",sm)));
 		
-		JMenuItem exit = new JMenuItem("Exit");
-		exit.addActionListener(new ActionListener(){
-			@Override
+		menu.add(GuiUtility.makeMenuItem("Exit",new ActionListener(){
+			 
 			public void actionPerformed(ActionEvent e) {
 				sm.setRunning(false);
 				System.exit(0);
 			}
-		});
-		exit.setForeground(Color.black);
-		menu.add(exit);
+		}));
 		
 		return menu;
 	}
 	
 	private static JMenu makeEditMenu(final ScreenManager sm) {
-		JMenu menu = new JMenu("Edit");
-		menu.getPopupMenu().setBorder(new MetalBorders.PopupMenuBorder());
+		JMenu menu = GuiUtility.makeMenu("Edit");
 		
-		JMenuItem editEntities = new JMenuItem("Edit Entities");
-		editEntities.addActionListener(new GeneralButtonListener("Entities",sm));
-		editEntities.setForeground(Color.black);
-		menu.add(editEntities);
-		
-		JMenuItem editGlobalFields = new JMenuItem("Edit Global Fields");
-		editGlobalFields.addActionListener(new GeneralButtonListener("Fields",sm));
-		editGlobalFields.setForeground(Color.black);
-		menu.add(editGlobalFields);
+		menu.add(GuiUtility.makeMenuItem("Edit Entities", 
+				new GeneralButtonListener("Entities",sm)));
+
+		menu.add(GuiUtility.makeMenuItem("Edit Global Fields", 
+				new GeneralButtonListener("Fields",sm)));
 		
 		return menu;
 	}
 	
 	private static JMenu makeHelpMenu(final ScreenManager sm) {
-		JMenu menu = new JMenu("Help");
-		menu.getPopupMenu().setBorder(new MetalBorders.PopupMenuBorder());
+		JMenu menu = GuiUtility.makeMenu("Help");
 		
-		JMenuItem about = new JMenuItem("About");
-		about.addActionListener(new ActionListener(){
-			@Override
+		menu.add(GuiUtility.makeMenuItem("About",new ActionListener(){
+			 
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(sm.d,
 					    "Wheaton College. Software Development 2013.",
 					    "About",
 					    JOptionPane.PLAIN_MESSAGE);
 			}
-		});
-		about.setForeground(Color.black);
-		menu.add(about);
+		}));
+		
+		menu.add(GuiUtility.makeMenuItem("Help Contents",new ActionListener(){
+			 
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(sm.d,
+					    "Wheaton College. Software Development 2013.\n Help Contents",
+					    "Help Contents",
+					    JOptionPane.PLAIN_MESSAGE);
+			}
+		}));
 		
 		return menu;
 	}

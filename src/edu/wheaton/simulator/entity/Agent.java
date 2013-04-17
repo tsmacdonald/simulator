@@ -101,7 +101,7 @@ public class Agent extends GridEntity {
 	public void act() throws SimulationPauseException {
 		for (Trigger t : triggers)
 			try {
-				t.evaluate(this);
+				t.evaluate(this, getGrid().getStep());
 			} catch (EvaluationException e) {
 				System.err.println(e.getMessage());
 				String errorMessage = "Error in Agent: " + this.getName()
@@ -128,7 +128,7 @@ public class Agent extends GridEntity {
 			Trigger t = triggers.get(i);
 			if (t.getPriority() == priority) {
 				try {
-					t.evaluate(this);
+					t.evaluate(this, getGrid().getStep());
 				} catch (EvaluationException e) {
 					System.err.println(e.getMessage());
 					String errorMessage = "Error in Agent: " + this.getName()
@@ -176,7 +176,7 @@ public class Agent extends GridEntity {
 	public void atomicFire() throws SimulationPauseException {
 		for (Trigger t : triggers)
 			try {
-				t.atomicFire(this);
+				t.atomicFire(this, getGrid().getStep());
 			} catch (EvaluationException e) {
 				System.err.println(e.getMessage());
 				String errorMessage = "Error in Agent: " + this.getName()

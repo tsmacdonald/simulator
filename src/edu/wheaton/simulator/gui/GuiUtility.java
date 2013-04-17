@@ -1,22 +1,25 @@
 package edu.wheaton.simulator.gui;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 
 public final class GuiUtility {
 
-	//private static final Component horizontalGlue = Box.createHorizontalGlue();
-	//private static final Component verticalGlue = Box.createVerticalGlue();
 	
 	private GuiUtility() {
 		// Auto-generated constructor stub
@@ -109,5 +112,29 @@ public final class GuiUtility {
 		
 		panel.add(cc,constraints);
 		return panel;
+	}
+	
+	public static JMenu makeMenu(String name){
+		JMenu menu = new JMenu(name);
+		
+		menu.setOpaque(true);
+		menu.setForeground(Color.white);
+		menu.setBackground(Color.darkGray);
+		
+		JPopupMenu popupMenu = menu.getPopupMenu();
+		popupMenu.setBorder(BorderFactory.createLineBorder(Color.black));
+		
+		return menu;
+	}
+	
+	public static JMenuItem makeMenuItem(String name, ActionListener al){
+		JMenuItem menuItem = new JMenuItem(name);
+		menuItem.addActionListener(al);
+		
+		menuItem.setOpaque(true);
+		menuItem.setBackground(Color.gray);
+		menuItem.setForeground(Color.white);
+		
+		return menuItem;
 	}
 }

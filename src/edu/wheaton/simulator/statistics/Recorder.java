@@ -6,31 +6,32 @@ import java.util.HashMap;
 
 import edu.wheaton.simulator.behavior.AbstractBehavior;
 import edu.wheaton.simulator.datastructure.Grid;
+import edu.wheaton.simulator.datastructure.GridObserver;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.entity.TriggerObserver;
 
 /**
  * @author Daniel Gill, Nico Lasta
  * 
  */
-public class GridRecorder {
-
-	// private static int ii = 0;
+public class Recorder implements GridObserver, TriggerObserver {
 
 	private StatisticsManager statManager;
 
 	private Prototype gridPrototype;
 	
-	private static HashMap<AgentID, ArrayList<BehaviorSnapshot>> behaviors;
+	private static HashMap<AgentID, ArrayList<TriggerSnapshot>> triggers;
 
 	/**
 	 * Constructor.
 	 */
-	public GridRecorder(StatisticsManager statManager) {
+	public Recorder(StatisticsManager statManager) {
 		this.statManager = statManager;
 		gridPrototype = null;
-		GridRecorder.behaviors = new HashMap<AgentID, ArrayList<BehaviorSnapshot>>();
+		Recorder.triggers = new HashMap<AgentID, ArrayList<TriggerSnapshot>>();
 	}
 
 	/**
@@ -42,38 +43,31 @@ public class GridRecorder {
 	 *            The point in the simulation being recorded.
 	 * @param prototypes
 	 */
-	public void recordSimulationStep(Grid grid, Integer step,
-			Collection<Prototype> prototypes) {
+	@Override
+	public void update(Grid grid) {
+		Collection<Prototype> prototypes = Prototype.getPrototypes();
+		
 		for (Prototype prototype : prototypes) {
 			statManager.addPrototypeSnapshot(SnapshotFactory
-					.makePrototypeSnapshot(prototype, step));
+					.makePrototypeSnapshot(prototype, grid.getStep()));
 		}
+		
 		for (Agent agent : grid) {
 			if (agent != null) {
 				statManager.addGridEntity(SnapshotFactory.makeAgentSnapshot(
-						agent, behaviors.get(agent.getID()), step));
-
+						agent, triggers.get(agent.getID()), grid.getStep()));
+				
 			}
 		}
+		
 		if(gridPrototype == null) {
 			gridPrototype = new Prototype(grid, "GRID");
-			statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, step));
+			statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, grid.getStep()));
 		}
 		else
-			statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, step));
-		behaviors.clear();
-	}
-
-	/**
-	 * Record the time of the most recent iteration.
-	 * 
-	 * @param timeOfRecentIteration
-	 *            the time (in ms) of the most recent turn of the simulation.
-	 */
-	public void updateTime(long timeOfRecentIteration, long addedDuration) {
-		statManager.updateRecentTime(timeOfRecentIteration);
-		statManager.updateTotalTime(statManager.getSimulationDuration()
-				+ addedDuration);
+			statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, grid.getStep()));
+		
+		triggers.clear();
 	}
 
 	/**
@@ -90,18 +84,17 @@ public class GridRecorder {
 	 * @param step
 	 *            The step that this method is called in
 	 */
-	public static void notify(AgentID actor, AbstractBehavior behavior,
-			AgentID recipient, Integer step) {
-		// do things
-		BehaviorSnapshot behaveSnap = SnapshotFactory.makeBehaviorSnapshot(
-				actor, behavior, recipient, step);
-
-		if (behaviors.containsKey(actor)) {
-			behaviors.get(actor).add(behaveSnap);
+	@Override
+	public void update(Agent caller, Trigger trigger, int step) {
+		TriggerSnapshot triggerSnap = SnapshotFactory.makeTriggerSnapshot(
+				caller.getID(), trigger.getName(), trigger.getPriority(), null, null, step);
+		
+		if (triggers.containsKey(caller)) {
+			triggers.get(caller).add(triggerSnap);
 		} else {
-			ArrayList<BehaviorSnapshot> behaviorList = new ArrayList<BehaviorSnapshot>();
-			behaviorList.add(behaveSnap);
-			behaviors.put(actor, behaviorList);
+			ArrayList<TriggerSnapshot> triggerList = new ArrayList<TriggerSnapshot>();
+			triggerList.add(triggerSnap);
+			triggers.put(caller.getID(), triggerList);
 		}
 	}
 }

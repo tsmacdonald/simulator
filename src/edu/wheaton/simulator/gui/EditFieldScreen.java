@@ -29,10 +29,6 @@ public class EditFieldScreen extends Screen {
 
 	private JTextField nameField;
 
-	//private String[] typeNames =  {"Integer", "Double", "String", "Boolean"};
-
-	//private JComboBox fieldType;
-
 	private JTextField initValue;
 
 	private String prevName;
@@ -49,10 +45,6 @@ public class EditFieldScreen extends Screen {
 		JPanel buttonPanel = new JPanel();
 		JLabel nameLabel = GuiUtility.makeLabel("Field Name: ",MaxSize.NULL,HorizontalAlignment.RIGHT);
 		nameField = GuiUtility.makeTextField(null,40, new MaxSize(300,40),null);
-		//		JLabel typeLabel = new JLabel("Field Type: ");
-		//		typeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		//		fieldType = new JComboBox(typeNames);
-		//		fieldType.setMaximumSize(new Dimension(300, 40));
 		JLabel valueLabel = new JLabel("Initial Value: ",SwingConstants.RIGHT);
 		initValue = GuiUtility.makeTextField(null,40,new MaxSize(300,40),null);
 		JButton cancelButton = GuiUtility.makeButton("Cancel",
@@ -68,8 +60,6 @@ public class EditFieldScreen extends Screen {
 		finishButton.setPreferredSize(new Dimension(120, 60));
 		panel1.add(nameLabel);
 		panel1.add(nameField);
-		//		panel2.add(typeLabel);
-		//		panel2.add(fieldType);
 		panel3.add(valueLabel);
 		panel3.add(initValue);
 		buttonPanel.add(cancelButton);

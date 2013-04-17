@@ -47,7 +47,7 @@ public class StatDisplayScreen extends Screen {
 	 * Make the screen. 
 	 * @param sm ScreenManager. 
 	 */
-	public StatDisplayScreen(Manager sm) {
+	public StatDisplayScreen(ScreenManager sm) {
 		super(sm);
 		//Setup GridBagLayout & demensions.
 		GridBagLayout gridBagLayout = new GridBagLayout();

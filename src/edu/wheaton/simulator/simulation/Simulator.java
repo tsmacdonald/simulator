@@ -1,7 +1,7 @@
 /**
- * GUIToAgentFacade.java
+ * Simulator.java
  * 
- * Facade for the GUI team
+ * Runnable simulator that in a way acts as a facade to the Agent code.
  *
  * @author Agent Team
  */
@@ -32,19 +32,25 @@ import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class Simulator implements Runnable {
+
+	/**
+	 * Name of the simulator
+	 */
+	private String name;
 
 	/**
 	 * The Grid to hold all the Agents
 	 */
 	private Grid grid;
-	
+
 	/**
 	 * Whether or not the simulation will pause on the next step
 	 */
 	private AtomicBoolean shouldPause;
-	
+
 	/**
 	 * Time (in milliseconds) in between each step
 	 */
@@ -56,30 +62,42 @@ public class Simulator implements Runnable {
 	 * @param gridX
 	 * @param gridY
 	 */
-	public Simulator(int gridX, int gridY) {
-		Prototype.clearPrototypes();
+	public Simulator(String name, int gridX, int gridY) {
+		this.name = name;
+		sleepPeriod = 500;
 		grid = new Grid(gridX, gridY);
+		Prototype.clearPrototypes();
+		StatisticsManager.getInstance().initialize(grid);
 	}
-	
+
+	/**
+	 * Provides this simulator's name
+	 * 
+	 * @return
+	 */
+	public String getName() {
+		return name;
+	}
+
 	@Override
 	/**
 	 * Runs the simulation by updating all the entities
 	 */
 	public void run() {
-		while(!shouldPause.get()) {
+		while (!shouldPause.get()) {
 			try {
 				grid.updateEntities();
-				grid.notifyObservers(grid);
+				grid.notifyObservers();
 				Thread.sleep(sleepPeriod);
 			} catch (SimulationPauseException e) {
-				shouldPause.set(true); 
+				shouldPause.set(true);
 				System.err.println(e.getMessage());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	/**
 	 * Begins a new thread for this simulation
 	 */
@@ -87,30 +105,45 @@ public class Simulator implements Runnable {
 		shouldPause.set(false);
 		new Thread(this).run();
 	}
-	
+
 	/**
 	 * Stops the flow of the simulation. This will happen on the next iteration
 	 */
 	public void pause() {
 		shouldPause.set(true);
 	}
-	
+
 	/**
 	 * Changes how long the simulation waits after each step
-	 * @param sleepPeriod Time in milliseconds
+	 * 
+	 * @param sleepPeriod
+	 *            Time in milliseconds
 	 */
 	public void setSleepPeriod(int sleepPeriod) {
 		this.sleepPeriod = sleepPeriod;
 	}
-	
+
+	/**
+	 * Provides the time (in milliseconds) the simulator waits after each step
+	 * 
+	 * @return
+	 */
+	public int getSleepPeriod() {
+		return sleepPeriod;
+	}
+
 	/**
 	 * Adds the some sample prototypes
 	 */
 	public void initSamples() {
-		new Multiplier().initSampleAgent(new Prototype(grid, Color.BLUE, "Multiplier"));
-		new Bouncer().initSampleAgent(new Prototype(grid, Color.RED, "bouncer"));
-		new RightTurner().initSampleAgent(new Prototype(grid, Color.BLACK, "rightTurner"));
-		new Confuser().initSampleAgent(new Prototype(grid, Color.GREEN, "confuser"));
+		new Multiplier().initSampleAgent(new Prototype(grid, Color.BLUE,
+				"Multiplier"));
+		new Bouncer()
+				.initSampleAgent(new Prototype(grid, Color.RED, "bouncer"));
+		new RightTurner().initSampleAgent(new Prototype(grid, Color.BLACK,
+				"rightTurner"));
+		new Confuser().initSampleAgent(new Prototype(grid, Color.GREEN,
+				"confuser"));
 	}
 
 	/**
@@ -145,7 +178,7 @@ public class Simulator implements Runnable {
 	public static Prototype getPrototype(String n) {
 		return Prototype.getPrototype(n);
 	}
-	
+
 	/**
 	 * Resets the static list of prototypes
 	 */
@@ -198,7 +231,7 @@ public class Simulator implements Runnable {
 	public String currentUpdater() {
 		return grid.currentUpdater();
 	}
-	
+
 	/**
 	 * Adds the given Agent at the closest free spot to the spawn position. The
 	 * search for an open spot begins at the given x/y and then spirals
@@ -257,6 +290,35 @@ public class Simulator implements Runnable {
 	}
 
 	/**
+	 * Places an new agent (that follows the given prototype) at the given
+	 * coordinates. This method replaces (kills) anything that is currently in
+	 * that position. The Agent's own position is also updated accordingly.
+	 * 
+	 * @param a
+	 * @param x
+	 * @param y
+	 * @return false if the x/y values are invalid
+	 */
+	public boolean addAgent(String prototypeName, int x, int y) {
+		Agent toAdd = getPrototype(prototypeName).createAgent();
+		return grid.addAgent(toAdd, x, y);
+	}
+
+	/**
+	 * Places an new agent (that follows the given prototype) at a random
+	 * position in the grid. This method replaces (kills) anything that is
+	 * currently in that position. The Agent's own position is also updated
+	 * accordingly.
+	 * 
+	 * @param a
+	 * @return returns true if successful
+	 */
+	public boolean addAgent(String prototypeName) {
+		Agent toAdd = getPrototype(prototypeName).createAgent();
+		return grid.addAgent(toAdd);
+	}
+
+	/**
 	 * Returns the Agent at the given coordinates
 	 * 
 	 * @param x
@@ -290,10 +352,10 @@ public class Simulator implements Runnable {
 	}
 
 	/**
-	 * Resets the min/max values of the layer and then loops through the grid
-	 * to set's a new Layer's min/max values. This must be done before a Layer
-	 * is shown. Usually every step if the Layer is being displayed.
-	 * PRECONDITION: The newLayer method has been called to setup a layer
+	 * Resets the min/max values of the layer and then loops through the grid to
+	 * set's a new Layer's min/max values. This must be done before a Layer is
+	 * shown. Usually every step if the Layer is being displayed. PRECONDITION:
+	 * The newLayer method has been called to setup a layer
 	 * 
 	 * @throws EvaluationException
 	 */
@@ -325,8 +387,8 @@ public class Simulator implements Runnable {
 	}
 
 	/**
-	 * Sets the update method to use the LinearUpdate system LinearUpdate is
-	 * the default
+	 * Sets the update method to use the LinearUpdate system LinearUpdate is the
+	 * default
 	 */
 	public void setLinearUpdate() {
 		grid.setLinearUpdater();
@@ -347,10 +409,12 @@ public class Simulator implements Runnable {
 	public void initGameOfLife() {
 		clearPrototypes();
 		grid.setPriorityUpdater(0, 50);
-		
+
 		// add prototypes
-		new ConwaysDeadBeing().initSampleAgent(new Prototype(grid, new Color(219, 219, 219), "deadBeing"));
-		new ConwaysAliveBeing().initSampleAgent(new Prototype(grid, new Color(93, 198, 245), "aliveBeing"));
+		new ConwaysDeadBeing().initSampleAgent(new Prototype(grid, new Color(
+				219, 219, 219), "deadBeing"));
+		new ConwaysAliveBeing().initSampleAgent(new Prototype(grid, new Color(
+				93, 198, 245), "aliveBeing"));
 
 		// Place dead beings in Grid with some that are alive
 		for (int x = 0; x < grid.getWidth(); x++)
@@ -364,11 +428,11 @@ public class Simulator implements Runnable {
 				}
 			}
 	}
-	
+
 	/**
 	 * Sets up the rock paper and scissors sample units
 	 */
-	public void initRockPaperScissors(){
+	public void initRockPaperScissors() {
 		setPriorityUpdate(0, 60);
 		new Rock().initSampleAgent(new Prototype(grid, "rock"));
 		new Paper().initSampleAgent(new Prototype(grid, "paper"));
@@ -435,9 +499,27 @@ public class Simulator implements Runnable {
 	}
 
 	/**
-	 * TODO Are we ensuring that each trigger's priority will be unique? Or
-	 * should we use names instead to keep track of them in the hashmap? That
-	 * might run into fewer issue while editing (possibility of changing
-	 * priorities of the same trigger)
+	 * Changes the size of the grid
+	 * 
+	 * @param width
+	 * @param height
 	 */
+	public void resizeGrid(int width, int height) {
+		grid.resizeGrid(width, height);
+	}
+
+	/**
+	 * Loads a simulation from a grid and prototypes
+	 * 
+	 * @param name
+	 * @param grid
+	 * @param prototypes
+	 */
+	public void load(String name, Grid grid, Set<Prototype> prototypes) {
+		this.name = name;
+		this.grid = grid;
+		for (Prototype current : prototypes)
+			Prototype.addPrototype(current);
+	}
+
 }

@@ -1,11 +1,21 @@
 package edu.wheaton.simulator.statistics;
 
+/**
+ * This class will save PrototypeSnapshots and AgentSnapshots to a file.
+ * To be used by other classes that will load and place the appropriate values.
+ * 
+ * @author Grant Hensel, Nico Lasta
+ */
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.AgentID;
+
 
 public class Saver {
 
@@ -23,6 +33,11 @@ public class Saver {
 	private Map<String, PrototypeSnapshot> prototypes; 
 	
 	/**
+	 * The name of the file this class will generate. 
+	 */
+	private String filename;
+	
+	/**
 	 * Constructor
 	 * @param table An AgentSnapshotTable of all AgentSnapshots at every step of the simulation
 	 * @param prototypes A Map of PrototypeSnapshots
@@ -36,27 +51,38 @@ public class Saver {
 	/**
 	 * Write data serializing the simulation's current state to a file
 	 * Saves the state of the most recent completed step only
+	 * FileWriter code taken from: http://www.javapractices.com/topic/TopicAction.do?Id=42
 	 */
 	public void save(){
+		// name the file, first
+		filename = "SimulationState.txt"; // TODO Change if necessary
+		
 		int currentStep = getCurrentStep();  
 		ImmutableMap<AgentID, AgentSnapshot> snaps = table.getSnapshotsAtStep(currentStep); 
 		
-		//TODO: Write the dimensions of the grid and other global variables
-		sb.append("Globals"); 
-		
 		//Serialize and write all PrototypeSnapshots to file
 		for(PrototypeSnapshot proto : prototypes.values()){
-			System.out.println(proto.serialize()); 
-			sb.append(proto.serialize()); 
+			sb.append(proto.serialize() + "\n"); 
 		}
 		
 		//Serialize and write all AgentSnapshots to file
 		for(AgentSnapshot snap : snaps.values()){
-			System.out.println(snap.serialize()); 
-			sb.append(snap.serialize()); 
+			sb.append(snap.serialize() + "\n"); 
 		}
 		
+		// create BufferedWriter and BufferedReader
+				try {
+					BufferedWriter writer = new BufferedWriter(
+							new FileWriter(filename));
+					writer.write(sb.toString());
+					writer.close();
+				} catch (IOException e) {
+					System.err.println("Saver.java: IOException");
+					e.printStackTrace();
+				}
 
+		// What just got saved to file?
+		System.out.println("The following text was just saved to SimulationState.txt: \n" + sb); // TODO Delete
 	}
 	
 	/**

@@ -34,10 +34,6 @@ public class FieldScreen extends Screen {
 
 	private static final long serialVersionUID = -4286820591194407735L;
 
-	//	private JComboBox xPos;
-	//
-	//	private JComboBox yPos;
-
 	private JList fields;
 
 	private DefaultListModel listModel;
@@ -61,25 +57,6 @@ public class FieldScreen extends Screen {
 		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel panel = GuiUtility.makePanel((LayoutManager)null , MaxSize.NULL, new PrefSize(450,550));
-		//panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-		//		JLabel xLabel = new JLabel("X Pos: ");
-		//		xPos = new JComboBox();
-		//		xPos.setMaximumSize(new Dimension(150, 40));
-		//		xPos.addItem(0);
-		//		xPos.addActionListener(new BoxListener());
-		//		JLabel yLabel = new JLabel("Y Pos: ");
-		//		yPos = new JComboBox();
-		//		yPos.setMaximumSize(new Dimension(150, 40));
-		//		yPos.addItem(0);
-		//		yPos.addActionListener(new BoxListener());
-		//		JPanel posPanel = new JPanel();
-		//		posPanel.setLayout(new BoxLayout(posPanel, BoxLayout.X_AXIS));
-		//		posPanel.add(xLabel);
-		//		posPanel.add(xPos);
-		//		posPanel.add(yLabel);
-		//		posPanel.add(yPos);
-		//		posPanel.setAlignmentX(CENTER_ALIGNMENT);
 		listModel = new DefaultListModel();
 		fields = new JList(listModel);
 		fields.setBackground(Color.white);
@@ -92,8 +69,20 @@ public class FieldScreen extends Screen {
 		panel.add(fields);
 		fields.setAlignmentX(CENTER_ALIGNMENT);
 		delete = GuiUtility.makeButton("Delete",new DeleteListener(listModel, fields));
-		add = GuiUtility.makeButton("Add",new FieldAddListener(sm));
-		edit = GuiUtility.makeButton("Edit",new FieldEditListener(sm, fields));
+		add = GuiUtility.makeButton("Add",new ActionListener() {
+			public void actionPerformed(ActionEvent ae){
+				FieldScreen.setEditing(false);
+				sm.getScreen("Edit Fields").load();
+				sm.update(sm.getScreen("Edit Fields"));
+			}
+		});
+		edit = GuiUtility.makeButton("Edit",new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				FieldScreen.setEditing(true);
+				((EditFieldScreen) sm.getScreen("Edit Fields")).load((String) fields.getSelectedValue());
+				sm.update(sm.getScreen("Edit Fields"));
+			}
+		});
 		JButton back = GuiUtility.makeButton("Back",
 				new GeneralButtonListener("View Simulation", sm));
 		JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -105,7 +94,6 @@ public class FieldScreen extends Screen {
 		buttonPanel.add(Box.createHorizontalStrut(5));
 		buttonPanel.add(back);
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		//mainPanel.add(posPanel);
 		mainPanel.add(panel);
 		mainPanel.add(buttonPanel);
 		this.add(label, BorderLayout.NORTH);
@@ -118,22 +106,7 @@ public class FieldScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-
-		//		if (xPos.getItemCount() != GUI.getGridWidth()) {
-		//			xPos.removeAllItems();
-		//			for (int i = 0; i < GUI.getGridWidth(); i++) {
-		//				xPos.addItem(i + "");
-		//			}
-		//		}
-		//		if (yPos.getItemCount() != GUI.getGridHeight()) {
-		//			yPos.removeAllItems();
-		//			for (int j = 0; j < GUI.getGridWidth(); j++) {
-		//				yPos.addItem(j + "");
-		//			}
-		//		}
-		Map<String, String> map = sm.getFacade().getGrid()
-				//				.getSlot(Integer.parseInt(xPos.getSelectedItem().toString()),Integer.parseInt(yPos.getSelectedItem().toString()))
-				.getCustomFieldMap();
+		Map<String, String> map = sm.getFacade().getGrid().getCustomFieldMap();
 		Object[] fieldsA = map.keySet().toArray();
 		for(Object s: fieldsA){
 			System.out.println((String) s);
@@ -143,24 +116,6 @@ public class FieldScreen extends Screen {
 		delete.setEnabled(false);
 
 	}
-
-	//	private class BoxListener implements ActionListener {
-	//		@Override
-	//		public void actionPerformed(ActionEvent arg0) {
-	//			if (xPos.getSelectedIndex() >= 0 && yPos.getSelectedIndex() >= 0) {
-	//				Map<String, String> fieldNames = sm.getFacade().getGrid().getSlot(
-	//						xPos.getSelectedIndex(), yPos.getSelectedIndex()
-	//						).getCustomFieldMap();
-	//				listModel.clear();
-	//				if (fieldNames != null) {
-	//					for (String s : fieldNames.keySet()) {
-	//						listModel.addElement(s);
-	//					}
-	//				}
-	//			}
-	//			edit.setEnabled(false);
-	//		}
-	//	}
 
 	private class ListListener implements ListSelectionListener {
 		@Override

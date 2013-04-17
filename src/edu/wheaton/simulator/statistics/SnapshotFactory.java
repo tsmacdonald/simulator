@@ -2,16 +2,18 @@ package edu.wheaton.simulator.statistics;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
-import edu.wheaton.simulator.behavior.AbstractBehavior;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.expression.Expression;
 
 /**
  * This class will create the Snapshots to be put into the Database
@@ -27,7 +29,7 @@ public class SnapshotFactory {
 	 * @param step The point at which the capture was taken. 
 	 * @return
 	 */
-	public static AgentSnapshot makeAgentSnapshot(Agent agent, ArrayList<BehaviorSnapshot> behaviors,
+	public static AgentSnapshot makeAgentSnapshot(Agent agent, ArrayList<TriggerSnapshot> behaviors,
 			Integer step) {
 		return new AgentSnapshot(agent.getID(), 
 				makeFieldSnapshots(agent.getCustomFieldMap()), step, 
@@ -68,6 +70,13 @@ public class SnapshotFactory {
 	public static PrototypeSnapshot makePrototypeSnapshot(Prototype prototype,
 			Integer step) {
 		String name = prototype.getName();
+		
+		ArrayList<Trigger> triggers = (ArrayList<Trigger>) prototype.getTriggers();
+		
+		List<TriggerSnapshot> trigSnaps = new ArrayList<TriggerSnapshot>();
+		for(Trigger t : triggers)
+			trigSnaps.add(makeTriggerSnapshot(null, t.getName(), t.getPriority(), t.getConditions(), t.getBehavior(), (Integer) null));
+		
 		ImmutableMap<String, FieldSnapshot> fields = makeFieldSnapshots(prototype.getCustomFieldMap()); 
 		int population = prototype.childPopulation();
 		ImmutableSet<AgentID> childIDs = prototype.childIDs();
@@ -78,9 +87,9 @@ public class SnapshotFactory {
 	}
 	
 	// TODO Add documentation
-	public static BehaviorSnapshot makeBehaviorSnapshot(AgentID actor, AbstractBehavior behavior,
-			AgentID recipient, Integer step) {
-		return new BehaviorSnapshot(actor, behavior, recipient, step);
+	public static TriggerSnapshot makeTriggerSnapshot(AgentID id, String triggerName, int priority, Expression condition, 
+			Expression behavior, int step) {
+		return new TriggerSnapshot(id, triggerName, priority, condition, behavior, step);
 	}
  
 	/**
@@ -94,7 +103,7 @@ public class SnapshotFactory {
 	public static AgentSnapshot makeGlobalVarSnapshot(Grid grid,
 			Prototype prototype, Integer step) {
 		//TODO: Note that AgentSnapshots now require an xPos and yPos in the constructor
-		return new AgentSnapshot(null, makeFieldSnapshots(grid.getCustomFieldMap()), step, prototype.getName(), null, step, step);
+		return new AgentSnapshot(grid.getID(), makeFieldSnapshots(grid.getCustomFieldMap()), step, prototype.getName(), null, 0, 0);
 	}
 	
 	/**
