@@ -23,6 +23,10 @@ public class Saver {
 	private Map<String, PrototypeSnapshot> prototypes; 
 	
 	/**
+	 * The name of the file this class will generate. 
+	 */
+	
+	/**
 	 * Constructor
 	 * @param table An AgentSnapshotTable of all AgentSnapshots at every step of the simulation
 	 * @param prototypes A Map of PrototypeSnapshots
