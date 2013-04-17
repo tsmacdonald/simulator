@@ -35,12 +35,12 @@ public class TriggerSnapshot {
 	/*
 	 * A way to store the string value of the conditionExpression
 	 */
-	public final Expression conditionExpression;
+	public final String conditionExpression;
 	
 	/*
 	 * A string to store the behaviorExpression value
 	 */
-	public final Expression behaviorExpression;
+	public final String behaviorExpression;
 
 	/**
 	 * Constructor
@@ -56,8 +56,8 @@ public class TriggerSnapshot {
 	 * @param behaviorExpression
 	 * 			  A string version of the behavior
 	 */
-	public TriggerSnapshot(AgentID id, String triggerName, int priority, Expression conditionExpression, 
-			Expression behaviorExpression, int step) {
+	public TriggerSnapshot(AgentID id, String triggerName, int priority, String conditionExpression, 
+			String behaviorExpression, int step) {
 		this.id = id;
 		this.step = step;
 		this.triggerName = triggerName;
@@ -77,7 +77,11 @@ public class TriggerSnapshot {
 	 * TriggerSnapshot
 	 */
 	public String serialize(){
-		//TODO: Take the content and serialize it.
-		return "";
+		String ret = "Trigger";
+		ret += "~" + triggerName; 
+		ret += "~" + priority;  
+		ret += "~" + conditionExpression; 
+		ret += "~" + behaviorExpression; 
+		return ret;
 	}
 }
