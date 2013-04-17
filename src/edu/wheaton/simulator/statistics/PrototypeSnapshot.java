@@ -2,11 +2,13 @@ package edu.wheaton.simulator.statistics;
 
 import java.awt.Color;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.entity.AgentID;
+import edu.wheaton.simulator.entity.Trigger;
 
 /**
  * Represents a category of agent at a particular moment in time.
@@ -29,6 +31,11 @@ public class PrototypeSnapshot {
 	 * The children of this Prototype at this point in time. 
 	 */
 	public final ImmutableSet<AgentID> children;
+	
+	/**
+	 * This Prototope's Triggers
+	 */
+	public final Set<TriggerSnapshot> triggers; 
 
 	/**
 	 * The present population of this category of Agent. 
@@ -48,7 +55,7 @@ public class PrototypeSnapshot {
 	/**
 	 * A bitmap of the design for displaying the agents 
 	 */
-	public final byte[] design; 
+	public final byte[] design;
 
 	/**
 	 * Constructor. 
@@ -61,11 +68,13 @@ public class PrototypeSnapshot {
 	 */
 	public PrototypeSnapshot(String categoryName,
 			ImmutableMap<String, FieldSnapshot> fields, int population,
-			ImmutableSet<AgentID> children, Integer step, Color color, byte[] design) {
+			ImmutableSet<AgentID> children, Set<TriggerSnapshot> triggers, Integer step, 
+			Color color, byte[] design) {
 		this.categoryName = categoryName; 
 		this.defaultFields = fields; 
 		this.children = children;
 		this.population = children.size(); 
+		this.triggers = triggers; 
 		this.step = step; 
 		this.color = color; 
 		this.design = design; 
@@ -95,6 +104,11 @@ public class PrototypeSnapshot {
 		//Serialize the defaultFields map
 		for (Entry<String, FieldSnapshot> entry : defaultFields.entrySet()) {
 			s += "\n" + entry.getValue().serialize();
+		}
+		
+		//Serialize the Triggers
+		for(TriggerSnapshot trigger : triggers){
+			s += "\n" + trigger.serialize(); 
 		}
 		
 		return s; 
