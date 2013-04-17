@@ -315,6 +315,8 @@ public class ViewSimScreen1 extends Screen {
 	@Override
 	public void load() {
 		entitiesScreen.load();
+		//TODO when New Simulation is pressed on the menu bar, we need to reset the number of 
+		//prototypes 
 		entities = Simulator.prototypeNames().toArray(entities);
 		agentComboBox = new JComboBox(entities);
 		agentComboBox.addItemListener(
@@ -332,6 +334,7 @@ public class ViewSimScreen1 extends Screen {
 					}
 				}
 				);
+		System.out.println(entities.length);
 		if(entities.length != 0){
 			layerComboBox = new JComboBox(Simulator.getPrototype
 					(agentComboBox.getItemAt(0).toString())

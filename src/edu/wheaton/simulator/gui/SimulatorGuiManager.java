@@ -333,9 +333,11 @@ public class SimulatorGuiManager {
 	
 	private static JMenu makeEditMenu(final ScreenManager sm) {
 		JMenu menu = Gui.makeMenu("Edit");
-		
+
+		menu.add(Gui.makeMenuItem("Add Entities", 
+				new GeneralButtonListener("Edit Entities",sm)));
 		menu.add(Gui.makeMenuItem("Edit Entities", 
-				new GeneralButtonListener("Entities",sm)));
+				new GeneralButtonListener("Edit Entities", sm)));
 		menu.add(Gui.makeMenuItem("Edit Global Fields", 
 				new GeneralButtonListener("Fields",sm)));
 		

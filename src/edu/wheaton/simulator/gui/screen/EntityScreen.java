@@ -85,11 +85,11 @@ public class EntityScreen extends Screen {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
-		/*
+		
 		this.add(
 			Gui.makeButton("Add",null,
 				new AddListener()),c); 
-		*/
+		
 		c.gridx = 1;
 		this.add(edit, c);
 		
