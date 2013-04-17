@@ -42,7 +42,8 @@ public class Loader {
 			String readLine = reader.readLine();
 			
 			while (readLine != null) {
-				//TODO: Also need to save ending conditions
+				//TODO: Also need to save/load ending conditions
+				//TODO: Also need to save/load triggers
 				
 				if(readLine.equals("AgentSnapshot")){ 				
 					//Find the appropriate prototype

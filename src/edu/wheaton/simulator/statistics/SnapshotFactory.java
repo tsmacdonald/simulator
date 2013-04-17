@@ -94,7 +94,7 @@ public class SnapshotFactory {
 	public static AgentSnapshot makeGlobalVarSnapshot(Grid grid,
 			Prototype prototype, Integer step) {
 		//TODO: Note that AgentSnapshots now require an xPos and yPos in the constructor
-		return new AgentSnapshot(null, makeFieldSnapshots(grid.getCustomFieldMap()), step, prototype.getName(), null, step, step);
+		return new AgentSnapshot(null, makeFieldSnapshots(grid.getCustomFieldMap()), step, prototype.getName(), null, 0, 0);
 	}
 	
 	/**
