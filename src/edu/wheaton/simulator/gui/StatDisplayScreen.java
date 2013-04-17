@@ -1,7 +1,5 @@
 package edu.wheaton.simulator.gui;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,13 +7,11 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.statistics.StatisticsManager;
-import javax.swing.border.EtchedBorder;
 import javax.swing.JButton;
 
 public class StatDisplayScreen extends Screen {

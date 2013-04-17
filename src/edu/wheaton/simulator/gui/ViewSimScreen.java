@@ -34,7 +34,6 @@ import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
-import edu.wheaton.simulator.statistics.SimulationRecorder;
 
 public class ViewSimScreen extends Screen {
 
@@ -49,8 +48,6 @@ public class ViewSimScreen extends Screen {
 	private long startTime;
 
 	private boolean canSpawn;
-
-	private SimulationRecorder gridRec;
 
 	private JComboBox agentComboBox;
 
@@ -68,7 +65,7 @@ public class ViewSimScreen extends Screen {
 		entities = new String[0];
 		this.setLayout(new BorderLayout());
 		this.sm = sm;
-		gridRec = new SimulationRecorder(sm.getStatManager());
+		//gridRec = new SimulationRecorder(sm.getStatManager());
 		stepCount = 0;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 
@@ -226,7 +223,7 @@ public class ViewSimScreen extends Screen {
 				canSpawn = false;
 				startTime = System.currentTimeMillis();
 				if (stepCount == 0) {
-					sm.getStatManager().setStartTime(startTime);
+					//sm.getStatManager().setStartTime(startTime);
 				}
 				runSim();
 			}
@@ -250,8 +247,8 @@ public class ViewSimScreen extends Screen {
 						break;
 					}
 					long currentTime = System.currentTimeMillis();
-					gridRec.recordSimulationStep(sm.getFacade().getGrid(), stepCount, Prototype.getPrototypes());
-					gridRec.updateTime(currentTime, currentTime - startTime);
+					//gridRec.recordSimulationStep(sm.getFacade().getGrid(), stepCount, Prototype.getPrototypes());
+					//gridRec.updateTime(currentTime, currentTime - startTime);
 					startTime = currentTime;
 					stepCount++;
 					boolean shouldEnd = sm.getEnder().evaluate(stepCount, 

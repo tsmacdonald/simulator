@@ -22,7 +22,6 @@ import edu.wheaton.simulator.behavior.MoveBehavior;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
-import edu.wheaton.simulator.statistics.BehaviorSnapshot;
 
 @RunWith(JUnit4.class)
 public class BehaviorSnapshotCase {
@@ -48,13 +47,13 @@ public class BehaviorSnapshotCase {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
-	public void behaviorSnapshotTest() {
-		BehaviorSnapshot behaviorSnap = new BehaviorSnapshot(actor.getID(),
-				behavior, recipient.getID(), step);
-		Assert.assertNotNull("BehaviorSnapshot not created", behaviorSnap);
-		System.out.println(behaviorSnap.serialize());
-		
-	}
+//	@Test
+//	public void behaviorSnapshotTest() {
+//		BehaviorSnapshot behaviorSnap = new BehaviorSnapshot(actor.getID(),
+//				behavior, recipient.getID(), step);
+//		Assert.assertNotNull("BehaviorSnapshot not created", behaviorSnap);
+//		System.out.println(behaviorSnap.serialize());
+//		
+//	}
 
 }
