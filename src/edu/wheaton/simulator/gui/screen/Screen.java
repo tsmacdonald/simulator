@@ -7,9 +7,12 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.simulator.gui;
+package edu.wheaton.simulator.gui.screen;
 
 import javax.swing.JPanel;
+
+import edu.wheaton.simulator.gui.ScreenManager;
+import edu.wheaton.simulator.gui.SimulatorGuiManager;
 
 /**
  * Each window will have its own subclass of this abstract class, and one

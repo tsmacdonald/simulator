@@ -7,7 +7,7 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.simulator.gui;
+package edu.wheaton.simulator.gui.screen;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -17,6 +17,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import edu.wheaton.simulator.gui.GeneralButtonListener;
+import edu.wheaton.simulator.gui.Gui;
+import edu.wheaton.simulator.gui.SimulatorGuiManager;
+
 public class TitleScreen extends Screen {
 
 	private static final long serialVersionUID = 4901621402376078633L;
@@ -25,17 +29,6 @@ public class TitleScreen extends Screen {
 		super(gm);
 		this.setLayout(new GridBagLayout());
 		
-		initLabel();
-		initButton("New Simulation", "New Simulation");
-		initButton("Load a saved Simulation", "Load Existing");
-		
-		// Since serialization is not yet implemented.
-		this.getComponent(2).setEnabled(false);
-		
-		this.setVisible(true);
-	}
-	
-	private void initLabel(){
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 50;
@@ -44,19 +37,27 @@ public class TitleScreen extends Screen {
 		
 		JLabel label = new JLabel("Welcome to the Simulator!",SwingConstants.CENTER);
 		this.add(label, c);
-	}
-	
-	private void initButton(String buttonName, String listenerName){
-		GridBagConstraints c = new GridBagConstraints();
+		
+		
+		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = GridBagConstraints.RELATIVE;
+		add(makeButton("New Simulation", "New Simulation"),c);
+		add(makeButton("Load a saved Simulation", "Load Existing"),c);
 		
+		// Since serialization is not yet implemented.
+		this.getComponent(2).setEnabled(false);
+		
+		this.setVisible(true);
+	}
+	
+	private JButton makeButton(String buttonName, String listenerName){
 		JButton button = Gui.makeButton(buttonName,new GeneralButtonListener(listenerName, getScreenManager()));
 		button.setAlignmentX(CENTER_ALIGNMENT);
 		button.setMinimumSize(new Dimension(200, 70));
 		button.setPreferredSize(new Dimension(200, 70));
-		this.add(button, c);
+		return button;
 	}
 
 	@Override

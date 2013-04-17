@@ -8,7 +8,7 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.simulator.gui;
+package edu.wheaton.simulator.gui.screen;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -24,6 +24,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import edu.wheaton.simulator.gui.BoxLayoutAxis;
+import edu.wheaton.simulator.gui.Gui;
+import edu.wheaton.simulator.gui.HorizontalAlignment;
+import edu.wheaton.simulator.gui.MaxSize;
+import edu.wheaton.simulator.gui.MinSize;
+import edu.wheaton.simulator.gui.PrefSize;
+import edu.wheaton.simulator.gui.ScreenManager;
+import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SpawnCondition;
 import edu.wheaton.simulator.simulation.Simulator;
 
 public class SpawningScreen extends Screen {
@@ -55,63 +65,12 @@ public class SpawningScreen extends Screen {
 
 	private JPanel listPanel;
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6312784326472662829L;
 
 	public SpawningScreen(final SimulatorGuiManager gm) {
 		super(gm);
 		this.setLayout(new BorderLayout());
 		entities = new String[0];
-		JLabel label = Gui.makeLabel("Spawning",
-				new PrefSize(300, 150), HorizontalAlignment.CENTER);
-		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS, null,
-				null);
-		listPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS, null, null);
-		JPanel labelsPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS, null,
-				null);
-
-		// TODO mess with sizes of labels to line up with components
-		JLabel entityLabel = Gui.makeLabel("Entity Type", new PrefSize(
-				200, 30), HorizontalAlignment.CENTER);
-
-		JLabel patternLabel = Gui.makeLabel("Spawn Pattern",
-				new PrefSize(270, 30), HorizontalAlignment.CENTER);
-
-		JLabel xLabel = Gui.makeLabel("x Loc.", new PrefSize(100, 30),
-				null);
-
-		JLabel yLabel = Gui.makeLabel("Y Loc.", new PrefSize(100, 30),
-				null);
-
-		JLabel numberLabel = Gui.makeLabel("Number", new PrefSize(290,
-				30), null);
-
-		labelsPanel.add(Box.createHorizontalGlue());
-		labelsPanel.add(Box.createHorizontalGlue());
-		labelsPanel.add(Box.createHorizontalGlue());
-		labelsPanel.add(entityLabel);
-
-		labelsPanel.add(Box.createHorizontalGlue());
-		labelsPanel.add(patternLabel);
-
-		labelsPanel.add(Box.createHorizontalGlue());
-		labelsPanel.add(xLabel);
-		labelsPanel.add(yLabel);
-		labelsPanel.add(numberLabel);
-		labelsPanel.add(Box.createHorizontalGlue());
-
-		mainPanel.add(labelsPanel);
-		mainPanel.add(listPanel);
-
-		labelsPanel.setAlignmentX(CENTER_ALIGNMENT);
-
-		entityTypes = new ArrayList<JComboBox>();
-		spawnPatterns = new ArrayList<JComboBox>();
-		xLocs = new ArrayList<JTextField>();
-		yLocs = new ArrayList<JTextField>();
-		numbers = new ArrayList<JTextField>();
 		deleteButtons = new ArrayList<JButton>();
 		subPanels = new ArrayList<JPanel>();
 
@@ -122,20 +81,22 @@ public class SpawningScreen extends Screen {
 						addSpawn();
 					}
 				});
-		listPanel.add(addSpawnButton);
 		addSpawnButton.setAlignmentX(CENTER_ALIGNMENT);
-		listPanel.add(Box.createVerticalGlue());
-
-		JPanel buttonPanel = new JPanel();
+		
 		JButton cancelButton = Gui.makeButton("Cancel",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						gm.getScreenManager().update(
-								gm.getScreenManager().getScreen(
-										"Edit Simulation"));
+						ScreenManager sm = gm.getScreenManager();
+						sm.update(sm.getScreen("Edit Simulation"));
 					}
 				});
+		
+		entityTypes = new ArrayList<JComboBox>();
+		spawnPatterns = new ArrayList<JComboBox>();
+		xLocs = new ArrayList<JTextField>();
+		yLocs = new ArrayList<JTextField>();
+		numbers = new ArrayList<JTextField>();
 		JButton finishButton = Gui.makeButton("Finish",
 				new ActionListener() {
 					@Override
@@ -185,9 +146,49 @@ public class SpawningScreen extends Screen {
 						}
 					}
 				});
+		
+		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(cancelButton);
 		buttonPanel.add(finishButton);
+		
+		JLabel label = Gui.makeLabel("Spawning",
+				new PrefSize(300, 150), HorizontalAlignment.CENTER);
 		this.add(label, BorderLayout.NORTH);
+		
+		JLabel entityLabel = Gui.makeLabel("Entity Type", new PrefSize(
+				200, 30), HorizontalAlignment.CENTER);
+		JLabel patternLabel = Gui.makeLabel("Spawn Pattern",
+				new PrefSize(270, 30), HorizontalAlignment.CENTER);
+		JLabel xLabel = Gui.makeLabel("x Loc.", new PrefSize(100, 30),
+				null);
+		JLabel yLabel = Gui.makeLabel("Y Loc.", new PrefSize(100, 30),
+				null);
+		JLabel numberLabel = Gui.makeLabel("Number", new PrefSize(290,
+				30), null);
+		JPanel labelsPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS, null,
+				null);
+		labelsPanel.add(Box.createHorizontalGlue());
+		labelsPanel.add(Box.createHorizontalGlue());
+		labelsPanel.add(Box.createHorizontalGlue());
+		labelsPanel.add(entityLabel);
+		labelsPanel.add(Box.createHorizontalGlue());
+		labelsPanel.add(patternLabel);
+		labelsPanel.add(Box.createHorizontalGlue());
+		labelsPanel.add(xLabel);
+		labelsPanel.add(yLabel);
+		labelsPanel.add(numberLabel);
+		labelsPanel.add(Box.createHorizontalGlue());
+		labelsPanel.setAlignmentX(CENTER_ALIGNMENT);
+		
+		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS, null,
+				null);
+		mainPanel.add(labelsPanel);
+		
+		listPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS, null, null);
+		listPanel.add(addSpawnButton);
+		listPanel.add(Box.createVerticalGlue());
+		mainPanel.add(listPanel);
+		
 		this.add(mainPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}

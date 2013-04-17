@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 
+import edu.wheaton.simulator.gui.screen.Screen;
+
 public class ConwayFinishListener implements ActionListener {
 	
 	private JTextField name;

@@ -1,4 +1,4 @@
-package edu.wheaton.simulator.gui;
+package edu.wheaton.simulator.gui.screen;
 
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import edu.wheaton.simulator.gui.SimulatorGuiManager;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 import javax.swing.JButton;
@@ -45,6 +46,7 @@ public class StatDisplayScreen extends Screen {
 	 */
 	public StatDisplayScreen(SimulatorGuiManager gm) {
 		super(gm);
+		
 		//Setup GridBagLayout & demensions.
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{69, 81, 0, 0, 0, 0};
@@ -55,6 +57,7 @@ public class StatDisplayScreen extends Screen {
 
 		//Setup displayPanel -- The panel which displays the graph
 		displayPanel = getDisplayPanel();
+		
 		//Setup displayPanel's GridBagConstraints
 		GridBagConstraints gbc_displayPanel = new GridBagConstraints();
 		gbc_displayPanel.gridwidth = 5;
@@ -64,47 +67,53 @@ public class StatDisplayScreen extends Screen {
 		gbc_displayPanel.gridy = 0;
 		add(displayPanel, gbc_displayPanel);
 
-		//Setup agentList -- The ComboBox which lists possible categories of agents to view.
-		prototypes = new JComboBox();
-		GridBagConstraints gbc_agentList = new GridBagConstraints();
 		//Setup agentList's GridBagConstraints
+		GridBagConstraints gbc_agentList = new GridBagConstraints();
 		gbc_agentList.insets = new Insets(0, 30, 10, 5);
 		gbc_agentList.fill = GridBagConstraints.HORIZONTAL;
 		gbc_agentList.gridx = 0;
 		gbc_agentList.gridy = 1;
+		
+		//Setup agentList -- The ComboBox which lists possible categories of agents to view.
+		prototypes = new JComboBox();
 		add(prototypes, gbc_agentList);
 		setPrototypeListener(prototypes);
-
-		//Setup displayList -- The ComboBox which lists possible ways of viewing the selected population.
-		displayTypes = new JComboBox();
-		GridBagConstraints gbc_displayList = new GridBagConstraints();
+		
 		//Setup displayList's GridBagConstraints
+		GridBagConstraints gbc_displayList = new GridBagConstraints();
 		gbc_displayList.insets = new Insets(0, -5, 10, 5);
 		gbc_displayList.fill = GridBagConstraints.HORIZONTAL;
 		gbc_displayList.gridx = 1;
 		gbc_displayList.gridy = 1;
+		
+		//Setup displayList -- The ComboBox which lists possible ways of viewing the selected population.
+		displayTypes = new JComboBox();
 		add(displayTypes, gbc_displayList);
 		setDisplayTypeListener(displayTypes);
 
-		//Setup fieldList -- The ComboBox which lists possible fields to track. 
-		fields = new JComboBox();
-		GridBagConstraints gbc_fieldList = new GridBagConstraints();
 		//Setup fieldList's GridBagConstraints
+		GridBagConstraints gbc_fieldList = new GridBagConstraints();
 		gbc_fieldList.insets = new Insets(0, -5, 10, 30);
 		gbc_fieldList.fill = GridBagConstraints.HORIZONTAL;
 		gbc_fieldList.gridx = 2;
 		gbc_fieldList.gridy = 1;
+		
+		//Setup fieldList -- The ComboBox which lists possible fields to track. 
+		fields = new JComboBox();
 		add(fields, gbc_fieldList);
 		setDisplayTypeListener(fields);
 
-		//Setup the backButton. 
-		JButton backButton = new JButton("Back");
+		
+		
+		//Setup backButton's GridBagConstraints
 		GridBagConstraints gbc_backButton = new GridBagConstraints();
 		gbc_backButton.gridwidth = 2;
-		//Setup backButton's GridBagConstraints
 		gbc_backButton.insets = new Insets(-5, -30, 6, 30);
 		gbc_backButton.gridx = 3;
 		gbc_backButton.gridy = 1;
+		
+		//Setup the backButton. 
+		JButton backButton = new JButton("Back");
 		add(backButton, gbc_backButton);
 		setBackButtonListener(backButton);
 	}
@@ -115,9 +124,8 @@ public class StatDisplayScreen extends Screen {
 	private void onPrototypeSelected() { 
 		String selectedPrototype = (String) prototypes.getSelectedItem();
 		fields.removeAllItems();
-		for (String fieldName : Simulator.getPrototype(selectedPrototype).getCustomFieldMap().keySet()) { 
+		for (String fieldName : Simulator.getPrototype(selectedPrototype).getCustomFieldMap().keySet())
 			fields.addItem(fieldName);
-		}
 		onDisplayTypeSelected();
 	}
 	
@@ -127,11 +135,11 @@ public class StatDisplayScreen extends Screen {
 	private void onDisplayTypeSelected() { 
 		String selectedDisplayType = (String) displayTypes.getSelectedItem();
 		if (selectedDisplayType != null && 
-				selectedDisplayType.equals(DISPLAY_AVG_FIELD_VALUE_STR)) { 
+					selectedDisplayType.equals(DISPLAY_AVG_FIELD_VALUE_STR))
 			onFieldSelected();
-		} else { 
+
+		else 
 			displayPanel.paint(displayPanel.getGraphics());
-		}
 	}
 	
 	/**
@@ -140,9 +148,8 @@ public class StatDisplayScreen extends Screen {
 	private void onFieldSelected() { 
 		String selectedDisplayType = (String) displayTypes.getSelectedItem();
 		if (selectedDisplayType != null &&
-				selectedDisplayType.equals(DISPLAY_AVG_FIELD_VALUE_STR)) { 
+					selectedDisplayType.equals(DISPLAY_AVG_FIELD_VALUE_STR))
 			displayPanel.paint(displayPanel.getGraphics());
-		}
 	}
 
 	private void setBackButtonListener(JButton backButton) { 
@@ -187,9 +194,10 @@ public class StatDisplayScreen extends Screen {
 		prototypes.removeAllItems();
 		displayTypes.removeAllItems();
 		fields.removeAllItems();
-		for (String name : Simulator.prototypeNames()) { 
+		
+		for (String name : Simulator.prototypeNames())
 			prototypes.addItem(name);
-		}
+
 		displayTypes.addItem(DISPLAY_AVG_FIELD_VALUE_STR);
 		displayTypes.addItem(DISPLAY_AVG_LIFESPAN_STR);
 		displayTypes.addItem(DISPLAY_POP_OVER_TIME_STR);
@@ -197,9 +205,7 @@ public class StatDisplayScreen extends Screen {
 
 	private JPanel getDisplayPanel() { 
 		return new JPanel() { 
-			/**
-			 * 
-			 */
+
 			private static final long serialVersionUID = -6748560344209099505L;
 
 			@Override
@@ -208,9 +214,6 @@ public class StatDisplayScreen extends Screen {
 				String selectedDisplayType = (String) displayTypes.getSelectedItem();
 				g.drawLine(0, 0, getWidth(), 0);
 				g.drawLine(0, 0, 0, getHeight());
-//				g.drawLine(getWidth(), getHeight(), getWidth(), 0);
-//				g.drawLine(getWidth(), getHeight(), 0, getHeight());
-				
 				
 				if (selectedDisplayType == null) 
 					return; 

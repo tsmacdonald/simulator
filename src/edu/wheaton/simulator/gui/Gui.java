@@ -137,4 +137,11 @@ public final class Gui {
 		
 		return menuItem;
 	}
+	
+	public static JPanel makeButtonPanel(JButton... buttons){
+		JPanel panel = new JPanel();
+		for(JButton b : buttons)
+			panel.add(b);
+		return panel;
+	}
 }

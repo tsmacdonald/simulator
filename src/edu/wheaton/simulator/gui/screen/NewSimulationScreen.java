@@ -1,4 +1,4 @@
-package edu.wheaton.simulator.gui;
+package edu.wheaton.simulator.gui.screen;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -10,6 +10,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import edu.wheaton.simulator.gui.ConwayFinishListener;
+import edu.wheaton.simulator.gui.Gui;
+import edu.wheaton.simulator.gui.HorizontalAlignment;
+import edu.wheaton.simulator.gui.MaxSize;
+import edu.wheaton.simulator.gui.MinSize;
+import edu.wheaton.simulator.gui.NewSimScreenFinishListener;
+import edu.wheaton.simulator.gui.RockPaperScissorsFinishListener;
+import edu.wheaton.simulator.gui.SimulatorGuiManager;
 
 
 public class NewSimulationScreen extends Screen {

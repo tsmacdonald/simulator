@@ -1,4 +1,4 @@
-package edu.wheaton.simulator.gui;
+package edu.wheaton.simulator.gui.screen;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -13,6 +13,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+
+import edu.wheaton.simulator.gui.SimulatorGuiManager;
 
 /**
  * 

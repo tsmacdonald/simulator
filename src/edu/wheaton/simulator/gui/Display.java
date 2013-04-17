@@ -13,6 +13,8 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import edu.wheaton.simulator.gui.screen.Screen;
+
 /**
  * This class will act as the singular JFrame window for the interface, with
  * different screens being displayed on it by using the setContentPane method

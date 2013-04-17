@@ -2,6 +2,8 @@ package edu.wheaton.simulator.gui;
 
 import java.util.HashMap;
 
+import edu.wheaton.simulator.gui.screen.Screen;
+
 public class ScreenManager {
 
 	private Display display;

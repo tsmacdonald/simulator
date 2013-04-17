@@ -8,7 +8,7 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.simulator.gui;
+package edu.wheaton.simulator.gui.screen;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -31,6 +31,14 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import net.sourceforge.jeval.EvaluationException;
 
+import edu.wheaton.simulator.gui.BoxLayoutAxis;
+import edu.wheaton.simulator.gui.GeneralButtonListener;
+import edu.wheaton.simulator.gui.GridPanel;
+import edu.wheaton.simulator.gui.Gui;
+import edu.wheaton.simulator.gui.MaxSize;
+import edu.wheaton.simulator.gui.PrefSize;
+import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SpawnCondition;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 

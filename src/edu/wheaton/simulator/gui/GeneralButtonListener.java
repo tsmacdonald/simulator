@@ -3,6 +3,8 @@ package edu.wheaton.simulator.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import edu.wheaton.simulator.gui.screen.Screen;
+
 public class GeneralButtonListener implements ActionListener {
 
 	private String screenName;

@@ -8,7 +8,7 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.simulator.gui;
+package edu.wheaton.simulator.gui.screen;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,6 +29,14 @@ import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import edu.wheaton.simulator.gui.BoxLayoutAxis;
+import edu.wheaton.simulator.gui.GeneralButtonListener;
+import edu.wheaton.simulator.gui.Gui;
+import edu.wheaton.simulator.gui.HorizontalAlignment;
+import edu.wheaton.simulator.gui.MaxSize;
+import edu.wheaton.simulator.gui.PrefSize;
+import edu.wheaton.simulator.gui.SimulatorGuiManager;
 
 public class FieldScreen extends Screen {
 

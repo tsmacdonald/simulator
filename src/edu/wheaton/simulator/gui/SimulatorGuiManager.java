@@ -7,6 +7,17 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import edu.wheaton.simulator.gui.screen.EditEntityScreen;
+import edu.wheaton.simulator.gui.screen.EditFieldScreen;
+import edu.wheaton.simulator.gui.screen.EntityScreen;
+import edu.wheaton.simulator.gui.screen.FieldScreen;
+import edu.wheaton.simulator.gui.screen.NewSimulationScreen;
+import edu.wheaton.simulator.gui.screen.SetupScreen;
+import edu.wheaton.simulator.gui.screen.SpawningScreen;
+import edu.wheaton.simulator.gui.screen.StatDisplayScreen;
+import edu.wheaton.simulator.gui.screen.TitleScreen;
+import edu.wheaton.simulator.gui.screen.ViewSimScreen;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;

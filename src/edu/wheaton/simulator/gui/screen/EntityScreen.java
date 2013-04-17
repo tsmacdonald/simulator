@@ -8,7 +8,7 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.simulator.gui;
+package edu.wheaton.simulator.gui.screen;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -28,6 +28,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.gui.Gui;
+import edu.wheaton.simulator.gui.HorizontalAlignment;
+import edu.wheaton.simulator.gui.PrefSize;
+import edu.wheaton.simulator.gui.ScreenManager;
+import edu.wheaton.simulator.gui.SimulatorGuiManager;
 import edu.wheaton.simulator.simulation.Simulator;
 
 public class EntityScreen extends Screen {
