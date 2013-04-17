@@ -16,9 +16,7 @@ import edu.wheaton.simulator.statistics.StatisticsManager;
 import javax.swing.JButton;
 
 public class StatDisplayScreen extends Screen {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private static String DISPLAY_AVG_FIELD_VALUE_STR = "Average field value"; 

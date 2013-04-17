@@ -37,26 +37,19 @@ public class StatisticsScreen extends Screen {
 	private JPanel dataPanel;
 
 	private String[] entities;
-
 	private String[] agentFields;
 	
 	private JComboBox cardSelector;
-
 	private JComboBox popEntityBox;
-
 	private JComboBox fieldEntityBox;
-
 	private JComboBox lifeEntityBox;
 
 	private Map<String, JComboBox> agentFieldsBoxes;
-
 	private JPanel fieldCard;
-
 	private StatisticsManager statMan;
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 714636604315959167L;
+	
 	//TODO fix layout of this screen	
 	public StatisticsScreen(final SimulatorGuiManager gm) {
 		super(gm);

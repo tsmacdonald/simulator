@@ -52,7 +52,7 @@ public final class Gui {
 		return label;
 	}
 	
-	public static JPanel makePanel(LayoutManager layout, MaxSize maxSize, PrefSize prefSize){
+	public static JPanel makePanel(LayoutManager layout, MaxSize maxSize, PrefSize prefSize, Component... components){
 		JPanel panel = new JPanel();
 		
 		if(layout != null)
@@ -61,10 +61,12 @@ public final class Gui {
 			panel.setMaximumSize(maxSize);
 		if(prefSize != null)
 			panel.setPreferredSize(prefSize);
+		for(Component c : components)
+			panel.add(c);
 		return panel;
 	}
 	
-	public static JPanel makePanel(BoxLayoutAxis axis, MaxSize maxSize, PrefSize prefSize){
+	public static JPanel makePanel(BoxLayoutAxis axis, MaxSize maxSize, PrefSize prefSize, Component... components){
 		JPanel panel = new JPanel();
 		
 		if(axis != null)
@@ -73,6 +75,15 @@ public final class Gui {
 			panel.setMaximumSize(maxSize);
 		if(prefSize != null)
 			panel.setPreferredSize(prefSize);
+		for(Component c : components)
+			panel.add(c);
+		return panel;
+	}
+	
+	public static JPanel makePanel(Component... components){
+		JPanel panel = new JPanel();
+		for(Component c : components)
+			panel.add(c);
 		return panel;
 	}
 	
@@ -132,12 +143,5 @@ public final class Gui {
 		menuItem.setBackground(Color.gray);
 		menuItem.setForeground(Color.white);
 		return menuItem;
-	}
-	
-	public static JPanel makePanel(Component... components){
-		JPanel panel = new JPanel();
-		for(Component c : components)
-			panel.add(c);
-		return panel;
 	}
 }

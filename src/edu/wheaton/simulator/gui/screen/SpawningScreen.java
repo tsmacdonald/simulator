@@ -41,28 +41,21 @@ public class SpawningScreen extends Screen {
 	// smaller,
 	// and some of the spawns are now out of bounds? delete those fields?
 
-	private String[] entities;
-
-	private ArrayList<JComboBox> entityTypes;
-
-	private ArrayList<JComboBox> spawnPatterns;
 
 	// TODO temporary placeholder
 	private String[] spawnOptions = { "Clustered", "Horizontal", "Vertical",
 			"Random" };
+	private String[] entities;
 
+	private ArrayList<JComboBox> entityTypes;
+	private ArrayList<JComboBox> spawnPatterns;
 	private ArrayList<JTextField> xLocs;
-
 	private ArrayList<JTextField> yLocs;
-
 	private ArrayList<JTextField> numbers;
-
 	private ArrayList<JButton> deleteButtons;
-
 	private ArrayList<JPanel> subPanels;
 
 	private JButton addSpawnButton;
-
 	private JPanel listPanel;
 
 	private static final long serialVersionUID = 6312784326472662829L;
@@ -151,41 +144,32 @@ public class SpawningScreen extends Screen {
 				new PrefSize(300, 150), HorizontalAlignment.CENTER);
 		this.add(label, BorderLayout.NORTH);
 		
-		JPanel labelsPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS, null,
-				null);
-		labelsPanel.add(Box.createHorizontalGlue());
-		labelsPanel.add(Box.createHorizontalGlue());
-		labelsPanel.add(Box.createHorizontalGlue());
-		labelsPanel.add(Gui.makeLabel("Entity Type", new PrefSize(
-				200, 30), HorizontalAlignment.CENTER));
-		
-		labelsPanel.add(Box.createHorizontalGlue());
-		
-		labelsPanel.add(Gui.makeLabel("Spawn Pattern",
-				new PrefSize(270, 30), HorizontalAlignment.CENTER));
-		
-		labelsPanel.add(Box.createHorizontalGlue());
-		
-		labelsPanel.add(Gui.makeLabel("x Loc.", new PrefSize(100, 30),
-				null));
-		labelsPanel.add(Gui.makeLabel("Y Loc.", new PrefSize(100, 30),
-				null));
-		labelsPanel.add(Gui.makeLabel("Number", new PrefSize(290,
-				30), null));
-		
-		labelsPanel.add(Box.createHorizontalGlue());
+		JPanel labelsPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS, null,null,
+			Box.createHorizontalGlue(),
+			Box.createHorizontalGlue(),
+			Box.createHorizontalGlue(),
+			Gui.makeLabel("Entity Type", new PrefSize(
+					200, 30), HorizontalAlignment.CENTER),
+			Box.createHorizontalGlue(),
+			Gui.makeLabel("Spawn Pattern",
+					new PrefSize(270, 30), HorizontalAlignment.CENTER),
+			Box.createHorizontalGlue(),
+			Gui.makeLabel("x Loc.", new PrefSize(100, 30),
+					null),
+			Gui.makeLabel("Y Loc.", new PrefSize(100, 30),
+					null),
+			Gui.makeLabel("Number", new PrefSize(290,
+					30), null),
+			Box.createHorizontalGlue()
+		);
 		labelsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		
-		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS, null,
-				null);
-		mainPanel.add(labelsPanel);
-		
-		listPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS, null, null);
-		listPanel.add(addSpawnButton);
-		listPanel.add(Box.createVerticalGlue());
-		mainPanel.add(listPanel);
-		
-		this.add(mainPanel, BorderLayout.CENTER);
+		listPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS, null, null,
+			addSpawnButton,Box.createVerticalGlue());
+
+		this.add(Gui.makePanel(BoxLayoutAxis.Y_AXIS, null,
+				null,labelsPanel,listPanel), BorderLayout.CENTER
+		);
 		this.add(Gui.makePanel(cancelButton,finishButton), BorderLayout.SOUTH);
 	}
 
@@ -251,13 +235,7 @@ public class SpawningScreen extends Screen {
 		newButton.setActionCommand(deleteButtons.indexOf(newButton) + "");
 		
 		JPanel newPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS, null,
-				null);
-		newPanel.add(newBox);
-		newPanel.add(newSpawnType);
-		newPanel.add(newXLoc);
-		newPanel.add(newYLoc);
-		newPanel.add(newNumber);
-		newPanel.add(newButton);
+				null,newBox,newSpawnType,newXLoc,newYLoc,newNumber,newButton);
 		subPanels.add(newPanel);
 		listPanel.add(newPanel);
 		listPanel.add(addSpawnButton);

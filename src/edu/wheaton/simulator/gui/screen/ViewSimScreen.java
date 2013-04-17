@@ -46,21 +46,16 @@ public class ViewSimScreen extends Screen {
 	private static final long serialVersionUID = -6872689283286800861L;
 
 	private GridPanel grid;
-
 	private int stepCount;
-
 	private long startTime;
-
 	private boolean canSpawn;
 
 	private JComboBox agentComboBox;
-
 	private JComboBox layerComboBox;
 
 	private String[] entities;
 
 	private JPanel layerPanelAgents;
-
 	private JPanel layerPanelLayers;
 
 	public ViewSimScreen(final SimulatorGuiManager gm) {
@@ -77,45 +72,42 @@ public class ViewSimScreen extends Screen {
 
 		final JColorChooser colorTool = Gui.makeColorChooser();
 
-		layerPanelAgents = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
-		layerPanelAgents.add(new JLabel("Agents", SwingConstants.CENTER));
-		layerPanelAgents.add(agentComboBox);
+		layerPanelAgents = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null,
+				new JLabel("Agents", SwingConstants.CENTER),agentComboBox);
 
-		layerPanelLayers = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
-		layerPanelLayers.add(new JLabel("Layers", SwingConstants.CENTER));
-		layerPanelLayers.add(layerComboBox);
+		layerPanelLayers = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null,
+				new JLabel("Layers", SwingConstants.CENTER),layerComboBox);
 
-		JPanel layerPanelButtons = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
-		
-		layerPanelButtons.add(Gui.makeButton("Apply",null,
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent ae) {
-					Simulator.newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
-					try {
-						gm.getFacade().setLayerExtremes();
-					} catch (EvaluationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+		JPanel layerPanelButtons = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null,
+			Gui.makeButton("Apply",null,
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent ae) {
+						Simulator.newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
+						try {
+							gm.getFacade().setLayerExtremes();
+						} catch (EvaluationException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						grid.setLayers(true);
+						grid.repaint();
 					}
-					grid.setLayers(true);
-					grid.repaint();
-				} 
-		}));
-		
-		layerPanelButtons.add(Gui.makeButton("Clear",null,
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent ae) {
-					grid.setLayers(false);
-					grid.repaint();
-				} 
-		}));
+				}
+			),
+			Gui.makeButton("Clear",null,
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent ae) {
+						grid.setLayers(false);
+						grid.repaint();
+					} 
+				}
+			)
+		);
 
-		JPanel upperLayerPanel = Gui.makePanel(BoxLayoutAxis.PAGE_AXIS, null, null);
-		upperLayerPanel.add(layerPanelAgents);
-		upperLayerPanel.add(layerPanelLayers);
-		upperLayerPanel.add(layerPanelButtons);
+		JPanel upperLayerPanel = Gui.makePanel(BoxLayoutAxis.PAGE_AXIS, null, null,
+				layerPanelAgents,layerPanelLayers,layerPanelButtons);
 		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		grid = new GridPanel(gm);
@@ -155,43 +147,37 @@ public class ViewSimScreen extends Screen {
 			public void mouseReleased(MouseEvent arg0) {}
 		});
 
-		JPanel layerPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		JPanel layerPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null,
+				upperLayerPanel,Gui.makeColorChooserPanel(colorTool));
 		layerPanel.setAlignmentY(CENTER_ALIGNMENT);
-		layerPanel.add(upperLayerPanel);
-		layerPanel.add(Gui.makeColorChooserPanel(colorTool));
 
-		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
-		mainPanel.add(layerPanel);
-		mainPanel.add(grid);
 
 		this.add(
 			new JLabel("View Simulation", SwingConstants.CENTER), BorderLayout.NORTH
 		);
 		this.add(makeButtonPanel(), BorderLayout.SOUTH);
-		this.add(mainPanel, BorderLayout.CENTER);
+		this.add(Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null,
+				layerPanel,grid), BorderLayout.CENTER);
 		this.setVisible(true);	
 	}
 
 	private JPanel makeButtonPanel(){
-		JPanel buttonPanel = Gui.makePanel((LayoutManager)null,new MaxSize(500,50),PrefSize.NULL);
-		buttonPanel.add(makeStartButton());
-
-		buttonPanel.add(Gui.makeButton("Pause",null,
-			new ActionListener() {
+		//TODO most of these will become tabs, adding temporarily for navigation purposes
+		ScreenManager sm = getScreenManager();
+		JPanel buttonPanel = Gui.makePanel((LayoutManager)null,new MaxSize(500,50),PrefSize.NULL,
+			makeStartButton(),
+			Gui.makeButton("Pause",null,new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					getGuiManager().setRunning(false);
 					//add if loop for tabbed pane once implemented
 					canSpawn = true;
 				}
-		}));
-
-		//TODO most of these will become tabs, adding temporarily for navigation purposes
-		ScreenManager sm = getScreenManager();
-		buttonPanel.add(Gui.makeButton("Entities",null, new GeneralButtonListener("Entities",sm)));
-		buttonPanel.add(Gui.makeButton("Global Fields",null, new GeneralButtonListener("Fields",sm)));
-		buttonPanel.add(Gui.makeButton("Setup options",null, new GeneralButtonListener("Grid Setup",sm)));
-		buttonPanel.add(Gui.makeButton("Statistics",null, new GeneralButtonListener("Statistics",sm)));
+			}),
+			Gui.makeButton("Entities",null, new GeneralButtonListener("Entities",sm)),
+			Gui.makeButton("Global Fields",null, new GeneralButtonListener("Fields",sm)),
+			Gui.makeButton("Setup options",null, new GeneralButtonListener("Grid Setup",sm)),
+			Gui.makeButton("Statistics",null, new GeneralButtonListener("Statistics",sm)));
 		return buttonPanel;
 	}
 
