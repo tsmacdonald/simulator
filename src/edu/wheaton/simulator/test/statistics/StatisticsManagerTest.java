@@ -9,16 +9,19 @@ package edu.wheaton.simulator.test.statistics;
  * 25 Mar 2013
  */
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
@@ -27,9 +30,11 @@ import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
+import edu.wheaton.simulator.statistics.FieldSnapshot;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
 import edu.wheaton.simulator.statistics.StatisticsManager;
+import edu.wheaton.simulator.statistics.TriggerSnapshot;
 
 
 public class StatisticsManagerTest {
@@ -59,8 +64,8 @@ public class StatisticsManagerTest {
 		population = 50;
 		children = prototype.childIDs();
 		step = new Integer(1);
-
-		protoSnap = new PrototypeSnapshot(categoryName, SnapshotFactory.makeFieldSnapshots(fields), population, children, step, null, null); 
+		
+		protoSnap = new PrototypeSnapshot(categoryName, SnapshotFactory.makeFieldSnapshots(fields), population, children, null,step, null, null); 
 
 		categoryName = "testing2";
 		prototype = new Prototype(grid, "tester2");
@@ -70,7 +75,7 @@ public class StatisticsManagerTest {
 		//Add another test PrototypeSnapshot
 		protoSnap2 = new PrototypeSnapshot(categoryName,
 				SnapshotFactory.makeFieldSnapshots(fields), population,
-				children, step, null, null);
+				children, null, step, null, null);
 	}
 
 	@After
@@ -95,7 +100,7 @@ public class StatisticsManagerTest {
 		
 		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname",
 				SnapshotFactory.makeFieldSnapshots(new HashMap<String, String>()), 
-				100, p.childIDs(), new Integer(2), null, null); 
+				100, p.childIDs(),null, new Integer(2), null, null); 
 		StatisticsManager.addPrototypeSnapshot(protoSnap);
 	}
 	
