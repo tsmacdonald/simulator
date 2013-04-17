@@ -317,7 +317,5 @@ public class SpawningScreen extends Screen {
 			}
 			repaint();
 		}
-
 	}
-
 }

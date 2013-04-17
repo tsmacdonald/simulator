@@ -32,23 +32,17 @@ import edu.wheaton.simulator.simulation.end.SimulationEnder;
 public class SetupScreen extends Screen {
 
 	private JTextField nameField;
-
 	private JTextField timeField;
-
+	
 	private String[] agentNames;
-
 	private JComboBox updateBox;
-
+	
 	private ArrayList<JComboBox> agentTypes;
-
 	private ArrayList<JTextField> values;
-
 	private ArrayList<JButton> deleteButtons;
-
 	private ArrayList<JPanel> subPanels;
-
+	
 	private JPanel conListPanel;
-
 	private JButton addConditionButton;
 
 	private static final long serialVersionUID = -8347080877399964861L;
@@ -65,9 +59,7 @@ public class SetupScreen extends Screen {
 		);
 		
 		agentTypes = new ArrayList<JComboBox>();
-		
 		deleteButtons = new ArrayList<JButton>();
-		
 		subPanels = new ArrayList<JPanel>();
 		
 		addConditionButton = Gui.makeButton("Add Field",null,
@@ -93,7 +85,6 @@ public class SetupScreen extends Screen {
 			BorderLayout.CENTER);
 		
 		agentTypes = new ArrayList<JComboBox>();
-		
 		values = new ArrayList<JTextField>();
 		
 		this.add(
@@ -303,7 +294,7 @@ public class SetupScreen extends Screen {
 			
 			if (str != null) 
 				getGuiManager().getEnder().removePopLimit(
-						Simulator.getPrototype(str).getPrototypeID());
+					Simulator.getPrototype(str).getPrototypeID());
 			
 			conListPanel.remove(subPanels.get(n));
 			agentTypes.remove(n);
@@ -312,7 +303,7 @@ public class SetupScreen extends Screen {
 			
 			for (int i = n; i < deleteButtons.size(); i++)
 				deleteButtons.get(i).setActionCommand(
-						(Integer.parseInt(deleteButtons.get(i).getActionCommand()) - 1) + "");
+					(Integer.parseInt(deleteButtons.get(i).getActionCommand()) - 1) + "");
 			
 			subPanels.remove(n);
 			validate();

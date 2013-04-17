@@ -91,7 +91,6 @@ public class ViewSimScreen extends Screen {
 			new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
-					gm.getFacade();
 					Simulator.newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
 					try {
 						gm.getFacade().setLayerExtremes();
@@ -222,7 +221,6 @@ public class ViewSimScreen extends Screen {
 
 	private void runSim() {
 		System.out.println("StepLimit = " + getGuiManager().getEnder().getStepLimit());
-		//program loop yay!
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

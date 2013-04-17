@@ -25,18 +25,13 @@ public class StatDisplayScreen extends Screen {
 	private static String DISPLAY_AVG_LIFESPAN_STR = "Average lifespan"; 
 	private static String DISPLAY_POP_OVER_TIME_STR = "Population over time";
 
-	
 	/**
 	 * Source of simulation statistics. 
 	 */
-	private StatisticsManager statMan; 
-
-	private JPanel displayPanel; 
-
-	private JComboBox prototypes; 
-
-	private JComboBox displayTypes; 
-
+	private StatisticsManager statMan;
+	private JPanel displayPanel;
+	private JComboBox prototypes;
+	private JComboBox displayTypes;
 	private JComboBox fields; 
 
 	/**
@@ -226,12 +221,12 @@ public class StatDisplayScreen extends Screen {
 			}
 			
 			private void paintPop(Graphics g) { 
-				String protName = (String) prototypes.getSelectedItem();
-				String fieldName = (String) fields.getSelectedItem();
-				double[] avgValues = statMan.getAvgFieldValue(protName, fieldName);
-				int[] extremes = getHighLowIndex(avgValues);
-				int maxIndex = extremes[0];
-				int minIndex = extremes[1];
+//				String protName = (String) prototypes.getSelectedItem();
+//				String fieldName = (String) fields.getSelectedItem();
+//				double[] avgValues = statMan.getAvgFieldValue(protName, fieldName);
+//				int[] extremes = getHighLowIndex(avgValues);
+//				int maxIndex = extremes[0];
+//				int minIndex = extremes[1];
 //				g.drawLine(2, 2, 40, 40);
 			}
 			

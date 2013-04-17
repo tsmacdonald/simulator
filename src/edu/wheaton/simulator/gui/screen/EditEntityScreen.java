@@ -345,9 +345,7 @@ public class EditEntityScreen extends Screen {
 		fieldNameLabel.setAlignmentX(LEFT_ALIGNMENT);
 		fieldMainPanel.add(fieldNameLabel, constraint);
 
-		constraint = new GridBagConstraints();
 		constraint.gridx = 1;
-		constraint.gridy = 1;
 		JLabel fieldValueLabel = Gui.makeLabel("Field Initial Value",new PrefSize(400,30),HorizontalAlignment.CENTER);
 		fieldValueLabel.setAlignmentX(LEFT_ALIGNMENT);
 		fieldMainPanel.add(fieldValueLabel, constraint);
@@ -365,7 +363,6 @@ public class EditEntityScreen extends Screen {
 
 	public void load(String str) {
 		reset();
-		getGuiManager().getFacade();
 		agent = Simulator.getPrototype(str);
 		nameField.setText(agent.getName());
 		colorTool.setColor(agent.getColor());

@@ -40,7 +40,6 @@ public class NewSimulationScreen extends Screen {
 		c.gridwidth = 4;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 50;
-
 		this.add(new JLabel(
 				"New Simulation",SwingConstants.CENTER), c);
 		
@@ -99,8 +98,8 @@ public class NewSimulationScreen extends Screen {
 		c.gridwidth = 4;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 40;
-		
 		this.add(buttonPanel, c);
+		
 		this.setVisible(true);
 	}
 

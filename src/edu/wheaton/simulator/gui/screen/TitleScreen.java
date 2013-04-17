@@ -60,6 +60,5 @@ public class TitleScreen extends Screen {
 
 	@Override
 	public void load() {
-		// Nothing to load
 	}
 }

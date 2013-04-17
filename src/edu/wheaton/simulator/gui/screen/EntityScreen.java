@@ -88,26 +88,19 @@ public class EntityScreen extends Screen {
 			Gui.makeButton("Add",null,
 				new AddListener()),c); 
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
-		c.gridy = 2;
 		this.add(edit, c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
-		c.gridy = 2;
 		this.add(delete, c);
 		
 		//The code between this comment and the next
-		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
-		c.gridy = 2;
 		this.add(
 			Gui.makeButton("Back",null,
 				new BackListener()),c);
 		
 		//will be removed once added to tabbed pane
-		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 4;
@@ -115,10 +108,7 @@ public class EntityScreen extends Screen {
 			Gui.makeLabel("Entities",new PrefSize(300, 100),HorizontalAlignment.CENTER), 
 			c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
 		c.gridy = 1;
-		c.gridwidth = 4;
 		this.add(entityList, c);
 	}
 	
