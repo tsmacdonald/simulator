@@ -177,7 +177,10 @@ public class ViewSimScreen extends Screen {
 							int width = grid.getWidth()/ScreenManager.getGUIwidth();
 							int standardSize = Math.min(width, height);
 							if(sm.getFacade().getGrid().emptyPos(x/standardSize, y/standardSize)){
-								sm.getFacade().spiralSpawn((entitiesScreen).getSelectedAgent(), x/standardSize, y/standardSize);
+								sm.getFacade().addAgent(agentComboBox.getSelectedItem().toString(), x/standardSize, y/standardSize);
+							}
+							else{
+								sm.getFacade().removeAgent(x/standardSize, y/standardSize);
 							}
 							grid.repaint();
 						}
