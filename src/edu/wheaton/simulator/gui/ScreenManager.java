@@ -202,6 +202,16 @@ public class ScreenManager {
 			}
 		}));
 		
+		menu.add(GuiUtility.makeMenuItem("Help Contents",new ActionListener(){
+			 
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(sm.d,
+					    "Wheaton College. Software Development 2013.\n Help Contents",
+					    "Help Contents",
+					    JOptionPane.PLAIN_MESSAGE);
+			}
+		}));
+		
 		return menu;
 	}
 }
