@@ -74,22 +74,24 @@ public class SaverTest {
 		
 		AgentSnapshot agentSnap2 = new AgentSnapshot(agentOther.getID(), 
 				SnapshotFactory.makeFieldSnapshots(agentOther.getCustomFieldMap()), 
-				step, prototypeTwo.getName(), null, 0, 0);  
+				step, prototypeTwo.getName(), null, 0, 0);
 		
 		//Create the table, add two AgentSnapshots
 		AgentSnapshotTable table = new AgentSnapshotTable();
 		table.putEntity(agentSnap1); 
 		table.putEntity(agentSnap2); 
 		
+		//Create the list of TriggerSnapshots
+		
 		// Create two PrototypeSnapshots
 		PrototypeSnapshot protoSnapAlpha = new PrototypeSnapshot(prototypeOne.getName(), 
 				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), prototypeOne.childPopulation(),
-				prototypeOne.childIDs(), step, new Color(10, 10, 10), agent.getDesign());
+				prototypeOne.childIDs(), null, step, new Color(10, 10, 10), agent.getDesign());
 		Assert.assertNotNull("PrototypeSnapshot not created.", protoSnapAlpha);
 		
 		PrototypeSnapshot protoSnapBeta = new PrototypeSnapshot(prototypeTwo.getName(), 
 				SnapshotFactory.makeFieldSnapshots(agentOther.getCustomFieldMap()), prototypeTwo.childPopulation(),
-				prototypeTwo.childIDs(), step, new Color(10, 10, 10), agentOther.getDesign());
+				prototypeTwo.childIDs(), null, step, new Color(10, 10, 10), agentOther.getDesign());
 		Assert.assertNotNull("PrototypeSnapshot not created.", protoSnapAlpha);
 		
 		// Creating a HashMap of PrototypeSnapshots
@@ -98,7 +100,7 @@ public class SaverTest {
 		protoMap.put("PrototypeSnapshot Beta", protoSnapBeta);
 		Assert.assertTrue("protoMap has values", !protoMap.isEmpty());
 		
-		Saver s = new Saver(table, protoMap);
+		Saver s = new Saver(table, protoMap, grid.getWidth(), grid.getHeight());
 		s.save();
 	}
 }

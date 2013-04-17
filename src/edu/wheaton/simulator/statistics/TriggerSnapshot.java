@@ -1,7 +1,6 @@
 package edu.wheaton.simulator.statistics;
 
 import edu.wheaton.simulator.entity.AgentID;
-import edu.wheaton.simulator.expression.Expression;
 
 
 /**
