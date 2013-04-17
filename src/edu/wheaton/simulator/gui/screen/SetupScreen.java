@@ -219,7 +219,7 @@ public class SetupScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		nameField.setText(getGuiManager().getNameOfSim());
+		nameField.setText(getGuiManager().getSimName());
 		updateBox.setSelectedItem(getGuiManager().getSim().currentUpdater());
 
 		SimulationEnder se = getGuiManager().getEnder();

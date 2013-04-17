@@ -31,7 +31,7 @@ public class RockPaperScissorsFinishListener implements ActionListener {
 			try {
 				int heightInt = getHeight();
 				int widthInt = getWidth();
-				gm.setSim(widthInt, heightInt);
+				gm.setSim(name.getText(),widthInt, heightInt);
 				gm.updateGUIManager(getName(), widthInt, heightInt);
 			} catch(java.lang.NumberFormatException nfe) { 
 				System.err.println("Invalid input passed to RockPaperScissorsListener");

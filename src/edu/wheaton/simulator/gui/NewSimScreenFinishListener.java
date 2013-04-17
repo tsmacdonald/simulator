@@ -25,7 +25,7 @@ public class NewSimScreenFinishListener implements ActionListener {
 		try {
 			int heightInt = getHeight();
 			int widthInt = getWidth();
-			gm.setSim(widthInt, heightInt);
+			gm.setSim(name.getText(),widthInt, heightInt);
 			gm.updateGUIManager(getName(), widthInt, heightInt);
 			gm.getEnder().setStepLimit(1000);
 		} catch(java.lang.NumberFormatException nfe) { 

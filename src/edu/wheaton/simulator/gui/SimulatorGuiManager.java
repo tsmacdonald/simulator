@@ -53,6 +53,7 @@ public class SimulatorGuiManager {
 		spawnConditions = new ArrayList<SpawnCondition>();
 		startTime = 0;
 		canSpawn = true;
+		setSim("New Simulation",10, 10);
 		sm = new ScreenManager(d);
 		sm.putScreen("Title", new TitleScreen(this));
 		sm.putScreen("New Simulation", new NewSimulationScreen(this));
@@ -87,8 +88,8 @@ public class SimulatorGuiManager {
 	}
 
 	 
-	public void setSim(int x, int y) {
-		simulator = new Simulator("name",x, y);
+	public void setSim(String name,int x, int y) {
+		simulator = new Simulator(name,x, y);
 	}
 	
 	 
@@ -106,7 +107,7 @@ public class SimulatorGuiManager {
 	}
 	
 	public String getSimName(){
-		return getNameOfSim();
+		return getSim().getName();
 	}
 	 
 	public void updateGUIManager(String nos, int width, int height){
@@ -195,15 +196,6 @@ public class SimulatorGuiManager {
 		}));
 		
 		return menu;
-	}
-
-	
-	public String getNameOfSim(){
-		return getSim().getName();
-	}
-	
-	public void setNameOfSim(String nos){
-		getSim().setName(nos);
 	}
 	
 	public int getGridHeight(){
