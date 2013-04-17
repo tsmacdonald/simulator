@@ -8,7 +8,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.entity.AgentID;
-import edu.wheaton.simulator.entity.Trigger;
 
 /**
  * Represents a category of agent at a particular moment in time.

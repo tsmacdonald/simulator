@@ -46,7 +46,6 @@ public class AgentSnapshotCase {
 			agent.addField("Monkey", "Olly");
 			agent.addField("Cat", "Joomba");
 		} catch (ElementAlreadyContainedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		step = new Integer(23);
