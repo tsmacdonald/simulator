@@ -39,6 +39,11 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * Observers to watch the grid
 	 */
 	private Set<GridObserver> observers;
+	
+	/**
+	 * Number of iterations performed
+	 */
+	private int step;
 
 	/**
 	 * Constructor. Creates a grid with the given width and height
@@ -59,6 +64,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 		grid = new Agent[getHeight()][getWidth()];
 		updater = new LinearUpdater(this);
 		observers = new HashSet<GridObserver>();
+		step = 0;
 	}
 
 	/**
@@ -107,6 +113,16 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	public void updateEntities() throws SimulationPauseException {
 		updater.update();
+		step++;
+	}
+	
+	/**
+	 * Provides the iteration number
+	 * 
+	 * @return the grid step
+	 */
+	public int getStep() {
+		return step;
 	}
 
 	/**

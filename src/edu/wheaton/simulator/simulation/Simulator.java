@@ -441,11 +441,16 @@ public class Simulator implements Runnable {
 	public void removeGlobalField(String name) {
 		grid.removeField(name);
 	}
-
+	
 	/**
-	 * TODO Are we ensuring that each trigger's priority will be unique? Or
-	 * should we use names instead to keep track of them in the hashmap? That
-	 * might run into fewer issue while editing (possibility of changing
-	 * priorities of the same trigger)
+	 * Loads a simulation from a grid and prototypes
+	 * 
+	 * @param grid
+	 * @param prototypes
 	 */
+	public void load(Grid grid, Set<Prototype> prototypes) {
+		this.grid = grid;
+		for(Prototype current : prototypes)
+			Prototype.addPrototype(current);
+	}
 }
