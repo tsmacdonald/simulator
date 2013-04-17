@@ -19,6 +19,8 @@ import edu.wheaton.simulator.statistics.SnapshotFactory;
 @RunWith(JUnit4.class)
 public class SerializerTest {
 	
+	// TODO Delete class.
+	
 	String s;
 	Agent agent;
 	Grid grid;

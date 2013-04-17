@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Serializer {
+	
+	// TODO Delete class.
 
 	public static StringBuilder serializer(String serializable) {
 		StringBuilder sb = null;
