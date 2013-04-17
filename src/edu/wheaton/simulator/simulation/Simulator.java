@@ -40,7 +40,7 @@ public class Simulator implements Runnable {
 	 * Name of the simulator
 	 */
 	private String name;
-	
+
 	/**
 	 * The Grid to hold all the Agents
 	 */
@@ -64,11 +64,12 @@ public class Simulator implements Runnable {
 	 */
 	public Simulator(String name, int gridX, int gridY) {
 		this.name = name;
-		Prototype.clearPrototypes();
+		sleepPeriod = 500;
 		grid = new Grid(gridX, gridY);
+		Prototype.clearPrototypes();
 		StatisticsManager.getInstance().initialize(grid);
 	}
-	
+
 	/**
 	 * Provides this simulator's name
 	 * 
@@ -123,13 +124,22 @@ public class Simulator implements Runnable {
 	}
 
 	/**
+	 * Provides the time (in milliseconds) the simulator waits after each step
+	 * 
+	 * @return
+	 */
+	public int getSleepPeriod() {
+		return sleepPeriod;
+	}
+
+	/**
 	 * Adds the some sample prototypes
 	 */
 	public void initSamples() {
 		new Multiplier().initSampleAgent(new Prototype(grid, Color.BLUE,
 				"Multiplier"));
 		new Bouncer()
-		.initSampleAgent(new Prototype(grid, Color.RED, "bouncer"));
+				.initSampleAgent(new Prototype(grid, Color.RED, "bouncer"));
 		new RightTurner().initSampleAgent(new Prototype(grid, Color.BLACK,
 				"rightTurner"));
 		new Confuser().initSampleAgent(new Prototype(grid, Color.GREEN,
@@ -472,7 +482,7 @@ public class Simulator implements Runnable {
 			grid.addField(name, startingValue);
 		} catch (ElementAlreadyContainedException e) {
 			System.out
-			.println("Problem adding a global field. Name already in the map. Exiting.");
+					.println("Problem adding a global field. Name already in the map. Exiting.");
 			e.printStackTrace();
 			System.exit(1);
 		}
@@ -487,7 +497,7 @@ public class Simulator implements Runnable {
 	public void removeGlobalField(String name) {
 		grid.removeField(name);
 	}
-	
+
 	/**
 	 * Changes the size of the grid
 	 * 
@@ -511,6 +521,5 @@ public class Simulator implements Runnable {
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
 	}
-	
-	
+
 }
