@@ -97,9 +97,9 @@ public class StatisticsScreen extends Screen {
 			for(int i = 0; i < popVsTime.length; i++)
 				timePop[i] = new Object[]{i, popVsTime[i]};
 
-			String[] labels = {"Population", "Time"};
-			JTable jt = new JTable(timePop, labels);
-			populationCard.add(jt);
+			populationCard.add(new JTable(timePop, 
+				new String[]{"Population", "Time"})
+			);
 		}
 
 		//COMING SOON: Average Field Table Statistics
@@ -127,23 +127,13 @@ public class StatisticsScreen extends Screen {
 		//		this.add(label, BorderLayout.NORTH);
 		
 		//TODO MAJOR figure out how to make a graph or something!!
-		JPanel graphPanel = new JPanel();
-		graphPanel.add(new JLabel("Graph object goes here"));
 		
 		cardSelector = makeCardSelector(boxItems,dataPanel);
 		
-		JPanel boxPanel = new JPanel();
-		boxPanel.add(cardSelector);
-		
-		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-		mainPanel.add(graphPanel);
-		mainPanel.add(boxPanel);
-		mainPanel.add(dataPanel);
-		
-		mainPanel.add(Gui.makePanel(
-				makeDisplayButton(), makeFinishButton()));
-		
-		this.add(mainPanel);
+		this.add(Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null,
+				Gui.makePanel(new JLabel("Graph object goes here")),
+				Gui.makePanel(cardSelector),dataPanel,Gui.makePanel(
+				makeDisplayButton(), makeFinishButton())));
 	}
 	
 	private JButton makeDisplayButton(){
