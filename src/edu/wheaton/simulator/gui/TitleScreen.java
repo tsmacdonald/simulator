@@ -21,8 +21,8 @@ public class TitleScreen extends Screen {
 
 	private static final long serialVersionUID = 4901621402376078633L;
 
-	public TitleScreen(ScreenManager sm) {
-		super(sm);
+	public TitleScreen(SimulatorGuiManager gm) {
+		super(gm);
 		this.setLayout(new GridBagLayout());
 		
 		initLabel();
@@ -52,7 +52,7 @@ public class TitleScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = GridBagConstraints.RELATIVE;
 		
-		JButton button = GuiUtility.makeButton(buttonName,new GeneralButtonListener(listenerName, sm));
+		JButton button = GuiUtility.makeButton(buttonName,new GeneralButtonListener(listenerName, gm.getScreenManager()));
 		button.setAlignmentX(CENTER_ALIGNMENT);
 		button.setMinimumSize(new Dimension(200, 70));
 		button.setPreferredSize(new Dimension(200, 70));

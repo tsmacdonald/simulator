@@ -8,9 +8,9 @@ public class GeneralButtonListener implements ActionListener {
 	private String screenName;
 	private ScreenManager sm;
 
-	public GeneralButtonListener(String screenName, ScreenManager sm) {
+	public GeneralButtonListener(String screenName, ScreenManager screenManager) {
 		this.screenName = screenName;
-		this.sm = sm;
+		this.sm = screenManager;
 	}
 
 	@Override

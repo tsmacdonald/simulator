@@ -58,8 +58,8 @@ public class SpawningScreen extends Screen {
 	 */
 	private static final long serialVersionUID = 6312784326472662829L;
 
-	public SpawningScreen(final ScreenManager sm) {
-		super(sm);
+	public SpawningScreen(final SimulatorGuiManager gm) {
+		super(gm);
 		this.setLayout(new BorderLayout());
 		entities = new String[0];
 		JLabel label = GuiUtility.makeLabel("Spawning",new PrefSize(300, 150),HorizontalAlignment.CENTER);
@@ -120,7 +120,7 @@ public class SpawningScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Edit Simulation")); 
+						gm.getScreenManager().update(gm.getScreenManager().getScreen("Edit Simulation")); 
 					} 
 				});
 		JButton finishButton = GuiUtility.makeButton("Finish",
@@ -135,19 +135,19 @@ public class SpawningScreen extends Screen {
 									throw new Exception("Coordinates and numbers must be integers greater at least 0");
 								}
 							}
-							ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
+							ArrayList<SpawnCondition> conditions = gm.getSpawnConditions();
 							conditions.clear();
 							for (int i = 0; i < entityTypes.size(); i++) {
-								sm.getFacade();
+								gm.getFacade();
 								SpawnCondition condition = new SpawnCondition(Simulator.getPrototype(
 										((String) entityTypes.get(i).getSelectedItem())),
 										Integer.parseInt(xLocs.get(i).getText()), 
 										Integer.parseInt(yLocs.get(i).getText()), 
 										Integer.parseInt(numbers.get(i).getText()),
 										(String) spawnPatterns.get(i).getSelectedItem());
-								sm.getSpawnConditions().add(condition);
+								gm.getSpawnConditions().add(condition);
 							}
-							sm.update(sm.getScreen("Edit Simulation"));
+							gm.getScreenManager().update(gm.getScreenManager().getScreen("Edit Simulation"));
 						}
 						catch (NumberFormatException excep) {
 							JOptionPane.showMessageDialog(null,
@@ -180,9 +180,9 @@ public class SpawningScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		sm.getFacade();
+		gm.getFacade();
 		entities = Simulator.prototypeNames().toArray(entities);
-		ArrayList<SpawnCondition> spawnConditions = sm.getSpawnConditions(); 
+		ArrayList<SpawnCondition> spawnConditions = gm.getSpawnConditions(); 
 
 		for (int i = 0; i < spawnConditions.size(); i++) { 
 			addSpawn();

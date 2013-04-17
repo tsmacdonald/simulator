@@ -14,7 +14,7 @@ public class GridPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 6168906849044462629L;
 
-	private ScreenManager sm;
+	private SimulatorGuiManager gm;
 
 	private int width;
 
@@ -26,8 +26,8 @@ public class GridPanel extends JPanel {
 	
 	private boolean layers;
 
-	public GridPanel(ScreenManager sm) {
-		this.sm = sm;
+	public GridPanel(SimulatorGuiManager gm) {
+		this.gm = gm;
 		layers = false;
 	}
 
@@ -36,8 +36,8 @@ public class GridPanel extends JPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		gridWidth = ScreenManager.getGUIwidth();
-		gridHeight = ScreenManager.getGUIheight();
+		gridWidth = SimulatorGuiManager.getGUIwidth();
+		gridHeight = SimulatorGuiManager.getGUIheight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
@@ -63,8 +63,8 @@ public class GridPanel extends JPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		gridWidth = ScreenManager.getGUIwidth();
-		gridHeight = ScreenManager.getGUIheight();
+		gridWidth = SimulatorGuiManager.getGUIwidth();
+		gridHeight = SimulatorGuiManager.getGUIheight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
@@ -73,7 +73,7 @@ public class GridPanel extends JPanel {
 		
 		if(layers) {
 			try {
-				sm.getFacade().setLayerExtremes();
+				gm.getFacade().setLayerExtremes();
 			} catch (EvaluationException e) {
 				e.printStackTrace();
 			}
@@ -81,7 +81,7 @@ public class GridPanel extends JPanel {
 		
 		for (int x = 0; x < gridWidth; x++) {
 			for (int y = 0; y < gridHeight; y++) {
-				Agent agent = sm.getFacade().getAgent(x, y);
+				Agent agent = gm.getFacade().getAgent(x, y);
 				if(agent != null) {
 					if(layers){
 						try {
@@ -118,8 +118,8 @@ public class GridPanel extends JPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		gridWidth = ScreenManager.getGUIwidth();
-		gridHeight = ScreenManager.getGUIheight();
+		gridWidth = SimulatorGuiManager.getGUIwidth();
+		gridHeight = SimulatorGuiManager.getGUIheight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;

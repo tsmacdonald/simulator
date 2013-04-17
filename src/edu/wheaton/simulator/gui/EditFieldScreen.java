@@ -33,8 +33,8 @@ public class EditFieldScreen extends Screen {
 
 	private String prevName;
 
-	public EditFieldScreen(final ScreenManager sm) {
-		super(sm);
+	public EditFieldScreen(final SimulatorGuiManager gm) {
+		super(gm);
 		this.setLayout(new BorderLayout());
 		JLabel label = GuiUtility.makeLabel("Edit Field",new PrefSize(300, 150),HorizontalAlignment.CENTER);
 		
@@ -51,7 +51,7 @@ public class EditFieldScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						sm.update(sm.getScreen("Fields")); 
+						gm.getScreenManager().update(gm.getScreenManager().getScreen("Fields")); 
 					} 
 				}
 				);
@@ -85,14 +85,14 @@ public class EditFieldScreen extends Screen {
 		//edit listener should call this?
 		reset();
 		nameField.setText(n);
-		initValue.setText(sm.getFacade().getGlobalField(n).getValue());
+		initValue.setText(gm.getFacade().getGlobalField(n).getValue());
 		prevName = n;
 	}
 
 	@Override
 	public void load() {
 		//What is this here for?
-		//GUIToAgentFacade facade = sm.getFacade();
+		//GUIToAgentFacade facade = gm.getFacade();
 		//facade.getPrototype(nameField.getText());
 		//add listener should call this
 		reset();
@@ -108,19 +108,19 @@ public class EditFieldScreen extends Screen {
 					throw new Exception("All fields must have input");
 				}
 				if (FieldScreen.getEditing()){
-					sm.getFacade().removeGlobalField(prevName);
-					sm.getFacade().addGlobalField(nameField.getText(), initValue.getText());
+					gm.getFacade().removeGlobalField(prevName);
+					gm.getFacade().addGlobalField(nameField.getText(), initValue.getText());
 				}
 				else{
-					sm.getFacade().addGlobalField(nameField.getText(), initValue.getText());
+					gm.getFacade().addGlobalField(nameField.getText(), initValue.getText());
 				}
 			} catch (Exception e) {
 				toMove = false;
 				JOptionPane.showMessageDialog(null, e.getMessage());
 			}
 			if(toMove) {
-				sm.getScreen("Fields").load();
-				sm.update(sm.getScreen("Fields"));
+				gm.getScreenManager().getScreen("Fields").load();
+				gm.getScreenManager().update(gm.getScreenManager().getScreen("Fields"));
 				//TODO should not switch screens if the error message was shown.
 			}
 

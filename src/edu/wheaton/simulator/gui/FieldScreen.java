@@ -48,8 +48,8 @@ public class FieldScreen extends Screen {
 
 	//TODO prevent clicking edit when no object is selected 
 
-	public FieldScreen(final ScreenManager sm) {
-		super(sm);
+	public FieldScreen(final SimulatorGuiManager gm) {
+		super(gm);
 		editing = false;
 		JLabel label = GuiUtility.makeLabel("Fields",new PrefSize(300, 100),HorizontalAlignment.CENTER);
 		
@@ -73,20 +73,20 @@ public class FieldScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent ae){
 				FieldScreen.setEditing(false);
-				sm.getScreen("Edit Fields").load();
-				sm.update(sm.getScreen("Edit Fields"));
+				gm.getScreenManager().getScreen("Edit Fields").load();
+				gm.getScreenManager().update(gm.getScreenManager().getScreen("Edit Fields"));
 			}
 		});
 		edit = GuiUtility.makeButton("Edit",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				FieldScreen.setEditing(true);
-				((EditFieldScreen) sm.getScreen("Edit Fields")).load((String) fields.getSelectedValue());
-				sm.update(sm.getScreen("Edit Fields"));
+				((EditFieldScreen) gm.getScreenManager().getScreen("Edit Fields")).load((String) fields.getSelectedValue());
+				gm.getScreenManager().update(gm.getScreenManager().getScreen("Edit Fields"));
 			}
 		});
 		JButton back = GuiUtility.makeButton("Back",
-				new GeneralButtonListener("View Simulation", sm));
+				new GeneralButtonListener("View Simulation", gm.getScreenManager()));
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(add);
 		buttonPanel.add(Box.createHorizontalStrut(5));
@@ -108,7 +108,7 @@ public class FieldScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		Map<String, String> map = sm.getFacade().getGrid().getCustomFieldMap();
+		Map<String, String> map = gm.getFacade().getGrid().getCustomFieldMap();
 		Object[] fieldsA = map.keySet().toArray();
 		for(Object s: fieldsA){
 			System.out.println((String) s);
@@ -122,8 +122,8 @@ public class FieldScreen extends Screen {
 	private class ListListener implements ListSelectionListener {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			edit.setEnabled(sm.hasStarted() ? false : true); 
-			delete.setEnabled(sm.hasStarted() ? false : true); 
+			edit.setEnabled(gm.hasStarted() ? false : true); 
+			delete.setEnabled(gm.hasStarted() ? false : true); 
 		}
 	}
 
@@ -140,7 +140,7 @@ public class FieldScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = fields.getSelectedIndex();
-			sm.getFacade().removeGlobalField((String)fields.getSelectedValue());
+			gm.getFacade().removeGlobalField((String)fields.getSelectedValue());
 			listModel.remove(index);
 			int size = listModel.getSize();
 			if(size == 0) {

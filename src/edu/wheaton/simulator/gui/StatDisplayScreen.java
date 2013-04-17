@@ -41,10 +41,10 @@ public class StatDisplayScreen extends Screen {
 	/**
 	 * Constructor. 
 	 * Make the screen. 
-	 * @param sm ScreenManager. 
+	 * @param gm ScreenManager. 
 	 */
-	public StatDisplayScreen(ScreenManager sm) {
-		super(sm);
+	public StatDisplayScreen(SimulatorGuiManager gm) {
+		super(gm);
 		//Setup GridBagLayout & demensions.
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{69, 81, 0, 0, 0, 0};
@@ -149,8 +149,8 @@ public class StatDisplayScreen extends Screen {
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sm.getScreen("View Simulation").load();
-				sm.update(sm.getScreen("View Simulation"));
+				gm.getScreenManager().getScreen("View Simulation").load();
+				gm.getScreenManager().update(gm.getScreenManager().getScreen("View Simulation"));
 			}
 		});
 	}

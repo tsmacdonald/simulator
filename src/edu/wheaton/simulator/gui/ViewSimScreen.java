@@ -38,7 +38,7 @@ public class ViewSimScreen extends Screen {
 
 	private static final long serialVersionUID = -6872689283286800861L;
 
-	private ScreenManager sm;
+	private SimulatorGuiManager gm;
 
 	private GridPanel grid;
 
@@ -58,12 +58,12 @@ public class ViewSimScreen extends Screen {
 
 	private JPanel layerPanelLayers;
 
-	public ViewSimScreen(final ScreenManager sm) {
-		super(sm);
+	public ViewSimScreen(final SimulatorGuiManager gm) {
+		super(gm);
 		canSpawn = true;
 		entities = new String[0];
 		this.setLayout(new BorderLayout());
-		this.sm = sm;
+		this.gm = gm;
 		//gridRec = new SimulationRecorder(sm.getStatManager());
 		stepCount = 0;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
@@ -80,10 +80,10 @@ public class ViewSimScreen extends Screen {
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				sm.getFacade();
+				gm.getFacade();
 				Simulator.newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
 				try {
-					sm.getFacade().setLayerExtremes();
+					gm.getFacade().setLayerExtremes();
 				} catch (EvaluationException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -126,7 +126,7 @@ public class ViewSimScreen extends Screen {
 
 		JPanel colorPanel = GuiUtility.makeColorChooserPanel(colorTool);
 
-		grid = new GridPanel(sm);
+		grid = new GridPanel(gm);
 		grid.setAlignmentY(CENTER_ALIGNMENT);
 		grid.addMouseListener(
 				new MouseListener() {
@@ -136,14 +136,14 @@ public class ViewSimScreen extends Screen {
 						if(canSpawn){
 							int x = me.getX();
 							int y = me.getY();
-							int height = grid.getHeight()/ScreenManager.getGUIheight();
-							int width = grid.getWidth()/ScreenManager.getGUIwidth();
+							int height = grid.getHeight()/SimulatorGuiManager.getGUIheight();
+							int width = grid.getWidth()/SimulatorGuiManager.getGUIwidth();
 							int standardSize = Math.min(width, height);
-							if(sm.getFacade().getAgent(x/standardSize, y/standardSize) == null){
-								sm.getFacade().spiralSpawn(agentComboBox.getSelectedItem().toString(), x/standardSize, y/standardSize);
+							if(gm.getFacade().getAgent(x/standardSize, y/standardSize) == null){
+								gm.getFacade().spiralSpawn(agentComboBox.getSelectedItem().toString(), x/standardSize, y/standardSize);
 							}
 							else{
-								sm.getFacade().removeAgent(x/standardSize, y/standardSize);
+								gm.getFacade().removeAgent(x/standardSize, y/standardSize);
 							}
 							grid.repaint();
 						}
@@ -190,7 +190,7 @@ public class ViewSimScreen extends Screen {
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sm.setRunning(false);
+				gm.setRunning(false);
 				//add if loop for tabbed pane once implemented
 				canSpawn = true;
 			}
@@ -198,10 +198,10 @@ public class ViewSimScreen extends Screen {
 				));
 
 		//TODO most of these will become tabs, adding temporarily for navigation purposes
-		buttonPanel.add(GuiUtility.makeButton("Entities", new GeneralButtonListener("Entities", sm)));
-		buttonPanel.add(GuiUtility.makeButton("Global Fields", new GeneralButtonListener("Fields", sm)));
-		buttonPanel.add(GuiUtility.makeButton("Setup options", new GeneralButtonListener("Grid Setup", sm)));
-		buttonPanel.add(GuiUtility.makeButton("Statistics", new GeneralButtonListener("Statistics", sm)));
+		buttonPanel.add(GuiUtility.makeButton("Entities", new GeneralButtonListener("Entities", gm.getScreenManager())));
+		buttonPanel.add(GuiUtility.makeButton("Global Fields", new GeneralButtonListener("Fields", gm.getScreenManager())));
+		buttonPanel.add(GuiUtility.makeButton("Setup options", new GeneralButtonListener("Grid Setup", gm.getScreenManager())));
+		buttonPanel.add(GuiUtility.makeButton("Statistics", new GeneralButtonListener("Statistics", gm.getScreenManager())));
 		return buttonPanel;
 	}
 
@@ -209,16 +209,16 @@ public class ViewSimScreen extends Screen {
 		JButton b = GuiUtility.makeButton("Start/Resume",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!sm.hasStarted()) {
-					ArrayList<SpawnCondition> conditions = sm.getSpawnConditions();
+				if (!gm.hasStarted()) {
+					ArrayList<SpawnCondition> conditions = gm.getSpawnConditions();
 					for (SpawnCondition condition: conditions) {
-						condition.addToGrid(sm.getFacade());
+						condition.addToGrid(gm.getFacade());
 						System.out.println("spawning a condition");
 					}
 				}
 				grid.repaint();
-				sm.setRunning(true);
-				sm.setStarted(true);
+				gm.setRunning(true);
+				gm.setStarted(true);
 				canSpawn = false;
 				startTime = System.currentTimeMillis();
 				if (stepCount == 0) {
@@ -232,29 +232,29 @@ public class ViewSimScreen extends Screen {
 	}
 
 	private void runSim() {
-		System.out.println("StepLimit = " + sm.getEnder().getStepLimit());
+		System.out.println("StepLimit = " + gm.getEnder().getStepLimit());
 		//program loop yay!
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				while(sm.isRunning()) {
+				while(gm.isRunning()) {
 					try {
-						sm.getFacade().updateEntities();
+						gm.getFacade().updateEntities();
 					} catch (SimulationPauseException e) {
-						sm.setRunning(false);
+						gm.setRunning(false);
 						JOptionPane.showMessageDialog(null, e.getMessage());
 						break;
 					}
 					long currentTime = System.currentTimeMillis();
-					//gridRec.recordSimulationStep(sm.getFacade().getGrid(), stepCount, Prototype.getPrototypes());
+					//gridRec.recordSimulationStep(gm.getFacade().getGrid(), stepCount, Prototype.getPrototypes());
 					//gridRec.updateTime(currentTime, currentTime - startTime);
 					startTime = currentTime;
 					stepCount++;
-					boolean shouldEnd = sm.getEnder().evaluate(stepCount, 
-							sm.getFacade().getGrid());
+					boolean shouldEnd = gm.getEnder().evaluate(stepCount, 
+							gm.getFacade().getGrid());
 					System.out.println("shouldEnd = " + shouldEnd);
 					if (shouldEnd) {
-						sm.setRunning(false);
+						gm.setRunning(false);
 					}
 
 					SwingUtilities.invokeLater(
@@ -280,14 +280,14 @@ public class ViewSimScreen extends Screen {
 
 	@Override
 	public void load() {
-		sm.getFacade();
+		gm.getFacade();
 		entities = Simulator.prototypeNames().toArray(entities);
 		agentComboBox = new JComboBox(entities);
 		agentComboBox.addItemListener(
 				new ItemListener() {
 					@Override
 					public void itemStateChanged(ItemEvent e) {
-						sm.getFacade();
+						gm.getFacade();
 						layerComboBox = new JComboBox(Simulator.getPrototype
 								(agentComboBox.getSelectedItem().toString())
 								.getCustomFieldMap().keySet().toArray());
@@ -300,7 +300,7 @@ public class ViewSimScreen extends Screen {
 				}
 				);
 		if(entities.length != 0){
-			sm.getFacade();
+			gm.getFacade();
 			layerComboBox = new JComboBox(Simulator.getPrototype
 					(agentComboBox.getItemAt(0).toString())
 					.getCustomFieldMap().keySet().toArray());

@@ -91,8 +91,8 @@ public class EditEntityScreen extends Screen {
 
 	private GridBagConstraints c;
 
-	public EditEntityScreen(final ScreenManager sm) {
-		super(sm);
+	public EditEntityScreen(final SimulatorGuiManager gm) {
+		super(gm);
 		this.setLayout(new BorderLayout());
 
 		removedFields = new HashSet<Integer>();
@@ -237,7 +237,7 @@ public class EditEntityScreen extends Screen {
 		lowerPanel.add(GuiUtility.makeButton("Cancel",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sm.update(sm.getScreen("Entities"));
+				gm.getScreenManager().update(gm.getScreenManager().getScreen("Entities"));
 				if (!editing) {
 					Prototype.removePrototype(nameField.getText());
 				}
@@ -249,7 +249,7 @@ public class EditEntityScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (xThis.sendInfo()) {
-					sm.update(sm.getScreen("View Simulation"));
+					gm.getScreenManager().update(gm.getScreenManager().getScreen("View Simulation"));
 					xThis.reset();
 				}
 			}
@@ -374,7 +374,7 @@ public class EditEntityScreen extends Screen {
 
 	public void load(String str) {
 		reset();
-		sm.getFacade();
+		gm.getFacade();
 		agent = Simulator.getPrototype(str);
 		nameField.setText(agent.getName());
 		colorTool.setColor(agent.getColor());
@@ -450,10 +450,10 @@ public class EditEntityScreen extends Screen {
 
 	public void sendGeneralInfo(){
 		if (!editing) {
-			sm.getFacade();
+			gm.getFacade();
 			Simulator.createPrototype(nameField.getText(),
-					sm.getFacade().getGrid(), colorTool.getColor(),	generateBytes());
-			sm.getFacade();
+					gm.getFacade().getGrid(), colorTool.getColor(),	generateBytes());
+			gm.getFacade();
 			agent = Simulator.getPrototype(nameField.getText());
 		}
 		else {

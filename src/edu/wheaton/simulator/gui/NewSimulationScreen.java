@@ -22,8 +22,8 @@ public class NewSimulationScreen extends Screen {
 
 	private JTextField width;
 
-	public NewSimulationScreen(ScreenManager sm) {
-		super(sm);
+	public NewSimulationScreen(SimulatorGuiManager gm) {
+		super(gm);
 		this.setLayout(new GridBagLayout());
 
 		initLabel();
@@ -107,12 +107,12 @@ public class NewSimulationScreen extends Screen {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(3,1));
 		
-		JButton newSimButton = GuiUtility.makeButton("Blank Simulation",new NewSimScreenFinishListener(name, width, height, sm));
+		JButton newSimButton = GuiUtility.makeButton("Blank Simulation",new NewSimScreenFinishListener(name, width, height, gm));
 		newSimButton.setPreferredSize(new Dimension(120, 40));
 		//These simulation forms should eventually be loaded through normal serialization process
-		JButton conwayButton = GuiUtility.makeButton("Conway's Game of Life",new ConwayFinishListener(name, width, height, sm));
+		JButton conwayButton = GuiUtility.makeButton("Conway's Game of Life",new ConwayFinishListener(name, width, height, gm));
 		conwayButton.setPreferredSize(new Dimension(120, 40));
-		JButton rpsButton = GuiUtility.makeButton("Rock Paper Scissors",new RockPaperScissorsFinishListener(name, width, height, sm));
+		JButton rpsButton = GuiUtility.makeButton("Rock Paper Scissors",new RockPaperScissorsFinishListener(name, width, height, gm));
 		rpsButton.setPreferredSize(new Dimension(120, 40));
 		
 		buttonPanel.add(newSimButton);

@@ -42,8 +42,8 @@ public class EntityScreen extends Screen {
 	
 	private JButton edit;
 	
-	public EntityScreen(final ScreenManager sm) {
-		super(sm);
+	public EntityScreen(final SimulatorGuiManager gm) {
+		super(gm);
 		JLabel label = GuiUtility.makeLabel("Entities",new PrefSize(300, 100),HorizontalAlignment.CENTER);
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -59,22 +59,22 @@ public class EntityScreen extends Screen {
 		entityList.addListSelectionListener( new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent le){
-					edit.setEnabled(!sm.hasStarted());
+					edit.setEnabled(!gm.hasStarted());
 			}
 		});
 		delete = GuiUtility.makeButton("Delete",new DeleteListener());
-		JButton add = GuiUtility.makeButton("Add",new AddListener(sm));
-		edit = GuiUtility.makeButton("Edit",new EditListener(sm));
+		JButton add = GuiUtility.makeButton("Add",new AddListener(gm.getScreenManager()));
+		edit = GuiUtility.makeButton("Edit",new EditListener(gm.getScreenManager()));
 		edit.setEnabled(false);
 		entityList.addListSelectionListener(
 				new ListSelectionListener() {
 					@Override
 					public void valueChanged(ListSelectionEvent e) {
-						edit.setEnabled(!sm.hasStarted());
+						edit.setEnabled(!gm.hasStarted());
 					}
 				}
 				);
-		JButton back = GuiUtility.makeButton("Back",new BackListener(sm));
+		JButton back = GuiUtility.makeButton("Back",new BackListener(gm.getScreenManager()));
 
 		//formatting needs a little work but this is now in GridBagLayout 
 		
@@ -116,8 +116,8 @@ public class EntityScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		delete.setEnabled(sm.hasStarted() ? false : true); 
-		sm.getFacade();
+		delete.setEnabled(gm.hasStarted() ? false : true); 
+		gm.getFacade();
 		Set<String> entities = Simulator.prototypeNames();
 		for (String s : entities) {
 			listModel.addElement(s);
@@ -149,8 +149,8 @@ public class EntityScreen extends Screen {
 		
 		private ScreenManager sm;
 		
-		public AddListener(ScreenManager sm){
-			this.sm = sm;
+		public AddListener(ScreenManager screenManager){
+			this.sm = screenManager;
 		}
 		
 		@Override
@@ -166,8 +166,8 @@ public class EntityScreen extends Screen {
 		
 		private ScreenManager sm;
 		
-		public EditListener(ScreenManager sm) {
-			this.sm = sm;
+		public EditListener(ScreenManager screenManager) {
+			this.sm = screenManager;
 		}
 		
 		@Override
@@ -183,8 +183,8 @@ public class EntityScreen extends Screen {
 		
 		private ScreenManager sm;
 		
-		public BackListener(ScreenManager sm) {
-			this.sm = sm;
+		public BackListener(ScreenManager screenManager) {
+			this.sm = screenManager;
 		}
 		
 		@Override

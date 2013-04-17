@@ -54,10 +54,10 @@ public class StatisticsScreen extends Screen {
 	 */
 	private static final long serialVersionUID = 714636604315959167L;
 	//TODO fix layout of this screen	
-	public StatisticsScreen(final ScreenManager sm) {
-		super(sm);
+	public StatisticsScreen(final SimulatorGuiManager gm) {
+		super(gm);
 
-		statMan = sm.getStatManager();
+		statMan = gm.getStatManager();
 		
 		
 		this.setLayout(new BorderLayout());
@@ -97,8 +97,8 @@ public class StatisticsScreen extends Screen {
 		lifespanCard.add(lifeEntityBox);
 		
 		if(popEntityBox.getSelectedIndex() >= 0){
-			sm.getFacade();
-			int[] popVsTime = sm.getStatManager().getPopVsTime(Simulator.
+			gm.getFacade();
+			int[] popVsTime = gm.getStatManager().getPopVsTime(Simulator.
 					getPrototype(popEntityBox.getSelectedItem().toString())
 					.getName()
 					);
@@ -114,7 +114,7 @@ public class StatisticsScreen extends Screen {
 		//COMING SOON: Average Field Table Statistics
 
 		//		if(fieldEntityTypes.getSelectedIndex() >= 0){
-		//			double[] p = statMan.getAvgFieldValue((sm.getFacade().
+		//			double[] p = statMan.getAvgFieldValue((gm.getFacade().
 		//					getPrototype(popEntityTypes.getSelectedItem().toString())
 		//					.getPrototypeID()), (String) agentFieldsBox.getSelectedItem()
 		//					);
@@ -180,7 +180,7 @@ public class StatisticsScreen extends Screen {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (cardSelector.getSelectedItem().equals(POPS_STR)) {
-							sm.getFacade();
+							gm.getFacade();
 							int[] pops = statMan.getPopVsTime(Simulator.
 														getPrototype((String)popEntityBox.getSelectedItem())
 														.getName());
@@ -193,7 +193,7 @@ public class StatisticsScreen extends Screen {
 						}
 						else if (cardSelector.getSelectedItem().equals(FIELDS_STR)) {
 							String s = (String)fieldEntityBox.getSelectedItem();
-							sm.getFacade();
+							gm.getFacade();
 							Prototype p = Simulator.getPrototype(s);
 							double[] vals = statMan.getAvgFieldValue(p.getName(),
 									((String)agentFieldsBoxes.get(s).getSelectedItem()));
@@ -205,7 +205,7 @@ public class StatisticsScreen extends Screen {
 							}
 						}
 						else {
-							sm.getFacade();
+							gm.getFacade();
 							Prototype p = Simulator.getPrototype((String)lifeEntityBox.getSelectedItem());
 							//TODO temporary solution to demonstrate compatibility
 							//getAvgLifespan returns NaN (not a number; 0 / 0 ?)
@@ -223,7 +223,7 @@ public class StatisticsScreen extends Screen {
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sm.update(sm.getScreen("View Simulation")); 
+				gm.getScreenManager().update(gm.getScreenManager().getScreen("View Simulation")); 
 			}
 		});
 		return finishButton;
@@ -267,17 +267,17 @@ public class StatisticsScreen extends Screen {
 	
 	@Override
 	public void load() {
-		sm.getFacade();
+		gm.getFacade();
 		entities = new String[Simulator.prototypeNames().size()];
 		popEntityBox.removeAllItems();
 		fieldEntityBox.removeAllItems();
 		lifeEntityBox.removeAllItems();
 		agentFieldsBoxes.clear();
 		int i = 0;
-		sm.getFacade();
+		gm.getFacade();
 		for (String s : Simulator.prototypeNames()) {
 			entities[i++] = s;
-			sm.getFacade();
+			gm.getFacade();
 			agentFields = Simulator.getPrototype(s).getCustomFieldMap().keySet().toArray(agentFields);
 			agentFieldsBoxes.put(s, new JComboBox(agentFields));
 			popEntityBox.addItem(s);

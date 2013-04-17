@@ -39,8 +39,8 @@ public class EditTriggerScreen extends Screen {
 	
 	private JScrollPane behaviorLayout;
 	
-	public EditTriggerScreen(ScreenManager sm) {
-		super(sm);
+	public EditTriggerScreen(SimulatorGuiManager gm) {
+		super(gm);
 		this.setLayout(new GridBagLayout());
 		addNameLabel(new GridBagConstraints());
 		addPriorityLabel(new GridBagConstraints());
