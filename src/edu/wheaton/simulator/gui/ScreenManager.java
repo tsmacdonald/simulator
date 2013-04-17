@@ -23,7 +23,7 @@ public class ScreenManager {
 		display.updateDisplay(update);
 	}
 	
-	public void loadScreen(Screen s){
+	public static void loadScreen(Screen s){
 		s.load();
 	}
 	

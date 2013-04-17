@@ -86,7 +86,7 @@ public class StatisticsManager {
 	 * Add a PrototypeSnapshot to the StatisticsManager. 
 	 * @param prototypeSnapshot The new prototype being recorded.
 	 */
-	public void addPrototypeSnapshot(PrototypeSnapshot snap) {
+	public static void addPrototypeSnapshot(PrototypeSnapshot snap) {
 		if(snap.step == 0 || !protoSnaps.containsKey(snap.categoryName)) {
 			protoSnaps.put(snap.categoryName, snap);
 			//TODO: Save this prototype to a file

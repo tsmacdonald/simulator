@@ -98,7 +98,7 @@ public class SimulatorGuiManager {
 	}
 
 	 
-	public void updateGUIManager(String nos, int width, int height){
+	public static void updateGUIManager(String nos, int width, int height){
 	
 		GUI.setNameOfSim(nos);
 		GUI.setGridWidth(width);

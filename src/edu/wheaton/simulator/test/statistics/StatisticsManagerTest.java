@@ -96,12 +96,12 @@ public class StatisticsManagerTest {
 		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname",
 				SnapshotFactory.makeFieldSnapshots(new HashMap<String, String>()), 
 				100, p.childIDs(), new Integer(2), null, null); 
-		sm.addPrototypeSnapshot(protoSnap);
+		StatisticsManager.addPrototypeSnapshot(protoSnap);
 	}
 	
 	@Test
 	public void testGetPopVsTime() {
-		sm.addPrototypeSnapshot(protoSnap); 
+		StatisticsManager.addPrototypeSnapshot(protoSnap); 
 
 		//Create data for a test simulation with a random number of steps
 		//and random population in each step
