@@ -10,8 +10,10 @@
 
 package edu.wheaton.simulator.gui;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,8 +29,12 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import net.sourceforge.jeval.EvaluationException;
 
 import edu.wheaton.simulator.entity.Prototype;
@@ -38,21 +44,13 @@ import edu.wheaton.simulator.statistics.SimulationRecorder;
 
 public class ViewSimScreen extends Screen {
 
-	//private int height;
-
-	//private int width;
-
 	private ScreenManager sm;
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -6872689283286800861L;
 
 	private GridPanel grid;
 
 	private int stepCount;
-
-	//private JButton backButton;
 
 	private long startTime;
 
@@ -70,11 +68,13 @@ public class ViewSimScreen extends Screen {
 
 	private JPanel layerPanelLayers;
 
+	private GridBagConstraints c;
+
 	public ViewSimScreen(final ScreenManager sm) {
 		super(sm);
 		canSpawn = true;
 		entities = new String[0];
-		this.setLayout(new BorderLayout());
+		this.setLayout(new GridBagLayout());
 		this.sm = sm;
 		gridRec = new SimulationRecorder(sm.getStatManager());
 		stepCount = 0;
@@ -97,7 +97,6 @@ public class ViewSimScreen extends Screen {
 				try {
 					sm.getFacade().setLayerExtremes();
 				} catch (EvaluationException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				grid.setLayers(true);
@@ -116,8 +115,6 @@ public class ViewSimScreen extends Screen {
 		}
 				);
 
-
-
 		layerPanelAgents = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
 		layerPanelAgents.add(agents);
 		layerPanelAgents.add(agentComboBox);
@@ -130,16 +127,49 @@ public class ViewSimScreen extends Screen {
 		layerPanelButtons.add(apply);
 		layerPanelButtons.add(clear);
 
-		JPanel upperLayerPanel = GuiUtility.makePanel(BoxLayoutAxis.PAGE_AXIS, null, null);
-		upperLayerPanel.add(layerPanelAgents);
-		upperLayerPanel.add(layerPanelLayers);
-		upperLayerPanel.add(layerPanelButtons);
-		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
-
 		JPanel colorPanel = GuiUtility.makeColorChooserPanel(colorTool);
 
+		JPanel upperLayerPanel = new JPanel();
+		upperLayerPanel.setLayout(new GridBagLayout());
+
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridy = 0;
+		upperLayerPanel.add(layerPanelAgents, c);
+
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridy = 1;
+		upperLayerPanel.add(layerPanelLayers, c);
+
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridy = 2;
+		upperLayerPanel.add(layerPanelButtons, c);
+
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridy = 3;
+		upperLayerPanel.add(colorPanel, c);
+		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
+
+
+
+		JTabbedPane tabs = new JTabbedPane();
+		final Screen entities = sm.getScreen("Entities");
+		tabs.add("Agent", entities);
+		tabs.addChangeListener(new ChangeListener(){
+			@Override
+			public void stateChanged(ChangeEvent ce) {
+				entities.load();
+			}
+			
+		});
+		tabs.add("Layers", upperLayerPanel);
+
+
 		grid = new GridPanel(sm);
-		grid.setAlignmentY(CENTER_ALIGNMENT);
+		grid.setPreferredSize(new Dimension(550,550));
 		grid.addMouseListener(
 				new MouseListener() {
 
@@ -151,7 +181,7 @@ public class ViewSimScreen extends Screen {
 							int height = grid.getHeight()/ScreenManager.getGUIheight();
 							int width = grid.getWidth()/ScreenManager.getGUIwidth();
 							int standardSize = Math.min(width, height);
-							if(sm.getFacade().getAgent(x/standardSize, y/standardSize) == null){
+							if(sm.getFacade().getGrid().emptyPos(x/standardSize, y/standardSize)){
 								sm.getFacade().spiralSpawn(agentComboBox.getSelectedItem().toString(), x/standardSize, y/standardSize);
 							}
 							else{
@@ -178,18 +208,44 @@ public class ViewSimScreen extends Screen {
 
 		JPanel layerPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		layerPanel.setAlignmentY(CENTER_ALIGNMENT);
-		layerPanel.add(upperLayerPanel);
-		layerPanel.add(colorPanel);
 
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.PAGE_START;
+		c.gridx = 1;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		this.add(label, c);
 
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		c.gridheight = 2;
+		c.weighty = 1;
+		c.weightx = .5;
+		c.insets = new Insets(1,1,1,1);
+		this.add(tabs, c);
 
-		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
-		mainPanel.add(layerPanel);
-		mainPanel.add(grid);
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 1;
+		c.gridy = 1;
+		c.ipadx = 600;
+		c.ipady = 600;
+		c.gridwidth = 2;
+		c.weighty = 1;
+		c.weightx = .7;
+		c.insets = new Insets(1,1,1,1);
+		this.add(grid, c);
 
-		this.add(label, BorderLayout.NORTH);
-		this.add(makeButtonPanel(), BorderLayout.SOUTH);
-		this.add(mainPanel, BorderLayout.CENTER);
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 2;
+		c.gridwidth = 2;
+		this.add(makeButtonPanel(), c);
 
 		this.setVisible(true);	
 	}
@@ -200,7 +256,6 @@ public class ViewSimScreen extends Screen {
 
 		buttonPanel.add(GuiUtility.makeButton("Pause",
 				new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				sm.setRunning(false);
 				//add if loop for tabbed pane once implemented
@@ -210,7 +265,7 @@ public class ViewSimScreen extends Screen {
 				));
 
 		//TODO most of these will become tabs, adding temporarily for navigation purposes
-		buttonPanel.add(GuiUtility.makeButton("Entities", new GeneralButtonListener("Entities", sm)));
+	//	buttonPanel.add(GuiUtility.makeButton("Entities", new GeneralButtonListener("Entities", sm)));
 		buttonPanel.add(GuiUtility.makeButton("Global Fields", new GeneralButtonListener("Fields", sm)));
 		buttonPanel.add(GuiUtility.makeButton("Setup options", new GeneralButtonListener("Grid Setup", sm)));
 		buttonPanel.add(GuiUtility.makeButton("Statistics", new GeneralButtonListener("Statistics", sm)));
