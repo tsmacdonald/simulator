@@ -394,9 +394,9 @@ public class Grid extends Entity implements Iterable<Agent> {
 	/**
 	 * Notifies all of the observers watching this grid
 	 */
-	public void notifyObservers(Grid grid) {
+	public void notifyObservers() {
 		for (GridObserver current : observers)
-			current.update(grid);
+			current.update(this);
 	}
 
 	/**

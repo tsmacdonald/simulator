@@ -186,6 +186,12 @@ public class Trigger implements Comparable<Trigger> {
 
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
+	 * 
+	 * @param a
+	 * @param t
+	 * @param behavior
+	 * @param step
+	 * @throws EvaluationException
 	 */
 	private static void fire(Agent a, Trigger t, Expression behavior, int step) throws EvaluationException {
 		try {

@@ -37,6 +37,11 @@ import edu.wheaton.simulator.statistics.StatisticsManager;
 public class Simulator implements Runnable {
 
 	/**
+	 * Name of the simulator
+	 */
+	private String name;
+	
+	/**
 	 * The Grid to hold all the Agents
 	 */
 	private Grid grid;
@@ -57,9 +62,20 @@ public class Simulator implements Runnable {
 	 * @param gridX
 	 * @param gridY
 	 */
-	public Simulator(int gridX, int gridY) {
+	public Simulator(String name, int gridX, int gridY) {
+		this.name = name;
 		Prototype.clearPrototypes();
 		grid = new Grid(gridX, gridY);
+		//StatisticsManager.getInstance().initialize(grid);
+	}
+	
+	/**
+	 * Provides this Simulators name
+	 * 
+	 * @return
+	 */
+	public String getName() {
+		return name;
 	}
 
 	@Override
@@ -67,15 +83,10 @@ public class Simulator implements Runnable {
 	 * Runs the simulation by updating all the entities
 	 */
 	public void run() {
-		// StatisticsManager.initialize(grid, Prototype.getPrototypes());
-		// Stats team needs to:
-		// Add observer to the Grid
-		// Add observer to the Trigger class
-		// Store the prototypes
 		while (!shouldPause.get()) {
 			try {
 				grid.updateEntities();
-				grid.notifyObservers(grid);
+				grid.notifyObservers();
 				Thread.sleep(sleepPeriod);
 			} catch (SimulationPauseException e) {
 				shouldPause.set(true);
@@ -118,7 +129,7 @@ public class Simulator implements Runnable {
 		new Multiplier().initSampleAgent(new Prototype(grid, Color.BLUE,
 				"Multiplier"));
 		new Bouncer()
-				.initSampleAgent(new Prototype(grid, Color.RED, "bouncer"));
+		.initSampleAgent(new Prototype(grid, Color.RED, "bouncer"));
 		new RightTurner().initSampleAgent(new Prototype(grid, Color.BLACK,
 				"rightTurner"));
 		new Confuser().initSampleAgent(new Prototype(grid, Color.GREEN,
@@ -461,7 +472,7 @@ public class Simulator implements Runnable {
 			grid.addField(name, startingValue);
 		} catch (ElementAlreadyContainedException e) {
 			System.out
-					.println("Problem adding a global field. Name already in the map. Exiting.");
+			.println("Problem adding a global field. Name already in the map. Exiting.");
 			e.printStackTrace();
 			System.exit(1);
 		}
@@ -480,12 +491,16 @@ public class Simulator implements Runnable {
 	/**
 	 * Loads a simulation from a grid and prototypes
 	 * 
+	 * @param name
 	 * @param grid
 	 * @param prototypes
 	 */
-	public void load(Grid grid, Set<Prototype> prototypes) {
+	public void load(String name, Grid grid, Set<Prototype> prototypes) {
+		this.name = name;
 		this.grid = grid;
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
 	}
+	
+	
 }
