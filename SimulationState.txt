@@ -1,0 +1,14 @@
+AgentSnapshot
+tester
+0
+0
+FieldSnapshot Cat Joomba
+FieldSnapshot Pig Tom
+FieldSnapshot Monkey Olly
+AgentSnapshot
+tester
+0
+0
+FieldSnapshot Cat Joomba
+FieldSnapshot Pig Tom
+FieldSnapshot Monkey Olly

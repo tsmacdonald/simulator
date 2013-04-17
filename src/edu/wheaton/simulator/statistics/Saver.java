@@ -53,19 +53,14 @@ public class Saver {
 		int currentStep = getCurrentStep();  
 		ImmutableMap<AgentID, AgentSnapshot> snaps = table.getSnapshotsAtStep(currentStep); 
 		
-		//TODO: Write the dimensions of the grid and other global variables
-		sb.append("Globals"); 
-		
 		//Serialize and write all PrototypeSnapshots to file
 		for(PrototypeSnapshot proto : prototypes.values()){
-			System.out.println(proto.serialize()); // TESTER
-			sb.append(proto.serialize()); 
+			sb.append(proto.serialize() + "\n"); 
 		}
 		
 		//Serialize and write all AgentSnapshots to file
 		for(AgentSnapshot snap : snaps.values()){
-			System.out.println(snap.serialize());  // TESTER
-			sb.append(snap.serialize()); 
+			sb.append(snap.serialize() + "\n"); 
 		}
 		
 		// create BufferedWriter and BufferedReader
@@ -79,6 +74,8 @@ public class Saver {
 					e.printStackTrace();
 				}
 
+		// What just got saved to file?
+		System.out.println("The following text was just saved to SimulationState.txt: \n" + sb);
 	}
 	
 	/**
