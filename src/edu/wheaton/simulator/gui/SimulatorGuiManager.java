@@ -2,6 +2,8 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -48,6 +50,7 @@ public class SimulatorGuiManager {
 	private GridPanel gridPanel;
 
 	public SimulatorGuiManager(Display d) {
+		gridPanel = new GridPanel(this);
 		spawnConditions = new ArrayList<SpawnCondition>();
 		startTime = 0;
 		canSpawn = true;
@@ -76,16 +79,18 @@ public class SimulatorGuiManager {
 	public ScreenManager getScreenManager(){
 		return sm;
 	}
+	
+	public GridPanel getGridPanel(){
+		return gridPanel;
+	}
 	 
 	public void setSim(String name,int x, int y) {
 		simulator = new Simulator(name,x, y);
 	}
 	
-	 
 	public Simulator getSim() {
 		return simulator;
 	}
-	
 	 
 	public SimulationEnder getEnder() {
 		return se;

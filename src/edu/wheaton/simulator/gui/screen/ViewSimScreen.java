@@ -45,8 +45,6 @@ public class ViewSimScreen extends Screen {
 
 	private static final long serialVersionUID = -6872689283286800861L;
 
-	private GridPanel gridPanel;
-
 	private JComboBox agentComboBox;
 	private JComboBox layerComboBox;
 
@@ -86,8 +84,8 @@ public class ViewSimScreen extends Screen {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						gridPanel.setLayers(true);
-						gridPanel.repaint();
+						gm.getGridPanel().setLayers(true);
+						gm.getGridPanel().repaint();
 					}
 				}
 			),
@@ -95,8 +93,8 @@ public class ViewSimScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
-						gridPanel.setLayers(false);
-						gridPanel.repaint();
+						gm.getGridPanel().setLayers(false);
+						gm.getGridPanel().repaint();
 					} 
 				}
 			)
@@ -106,15 +104,14 @@ public class ViewSimScreen extends Screen {
 				layerPanelAgents,layerPanelLayers,layerPanelButtons);
 		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
 
-		gridPanel = new GridPanel(gm);
-		gridPanel.setAlignmentY(CENTER_ALIGNMENT);
-		gridPanel.addMouseListener(new MouseListener() {
+		gm.getGridPanel().setAlignmentY(CENTER_ALIGNMENT);
+		gm.getGridPanel().addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
 				if(getGuiManager().canSpawn){
 					int standardSize = Math.min(
-						gridPanel.getWidth()/gm.getGridWidth(),
-						gridPanel.getHeight()/gm.getGridHeight()
+							gm.getGridPanel().getWidth()/gm.getGridWidth(),
+							gm.getGridPanel().getHeight()/gm.getGridHeight()
 					);
 					
 					int x = me.getX()/standardSize;
@@ -126,7 +123,7 @@ public class ViewSimScreen extends Screen {
 						sim.spiralSpawn(agentComboBox.getSelectedItem().toString(), x, y);
 					else
 						sim.removeAgent(x,y);
-					gridPanel.repaint();
+					gm.getGridPanel().repaint();
 				}
 			}
 
@@ -153,7 +150,7 @@ public class ViewSimScreen extends Screen {
 		);
 		this.add(makeButtonPanel(), BorderLayout.SOUTH);
 		this.add(Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null,
-				layerPanel,gridPanel), BorderLayout.CENTER);
+				layerPanel,gm.getGridPanel()), BorderLayout.CENTER);
 		this.setVisible(true);	
 	}
 
@@ -185,7 +182,7 @@ public class ViewSimScreen extends Screen {
 						condition.addToGrid(gm.getSim());
 					}
 				}
-				gridPanel.repaint();
+				gm.getGridPanel().repaint();
 				
 				gm.startTime = System.currentTimeMillis();
 //				if (stepCount == 0)
@@ -225,6 +222,6 @@ public class ViewSimScreen extends Screen {
 		layerPanelAgents.remove(1);
 		layerPanelAgents.add(agentComboBox);
 		validate();
-		gridPanel.repaint();
+		getGuiManager().getGridPanel().repaint();
 	}
 }
