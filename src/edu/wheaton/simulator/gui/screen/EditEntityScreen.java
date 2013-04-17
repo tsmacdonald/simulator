@@ -616,8 +616,7 @@ public class EditEntityScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			removedFields.add(Integer.parseInt(e.getActionCommand()));
-			fieldListPanel.remove(fieldSubPanels.get(Integer.parseInt(e
-					.getActionCommand())));
+			fieldListPanel.remove(fieldSubPanels.get(Integer.parseInt(e.getActionCommand())));
 			validate();
 			repaint();
 		}

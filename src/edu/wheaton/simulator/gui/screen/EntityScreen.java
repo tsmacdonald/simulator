@@ -73,6 +73,7 @@ public class EntityScreen extends Screen {
 					@Override
 					public void valueChanged(ListSelectionEvent e) {
 						edit.setEnabled(!gm.hasSimStarted());
+						delete.setEnabled(!gm.hasSimStarted());
 					}
 				}
 				);
@@ -119,10 +120,11 @@ public class EntityScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		delete.setEnabled(getGuiManager().hasSimStarted() ? false : true); 
 		Set<String> entities = Simulator.prototypeNames();
-		for (String s : entities)
+		for (String s : entities){
 			listModel.addElement(s);
+		}
+		delete.setEnabled(false); 
 		edit.setEnabled(false);
 	}
 	
