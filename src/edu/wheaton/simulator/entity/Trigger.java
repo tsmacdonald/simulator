@@ -368,7 +368,6 @@ public class Trigger implements Comparable<Trigger> {
 			converter.put(")", ")");
 			conditionalValues.add(")");
 			behavioralValues.add(")");
-			System.out.println(converter.toString());
 		}
 
 		/**
@@ -401,11 +400,11 @@ public class Trigger implements Comparable<Trigger> {
 		 */
 		private void loadBehaviorFunctions() {
 			//TODO format to be more user friendly. A_Foo_Func instead of aFooFunc
+			//TODO need to figure out how the user inputs the parameters.
 			behavioralValues.addAll(Expression.getBehaviorFunction().keySet());
 			for (String s : Expression.getBehaviorFunction().keySet()){
 				converter.put(s, s);
 			}
-			// TODO need to figure out how the user inputs the parameters.
 		}
 
 		/**
@@ -498,18 +497,38 @@ public class Trigger implements Comparable<Trigger> {
 		 * @return
 		 */
 		public boolean isValid() {
-			try {
-				String condition = trigger.getConditions().toString();
-				new Expression(isValidHelper(condition)).evaluateBool();
-				String behavior =  trigger.getBehavior().toString();
-				new Expression(isValidHelper(behavior)).evaluateBool();
+			Agent test = prototype.createAgent();
+			try{
+				Expression condition = trigger.getConditions();
+				Expression behavior = trigger.getBehavior();
+				condition.importEntity("this", test);
+				behavior.importEntity("this", test);
+				condition.evaluateBool();
+				behavior.evaluateBool();
+				String conditions = trigger.getConditions().toString();
+				new Expression(isValidHelper(conditions)).evaluateBool();
+				String behaviors =  trigger.getBehavior().toString();
+				new Expression(isValidHelper(behaviors)).evaluateBool();
 				return true;
-			} catch (Exception e) {
-				System.out.println("Trigger failed: "
-						+ trigger.getConditions() + "\n"+trigger.getBehavior());
+			}
+			catch (Exception e){
+				System.out.println("Invalid trigger");
 				e.printStackTrace();
 				return false;
-			}		
+			}
+			
+//			try {
+//				String condition = trigger.getConditions().toString();
+//				new Expression(isValidHelper(condition)).evaluateBool();
+//				String behavior =  trigger.getBehavior().toString();
+//				new Expression(isValidHelper(behavior)).evaluateBool();
+//				return true;
+//			} catch (Exception e) {
+//				System.out.println("Trigger failed: "
+//						+ trigger.getConditions() + "\n"+trigger.getBehavior());
+//				e.printStackTrace();
+//				return false;
+//			}		
 		}
 
 		/**
@@ -532,9 +551,6 @@ public class Trigger implements Comparable<Trigger> {
 				}
 				s = beginning + s;
 			}
-			/**
-			 * TODO needs to be tested.
-			 */
 			for (String f : functions.keySet()){
 				while (s.indexOf(f)!= -1){
 					int index = s.indexOf(f);
