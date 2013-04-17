@@ -13,8 +13,7 @@ package edu.wheaton.simulator.gui;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-public class Main {
-
+public class Driver {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Thread(new Runnable() {
 			@Override
@@ -27,14 +26,10 @@ public class Main {
 					System.err.println("L&F trouble.");
 					e.printStackTrace();
 				}
-				//DisplayManager dm = DisplayManager.getInstance(new Display());
-				//if (dm == null)
-					//System.exit(0);
-				ScreenManager sm = new ScreenManager(new Display());
+				SimulatorGuiManager gm = new SimulatorGuiManager(new Display());
+				ScreenManager sm = gm.getScreenManager();
 				sm.update(sm.getScreen("Title"));
 			}
 		}));
-
 	}
-
 }

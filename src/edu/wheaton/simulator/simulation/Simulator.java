@@ -32,8 +32,14 @@ import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class Simulator implements Runnable {
+
+	/**
+	 * Name of the simulator
+	 */
+	private String name;
 
 	/**
 	 * The Grid to hold all the Agents
@@ -56,9 +62,25 @@ public class Simulator implements Runnable {
 	 * @param gridX
 	 * @param gridY
 	 */
-	public Simulator(int gridX, int gridY) {
-		Prototype.clearPrototypes();
+	public Simulator(String name, int gridX, int gridY) {
+		this.name = name;
+		sleepPeriod = 500;
 		grid = new Grid(gridX, gridY);
+		Prototype.clearPrototypes();
+		StatisticsManager.getInstance().initialize(grid);
+	}
+
+	/**
+	 * Provides this simulator's name
+	 * 
+	 * @return
+	 */
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name){
+		this.name = name;
 	}
 
 	@Override
@@ -69,7 +91,7 @@ public class Simulator implements Runnable {
 		while (!shouldPause.get()) {
 			try {
 				grid.updateEntities();
-				grid.notifyObservers(grid);
+				grid.notifyObservers();
 				Thread.sleep(sleepPeriod);
 			} catch (SimulationPauseException e) {
 				shouldPause.set(true);
@@ -103,6 +125,15 @@ public class Simulator implements Runnable {
 	 */
 	public void setSleepPeriod(int sleepPeriod) {
 		this.sleepPeriod = sleepPeriod;
+	}
+
+	/**
+	 * Provides the time (in milliseconds) the simulator waits after each step
+	 * 
+	 * @return
+	 */
+	public int getSleepPeriod() {
+		return sleepPeriod;
 	}
 
 	/**
@@ -260,6 +291,35 @@ public class Simulator implements Runnable {
 	public boolean spiralSpawn(String prototypeName) {
 		Agent toAdd = getPrototype(prototypeName).createAgent();
 		return grid.spiralSpawn(toAdd);
+	}
+
+	/**
+	 * Places an new agent (that follows the given prototype) at the given
+	 * coordinates. This method replaces (kills) anything that is currently in
+	 * that position. The Agent's own position is also updated accordingly.
+	 * 
+	 * @param a
+	 * @param x
+	 * @param y
+	 * @return false if the x/y values are invalid
+	 */
+	public boolean addAgent(String prototypeName, int x, int y) {
+		Agent toAdd = getPrototype(prototypeName).createAgent();
+		return grid.addAgent(toAdd, x, y);
+	}
+
+	/**
+	 * Places an new agent (that follows the given prototype) at a random
+	 * position in the grid. This method replaces (kills) anything that is
+	 * currently in that position. The Agent's own position is also updated
+	 * accordingly.
+	 * 
+	 * @param a
+	 * @return returns true if successful
+	 */
+	public boolean addAgent(String prototypeName) {
+		Agent toAdd = getPrototype(prototypeName).createAgent();
+		return grid.addAgent(toAdd);
 	}
 
 	/**
@@ -441,16 +501,29 @@ public class Simulator implements Runnable {
 	public void removeGlobalField(String name) {
 		grid.removeField(name);
 	}
-	
+
+	/**
+	 * Changes the size of the grid
+	 * 
+	 * @param width
+	 * @param height
+	 */
+	public void resizeGrid(int width, int height) {
+		grid.resizeGrid(width, height);
+	}
+
 	/**
 	 * Loads a simulation from a grid and prototypes
 	 * 
+	 * @param name
 	 * @param grid
 	 * @param prototypes
 	 */
-	public void load(Grid grid, Set<Prototype> prototypes) {
+	public void load(String name, Grid grid, Set<Prototype> prototypes) {
+		this.name = name;
 		this.grid = grid;
-		for(Prototype current : prototypes)
+		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
 	}
+
 }

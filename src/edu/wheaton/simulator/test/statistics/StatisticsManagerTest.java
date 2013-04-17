@@ -48,7 +48,7 @@ public class StatisticsManagerTest {
 
 	@Before
 	public void setUp() {
-		sm = new StatisticsManager();
+		sm = StatisticsManager.getInstance();
 		g = new Grid(10,  10); 		
 
 		//Add a test PrototypeSnapshot
@@ -83,10 +83,10 @@ public class StatisticsManagerTest {
 		Assert.assertNotNull("Constructor failed", sm);
 	}
 
-	@Test
-	public void testGetGridObserver() {
-		Assert.assertNotNull("Failed to get GridObserver", sm.getGridObserver()); 
-	}
+//	@Test
+//	public void testGetGridObserver() {
+//		Assert.assertNotNull("Failed to get GridObserver", sm.getGridObserver()); 
+//	}
 
 	@Test
 	public void testAddPrototypeSnapshot() {
@@ -96,12 +96,12 @@ public class StatisticsManagerTest {
 		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname",
 				SnapshotFactory.makeFieldSnapshots(new HashMap<String, String>()), 
 				100, p.childIDs(), new Integer(2), null, null); 
-		sm.addPrototypeSnapshot(protoSnap);
+		StatisticsManager.addPrototypeSnapshot(protoSnap);
 	}
 	
 	@Test
 	public void testGetPopVsTime() {
-		sm.addPrototypeSnapshot(protoSnap); 
+		StatisticsManager.addPrototypeSnapshot(protoSnap); 
 
 		//Create data for a test simulation with a random number of steps
 		//and random population in each step

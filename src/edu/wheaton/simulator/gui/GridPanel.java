@@ -9,25 +9,18 @@ import edu.wheaton.simulator.entity.Agent;
 
 public class GridPanel extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6168906849044462629L;
 
-	private ScreenManager sm;
+	private SimulatorGuiManager gm;
 
 	private int width;
 
 	private int height;
-
-	private int gridWidth;
-
-	private int gridHeight;
 	
 	private boolean layers;
 
-	public GridPanel(ScreenManager sm) {
-		this.sm = sm;
+	public GridPanel(SimulatorGuiManager gm) {
+		this.gm = gm;
 		layers = false;
 	}
 
@@ -36,23 +29,21 @@ public class GridPanel extends JPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		gridWidth = ScreenManager.getGUIwidth();
-		gridHeight = ScreenManager.getGUIheight();
+		int gridWidth = gm.getGridWidth();
+		int gridHeight = gm.getGridHeight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
 		
-		int squareSize = Math.min(pixelWidth, pixelHeight);
-		
-		for (int i = 0; i < gridWidth; i++) {
-			for (int j = 0; j < gridHeight; j++) {
-				g.drawRect(squareSize * i, squareSize * j, 
-						squareSize, squareSize);
-			}
-		}
-		
 		clearAgents(g);
 		agentPaint(g);
+		
+		g.setColor(Color.BLACK);
+		int squareSize = Math.min(pixelWidth, pixelHeight);
+		for (int i = 0; i < gridWidth; i++)
+			for (int j = 0; j < gridHeight; j++)
+				g.drawRect(squareSize * i, squareSize * j, 
+						squareSize, squareSize);
 	}
 
 	public void agentPaint(Graphics g){
@@ -60,33 +51,30 @@ public class GridPanel extends JPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		gridWidth = ScreenManager.getGUIwidth();
-		gridHeight = ScreenManager.getGUIheight();
+		int gridWidth = gm.getGridWidth();
+		int gridHeight = gm.getGridHeight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
 		
 		int squareSize = Math.min(pixelWidth, pixelHeight);
-		//Color color;
 		
 		if(layers) {
 			try {
-				sm.getFacade().setLayerExtremes();
+				gm.getSim().setLayerExtremes();
 			} catch (EvaluationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
 		for (int x = 0; x < gridWidth; x++) {
 			for (int y = 0; y < gridHeight; y++) {
-				Agent agent = sm.getFacade().getAgent(x, y);
+				Agent agent = gm.getSim().getAgent(x, y);
 				if(agent != null) {
 					if(layers){
 						try {
 							g.setColor(agent.getLayerColor());
 						} catch (EvaluationException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -118,8 +106,8 @@ public class GridPanel extends JPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		gridWidth = ScreenManager.getGUIwidth();
-		gridHeight = ScreenManager.getGUIheight();
+		int gridWidth = gm.getGridWidth();
+		int gridHeight = gm.getGridHeight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
@@ -128,15 +116,12 @@ public class GridPanel extends JPanel {
 		
 		g.setColor(Color.WHITE);
 		
-		for (int x = 0; x < gridWidth; x++) {
-			for (int y = 0; y < gridHeight; y++) {
+		for (int x = 0; x < gridWidth; x++)
+			for (int y = 0; y < gridHeight; y++)
 				g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), squareSize, squareSize);
-			}
-		}
 	}
 	
 	public void setLayers(boolean args){
 		layers = args;
 	}
-
 }

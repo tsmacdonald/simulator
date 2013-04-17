@@ -7,11 +7,10 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.simulator.gui;
+package edu.wheaton.simulator.gui.screen;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -22,6 +21,10 @@ import java.util.Map;
 import javax.swing.*;
 
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.gui.BoxLayoutAxis;
+import edu.wheaton.simulator.gui.Gui;
+import edu.wheaton.simulator.gui.ScreenManager;
+import edu.wheaton.simulator.gui.SimulatorGuiManager;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
@@ -34,72 +37,58 @@ public class StatisticsScreen extends Screen {
 	private JPanel dataPanel;
 
 	private String[] entities;
-
 	private String[] agentFields;
 	
 	private JComboBox cardSelector;
-
 	private JComboBox popEntityBox;
-
 	private JComboBox fieldEntityBox;
-
 	private JComboBox lifeEntityBox;
 
 	private Map<String, JComboBox> agentFieldsBoxes;
-
 	private JPanel fieldCard;
-
 	private StatisticsManager statMan;
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 714636604315959167L;
-	//TODO fix layout of this screen	
-	public StatisticsScreen(final ScreenManager sm) {
-		super(sm);
 
-		statMan = sm.getStatManager();
-		
-		
+	private static final long serialVersionUID = 714636604315959167L;
+	
+	//TODO fix layout of this screen	
+	public StatisticsScreen(final SimulatorGuiManager gm) {
+		super(gm);
 		this.setLayout(new BorderLayout());
+
+		statMan = gm.getStatManager();
 				
 		JPanel populationCard = makeCard();
 		fieldCard = makeCard();
 		JPanel lifespanCard = makeCard();
 		String[] boxItems = {POPS_STR, FIELDS_STR, LIFESPANS_STR};
 		
-		dataPanel = new JPanel();
-		dataPanel.setLayout(new CardLayout());
-		
+		dataPanel = new JPanel(new CardLayout());
 		dataPanel.add(populationCard, POPS_STR);
-		
-		
 		dataPanel.add(fieldCard, FIELDS_STR);
-		
-		
 		dataPanel.add(lifespanCard, LIFESPANS_STR);
 		
-		
-		cardSelector = makeCardSelector(boxItems,dataPanel);
-		
 		entities = new String[0];
+		
 		popEntityBox = new JComboBox(entities);
+		
 		populationCard.add(popEntityBox);
 		
 		agentFields = new String[0];
+		
 		agentFieldsBoxes = new HashMap<String, JComboBox>();
 		agentFieldsBoxes.put("", new JComboBox(agentFields));
 
 		fieldEntityBox = makeFieldEntityBox(entities);
+		
 		fieldCard.add(fieldEntityBox);
 		fieldCard.add(agentFieldsBoxes.get(""));
 
 		lifeEntityBox = new JComboBox(entities);
+		
 		lifespanCard.add(lifeEntityBox);
 		
 		if(popEntityBox.getSelectedIndex() >= 0){
-			sm.getFacade();
-			int[] popVsTime = sm.getStatManager().getPopVsTime(Simulator.
+			int[] popVsTime = gm.getStatManager().getPopVsTime(Simulator.
 					getPrototype(popEntityBox.getSelectedItem().toString())
 					.getName()
 					);
@@ -108,14 +97,15 @@ public class StatisticsScreen extends Screen {
 			for(int i = 0; i < popVsTime.length; i++)
 				timePop[i] = new Object[]{i, popVsTime[i]};
 
-			JTable jt = makeTable(timePop,"Population","Time");
-			populationCard.add(jt);
+			populationCard.add(new JTable(timePop, 
+				new String[]{"Population", "Time"})
+			);
 		}
 
 		//COMING SOON: Average Field Table Statistics
 
 		//		if(fieldEntityTypes.getSelectedIndex() >= 0){
-		//			double[] p = statMan.getAvgFieldValue((sm.getFacade().
+		//			double[] p = statMan.getAvgFieldValue((gm.getFacade().
 		//					getPrototype(popEntityTypes.getSelectedItem().toString())
 		//					.getPrototypeID()), (String) agentFieldsBox.getSelectedItem()
 		//					);
@@ -136,82 +126,36 @@ public class StatisticsScreen extends Screen {
 		//
 		//		this.add(label, BorderLayout.NORTH);
 		
-		this.add(makeMainPanel(dataPanel,cardSelector));
-	}
-	
-	private JPanel makeMainPanel(JPanel dataPanel, JComboBox cardSelector){
-		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
-		mainPanel.add(makeGraphPanel());
-		mainPanel.add(makeBoxPanel(cardSelector));
-		mainPanel.add(dataPanel);
-		mainPanel.add(makeButtonPanel());
-		return mainPanel;
-	}
-	
-	private static JPanel makeBoxPanel(JComboBox cardSelector){
-		JPanel boxPanel = new JPanel();
-		boxPanel.add(cardSelector);
-		return boxPanel;
-	}
-	
-	private static JPanel makeGraphPanel(){
-		JPanel graphPanel = new JPanel();
-		
 		//TODO MAJOR figure out how to make a graph or something!!
-		graphPanel.add(new JLabel("Graph object goes here"));
 		
-		return graphPanel;
-	}
-	
-	private JPanel makeButtonPanel(){
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.add(makeDisplayButton());
-		buttonPanel.add(makeFinishButton());
-		return buttonPanel;
-	}
-	
-	private static JTable makeTable(Object[][] data, String label1, String label2){
-		String[] labels = {label1, label2};
-		JTable jt = new JTable(data ,labels);
-		return jt;
+		cardSelector = makeCardSelector(boxItems,dataPanel);
+		
+		this.add(Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null,
+				Gui.makePanel(new JLabel("Graph object goes here")),
+				Gui.makePanel(cardSelector),dataPanel,Gui.makePanel(
+				makeDisplayButton(), makeFinishButton())));
 	}
 	
 	private JButton makeDisplayButton(){
-		JButton displayButton = makeButton("Display",new ActionListener() {
+		JButton displayButton = Gui.makeButton("Display",null,new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (cardSelector.getSelectedItem().equals(POPS_STR)) {
-							sm.getFacade();
 							int[] pops = statMan.getPopVsTime(Simulator.
 														getPrototype((String)popEntityBox.getSelectedItem())
 														.getName());
-							System.out.println("Population over time: ");
-							//TODO temporary solution to demonstrate compatibility
-							//TODO this loop displays nothing for a basic simulation
-							for (int i = 0; i < pops.length; i++) {
-								System.out.println(i + ":  " + pops[i]);
-							}
+							//TODO output stats
 						}
 						else if (cardSelector.getSelectedItem().equals(FIELDS_STR)) {
 							String s = (String)fieldEntityBox.getSelectedItem();
-							sm.getFacade();
 							Prototype p = Simulator.getPrototype(s);
 							double[] vals = statMan.getAvgFieldValue(p.getName(),
 									((String)agentFieldsBoxes.get(s).getSelectedItem()));
-							//TODO temporary solution to demonstrate compatibility
-							//TODO this loop displays nothing for a basic simulation
-							System.out.println("Average field value over time: ");
-							for (int i = 0; i < vals.length; i++) {
-								System.out.println(i + ":  " + vals[i]);
-							}
+							//TODO output stats
 						}
 						else {
-							sm.getFacade();
 							Prototype p = Simulator.getPrototype((String)lifeEntityBox.getSelectedItem());
-							//TODO temporary solution to demonstrate compatibility
-							//getAvgLifespan returns NaN (not a number; 0 / 0 ?)
-							System.out.println("Average lifespan: " + 
-									statMan.getAvgLifespan(p.getName()));
+							//TODO output stats
 						}
 					}
 				}
@@ -220,11 +164,12 @@ public class StatisticsScreen extends Screen {
 	}
 	
 	private JButton makeFinishButton(){
-		JButton finishButton = makeButton("Finish",
+		JButton finishButton = Gui.makeButton("Finish",null,
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sm.update(sm.getScreen("Edit Simulation")); 
+				ScreenManager sm = getScreenManager();
+				sm.update(sm.getScreen("View Simulation")); 
 			}
 		});
 		return finishButton;
@@ -268,25 +213,19 @@ public class StatisticsScreen extends Screen {
 	
 	@Override
 	public void load() {
-		sm.getFacade();
 		entities = new String[Simulator.prototypeNames().size()];
 		popEntityBox.removeAllItems();
 		fieldEntityBox.removeAllItems();
 		lifeEntityBox.removeAllItems();
 		agentFieldsBoxes.clear();
 		int i = 0;
-		sm.getFacade();
 		for (String s : Simulator.prototypeNames()) {
 			entities[i++] = s;
-			sm.getFacade();
 			agentFields = Simulator.getPrototype(s).getCustomFieldMap().keySet().toArray(agentFields);
 			agentFieldsBoxes.put(s, new JComboBox(agentFields));
 			popEntityBox.addItem(s);
 			fieldEntityBox.addItem(s);
 			lifeEntityBox.addItem(s);
 		}
-
-
 	}
-
 }

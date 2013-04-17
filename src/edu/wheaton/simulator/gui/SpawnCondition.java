@@ -1,19 +1,16 @@
 package edu.wheaton.simulator.gui;
 
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.Simulator;
 
 public class SpawnCondition {
 
-	public final Prototype prototype; 
-
-	public final int x; 
-
-	public final int y; 
-
-	public final String pattern; 
-
-	public final int number; 
+	public final Prototype prototype;
+	public final int x;
+	public final int y;
+	public final String pattern;
+	public final int number;
 
 	public SpawnCondition(Prototype prototype, int x, int y, int number, String pattern) { 
 		this.pattern = pattern; 
@@ -24,27 +21,19 @@ public class SpawnCondition {
 	}
 
 	public void addToGrid(Simulator facade) {
-		if (pattern.equals("Clustered")) {
-			for (int i = 0; i < number; i++) {
-				facade.getGrid().spiralSpawn(prototype.createAgent(), x, y);
-			}
-		}
-		else if (pattern.equals("Random")) {
-			for (int i = 0; i < number; i++) {
-				facade.getGrid().spiralSpawn(prototype.createAgent());
-			}
-		}
-		else if (pattern.equals("Horizontal")) {
-			for (int i = 0; i < number; i++) {
-				facade.getGrid().horizontalSpawn(prototype.createAgent(), x);
-			}
-		}
-		else if (pattern.equals("Vertical")) {
-			for (int i = 0; i < number; i++) {
-				facade.getGrid().verticalSpawn(prototype.createAgent(), y);
-			}
-		}
-
+		Grid grid = facade.getGrid();
+		
+		if (pattern.equals("Clustered"))
+			for (int i = 0; i < number; i++)
+				grid.spiralSpawn(prototype.createAgent(), x, y);
+		else if (pattern.equals("Random"))
+			for (int i = 0; i < number; i++)
+				grid.spiralSpawn(prototype.createAgent());
+		else if (pattern.equals("Horizontal"))
+			for (int i = 0; i < number; i++)
+				grid.horizontalSpawn(prototype.createAgent(), x);
+		else if (pattern.equals("Vertical"))
+			for (int i = 0; i < number; i++)
+				grid.verticalSpawn(prototype.createAgent(), y);
 	}
-
 }

@@ -13,6 +13,8 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import edu.wheaton.simulator.gui.screen.Screen;
+
 /**
  * This class will act as the singular JFrame window for the interface, with
  * different screens being displayed on it by using the setContentPane method
@@ -31,8 +33,8 @@ public class Display extends JFrame {
 		this.setLayout(new FlowLayout(FlowLayout.CENTER));
 		this.setLocation(100, 100);
 		panel = new JPanel();
-		this.add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		this.add(panel);
 		this.setVisible(true);
 	}
 	/**
@@ -43,5 +45,4 @@ public class Display extends JFrame {
 		this.setContentPane(s);
 		this.setVisible(true);
 	}
-	
 }

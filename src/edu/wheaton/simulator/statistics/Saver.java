@@ -1,5 +1,11 @@
 package edu.wheaton.simulator.statistics;
 
+/**
+ * This class will save PrototypeSnapshots and AgentSnapshots to a file.
+ * To be used by other classes that will load and place the appropriate values.
+ * 
+ * @author Grant Hensel, Nico Lasta
+ */
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,6 +15,7 @@ import java.util.Set;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.AgentID;
+
 
 public class Saver {
 
@@ -75,7 +82,7 @@ public class Saver {
 				}
 
 		// What just got saved to file?
-		System.out.println("The following text was just saved to SimulationState.txt: \n" + sb);
+		System.out.println("The following text was just saved to SimulationState.txt: \n" + sb); // TODO Delete
 	}
 	
 	/**

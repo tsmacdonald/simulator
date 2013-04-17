@@ -1,6 +1,7 @@
 package edu.wheaton.simulator.statistics;
 
 import edu.wheaton.simulator.entity.AgentID;
+import edu.wheaton.simulator.expression.Expression;
 
 
 /**
@@ -27,14 +28,19 @@ public class TriggerSnapshot {
 	public final Integer priority;
 	
 	/*
+	 * The step in which this was executed
+	 */
+	public final Integer step;
+	
+	/*
 	 * A way to store the string value of the conditionExpression
 	 */
-	public final String conditionExpression;
+	public final Expression conditionExpression;
 	
 	/*
 	 * A string to store the behaviorExpression value
 	 */
-	public final String behaviorExpression;
+	public final Expression behaviorExpression;
 
 	/**
 	 * Constructor
@@ -50,9 +56,10 @@ public class TriggerSnapshot {
 	 * @param behaviorExpression
 	 * 			  A string version of the behavior
 	 */
-	public TriggerSnapshot(AgentID id, String triggerName, int priority, String conditionExpression, 
-			String behaviorExpression) {
+	public TriggerSnapshot(AgentID id, String triggerName, int priority, Expression conditionExpression, 
+			Expression behaviorExpression, int step) {
 		this.id = id;
+		this.step = step;
 		this.triggerName = triggerName;
 		this.priority = priority;
 		this.conditionExpression = conditionExpression;

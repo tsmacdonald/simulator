@@ -59,7 +59,6 @@ public class BuilderTest {
 		Assert.assertTrue(trigger.getConditions().toString().equals("this.weight>this.health")); 
 	}
 
-//	need to add an agent to test it. Thats annoying. Need to rewrite isValid.
 	@Test
 	public void testIsValidMethod(){
 		builder.addConditional("this.weight>2"); 
@@ -67,10 +66,10 @@ public class BuilderTest {
 		Assert.assertTrue(builder.isValid() == java.lang.Boolean.TRUE);
 	}
 	
-	//need to add an agent to test it. Thats annoying. Need to rewrite isValid.
+
 	@Test
 	public void testForUserEnteredExpression(){
-		builder.addConditional("health > 2");
+		builder.addConditional("health > 3");
 		builder.addBehavioral("move(5,5)");
 		Assert.assertTrue(builder.isValid() == java.lang.Boolean.TRUE);
 	}
@@ -82,5 +81,10 @@ public class BuilderTest {
 		Assert.assertTrue(builder.isValid() == java.lang.Boolean.FALSE);
 	}
 	
-	
+	@Test
+	public void testForIncorrectArguments(){
+		builder.addConditional("health > 3");
+		builder.addBehavioral("move(5,5,5)");
+		Assert.assertTrue(builder.isValid() == java.lang.Boolean.FALSE);
+	}
 }

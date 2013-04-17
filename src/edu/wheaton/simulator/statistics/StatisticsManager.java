@@ -4,137 +4,92 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.AgentID;
+import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.entity.Trigger;
 
 public class StatisticsManager {
 
 	/**
-	 * The table on which all entity snapshots will be stored.
+	 * Single instance of this class.
+	 */
+	private static StatisticsManager instance = new StatisticsManager();
+	
+	/**
+	 * The table in which all entity snapshots will be stored.
 	 */
 	private AgentSnapshotTable table;
 
 	/**
-	 * The number of steps the simulation has taken. Effectively it is the
-	 * largest step it has encountered in a Snapshot given to it.
-	 */
-	private int lastStep;
-
-	/**
 	 * The GridOberserver keeps track of changes in the grid.
 	 */
-	private SimulationRecorder gridObserver;
+	private static Recorder gridObserver;
 
 	/**
-	 * Each index in the List stores the prototype snapshot associated with
-	 * that step in the simulation
+	 * The grid being used. Will be used by GridRecorder
 	 */
-	private HashMap<Integer, Map<String, PrototypeSnapshot>> prototypes;
-
+	public Grid grid;
+	
 	/**
-	 * The point at which the simulation started. 
+	 * Initial set of prototypes.
 	 */
-	private long startTime; 
-
+	private static ImmutableSet<Prototype> prototypes;
+	
 	/**
-	 * The point in time of the most recent step in the simulation. 
+	 * Prototype snapshots in the game.
 	 */
-	private long mostRecentTime; 
-
-	/**
-	 * The total duration of the simulation so far.
-	 */
-	private long totalTime;
-
-	// TODO: Some sort of behavior queue mapping AgentID's to behavior
-	// representations.
-
+	private static HashMap<String, PrototypeSnapshot> protoSnaps;
+	
 	/**
 	 * Private constructor to prevent wanton instantiation.
 	 */
-	public StatisticsManager() {
+	private StatisticsManager() {
 		table = new AgentSnapshotTable();
-		gridObserver = new SimulationRecorder(this);
-		prototypes = new HashMap<Integer, Map<String, PrototypeSnapshot>>();
-		lastStep = 0; 
+		gridObserver = new Recorder(this);
+		prototypes = null;
+		protoSnaps = new HashMap<String, PrototypeSnapshot>();
+	}
+	
+	/**
+	 * Get instance of this singleton
+	 */
+	public static StatisticsManager getInstance() {
+		return instance;
+	}
+	
+	/**
+	 * Initialize an observer for the grid and triggers and prepare prototypes for saving.
+	 */
+	public void initialize(Grid grid) {
+		grid.addObserver(gridObserver);
+		Trigger.addObserver(gridObserver);
+		this.grid = grid;
+		StatisticsManager.prototypes = Prototype.getPrototypes();
+		for(Prototype p : prototypes)
+			addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(p, grid.getStep()));
 	}
 
 	/**
-	 * Set the point in time at which the simulation began. 
-	 * @param startTime The time (in ms) when the simulation started.
+	 * Get the last step(taken from the table of snapshots).
 	 */
-	public void setStartTime(long startTime) { 
-		this.startTime = startTime; 
+	private Integer lastStep() {
+		return table.getAllSteps().size();
 	}
-
-	/**
-	 * Update the most recent point in time in the simulation. 
-	 * @param mostRecentTime The time (in ms) at which the most recent iteration occurred.  
-	 */
-	public void updateRecentTime(long mostRecentTime) { 
-		this.mostRecentTime = Math.max(this.mostRecentTime, mostRecentTime); 
-	}
-
-	/**
-	 * Update the total duration of the simulation.
-	 * @param newTime The new total time (in ms).
-	 */
-	public void updateTotalTime(long newTime) {
-		this.totalTime = newTime;
-	}
-
-	/**
-	 * Get the number of steps taken in the simulation so far.
-	 * @return The number of steps taken in the simulation so far.
-	 */
-	public int getLastStep() {
-		return lastStep;
-	}
-
-	/**
-	 * Get the starting time of the simulation.
-	 * @return The starting time of the simulation (System time, in ms).
-	 */
-	public long getSimulationStartTime() {
-		return startTime;
-	}
-
-	/**
-	 * Get the duration of the simulation in ms. 
-	 * @return The duration of the simulation in ms. 
-	 */
-	public long getSimulationDuration() { 
-		return totalTime;
-	}
-
-	/**
-	 * Get the grid entity Observer.
-	 * 
-	 * @return The GridEntityObserver associated with this StatisticsManager.
-	 */
-	public SimulationRecorder getGridObserver() {
-		return gridObserver;
-	}
-
+	
+	
 	/**
 	 * Add a PrototypeSnapshot to the StatisticsManager. 
-	 * @param prototypeSnapshot The new prototype being recorded. 
+	 * @param prototypeSnapshot The new prototype being recorded.
 	 */
-	public void addPrototypeSnapshot(PrototypeSnapshot prototypeSnapshot) { 
-		if (prototypeSnapshot.step > lastStep) 
-			lastStep = prototypeSnapshot.step; 
-		Map<String, PrototypeSnapshot> typeMap; 
-		if ((typeMap = prototypes.get(prototypeSnapshot.step)) != null) { 
-			typeMap.put(prototypeSnapshot.categoryName, prototypeSnapshot);
-		} else { 
-			typeMap = new TreeMap<String, PrototypeSnapshot>();
-			prototypes.put(new Integer(prototypeSnapshot.step), typeMap); 
+	public static void addPrototypeSnapshot(PrototypeSnapshot snap) {
+		if(snap.step == 0 || !protoSnaps.containsKey(snap.categoryName)) {
+			protoSnaps.put(snap.categoryName, snap);
+			//TODO: Save this prototype to a file
 		}
 	}
 
@@ -146,9 +101,6 @@ public class StatisticsManager {
 	 */
 	public void addGridEntity(AgentSnapshot agentSnapshot) {
 		table.putEntity(agentSnapshot);
-
-		if (agentSnapshot.step > lastStep)
-			lastStep = agentSnapshot.step;
 	}
 
 	/**
@@ -177,7 +129,6 @@ public class StatisticsManager {
 		return builder.build();
 	}
 
-	// TODO Fix documentation once testing is finished.
 	/**
 	 * Get data for a graph of the population of a certain GridEntity over time
 	 * 
@@ -187,12 +138,11 @@ public class StatisticsManager {
 	 *         the value refers to the population of the targeted entity at
 	 *         that time
 	 */
-	// TODO Make sure getPopVsTime is working correctly
-	public int[] getPopVsTime(String prototypeName) { // name - name of Prototype
-		int[] data = new int[lastStep+1];	
+	public int[] getPopVsTime(String prototypeName) {
+		int[] data = new int[lastStep()+1];	
 		
 		//Populate agentsByStep
-		for (int i = 0; i <= lastStep; i++) {
+		for (int i = 0; i <= lastStep(); i++) {
 			Set<AgentSnapshot> stepPop = getPopulationAtStep(prototypeName, i);
 			data[i] = stepPop.size(); 
 		}
@@ -261,7 +211,7 @@ public class StatisticsManager {
 		Set<AgentID> allIDs = new HashSet<AgentID>(); 
 
 		//Populate agentsByStep
-		for (int i = 0; i <= lastStep; i++) {
+		for (int i = 0; i <= lastStep(); i++) {
 			Set<AgentSnapshot> stepData = getPopulationAtStep(prototypeName, i);
 
 			//Populate the list of unique Agent IDs for the Agents we're tracking
@@ -304,7 +254,7 @@ public class StatisticsManager {
 	 */
 	private int getBirthStep(List<Set<AgentSnapshot>> agentsByStep,
 			AgentID target) {
-		for (int i = 0; i < lastStep; i++){
+		for (int i = 0; i < lastStep(); i++){
 			for(AgentSnapshot s : agentsByStep.get(i)){
 				if(s.id.equals(target))
 					return i;

@@ -4,36 +4,38 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 
+import edu.wheaton.simulator.gui.screen.Screen;
+
 public class NewSimScreenFinishListener implements ActionListener {
 	
 	private JTextField name;
 	private JTextField width;
 	private JTextField height;
-	private Manager sm;
+	private SimulatorGuiManager gm;
 	
 	public NewSimScreenFinishListener(JTextField name, JTextField width, JTextField height, 
-									  Manager sm){
+									  SimulatorGuiManager gm){
 		this.name = name;
 		this.width = width;
 		this.height = height;
-		this.sm = sm;
+		this.gm = gm;
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
 			int heightInt = getHeight();
 			int widthInt = getWidth();
-			sm.setFacade(widthInt, heightInt);
-			sm.updateGUIManager(getName(), widthInt, heightInt);
-			sm.getEnder().setStepLimit(1000);
+			gm.setSim(name.getText(),widthInt, heightInt);
+			gm.updateGUIManager(getName(), widthInt, heightInt);
+			gm.getEnder().setStepLimit(1000);
 		} catch(java.lang.NumberFormatException nfe) { 
 			System.err.println("Invalid input passed to NewSimScreenFinishListener");
 		}
-		Screen upload = sm.getScreen("Edit Simulation");
-		((ScreenManager)sm).setStarted(false);
-		sm.getFacade().initSamples();
-		sm.update(upload);
-		sm.loadScreen(upload);
+		Screen upload = gm.getScreenManager().getScreen("View Simulation");
+		gm.setStarted(false);
+		gm.getSim().initSamples();
+		gm.getScreenManager().update(upload);
+		ScreenManager.loadScreen(upload);
 	}
 	public String getName(){
 		return name.getText();

@@ -39,7 +39,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * Observers to watch the grid
 	 */
 	private Set<GridObserver> observers;
-	
+
 	/**
 	 * Number of iterations performed
 	 */
@@ -74,6 +74,16 @@ public class Grid extends Entity implements Iterable<Agent> {
 	public static AgentID getID() {
 		AgentID id = new AgentID(-1);
 		return id;
+	}
+	
+	/**
+	 * Changes the size of the grid
+	 * 
+	 * @param width
+	 * @param height
+	 */
+	public void resizeGrid(int width, int height) {
+		// TODO
 	}
 
 	/**
@@ -115,7 +125,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 		updater.update();
 		step++;
 	}
-	
+
 	/**
 	 * Provides the iteration number
 	 * 
@@ -180,6 +190,22 @@ public class Grid extends Entity implements Iterable<Agent> {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Places an Agent at a random position in the grid. This method replaces
+	 * (kills) anything that is currently in that position. The Agent's own
+	 * position is also updated accordingly.
+	 * 
+	 * @param a
+	 * @return returns true if successful
+	 */
+	public boolean addAgent(Agent a) {
+		int randomX = (int) (Math.random() * (getField("width").getIntValue() - 1));
+		int randomY = (int) (Math.random() * (getField("height").getIntValue() - 1));
+		grid[randomY][randomX] = a;
+		a.setPos(randomX, randomY);
+		return true;
 	}
 
 	/**
@@ -378,9 +404,9 @@ public class Grid extends Entity implements Iterable<Agent> {
 	/**
 	 * Notifies all of the observers watching this grid
 	 */
-	public void notifyObservers(Grid grid) {
+	public void notifyObservers() {
 		for (GridObserver current : observers)
-			current.update(grid);
+			current.update(this);
 	}
 
 	/**
