@@ -26,9 +26,6 @@ public class Main {
 					System.err.println("L&F trouble.");
 					e.printStackTrace();
 				}
-				//DisplayManager dm = DisplayManager.getInstance(new Display());
-				//if (dm == null)
-					//System.exit(0);
 				ScreenManager sm = new ScreenManager(new Display());
 				sm.update(sm.getScreen("Title"));
 			}

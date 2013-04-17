@@ -15,8 +15,6 @@ import javax.swing.JTextField;
 
 public final class GuiUtility {
 
-	//private static final Component horizontalGlue = Box.createHorizontalGlue();
-	//private static final Component verticalGlue = Box.createVerticalGlue();
 	
 	private GuiUtility() {
 		// Auto-generated constructor stub

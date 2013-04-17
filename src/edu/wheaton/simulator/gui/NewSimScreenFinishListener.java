@@ -9,10 +9,10 @@ public class NewSimScreenFinishListener implements ActionListener {
 	private JTextField name;
 	private JTextField width;
 	private JTextField height;
-	private Manager sm;
+	private ScreenManager sm;
 	
 	public NewSimScreenFinishListener(JTextField name, JTextField width, JTextField height, 
-									  Manager sm){
+									  ScreenManager sm){
 		this.name = name;
 		this.width = width;
 		this.height = height;
@@ -30,7 +30,7 @@ public class NewSimScreenFinishListener implements ActionListener {
 			System.err.println("Invalid input passed to NewSimScreenFinishListener");
 		}
 		Screen upload = sm.getScreen("View Simulation");
-		((ScreenManager)sm).setStarted(false);
+		sm.setStarted(false);
 		sm.getFacade().initSamples();
 		sm.update(upload);
 		sm.loadScreen(upload);

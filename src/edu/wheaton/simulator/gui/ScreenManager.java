@@ -19,7 +19,7 @@ import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
-public class ScreenManager implements Manager{
+public class ScreenManager {
 
 	private HashMap<String, Screen> screens;
 
@@ -49,7 +49,6 @@ public class ScreenManager implements Manager{
 		statMan = new StatisticsManager();
 		screens.put("Title", new TitleScreen(this));
 		screens.put("New Simulation", new NewSimulationScreen(this));
-		//screens.put("Edit Simulation", new EditSimScreen(this));
 		screens.put("Fields", new FieldScreen(this));
 		screens.put("Edit Fields", new EditFieldScreen(this));
 		screens.put("Entities", new EntityScreen(this));
@@ -64,11 +63,11 @@ public class ScreenManager implements Manager{
 		this(new Display());
 	}
 
-	@Override
+	 
 	public Screen getScreen(String screenName) {
 		return screens.get(screenName);
 	}
-	@Override
+	 
 	public void update(Screen update) {
 		d.updateDisplay(update);
 	}
@@ -81,17 +80,17 @@ public class ScreenManager implements Manager{
 		return grid;
 	}
 
-	@Override
+	 
 	public void setFacade(int x, int y) {
 		facade = new Simulator(x, y);
 	}
 	
-	@Override
+	 
 	public Simulator getFacade() {
 		return facade;
 	}
 	
-	@Override
+	 
 	public SimulationEnder getEnder() {
 		return se;
 	}
@@ -112,7 +111,7 @@ public class ScreenManager implements Manager{
 		return GUI.getGridWidth();
 	}
 
-	@Override
+	 
 	public void updateGUIManager(String nos, int width, int height){
 	
 		GUI.setNameOfSim(nos);
@@ -133,17 +132,17 @@ public class ScreenManager implements Manager{
 		hasStarted = b;
 	}
 	
-	@Override
+	 
 	public boolean hasStarted() {
 		return hasStarted;
 	}
 
-	@Override
+	 
 	public ArrayList<SpawnCondition> getSpawnConditions() { 
 		return spawnConditions; 
 	}
 	
-	@Override
+	 
 	public void loadScreen(Screen s){
 		s.load();
 	}
@@ -187,7 +186,7 @@ public class ScreenManager implements Manager{
 		
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.addActionListener(new ActionListener(){
-			@Override
+			 
 			public void actionPerformed(ActionEvent e) {
 				sm.setRunning(false);
 				System.exit(0);
@@ -217,7 +216,7 @@ public class ScreenManager implements Manager{
 		
 		JMenuItem about = new JMenuItem("About");
 		about.addActionListener(new ActionListener(){
-			@Override
+			 
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(sm.d,
 					    "Wheaton College. Software Development 2013.",

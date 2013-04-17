@@ -22,9 +22,9 @@ public abstract class Screen extends JPanel {
 
 	private static final long serialVersionUID = -720613104216646508L;
 
-	protected Manager sm;
+	protected ScreenManager sm;
 	
-	public Screen(Manager sm) {
+	public Screen(ScreenManager sm) {
 		this.sm = sm;
 	}
 	

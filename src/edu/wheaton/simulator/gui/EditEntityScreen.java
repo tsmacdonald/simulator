@@ -40,7 +40,6 @@ public class EditEntityScreen extends Screen {
 	private Prototype agent;
 
 	private JPanel cards;
-	//private JTabbedPane tabs;
 
 	private String currentCard;
 
@@ -53,10 +52,6 @@ public class EditEntityScreen extends Screen {
 	private ArrayList<JTextField> fieldNames;
 
 	private ArrayList<JTextField> fieldValues;
-
-	//private ArrayList<JComboBox> fieldTypes;
-
-	//private String[] typeNames = { "Integer", "Double", "String", "Boolean" };
 
 	private ArrayList<JButton> fieldDeleteButtons;
 
@@ -115,8 +110,6 @@ public class EditEntityScreen extends Screen {
 		fieldNames = new ArrayList<JTextField>();
 		fieldValues = new ArrayList<JTextField>();
 
-		//fieldTypes = new ArrayList<JComboBox>();
-
 		fieldSubPanels = new ArrayList<JPanel>();
 		triggerSubPanels = new ArrayList<JPanel>();
 
@@ -137,7 +130,7 @@ public class EditEntityScreen extends Screen {
 		cards = new JPanel(new CardLayout());
 
 		generalPanel = new JPanel(new GridBagLayout());
-		//generalPanel = GuiUtility.makePanel(BoxLayoutAxis.PAGE_AXIS,MaxSize.NULL,PrefSize.NULL);
+	
 
 		final EditEntityScreen xThis = this;
 		addFieldButton = GuiUtility.makeButton("Add Field",new ActionListener() {
@@ -162,8 +155,6 @@ public class EditEntityScreen extends Screen {
 		initIconDesignObject(iconPanel);
 
 		JLabel generalLabel = GuiUtility.makeLabel("General Info",new PrefSize(300,80),HorizontalAlignment.CENTER);
-
-		//JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,MaxSize.NULL,PrefSize.NULL);
 
 		JPanel colorPanel = GuiUtility.makeColorChooserPanel(colorTool);
 		Dimension maxSize = colorPanel.getMaximumSize();
@@ -208,8 +199,6 @@ public class EditEntityScreen extends Screen {
 		c.gridwidth = 2;
 		generalPanel.add(iconPanel, c);
 
-		//JLabel fieldTypeLabel = new JLabel("Field Type");
-
 		addField();
 
 		// TODO make sure components line up
@@ -217,20 +206,12 @@ public class EditEntityScreen extends Screen {
 		fieldSubPanels.get(0).setLayout(
 				new BoxLayout(fieldSubPanels.get(0), BoxLayout.X_AXIS));
 		fieldSubPanels.get(0).add(fieldNames.get(0));
-		//fieldSubPanels.get(0).add(fieldTypes.get(0));
 		fieldSubPanels.get(0).add(fieldValues.get(0));
 		fieldSubPanels.get(0).add(fieldDeleteButtons.get(0));
-
-		//fieldTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
-
-		//fieldLabelsPanel.add(fieldTypeLabel);
 
 		fieldListPanel.add(fieldSubPanels.get(0));
 		fieldListPanel.add(addFieldButton);
 		fieldListPanel.add(Box.createVerticalGlue());
-
-
-		// fieldSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
 
 		addTrigger();
 
@@ -365,26 +346,22 @@ public class EditEntityScreen extends Screen {
 
 		
 		GridBagConstraints constraint = new GridBagConstraints();
-		//constraint.fill = GridBagConstraints.HORIZONTAL;
 		constraint.gridx = 0;
 		constraint.gridy = 0;
 		constraint.gridwidth = 2;
 		fieldMainPanel.add(fieldLabel, constraint);
 		
 		constraint = new GridBagConstraints();
-		//constraint.fill = GridBagConstraints.HORIZONTAL;
 		constraint.gridx = 0;
 		constraint.gridy = 1;
 		fieldMainPanel.add(fieldNameLabel, constraint);
 
 		constraint = new GridBagConstraints();
-		//constraint.fill = GridBagConstraints.HORIZONTAL;
 		constraint.gridx = 1;
 		constraint.gridy = 1;
 		fieldMainPanel.add(fieldValueLabel, constraint);
 
 		constraint = new GridBagConstraints();
-		//constraint.fill = GridBagConstraints.HORIZONTAL;
 		constraint.gridx = 0;
 		constraint.gridy = 2;
 		constraint.gridwidth = 3;
@@ -445,7 +422,6 @@ public class EditEntityScreen extends Screen {
 			}
 		}
 		fieldNames.clear();
-		//fieldTypes.clear();
 		fieldValues.clear();
 		fieldDeleteButtons.clear();
 		fieldSubPanels.clear();
@@ -572,16 +548,12 @@ public class EditEntityScreen extends Screen {
 		JPanel newPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		JTextField newName = GuiUtility.makeTextField(null,25,new MaxSize(300,40),null);
 		fieldNames.add(newName);
-		//		JComboBox newType = new JComboBox(typeNames);
-		//		newType.setMaximumSize(new Dimension(200, 40));
-		//		fieldTypes.add(newType);
 		JTextField newValue = GuiUtility.makeTextField(null,25,new MaxSize(300,40),null);
 		fieldValues.add(newValue);
 		JButton newButton = GuiUtility.makeButton("Delete",new DeleteFieldListener());
 		fieldDeleteButtons.add(newButton);
 		newButton.setActionCommand(fieldDeleteButtons.indexOf(newButton) + "");
 		newPanel.add(newName);
-		//		newPanel.add(newType);
 		newPanel.add(newValue);
 		newPanel.add(newButton);
 		fieldSubPanels.add(newPanel);
@@ -699,13 +671,11 @@ public class EditEntityScreen extends Screen {
 		public void actionPerformed(ActionEvent e) {
 			CardLayout c1 = (CardLayout)cards.getLayout();
 			if (currentCard == "Fields"){
-				//sendFieldInfo();
 				previousButton.setEnabled(false);
 				c1.previous(cards);
 				currentCard = "General";
 			}
 			else if (currentCard == "Triggers"){
-				//sendTriggerInfo();
 				c1.previous(cards);
 				nextButton.setEnabled(true);
 				currentCard = "Fields";

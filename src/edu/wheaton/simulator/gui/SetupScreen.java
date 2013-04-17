@@ -27,10 +27,6 @@ public class SetupScreen extends Screen {
 
 	private JTextField nameField;
 
-	//	private JTextField width;
-	//
-	//	private JTextField height;
-
 	private JTextField timeField;
 
 	private String[] agentNames;
@@ -40,10 +36,6 @@ public class SetupScreen extends Screen {
 	private ArrayList<JComboBox> agentTypes;
 
 	private ArrayList<JTextField> values;
-
-	//private String[] opNames = {">=", "=", "<="};
-
-	//private ArrayList<JComboBox> operations;
 
 	private ArrayList<JButton> deleteButtons;
 
@@ -75,46 +67,6 @@ public class SetupScreen extends Screen {
 		values = new ArrayList<JTextField>();
 		JPanel buttonPanel = makeButtonPanel(sm, nameField, timeField, updateBox,agentTypes,values);
 		this.add(buttonPanel, BorderLayout.SOUTH);
-
-		//		JLabel widthLabel = new JLabel("Width: ");
-		//		widthLabel.setMaximumSize(new Dimension(100, 40));
-		//		widthLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		//		width = new JTextField(sm.getGUIwidth()+"", 10);
-		//		width.setMaximumSize(new Dimension(80, 30));
-		//		JLabel heightLabel = new JLabel("Height: ");
-		//		heightLabel.setMaximumSize(new Dimension(210, 40));
-		//		heightLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		//		height = new JTextField(sm.getGUIheight()+"", 0);
-		//		height.setMaximumSize(new Dimension(80, 30));
-
-		//JLabel operationLabel = new JLabel("Operation");
-		//operationLabel.setPreferredSize(new Dimension(350, 30));
-
-		//operations = new ArrayList<JComboBox>();
-
-		//addCondition();
-		//TODO line up components
-		//		subPanels.get(0).setLayout(
-		//				new BoxLayout(subPanels.get(0), BoxLayout.X_AXIS)
-		//				);
-
-		//conLabelsPanel.add(operationLabel);
-		//operationLabel.setHorizontalAlignment(SwingConstants.LEFT);
-
-		//		subPanels.get(0).add(agentTypes.get(0));
-		//		//subPanels.get(0).add(operations.get(0));
-		//		subPanels.get(0).add(values.get(0));
-		//		subPanels.get(0).add(deleteButtons.get(0));
-		//		conListPanel.add(subPanels.get(0));
-
-
-
-		//		JPanel panel2 = new JPanel();
-		//		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
-		//		panel2.add(heightLabel);
-		//		panel2.add(height);
-		//		panel2.add(widthLabel);
-		//		panel2.add(width);
 	}
 	
 	private static JLabel makeAgentTypeLabel(){
@@ -309,12 +261,6 @@ public class SetupScreen extends Screen {
 	public void load() {
 		reset();
 		nameField.setText(GUI.getNameOfSim());
-		//		width.setText(GUI.getGridWidth() + "");
-		//		height.setText(GUI.getGridHeight() + "");
-		//		if (sm.hasStarted()) {
-		//			width.setEditable(false);
-		//			height.setEditable(false);
-		//		}
 		updateBox.setSelectedItem(sm.getFacade().currentUpdater());
 
 		SimulationEnder se = sm.getEnder();
@@ -355,9 +301,6 @@ public class SetupScreen extends Screen {
 		JPanel newPanel = GuiUtility.makePanel( BoxLayoutAxis.X_AXIS,null,null);
 		JComboBox newBox = GuiUtility.makeComboBox(agentNames,new MaxSize(300,40));
 		agentTypes.add(newBox);
-		//		JComboBox newOps = new JComboBox(opNames);
-		//		newOps.setMaximumSize(new Dimension(200, 40));
-		//		operations.add(newOps);
 		JTextField newValue = GuiUtility.makeTextField(null,25,new MaxSize(300,40),MinSize.NULL);
 		values.add(newValue);
 		JButton newButton = GuiUtility.makeButton("Delete",new DeleteListener());
@@ -365,7 +308,6 @@ public class SetupScreen extends Screen {
 		newButton.setActionCommand(deleteButtons.indexOf(newButton) + "");
 		System.out.println(deleteButtons.indexOf(newButton) + "");
 		newPanel.add(newBox);
-		//newPanel.add(newOps);
 		newPanel.add(newValue);
 		newPanel.add(newButton);
 		subPanels.add(newPanel);
@@ -378,12 +320,9 @@ public class SetupScreen extends Screen {
 
 	private void reset() {
 		nameField.setText("");
-		//		width.setText("");
-		//		height.setText("");
 		conListPanel.removeAll();
 		agentTypes.clear();
 		values.clear();
-		//operations.clear();
 		deleteButtons.clear();
 		subPanels.clear();
 	}
@@ -402,7 +341,6 @@ public class SetupScreen extends Screen {
 			conListPanel.remove(subPanels.get(n));
 			agentTypes.remove(n);
 			values.remove(n);
-			//operations.remove(n);
 			deleteButtons.remove(n);
 			for (int i = n; i < deleteButtons.size(); i++) {
 				deleteButtons.get(i).setActionCommand(
