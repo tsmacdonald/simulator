@@ -1,5 +1,8 @@
 package edu.wheaton.simulator.statistics;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,6 +28,7 @@ public class Saver {
 	/**
 	 * The name of the file this class will generate. 
 	 */
+	private String filename;
 	
 	/**
 	 * Constructor
@@ -40,8 +44,12 @@ public class Saver {
 	/**
 	 * Write data serializing the simulation's current state to a file
 	 * Saves the state of the most recent completed step only
+	 * FileWriter code taken from: http://www.javapractices.com/topic/TopicAction.do?Id=42
 	 */
 	public void save(){
+		// name the file, first
+		filename = "SimulationState.txt"; // TODO Change if necessary
+		
 		int currentStep = getCurrentStep();  
 		ImmutableMap<AgentID, AgentSnapshot> snaps = table.getSnapshotsAtStep(currentStep); 
 		
@@ -50,16 +58,26 @@ public class Saver {
 		
 		//Serialize and write all PrototypeSnapshots to file
 		for(PrototypeSnapshot proto : prototypes.values()){
-			System.out.println(proto.serialize()); 
+			System.out.println(proto.serialize()); // TESTER
 			sb.append(proto.serialize()); 
 		}
 		
 		//Serialize and write all AgentSnapshots to file
 		for(AgentSnapshot snap : snaps.values()){
-			System.out.println(snap.serialize()); 
+			System.out.println(snap.serialize());  // TESTER
 			sb.append(snap.serialize()); 
 		}
 		
+		// create BufferedWriter and BufferedReader
+				try {
+					BufferedWriter writer = new BufferedWriter(
+							new FileWriter(filename));
+					writer.write(sb.toString());
+					writer.close();
+				} catch (IOException e) {
+					System.err.println("Saver.java: IOException");
+					e.printStackTrace();
+				}
 
 	}
 	
