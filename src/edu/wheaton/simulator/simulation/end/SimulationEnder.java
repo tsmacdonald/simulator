@@ -1,6 +1,7 @@
 package edu.wheaton.simulator.simulation.end;
 
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -12,7 +13,8 @@ import edu.wheaton.simulator.entity.PrototypeID;
 /**
  * Handles the determination of whether or not the simulation needs to end.
  * 
- * @author Daniel Gill
+ * @author Daniel Gill, Chris Anderson
+ *
  */
 public class SimulationEnder {
 
@@ -216,4 +218,25 @@ public class SimulationEnder {
 			return false;
 		}
 	}
+	
+	
+	/**
+	 * Take the end conditions and serialize them
+	 *
+	 * @return A string containing the serialized end conditions         
+	 */
+	public String serialize(){
+		String ret = "EndConditions";
+		ret += "\nTIME " + Integer.toString(((TimeCondition) conditions[TIME_CONDITION]).maxSteps);
+		
+		ImmutableMap<PrototypeID, Integer> populationLimits = 
+				((AgentPopulationCondition) conditions[POPULATION_CONDITIONS]).getPopLimits();
+		
+		for (Entry<PrototypeID, Integer> entry : populationLimits.entrySet())
+			ret += "\nPOP " + entry.getKey() + " " + entry.getValue();
+		
+		
+		return ret;
+	}
+	
 }
