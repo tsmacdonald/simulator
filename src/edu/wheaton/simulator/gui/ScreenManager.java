@@ -163,19 +163,16 @@ public class ScreenManager {
 	private static JMenu makeFileMenu(final ScreenManager sm) {
 		JMenu menu = GuiUtility.makeMenu("File");
 		
-		JMenuItem newSimulation = new JMenuItem("New Simulation");
-		newSimulation.addActionListener(new GeneralButtonListener("New Simulation",sm));
-		menu.add(newSimulation);
+		menu.add(GuiUtility.makeMenuItem("New Simulation", 
+				new GeneralButtonListener("New Simulation",sm)));
 		
-		JMenuItem exit = new JMenuItem("Exit");
-		exit.addActionListener(new ActionListener(){
+		menu.add(GuiUtility.makeMenuItem("Exit",new ActionListener(){
 			 
 			public void actionPerformed(ActionEvent e) {
 				sm.setRunning(false);
 				System.exit(0);
 			}
-		});
-		menu.add(exit);
+		}));
 		
 		return menu;
 	}
@@ -183,13 +180,11 @@ public class ScreenManager {
 	private static JMenu makeEditMenu(final ScreenManager sm) {
 		JMenu menu = GuiUtility.makeMenu("Edit");
 		
-		JMenuItem editEntities = new JMenuItem("Edit Entities");
-		editEntities.addActionListener(new GeneralButtonListener("Entities",sm));
-		menu.add(editEntities);
-		
-		JMenuItem editGlobalFields = new JMenuItem("Edit Global Fields");
-		editGlobalFields.addActionListener(new GeneralButtonListener("Fields",sm));
-		menu.add(editGlobalFields);
+		menu.add(GuiUtility.makeMenuItem("Edit Entities", 
+				new GeneralButtonListener("Entities",sm)));
+
+		menu.add(GuiUtility.makeMenuItem("Edit Global Fields", 
+				new GeneralButtonListener("Fields",sm)));
 		
 		return menu;
 	}
@@ -197,8 +192,7 @@ public class ScreenManager {
 	private static JMenu makeHelpMenu(final ScreenManager sm) {
 		JMenu menu = GuiUtility.makeMenu("Help");
 		
-		JMenuItem about = new JMenuItem("About");
-		about.addActionListener(new ActionListener(){
+		menu.add(GuiUtility.makeMenuItem("About",new ActionListener(){
 			 
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(sm.d,
@@ -206,8 +200,7 @@ public class ScreenManager {
 					    "About",
 					    JOptionPane.PLAIN_MESSAGE);
 			}
-		});
-		menu.add(about);
+		}));
 		
 		return menu;
 	}

@@ -13,6 +13,7 @@ import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -119,5 +120,11 @@ public final class GuiUtility {
 		menu.setForeground(Color.white);
 		menu.setBackground(Color.darkGray);
 		return menu;
+	}
+	
+	public static JMenuItem makeMenuItem(String name, ActionListener al){
+		JMenuItem menuItem = new JMenuItem(name);
+		menuItem.addActionListener(al);
+		return menuItem;
 	}
 }
