@@ -39,7 +39,7 @@ public class AgentSnapshot {
 	/**
 	 * A list of this Agent's BehaviorSnapshots
 	 */
-	public final ArrayList<BehaviorSnapshot> behaviors;
+	public final ArrayList<TriggerSnapshot> triggers;
 	
 	/**
 	 * This Agent's xPosition
@@ -64,12 +64,12 @@ public class AgentSnapshot {
 	 *            The prototype for this category of Agent.
 	 */
 	public AgentSnapshot(AgentID id, ImmutableMap<String, FieldSnapshot> fields,
-			Integer step, String prototypeName, ArrayList<BehaviorSnapshot> behaviors, int x, int y) {
+			Integer step, String prototypeName, ArrayList<TriggerSnapshot> triggers, int x, int y) {
 		this.id = id;
 		this.step = step;
 		this.fields = fields;
 		this.prototypeName = prototypeName;
-		this.behaviors = behaviors;
+		this.triggers = triggers;
 		this.xpos = x; 
 		this.ypos = y; 
 	}
