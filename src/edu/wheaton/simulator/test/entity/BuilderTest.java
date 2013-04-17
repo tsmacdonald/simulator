@@ -70,7 +70,7 @@ public class BuilderTest {
 	//need to add an agent to test it. Thats annoying. Need to rewrite isValid.
 	@Test
 	public void testForUserEnteredExpression(){
-		builder.addConditional("health > 2");
+		builder.addConditional("health > 3");
 		builder.addBehavioral("move(5,5)");
 		Assert.assertTrue(builder.isValid() == java.lang.Boolean.TRUE);
 	}

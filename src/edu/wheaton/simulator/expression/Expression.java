@@ -92,7 +92,8 @@ public class Expression {
 	private EntityFieldResolver resolver;
 	private Object expr;
 	
-	private static HashMap<String, AbstractExpressionFunction> functions;
+	private static HashMap<String, AbstractExpressionFunction> behaviorFunctions;
+	private static HashMap<String, AbstractExpressionFunction> conditionFunctions;
 
 	/**
 	 * Default constructor
@@ -104,7 +105,6 @@ public class Expression {
 		evaluator = new Evaluator();
 		resolver = new EntityFieldResolver();
 		evaluator.setVariableResolver(resolver);
-		functions = new HashMap<String, AbstractExpressionFunction>();
 		
 		//make all project-defined ExpressionFunction implementations recognizable by default
 		this.importFunction(new CloneBehavior());
@@ -119,16 +119,22 @@ public class Expression {
 		this.importFunction(new SetFieldOfAgentBehavior());
 		
 		//make a hashmap of names and actual objects.
-		functions.put("clone", new CloneBehavior());
-		functions.put("cloneAgentAtPosition", new CloneAgentAtPositionBehavior());
-		functions.put("die", new DieBehavior());
-		functions.put("kill", new KillBehavior());
-		functions.put("move", new MoveBehavior());
-		functions.put("setField", new SetFieldBehavior());
-		functions.put("setFieldOfAgent", new SetFieldOfAgentBehavior());
-		functions.put("getFieldOfAgent", new GetFieldOfAgentAt());
-		functions.put("isSlotOpen", new IsSlotOpen());
-		functions.put("isValidCoord", new IsValidCoord());	
+		initializeFunctions();
+	}
+	
+	public static void initializeFunctions(){
+		behaviorFunctions = new HashMap<String, AbstractExpressionFunction>();
+		conditionFunctions = new HashMap<String, AbstractExpressionFunction>();
+		behaviorFunctions.put("clone", new CloneBehavior());
+		behaviorFunctions.put("cloneAgentAtPosition", new CloneAgentAtPositionBehavior());
+		behaviorFunctions.put("die", new DieBehavior());
+		behaviorFunctions.put("kill", new KillBehavior());
+		behaviorFunctions.put("move", new MoveBehavior());
+		behaviorFunctions.put("setField", new SetFieldBehavior());
+		behaviorFunctions.put("setFieldOfAgent", new SetFieldOfAgentBehavior());
+		conditionFunctions.put("getFieldOfAgent", new GetFieldOfAgentAt());
+		conditionFunctions.put("isSlotOpen", new IsSlotOpen());
+		conditionFunctions.put("isValidCoord", new IsValidCoord());	
 	}
 
 	/**
@@ -148,8 +154,16 @@ public class Expression {
 		this.resolver = res;
 	}
 	
-	public static Map<String,AbstractExpressionFunction> getFunction(){
-		return functions;
+	public static Map<String,AbstractExpressionFunction> getBehaviorFunction(){
+		if (behaviorFunctions == null)
+			initializeFunctions();
+		return behaviorFunctions;
+	}
+
+	public static Map<String,AbstractExpressionFunction> getConditionFunction(){
+		if (conditionFunctions == null)
+			initializeFunctions();
+		return conditionFunctions;
 	}
 	
 	/**
