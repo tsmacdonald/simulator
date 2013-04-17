@@ -72,8 +72,10 @@ public class Entity {
 	}
 
 	private void assertHasField(String name) {
-		if (hasField(name) == false)
+		if (hasField(name) == false){
+			System.err.println("####" + name + "####");
 			throw new NoSuchElementException();
+		}
 	}
 
 	private void assertNoSuchField(String name)
