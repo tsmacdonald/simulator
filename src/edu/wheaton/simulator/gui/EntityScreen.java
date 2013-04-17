@@ -116,8 +116,8 @@ public class EntityScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		delete.setEnabled(gm.hasStarted() ? false : true); 
-		gm.getFacade();
+		delete.setEnabled(getGuiManager().hasStarted() ? false : true); 
+		getGuiManager().getFacade();
 		Set<String> entities = Simulator.prototypeNames();
 		for (String s : entities) {
 			listModel.addElement(s);

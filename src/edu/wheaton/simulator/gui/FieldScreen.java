@@ -108,7 +108,7 @@ public class FieldScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		Map<String, String> map = gm.getFacade().getGrid().getCustomFieldMap();
+		Map<String, String> map = getGuiManager().getFacade().getGrid().getCustomFieldMap();
 		Object[] fieldsA = map.keySet().toArray();
 		for(Object s: fieldsA){
 			System.out.println((String) s);
@@ -122,8 +122,8 @@ public class FieldScreen extends Screen {
 	private class ListListener implements ListSelectionListener {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			edit.setEnabled(gm.hasStarted() ? false : true); 
-			delete.setEnabled(gm.hasStarted() ? false : true); 
+			edit.setEnabled(getGuiManager().hasStarted() ? false : true); 
+			delete.setEnabled(getGuiManager().hasStarted() ? false : true); 
 		}
 	}
 
@@ -140,7 +140,7 @@ public class FieldScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = fields.getSelectedIndex();
-			gm.getFacade().removeGlobalField((String)fields.getSelectedValue());
+			getGuiManager().getFacade().removeGlobalField((String)fields.getSelectedValue());
 			listModel.remove(index);
 			int size = listModel.getSize();
 			if(size == 0) {

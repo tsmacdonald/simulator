@@ -261,10 +261,9 @@ public class SetupScreen extends Screen {
 	public void load() {
 		reset();
 		nameField.setText(GUI.getNameOfSim());
-		updateBox.setSelectedItem(gm.getFacade().currentUpdater());
+		updateBox.setSelectedItem(getGuiManager().getFacade().currentUpdater());
 
-		SimulationEnder se = gm.getEnder();
-		gm.getFacade();
+		SimulationEnder se = getGuiManager().getEnder();
 		Set<String> agents = Simulator.prototypeNames();
 		agentNames = agents.toArray(agentNames);
 		timeField.setText(se.getStepLimit() + "");
@@ -283,7 +282,6 @@ public class SetupScreen extends Screen {
 			for (PrototypeID p : popLimits.keySet()) {
 				addCondition();
 				for (String s : agentNames) {
-					gm.getFacade();
 					if (Simulator.getPrototype(s).getPrototypeID().equals(p)) {
 						agentTypes.get(i).setSelectedItem(s);
 					}
@@ -334,8 +332,7 @@ public class SetupScreen extends Screen {
 			int n = Integer.parseInt(e.getActionCommand());
 			String str = (String) agentTypes.get(n).getSelectedItem();
 			if (str != null) {
-				gm.getFacade();
-				gm.getEnder().removePopLimit(
+				getGuiManager().getEnder().removePopLimit(
 						Simulator.getPrototype(str).getPrototypeID());
 			}
 			conListPanel.remove(subPanels.get(n));

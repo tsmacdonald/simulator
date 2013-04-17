@@ -374,7 +374,7 @@ public class EditEntityScreen extends Screen {
 
 	public void load(String str) {
 		reset();
-		gm.getFacade();
+		getGuiManager().getFacade();
 		agent = Simulator.getPrototype(str);
 		nameField.setText(agent.getName());
 		colorTool.setColor(agent.getColor());
@@ -450,10 +450,10 @@ public class EditEntityScreen extends Screen {
 
 	public void sendGeneralInfo(){
 		if (!editing) {
-			gm.getFacade();
+			getGuiManager().getFacade();
 			Simulator.createPrototype(nameField.getText(),
-					gm.getFacade().getGrid(), colorTool.getColor(),	generateBytes());
-			gm.getFacade();
+					getGuiManager().getFacade().getGrid(), colorTool.getColor(),	generateBytes());
+			getGuiManager().getFacade();
 			agent = Simulator.getPrototype(nameField.getText());
 		}
 		else {

@@ -180,9 +180,8 @@ public class SpawningScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		gm.getFacade();
 		entities = Simulator.prototypeNames().toArray(entities);
-		ArrayList<SpawnCondition> spawnConditions = gm.getSpawnConditions(); 
+		ArrayList<SpawnCondition> spawnConditions = getGuiManager().getSpawnConditions(); 
 
 		for (int i = 0; i < spawnConditions.size(); i++) { 
 			addSpawn();

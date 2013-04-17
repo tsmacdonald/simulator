@@ -180,7 +180,6 @@ public class StatisticsScreen extends Screen {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (cardSelector.getSelectedItem().equals(POPS_STR)) {
-							gm.getFacade();
 							int[] pops = statMan.getPopVsTime(Simulator.
 														getPrototype((String)popEntityBox.getSelectedItem())
 														.getName());
@@ -193,7 +192,6 @@ public class StatisticsScreen extends Screen {
 						}
 						else if (cardSelector.getSelectedItem().equals(FIELDS_STR)) {
 							String s = (String)fieldEntityBox.getSelectedItem();
-							gm.getFacade();
 							Prototype p = Simulator.getPrototype(s);
 							double[] vals = statMan.getAvgFieldValue(p.getName(),
 									((String)agentFieldsBoxes.get(s).getSelectedItem()));
@@ -205,7 +203,6 @@ public class StatisticsScreen extends Screen {
 							}
 						}
 						else {
-							gm.getFacade();
 							Prototype p = Simulator.getPrototype((String)lifeEntityBox.getSelectedItem());
 							//TODO temporary solution to demonstrate compatibility
 							//getAvgLifespan returns NaN (not a number; 0 / 0 ?)
@@ -223,7 +220,7 @@ public class StatisticsScreen extends Screen {
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gm.getScreenManager().update(gm.getScreenManager().getScreen("View Simulation")); 
+				getScreenManager().update(getScreenManager().getScreen("View Simulation")); 
 			}
 		});
 		return finishButton;
@@ -267,17 +264,14 @@ public class StatisticsScreen extends Screen {
 	
 	@Override
 	public void load() {
-		gm.getFacade();
 		entities = new String[Simulator.prototypeNames().size()];
 		popEntityBox.removeAllItems();
 		fieldEntityBox.removeAllItems();
 		lifeEntityBox.removeAllItems();
 		agentFieldsBoxes.clear();
 		int i = 0;
-		gm.getFacade();
 		for (String s : Simulator.prototypeNames()) {
 			entities[i++] = s;
-			gm.getFacade();
 			agentFields = Simulator.getPrototype(s).getCustomFieldMap().keySet().toArray(agentFields);
 			agentFieldsBoxes.put(s, new JComboBox(agentFields));
 			popEntityBox.addItem(s);

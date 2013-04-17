@@ -22,7 +22,7 @@ public abstract class Screen extends JPanel {
 
 	private static final long serialVersionUID = -720613104216646508L;
 
-	protected SimulatorGuiManager gm;
+	private SimulatorGuiManager gm;
 	
 	public Screen(SimulatorGuiManager guiManager) {
 		this.gm = guiManager;
@@ -30,4 +30,11 @@ public abstract class Screen extends JPanel {
 	
 	public abstract void load();
 	
+	public SimulatorGuiManager getGuiManager(){
+		return gm;
+	}
+	
+	public ScreenManager getScreenManager(){
+		return gm.getScreenManager();
+	}
 }

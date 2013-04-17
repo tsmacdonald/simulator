@@ -107,12 +107,12 @@ public class NewSimulationScreen extends Screen {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(3,1));
 		
-		JButton newSimButton = GuiUtility.makeButton("Blank Simulation",new NewSimScreenFinishListener(name, width, height, gm));
+		JButton newSimButton = GuiUtility.makeButton("Blank Simulation",new NewSimScreenFinishListener(name, width, height, getGuiManager()));
 		newSimButton.setPreferredSize(new Dimension(120, 40));
 		//These simulation forms should eventually be loaded through normal serialization process
-		JButton conwayButton = GuiUtility.makeButton("Conway's Game of Life",new ConwayFinishListener(name, width, height, gm));
+		JButton conwayButton = GuiUtility.makeButton("Conway's Game of Life",new ConwayFinishListener(name, width, height, getGuiManager()));
 		conwayButton.setPreferredSize(new Dimension(120, 40));
-		JButton rpsButton = GuiUtility.makeButton("Rock Paper Scissors",new RockPaperScissorsFinishListener(name, width, height, gm));
+		JButton rpsButton = GuiUtility.makeButton("Rock Paper Scissors",new RockPaperScissorsFinishListener(name, width, height, getGuiManager()));
 		rpsButton.setPreferredSize(new Dimension(120, 40));
 		
 		buttonPanel.add(newSimButton);

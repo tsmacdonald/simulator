@@ -85,7 +85,7 @@ public class EditFieldScreen extends Screen {
 		//edit listener should call this?
 		reset();
 		nameField.setText(n);
-		initValue.setText(gm.getFacade().getGlobalField(n).getValue());
+		initValue.setText(getGuiManager().getFacade().getGlobalField(n).getValue());
 		prevName = n;
 	}
 
@@ -108,19 +108,19 @@ public class EditFieldScreen extends Screen {
 					throw new Exception("All fields must have input");
 				}
 				if (FieldScreen.getEditing()){
-					gm.getFacade().removeGlobalField(prevName);
-					gm.getFacade().addGlobalField(nameField.getText(), initValue.getText());
+					getGuiManager().getFacade().removeGlobalField(prevName);
+					getGuiManager().getFacade().addGlobalField(nameField.getText(), initValue.getText());
 				}
 				else{
-					gm.getFacade().addGlobalField(nameField.getText(), initValue.getText());
+					getGuiManager().getFacade().addGlobalField(nameField.getText(), initValue.getText());
 				}
 			} catch (Exception e) {
 				toMove = false;
 				JOptionPane.showMessageDialog(null, e.getMessage());
 			}
 			if(toMove) {
-				gm.getScreenManager().getScreen("Fields").load();
-				gm.getScreenManager().update(gm.getScreenManager().getScreen("Fields"));
+				getScreenManager().getScreen("Fields").load();
+				getScreenManager().update(getScreenManager().getScreen("Fields"));
 				//TODO should not switch screens if the error message was shown.
 			}
 

@@ -149,8 +149,8 @@ public class StatDisplayScreen extends Screen {
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gm.getScreenManager().getScreen("View Simulation").load();
-				gm.getScreenManager().update(gm.getScreenManager().getScreen("View Simulation"));
+				getScreenManager().getScreen("View Simulation").load();
+				getScreenManager().update(getScreenManager().getScreen("View Simulation"));
 			}
 		});
 	}
