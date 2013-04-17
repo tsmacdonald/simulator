@@ -9,7 +9,6 @@
 
 package edu.wheaton.simulator.gui.screen;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -19,6 +18,7 @@ import javax.swing.SwingConstants;
 
 import edu.wheaton.simulator.gui.GeneralButtonListener;
 import edu.wheaton.simulator.gui.Gui;
+import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
 
 public class TitleScreen extends Screen {
@@ -34,10 +34,8 @@ public class TitleScreen extends Screen {
 		c.ipady = 50;
 		c.gridx = 0;
 		c.gridy = 0;
-		
-		JLabel label = new JLabel("Welcome to the Simulator!",SwingConstants.CENTER);
-		this.add(label, c);
-		
+		add(new JLabel("Welcome to the Simulator!",
+			SwingConstants.CENTER), c);
 		
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -48,15 +46,15 @@ public class TitleScreen extends Screen {
 		
 		// Since serialization is not yet implemented.
 		this.getComponent(2).setEnabled(false);
-		
 		this.setVisible(true);
 	}
 	
 	private JButton makeButton(String buttonName, String listenerName){
-		JButton button = Gui.makeButton(buttonName,new GeneralButtonListener(listenerName, getScreenManager()));
+		PrefSize ps = new PrefSize(200,70);
+		JButton button = Gui.makeButton(buttonName,ps,
+			new GeneralButtonListener(listenerName, getScreenManager()));
 		button.setAlignmentX(CENTER_ALIGNMENT);
-		button.setMinimumSize(new Dimension(200, 70));
-		button.setPreferredSize(new Dimension(200, 70));
+		button.setMinimumSize(ps);
 		return button;
 	}
 

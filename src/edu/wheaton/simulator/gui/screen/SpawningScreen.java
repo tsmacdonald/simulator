@@ -74,30 +74,30 @@ public class SpawningScreen extends Screen {
 		deleteButtons = new ArrayList<JButton>();
 		subPanels = new ArrayList<JPanel>();
 
-		addSpawnButton = Gui.makeButton("Add Spawn",
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						addSpawn();
-					}
-				});
+		addSpawnButton = Gui.makeButton("Add Spawn",null,
+			new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					addSpawn();
+				}
+		});
 		addSpawnButton.setAlignmentX(CENTER_ALIGNMENT);
 		
-		JButton cancelButton = Gui.makeButton("Cancel",
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						ScreenManager sm = gm.getScreenManager();
-						sm.update(sm.getScreen("Edit Simulation"));
-					}
-				});
+		JButton cancelButton = Gui.makeButton("Cancel",null,
+			new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					ScreenManager sm = gm.getScreenManager();
+					sm.update(sm.getScreen("Edit Simulation"));
+				}
+		});
 		
 		entityTypes = new ArrayList<JComboBox>();
 		spawnPatterns = new ArrayList<JComboBox>();
 		xLocs = new ArrayList<JTextField>();
 		yLocs = new ArrayList<JTextField>();
 		numbers = new ArrayList<JTextField>();
-		JButton finishButton = Gui.makeButton("Finish",
+		JButton finishButton = Gui.makeButton("Finish",null,
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -147,36 +147,32 @@ public class SpawningScreen extends Screen {
 					}
 				});
 		
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.add(cancelButton);
-		buttonPanel.add(finishButton);
-		
 		JLabel label = Gui.makeLabel("Spawning",
 				new PrefSize(300, 150), HorizontalAlignment.CENTER);
 		this.add(label, BorderLayout.NORTH);
 		
-		JLabel entityLabel = Gui.makeLabel("Entity Type", new PrefSize(
-				200, 30), HorizontalAlignment.CENTER);
-		JLabel patternLabel = Gui.makeLabel("Spawn Pattern",
-				new PrefSize(270, 30), HorizontalAlignment.CENTER);
-		JLabel xLabel = Gui.makeLabel("x Loc.", new PrefSize(100, 30),
-				null);
-		JLabel yLabel = Gui.makeLabel("Y Loc.", new PrefSize(100, 30),
-				null);
-		JLabel numberLabel = Gui.makeLabel("Number", new PrefSize(290,
-				30), null);
 		JPanel labelsPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS, null,
 				null);
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(Box.createHorizontalGlue());
-		labelsPanel.add(entityLabel);
+		labelsPanel.add(Gui.makeLabel("Entity Type", new PrefSize(
+				200, 30), HorizontalAlignment.CENTER));
+		
 		labelsPanel.add(Box.createHorizontalGlue());
-		labelsPanel.add(patternLabel);
+		
+		labelsPanel.add(Gui.makeLabel("Spawn Pattern",
+				new PrefSize(270, 30), HorizontalAlignment.CENTER));
+		
 		labelsPanel.add(Box.createHorizontalGlue());
-		labelsPanel.add(xLabel);
-		labelsPanel.add(yLabel);
-		labelsPanel.add(numberLabel);
+		
+		labelsPanel.add(Gui.makeLabel("x Loc.", new PrefSize(100, 30),
+				null));
+		labelsPanel.add(Gui.makeLabel("Y Loc.", new PrefSize(100, 30),
+				null));
+		labelsPanel.add(Gui.makeLabel("Number", new PrefSize(290,
+				30), null));
+		
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.setAlignmentX(CENTER_ALIGNMENT);
 		
@@ -190,7 +186,7 @@ public class SpawningScreen extends Screen {
 		mainPanel.add(listPanel);
 		
 		this.add(mainPanel, BorderLayout.CENTER);
-		this.add(buttonPanel, BorderLayout.SOUTH);
+		this.add(Gui.makePanel(cancelButton,finishButton), BorderLayout.SOUTH);
 	}
 
 	public void reset() {
@@ -221,40 +217,41 @@ public class SpawningScreen extends Screen {
 			yLocs.get(i).setText(spawnConditions.get(i).y + "");
 			numbers.get(i).setText(spawnConditions.get(i).number + "");
 		}
-		if (spawnConditions.size() == 0) {
+		if (spawnConditions.size() == 0)
 			addSpawn();
-		}
 		validate();
 	}
 
 	private void addSpawn() {
-		JPanel newPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS, null,
-				null);
 		JComboBox newBox = Gui.makeComboBox(entities, new MaxSize(250,
 				30));
 		entityTypes.add(newBox);
+		
 		JComboBox newSpawnType = Gui.makeComboBox(spawnOptions,
 				new MaxSize(250, 30));
-		spawnPatterns.add(newSpawnType);
 		newSpawnType.addItemListener(new PatternListener(spawnPatterns
 				.indexOf(newSpawnType)));
-
+		spawnPatterns.add(newSpawnType);
+		
 		JTextField newXLoc = Gui.makeTextField("0", 10, new MaxSize(
 				100, 30), MinSize.NULL);
-
 		xLocs.add(newXLoc);
+		
 		JTextField newYLoc = Gui.makeTextField("0", 10, new MaxSize(
 				100, 30), null);
 		yLocs.add(newYLoc);
 
 		JTextField newNumber = Gui.makeTextField("1", 10, new MaxSize(
 				100, 30), MinSize.NULL);
-
 		numbers.add(newNumber);
-		JButton newButton = Gui.makeButton("Delete",
+		
+		JButton newButton = Gui.makeButton("Delete",null,
 				new DeleteListener());
 		deleteButtons.add(newButton);
 		newButton.setActionCommand(deleteButtons.indexOf(newButton) + "");
+		
+		JPanel newPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS, null,
+				null);
 		newPanel.add(newBox);
 		newPanel.add(newSpawnType);
 		newPanel.add(newXLoc);

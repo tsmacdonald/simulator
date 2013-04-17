@@ -21,7 +21,6 @@ import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -49,9 +48,8 @@ public class EntityScreen extends Screen {
 	
 	public EntityScreen(final SimulatorGuiManager gm) {
 		super(gm);
-		JLabel label = Gui.makeLabel("Entities",new PrefSize(300, 100),HorizontalAlignment.CENTER);
 		this.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
+		
 		listModel = new DefaultListModel();
 		entityList = new JList(listModel);
 		entityList.setBackground(Color.white);
@@ -67,9 +65,8 @@ public class EntityScreen extends Screen {
 					edit.setEnabled(!gm.hasStarted());
 			}
 		});
-		delete = Gui.makeButton("Delete",new DeleteListener());
-		JButton add = Gui.makeButton("Add",new AddListener(gm.getScreenManager()));
-		edit = Gui.makeButton("Edit",new EditListener(gm.getScreenManager()));
+		delete = Gui.makeButton("Delete",null,new DeleteListener());
+		edit = Gui.makeButton("Edit",null,new EditListener());
 		edit.setEnabled(false);
 		entityList.addListSelectionListener(
 				new ListSelectionListener() {
@@ -79,39 +76,50 @@ public class EntityScreen extends Screen {
 					}
 				}
 				);
-		JButton back = Gui.makeButton("Back",new BackListener(gm.getScreenManager()));
 
 		//formatting needs a little work but this is now in GridBagLayout 
+		
+		GridBagConstraints c = new GridBagConstraints();
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
-		this.add(add, c); 
+		this.add(
+			Gui.makeButton("Add",null,
+				new AddListener()),c); 
+		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 2;
 		this.add(edit, c);
+		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
 		c.gridy = 2;
 		this.add(delete, c);
+		
 		//The code between this comment and the next
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 2;
-		this.add(back, c);
+		this.add(
+			Gui.makeButton("Back",null,
+				new BackListener()),c);
+		
 		//will be removed once added to tabbed pane
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 4;
-		this.add(label, c);
+		this.add(
+			Gui.makeLabel("Entities",new PrefSize(300, 100),HorizontalAlignment.CENTER), 
+			c);
+		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 4;
 		this.add(entityList, c);
-		
 	}
 	
 	public void reset() {
@@ -122,21 +130,19 @@ public class EntityScreen extends Screen {
 	public void load() {
 		reset();
 		delete.setEnabled(getGuiManager().hasStarted() ? false : true); 
-		getGuiManager().getFacade();
 		Set<String> entities = Simulator.prototypeNames();
-		for (String s : entities) {
+		for (String s : entities)
 			listModel.addElement(s);
-		}
 		edit.setEnabled(false);
 	}
 	
-	class DeleteListener implements ActionListener {
-		
+	class DeleteListener implements ActionListener {	
 		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = entityList.getSelectedIndex();
-			String toRemove = (String)entityList.getSelectedValue();
-			Prototype.removePrototype(toRemove);
+			Prototype.removePrototype(
+				(String)entityList.getSelectedValue()
+			);
 			listModel.remove(index);
 			int size = listModel.getSize();
 			if(size == 0){
@@ -151,51 +157,33 @@ public class EntityScreen extends Screen {
 	}
 	
 	class AddListener implements ActionListener {
-		
-		private ScreenManager sm;
-		
-		public AddListener(ScreenManager screenManager){
-			this.sm = screenManager;
-		}
-		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			((EditEntityScreen)sm.getScreen("Edit Entities")).load();
-			((EditEntityScreen)sm.getScreen("Edit Entities")).setEditing(false);
-			sm.update(sm.getScreen("Edit Entities"));
+			ScreenManager sm = getScreenManager();
+			EditEntityScreen screen = (EditEntityScreen)sm.getScreen("Edit Entities");
+			screen.load();
+			screen.setEditing(false);
+			sm.update(screen);
 		}
 	}
 	
 	class EditListener implements ActionListener {
-		
-		private ScreenManager sm;
-		
-		public EditListener(ScreenManager screenManager) {
-			this.sm = screenManager;
-		}
-		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			((EditEntityScreen)sm.getScreen("Edit Entities")).load(
-					(String)entityList.getSelectedValue());
-			((EditEntityScreen)sm.getScreen("Edit Entities")).setEditing(true);
-			sm.update(sm.getScreen("Edit Entities"));
+			ScreenManager sm = getScreenManager();
+			EditEntityScreen screen = (EditEntityScreen)sm.getScreen("Edit Entities");
+			screen.load(
+				(String)entityList.getSelectedValue());
+			screen.setEditing(true);
+			sm.update(screen);
 		}
 	}
 	
 	class BackListener implements ActionListener {
-		
-		private ScreenManager sm;
-		
-		public BackListener(ScreenManager screenManager) {
-			this.sm = screenManager;
-		}
-		
 		@Override
 		public void actionPerformed(ActionEvent e){
+			ScreenManager sm = getScreenManager();
 			sm.update(sm.getScreen("View Simulation"));
 		}
 	}
-
 }

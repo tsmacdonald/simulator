@@ -1,6 +1,7 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager;
@@ -25,10 +26,12 @@ public final class Gui {
 		// Auto-generated constructor stub
 	}
 	
-	public static JButton makeButton(String name, ActionListener al){
+	public static JButton makeButton(String name, PrefSize prefSize, ActionListener al){
 		JButton b = new JButton(name);
 		if(al != null)
 			b.addActionListener(al);
+		if(prefSize != null)
+			b.setPreferredSize(prefSize);
 		return b;
 	}
 	
@@ -138,10 +141,10 @@ public final class Gui {
 		return menuItem;
 	}
 	
-	public static JPanel makeButtonPanel(JButton... buttons){
+	public static JPanel makePanel(Component... components){
 		JPanel panel = new JPanel();
-		for(JButton b : buttons)
-			panel.add(b);
+		for(Component c : components)
+			panel.add(c);
 		return panel;
 	}
 }

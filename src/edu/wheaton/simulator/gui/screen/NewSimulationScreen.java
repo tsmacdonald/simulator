@@ -1,11 +1,9 @@
 package edu.wheaton.simulator.gui.screen;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -17,6 +15,7 @@ import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.MinSize;
 import edu.wheaton.simulator.gui.NewSimScreenFinishListener;
+import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.RockPaperScissorsFinishListener;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
 
@@ -35,21 +34,6 @@ public class NewSimulationScreen extends Screen {
 		super(gm);
 		this.setLayout(new GridBagLayout());
 
-		initLabel();
-		name = initNameField("Name: ", "Untitled Simulation");
-		height = initHeightField("Grid Height: ", "10");
-		width = initWidthField("Grid Width: ", "10");
-		initButtonPanel();
-		this.setVisible(true);
-	}
-
-	@Override
-	public void load() {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void initLabel(){
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
@@ -57,78 +41,59 @@ public class NewSimulationScreen extends Screen {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 50;
 
-		JLabel label = new JLabel("New Simulation",SwingConstants.CENTER);
-		this.add(label, c);
-	}
-
-	private JTextField initNameField(String label, String initText) {
-		GridBagConstraints c = new GridBagConstraints();
+		this.add(new JLabel(
+				"New Simulation",SwingConstants.CENTER), c);
+		
+		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JLabel nameLabel = new JLabel(label);
-		this.add(nameLabel, c);
+		this.add(new JLabel("Name: "), c);
 
 		c.gridx = 1;
 		c.gridy = 1;
 		c.gridwidth = 3;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JTextField nameField = Gui.makeTextField(initText,30,MaxSize.NULL,MinSize.NULL);
-		this.add(nameField, c);
-		return nameField;
-
-	}
-
-	private JTextField initHeightField(String label, String initText) {
-		GridBagConstraints c = new GridBagConstraints();
+		name = Gui.makeTextField("Untitled Simulation",30,MaxSize.NULL,MinSize.NULL);
+		this.add(name, c);
+		
+		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JLabel heightLabel = Gui.makeLabel(label,MaxSize.NULL,HorizontalAlignment.RIGHT);
-		this.add(heightLabel, c);
+		this.add(Gui.makeLabel("Grid Height: ",MaxSize.NULL,HorizontalAlignment.RIGHT), c);
 
 		c.gridx = 1;
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JTextField heightField = Gui.makeTextField(initText,10,MaxSize.NULL,new MinSize(70,30));
-		this.add(heightField, c);
-		return heightField;
-
-	}
-
-	private JTextField initWidthField(String label, String initText) {
-		GridBagConstraints c = new GridBagConstraints();
+		height = Gui.makeTextField("10",10,MaxSize.NULL,new MinSize(70,30));
+		this.add(height, c);
+		
+		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JLabel widthLabel = new JLabel(label,SwingConstants.RIGHT);
-		this.add(widthLabel, c);
+		this.add(new JLabel("Grid Width: ",SwingConstants.RIGHT), c);
 
 		c.gridx = 3;
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JTextField widthField = Gui.makeTextField(initText,10,MaxSize.NULL,new MinSize(70,30));
-		this.add(widthField, c);
-		return widthField;
-	}
-
-	private void initButtonPanel(){
-		JPanel buttonPanel = new JPanel();
+		width = Gui.makeTextField("10",10,MaxSize.NULL,new MinSize(70,30));
+		this.add(width, c);
+		
+		PrefSize ps = new PrefSize(120,40);
+		JPanel buttonPanel = Gui.makePanel(
+			Gui.makeButton("Blank Simulation",ps,
+					new NewSimScreenFinishListener(name, width, height, getGuiManager())),
+			//These simulation forms should eventually be loaded through normal serialization process
+			Gui.makeButton("Conway's Game of Life",ps,
+					new ConwayFinishListener(name, width, height, getGuiManager())),
+			Gui.makeButton("Rock Paper Scissors", ps,
+					new RockPaperScissorsFinishListener(name, width, height, getGuiManager()))
+		);
 		buttonPanel.setLayout(new GridLayout(3,1));
 		
-		JButton newSimButton = Gui.makeButton("Blank Simulation",new NewSimScreenFinishListener(name, width, height, getGuiManager()));
-		newSimButton.setPreferredSize(new Dimension(120, 40));
-		//These simulation forms should eventually be loaded through normal serialization process
-		JButton conwayButton = Gui.makeButton("Conway's Game of Life",new ConwayFinishListener(name, width, height, getGuiManager()));
-		conwayButton.setPreferredSize(new Dimension(120, 40));
-		JButton rpsButton = Gui.makeButton("Rock Paper Scissors",new RockPaperScissorsFinishListener(name, width, height, getGuiManager()));
-		rpsButton.setPreferredSize(new Dimension(120, 40));
-		
-		buttonPanel.add(newSimButton);
-		buttonPanel.add(conwayButton);
-		buttonPanel.add(rpsButton);
-		
-		GridBagConstraints c = new GridBagConstraints();
+		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridwidth = 4;
@@ -136,5 +101,11 @@ public class NewSimulationScreen extends Screen {
 		c.ipady = 40;
 		
 		this.add(buttonPanel, c);
+		this.setVisible(true);
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
 	}
 }

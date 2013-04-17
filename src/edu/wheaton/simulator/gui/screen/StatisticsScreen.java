@@ -147,14 +147,14 @@ public class StatisticsScreen extends Screen {
 		mainPanel.add(boxPanel);
 		mainPanel.add(dataPanel);
 		
-		mainPanel.add(Gui.makeButtonPanel(
+		mainPanel.add(Gui.makePanel(
 				makeDisplayButton(), makeFinishButton()));
 		
 		this.add(mainPanel);
 	}
 	
 	private JButton makeDisplayButton(){
-		JButton displayButton = Gui.makeButton("Display",new ActionListener() {
+		JButton displayButton = Gui.makeButton("Display",null,new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (cardSelector.getSelectedItem().equals(POPS_STR)) {
@@ -181,7 +181,7 @@ public class StatisticsScreen extends Screen {
 	}
 	
 	private JButton makeFinishButton(){
-		JButton finishButton = Gui.makeButton("Finish",
+		JButton finishButton = Gui.makeButton("Finish",null,
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

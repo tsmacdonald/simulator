@@ -23,7 +23,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
@@ -36,6 +35,7 @@ import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
+import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
 
 public class FieldScreen extends Screen {
@@ -59,13 +59,10 @@ public class FieldScreen extends Screen {
 	public FieldScreen(final SimulatorGuiManager gm) {
 		super(gm);
 		editing = false;
-		JLabel label = Gui.makeLabel("Fields",new PrefSize(300, 100),HorizontalAlignment.CENTER);
-		
 		this.setLayout(new BorderLayout());
-		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
-		JPanel panel = Gui.makePanel((LayoutManager)null , MaxSize.NULL, new PrefSize(450,550));
+		
 		listModel = new DefaultListModel();
+		
 		fields = new JList(listModel);
 		fields.setBackground(Color.white);
 		fields.setPreferredSize(new Dimension(400, 500));
@@ -74,27 +71,32 @@ public class FieldScreen extends Screen {
 		fields.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		fields.setVisibleRowCount(20);
 		fields.addListSelectionListener(new ListListener());
-		panel.add(fields);
 		fields.setAlignmentX(CENTER_ALIGNMENT);
-		delete = Gui.makeButton("Delete",new DeleteListener(listModel, fields));
-		add = Gui.makeButton("Add",new ActionListener() {
+		
+		JPanel panel = Gui.makePanel((LayoutManager)null , MaxSize.NULL, new PrefSize(450,550));
+		panel.add(fields);
+		
+		delete = Gui.makeButton("Delete",null,new DeleteListener(listModel, fields));
+		add = Gui.makeButton("Add",null,new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae){
 				FieldScreen.setEditing(false);
-				gm.getScreenManager().getScreen("Edit Fields").load();
-				gm.getScreenManager().update(gm.getScreenManager().getScreen("Edit Fields"));
+				ScreenManager sm = getScreenManager();
+				Screen screen = sm.getScreen("Edit Fields");
+				screen.load();
+				sm.update(screen);
 			}
 		});
-		edit = Gui.makeButton("Edit",new ActionListener() {
+		edit = Gui.makeButton("Edit",null,new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				ScreenManager sm = getScreenManager();
 				FieldScreen.setEditing(true);
-				((EditFieldScreen) gm.getScreenManager().getScreen("Edit Fields")).load((String) fields.getSelectedValue());
-				gm.getScreenManager().update(gm.getScreenManager().getScreen("Edit Fields"));
+				EditFieldScreen screen = (EditFieldScreen) sm.getScreen("Edit Fields");
+				screen.load((String)fields.getSelectedValue());
+				sm.update(screen);
 			}
 		});
-		JButton back = Gui.makeButton("Back",
-				new GeneralButtonListener("View Simulation", gm.getScreenManager()));
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(add);
 		buttonPanel.add(Box.createHorizontalStrut(5));
@@ -102,11 +104,20 @@ public class FieldScreen extends Screen {
 		buttonPanel.add(Box.createHorizontalStrut(5));
 		buttonPanel.add(delete);
 		buttonPanel.add(Box.createHorizontalStrut(5));
-		buttonPanel.add(back);
+		buttonPanel.add(
+			Gui.makeButton("Back",null,
+				new GeneralButtonListener("View Simulation", getScreenManager())));
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(panel);
 		mainPanel.add(buttonPanel);
-		this.add(label, BorderLayout.NORTH);
+		
+		this.add(
+			Gui.makeLabel("Fields",new PrefSize(300, 100),HorizontalAlignment.CENTER), 
+			BorderLayout.NORTH
+		);
 		this.add(mainPanel, BorderLayout.CENTER);
 	}
 
@@ -153,8 +164,7 @@ public class FieldScreen extends Screen {
 			int size = listModel.getSize();
 			if(size == 0) {
 				edit.setEnabled(false);
-				delete.setEnabled(false);
-				
+				delete.setEnabled(false);	
 			}
 			if(index == size)
 				index--;
@@ -169,5 +179,4 @@ public class FieldScreen extends Screen {
 	public static void setEditing(boolean e){
 		editing = e;
 	}
-
 }

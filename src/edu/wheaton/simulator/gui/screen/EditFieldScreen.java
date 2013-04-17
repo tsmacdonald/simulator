@@ -16,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,7 +27,9 @@ import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
+import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.simulation.Simulator;
 
 public class EditFieldScreen extends Screen {
 
@@ -43,42 +44,44 @@ public class EditFieldScreen extends Screen {
 	public EditFieldScreen(final SimulatorGuiManager gm) {
 		super(gm);
 		this.setLayout(new BorderLayout());
-		JLabel label = Gui.makeLabel("Edit Field",new PrefSize(300, 150),HorizontalAlignment.CENTER);
 		
-		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-		JPanel panel1 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
-		JPanel panel2 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
-		JPanel panel3 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
-		JPanel buttonPanel = new JPanel();
-		JLabel nameLabel = Gui.makeLabel("Field Name: ",MaxSize.NULL,HorizontalAlignment.RIGHT);
 		nameField = Gui.makeTextField(null,40, new MaxSize(300,40),null);
-		JLabel valueLabel = new JLabel("Initial Value: ",SwingConstants.RIGHT);
+		JPanel panel1 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		panel1.add(Gui.makeLabel("Field Name: ",MaxSize.NULL,HorizontalAlignment.RIGHT));
+		panel1.add(nameField);
+		
+		JPanel panel2 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		
 		initValue = Gui.makeTextField(null,40,new MaxSize(300,40),null);
-		JButton cancelButton = Gui.makeButton("Cancel",
+		JPanel panel3 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		panel3.add(new JLabel("Initial Value: ",SwingConstants.RIGHT));
+		panel3.add(initValue);
+		
+		Dimension size = new Dimension(0,15);
+		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		mainPanel.add(panel1);
+		mainPanel.add(Box.createRigidArea(size));
+		mainPanel.add(panel2);
+		mainPanel.add(Box.createRigidArea(size));
+		mainPanel.add(panel3);
+		mainPanel.add(Box.createRigidArea(size));
+		
+		PrefSize prefSize = new PrefSize(120,60);
+		mainPanel.add(Gui.makePanel(
+			Gui.makeButton("Cancel",prefSize,
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						gm.getScreenManager().update(gm.getScreenManager().getScreen("Fields")); 
+						ScreenManager sm = getScreenManager();
+						sm.update(sm.getScreen("Fields")); 
 					} 
-				}
-				);
-		cancelButton.setPreferredSize(new Dimension(120, 60));
-		JButton finishButton = Gui.makeButton("Finish",new FinishListener());
-		finishButton.setPreferredSize(new Dimension(120, 60));
-		panel1.add(nameLabel);
-		panel1.add(nameField);
-		panel3.add(valueLabel);
-		panel3.add(initValue);
-		buttonPanel.add(cancelButton);
-		buttonPanel.add(finishButton);
-		mainPanel.add(panel1);
-		mainPanel.add(Box.createRigidArea(new Dimension (0, 15)));
-		mainPanel.add(panel2);
-		mainPanel.add(Box.createRigidArea(new Dimension (0, 15)));
-		mainPanel.add(panel3);
-		mainPanel.add(Box.createRigidArea(new Dimension (0, 15)));
-		mainPanel.add(buttonPanel);
-		this.add(label, BorderLayout.NORTH);
+				}),
+			Gui.makeButton("Finish",prefSize,
+				new FinishListener())));
+		
+		this.add(Gui.makeLabel("Edit Field",new PrefSize(300, 150),HorizontalAlignment.CENTER), 
+			BorderLayout.NORTH);
+		
 		this.add(mainPanel, BorderLayout.CENTER);
 	}
 
@@ -110,27 +113,31 @@ public class EditFieldScreen extends Screen {
 		public void actionPerformed(ActionEvent ae) {
 			boolean toMove = true;
 			try {
-				if (nameField.getText().equals("") ||
-						initValue.getText().equals("")) {
+				Simulator sim = getGuiManager().getFacade();
+				
+				String nameFieldText = nameField.getText();
+				String initValueText = initValue.getText();
+				if (nameFieldText.equals("") ||
+						initValueText.equals("")) {
 					throw new Exception("All fields must have input");
 				}
 				if (FieldScreen.getEditing()){
-					getGuiManager().getFacade().removeGlobalField(prevName);
-					getGuiManager().getFacade().addGlobalField(nameField.getText(), initValue.getText());
+					sim.removeGlobalField(prevName);
+					sim.addGlobalField(nameFieldText,initValueText);
 				}
-				else{
-					getGuiManager().getFacade().addGlobalField(nameField.getText(), initValue.getText());
-				}
+				else
+					sim.addGlobalField(nameFieldText,initValueText);
 			} catch (Exception e) {
 				toMove = false;
 				JOptionPane.showMessageDialog(null, e.getMessage());
 			}
 			if(toMove) {
-				getScreenManager().getScreen("Fields").load();
-				getScreenManager().update(getScreenManager().getScreen("Fields"));
+				ScreenManager sm = getScreenManager();
+				Screen fieldsScreen = sm.getScreen("Fields");
+				fieldsScreen.load();
+				sm.update(fieldsScreen);
 				//TODO should not switch screens if the error message was shown.
 			}
-
 		}
 	}
 }
