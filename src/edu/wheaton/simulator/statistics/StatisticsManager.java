@@ -55,6 +55,13 @@ public class StatisticsManager {
 	}
 	
 	/*
+	 * Get instance of this singleton
+	 */
+	public StatisticsManager getInstance() {
+		return instance;
+	}
+	
+	/*
 	 * Initialize an observer for the grid
 	 */
 	public void initialize(Grid grid, Collection<Prototype> protos) {
@@ -69,9 +76,12 @@ public class StatisticsManager {
 	private Integer lastStep() {
 		return table.getAllSteps().size();
 	}
+	
+	
 	/**
 	 * Add a PrototypeSnapshot to the StatisticsManager. 
-	 * @param prototypeSnapshot The new prototype being recorded. 
+	 * @param prototypeSnapshot The new prototype being recorded.
+	 * TODO: DON'T NEED TO MAKE PROTOSNAPS EVERY TIME!!!!!!
 	 */
 	public void addPrototypeSnapshot(PrototypeSnapshot prototypeSnapshot) { 
 		if (prototypeSnapshot.step > lastStep()) 
@@ -93,9 +103,6 @@ public class StatisticsManager {
 	 */
 	public void addGridEntity(AgentSnapshot agentSnapshot) {
 		table.putEntity(agentSnapshot);
-
-		if (agentSnapshot.step > lastStep())
-			lastStep() = agentSnapshot.step;
 	}
 
 	/**
