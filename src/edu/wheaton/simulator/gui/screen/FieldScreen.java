@@ -127,7 +127,7 @@ public class FieldScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		Map<String, String> map = getGuiManager().getSimGrid().getCustomFieldMap();
+		Map<String, String> map = getGuiManager().getSimGridFieldMap();
 		Object[] fieldsA = map.keySet().toArray();
 		for(Object s: fieldsA){
 			System.out.println((String) s);

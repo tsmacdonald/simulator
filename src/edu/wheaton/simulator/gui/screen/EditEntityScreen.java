@@ -437,8 +437,8 @@ public class EditEntityScreen extends Screen {
 
 	public void sendGeneralInfo(){
 		if (!editing) {
-			Simulator.createPrototype(nameField.getText(),
-					getGuiManager().getSimGrid(), colorTool.getColor(),generateBytes());
+			Simulator.createPrototype(nameField.getText(),getGuiManager().getSimGrid(),
+					colorTool.getColor(),generateBytes());
 			agent = Simulator.getPrototype(nameField.getText());
 		}
 		else {

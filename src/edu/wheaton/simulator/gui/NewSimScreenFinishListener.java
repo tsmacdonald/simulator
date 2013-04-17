@@ -25,9 +25,9 @@ public class NewSimScreenFinishListener implements ActionListener {
 		try {
 			int heightInt = getHeight();
 			int widthInt = getWidth();
-			gm.setSim(name.getText(),widthInt, heightInt);
+			gm.initSim(name.getText(),widthInt, heightInt);
 			gm.updateGuiManager(getName(), widthInt, heightInt);
-			gm.getSimEnder().setStepLimit(1000);
+			gm.setSimStepLimit(1000);
 		} catch(java.lang.NumberFormatException nfe) { 
 			System.err.println("Invalid input passed to NewSimScreenFinishListener");
 		}

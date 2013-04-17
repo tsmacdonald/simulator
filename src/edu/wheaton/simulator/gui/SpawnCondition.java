@@ -19,18 +19,18 @@ public class SpawnCondition {
 		this.number = number; 
 	}
 
-	public void addToGrid(Grid grid) {
+	public void addToGrid(SimulatorGuiManager gm) {
 		if (pattern.equals("Clustered"))
 			for (int i = 0; i < number; i++)
-				grid.spiralSpawn(prototype.createAgent(), x, y);
+				gm.spiralSpawnSimAgent(prototype.getName(), x, y);
 		else if (pattern.equals("Random"))
 			for (int i = 0; i < number; i++)
-				grid.spiralSpawn(prototype.createAgent());
+				gm.spiralSpawnSimAgent(prototype.getName());
 		else if (pattern.equals("Horizontal"))
 			for (int i = 0; i < number; i++)
-				grid.horizontalSpawn(prototype.createAgent(), x);
+				gm.horizontalSpawnSimAgent(prototype.getName(), x);
 		else if (pattern.equals("Vertical"))
 			for (int i = 0; i < number; i++)
-				grid.verticalSpawn(prototype.createAgent(), y);
+				gm.verticalSpawnSimAgent(prototype.getName(), y);
 	}
 }

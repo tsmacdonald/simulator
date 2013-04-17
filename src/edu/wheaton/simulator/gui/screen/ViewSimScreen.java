@@ -104,7 +104,7 @@ public class ViewSimScreen extends Screen {
 		gm.getGridPanel().addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				if(getGuiManager().canSpawn){
+				if(getGuiManager().canSimSpawn()){
 					int standardSize = Math.min(
 							gm.getGridPanel().getWidth()/gm.getSimGridWidth(),
 							gm.getGridPanel().getHeight()/gm.getSimGridHeight()
@@ -173,12 +173,12 @@ public class ViewSimScreen extends Screen {
 				SimulatorGuiManager gm = getGuiManager();
 				if (!gm.hasSimStarted()) {
 					for (SpawnCondition condition: gm.getSimSpawnConditions()) {
-						condition.addToGrid(gm.getSimGrid());
+						condition.addToGrid(gm);
 					}
 				}
 				gm.getGridPanel().repaint();
 				
-				gm.startTime = System.currentTimeMillis();
+				gm.initSimStartTime();
 //				if (stepCount == 0)
 //					;//sm.getStatManager().setStartTime(startTime);
 				gm.startSim();

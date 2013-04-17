@@ -3,16 +3,21 @@ package edu.wheaton.simulator.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Map;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
+import com.google.common.collect.ImmutableMap;
 
 import net.sourceforge.jeval.EvaluationException;
 
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.PrototypeID;
 import edu.wheaton.simulator.gui.screen.EditEntityScreen;
 import edu.wheaton.simulator.gui.screen.EditFieldScreen;
 import edu.wheaton.simulator.gui.screen.EntityScreen;
@@ -36,9 +41,9 @@ public class SimulatorGuiManager {
 	private Simulator simulator;
 	private boolean simulationIsRunning;
 	private ArrayList<SpawnCondition> spawnConditions;
-	public int stepCount;
-	public long startTime;
-	public boolean canSpawn;
+	private int stepCount;
+	private long startTime;
+	private boolean canSpawn;
 	private GridPanel gridPanel;
 	//for determining when components should be disabled while running a sim.
 	private boolean hasStarted;
@@ -48,7 +53,7 @@ public class SimulatorGuiManager {
 		spawnConditions = new ArrayList<SpawnCondition>();
 		startTime = 0;
 		canSpawn = true;
-		setSim("New Simulation",10, 10);
+		initSim("New Simulation",10, 10);
 		sm = new ScreenManager(d);
 		sm.putScreen("Title", new TitleScreen(this));
 		sm.putScreen("New Simulation", new NewSimulationScreen(this));
@@ -78,7 +83,7 @@ public class SimulatorGuiManager {
 		return gridPanel;
 	}
 	 
-	public void setSim(String name,int x, int y) {
+	public void initSim(String name,int x, int y) {
 		simulator = new Simulator(name,x, y);
 	}
 	
@@ -88,6 +93,10 @@ public class SimulatorGuiManager {
 	
 	public Grid getSimGrid(){
 		return getSim().getGrid();
+	}
+	
+	public Map<String,String> getSimGridFieldMap(){
+		return getSimGrid().getFieldMap();
 	}
 	
 	public Field getSimGlobalField(String name){
@@ -102,8 +111,28 @@ public class SimulatorGuiManager {
 		getSim().removeGlobalField(name);
 	}
 	 
-	public SimulationEnder getSimEnder() {
+	private SimulationEnder getSimEnder() {
 		return se;
+	}
+	
+	public void setSimStepLimit(int maxSteps){
+		getSimEnder().setStepLimit(maxSteps);
+	}
+	
+	public int getSimStepLimit(){
+		return getSimEnder().getStepLimit();
+	}
+	
+	public void setSimPopLimit(PrototypeID typeID, int maxPop){
+		getSimEnder().setPopLimit(typeID, maxPop);
+	}
+	
+	public ImmutableMap<PrototypeID, Integer> getSimPopLimits(){
+		return getSimEnder().getPopLimits();
+	}
+	
+	public void removeSimPopLimit(PrototypeID typeID){
+		getSimEnder().removePopLimit(typeID);
 	}
 	
 	public StatisticsManager getStatManager(){
@@ -191,13 +220,33 @@ public class SimulatorGuiManager {
 		return getSim().currentUpdater();
 	}
 	
-	public void spiralSpawnSimAgent(String prototypeName, int x, int y){
-		getSim().spiralSpawn(prototypeName, x, y);
-	}
-	
 	public void pauseSim(){
 		setSimRunning(false);
 		canSpawn = true;
+	}
+	
+	public boolean canSimSpawn() {
+		return canSpawn;
+	}
+	
+	public void initSimStartTime(){
+		startTime = System.currentTimeMillis();
+	}
+	
+	public boolean spiralSpawnSimAgent(String prototypeName, int x, int y){
+		return getSim().spiralSpawn(prototypeName, x, y);
+	}
+	
+	public boolean spiralSpawnSimAgent(String string) {
+		return getSim().spiralSpawn(string);
+	}
+	
+	public boolean horizontalSpawnSimAgent(String prototypeName, int x) {
+		return getSim().horizontalSpawn(prototypeName, x);
+	}
+	
+	public boolean verticalSpawnSimAgent(String name, int y) {
+		return getSim().verticalSpawn(name, y);
 	}
 	
 	public void startSim(){
