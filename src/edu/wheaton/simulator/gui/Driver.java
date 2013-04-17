@@ -13,7 +13,7 @@ package edu.wheaton.simulator.gui;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-public class Main {
+public class Driver {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Thread(new Runnable() {
 			@Override
