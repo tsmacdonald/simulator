@@ -21,12 +21,12 @@ import edu.wheaton.simulator.entity.Trigger;
 public class StatisticsManager {
 
 	/**
-	 * Single instance of this class
+	 * Single instance of this class.
 	 */
 	private static StatisticsManager instance = new StatisticsManager();
 	
 	/**
-	 * The table on which all entity snapshots will be stored.
+	 * The table in which all entity snapshots will be stored.
 	 */
 	private AgentSnapshotTable table;
 
@@ -41,11 +41,13 @@ public class StatisticsManager {
 	public Grid grid;
 	
 	/**
-	 * Each index in the List stores the prototype snapshot associated with
-	 * that step in the simulation
+	 * Initial set of prototypes.
 	 */
 	private static ImmutableSet<Prototype> prototypes;
 	
+	/**
+	 * Prototype snapshots in the game.
+	 */
 	private static HashMap<String, PrototypeSnapshot> protoSnaps;
 	
 	/**
@@ -66,7 +68,7 @@ public class StatisticsManager {
 	}
 	
 	/**
-	 * Initialize an observer for the grid
+	 * Initialize an observer for the grid and triggers and prepare prototypes for saving.
 	 */
 	public void initialize(Grid grid) {
 		grid.addObserver(gridObserver);
@@ -78,7 +80,7 @@ public class StatisticsManager {
 	}
 
 	/**
-	 * Get the last step(taken from the table of snapshots)
+	 * Get the last step(taken from the table of snapshots).
 	 */
 	private Integer lastStep() {
 		return table.getAllSteps().size();
@@ -88,17 +90,12 @@ public class StatisticsManager {
 	/**
 	 * Add a PrototypeSnapshot to the StatisticsManager. 
 	 * @param prototypeSnapshot The new prototype being recorded.
-	 * TODO: DON'T NEED TO MAKE PROTOSNAPS EVERY TIME!!!!!!
 	 */
 	public void addPrototypeSnapshot(PrototypeSnapshot snap) {
-		protoSnaps.put(snap.categoryName, snap);
-//		Map<String, PrototypeSnapshot> typeMap; 
-//		if ((typeMap = prototypes.get(prototypeSnapshot.step)) != null) { 
-//			typeMap.put(prototypeSnapshot.categoryName, prototypeSnapshot);
-//		} else { 
-//			typeMap = new TreeMap<String, PrototypeSnapshot>();
-//			prototypes.put(new Integer(prototypeSnapshot.step), typeMap); 
-//		}
+		if(snap.step == 0 || !protoSnaps.containsKey(snap.categoryName)) {
+			protoSnaps.put(snap.categoryName, snap);
+			//TODO: Save this prototype to a file
+		}
 	}
 
 	/**
@@ -137,7 +134,6 @@ public class StatisticsManager {
 		return builder.build();
 	}
 
-	// TODO Fix documentation once testing is finished.
 	/**
 	 * Get data for a graph of the population of a certain GridEntity over time
 	 * 
@@ -147,8 +143,7 @@ public class StatisticsManager {
 	 *         the value refers to the population of the targeted entity at
 	 *         that time
 	 */
-	// TODO Make sure getPopVsTime is working correctly
-	public int[] getPopVsTime(String prototypeName) { // name - name of Prototype
+	public int[] getPopVsTime(String prototypeName) {
 		int[] data = new int[lastStep()+1];	
 		
 		//Populate agentsByStep

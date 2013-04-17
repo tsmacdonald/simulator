@@ -86,7 +86,16 @@ public class SnapshotFactory {
 		return new PrototypeSnapshot(name, fields, population, childIDs, step, color, design);	
 	}
 	
-	// TODO Add documentation
+	/**
+	 * 
+	 * @param id Of the agent acting
+	 * @param triggerName
+	 * @param priority Of the trigger
+	 * @param condition The expression this trigger is made up of
+	 * @param behavior The expression to represent the behavior
+	 * @param step Of the game
+	 * @return
+	 */
 	public static TriggerSnapshot makeTriggerSnapshot(AgentID id, String triggerName, int priority, Expression condition, 
 			Expression behavior, int step) {
 		return new TriggerSnapshot(id, triggerName, priority, condition, behavior, step);
@@ -102,7 +111,6 @@ public class SnapshotFactory {
 	 */
 	public static AgentSnapshot makeGlobalVarSnapshot(Grid grid,
 			Prototype prototype, Integer step) {
-		//TODO: Note that AgentSnapshots now require an xPos and yPos in the constructor
 		return new AgentSnapshot(grid.getID(), makeFieldSnapshots(grid.getCustomFieldMap()), step, prototype.getName(), null, 0, 0);
 	}
 	
