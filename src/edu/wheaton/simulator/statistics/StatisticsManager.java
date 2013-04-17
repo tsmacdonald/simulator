@@ -57,7 +57,7 @@ public class StatisticsManager {
 	/*
 	 * Get instance of this singleton
 	 */
-	public StatisticsManager getInstance() {
+	public static StatisticsManager getInstance() {
 		return instance;
 	}
 	
