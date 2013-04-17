@@ -17,7 +17,7 @@ import edu.wheaton.simulator.entity.TriggerObserver;
  * @author Daniel Gill, Nico Lasta
  * 
  */
-public class GridRecorder implements GridObserver, TriggerObserver {
+public class Recorder implements GridObserver, TriggerObserver {
 
 	// private static int ii = 0;
 
@@ -30,10 +30,10 @@ public class GridRecorder implements GridObserver, TriggerObserver {
 	/**
 	 * Constructor.
 	 */
-	public GridRecorder(StatisticsManager statManager) {
+	public Recorder(StatisticsManager statManager) {
 		this.statManager = statManager;
 		gridPrototype = null;
-		GridRecorder.triggers = new HashMap<AgentID, ArrayList<TriggerSnapshot>>();
+		Recorder.triggers = new HashMap<AgentID, ArrayList<TriggerSnapshot>>();
 	}
 
 	/**
@@ -46,28 +46,28 @@ public class GridRecorder implements GridObserver, TriggerObserver {
 	 * @param prototypes
 	 */
 	@Override
-	public void update(Grid grid, int step) {
+	public void update(Grid grid) {
 		Collection<Prototype> prototypes = Prototype.getPrototypes();
 		
 		for (Prototype prototype : prototypes) {
 			statManager.addPrototypeSnapshot(SnapshotFactory
-					.makePrototypeSnapshot(prototype, step));
+					.makePrototypeSnapshot(prototype, grid.getStep()));
 		}
 		
 		for (Agent agent : grid) {
 			if (agent != null) {
 				statManager.addGridEntity(SnapshotFactory.makeAgentSnapshot(
-						agent, triggers.get(agent.getID()), step));
+						agent, triggers.get(agent.getID()), grid.getStep()));
 				
 			}
 		}
 		
 		if(gridPrototype == null) {
 			gridPrototype = new Prototype(grid, "GRID");
-			statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, step));
+			statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, grid.getStep()));
 		}
 		else
-			statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, step));
+			statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, grid.getStep()));
 		
 		triggers.clear();
 	}
@@ -87,9 +87,9 @@ public class GridRecorder implements GridObserver, TriggerObserver {
 	 *            The step that this method is called in
 	 */
 	@Override
-	public void update(Agent caller, Trigger trigger) {
+	public void update(Agent caller, Trigger trigger, int step) {
 		TriggerSnapshot triggerSnap = SnapshotFactory.makeTriggerSnapshot(
-				caller.getID(), trigger.getName(), trigger.getPriority(), null, null, statManager.grid.getStep());
+				caller.getID(), trigger.getName(), trigger.getPriority(), null, null, step);
 		
 		if (triggers.containsKey(caller)) {
 			triggers.get(caller).add(triggerSnap);
@@ -99,5 +99,4 @@ public class GridRecorder implements GridObserver, TriggerObserver {
 			triggers.put(caller.getID(), triggerList);
 		}
 	}
-
 }

@@ -32,7 +32,7 @@ public class StatisticsManager {
 	/**
 	 * The GridOberserver keeps track of changes in the grid.
 	 */
-	private static GridRecorder gridObserver;
+	private static Recorder gridObserver;
 
 	/*
 	 * The grid being used. Will be used by GridRecorder
@@ -50,7 +50,7 @@ public class StatisticsManager {
 	 */
 	private StatisticsManager() {
 		table = new AgentSnapshotTable();
-		gridObserver = new GridRecorder(this);
+		gridObserver = new Recorder(this);
 		prototypes = new HashMap<Integer, Map<String, PrototypeSnapshot>>();
 	}
 	
