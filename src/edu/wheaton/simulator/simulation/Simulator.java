@@ -32,6 +32,7 @@ import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class Simulator implements Runnable {
 
@@ -66,6 +67,11 @@ public class Simulator implements Runnable {
 	 * Runs the simulation by updating all the entities
 	 */
 	public void run() {
+		// StatisticsManager.initialize(grid, Prototype.getPrototypes());
+		// Stats team needs to:
+		// Add observer to the Grid
+		// Add observer to the Trigger class
+		// Store the prototypes
 		while (!shouldPause.get()) {
 			try {
 				grid.updateEntities();
@@ -263,6 +269,35 @@ public class Simulator implements Runnable {
 	}
 
 	/**
+	 * Places an new agent (that follows the given prototype) at the given
+	 * coordinates. This method replaces (kills) anything that is currently in
+	 * that position. The Agent's own position is also updated accordingly.
+	 * 
+	 * @param a
+	 * @param x
+	 * @param y
+	 * @return false if the x/y values are invalid
+	 */
+	public boolean addAgent(String prototypeName, int x, int y) {
+		Agent toAdd = getPrototype(prototypeName).createAgent();
+		return grid.addAgent(toAdd, x, y);
+	}
+
+	/**
+	 * Places an new agent (that follows the given prototype) at a random
+	 * position in the grid. This method replaces (kills) anything that is
+	 * currently in that position. The Agent's own position is also updated
+	 * accordingly.
+	 * 
+	 * @param a
+	 * @return returns true if successful
+	 */
+	public boolean addAgent(String prototypeName) {
+		Agent toAdd = getPrototype(prototypeName).createAgent();
+		return grid.addAgent(toAdd);
+	}
+
+	/**
 	 * Returns the Agent at the given coordinates
 	 * 
 	 * @param x
@@ -441,7 +476,7 @@ public class Simulator implements Runnable {
 	public void removeGlobalField(String name) {
 		grid.removeField(name);
 	}
-	
+
 	/**
 	 * Loads a simulation from a grid and prototypes
 	 * 
@@ -450,7 +485,7 @@ public class Simulator implements Runnable {
 	 */
 	public void load(Grid grid, Set<Prototype> prototypes) {
 		this.grid = grid;
-		for(Prototype current : prototypes)
+		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
 	}
 }
