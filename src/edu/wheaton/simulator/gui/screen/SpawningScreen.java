@@ -109,7 +109,7 @@ public class SpawningScreen extends Screen {
 									.getSpawnConditions();
 							conditions.clear();
 							for (int i = 0; i < entityTypes.size(); i++) {
-								gm.getFacade();
+								gm.getSim();
 								SpawnCondition condition = new SpawnCondition(
 										Simulator
 												.getPrototype(((String) entityTypes

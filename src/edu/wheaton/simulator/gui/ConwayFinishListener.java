@@ -25,14 +25,14 @@ public class ConwayFinishListener implements ActionListener {
 		try {
 			int heightInt = getHeight();
 			int widthInt = getWidth();
-			gm.setFacade(widthInt, heightInt);
-			SimulatorGuiManager.updateGUIManager(getName(), widthInt, heightInt);
+			gm.setSim(widthInt, heightInt);
+			gm.updateGUIManager(getName(), widthInt, heightInt);
 		} catch(java.lang.NumberFormatException nfe) { 
 			System.err.println("Invalid input passed to ConwayFinishListener");
 		}
 
 		Screen upload = gm.getScreenManager().getScreen("View Simulation");
-		gm.getFacade().initGameOfLife();
+		gm.getSim().initGameOfLife();
 		gm.getEnder().setStepLimit(1000);
 		gm.setStarted(false);
 		gm.getScreenManager().update(upload);

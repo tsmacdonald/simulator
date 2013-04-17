@@ -74,7 +74,7 @@ public class SetupScreen extends Screen {
 		conListPanel.add(addConditionButton);
 		conListPanel.add(Box.createVerticalGlue());
 		
-		nameField = Gui.makeTextField(SimulatorGuiManager.getGUIname(), 25,new MaxSize(400,30),MinSize.NULL);
+		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),MinSize.NULL);
 		
 		timeField = Gui.makeTextField(null,15,new MaxSize(200,40),MinSize.NULL);
 		
@@ -171,11 +171,11 @@ public class SetupScreen extends Screen {
 					String str = (String)updateBox.getSelectedItem();
 					
 					if (str.equals("Linear"))
-						guiManager.getFacade().setLinearUpdate();
+						guiManager.getSim().setLinearUpdate();
 					else if (str.equals("Atomic"))
-						guiManager.getFacade().setLinearUpdate();
+						guiManager.getSim().setLinearUpdate();
 					else
-						guiManager.getFacade().setPriorityUpdate(0, 50);
+						guiManager.getSim().setPriorityUpdate(0, 50);
 					
 					for (int i = 0; i < values.size(); i++) {
 						ender.setPopLimit(
@@ -219,8 +219,8 @@ public class SetupScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		nameField.setText(SimulatorGuiManager.getNameOfSim());
-		updateBox.setSelectedItem(getGuiManager().getFacade().currentUpdater());
+		nameField.setText(getGuiManager().getNameOfSim());
+		updateBox.setSelectedItem(getGuiManager().getSim().currentUpdater());
 
 		SimulationEnder se = getGuiManager().getEnder();
 		int stepLimit = se.getStepLimit();

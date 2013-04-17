@@ -95,7 +95,7 @@ public class EditFieldScreen extends Screen {
 		//edit listener should call this?
 		reset();
 		nameField.setText(n);
-		initValue.setText(getGuiManager().getFacade().getGlobalField(n).getValue());
+		initValue.setText(getGuiManager().getSim().getGlobalField(n).getValue());
 		prevName = n;
 	}
 
@@ -113,7 +113,7 @@ public class EditFieldScreen extends Screen {
 		public void actionPerformed(ActionEvent ae) {
 			boolean toMove = true;
 			try {
-				Simulator sim = getGuiManager().getFacade();
+				Simulator sim = getGuiManager().getSim();
 				
 				String nameFieldText = nameField.getText();
 				String initValueText = initValue.getText();

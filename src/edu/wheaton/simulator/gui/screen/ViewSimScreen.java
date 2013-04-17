@@ -45,10 +45,7 @@ public class ViewSimScreen extends Screen {
 
 	private static final long serialVersionUID = -6872689283286800861L;
 
-	private GridPanel grid;
-	private int stepCount;
-	private long startTime;
-	private boolean canSpawn;
+	private GridPanel gridPanel;
 
 	private JComboBox agentComboBox;
 	private JComboBox layerComboBox;
@@ -60,11 +57,10 @@ public class ViewSimScreen extends Screen {
 
 	public ViewSimScreen(final SimulatorGuiManager gm) {
 		super(gm);
-		canSpawn = true;
+		
 		entities = new String[0];
 		this.setLayout(new BorderLayout());
 		//gridRec = new SimulationRecorder(sm.getStatManager());
-		stepCount = 0;
 
 		agentComboBox = Gui.makeComboBox(null,new MaxSize(200,50));
 
@@ -85,13 +81,13 @@ public class ViewSimScreen extends Screen {
 					public void actionPerformed(ActionEvent ae) {
 						Simulator.newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
 						try {
-							gm.getFacade().setLayerExtremes();
+							gm.getSim().setLayerExtremes();
 						} catch (EvaluationException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						grid.setLayers(true);
-						grid.repaint();
+						gridPanel.setLayers(true);
+						gridPanel.repaint();
 					}
 				}
 			),
@@ -99,8 +95,8 @@ public class ViewSimScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
-						grid.setLayers(false);
-						grid.repaint();
+						gridPanel.setLayers(false);
+						gridPanel.repaint();
 					} 
 				}
 			)
@@ -110,27 +106,27 @@ public class ViewSimScreen extends Screen {
 				layerPanelAgents,layerPanelLayers,layerPanelButtons);
 		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
 
-		grid = new GridPanel(gm);
-		grid.setAlignmentY(CENTER_ALIGNMENT);
-		grid.addMouseListener(new MouseListener() {
+		gridPanel = new GridPanel(gm);
+		gridPanel.setAlignmentY(CENTER_ALIGNMENT);
+		gridPanel.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				if(canSpawn){
+				if(getGuiManager().canSpawn){
 					int standardSize = Math.min(
-						grid.getWidth()/SimulatorGuiManager.getGUIwidth(),
-						grid.getHeight()/SimulatorGuiManager.getGUIheight()
+						gridPanel.getWidth()/gm.getGridWidth(),
+						gridPanel.getHeight()/gm.getGridHeight()
 					);
 					
 					int x = me.getX()/standardSize;
 					int y = me.getY()/standardSize;
 					
-					Simulator sim = gm.getFacade();
+					Simulator sim = gm.getSim();
 					
 					if(sim.getAgent(x,y) == null)
 						sim.spiralSpawn(agentComboBox.getSelectedItem().toString(), x, y);
 					else
 						sim.removeAgent(x,y);
-					grid.repaint();
+					gridPanel.repaint();
 				}
 			}
 
@@ -157,7 +153,7 @@ public class ViewSimScreen extends Screen {
 		);
 		this.add(makeButtonPanel(), BorderLayout.SOUTH);
 		this.add(Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null,
-				layerPanel,grid), BorderLayout.CENTER);
+				layerPanel,gridPanel), BorderLayout.CENTER);
 		this.setVisible(true);	
 	}
 
@@ -169,9 +165,7 @@ public class ViewSimScreen extends Screen {
 			Gui.makeButton("Pause",null,new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					getGuiManager().setRunning(false);
-					//add if loop for tabbed pane once implemented
-					canSpawn = true;
+					getGuiManager().pauseSim();
 				}
 			}),
 			Gui.makeButton("Entities",null, new GeneralButtonListener("Entities",sm)),
@@ -188,69 +182,18 @@ public class ViewSimScreen extends Screen {
 				SimulatorGuiManager gm = getGuiManager();
 				if (!gm.hasStarted()) {
 					for (SpawnCondition condition: gm.getSpawnConditions()) {
-						condition.addToGrid(gm.getFacade());
-						System.out.println("spawning a condition");
+						condition.addToGrid(gm.getSim());
 					}
 				}
-				grid.repaint();
-				gm.setRunning(true);
-				gm.setStarted(true);
-				canSpawn = false;
-				startTime = System.currentTimeMillis();
+				gridPanel.repaint();
+				
+				gm.startTime = System.currentTimeMillis();
 //				if (stepCount == 0)
 //					;//sm.getStatManager().setStartTime(startTime);
-				runSim();
+				gm.startSim();
 			}
 		});
 		return b;
-	}
-
-	private void runSim() {
-		System.out.println("StepLimit = " + getGuiManager().getEnder().getStepLimit());
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				SimulatorGuiManager gm = getGuiManager();
-				while(gm.isRunning()) {
-					Simulator sim = gm.getFacade();
-					try {
-						sim.updateEntities();
-					} catch (SimulationPauseException e) {
-						gm.setRunning(false);
-						JOptionPane.showMessageDialog(null, e.getMessage());
-						break;
-					}
-					long currentTime = System.currentTimeMillis();
-					//gridRec.recordSimulationStep(gm.getFacade().getGrid(), stepCount, Prototype.getPrototypes());
-					//gridRec.updateTime(currentTime, currentTime - startTime);
-					startTime = currentTime;
-					stepCount++;
-					boolean shouldEnd = gm.getEnder().evaluate(stepCount, 
-							sim.getGrid());
-					System.out.println("shouldEnd = " + shouldEnd);
-					if (shouldEnd) {
-						gm.setRunning(false);
-					}
-
-					SwingUtilities.invokeLater(
-						new Thread (new Runnable() {
-							@Override
-							public void run() {
-								grid.repaint();
-							}
-						}));
-
-					System.out.println(stepCount);
-					try {
-						System.out.println("Sleep!");
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						System.err.println("ViewSimScreen.java: 'Thread.sleep(500)' was interrupted");
-						e.printStackTrace();
-					}
-				}
-			}
-		}).start();
 	}
 
 	@Override
@@ -282,6 +225,6 @@ public class ViewSimScreen extends Screen {
 		layerPanelAgents.remove(1);
 		layerPanelAgents.add(agentComboBox);
 		validate();
-		grid.repaint();
+		gridPanel.repaint();
 	}
 }
