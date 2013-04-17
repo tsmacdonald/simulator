@@ -63,8 +63,10 @@ public class ViewSimScreen extends Screen {
 	private JPanel layerPanelLayers;
 
 	private GridBagConstraints c;
-	
-	private final Screen entitiesScreen;
+
+	private final EntityScreen entitiesScreen;
+
+	private JTabbedPane tabs;
 
 	public ViewSimScreen(final ScreenManager sm) {
 		super(sm);
@@ -150,37 +152,32 @@ public class ViewSimScreen extends Screen {
 
 
 
-		JTabbedPane tabs = new JTabbedPane();
-		entitiesScreen = sm.getScreen("Entities");
+		tabs = new JTabbedPane();
+		entitiesScreen = (EntityScreen)sm.getScreen("Entities");
 		tabs.add("Agent", entitiesScreen);
+		tabs.add("Layers", upperLayerPanel);
 		tabs.addChangeListener(new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent ce) {
 				entitiesScreen.load();
 			}
-			
-		});
-		tabs.add("Layers", upperLayerPanel);
 
+		});
 
 		grid = new GridPanel(sm);
 		grid.setPreferredSize(new Dimension(550,550));
 		grid.addMouseListener(
 				new MouseListener() {
-
 					@Override
 					public void mouseClicked(MouseEvent me) {
-						if(canSpawn){
+						if(canSpawn && entitiesScreen.getSelectedAgent() != ""){
 							int x = me.getX();
 							int y = me.getY();
 							int height = grid.getHeight()/ScreenManager.getGUIheight();
 							int width = grid.getWidth()/ScreenManager.getGUIwidth();
 							int standardSize = Math.min(width, height);
 							if(sm.getFacade().getGrid().emptyPos(x/standardSize, y/standardSize)){
-								sm.getFacade().spiralSpawn(agentComboBox.getSelectedItem().toString(), x/standardSize, y/standardSize);
-							}
-							else{
-								sm.getFacade().removeAgent(x/standardSize, y/standardSize);
+								sm.getFacade().spiralSpawn((entitiesScreen).getSelectedAgent(), x/standardSize, y/standardSize);
 							}
 							grid.repaint();
 						}
@@ -253,17 +250,22 @@ public class ViewSimScreen extends Screen {
 				new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				sm.setRunning(false);
-				//add if loop for tabbed pane once implemented
-				canSpawn = true;
+				if(tabs.getSelectedIndex() != 0){
+					canSpawn = false;
+				}
+				else {canSpawn = true;}
 			}
 		}
 				));
 
 		//TODO most of these will become tabs, adding temporarily for navigation purposes
-	//	buttonPanel.add(GuiUtility.makeButton("Entities", new GeneralButtonListener("Entities", sm)));
+		//	buttonPanel.add(GuiUtility.makeButton("Entities", new GeneralButtonListener("Entities", sm)));
 		buttonPanel.add(GuiUtility.makeButton("Global Fields", new GeneralButtonListener("Fields", sm)));
 		buttonPanel.add(GuiUtility.makeButton("Setup options", new GeneralButtonListener("Grid Setup", sm)));
 		buttonPanel.add(GuiUtility.makeButton("Statistics", new GeneralButtonListener("Statistics", sm)));
+
+		//Make new clear button
+		
 		return buttonPanel;
 	}
 

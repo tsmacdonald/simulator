@@ -74,8 +74,6 @@ public class EntityScreen extends Screen {
 					}
 				}
 				);
-		JButton back = GuiUtility.makeButton("Back",new BackListener(sm));
-
 		//formatting needs a little work but this is now in GridBagLayout 
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -90,12 +88,6 @@ public class EntityScreen extends Screen {
 		c.gridx = 2;
 		c.gridy = 2;
 		this.add(delete, c);
-		//The code between this comment and the next
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 3;
-		c.gridy = 2;
-		this.add(back, c);
-		//will be removed once added to tabbed pane
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
@@ -123,6 +115,13 @@ public class EntityScreen extends Screen {
 			listModel.addElement(s);
 		}
 		edit.setEnabled(false);
+	}
+	
+	public String getSelectedAgent(){
+		if(entityList.getSelectedValue() == null){
+			return "";
+		}
+		else return entityList.getSelectedValue().toString();
 	}
 	
 	class DeleteListener implements ActionListener {
@@ -178,19 +177,4 @@ public class EntityScreen extends Screen {
 			sm.update(sm.getScreen("Edit Entities"));
 		}
 	}
-	
-	class BackListener implements ActionListener {
-		
-		private ScreenManager sm;
-		
-		public BackListener(ScreenManager sm) {
-			this.sm = sm;
-		}
-		
-		@Override
-		public void actionPerformed(ActionEvent e){
-			sm.update(sm.getScreen("View Simulation"));
-		}
-	}
-
 }
