@@ -16,10 +16,11 @@ import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.datastructure.GridObserver;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.entity.Trigger;
 
 public class StatisticsManager {
 
-	/*
+	/**
 	 * Single instance of this class
 	 */
 	private static StatisticsManager instance = new StatisticsManager();
@@ -34,7 +35,7 @@ public class StatisticsManager {
 	 */
 	private static Recorder gridObserver;
 
-	/*
+	/**
 	 * The grid being used. Will be used by GridRecorder
 	 */
 	public Grid grid;
@@ -43,7 +44,9 @@ public class StatisticsManager {
 	 * Each index in the List stores the prototype snapshot associated with
 	 * that step in the simulation
 	 */
-	private static HashMap<Integer, Map<String, PrototypeSnapshot>> prototypes;
+	private static ImmutableSet<Prototype> prototypes;
+	
+	private static HashMap<String, PrototypeSnapshot> protoSnaps;
 	
 	/**
 	 * Private constructor to prevent wanton instantiation.
@@ -51,26 +54,30 @@ public class StatisticsManager {
 	private StatisticsManager() {
 		table = new AgentSnapshotTable();
 		gridObserver = new Recorder(this);
-		prototypes = new HashMap<Integer, Map<String, PrototypeSnapshot>>();
+		prototypes = null;
+		protoSnaps = new HashMap<String, PrototypeSnapshot>();
 	}
 	
-	/*
+	/**
 	 * Get instance of this singleton
 	 */
 	public static StatisticsManager getInstance() {
 		return instance;
 	}
 	
-	/*
+	/**
 	 * Initialize an observer for the grid
 	 */
-	public void initialize(Grid grid, Collection<Prototype> protos) {
-		this.prototypes = prototypes;
-		grid.addObserver((GridObserver) gridObserver);
+	public void initialize(Grid grid) {
+		grid.addObserver(gridObserver);
+		Trigger.addObserver(gridObserver);
 		this.grid = grid;
+		this.prototypes = Prototype.getPrototypes();
+		for(Prototype p : prototypes)
+			addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(p, grid.getStep()));
 	}
 
-	/*
+	/**
 	 * Get the last step(taken from the table of snapshots)
 	 */
 	private Integer lastStep() {
@@ -83,16 +90,15 @@ public class StatisticsManager {
 	 * @param prototypeSnapshot The new prototype being recorded.
 	 * TODO: DON'T NEED TO MAKE PROTOSNAPS EVERY TIME!!!!!!
 	 */
-	public void addPrototypeSnapshot(PrototypeSnapshot prototypeSnapshot) { 
-		if (prototypeSnapshot.step > lastStep()) 
-			lastStep() = prototypeSnapshot.step; 
-		Map<String, PrototypeSnapshot> typeMap; 
-		if ((typeMap = prototypes.get(prototypeSnapshot.step)) != null) { 
-			typeMap.put(prototypeSnapshot.categoryName, prototypeSnapshot);
-		} else { 
-			typeMap = new TreeMap<String, PrototypeSnapshot>();
-			prototypes.put(new Integer(prototypeSnapshot.step), typeMap); 
-		}
+	public void addPrototypeSnapshot(PrototypeSnapshot snap) {
+		protoSnaps.put(snap.categoryName, snap);
+//		Map<String, PrototypeSnapshot> typeMap; 
+//		if ((typeMap = prototypes.get(prototypeSnapshot.step)) != null) { 
+//			typeMap.put(prototypeSnapshot.categoryName, prototypeSnapshot);
+//		} else { 
+//			typeMap = new TreeMap<String, PrototypeSnapshot>();
+//			prototypes.put(new Integer(prototypeSnapshot.step), typeMap); 
+//		}
 	}
 
 	/**

@@ -19,8 +19,6 @@ import edu.wheaton.simulator.entity.TriggerObserver;
  */
 public class Recorder implements GridObserver, TriggerObserver {
 
-	// private static int ii = 0;
-
 	private StatisticsManager statManager;
 
 	private Prototype gridPrototype;

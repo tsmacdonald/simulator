@@ -84,6 +84,7 @@ public class PrototypeSnapshot {
 	 * DefaultFields: FieldSnapshot Name Value
 	 * DefaultFields: FieldSnapshot Name Value
 	 * #
+	 * TODO: Add the triggers to serialization
 	 */
 	public String serialize(){
 		String s = "PrototypeSnapshot";
