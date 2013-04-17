@@ -16,10 +16,6 @@ public class GridPanel extends JPanel {
 	private int width;
 
 	private int height;
-
-	private int gridWidth;
-
-	private int gridHeight;
 	
 	private boolean layers;
 
@@ -33,8 +29,8 @@ public class GridPanel extends JPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		gridWidth = gm.getGridWidth();
-		gridHeight = gm.getGridHeight();
+		int gridWidth = gm.getGridWidth();
+		int gridHeight = gm.getGridHeight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
@@ -55,8 +51,8 @@ public class GridPanel extends JPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		gridWidth = gm.getGridWidth();
-		gridHeight = gm.getGridHeight();
+		int gridWidth = gm.getGridWidth();
+		int gridHeight = gm.getGridHeight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
@@ -110,8 +106,8 @@ public class GridPanel extends JPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		gridWidth = gm.getGridWidth();
-		gridHeight = gm.getGridHeight();
+		int gridWidth = gm.getGridWidth();
+		int gridHeight = gm.getGridHeight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
