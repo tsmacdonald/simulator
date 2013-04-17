@@ -23,7 +23,8 @@ public class ConwayFinishListener implements ActionListener {
 		try {
 			int heightInt = getHeight();
 			int widthInt = getWidth();
-			sm.setFacade(widthInt, heightInt);
+			String nameStr = getName();
+			sm.setFacade(nameStr, widthInt, heightInt);
 			sm.updateGUIManager(getName(), widthInt, heightInt);
 		} catch(java.lang.NumberFormatException nfe) { 
 			System.err.println("Invalid input passed to ConwayFinishListener");

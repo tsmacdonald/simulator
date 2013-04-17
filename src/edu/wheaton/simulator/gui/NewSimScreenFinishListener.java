@@ -23,7 +23,8 @@ public class NewSimScreenFinishListener implements ActionListener {
 		try {
 			int heightInt = getHeight();
 			int widthInt = getWidth();
-			sm.setFacade(widthInt, heightInt);
+			String nameStr = getName();
+			sm.setFacade(nameStr, widthInt, heightInt);
 			sm.updateGUIManager(getName(), widthInt, heightInt);
 			sm.getEnder().setStepLimit(1000);
 		} catch(java.lang.NumberFormatException nfe) { 

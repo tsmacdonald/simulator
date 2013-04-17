@@ -17,6 +17,7 @@ import javax.swing.plaf.metal.MetalBorders;
 
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
+import edu.wheaton.simulator.statistics.Recorder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class ScreenManager {
@@ -46,7 +47,7 @@ public class ScreenManager {
 		this.d = d;
 		this.d.setJMenuBar(makeMenuBar());
 		se = new SimulationEnder();
-		statMan = new StatisticsManager();
+		statMan = StatisticsManager.getInstance();
 		screens.put("Title", new TitleScreen(this));
 		screens.put("New Simulation", new NewSimulationScreen(this));
 		screens.put("Fields", new FieldScreen(this));
@@ -81,8 +82,8 @@ public class ScreenManager {
 	}
 
 	 
-	public void setFacade(int x, int y) {
-		facade = new Simulator(x, y);
+	public void setFacade(String name, int x, int y) {
+		facade = new Simulator(name, x, y);
 	}
 	
 	 

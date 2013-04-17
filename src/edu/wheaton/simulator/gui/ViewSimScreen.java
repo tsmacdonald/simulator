@@ -37,10 +37,8 @@ import javax.swing.event.ChangeListener;
 
 import net.sourceforge.jeval.EvaluationException;
 
-import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
-import edu.wheaton.simulator.statistics.SimulationRecorder;
 
 public class ViewSimScreen extends Screen {
 
@@ -52,11 +50,7 @@ public class ViewSimScreen extends Screen {
 
 	private int stepCount;
 
-	private long startTime;
-
 	private boolean canSpawn;
-
-	private SimulationRecorder gridRec;
 
 	private JComboBox agentComboBox;
 
@@ -69,6 +63,8 @@ public class ViewSimScreen extends Screen {
 	private JPanel layerPanelLayers;
 
 	private GridBagConstraints c;
+	
+	private final Screen entitiesScreen;
 
 	public ViewSimScreen(final ScreenManager sm) {
 		super(sm);
@@ -76,7 +72,6 @@ public class ViewSimScreen extends Screen {
 		entities = new String[0];
 		this.setLayout(new GridBagLayout());
 		this.sm = sm;
-		gridRec = new SimulationRecorder(sm.getStatManager());
 		stepCount = 0;
 		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 
@@ -156,12 +151,12 @@ public class ViewSimScreen extends Screen {
 
 
 		JTabbedPane tabs = new JTabbedPane();
-		final Screen entities = sm.getScreen("Entities");
-		tabs.add("Agent", entities);
+		entitiesScreen = sm.getScreen("Entities");
+		tabs.add("Agent", entitiesScreen);
 		tabs.addChangeListener(new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent ce) {
-				entities.load();
+				entitiesScreen.load();
 			}
 			
 		});
@@ -287,10 +282,6 @@ public class ViewSimScreen extends Screen {
 				sm.setRunning(true);
 				sm.setStarted(true);
 				canSpawn = false;
-				startTime = System.currentTimeMillis();
-				if (stepCount == 0) {
-					sm.getStatManager().setStartTime(startTime);
-				}
 				runSim();
 			}
 		}
@@ -312,11 +303,6 @@ public class ViewSimScreen extends Screen {
 						JOptionPane.showMessageDialog(null, e.getMessage());
 						break;
 					}
-					long currentTime = System.currentTimeMillis();
-					gridRec.recordSimulationStep(sm.getFacade().getGrid(), stepCount, Prototype.getPrototypes());
-					gridRec.updateTime(currentTime, currentTime - startTime);
-					startTime = currentTime;
-					stepCount++;
 					boolean shouldEnd = sm.getEnder().evaluate(stepCount, 
 							sm.getFacade().getGrid());
 					System.out.println("shouldEnd = " + shouldEnd);
@@ -348,6 +334,7 @@ public class ViewSimScreen extends Screen {
 	@Override
 	public void load() {
 		sm.getFacade();
+		entitiesScreen.load();
 		entities = Simulator.prototypeNames().toArray(entities);
 		agentComboBox = new JComboBox(entities);
 		agentComboBox.addItemListener(
