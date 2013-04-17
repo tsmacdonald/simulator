@@ -1,15 +1,18 @@
 package edu.wheaton.simulator.gui;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -107,5 +110,14 @@ public final class GuiUtility {
 		
 		panel.add(cc,constraints);
 		return panel;
+	}
+	
+	public static JMenu makeMenu(String name){
+		JMenu menu = new JMenu(name);
+		menu.getPopupMenu().setBorder(BorderFactory.createLineBorder(Color.black));
+		menu.setOpaque(true);
+		menu.setForeground(Color.white);
+		menu.setBackground(Color.darkGray);
+		return menu;
 	}
 }

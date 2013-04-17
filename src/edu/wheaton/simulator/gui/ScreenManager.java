@@ -150,26 +150,9 @@ public class ScreenManager {
 	private JMenuBar makeMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		
-		Border border = BorderFactory.createLineBorder(Color.black);
-		
 		JMenu fileMenu = makeFileMenu(this);
-		fileMenu.getPopupMenu().setBorder(border);
-		fileMenu.setOpaque(true);
-		fileMenu.setForeground(Color.white);
-		fileMenu.setBackground(Color.darkGray);
-		
-		
 		JMenu editMenu = makeEditMenu(this);
-		editMenu.getPopupMenu().setBorder(border);
-		editMenu.setOpaque(true);
-		editMenu.setForeground(Color.white);
-		editMenu.setBackground(Color.darkGray);
-		
 		JMenu helpMenu = makeHelpMenu(this);
-		helpMenu.getPopupMenu().setBorder(border);
-		helpMenu.setOpaque(true);
-		helpMenu.setForeground(Color.white);
-		helpMenu.setBackground(Color.darkGray);
 		
 		menuBar.add(fileMenu);
 		menuBar.add(editMenu);
@@ -178,7 +161,7 @@ public class ScreenManager {
 	}
 
 	private static JMenu makeFileMenu(final ScreenManager sm) {
-		JMenu menu = new JMenu("File");
+		JMenu menu = GuiUtility.makeMenu("File");
 		
 		JMenuItem newSimulation = new JMenuItem("New Simulation");
 		newSimulation.addActionListener(new GeneralButtonListener("New Simulation",sm));
@@ -198,7 +181,7 @@ public class ScreenManager {
 	}
 	
 	private static JMenu makeEditMenu(final ScreenManager sm) {
-		JMenu menu = new JMenu("Edit");
+		JMenu menu = GuiUtility.makeMenu("Edit");
 		
 		JMenuItem editEntities = new JMenuItem("Edit Entities");
 		editEntities.addActionListener(new GeneralButtonListener("Entities",sm));
@@ -212,7 +195,7 @@ public class ScreenManager {
 	}
 	
 	private static JMenu makeHelpMenu(final ScreenManager sm) {
-		JMenu menu = new JMenu("Help");
+		JMenu menu = GuiUtility.makeMenu("Help");
 		
 		JMenuItem about = new JMenuItem("About");
 		about.addActionListener(new ActionListener(){
