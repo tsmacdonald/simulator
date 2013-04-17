@@ -6,11 +6,13 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.plaf.metal.MetalBorders;
 
 import edu.wheaton.simulator.simulation.Simulator;
@@ -148,11 +150,27 @@ public class ScreenManager implements Manager{
 	
 	private JMenuBar makeMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setForeground(Color.white);
+		
+		Border border = BorderFactory.createLineBorder(Color.black);
 		
 		JMenu fileMenu = makeFileMenu(this);
+		fileMenu.getPopupMenu().setBorder(border);
+		fileMenu.setOpaque(true);
+		fileMenu.setForeground(Color.white);
+		fileMenu.setBackground(Color.darkGray);
+		
+		
 		JMenu editMenu = makeEditMenu(this);
+		editMenu.getPopupMenu().setBorder(border);
+		editMenu.setOpaque(true);
+		editMenu.setForeground(Color.white);
+		editMenu.setBackground(Color.darkGray);
+		
 		JMenu helpMenu = makeHelpMenu(this);
+		helpMenu.getPopupMenu().setBorder(border);
+		helpMenu.setOpaque(true);
+		helpMenu.setForeground(Color.white);
+		helpMenu.setBackground(Color.darkGray);
 		
 		menuBar.add(fileMenu);
 		menuBar.add(editMenu);
@@ -162,11 +180,9 @@ public class ScreenManager implements Manager{
 
 	private static JMenu makeFileMenu(final ScreenManager sm) {
 		JMenu menu = new JMenu("File");
-		menu.getPopupMenu().setBorder(new MetalBorders.PopupMenuBorder());
 		
 		JMenuItem newSimulation = new JMenuItem("New Simulation");
 		newSimulation.addActionListener(new GeneralButtonListener("New Simulation",sm));
-		newSimulation.setForeground(Color.black);
 		menu.add(newSimulation);
 		
 		JMenuItem exit = new JMenuItem("Exit");
@@ -177,7 +193,6 @@ public class ScreenManager implements Manager{
 				System.exit(0);
 			}
 		});
-		exit.setForeground(Color.black);
 		menu.add(exit);
 		
 		return menu;
@@ -185,16 +200,13 @@ public class ScreenManager implements Manager{
 	
 	private static JMenu makeEditMenu(final ScreenManager sm) {
 		JMenu menu = new JMenu("Edit");
-		menu.getPopupMenu().setBorder(new MetalBorders.PopupMenuBorder());
 		
 		JMenuItem editEntities = new JMenuItem("Edit Entities");
 		editEntities.addActionListener(new GeneralButtonListener("Entities",sm));
-		editEntities.setForeground(Color.black);
 		menu.add(editEntities);
 		
 		JMenuItem editGlobalFields = new JMenuItem("Edit Global Fields");
 		editGlobalFields.addActionListener(new GeneralButtonListener("Fields",sm));
-		editGlobalFields.setForeground(Color.black);
 		menu.add(editGlobalFields);
 		
 		return menu;
@@ -202,7 +214,6 @@ public class ScreenManager implements Manager{
 	
 	private static JMenu makeHelpMenu(final ScreenManager sm) {
 		JMenu menu = new JMenu("Help");
-		menu.getPopupMenu().setBorder(new MetalBorders.PopupMenuBorder());
 		
 		JMenuItem about = new JMenuItem("About");
 		about.addActionListener(new ActionListener(){
@@ -214,7 +225,6 @@ public class ScreenManager implements Manager{
 					    JOptionPane.PLAIN_MESSAGE);
 			}
 		});
-		about.setForeground(Color.black);
 		menu.add(about);
 		
 		return menu;
