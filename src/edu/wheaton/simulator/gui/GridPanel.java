@@ -29,8 +29,8 @@ public class GridPanel extends JPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		int gridWidth = gm.getGridWidth();
-		int gridHeight = gm.getGridHeight();
+		int gridWidth = gm.getSimGridWidth();
+		int gridHeight = gm.getSimGridHeight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
@@ -51,8 +51,8 @@ public class GridPanel extends JPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		int gridWidth = gm.getGridWidth();
-		int gridHeight = gm.getGridHeight();
+		int gridWidth = gm.getSimGridWidth();
+		int gridHeight = gm.getSimGridHeight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
@@ -61,7 +61,7 @@ public class GridPanel extends JPanel {
 		
 		if(layers) {
 			try {
-				gm.getSim().setLayerExtremes();
+				gm.setSimLayerExtremes();
 			} catch (EvaluationException e) {
 				e.printStackTrace();
 			}
@@ -69,7 +69,7 @@ public class GridPanel extends JPanel {
 		
 		for (int x = 0; x < gridWidth; x++) {
 			for (int y = 0; y < gridHeight; y++) {
-				Agent agent = gm.getSim().getAgent(x, y);
+				Agent agent = gm.getSimAgent(x, y);
 				if(agent != null) {
 					if(layers){
 						try {
@@ -106,8 +106,8 @@ public class GridPanel extends JPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		int gridWidth = gm.getGridWidth();
-		int gridHeight = gm.getGridHeight();
+		int gridWidth = gm.getSimGridWidth();
+		int gridHeight = gm.getSimGridHeight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;

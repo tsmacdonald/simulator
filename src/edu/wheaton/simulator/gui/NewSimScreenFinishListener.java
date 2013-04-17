@@ -26,14 +26,13 @@ public class NewSimScreenFinishListener implements ActionListener {
 			int heightInt = getHeight();
 			int widthInt = getWidth();
 			gm.setSim(name.getText(),widthInt, heightInt);
-			gm.updateGUIManager(getName(), widthInt, heightInt);
-			gm.getEnder().setStepLimit(1000);
+			gm.updateGuiManager(getName(), widthInt, heightInt);
+			gm.getSimEnder().setStepLimit(1000);
 		} catch(java.lang.NumberFormatException nfe) { 
 			System.err.println("Invalid input passed to NewSimScreenFinishListener");
 		}
 		Screen upload = gm.getScreenManager().getScreen("View Simulation");
-		gm.setStarted(false);
-		gm.getSim().initSamples();
+		gm.setSimStarted(false);
 		gm.getScreenManager().update(upload);
 		ScreenManager.loadScreen(upload);
 	}

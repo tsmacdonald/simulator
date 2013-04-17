@@ -29,7 +29,6 @@ import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
-import edu.wheaton.simulator.simulation.Simulator;
 
 public class EditFieldScreen extends Screen {
 
@@ -95,7 +94,7 @@ public class EditFieldScreen extends Screen {
 		//edit listener should call this?
 		reset();
 		nameField.setText(n);
-		initValue.setText(getGuiManager().getSim().getGlobalField(n).getValue());
+		initValue.setText(getGuiManager().getSimGlobalField(n).getValue());
 		prevName = n;
 	}
 
@@ -113,8 +112,7 @@ public class EditFieldScreen extends Screen {
 		public void actionPerformed(ActionEvent ae) {
 			boolean toMove = true;
 			try {
-				Simulator sim = getGuiManager().getSim();
-				
+				SimulatorGuiManager gm = getGuiManager();
 				String nameFieldText = nameField.getText();
 				String initValueText = initValue.getText();
 				if (nameFieldText.equals("") ||
@@ -122,11 +120,11 @@ public class EditFieldScreen extends Screen {
 					throw new Exception("All fields must have input");
 				}
 				if (FieldScreen.getEditing()){
-					sim.removeGlobalField(prevName);
-					sim.addGlobalField(nameFieldText,initValueText);
+					gm.removeSimGlobalField(prevName);
+					gm.addSimGlobalField(nameFieldText,initValueText);
 				}
 				else
-					sim.addGlobalField(nameFieldText,initValueText);
+					gm.addSimGlobalField(nameFieldText,initValueText);
 			} catch (Exception e) {
 				toMove = false;
 				JOptionPane.showMessageDialog(null, e.getMessage());

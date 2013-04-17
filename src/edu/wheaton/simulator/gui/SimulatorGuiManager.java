@@ -2,15 +2,17 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import net.sourceforge.jeval.EvaluationException;
+
+import edu.wheaton.simulator.datastructure.Field;
+import edu.wheaton.simulator.datastructure.Grid;
+import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.gui.screen.EditEntityScreen;
 import edu.wheaton.simulator.gui.screen.EditFieldScreen;
 import edu.wheaton.simulator.gui.screen.EntityScreen;
@@ -29,25 +31,17 @@ import edu.wheaton.simulator.statistics.StatisticsManager;
 public class SimulatorGuiManager {
 	
 	private ScreenManager sm;
-	
 	private SimulationEnder se;
-	
 	private StatisticsManager statMan;
-	
 	private Simulator simulator;
-	
 	private boolean simulationIsRunning;
-	
 	private ArrayList<SpawnCondition> spawnConditions;
-	
 	public int stepCount;
 	public long startTime;
 	public boolean canSpawn;
-	
+	private GridPanel gridPanel;
 	//for determining when components should be disabled while running a sim.
 	private boolean hasStarted;
-	
-	private GridPanel gridPanel;
 
 	public SimulatorGuiManager(Display d) {
 		gridPanel = new GridPanel(this);
@@ -88,11 +82,27 @@ public class SimulatorGuiManager {
 		simulator = new Simulator(name,x, y);
 	}
 	
-	public Simulator getSim() {
+	private Simulator getSim() {
 		return simulator;
 	}
+	
+	public Grid getSimGrid(){
+		return getSim().getGrid();
+	}
+	
+	public Field getSimGlobalField(String name){
+		return getSim().getGlobalField(name);
+	}
+	
+	public void addSimGlobalField(String name, String value){
+		getSim().addGlobalField(name, value);
+	}
+	
+	public void removeSimGlobalField(String name){
+		getSim().removeGlobalField(name);
+	}
 	 
-	public SimulationEnder getEnder() {
+	public SimulationEnder getSimEnder() {
 		return se;
 	}
 	
@@ -104,30 +114,142 @@ public class SimulatorGuiManager {
 		return getSim().getName();
 	}
 	 
-	public void updateGUIManager(String nos, int width, int height){
+	public void updateGuiManager(String nos, int width, int height){
 		getSim().setName(nos);
-		resizeGrid(width, height);
+		resizeSimGrid(width, height);
 	}
 	
-	public boolean isRunning() {
+	public boolean isSimRunning() {
 		return simulationIsRunning;
 	}
 	
-	public void setRunning(boolean b) {
+	public void setSimRunning(boolean b) {
 		simulationIsRunning = b;
 	}
 	
-	public void setStarted(boolean b) {
+	public void setSimStarted(boolean b) {
 		hasStarted = b;
 	}
 	 
-	public boolean hasStarted() {
+	public boolean hasSimStarted() {
 		return hasStarted;
 	}
 
-	public ArrayList<SpawnCondition> getSpawnConditions() { 
+	public ArrayList<SpawnCondition> getSimSpawnConditions() { 
 		return spawnConditions; 
 	}
+	
+	public int getSimGridHeight(){
+		return getSim().getGrid().getHeight();
+	}
+	
+	public void resizeSimGrid(int width,int height){
+		getSim().resizeGrid(width, height);
+	}
+	
+	public int getSimGridWidth(){
+		return getSim().getGrid().getWidth();
+	}
+	
+	public void setSimLayerExtremes() throws EvaluationException{
+		getSim().setLayerExtremes();
+	}
+	
+	public Agent getSimAgent(int x, int y){
+		return getSim().getAgent(x, y);
+	}
+	
+	public void removeSimAgent(int x, int y){
+		getSim().removeAgent(x, y);
+	}
+	
+	public void initSampleSims(){
+		getSim().initSamples();
+	}
+	
+	public void initGameOfLifeSim(){
+		getSim().initGameOfLife();
+	}
+	
+	public void initRockPaperScissorsSim(){
+		getSim().initRockPaperScissors();
+	}
+	
+	public void setSimLinearUpdate(){
+		getSim().setLinearUpdate();
+	}
+	
+	public void setSimAtomicUpdate(){
+		getSim().setAtomicUpdate();
+	}
+	
+	public void setSimPriorityUpdate(int a, int b){
+		getSim().setPriorityUpdate(a, b);
+	}
+	
+	public String getCurrentSimUpdater(){
+		return getSim().currentUpdater();
+	}
+	
+	public void spiralSpawnSimAgent(String prototypeName, int x, int y){
+		getSim().spiralSpawn(prototypeName, x, y);
+	}
+	
+	public void pauseSim(){
+		setSimRunning(false);
+		canSpawn = true;
+	}
+	
+	public void startSim(){
+		setSimRunning(true);
+		setSimStarted(true);
+		canSpawn = false;
+		System.out.println("StepLimit = " + getSimEnder().getStepLimit());
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while(isSimRunning()) {
+					Simulator sim = getSim();
+					try {
+						sim.updateEntities();
+					} catch (SimulationPauseException e) {
+						setSimRunning(false);
+						JOptionPane.showMessageDialog(null, e.getMessage());
+						break;
+					}
+					long currentTime = System.currentTimeMillis();
+					//gridRec.recordSimulationStep(gm.getFacade().getGrid(), stepCount, Prototype.getPrototypes());
+					//gridRec.updateTime(currentTime, currentTime - startTime);
+					startTime = currentTime;
+					stepCount++;
+					boolean shouldEnd = getSimEnder().evaluate(stepCount, 
+							sim.getGrid());
+					System.out.println("shouldEnd = " + shouldEnd);
+					if (shouldEnd) {
+						setSimRunning(false);
+					}
+
+					SwingUtilities.invokeLater(
+						new Thread (new Runnable() {
+							@Override
+							public void run() {
+								gridPanel.repaint();
+							}
+						}));
+
+					System.out.println(stepCount);
+					try {
+						System.out.println("Sleep!");
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						System.err.println("ViewSimScreen.java: 'Thread.sleep(500)' was interrupted");
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
+	}
+
 	
 	private JMenuBar makeMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
@@ -150,7 +272,7 @@ public class SimulatorGuiManager {
 		menu.add(Gui.makeMenuItem("Exit",new ActionListener(){ 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				guiManager.setRunning(false);
+				guiManager.setSimRunning(false);
 				System.exit(0);
 			}
 		}));
@@ -190,72 +312,5 @@ public class SimulatorGuiManager {
 		}));
 		
 		return menu;
-	}
-	
-	public int getGridHeight(){
-		return getSim().getGrid().getHeight();
-	}
-	
-	public void resizeGrid(int width,int height){
-		getSim().resizeGrid(width, height);
-	}
-	
-	public int getGridWidth(){
-		return getSim().getGrid().getWidth();
-	}
-	
-	public void pauseSim(){
-		setRunning(false);
-		canSpawn = true;
-	}
-	
-	public void startSim(){
-		setRunning(true);
-		setStarted(true);
-		canSpawn = false;
-		System.out.println("StepLimit = " + getEnder().getStepLimit());
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while(isRunning()) {
-					Simulator sim = getSim();
-					try {
-						sim.updateEntities();
-					} catch (SimulationPauseException e) {
-						setRunning(false);
-						JOptionPane.showMessageDialog(null, e.getMessage());
-						break;
-					}
-					long currentTime = System.currentTimeMillis();
-					//gridRec.recordSimulationStep(gm.getFacade().getGrid(), stepCount, Prototype.getPrototypes());
-					//gridRec.updateTime(currentTime, currentTime - startTime);
-					startTime = currentTime;
-					stepCount++;
-					boolean shouldEnd = getEnder().evaluate(stepCount, 
-							sim.getGrid());
-					System.out.println("shouldEnd = " + shouldEnd);
-					if (shouldEnd) {
-						setRunning(false);
-					}
-
-					SwingUtilities.invokeLater(
-						new Thread (new Runnable() {
-							@Override
-							public void run() {
-								gridPanel.repaint();
-							}
-						}));
-
-					System.out.println(stepCount);
-					try {
-						System.out.println("Sleep!");
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						System.err.println("ViewSimScreen.java: 'Thread.sleep(500)' was interrupted");
-						e.printStackTrace();
-					}
-				}
-			}
-		}).start();
 	}
 }

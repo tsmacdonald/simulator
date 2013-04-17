@@ -2,7 +2,6 @@ package edu.wheaton.simulator.gui;
 
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
-import edu.wheaton.simulator.simulation.Simulator;
 
 public class SpawnCondition {
 
@@ -20,9 +19,7 @@ public class SpawnCondition {
 		this.number = number; 
 	}
 
-	public void addToGrid(Simulator facade) {
-		Grid grid = facade.getGrid();
-		
+	public void addToGrid(Grid grid) {
 		if (pattern.equals("Clustered"))
 			for (int i = 0; i < number; i++)
 				grid.spiralSpawn(prototype.createAgent(), x, y);

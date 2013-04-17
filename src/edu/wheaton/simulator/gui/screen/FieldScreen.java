@@ -127,7 +127,7 @@ public class FieldScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		Map<String, String> map = getGuiManager().getSim().getGrid().getCustomFieldMap();
+		Map<String, String> map = getGuiManager().getSimGrid().getCustomFieldMap();
 		Object[] fieldsA = map.keySet().toArray();
 		for(Object s: fieldsA){
 			System.out.println((String) s);
@@ -141,8 +141,8 @@ public class FieldScreen extends Screen {
 	private class ListListener implements ListSelectionListener {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			edit.setEnabled(getGuiManager().hasStarted() ? false : true); 
-			delete.setEnabled(getGuiManager().hasStarted() ? false : true); 
+			edit.setEnabled(getGuiManager().hasSimStarted() ? false : true); 
+			delete.setEnabled(getGuiManager().hasSimStarted() ? false : true); 
 		}
 	}
 
@@ -159,7 +159,7 @@ public class FieldScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = fields.getSelectedIndex();
-			getGuiManager().getSim().removeGlobalField((String)fields.getSelectedValue());
+			getGuiManager().removeSimGlobalField((String)fields.getSelectedValue());
 			listModel.remove(index);
 			int size = listModel.getSize();
 			if(size == 0) {
