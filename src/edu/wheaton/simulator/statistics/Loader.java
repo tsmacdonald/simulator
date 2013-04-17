@@ -35,13 +35,56 @@ public class Loader {
 	 */
 	private String name; 
 
+	/**
+	 * Indicates if a simulation has been successfully loaded
+	 */
+	private boolean simulationLoaded; 
+
+	/**
+	 * Constructor
+	 */
 	public Loader(){
-		this.prototypes = new HashSet<Prototype>(); 
-		this.name = "Default";
+		simulationLoaded = false; 
 	}
 
 	/**
-	 * Load the contents of a file
+	 * Get the loaded Grid
+	 * @return Populated Grid
+	 * @throws Exception If no Simulation has been loaded yet
+	 */
+	public Grid getGrid() throws Exception{
+		if(simulationLoaded)
+			return grid;
+		else 
+			throw new Exception("No simulation has been loaded"); 
+	}
+
+	/**
+	 * Get the loaded Set of Prototypes
+	 * @return Populated set of Prototypes
+	 * @throws Exception If no Simulation has been loaded yet
+	 */
+	public Set<Prototype> getPrototypes() throws Exception{
+		if(simulationLoaded)
+			return prototypes; 
+		else 
+			throw new Exception("No simulation has been loaded"); 
+	}
+
+	/**
+	 * Get the name of the loaded simulation
+	 * @return Simulation name
+	 * @throws Exception If no Simulation has been loaded yet
+	 */
+	public String getName() throws Exception{
+		if(simulationLoaded)
+			return name; 
+		else 
+			throw new Exception("No simulation has been loaded"); 
+	}
+
+	/**
+	 * Load the contents of a file. After this is done call getGrid(), getPrototypes() and getName() to retrieve the loaded information
 	 * Code based on http://stackoverflow.com/questions/15906640/
 	 * @param fileName The name of the file to load
 	 */
@@ -49,10 +92,11 @@ public class Loader {
 		File file = new File(fileName);
 		BufferedReader reader = null;
 		name = fileName; 
+		this.prototypes = new HashSet<Prototype>(); 
 
 		try {
 			reader = new BufferedReader(new FileReader(file));
-			
+
 			//Instantiate the Grid
 			int width = Integer.parseInt(reader.readLine()); 
 			int height = Integer.parseInt(reader.readLine()); 
@@ -164,6 +208,8 @@ public class Loader {
 				throw new RuntimeException("Could not close stream", e);
 			}
 		}
+		//Indicate that we are ready to use the getGrid(), getPrototypes() and getName() methods
+		simulationLoaded = true; 
 	}
 
 	/**
