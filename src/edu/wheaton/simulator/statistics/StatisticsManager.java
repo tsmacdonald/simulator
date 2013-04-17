@@ -67,7 +67,7 @@ public class StatisticsManager {
 		grid.addObserver(gridObserver);
 		Trigger.addObserver(gridObserver);
 		this.grid = grid;
-		this.prototypes = Prototype.getPrototypes();
+		StatisticsManager.prototypes = Prototype.getPrototypes();
 		for(Prototype p : prototypes)
 			addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(p, grid.getStep()));
 	}

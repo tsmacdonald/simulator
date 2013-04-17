@@ -31,7 +31,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import net.sourceforge.jeval.EvaluationException;
 
-import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 

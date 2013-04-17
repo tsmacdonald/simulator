@@ -1,20 +1,14 @@
 package edu.wheaton.simulator.gui;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.BorderFactory;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.plaf.metal.MetalBorders;
-
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
@@ -168,6 +162,7 @@ public class ScreenManager {
 		
 		menu.add(GuiUtility.makeMenuItem("Exit",new ActionListener(){
 			 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				sm.setRunning(false);
 				System.exit(0);
@@ -194,6 +189,7 @@ public class ScreenManager {
 		
 		menu.add(GuiUtility.makeMenuItem("About",new ActionListener(){
 			 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(sm.d,
 					    "Wheaton College. Software Development 2013.",
@@ -204,6 +200,7 @@ public class ScreenManager {
 		
 		menu.add(GuiUtility.makeMenuItem("Help Contents",new ActionListener(){
 			 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(sm.d,
 					    "Wheaton College. Software Development 2013.\n Help Contents",

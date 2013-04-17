@@ -9,11 +9,8 @@ package edu.wheaton.simulator.test.statistics;
  * 11 Apr 2013
  */
 
-import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -33,7 +30,7 @@ public class BehaviorSnapshotCase {
 	Integer step;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		grid = new Grid(1, 1);
 		prototype = new Prototype(grid, "BehaviorSnapshotTest");
 		actor = prototype.createAgent();
@@ -44,7 +41,7 @@ public class BehaviorSnapshotCase {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 	}
 
 //	@Test

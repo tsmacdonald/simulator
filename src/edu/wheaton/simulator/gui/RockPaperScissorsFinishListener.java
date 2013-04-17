@@ -37,7 +37,7 @@ public class RockPaperScissorsFinishListener implements ActionListener {
 			Screen upload = sm.getScreen("View Simulation");
 			sm.getFacade().initRockPaperScissors();
 			sm.getEnder().setStepLimit(1000);
-			((ScreenManager)sm).setStarted(false);
+			sm.setStarted(false);
 			sm.update(upload);
 			sm.loadScreen(upload);
 		}

@@ -70,6 +70,7 @@ public class FieldScreen extends Screen {
 		fields.setAlignmentX(CENTER_ALIGNMENT);
 		delete = GuiUtility.makeButton("Delete",new DeleteListener(listModel, fields));
 		add = GuiUtility.makeButton("Add",new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent ae){
 				FieldScreen.setEditing(false);
 				sm.getScreen("Edit Fields").load();
@@ -77,6 +78,7 @@ public class FieldScreen extends Screen {
 			}
 		});
 		edit = GuiUtility.makeButton("Edit",new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent ae) {
 				FieldScreen.setEditing(true);
 				((EditFieldScreen) sm.getScreen("Edit Fields")).load((String) fields.getSelectedValue());
