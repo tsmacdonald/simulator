@@ -149,8 +149,7 @@ public class EditTriggerScreen extends Screen {
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
-
+		
 	}
 	
 

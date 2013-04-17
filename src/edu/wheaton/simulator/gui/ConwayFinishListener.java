@@ -28,7 +28,8 @@ public class ConwayFinishListener implements ActionListener {
 		} catch(java.lang.NumberFormatException nfe) { 
 			System.err.println("Invalid input passed to ConwayFinishListener");
 		}
-		Screen upload = sm.getScreen("Edit Simulation");
+
+		Screen upload = sm.getScreen("View Simulation");
 		sm.getFacade().initGameOfLife();
 		sm.getEnder().setStepLimit(1000);
 		((ScreenManager)sm).setStarted(false);

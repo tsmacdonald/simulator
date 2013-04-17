@@ -16,14 +16,14 @@ public class EditSimScreen extends Screen {
 	public EditSimScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		JLabel label = makeLabelPreferredSize("Edit Simulation",500, 200);
+		JLabel label = GuiUtility.makeLabel("Edit Simulation",new PrefSize(500, 200),null);
 		label.setAlignmentX(CENTER_ALIGNMENT);
-		JButton newSimulation = makeButton("New Simulation",new GeneralButtonListener("New Simulation", sm));
-		JButton loadExisting = makeButton("Load Existing",new GeneralButtonListener("Load Existing", sm));
+		JButton newSimulation = GuiUtility.makeButton("New Simulation",new GeneralButtonListener("New Simulation", sm));
+		JButton loadExisting = GuiUtility.makeButton("Load Existing",new GeneralButtonListener("Load Existing", sm));
 		//serialization not yet implemented
 		loadExisting.setEnabled(false); 
 		
-		JButton save = makeButton("Save",new ActionListener() {
+		JButton save = GuiUtility.makeButton("Save",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				//TODO need serialization
@@ -32,14 +32,14 @@ public class EditSimScreen extends Screen {
 		save.setEnabled(false); //serialization not yet implemented
 		
 		
-		JButton entities = makeButton("Entities",new GeneralButtonListener("Entities", sm));
-		JButton fields = makeButton("Fields",new GeneralButtonListener("Fields", sm));
+		JButton entities = GuiUtility.makeButton("Entities",new GeneralButtonListener("Entities", sm));
+		JButton fields = GuiUtility.makeButton("Fields",new GeneralButtonListener("Fields", sm));
 		//TODO fields getting refactored, temporarily disabling this button
 		//fields.setEnabled(false);
 
 
-		JButton statistics = makeButton("Statistics",new GeneralButtonListener("Statistics", sm));
-		JButton gridSetup = makeButton("Grid Setup",new ActionListener() {
+		JButton statistics = GuiUtility.makeButton("Statistics",new GeneralButtonListener("Statistics", sm));
+		JButton gridSetup = GuiUtility.makeButton("Grid Setup",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				((SetupScreen)sm.getScreen("Grid Setup")).load();
@@ -47,19 +47,15 @@ public class EditSimScreen extends Screen {
 			}
 		});
 		
-		JButton spawning = makeButton("Spawning",new GeneralButtonListener("Spawning", sm));
-		JButton viewSimulation = makeButton("View Simulation",new GeneralButtonListener("View Simulation", sm));
+		JButton spawning = GuiUtility.makeButton("Spawning",new GeneralButtonListener("Spawning", sm));
+		JButton viewSimulation = GuiUtility.makeButton("View Simulation",new GeneralButtonListener("View Simulation", sm));
 		viewSimulation.setPreferredSize(new Dimension(400, 120));
 		
-		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
-		mainPanel.setMaximumSize(new Dimension(800, 1000));
+		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,new MaxSize(800,1000),null);
 		mainPanel.setPreferredSize(new Dimension(800, 1000));
-		JPanel panel1 = new JPanel();
-		panel1.setLayout(new GridLayout(1, 3));
-		JPanel panel2 = new JPanel();
-		panel2.setLayout(new GridLayout(1, 3));
-		JPanel panel3 = new JPanel();
-		panel3.setLayout(new GridLayout(1, 2));
+		JPanel panel1 = new JPanel(new GridLayout(1, 3));
+		JPanel panel2 = new JPanel(new GridLayout(1, 3));
+		JPanel panel3 = new JPanel(new GridLayout(1, 2));
 		JPanel panel4 = new JPanel();
 		panel1.add(newSimulation);
 		panel1.add(loadExisting);

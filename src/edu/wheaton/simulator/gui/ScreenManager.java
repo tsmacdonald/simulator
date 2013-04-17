@@ -1,9 +1,17 @@
 package edu.wheaton.simulator.gui;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.plaf.metal.MetalBorders;
 
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
@@ -34,21 +42,22 @@ public class ScreenManager implements Manager{
 		spawnConditions = new ArrayList<SpawnCondition>();
 		screens = new HashMap<String, Screen>();
 		this.d = d;
+		this.d.setJMenuBar(makeMenuBar());
 		se = new SimulationEnder();
 		statMan = new StatisticsManager();
 		screens.put("Title", new TitleScreen(this));
 		screens.put("New Simulation", new NewSimulationScreen(this));
-		screens.put("Edit Simulation", new EditSimScreen(this));
+		//screens.put("Edit Simulation", new EditSimScreen(this));
 		screens.put("Fields", new FieldScreen(this));
 		screens.put("Edit Fields", new EditFieldScreen(this));
 		screens.put("Entities", new EntityScreen(this));
 		screens.put("Edit Entities", new EditEntityScreen(this));
 		screens.put("Spawning", new SpawningScreen(this));
 		screens.put("View Simulation", new ViewSimScreen(this));
-		screens.put("Statistics", new StatisticsScreen(this));
+		screens.put("Statistics", new StatDisplayScreen(this));
 		screens.put("Grid Setup", new SetupScreen(this));
 	}
-	
+
 	public ScreenManager(){
 		this(new Display());
 	}
@@ -135,5 +144,79 @@ public class ScreenManager implements Manager{
 	@Override
 	public void loadScreen(Screen s){
 		s.load();
+	}
+	
+	private JMenuBar makeMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setForeground(Color.white);
+		
+		JMenu fileMenu = makeFileMenu(this);
+		JMenu editMenu = makeEditMenu(this);
+		JMenu helpMenu = makeHelpMenu(this);
+		
+		menuBar.add(fileMenu);
+		menuBar.add(editMenu);
+		menuBar.add(helpMenu);
+		return menuBar;
+	}
+
+	private static JMenu makeFileMenu(final ScreenManager sm) {
+		JMenu menu = new JMenu("File");
+		menu.getPopupMenu().setBorder(new MetalBorders.PopupMenuBorder());
+		
+		JMenuItem newSimulation = new JMenuItem("New Simulation");
+		newSimulation.addActionListener(new GeneralButtonListener("New Simulation",sm));
+		newSimulation.setForeground(Color.black);
+		menu.add(newSimulation);
+		
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sm.setRunning(false);
+				System.exit(0);
+			}
+		});
+		exit.setForeground(Color.black);
+		menu.add(exit);
+		
+		return menu;
+	}
+	
+	private static JMenu makeEditMenu(final ScreenManager sm) {
+		JMenu menu = new JMenu("Edit");
+		menu.getPopupMenu().setBorder(new MetalBorders.PopupMenuBorder());
+		
+		JMenuItem editEntities = new JMenuItem("Edit Entities");
+		editEntities.addActionListener(new GeneralButtonListener("Entities",sm));
+		editEntities.setForeground(Color.black);
+		menu.add(editEntities);
+		
+		JMenuItem editGlobalFields = new JMenuItem("Edit Global Fields");
+		editGlobalFields.addActionListener(new GeneralButtonListener("Fields",sm));
+		editGlobalFields.setForeground(Color.black);
+		menu.add(editGlobalFields);
+		
+		return menu;
+	}
+	
+	private static JMenu makeHelpMenu(final ScreenManager sm) {
+		JMenu menu = new JMenu("Help");
+		menu.getPopupMenu().setBorder(new MetalBorders.PopupMenuBorder());
+		
+		JMenuItem about = new JMenuItem("About");
+		about.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(sm.d,
+					    "Wheaton College. Software Development 2013.",
+					    "About",
+					    JOptionPane.PLAIN_MESSAGE);
+			}
+		});
+		about.setForeground(Color.black);
+		menu.add(about);
+		
+		return menu;
 	}
 }

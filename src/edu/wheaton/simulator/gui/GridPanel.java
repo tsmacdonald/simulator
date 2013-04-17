@@ -42,8 +42,11 @@ public class GridPanel extends JPanel {
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
 		
-		int squareSize = Math.min(pixelWidth, pixelHeight);
+		clearAgents(g);
+		agentPaint(g);
 		
+		g.setColor(Color.BLACK);
+		int squareSize = Math.min(pixelWidth, pixelHeight);
 		for (int i = 0; i < gridWidth; i++) {
 			for (int j = 0; j < gridHeight; j++) {
 				g.drawRect(squareSize * i, squareSize * j, 
@@ -51,8 +54,8 @@ public class GridPanel extends JPanel {
 			}
 		}
 		
-		clearAgents(g);
-		agentPaint(g);
+		
+
 	}
 
 	public void agentPaint(Graphics g){
@@ -67,13 +70,11 @@ public class GridPanel extends JPanel {
 		int pixelHeight = height / gridHeight;
 		
 		int squareSize = Math.min(pixelWidth, pixelHeight);
-		//Color color;
 		
 		if(layers) {
 			try {
 				sm.getFacade().setLayerExtremes();
 			} catch (EvaluationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -86,7 +87,6 @@ public class GridPanel extends JPanel {
 						try {
 							g.setColor(agent.getLayerColor());
 						} catch (EvaluationException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
