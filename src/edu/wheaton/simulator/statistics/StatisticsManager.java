@@ -1,19 +1,14 @@
 package edu.wheaton.simulator.statistics;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.datastructure.Grid;
-import edu.wheaton.simulator.datastructure.GridObserver;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
@@ -74,7 +69,7 @@ public class StatisticsManager {
 		grid.addObserver(gridObserver);
 		Trigger.addObserver(gridObserver);
 		this.grid = grid;
-		this.prototypes = Prototype.getPrototypes();
+		StatisticsManager.prototypes = Prototype.getPrototypes();
 		for(Prototype p : prototypes)
 			addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(p, grid.getStep()));
 	}

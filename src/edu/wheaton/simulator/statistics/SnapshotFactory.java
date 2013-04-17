@@ -111,7 +111,7 @@ public class SnapshotFactory {
 	 */
 	public static AgentSnapshot makeGlobalVarSnapshot(Grid grid,
 			Prototype prototype, Integer step) {
-		return new AgentSnapshot(grid.getID(), makeFieldSnapshots(grid.getCustomFieldMap()), step, prototype.getName(), null, 0, 0);
+		return new AgentSnapshot(Grid.getID(), makeFieldSnapshots(grid.getCustomFieldMap()), step, prototype.getName(), null, 0, 0);
 	}
 	
 	/**

@@ -11,9 +11,11 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,9 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
@@ -40,9 +39,9 @@ public class EditEntityScreen extends Screen {
 
 	private Prototype agent;
 
-	private JTabbedPane tabs;
-	
-	private String currentTab;
+	private JPanel cards;
+
+	private String currentCard;
 
 	private JPanel generalPanel;
 
@@ -54,17 +53,9 @@ public class EditEntityScreen extends Screen {
 
 	private ArrayList<JTextField> fieldValues;
 
-	//private ArrayList<JComboBox> fieldTypes;
-
-	//private String[] typeNames = { "Integer", "Double", "String", "Boolean" };
-
 	private ArrayList<JButton> fieldDeleteButtons;
 
 	private ArrayList<JPanel> fieldSubPanels;
-
-	private Component glue;
-
-	private Component glue2;
 
 	private JButton addFieldButton;
 
@@ -92,122 +83,138 @@ public class EditEntityScreen extends Screen {
 
 	private HashSet<Integer> removedTriggers;
 
+	private JButton nextButton;
+
+	private JButton previousButton;
+
+	private JButton finishButton;
+
+	private GridBagConstraints c;
+
 	public EditEntityScreen(final ScreenManager sm) {
 		super(sm);
 		this.setLayout(new BorderLayout());
-		
+
 		removedFields = new HashSet<Integer>();
 		removedTriggers = new HashSet<Integer>();
-		
+
+		JLabel nameLabel = new JLabel("Agent Name: ");
+		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		nameField = new JTextField(25);
 		nameField.setMaximumSize(new Dimension(400, 40));
-		
-		colorTool = new JColorChooser();
-		
+
+		colorTool = GuiUtility.makeColorChooser();
+
 		buttons = new JToggleButton[7][7];
-		
+
 		fieldNames = new ArrayList<JTextField>();
 		fieldValues = new ArrayList<JTextField>();
-		
-		//fieldTypes = new ArrayList<JComboBox>();
-		
+
 		fieldSubPanels = new ArrayList<JPanel>();
 		triggerSubPanels = new ArrayList<JPanel>();
-		
+
 		triggerNames = new ArrayList<JTextField>();
 		triggerPriorities = new ArrayList<JTextField>();
 		triggerConditions = new ArrayList<JTextField>();
 		triggerResults = new ArrayList<JTextField>();
-		
+
 		fieldDeleteButtons = new ArrayList<JButton>();
 		triggerDeleteButtons = new ArrayList<JButton>();
-		
-		glue = Box.createVerticalGlue();
-		glue2 = Box.createVerticalGlue();
-		
-		currentTab = "General";
-		
-		fieldListPanel = makeBoxPanel(BoxLayout.Y_AXIS);
-		
-		triggerListPanel = makeBoxPanel(BoxLayout.Y_AXIS);
-		
-		tabs = new JTabbedPane();
-		
-		generalPanel = makeGeneralPanel();
-		
-		addFieldButton = makeAddFieldButton(this);
-		
-		addTriggerButton = makeAddTriggerButton(this);
-		
-		JPanel iconPanel = makeIconPanel();
-		
-		initIconDesignObject(iconPanel);
+
+		currentCard = "General";
+
+		fieldListPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,MaxSize.NULL,PrefSize.NULL);
+
+		triggerListPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,MaxSize.NULL,PrefSize.NULL);
+
+		cards = new JPanel(new CardLayout());
+
+		generalPanel = new JPanel(new GridBagLayout());
 	
-		//serialization not yet implemented
-		//JButton loadIconButton = new JButton("Load icon");
-		
-		
-		initGeneralPanel(iconPanel);
 
-		//JLabel fieldTypeLabel = new JLabel("Field Type");
-		
-		addField();
-		
-		// TODO make sure components line up
-		
-		initFieldSubPanels();
-		
-		//fieldTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		
-		//fieldLabelsPanel.add(fieldTypeLabel);
-		
-		initFieldListPanel();
-		
-		
-		// fieldSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
-		
-		addTrigger();
-		
-		initTriggerSubPanels();
-		initTriggerListPanel();
-		
-		initTabs();
-		
-		this.add(makeScreenLabel(), BorderLayout.NORTH);
-		this.add(tabs, BorderLayout.CENTER);
-		this.add(makeLowerPanel(this,sm), BorderLayout.SOUTH);
-
-	}
-	
-	private void initTabs(){
-		tabs.addTab("General", generalPanel);
-		tabs.addTab("Fields", makeFieldMainPanel(fieldListPanel));
-		tabs.addTab("Triggers", makeTriggerMainPanel(triggerListPanel));
-		//tabs.addTab("Triggers", new EditTriggerScreen(sm));
-		tabs.addChangeListener(new ChangeListener(){
-
+		final EditEntityScreen xThis = this;
+		addFieldButton = GuiUtility.makeButton("Add Field",new ActionListener() {
 			@Override
-			public void stateChanged(ChangeEvent e) {
-				
-				if (currentTab == "General")
-					sendGeneralInfo();
-				else if (currentTab == "Fields")
-					sendFieldInfo();
-				else
-					sendTriggerInfo();
-				currentTab = tabs.getTitleAt(tabs.getSelectedIndex());	
+			public void actionPerformed(ActionEvent e) {
+				xThis.addField();
 			}
-			
 		});
-	}
-	
-	private void initTriggerListPanel(){
-		triggerListPanel.add(triggerSubPanels.get(0));
-		triggerListPanel.add(addTriggerButton);
-		triggerListPanel.add(glue2);
-	}
-	
-	private void initTriggerSubPanels(){
+
+		addTriggerButton = GuiUtility.makeButton("Add Trigger",new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				xThis.addTrigger();
+			}
+		});
+
+		JPanel iconPanel = new JPanel();
+		iconPanel.setLayout(new GridLayout(7, 7));
+		iconPanel.setMinimumSize(new Dimension(500, 500));
+		iconPanel.setAlignmentX(RIGHT_ALIGNMENT);
+
+		initIconDesignObject(iconPanel);
+
+		JLabel generalLabel = GuiUtility.makeLabel("General Info",new PrefSize(300,80),HorizontalAlignment.CENTER);
+
+		JPanel colorPanel = GuiUtility.makeColorChooserPanel(colorTool);
+		Dimension maxSize = colorPanel.getMaximumSize();
+		maxSize.height += 50;
+		colorPanel.setMaximumSize(maxSize);
+
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.PAGE_START;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 4;
+		generalPanel.add(generalLabel, c);
+
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		generalPanel.add(nameLabel, c);
+
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		generalPanel.add(nameField, c);
+
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.weighty = 1.0;
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 2;
+		generalPanel.add(colorPanel, c);
+
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.weighty = 1.0;
+		c.gridx = 2;
+		c.gridy = 2;
+		c.gridwidth = 2;
+		generalPanel.add(iconPanel, c);
+
+		addField();
+
+		// TODO make sure components line up
+
+		fieldSubPanels.get(0).setLayout(
+				new BoxLayout(fieldSubPanels.get(0), BoxLayout.X_AXIS));
+		fieldSubPanels.get(0).add(fieldNames.get(0));
+		fieldSubPanels.get(0).add(fieldValues.get(0));
+		fieldSubPanels.get(0).add(fieldDeleteButtons.get(0));
+
+		fieldListPanel.add(fieldSubPanels.get(0));
+		fieldListPanel.add(addFieldButton);
+		fieldListPanel.add(Box.createVerticalGlue());
+
+		addTrigger();
+
 		triggerSubPanels.get(0).setLayout(
 				new BoxLayout(triggerSubPanels.get(0), BoxLayout.X_AXIS));
 		triggerSubPanels.get(0).add(triggerNames.get(0));
@@ -216,32 +223,49 @@ public class EditEntityScreen extends Screen {
 		triggerSubPanels.get(0).add(triggerResults.get(0));
 		triggerSubPanels.get(0).add(triggerDeleteButtons.get(0));
 		triggerSubPanels.get(0).setAlignmentX(CENTER_ALIGNMENT);
-		// triggerSubPanels.get(0).setAlignmentY(TOP_ALIGNMENT);
+
+		triggerListPanel.add(triggerSubPanels.get(0));
+		triggerListPanel.add(addTriggerButton);
+		triggerListPanel.add(Box.createVerticalGlue());
+
+		cards.add(generalPanel, "General");
+		cards.add(makeFieldMainPanel(fieldListPanel), "Fields");
+		cards.add(makeTriggerMainPanel(triggerListPanel), "Triggers");
+
+		JPanel lowerPanel = new JPanel();
+
+		lowerPanel.add(GuiUtility.makeButton("Cancel",new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sm.update(sm.getScreen("Entities"));
+				if (!editing) {
+					Prototype.removePrototype(nameField.getText());
+				}
+				xThis.reset();
+			}
+		}));
+
+		finishButton = GuiUtility.makeButton("Finish",new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (xThis.sendInfo()) {
+					sm.update(sm.getScreen("View Simulation"));
+					xThis.reset();
+				}
+			}
+		});
+		lowerPanel.add(finishButton);
+		previousButton = GuiUtility.makeButton("Previous",new PreviousListener());
+		lowerPanel.add(previousButton);
+		nextButton = GuiUtility.makeButton("Next",new NextListener());
+		lowerPanel.add(nextButton);
+
+		this.add(new JLabel("Edit Entities",SwingConstants.CENTER), BorderLayout.NORTH);
+		this.add(cards, BorderLayout.CENTER);
+		this.add(lowerPanel, BorderLayout.SOUTH);
+
 	}
-	
-	private void initFieldListPanel(){
-		fieldListPanel.add(fieldSubPanels.get(0));
-		fieldListPanel.add(addFieldButton);
-		fieldListPanel.add(glue);
-	}
-	
-	private void initFieldSubPanels(){
-		fieldSubPanels.get(0).setLayout(
-				new BoxLayout(fieldSubPanels.get(0), BoxLayout.X_AXIS));
-		fieldSubPanels.get(0).add(fieldNames.get(0));
-		//fieldSubPanels.get(0).add(fieldTypes.get(0));
-		fieldSubPanels.get(0).add(fieldValues.get(0));
-		fieldSubPanels.get(0).add(fieldDeleteButtons.get(0));
-	}
-	
-	private void initGeneralPanel(JPanel iconPanel){
-		generalPanel.add(makeGeneralLabel());
-		generalPanel.add(makeNameLabel());
-		generalPanel.add(nameField);
-		generalPanel.add(makeMainPanel(colorTool,iconPanel));
-		//generalPanel.add(loadIconButton);
-	}
-	
+
 	private void initIconDesignObject(JPanel iconPanel){
 		//Creates the icon design object.
 		for (int i = 0; i < 7; i++) {
@@ -272,77 +296,20 @@ public class EditEntityScreen extends Screen {
 			}
 		}
 	}
-	
-	private static JButton makeAddFieldButton(final EditEntityScreen screen){
-		JButton addFieldButton = makeButton("Add Field",new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				screen.addField();
-			}
-		});
-		return addFieldButton;
-	}
-	
-	private static JButton makeAddTriggerButton(final EditEntityScreen screen){
-		JButton addTriggerButton = makeButton("Add Trigger",new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				screen.addTrigger();
-			}
-		});
-		return addTriggerButton;
-	}
-	
-	private static JPanel makeGeneralPanel(){
-		JPanel generalPanel = makeBoxPanel(BoxLayout.PAGE_AXIS);
-		return generalPanel;
-	}
-	
-	private static JLabel makeNameLabel(){
-		return new JLabel("Name: ");
-	}
-	
-	private static JLabel makeGeneralLabel(){
-		JLabel generalLabel = makeLabelPreferredSize("General Info",300,80);
-		generalLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		return generalLabel;
-	}
-	
-	private static JPanel makeMainPanel(JColorChooser colorTool, JPanel iconPanel){
-		JPanel mainPanel = makeBoxPanel(BoxLayout.X_AXIS);
-		mainPanel.setMaximumSize(new Dimension(1200, 500));
-		mainPanel.add(makeColorPanel(colorTool));
-		mainPanel.add(iconPanel);
-		return mainPanel;
-	}
-	
-	private static JPanel makeIconPanel(){
-		JPanel iconPanel = new JPanel();
-		iconPanel.setLayout(new GridLayout(7, 7));
-		iconPanel.setMinimumSize(new Dimension(500, 500));
-		iconPanel.setAlignmentX(RIGHT_ALIGNMENT);
-		return iconPanel;
-	}
-	
-	private static JPanel makeColorPanel(JColorChooser colorTool){
-		JPanel colorPanel = new JPanel();
-		colorPanel.add(colorTool);
-		colorPanel.setAlignmentX(LEFT_ALIGNMENT);
-		return colorPanel;
-	}
-	
+
 	private static JPanel makeTriggerMainPanel(JPanel triggerListPanel){
-		
-		JLabel triggerNameLabel = makeLabelPreferredSize("Trigger Name",130,30);
-		triggerNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		
-		JLabel triggerPriorityLabel = makeLabelPreferredSize("Trigger Priority",180,30);
-		
-		JLabel triggerConditionLabel = makeLabelPreferredSize("Trigger Condition",300,30);
-		
-		JLabel triggerResultLabel = makeLabelPreferredSize("Trigger Result",300,30);
-		
-		JPanel triggerLabelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
+
+
+		JLabel triggerNameLabel = GuiUtility.makeLabel("Trigger Name",new PrefSize(130,30),HorizontalAlignment.LEFT);
+
+		JLabel triggerPriorityLabel = GuiUtility.makeLabel("Trigger Priority",new PrefSize(180,30),null);
+
+		JLabel triggerConditionLabel = GuiUtility.makeLabel("Trigger Condition",new PrefSize(300,30),null);
+
+		JLabel triggerResultLabel = GuiUtility.makeLabel("Trigger Result",new PrefSize(300,30),null);
+
+		JPanel triggerLabelsPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,MaxSize.NULL,PrefSize.NULL);
+
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
 		triggerLabelsPanel.add(triggerNameLabel);
 		triggerLabelsPanel.add(triggerPriorityLabel);
@@ -350,98 +317,63 @@ public class EditEntityScreen extends Screen {
 		triggerLabelsPanel.add(triggerResultLabel);
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
 		triggerLabelsPanel.setAlignmentX(CENTER_ALIGNMENT);
-		
-		JLabel triggerLabel = makeLabelPreferredSize("Trigger Info",300,100);
-		triggerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		JPanel triggerBodyPanel = makeTriggerBodyPanel();
+
+
+		JLabel triggerLabel = GuiUtility.makeLabel("Trigger Info",new PrefSize(300,100),HorizontalAlignment.CENTER);
+
+		JPanel triggerBodyPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,MaxSize.NULL,PrefSize.NULL);
 		triggerBodyPanel.add(triggerLabelsPanel);
 		triggerBodyPanel.add(triggerListPanel);
-		
-		JPanel triggerMainPanel = makeBorderPanel(new BorderLayout());
+
+		JPanel triggerMainPanel = GuiUtility.makePanel(new BorderLayout(),MaxSize.NULL,PrefSize.NULL);
+
 		triggerMainPanel.add(triggerLabel, BorderLayout.NORTH);
 		triggerMainPanel.add(triggerBodyPanel, BorderLayout.CENTER);
 		return triggerMainPanel;
 	}
-	
+
 	private static JPanel makeFieldMainPanel(JPanel fieldListPanel){
-		JLabel fieldNameLabel = makeLabelPreferredSize("Field Name",350,30);
-		fieldNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
+
+		JPanel fieldMainPanel = GuiUtility.makePanel(new GridBagLayout(),MaxSize.NULL,PrefSize.NULL);
+
+
+		JLabel fieldLabel = GuiUtility.makeLabel("Field Info",new PrefSize(300,100),HorizontalAlignment.CENTER);
+		
+		JLabel fieldNameLabel = GuiUtility.makeLabel("Field Name",new PrefSize(350,30),HorizontalAlignment.LEFT);
 		fieldNameLabel.setAlignmentX(LEFT_ALIGNMENT);
+		JLabel fieldValueLabel = GuiUtility.makeLabel("Field Initial Value",new PrefSize(400,30),HorizontalAlignment.CENTER);
+		fieldValueLabel.setAlignmentX(LEFT_ALIGNMENT);
+
 		
-		JLabel fieldValueLabel = makeLabelPreferredSize("Field Initial Value",400,30);
-		fieldValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints constraint = new GridBagConstraints();
+		constraint.gridx = 0;
+		constraint.gridy = 0;
+		constraint.gridwidth = 2;
+		fieldMainPanel.add(fieldLabel, constraint);
 		
-		JPanel fieldLabelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
-		fieldLabelsPanel.add(Box.createHorizontalGlue());
-		fieldLabelsPanel.add(fieldNameLabel);
-		fieldLabelsPanel.add(fieldValueLabel);
-		fieldLabelsPanel.add(Box.createHorizontalGlue());
+		constraint = new GridBagConstraints();
+		constraint.gridx = 0;
+		constraint.gridy = 1;
+		fieldMainPanel.add(fieldNameLabel, constraint);
+
+		constraint = new GridBagConstraints();
+		constraint.gridx = 1;
+		constraint.gridy = 1;
+		fieldMainPanel.add(fieldValueLabel, constraint);
+
+		constraint = new GridBagConstraints();
+		constraint.gridx = 0;
+		constraint.gridy = 2;
+		constraint.gridwidth = 3;
+		constraint.weighty = 1.0;
+		constraint.anchor = GridBagConstraints.PAGE_START;
+		fieldMainPanel.add(fieldListPanel, constraint);
 		
-		JPanel fieldBodyPanel = makeFieldBodyPanel(fieldLabelsPanel,fieldListPanel);
-		
-		JLabel fieldLabel = makeLabelPreferredSize("Field Info",300,100);
-		fieldLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		JPanel fieldMainPanel = makeBorderPanel(new BorderLayout());
-		fieldMainPanel.add(fieldLabel, BorderLayout.NORTH);
-		fieldMainPanel.add(fieldBodyPanel, BorderLayout.CENTER);
 		return fieldMainPanel;
-	}
-	
-	private static JPanel makeLowerPanel(final EditEntityScreen screen, final ScreenManager sm){
-		JPanel lowerPanel = new JPanel();
-		lowerPanel.add(makeCancelButton(screen,sm));
-		lowerPanel.add(makeFinishButton(screen,sm));
-		return lowerPanel;
-	}
-	
-	private static JPanel makeFieldBodyPanel(JPanel fieldLabelsPanel, JPanel fieldListPanel){
-		JPanel fieldBodyPanel = makeBoxPanel(BoxLayout.Y_AXIS);
-		fieldBodyPanel.add(fieldLabelsPanel);
-		fieldBodyPanel.add(fieldListPanel);
-		return fieldBodyPanel;
-	}
-	
-	private static JPanel makeTriggerBodyPanel(){
-		JPanel triggerBodyPanel = makeBoxPanel(BoxLayout.Y_AXIS);
-		return triggerBodyPanel;
-	}
-	
-	private static JLabel makeScreenLabel(){
-		JLabel label = new JLabel("Edit Entities");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setHorizontalTextPosition(SwingConstants.CENTER);
-		return label;
-	}
-	
-	private static JButton makeCancelButton(final EditEntityScreen screen, final ScreenManager sm){
-		JButton cancelButton = makeButton("Cancel",new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				sm.update(sm.getScreen("Entities"));
-				screen.reset();
-			}
-		});
-		return cancelButton;
-	}
-	
-	private static JButton makeFinishButton(final EditEntityScreen screen, final ScreenManager sm){
-		JButton finishButton = makeButton("Finish",new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (screen.sendInfo()) {
-					sm.update(sm.getScreen("Edit Simulation"));
-					screen.reset();
-				}
-			}
-		});
-		return finishButton;
 	}
 
 	public void load(String str) {
 		reset();
-		tabs.setSelectedComponent(generalPanel);
 		sm.getFacade();
 		agent = Simulator.getPrototype(str);
 		nameField.setText(agent.getName());
@@ -479,6 +411,8 @@ public class EditEntityScreen extends Screen {
 
 	public void reset() {
 		agent = null;
+		currentCard = "General";
+		((CardLayout)cards.getLayout()).first(cards);
 		nameField.setText("");
 		colorTool.setColor(Color.WHITE);
 		for (int x = 0; x < 7; x++) {
@@ -488,7 +422,6 @@ public class EditEntityScreen extends Screen {
 			}
 		}
 		fieldNames.clear();
-		//fieldTypes.clear();
 		fieldValues.clear();
 		fieldDeleteButtons.clear();
 		fieldSubPanels.clear();
@@ -504,6 +437,9 @@ public class EditEntityScreen extends Screen {
 		removedTriggers.clear();
 		triggerListPanel.removeAll();
 		triggerListPanel.add(addTriggerButton);
+		previousButton.setEnabled(false);
+		nextButton.setEnabled(true);
+		finishButton.setEnabled(false);
 	}
 
 	public boolean sendInfo() {
@@ -609,45 +545,36 @@ public class EditEntityScreen extends Screen {
 	}
 
 	private void addField() {
-		JPanel newPanel = makeBoxPanel(BoxLayout.X_AXIS);
-		JTextField newName = new JTextField(25);
-		newName.setMaximumSize(new Dimension(300, 40));
+		JPanel newPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		JTextField newName = GuiUtility.makeTextField(null,25,new MaxSize(300,40),null);
 		fieldNames.add(newName);
-		//		JComboBox newType = new JComboBox(typeNames);
-		//		newType.setMaximumSize(new Dimension(200, 40));
-		//		fieldTypes.add(newType);
-		JTextField newValue = new JTextField(25);
-		newValue.setMaximumSize(new Dimension(300, 40));
+		JTextField newValue = GuiUtility.makeTextField(null,25,new MaxSize(300,40),null);
 		fieldValues.add(newValue);
-		JButton newButton = makeButton("Delete",new DeleteFieldListener());
+		JButton newButton = GuiUtility.makeButton("Delete",new DeleteFieldListener());
 		fieldDeleteButtons.add(newButton);
 		newButton.setActionCommand(fieldDeleteButtons.indexOf(newButton) + "");
 		newPanel.add(newName);
-		//		newPanel.add(newType);
 		newPanel.add(newValue);
 		newPanel.add(newButton);
 		fieldSubPanels.add(newPanel);
 		fieldListPanel.add(newPanel);
 		fieldListPanel.add(addFieldButton);
-		fieldListPanel.add(glue);
+		fieldListPanel.add(Box.createVerticalGlue());
+		validate();
 		repaint();
 	}
 
 	private void addTrigger() {
-		JPanel newPanel = makeBoxPanel(BoxLayout.X_AXIS);
-		JTextField newName = new JTextField(25);
-		newName.setMaximumSize(new Dimension(200, 40));
+		JPanel newPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		JTextField newName = GuiUtility.makeTextField(null,25,new MaxSize(200,40),null);
 		triggerNames.add(newName);
-		JTextField newPriority = new JTextField(15);
-		newPriority.setMaximumSize(new Dimension(150, 40));
+		JTextField newPriority = GuiUtility.makeTextField(null,15,new MaxSize(150,40),null);
 		triggerPriorities.add(newPriority);
-		JTextField newCondition = new JTextField(50);
-		newCondition.setMaximumSize(new Dimension(300, 40));
+		JTextField newCondition = GuiUtility.makeTextField(null,50,new MaxSize(300,40),null);
 		triggerConditions.add(newCondition);
-		JTextField newResult = new JTextField(50);
-		newResult.setMaximumSize(new Dimension(300, 40));
+		JTextField newResult = GuiUtility.makeTextField(null,50,new MaxSize(300,40),null);
 		triggerResults.add(newResult);
-		JButton newButton = makeButton("Delete",new DeleteTriggerListener());
+		JButton newButton = GuiUtility.makeButton("Delete",new DeleteTriggerListener());
 		triggerDeleteButtons.add(newButton);
 		newButton.setActionCommand(triggerDeleteButtons.indexOf(newButton)
 				+ "");
@@ -659,7 +586,7 @@ public class EditEntityScreen extends Screen {
 		triggerSubPanels.add(newPanel);
 		triggerListPanel.add(newPanel);
 		triggerListPanel.add(addTriggerButton);
-		triggerListPanel.add(glue2);
+		triggerListPanel.add(Box.createVerticalGlue());
 		repaint();
 	}
 
@@ -699,6 +626,7 @@ public class EditEntityScreen extends Screen {
 			removedFields.add(Integer.parseInt(e.getActionCommand()));
 			fieldListPanel.remove(fieldSubPanels.get(Integer.parseInt(e
 					.getActionCommand())));
+			validate();
 			repaint();
 		}
 	}
@@ -708,9 +636,50 @@ public class EditEntityScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			removedTriggers.add(Integer.parseInt(e.getActionCommand()));
-			triggerListPanel.remove(triggerSubPanels.get(Integer.parseInt(e
-					.getActionCommand())));
+			triggerListPanel.remove(triggerSubPanels.get(Integer.parseInt(
+					e.getActionCommand()))
+					);
+			validate();
 			repaint();
+		}
+	}
+
+	private class NextListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			CardLayout c1 = (CardLayout)cards.getLayout();
+			if (currentCard == "General"){
+				sendGeneralInfo();
+				previousButton.setEnabled(true);
+				c1.next(cards);
+				currentCard = "Fields";
+			}
+			else if (currentCard == "Fields"){
+				sendFieldInfo();
+				c1.next(cards);
+				nextButton.setEnabled(false);
+				finishButton.setEnabled(true);
+				currentCard = "Triggers";
+			}
+		}
+	}
+
+	private class PreviousListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			CardLayout c1 = (CardLayout)cards.getLayout();
+			if (currentCard == "Fields"){
+				previousButton.setEnabled(false);
+				c1.previous(cards);
+				currentCard = "General";
+			}
+			else if (currentCard == "Triggers"){
+				c1.previous(cards);
+				nextButton.setEnabled(true);
+				currentCard = "Fields";
+			}
 		}
 	}
 

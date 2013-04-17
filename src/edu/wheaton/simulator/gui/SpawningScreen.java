@@ -11,8 +11,6 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -20,15 +18,12 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import edu.wheaton.simulator.simulation.Simulator;
 
 public class SpawningScreen extends Screen {
@@ -57,8 +52,7 @@ public class SpawningScreen extends Screen {
 	private JButton addSpawnButton;
 
 	private JPanel listPanel;
-
-	private Component glue;
+	
 	/**
 	 * 
 	 */
@@ -68,31 +62,30 @@ public class SpawningScreen extends Screen {
 		super(sm);
 		this.setLayout(new BorderLayout());
 		entities = new String[0];
-		JLabel label = makeLabelPreferredSize("Spawning",300, 150);
-		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		JPanel mainPanel = makeBoxPanel(BoxLayout.Y_AXIS);
-		listPanel = makeBoxPanel(BoxLayout.Y_AXIS);
-		JPanel labelsPanel = makeBoxPanel(BoxLayout.X_AXIS);
+		JLabel label = GuiUtility.makeLabel("Spawning",new PrefSize(300, 150),HorizontalAlignment.CENTER);
+		JPanel mainPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		listPanel = GuiUtility.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		JPanel labelsPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 
 		//TODO mess with sizes of labels to line up with components
-		JLabel entityLabel = makeLabelPreferredSize("Entity Type",200, 30);
+		JLabel entityLabel = GuiUtility.makeLabel("Entity Type",new PrefSize(200, 30),HorizontalAlignment.CENTER);
 		
-		JLabel patternLabel = makeLabelPreferredSize("Spawn Pattern",270, 30);
+		JLabel patternLabel = GuiUtility.makeLabel("Spawn Pattern",new PrefSize(270, 30),HorizontalAlignment.CENTER);
 		
-		JLabel xLabel = makeLabelPreferredSize("x Loc.",100, 30);
+		JLabel xLabel = GuiUtility.makeLabel("x Loc.",new PrefSize(100, 30),null);
 		
-		JLabel yLabel = makeLabelPreferredSize("Y Loc.",100, 30);
+		JLabel yLabel = GuiUtility.makeLabel("Y Loc.",new PrefSize(100, 30),null);
 		
-		JLabel numberLabel = makeLabelPreferredSize("Number",290, 30);
+		JLabel numberLabel = GuiUtility.makeLabel("Number",new PrefSize(290, 30),null);
 		
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(entityLabel);
-		entityLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(patternLabel);
-		patternLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		labelsPanel.add(Box.createHorizontalGlue());
 		labelsPanel.add(xLabel);
 		labelsPanel.add(yLabel);
@@ -112,7 +105,7 @@ public class SpawningScreen extends Screen {
 		deleteButtons = new ArrayList<JButton>();
 		subPanels = new ArrayList<JPanel>();
 
-		addSpawnButton = makeButton("Add Spawn",new ActionListener() {
+		addSpawnButton = GuiUtility.makeButton("Add Spawn",new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				addSpawn();
@@ -120,18 +113,17 @@ public class SpawningScreen extends Screen {
 		});
 		listPanel.add(addSpawnButton);
 		addSpawnButton.setAlignmentX(CENTER_ALIGNMENT);
-		glue = Box.createVerticalGlue();
-		listPanel.add(glue);
+		listPanel.add(Box.createVerticalGlue());
 
 		JPanel buttonPanel = new JPanel();
-		JButton cancelButton = makeButton("Cancel",
+		JButton cancelButton = GuiUtility.makeButton("Cancel",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						sm.update(sm.getScreen("Edit Simulation")); 
 					} 
 				});
-		JButton finishButton = makeButton("Finish",
+		JButton finishButton = GuiUtility.makeButton("Finish",
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -207,27 +199,23 @@ public class SpawningScreen extends Screen {
 	}
 
 	private void addSpawn() {
-		JPanel newPanel = makeBoxPanel(BoxLayout.X_AXIS);
-		JComboBox newBox = new JComboBox(entities);
-		newBox.setMaximumSize(new Dimension(250, 30));
+		JPanel newPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		JComboBox newBox = GuiUtility.makeComboBox(entities,new MaxSize(250,30));
 		entityTypes.add(newBox);
-		JComboBox newSpawnType = new JComboBox(spawnOptions);
-		newSpawnType.setMaximumSize(new Dimension(250, 30));
+		JComboBox newSpawnType = GuiUtility.makeComboBox(spawnOptions,new MaxSize(250,30));
 		spawnPatterns.add(newSpawnType);
 		newSpawnType.addItemListener(new PatternListener(spawnPatterns.indexOf(newSpawnType)));
-		JTextField newXLoc = new JTextField(10);
-		newXLoc.setMaximumSize(new Dimension(100, 30));
-		newXLoc.setText("0");
+		
+		JTextField newXLoc = GuiUtility.makeTextField("0",10,new MaxSize(100,30),MinSize.NULL);
+		
 		xLocs.add(newXLoc);
-		JTextField newYLoc = new JTextField(10);
-		newYLoc.setMaximumSize(new Dimension(100, 30));
-		newYLoc.setText("0");
+		JTextField newYLoc = GuiUtility.makeTextField("0",10,new MaxSize(100,30),null);
 		yLocs.add(newYLoc);
-		JTextField newNumber = new JTextField(10);
-		newNumber.setMaximumSize(new Dimension(100, 30));
-		newNumber.setText("1");
+		
+		JTextField newNumber = GuiUtility.makeTextField("1",10, new MaxSize(100,30),MinSize.NULL);
+		
 		numbers.add(newNumber);
-		JButton newButton = makeButton("Delete",new DeleteListener());
+		JButton newButton = GuiUtility.makeButton("Delete",new DeleteListener());
 		deleteButtons.add(newButton);
 		newButton.setActionCommand(
 				deleteButtons.indexOf(newButton) + ""
@@ -241,7 +229,7 @@ public class SpawningScreen extends Screen {
 		subPanels.add(newPanel);
 		listPanel.add(newPanel);
 		listPanel.add(addSpawnButton);
-		listPanel.add(glue);
+		listPanel.add(Box.createVerticalGlue());
 		listPanel.validate();
 		repaint();	
 	}

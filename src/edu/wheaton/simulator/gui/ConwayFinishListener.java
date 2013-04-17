@@ -9,10 +9,10 @@ public class ConwayFinishListener implements ActionListener {
 	private JTextField name;
 	private JTextField width;
 	private JTextField height;
-	private Manager sm;
+	private ScreenManager sm;
 	
 	public ConwayFinishListener(JTextField name, JTextField width, JTextField height, 
-									  Manager sm){
+									  ScreenManager sm){
 		this.name = name;
 		this.width = width;
 		this.height = height;
@@ -28,10 +28,11 @@ public class ConwayFinishListener implements ActionListener {
 		} catch(java.lang.NumberFormatException nfe) { 
 			System.err.println("Invalid input passed to ConwayFinishListener");
 		}
-		Screen upload = sm.getScreen("Edit Simulation");
+
+		Screen upload = sm.getScreen("View Simulation");
 		sm.getFacade().initGameOfLife();
 		sm.getEnder().setStepLimit(1000);
-		((ScreenManager)sm).setStarted(false);
+		sm.setStarted(false);
 		sm.update(upload);
 		sm.loadScreen(upload);
 	}
