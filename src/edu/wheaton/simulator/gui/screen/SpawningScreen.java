@@ -106,10 +106,9 @@ public class SpawningScreen extends Screen {
 								}
 							}
 							ArrayList<SpawnCondition> conditions = gm
-									.getSpawnConditions();
+									.getSimSpawnConditions();
 							conditions.clear();
 							for (int i = 0; i < entityTypes.size(); i++) {
-								gm.getSim();
 								SpawnCondition condition = new SpawnCondition(
 										Simulator
 												.getPrototype(((String) entityTypes
@@ -123,7 +122,7 @@ public class SpawningScreen extends Screen {
 														.getText()),
 										(String) spawnPatterns.get(i)
 												.getSelectedItem());
-								gm.getSpawnConditions().add(condition);
+								gm.getSimSpawnConditions().add(condition);
 							}
 							gm.getScreenManager().update(
 									gm.getScreenManager().getScreen(
@@ -189,7 +188,7 @@ public class SpawningScreen extends Screen {
 		reset();
 		entities = Simulator.prototypeNames().toArray(entities);
 		ArrayList<SpawnCondition> spawnConditions = getGuiManager()
-				.getSpawnConditions();
+				.getSimSpawnConditions();
 
 		for (int i = 0; i < spawnConditions.size(); i++) {
 			addSpawn();

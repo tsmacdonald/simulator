@@ -23,7 +23,6 @@ import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
 import edu.wheaton.simulator.simulation.Simulator;
-import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 //TODO commented code for adding operators to ending conditions :
 //     see if it should stay for future use or just be deleted
@@ -164,21 +163,19 @@ public class SetupScreen extends Screen {
 					for (int i = 0; i < values.size(); i++)
 						if (values.get(i).getText().equals(""))
 							throw new Exception("All fields must have input.");
-					
-					SimulationEnder ender = guiManager.getEnder();
 
-					ender.setStepLimit(Integer.parseInt(timeField.getText()));
+					guiManager.setSimStepLimit(Integer.parseInt(timeField.getText()));
 					String str = (String)updateBox.getSelectedItem();
 					
 					if (str.equals("Linear"))
-						guiManager.getSim().setLinearUpdate();
+						guiManager.setSimLinearUpdate();
 					else if (str.equals("Atomic"))
-						guiManager.getSim().setLinearUpdate();
+						guiManager.setSimAtomicUpdate();
 					else
-						guiManager.getSim().setPriorityUpdate(0, 50);
+						guiManager.setSimPriorityUpdate(0, 50);
 					
 					for (int i = 0; i < values.size(); i++) {
-						ender.setPopLimit(
+						guiManager.setSimPopLimit(
 							Simulator.getPrototype(
 								(String)(agentTypes.get(i).getSelectedItem())
 								).getPrototypeID(), 
@@ -220,17 +217,17 @@ public class SetupScreen extends Screen {
 	public void load() {
 		reset();
 		nameField.setText(getGuiManager().getSimName());
-		updateBox.setSelectedItem(getGuiManager().getSim().currentUpdater());
+		updateBox.setSelectedItem(getGuiManager().getCurrentSimUpdater());
 
-		SimulationEnder se = getGuiManager().getEnder();
-		int stepLimit = se.getStepLimit();
+		SimulatorGuiManager gm = getGuiManager();
+		int stepLimit = gm.getSimStepLimit();
 		agentNames = Simulator.prototypeNames().toArray(agentNames);
 		timeField.setText(stepLimit + "");
 		//to prevent accidental starting simulation with time limit of 0
 		if (stepLimit <= 0) 
 			timeField.setText(10 + "");
 		
-		ImmutableMap<PrototypeID, Integer> popLimits = se.getPopLimits();
+		ImmutableMap<PrototypeID, Integer> popLimits = gm.getSimPopLimits();
 		
 		if (popLimits.size() == 0) {
 			conListPanel.add(addConditionButton);
@@ -293,7 +290,7 @@ public class SetupScreen extends Screen {
 			String str = (String) agentTypes.get(n).getSelectedItem();
 			
 			if (str != null) 
-				getGuiManager().getEnder().removePopLimit(
+				getGuiManager().removeSimPopLimit(
 					Simulator.getPrototype(str).getPrototypeID());
 			
 			conListPanel.remove(subPanels.get(n));
