@@ -36,48 +36,72 @@ public class Loader {
 	public void load(String fileName){
 		File file = new File(fileName);
 		BufferedReader reader = null;
-		
+
 		try {
 			reader = new BufferedReader(new FileReader(file));
 			String readLine = reader.readLine();
-			
+
 			while (readLine != null) {
-				
-				
-				if(readLine.equals("AgentSnapshot")){ 				
+				//TODO: Also need to save/load ending conditions
+				//TODO: Also need to save/load triggers
+
+				if(readLine.equals("AgentSnapshot")){
 					//Find the appropriate prototype
-					Prototype parent = getPrototype(reader.readLine());  
+					String prototypeName = reader.readLine();
 					
-					//Create the Agent
-					Agent agent = new Agent(grid, parent);
-					
-					//Get the Agent's position on the Grid
-					int xpos = Integer.parseInt(reader.readLine()); 
-					int ypos = Integer.parseInt(reader.readLine()); 
-					
-					//Add the agent's default fields
-					readLine = reader.readLine(); 
-					while(readLine.substring(0,  13).equals("FieldSnapshot")){
-						String[] tokens = readLine.split(" ");
-						try {
-							agent.addField(tokens[1], tokens[2]);
-						} catch (ElementAlreadyContainedException e) {
-							System.out.println("Field already exists"); 
-							e.printStackTrace();
+					//This is an actual AgentSnapshot
+					if(!prototypeName.equals("GRID")){
+						Prototype parent = getPrototype(prototypeName);  
+
+						//Create the Agent
+						Agent agent = new Agent(grid, parent);
+
+						//Get the Agent's position on the Grid
+						int xpos = Integer.parseInt(reader.readLine()); 
+						int ypos = Integer.parseInt(reader.readLine()); 
+
+						//Add the agent's default fields
+						readLine = reader.readLine(); 
+						while(readLine.substring(0,  13).equals("FieldSnapshot")){
+							String[] tokens = readLine.split(" ");
+							try {
+								agent.addField(tokens[1], tokens[2]);
+							} catch (ElementAlreadyContainedException e) {
+								System.out.println("Field already exists"); 
+								e.printStackTrace();
+							}
+						}
+
+						grid.addAgent(agent, xpos, ypos); 
+					}
+					//This is a snapshot storing grid global variables
+					else{ //prototypeName.equals("GRID")
+						//Skip the x and y position - doesn't matter
+						reader.readLine(); 
+						reader.readLine(); 
+						
+						//Add the Grid's global variables
+						readLine = reader.readLine(); 
+						while(readLine.substring(0,  13).equals("FieldSnapshot")){
+							String[] tokens = readLine.split(" ");
+							try {
+								grid.addField(tokens[1], tokens[2]);
+							} catch (ElementAlreadyContainedException e) {
+								System.out.println("Field already exists"); 
+								e.printStackTrace();
+							}
 						}
 					}
-
-					grid.addAgent(agent, xpos, ypos);  					
 				}
 				else if(readLine.equals("PrototypeSnapshot")){
 					//Parse the required prototype data
 					String name = reader.readLine(); 
 					Color color = new Color(Integer.parseInt(reader.readLine()));
 					byte[] design = createByteArray(reader.readLine());
-					
+
 					//Create the prototype
 					Prototype proto = new Prototype(grid, color, design, name);
-					
+
 					//Add the prototype's default fields
 					readLine = reader.readLine(); 
 					while(readLine.substring(0,  13).equals("FieldSnapshot")){
@@ -92,7 +116,7 @@ public class Loader {
 					prototypes.add(proto); 
 				}
 				else if(readLine.equals("Globals")){
-					
+
 				}
 				else{
 					reader.readLine(); 
@@ -114,7 +138,7 @@ public class Loader {
 			}
 		}
 	}
-	
+
 	/**
 	 * Create a byte array from a string
 	 * @param s String representing a byte array in the form "010111000"
@@ -122,13 +146,13 @@ public class Loader {
 	 */
 	private static byte[] createByteArray(String s){
 		byte[] ret = new byte[s.length()]; 
-		
+
 		for(int i = 0; i < s.length(); i++)
 			ret[i] = (byte) s.charAt(i); 
-		
+
 		return ret; 
 	}
-	
+
 	/**
 	 * Get the Prototype in this class's internal list with the supplied name
 	 * @param name The name of the prototype to retrieve
@@ -136,14 +160,14 @@ public class Loader {
 	 */
 	private Prototype getPrototype(String name){
 		Prototype ret = null; 
-		
+
 		for(Prototype p : prototypes)
 			if(p.getName().equals(name))
 				ret = p; 
-		
+
 		if(ret == null) 
 			System.out.println("Parent Not Found");
-		
+
 		return ret; 
 	}
 

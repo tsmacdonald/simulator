@@ -41,6 +41,11 @@ public class Grid extends Entity implements Iterable<Agent> {
 	private Set<GridObserver> observers;
 
 	/**
+	 * Number of iterations performed
+	 */
+	private int step;
+
+	/**
 	 * Constructor. Creates a grid with the given width and height
 	 * specifications
 	 * 
@@ -59,6 +64,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 		grid = new Agent[getHeight()][getWidth()];
 		updater = new LinearUpdater(this);
 		observers = new HashSet<GridObserver>();
+		step = 0;
 	}
 
 	/**
@@ -107,6 +113,16 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	public void updateEntities() throws SimulationPauseException {
 		updater.update();
+		step++;
+	}
+
+	/**
+	 * Provides the iteration number
+	 * 
+	 * @return the grid step
+	 */
+	public int getStep() {
+		return step;
 	}
 
 	/**
@@ -164,6 +180,22 @@ public class Grid extends Entity implements Iterable<Agent> {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Places an Agent at a random position in the grid. This method replaces
+	 * (kills) anything that is currently in that position. The Agent's own
+	 * position is also updated accordingly.
+	 * 
+	 * @param a
+	 * @return returns true if successful
+	 */
+	public boolean addAgent(Agent a) {
+		int randomX = (int) (Math.random() * (getField("width").getIntValue() - 1));
+		int randomY = (int) (Math.random() * (getField("height").getIntValue() - 1));
+		grid[randomY][randomX] = a;
+		a.setPos(randomX, randomY);
+		return true;
 	}
 
 	/**

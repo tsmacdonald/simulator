@@ -4,7 +4,7 @@
  * "Triggers" are used to give agents certain behaviors. They represent a boolean expression as created by the user that, when met, causes the agent to perform a certain behavior.
  * Note: Triggers should have unique priorities within an agent; problems will be had if there are multiple triggers with the same priority values within an agent. 	 
  * 
- * @author Daniel Davenport, Grant Hensel, Elliot Penson, Emmanuel Pederson, Chris Anderson and Simon Swenson
+ * @author Agent Team
  * Wheaton College, CSCI 335, Spring 2013
  */
 
@@ -104,7 +104,7 @@ public class Trigger implements Comparable<Trigger> {
 	 * @throws EvaluationException
 	 *             if the expression was invalid
 	 */
-	public void evaluate(Agent xThis) throws EvaluationException {
+	public void evaluate(Agent xThis, int step) throws EvaluationException {
 		Expression condition = conditionExpression.clone();
 		Expression behavior = behaviorExpression.clone();
 
@@ -121,7 +121,7 @@ public class Trigger implements Comparable<Trigger> {
 		}
 
 		if (conditionResult) {
-			fire(xThis, this, behavior);
+			fire(xThis, this, behavior, step);
 		}
 	}
 
@@ -158,12 +158,12 @@ public class Trigger implements Comparable<Trigger> {
 	 * @param xThis
 	 * @throws EvaluationException
 	 */
-	public void atomicFire(Agent xThis) throws EvaluationException {
+	public void atomicFire(Agent xThis, int step) throws EvaluationException {
 		Expression behavior = behaviorExpression.clone();
 
 		behavior.importEntity("this", xThis);
 		if (atomicConditionResult)
-			fire(xThis, this, behavior);
+			fire(xThis, this, behavior, step);
 	}
 
 	/**
@@ -187,7 +187,7 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 */
-	private static void fire(Agent a, Trigger t, Expression behavior) throws EvaluationException {
+	private static void fire(Agent a, Trigger t, Expression behavior, int step) throws EvaluationException {
 		try {
 			if (behavior.evaluateBool() == false) {
 				//				System.err.println("behavior '" + behavior.toString()
@@ -202,7 +202,7 @@ public class Trigger implements Comparable<Trigger> {
 			//			e.printStackTrace();
 			throw new EvaluationException("Behavior");
 		}
-		notifyObservers(a, t);
+		notifyObservers(a, t, step);
 	}
 
 	/**
@@ -555,10 +555,14 @@ public class Trigger implements Comparable<Trigger> {
 
 	/**
 	 * Notifies all of the observers watching this grid
+	 * 
+	 * @param caller
+	 * @param trigger
+	 * @param step
 	 */
-	public static void notifyObservers(Agent caller, Trigger trigger) {
+	public static void notifyObservers(Agent caller, Trigger trigger, int step) {
 		for (TriggerObserver current : observers)
-			current.update(caller, trigger);
+			current.update(caller, trigger, step);
 	}
 
 }
