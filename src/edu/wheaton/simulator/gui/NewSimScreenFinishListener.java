@@ -35,7 +35,6 @@ public class NewSimScreenFinishListener implements ActionListener {
 		gm.setStarted(false);
 		gm.getFacade().initSamples();
 		gm.getScreenManager().update(upload);
-		gm.getScreenManager();
 		ScreenManager.loadScreen(upload);
 	}
 	public String getName(){

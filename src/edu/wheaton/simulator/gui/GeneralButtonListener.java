@@ -21,5 +21,4 @@ public class GeneralButtonListener implements ActionListener {
 		sm.update(toUpload);
 		ScreenManager.loadScreen(toUpload);
 	}
-	
 }

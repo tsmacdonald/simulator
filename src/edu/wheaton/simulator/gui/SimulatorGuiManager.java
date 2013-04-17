@@ -110,11 +110,9 @@ public class SimulatorGuiManager {
 
 	 
 	public static void updateGUIManager(String nos, int width, int height){
-	
 		setNameOfSim(nos);
 		setGridWidth(width);
 		setGridHeight(height);
-
 	}
 	
 	public boolean isRunning() {
@@ -128,13 +126,11 @@ public class SimulatorGuiManager {
 	public void setStarted(boolean b) {
 		hasStarted = b;
 	}
-	
 	 
 	public boolean hasStarted() {
 		return hasStarted;
 	}
 
-	 
 	public ArrayList<SpawnCondition> getSpawnConditions() { 
 		return spawnConditions; 
 	}
@@ -157,9 +153,7 @@ public class SimulatorGuiManager {
 		
 		menu.add(Gui.makeMenuItem("New Simulation", 
 				new GeneralButtonListener("New Simulation",guiManager.sm)));
-		
-		menu.add(Gui.makeMenuItem("Exit",new ActionListener(){
-			 
+		menu.add(Gui.makeMenuItem("Exit",new ActionListener(){ 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				guiManager.setRunning(false);
@@ -175,7 +169,6 @@ public class SimulatorGuiManager {
 		
 		menu.add(Gui.makeMenuItem("Edit Entities", 
 				new GeneralButtonListener("Entities",sm)));
-
 		menu.add(Gui.makeMenuItem("Edit Global Fields", 
 				new GeneralButtonListener("Fields",sm)));
 		
@@ -185,25 +178,20 @@ public class SimulatorGuiManager {
 	private static JMenu makeHelpMenu(final ScreenManager sm) {
 		JMenu menu = Gui.makeMenu("Help");
 		
-		menu.add(Gui.makeMenuItem("About",new ActionListener(){
-			 
+		menu.add(Gui.makeMenuItem("About",new ActionListener(){ 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(sm.getDisplay(),
-					    "Wheaton College. Software Development 2013.",
-					    "About",
-					    JOptionPane.PLAIN_MESSAGE);
+				    "Wheaton College. Software Development 2013.",
+				    "About",JOptionPane.PLAIN_MESSAGE);
 			}
 		}));
-		
 		menu.add(Gui.makeMenuItem("Help Contents",new ActionListener(){
-			 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(sm.getDisplay(),
-					    "Wheaton College. Software Development 2013.\n Help Contents",
-					    "Help Contents",
-					    JOptionPane.PLAIN_MESSAGE);
+				    "Wheaton College. Software Development 2013.\n Help Contents",
+				    "Help Contents",JOptionPane.PLAIN_MESSAGE);
 			}
 		}));
 		
@@ -213,7 +201,6 @@ public class SimulatorGuiManager {
 	private static String nameOfSimulation;
 	private static int gridHeight = 0;
 	private static int gridWidth = 0;
-	
 	
 	public static String getNameOfSim(){
 		return nameOfSimulation;

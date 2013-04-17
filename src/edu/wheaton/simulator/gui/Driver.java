@@ -27,10 +27,9 @@ public class Driver {
 					e.printStackTrace();
 				}
 				SimulatorGuiManager gm = new SimulatorGuiManager(new Display());
-				gm.getScreenManager().update(gm.getScreenManager().getScreen("Title"));
+				ScreenManager sm = gm.getScreenManager();
+				sm.update(sm.getScreen("Title"));
 			}
 		}));
-
 	}
-
 }

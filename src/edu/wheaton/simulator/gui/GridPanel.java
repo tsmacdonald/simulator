@@ -9,9 +9,6 @@ import edu.wheaton.simulator.entity.Agent;
 
 public class GridPanel extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6168906849044462629L;
 
 	private SimulatorGuiManager gm;
@@ -47,15 +44,10 @@ public class GridPanel extends JPanel {
 		
 		g.setColor(Color.BLACK);
 		int squareSize = Math.min(pixelWidth, pixelHeight);
-		for (int i = 0; i < gridWidth; i++) {
-			for (int j = 0; j < gridHeight; j++) {
+		for (int i = 0; i < gridWidth; i++)
+			for (int j = 0; j < gridHeight; j++)
 				g.drawRect(squareSize * i, squareSize * j, 
 						squareSize, squareSize);
-			}
-		}
-		
-		
-
 	}
 
 	public void agentPaint(Graphics g){
@@ -128,15 +120,12 @@ public class GridPanel extends JPanel {
 		
 		g.setColor(Color.WHITE);
 		
-		for (int x = 0; x < gridWidth; x++) {
-			for (int y = 0; y < gridHeight; y++) {
+		for (int x = 0; x < gridWidth; x++)
+			for (int y = 0; y < gridHeight; y++)
 				g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), squareSize, squareSize);
-			}
-		}
 	}
 	
 	public void setLayers(boolean args){
 		layers = args;
 	}
-
 }

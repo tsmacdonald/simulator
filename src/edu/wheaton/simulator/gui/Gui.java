@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 
 public final class Gui {
@@ -108,24 +107,20 @@ public final class Gui {
 	}
 	
 	public static JPanel makeColorChooserPanel(JColorChooser cc){
-		JPanel panel = Gui.makePanel(new GridBagLayout(), null, null);
+		JPanel panel = Gui.makePanel(new GridBagLayout(), new MaxSize(550,140), null);
 		GridBagConstraints constraints = new GridBagConstraints();
-		
-		panel.setMaximumSize(new MaxSize(550,140));
-		
 		panel.add(cc,constraints);
 		return panel;
 	}
 	
 	public static JMenu makeMenu(String name){
 		JMenu menu = new JMenu(name);
-		
 		menu.setOpaque(true);
 		menu.setForeground(Color.white);
 		menu.setBackground(Color.darkGray);
 		
-		JPopupMenu popupMenu = menu.getPopupMenu();
-		popupMenu.setBorder(BorderFactory.createLineBorder(Color.black));
+		menu.getPopupMenu().setBorder(
+			BorderFactory.createLineBorder(Color.black));
 		
 		return menu;
 	}
@@ -133,11 +128,9 @@ public final class Gui {
 	public static JMenuItem makeMenuItem(String name, ActionListener al){
 		JMenuItem menuItem = new JMenuItem(name);
 		menuItem.addActionListener(al);
-		
 		menuItem.setOpaque(true);
 		menuItem.setBackground(Color.gray);
 		menuItem.setForeground(Color.white);
-		
 		return menuItem;
 	}
 	

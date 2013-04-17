@@ -14,11 +14,11 @@ public class ConwayFinishListener implements ActionListener {
 	private SimulatorGuiManager gm;
 	
 	public ConwayFinishListener(JTextField name, JTextField width, JTextField height, 
-			SimulatorGuiManager gm2){
+			SimulatorGuiManager gm){
 		this.name = name;
 		this.width = width;
 		this.height = height;
-		this.gm = gm2;
+		this.gm = gm;
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -36,7 +36,6 @@ public class ConwayFinishListener implements ActionListener {
 		gm.getEnder().setStepLimit(1000);
 		gm.setStarted(false);
 		gm.getScreenManager().update(upload);
-		gm.getScreenManager();
 		ScreenManager.loadScreen(upload);
 	}
 	public String getName(){

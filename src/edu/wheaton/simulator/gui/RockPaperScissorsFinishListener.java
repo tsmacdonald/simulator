@@ -41,7 +41,6 @@ public class RockPaperScissorsFinishListener implements ActionListener {
 			gm.getEnder().setStepLimit(1000);
 			gm.setStarted(false);
 			gm.getScreenManager().update(upload);
-			gm.getScreenManager();
 			ScreenManager.loadScreen(upload);
 		}
 		public String getName(){

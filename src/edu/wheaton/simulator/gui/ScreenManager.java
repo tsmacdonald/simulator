@@ -34,5 +34,4 @@ public class ScreenManager {
 	}
 	
 	private HashMap<String, Screen> screens;
-
 }

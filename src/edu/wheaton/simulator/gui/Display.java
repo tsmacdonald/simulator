@@ -33,8 +33,8 @@ public class Display extends JFrame {
 		this.setLayout(new FlowLayout(FlowLayout.CENTER));
 		this.setLocation(100, 100);
 		panel = new JPanel();
-		this.add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		this.add(panel);
 		this.setVisible(true);
 	}
 	/**
@@ -45,5 +45,4 @@ public class Display extends JFrame {
 		this.setContentPane(s);
 		this.setVisible(true);
 	}
-	
 }
