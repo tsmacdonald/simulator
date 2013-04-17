@@ -15,10 +15,10 @@ public class RockPaperScissorsFinishListener implements ActionListener {
 		private JTextField name;
 		private JTextField width;
 		private JTextField height;
-		private Manager sm;
+		private ScreenManager sm;
 		
 		public RockPaperScissorsFinishListener(JTextField name, JTextField width, JTextField height, 
-										  Manager sm){
+										  ScreenManager sm){
 			this.name = name;
 			this.width = width;
 			this.height = height;
@@ -34,7 +34,7 @@ public class RockPaperScissorsFinishListener implements ActionListener {
 			} catch(java.lang.NumberFormatException nfe) { 
 				System.err.println("Invalid input passed to RockPaperScissorsListener");
 			}
-			Screen upload = sm.getScreen("Edit Simulation");
+			Screen upload = sm.getScreen("View Simulation");
 			sm.getFacade().initRockPaperScissors();
 			sm.getEnder().setStepLimit(1000);
 			((ScreenManager)sm).setStarted(false);

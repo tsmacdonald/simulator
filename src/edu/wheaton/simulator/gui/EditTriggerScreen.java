@@ -39,7 +39,7 @@ public class EditTriggerScreen extends Screen {
 	
 	private JScrollPane behaviorLayout;
 	
-	public EditTriggerScreen(Manager sm) {
+	public EditTriggerScreen(ScreenManager sm) {
 		super(sm);
 		this.setLayout(new GridBagLayout());
 		addNameLabel(new GridBagConstraints());
@@ -149,8 +149,7 @@ public class EditTriggerScreen extends Screen {
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
-
+		
 	}
 	
 
