@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 
 public final class GuiUtility {
@@ -115,16 +116,25 @@ public final class GuiUtility {
 	
 	public static JMenu makeMenu(String name){
 		JMenu menu = new JMenu(name);
-		menu.getPopupMenu().setBorder(BorderFactory.createLineBorder(Color.black));
+		
 		menu.setOpaque(true);
 		menu.setForeground(Color.white);
 		menu.setBackground(Color.darkGray);
+		
+		JPopupMenu popupMenu = menu.getPopupMenu();
+		popupMenu.setBorder(BorderFactory.createLineBorder(Color.black));
+		
 		return menu;
 	}
 	
 	public static JMenuItem makeMenuItem(String name, ActionListener al){
 		JMenuItem menuItem = new JMenuItem(name);
 		menuItem.addActionListener(al);
+		
+		menuItem.setOpaque(true);
+		menuItem.setBackground(Color.gray);
+		menuItem.setForeground(Color.white);
+		
 		return menuItem;
 	}
 }
