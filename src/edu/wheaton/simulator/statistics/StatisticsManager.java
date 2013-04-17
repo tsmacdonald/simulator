@@ -18,7 +18,7 @@ public class StatisticsManager {
 	/**
 	 * Single instance of this class.
 	 */
-	private static StatisticsManager instance = new StatisticsManager();
+	private static StatisticsManager instance = null;
 	
 	/**
 	 * The table in which all entity snapshots will be stored.
@@ -59,7 +59,17 @@ public class StatisticsManager {
 	 * Get instance of this singleton
 	 */
 	public static StatisticsManager getInstance() {
-		return instance;
+		if(instance != null) 
+			return instance;
+		else 
+			return instance = new StatisticsManager();
+	}
+	
+	/**
+	 * THIS IS FOR TESTING PURPOSES ONLY!!
+	 */
+	public static void removeInstance() {
+		instance = null;
 	}
 	
 	/**
@@ -139,10 +149,10 @@ public class StatisticsManager {
 	 *         that time
 	 */
 	public int[] getPopVsTime(String prototypeName) {
-		int[] data = new int[lastStep()+1];	
+		int[] data = new int[lastStep()];	
 		
 		//Populate agentsByStep
-		for (int i = 0; i <= lastStep(); i++) {
+		for (int i = 0; i <= lastStep() - 1; i++) {
 			Set<AgentSnapshot> stepPop = getPopulationAtStep(prototypeName, i);
 			data[i] = stepPop.size(); 
 		}
