@@ -1,6 +1,9 @@
 package edu.wheaton.simulator.test.statistics;
 
+import java.awt.Color;
 import java.util.HashMap;
+
+import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
@@ -40,14 +43,25 @@ public class SaverTest {
 		}
 		
 		prototypeTwo = new Prototype(grid, "Prototype 2");
+		agentOther = prototypeTwo.createAgent();
+		try {
+			agentOther.addField("Crayfish", "Paul");
+			agentOther.addField("Meerkat", "Timon");
+			agentOther.addField("Person", "John Charles");
+		} catch (ElementAlreadyContainedException e) {
+			e.printStackTrace();
+		}
+		
 		step = new Integer(23);
 	}
 
 	@After
 	public void tearDown() {
 		agent = null;
+		agentOther = null;
 		grid = null;
 		prototypeOne = null;
+		prototypeTwo = null;
 		step = null;
 	}
 
@@ -58,16 +72,33 @@ public class SaverTest {
 				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), 
 				step, prototypeOne.getName(), null, 0, 0);  
 		
-		AgentSnapshot agentSnap2 = new AgentSnapshot(prototypeOne.createAgent().getID(), 
-				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), 
-				step, prototypeOne.getName(), null, 0, 0);  
+		AgentSnapshot agentSnap2 = new AgentSnapshot(agentOther.getID(), 
+				SnapshotFactory.makeFieldSnapshots(agentOther.getCustomFieldMap()), 
+				step, prototypeTwo.getName(), null, 0, 0);  
 		
 		//Create the table, add two AgentSnapshots
 		AgentSnapshotTable table = new AgentSnapshotTable();
 		table.putEntity(agentSnap1); 
 		table.putEntity(agentSnap2); 
 		
-		Saver s = new Saver(table, new HashMap<String, PrototypeSnapshot>());
+		// Create two PrototypeSnapshots
+		PrototypeSnapshot protoSnapAlpha = new PrototypeSnapshot(prototypeOne.getName(), 
+				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), prototypeOne.childPopulation(),
+				prototypeOne.childIDs(), step, new Color(10, 10, 10), agent.getDesign());
+		Assert.assertNotNull("PrototypeSnapshot not created.", protoSnapAlpha);
+		
+		PrototypeSnapshot protoSnapBeta = new PrototypeSnapshot(prototypeTwo.getName(), 
+				SnapshotFactory.makeFieldSnapshots(agentOther.getCustomFieldMap()), prototypeTwo.childPopulation(),
+				prototypeTwo.childIDs(), step, new Color(10, 10, 10), agentOther.getDesign());
+		Assert.assertNotNull("PrototypeSnapshot not created.", protoSnapAlpha);
+		
+		// Creating a HashMap of PrototypeSnapshots
+		HashMap<String, PrototypeSnapshot> protoMap = new HashMap<String, PrototypeSnapshot>();
+		protoMap.put("PrototypeSnapshot Alpha", protoSnapAlpha);
+		protoMap.put("PrototypeSnapshot Beta", protoSnapBeta);
+		Assert.assertTrue("protoMap has values", !protoMap.isEmpty());
+		
+		Saver s = new Saver(table, protoMap);
 		s.save();
 	}
 }

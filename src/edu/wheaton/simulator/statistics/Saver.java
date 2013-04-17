@@ -82,7 +82,7 @@ public class Saver {
 				}
 
 		// What just got saved to file?
-		System.out.println("The following text was just saved to SimulationState.txt: \n" + sb);
+		System.out.println("The following text was just saved to SimulationState.txt: \n" + sb); // TODO Delete
 	}
 	
 	/**
