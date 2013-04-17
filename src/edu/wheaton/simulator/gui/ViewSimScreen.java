@@ -38,21 +38,13 @@ import edu.wheaton.simulator.statistics.SimulationRecorder;
 
 public class ViewSimScreen extends Screen {
 
-	//private int height;
-
-	//private int width;
+	private static final long serialVersionUID = -6872689283286800861L;
 
 	private ScreenManager sm;
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6872689283286800861L;
 
 	private GridPanel grid;
 
 	private int stepCount;
-
-	//private JButton backButton;
 
 	private long startTime;
 
@@ -214,12 +206,6 @@ public class ViewSimScreen extends Screen {
 		buttonPanel.add(GuiUtility.makeButton("Global Fields", new GeneralButtonListener("Fields", sm)));
 		buttonPanel.add(GuiUtility.makeButton("Setup options", new GeneralButtonListener("Grid Setup", sm)));
 		buttonPanel.add(GuiUtility.makeButton("Statistics", new GeneralButtonListener("Statistics", sm)));
-		/*buttonPanel.add(GuiUtility.makeButton("Back",new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				sm.update(sm.getScreen("Edit Simulation")); 
-			} 
-		});*/
 		return buttonPanel;
 	}
 
@@ -235,7 +221,6 @@ public class ViewSimScreen extends Screen {
 					}
 				}
 				grid.repaint();
-				//backButton.setEnabled(false);
 				sm.setRunning(true);
 				sm.setStarted(true);
 				canSpawn = false;
@@ -273,7 +258,6 @@ public class ViewSimScreen extends Screen {
 							sm.getFacade().getGrid());
 					System.out.println("shouldEnd = " + shouldEnd);
 					if (shouldEnd) {
-						//backButton.setEnabled(true);
 						sm.setRunning(false);
 					}
 

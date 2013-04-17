@@ -31,22 +31,6 @@ public class NewSimulationScreen extends Screen {
 		height = initHeightField("Grid Height: ", "10");
 		width = initWidthField("Grid Width: ", "10");
 		initButtonPanel();
-		
-
-
-		//		name = new JTextField(40);
-		//		name.setMaximumSize(new Dimension(400, 30));
-		//		height = new JTextField(10);
-		//		height.setMaximumSize(new Dimension(100, 30));
-		//		width = new JTextField(10);
-		//		width.setMaximumSize(new Dimension(100, 30));
-		//		JLabel nameLabel = new JLabel("Name: ");
-		//		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		//		JLabel heightLabel = new JLabel("Height:");
-		//		heightLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		//		JLabel widthLabel = new JLabel("Width:");
-		//		widthLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-
 		this.setVisible(true);
 	}
 
