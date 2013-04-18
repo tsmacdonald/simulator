@@ -15,7 +15,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
@@ -49,6 +48,7 @@ public class TitleScreen extends Screen {
 		JButton loadButton = new JButton("Load a Saved Simulation");
 		loadButton.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
 				getGuiManager().loadSim();

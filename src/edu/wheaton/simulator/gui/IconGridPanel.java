@@ -89,7 +89,7 @@ public class IconGridPanel extends GridPanel {
 		g.setColor(color);
 		for (int i = 0; i < gridDimension; i++) {
 			for (int j = 0; j < gridDimension; j++) {
-				if(icon[i][j] = true){
+				if(icon[i][j] == true){
 					g.drawRect(squareSize * i, squareSize * j, 
 							squareSize, squareSize);
 				}

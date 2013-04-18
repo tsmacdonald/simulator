@@ -9,7 +9,6 @@
 package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -32,7 +31,6 @@ import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.datastructure.GridObserver;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
