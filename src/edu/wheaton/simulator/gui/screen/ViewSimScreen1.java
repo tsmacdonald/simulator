@@ -62,6 +62,8 @@ public class ViewSimScreen1 extends Screen {
 	private final Screen entitiesScreen;
 	
 	private final Screen globalFieldScreen;
+	
+	private final Screen optionsScreen;
 
 	public ViewSimScreen1(final SimulatorGuiManager gm) {
 		super(gm);
@@ -143,15 +145,18 @@ public class ViewSimScreen1 extends Screen {
 
 		final JTabbedPane tabs = new JTabbedPane();
 		entitiesScreen = new EntityScreen(gm);
+		globalFieldScreen = new FieldScreen(gm);
+		optionsScreen = new SetupScreen(gm);
 		tabs.addTab("Agent", entitiesScreen);
 		tabs.addTab("Layers", upperLayerPanel);
-		globalFieldScreen = new FieldScreen(gm);
 		tabs.addTab("Global Fields", globalFieldScreen);
+		tabs.addTab("Options", optionsScreen);
 		tabs.addChangeListener(new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent ce) {
 				entitiesScreen.load();
 				globalFieldScreen.load();
+				optionsScreen.load();
 			}
 		});
 
@@ -243,7 +248,6 @@ public class ViewSimScreen1 extends Screen {
 					getGuiManager().pauseSim();
 				}
 			}),
-			Gui.makeButton("Setup options",null, new GeneralButtonListener("Grid Setup",sm)),
 			Gui.makeButton("Statistics",null, new GeneralButtonListener("Statistics",sm)));
 		return buttonPanel;
 	}
