@@ -18,8 +18,6 @@ import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.gui.screen.EditEntityScreen;
 import edu.wheaton.simulator.gui.screen.EditFieldScreen;
-import edu.wheaton.simulator.gui.screen.EntityScreen;
-import edu.wheaton.simulator.gui.screen.FieldScreen;
 import edu.wheaton.simulator.gui.screen.NewSimulationScreen;
 import edu.wheaton.simulator.gui.screen.SetupScreen;
 import edu.wheaton.simulator.gui.screen.SpawningScreen;
@@ -53,9 +51,7 @@ public class SimulatorGuiManager {
 		sm = new ScreenManager(d);
 		sm.putScreen("Title", new TitleScreen(this));
 		sm.putScreen("New Simulation", new NewSimulationScreen(this));
-		sm.putScreen("Fields", new FieldScreen(this));
 		sm.putScreen("Edit Fields", new EditFieldScreen(this));
-		sm.putScreen("Entities", new EntityScreen(this));
 		sm.putScreen("Edit Entities", new EditEntityScreen(this));
 		sm.putScreen("Spawning", new SpawningScreen(this));
 		sm.putScreen("View Simulation", new ViewSimScreen1(this));

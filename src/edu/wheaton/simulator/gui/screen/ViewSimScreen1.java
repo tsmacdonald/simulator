@@ -142,10 +142,10 @@ public class ViewSimScreen1 extends Screen {
 		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		final JTabbedPane tabs = new JTabbedPane();
-		entitiesScreen = gm.getScreenManager().getScreen("Entities");
+		entitiesScreen = new EntityScreen(gm);
 		tabs.addTab("Agent", entitiesScreen);
 		tabs.addTab("Layers", upperLayerPanel);
-		globalFieldScreen = gm.getScreenManager().getScreen("Fields");
+		globalFieldScreen = new FieldScreen(gm);
 		tabs.addTab("Global Fields", globalFieldScreen);
 		tabs.addChangeListener(new ChangeListener(){
 			@Override

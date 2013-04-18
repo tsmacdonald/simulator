@@ -72,7 +72,7 @@ public class EditFieldScreen extends Screen {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						ScreenManager sm = getScreenManager();
-						sm.update(sm.getScreen("Fields")); 
+						sm.update(sm.getScreen("View Simulation")); 
 					} 
 				}),
 			Gui.makeButton("Finish",prefSize,
