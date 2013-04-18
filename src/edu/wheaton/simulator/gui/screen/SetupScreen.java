@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -48,10 +49,9 @@ public class SetupScreen extends Screen {
 	public SetupScreen(final SimulatorGuiManager gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
-		conListPanel = new JPanel();
 		
 		GridBagConstraints c = new GridBagConstraints();
-		c.gridwidth = 1;
+		c.gridwidth = 3;
 		c.gridheight = 1;
 		
 		c.gridx = 0;
@@ -60,7 +60,7 @@ public class SetupScreen extends Screen {
 
 		c.gridx = 1;
 		c.gridy = 1;
-		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),MinSize.NULL);
+		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),new MinSize(250,30));
 		this.add(nameField, c);
 		
 		c.gridx = 0;
@@ -75,20 +75,37 @@ public class SetupScreen extends Screen {
 		this.add(updateBox,c);
 		
 		c.gridx = 1;
-		c.gridy = 5;
+		c.gridy = 3;
 		JLabel conHeader = Gui.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
 		this.add(conHeader,c);
 		
 		c.gridx = 0;
-		c.gridy = 7;
+		c.gridy = 4;
 		JLabel timeLabel = new JLabel("Time limit: ");
 		this.add(timeLabel,c);
 		
 		c.gridx = 1;
-		c.gridy = 7;
-		timeField = Gui.makeTextField(null,15,new MaxSize(200,40),MinSize.NULL);
+		c.gridy = 4;
+		timeField = Gui.makeTextField(null,15,new MaxSize(200,40),new MinSize(100,30));
 		this.add(timeField,c);
 		
+		c.gridx = 0;
+		c.gridy = 6;
+		conListPanel = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
+		this.add(conListPanel,c);
+		
+		c.gridx = 0;
+		c.gridy = 6;
+		JLabel agentTypeLabel = Gui.makeLabel("Agent Type",new PrefSize(200,30),HorizontalAlignment.LEFT);
+		conListPanel.add(agentTypeLabel,c);
+		
+		c.gridx = 1;
+		c.gridy = 6;
+		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
+		conListPanel.add(valueLabel,c);
+		
+		c.gridx = 2;
+		c.gridy = 6;
 		addConditionButton = Gui.makeButton("Add Field",null,
 				new ActionListener() {
 			@Override
@@ -96,19 +113,10 @@ public class SetupScreen extends Screen {
 				addCondition();
 			}
 		});
+		conListPanel.add(Gui.makePanel(addConditionButton),c);
 		
-		c.gridx = 0;
-		c.gridy = 9;
-		JLabel agentTypeLabel = Gui.makeLabel("Agent Type",new PrefSize(200,30),HorizontalAlignment.LEFT);
-		this.add(agentTypeLabel,c);
-		
-		c.gridx = 1;
-		c.gridy = 10;
-		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
-		this.add(valueLabel,c);
-		
-		c.gridx = 5;
-		c.gridy = 13;
+		c.gridx = 2;
+		c.gridy = 7;
 		this.add(
 			Gui.makePanel(
 					Gui.makeButton("Revert",null,new ActionListener() {
