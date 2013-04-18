@@ -15,6 +15,7 @@ import java.util.Set;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.AgentID;
+import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 
@@ -104,6 +105,14 @@ public class Saver {
 
 		//What just got saved to file?
 		System.out.println("The following text was just saved to SimulationState.txt: \n" + sb); // TODO Delete
+	}
+	
+	/**
+	 * Create a save file for an individual prototype
+	 * @param proto
+	 */
+	public void savePrototype(Prototype proto){
+		SnapshotFactory.makePrototypeSnapshot(prototype); 
 	}
 
 	/**

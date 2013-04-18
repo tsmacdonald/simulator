@@ -103,8 +103,13 @@ public class StatisticsManager {
 		s.saveSimulation(filename);	
 	}
 	
-	public void loadSimulation(){
-		
+	/**
+	 * Load the simulation
+	 * @param filename The name of the file to load
+	 */
+	public void loadSimulation(String filename){
+		Loader l = new Loader(); 
+		l.loadSimulation(filename); 
 	}
 
 	/**

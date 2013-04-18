@@ -38,6 +38,9 @@ public class Prototype extends GridEntity {
 	 */
 	private List<Trigger> triggers;
 
+	/**
+	 * The unique name of this Prototype
+	 */
 	private String name;
 
 	/**
