@@ -3,6 +3,7 @@ package edu.wheaton.simulator.statistics;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.AgentID;
@@ -39,7 +40,7 @@ public class AgentSnapshot {
 	/**
 	 * A list of this Agent's BehaviorSnapshots
 	 */
-	public final ArrayList<TriggerSnapshot> triggers;
+	public final ImmutableList<TriggerSnapshot> triggers;
 	
 	/**
 	 * This Agent's xPosition
@@ -69,7 +70,7 @@ public class AgentSnapshot {
 		this.step = step;
 		this.fields = fields;
 		this.prototypeName = prototypeName;
-		this.triggers = triggers;
+		this.triggers = new ImmutableList.Builder().addAll(triggers).build();
 		this.xpos = x; 
 		this.ypos = y; 
 	}
