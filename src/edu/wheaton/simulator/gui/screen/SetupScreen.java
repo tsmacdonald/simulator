@@ -1,5 +1,7 @@
 package edu.wheaton.simulator.gui.screen;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -49,6 +51,7 @@ public class SetupScreen extends Screen {
 	public SetupScreen(final SimulatorGuiManager gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
+		this.setBorder(BorderFactory.createLineBorder(Color.blue));
 		
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridwidth = 3;
