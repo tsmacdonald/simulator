@@ -65,8 +65,8 @@ public class SaverTest {
 		
 		//Create the ending conditions
 		simEnder = new SimulationEnder(); 
-		simEnder.setPopLimit(prototypeOne.getPrototypeID(), 100); 
-		simEnder.setPopLimit(prototypeTwo.getPrototypeID(), 100); 
+		simEnder.setPopLimit(prototypeOne.getName(), 100); 
+		simEnder.setPopLimit(prototypeTwo.getName(), 100); 
 		simEnder.setStepLimit(20); 
 		
 		//Create the list of TriggerSnapshots

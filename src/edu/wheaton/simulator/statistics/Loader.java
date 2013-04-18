@@ -122,8 +122,6 @@ public class Loader {
 
 			String readLine = reader.readLine();
 			while (readLine != null) {
-				//TODO: Also need to save/load ending conditions
-
 				if(readLine.equals("AgentSnapshot")){
 					//Find the appropriate prototype
 					String prototypeName = reader.readLine();
