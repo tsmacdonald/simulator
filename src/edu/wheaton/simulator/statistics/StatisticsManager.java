@@ -98,12 +98,12 @@ public class StatisticsManager {
 	 * Save the simulation
 	 * @param filename Name for the generated file saving the Simulation
 	 */
-	public void save(String filename){
+	public void saveSimulation(String filename){
 		Saver s = new Saver(table, protoSnaps, grid.getWidth(), grid.getHeight(), simEnder); 
 		s.saveSimulation(filename);	
 	}
 	
-	public void load(){
+	public void loadSimulation(){
 		
 	}
 
