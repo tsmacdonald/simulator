@@ -16,6 +16,7 @@ import java.util.List;
 
 import net.sourceforge.jeval.EvaluationException;
 
+import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 
@@ -34,7 +35,7 @@ public class Agent extends GridEntity {
 	/**
 	 * Unique ID
 	 */
-	private final AgentID id = new AgentID();
+	private final AgentID id;;
 
 	/**
 	 * Current priority (used by priorityUpdate)
@@ -51,6 +52,7 @@ public class Agent extends GridEntity {
 	 */
 	public Agent(Grid g, Prototype prototype) {
 		super(g);
+		id = new AgentID();
 		init(prototype);
 	}
 
@@ -64,6 +66,7 @@ public class Agent extends GridEntity {
 	 */
 	public Agent(Grid g, Prototype prototype, Color c) {
 		super(g, c);
+		id = new AgentID();
 		init(prototype);
 	}
 
@@ -79,6 +82,26 @@ public class Agent extends GridEntity {
 	 */
 	public Agent(Grid g, Prototype prototype, Color c, byte[] d) {
 		super(g, c, d);
+		id = new AgentID();
+		init(prototype);
+	}
+
+	/**
+	 * Constructor. Makes an agent with custom color and color map. Sets the id
+	 * to something specific.
+	 * 
+	 * @param g
+	 *            The grid (passed to super constructor)
+	 * @param c
+	 *            The color of this agent (passed to super constructor)
+	 * @param d
+	 *            The design for this agent (passed to super constructor)
+	 * @param id
+	 *            Identifier for this agent
+	 */
+	public Agent(Grid g, Prototype prototype, Color c, byte[] d, AgentID id) {
+		super(g, c, d);
+		this.id = id;
 		init(prototype);
 	}
 
@@ -275,6 +298,27 @@ public class Agent extends GridEntity {
 	public void setPos(int x, int y) {
 		updateField("x", x + "");
 		updateField("y", y + "");
+	}
+
+	/**
+	 * Provides a deep clone of this Agent
+	 */
+	public Agent clone() {
+		Agent clone = new Agent(getGrid(), getPrototype(), getColor(),
+				getDesign(), getID());
+
+		// set fields
+		for (String current : getFieldMap().keySet()) {
+			try {
+				clone.addField(current, getFieldValue(current));
+			} catch (ElementAlreadyContainedException e) {
+			}
+		}
+
+		// set Triggers
+		clone.triggers = this.triggers;
+
+		return clone;
 	}
 
 	public Prototype getPrototype() {

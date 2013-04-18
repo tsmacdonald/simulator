@@ -405,10 +405,27 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * Notifies all of the observers watching this grid
 	 */
 	public void notifyObservers() {
-		for (GridObserver current : observers)
-			synchronized(this) {
-				current.update(this);
+		Grid copy = null;
+		synchronized(this) {
+			copy = new Grid(getWidth(), getHeight());
+			
+			// set fields
+			for (String current : getFieldMap().keySet()) {
+				try {
+					copy.addField(current, getFieldValue(current));
+				} catch (ElementAlreadyContainedException e) {
+				}
 			}
+			// add Agents
+			for(Agent current : this)
+				copy.addAgent(current.clone(), current.getPosX(), current.getPosY());
+			
+			copy.step = this.step;
+		}
+		for (GridObserver current : observers)
+		{
+			current.update(copy);
+		}
 	}
 
 	/**
