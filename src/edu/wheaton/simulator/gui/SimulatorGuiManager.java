@@ -49,11 +49,11 @@ public class SimulatorGuiManager {
 	private boolean hasStarted;
 
 	public SimulatorGuiManager(Display d) {
-		gridPanel = new GridPanel(this);
 		spawnConditions = new ArrayList<SpawnCondition>();
 		startTime = 0;
 		canSpawn = true;
 		initSim("New Simulation",10, 10);
+		gridPanel = new GridPanel(this);
 		sm = new ScreenManager(d);
 		sm.putScreen("Title", new TitleScreen(this));
 		sm.putScreen("New Simulation", new NewSimulationScreen(this));
@@ -85,12 +85,16 @@ public class SimulatorGuiManager {
 	}
 	 
 	public void initSim(String name,int x, int y) {
+		System.out.println("Reset prototypes");
 		simulator = new Simulator(name,x, y);
+		if(gridPanel != null)
+			gridPanel.setGrid(getSimGrid());
 	}
 	
 	private Simulator getSim() {
 		return simulator;
 	}
+
 	
 	public Grid getSimGrid(){
 		return getSim().getGrid();
@@ -224,6 +228,7 @@ public class SimulatorGuiManager {
 	public void pauseSim(){
 		setSimRunning(false);
 		canSpawn = true;
+		simulator.pause();
 	}
 	
 	public boolean canSimSpawn() {
@@ -251,8 +256,7 @@ public class SimulatorGuiManager {
 	}
 	
 	public void startSim(){
-		setSimRunning(true);
-		setSimStarted(true);
+		/*
 		canSpawn = false;
 		System.out.println("StepLimit = " + getSimEnder().getStepLimit());
 		new Thread(new Runnable() {
@@ -298,6 +302,10 @@ public class SimulatorGuiManager {
 				}
 			}
 		}).start();
+		*/
+		setSimRunning(true);
+		setSimStarted(true);
+		simulator.resume();
 	}
 
 	
