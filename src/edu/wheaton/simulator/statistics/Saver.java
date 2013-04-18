@@ -15,6 +15,7 @@ import java.util.Set;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.AgentID;
+import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 
 public class Saver {
@@ -46,18 +47,22 @@ public class Saver {
 	 * The height of the grid we're saving
 	 */
 	private int height; 
+	
+	private SimulationEnder simEnder; 
 
 	/**
 	 * Constructor
 	 * @param table An AgentSnapshotTable of all AgentSnapshots at every step of the simulation
 	 * @param prototypes A Map of PrototypeSnapshots
 	 */
-	public Saver(AgentSnapshotTable table, Map<String, PrototypeSnapshot> prototypes, int width, int height){
+	public Saver(AgentSnapshotTable table, Map<String, PrototypeSnapshot> prototypes, 
+			int width, int height, SimulationEnder simEnder){
 		this.sb = new StringBuilder(); 
 		this.table = table; 
 		this.prototypes = prototypes; 
 		this.width = width; 
 		this.height = height; 
+		this.simEnder = simEnder; 
 	}
 
 	/**
@@ -85,6 +90,9 @@ public class Saver {
 		for(AgentSnapshot snap : snaps.values()){
 			sb.append(snap.serialize() + "\n"); 
 		}
+		
+		//Save the Ending Conditions
+		sb.append("EndingConditions\n" + simEnder.serialize()); 
 
 		//Create BufferedWriter and BufferedReader
 		try {

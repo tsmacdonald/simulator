@@ -30,3 +30,8 @@ Prototype 2
 FieldSnapshot Meerkat Timon
 FieldSnapshot Crayfish Paul
 FieldSnapshot Person John Charles
+EndingConditions
+EndConditions
+TIME 20
+POP PrototypeID:0 100
+POP PrototypeID:1 100
