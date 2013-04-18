@@ -71,8 +71,8 @@ public class Entity {
 		return fields.get(name.toString());
 	}
 
-	private void assertHasField(String name) {
-		if (hasField(name) == false){
+	private void assertHasField(String name) throws NoSuchElementException {
+		if (!hasField(name)){
 			System.err.println("####" + name + "####");
 			throw new NoSuchElementException();
 		}
@@ -80,7 +80,7 @@ public class Entity {
 
 	private void assertNoSuchField(String name)
 			throws ElementAlreadyContainedException {
-		if (hasField(name) == true)
+		if (hasField(name))
 			throw new ElementAlreadyContainedException();
 	}
 
