@@ -9,6 +9,7 @@
  */
 package edu.wheaton.simulator.gui.screen;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -24,6 +25,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -139,19 +141,23 @@ public class ViewSimScreen1 extends Screen {
 		upperLayerPanel.add(colorPanel, c);
 		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
 
-
-
-		JTabbedPane tabs = new JTabbedPane();
+		final JTabbedPane tabs = new JTabbedPane();
 		entitiesScreen = gm.getScreenManager().getScreen("Entities");
-		tabs.add("Agent", entitiesScreen);
+		tabs.addTab("Agent", entitiesScreen);
+		tabs.addTab("Layers", upperLayerPanel);
+		Screen globalFieldsScreen = gm.getScreenManager().getScreen("Fields");
+		tabs.addTab("Global Fields", globalFieldsScreen);
 		tabs.addChangeListener(new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent ce) {
-				entitiesScreen.load();
+				Component component = tabs.getSelectedComponent();
+				if(component instanceof Screen){
+					Screen selected = (Screen)component;
+					selected.load();
+				}
 			}
 			
 		});
-		tabs.add("Layers", upperLayerPanel);
 
 		gm.getGridPanel().addMouseListener(new MouseListener() {
 			@Override
@@ -241,8 +247,6 @@ public class ViewSimScreen1 extends Screen {
 					getGuiManager().pauseSim();
 				}
 			}),
-			//Gui.makeButton("Entities",null, new GeneralButtonListener("Entities",sm)),
-			Gui.makeButton("Global Fields",null, new GeneralButtonListener("Fields",sm)),
 			Gui.makeButton("Setup options",null, new GeneralButtonListener("Grid Setup",sm)),
 			Gui.makeButton("Statistics",null, new GeneralButtonListener("Statistics",sm)));
 		return buttonPanel;
