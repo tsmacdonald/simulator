@@ -83,7 +83,7 @@ public class SaverTest {
 				SnapshotFactory.makeFieldSnapshots(agentOther.getCustomFieldMap()), 
 				step, prototypeTwo.getName(), null, 0, 0);
 		
-		AgentSnapshot agentSnap3 = 
+		//AgentSnapshot agentSnap3 = 
 		
 		//Create the table, add two AgentSnapshots
 		AgentSnapshotTable table = new AgentSnapshotTable();
