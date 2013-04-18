@@ -330,4 +330,8 @@ public class SimulatorGuiManager {
 
 		return menu;
 	}
+
+	public void setSimName(String name) {
+		getSim().setName(name);
+	}
 }

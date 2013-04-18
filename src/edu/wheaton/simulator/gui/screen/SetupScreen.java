@@ -19,7 +19,6 @@ import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.MinSize;
 import edu.wheaton.simulator.gui.PrefSize;
-import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
 import edu.wheaton.simulator.simulation.Simulator;
 
@@ -87,13 +86,12 @@ public class SetupScreen extends Screen {
 
 		this.add(
 				Gui.makePanel(
-						Gui.makeButton("Back",null,new ActionListener() {
+						Gui.makeButton("Revert",null,new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								ScreenManager sm = getScreenManager();
-								sm.update(sm.getScreen("View Simulation"));
+								load();
 							}}),
-							makeFinishButton(gm, nameField, timeField, updateBox, values, agentTypes)
+							makeConfirmButton()
 						), BorderLayout.SOUTH
 				);
 	}
@@ -151,36 +149,37 @@ public class SetupScreen extends Screen {
 		return uberPanel;
 	}
 
-	private static JButton makeFinishButton(final SimulatorGuiManager guiManager, final JTextField nameField, final JTextField timeField, final JComboBox updateBox, final ArrayList<JTextField> values, final ArrayList<JComboBox> agentTypes){
-		return Gui.makeButton("Finish",null,new ActionListener() {
+	private JButton makeConfirmButton(){
+		return Gui.makeButton("Confirm",null,new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
+					SimulatorGuiManager gm = getGuiManager();
 					if (nameField.getText().equals(""))
 						throw new Exception("All fields must have input");
+					gm.setSimName(nameField.getText());
 
 					for (int i = 0; i < values.size(); i++)
 						if (values.get(i).getText().equals(""))
 							throw new Exception("All fields must have input.");
 
-					guiManager.setSimStepLimit(Integer.parseInt(timeField.getText()));
+					gm.setSimStepLimit(Integer.parseInt(timeField.getText()));
 					String str = (String)updateBox.getSelectedItem();
 
 					if (str.equals("Linear"))
-						guiManager.setSimLinearUpdate();
+						gm.setSimLinearUpdate();
 					else if (str.equals("Atomic"))
-						guiManager.setSimAtomicUpdate();
+						gm.setSimAtomicUpdate();
 					else
-						guiManager.setSimPriorityUpdate(0, 50);
+						gm.setSimPriorityUpdate(0, 50);
 
 					for (int i = 0; i < values.size(); i++) {
-						guiManager.setSimPopLimit(
+						gm.setSimPopLimit(
 								(String)(agentTypes.get(i).getSelectedItem()), 
 								Integer.parseInt(values.get(i).getText())
 								);
 					}
-					ScreenManager sm = guiManager.getScreenManager();
-					sm.update(sm.getScreen("View Simulation"));
+					load();
 				}
 				catch (NumberFormatException excep) {
 					JOptionPane.showMessageDialog(null,
