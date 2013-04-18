@@ -134,6 +134,7 @@ public class GridPanel extends JPanel implements GridObserver {
 		this.grid = grid;
 	}
 	
+	@Override
 	public void update(Grid grid){
 		setGrid(grid);
 		repaint();

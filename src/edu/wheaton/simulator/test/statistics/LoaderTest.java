@@ -1,19 +1,23 @@
 package edu.wheaton.simulator.test.statistics;
 
-import static org.junit.Assert.*;
+import java.util.Set;
 
-import org.junit.Before;
 import org.junit.Test;
+
+import edu.wheaton.simulator.datastructure.Grid;
+import edu.wheaton.simulator.entity.Prototype;
 
 public class LoaderTest {
 
-	@Before
-	public void setUp() throws Exception {
-	}
+	Grid grid; 
+	Set<Prototype> prototypes; 
+	String name; 
 
 	@Test
 	public void testLoadSimulation() {
-		fail("Not yet implemented");
+		
+		
+		
 	}
 
 }

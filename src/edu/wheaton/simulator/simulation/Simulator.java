@@ -32,6 +32,7 @@ import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class Simulator implements Runnable {
@@ -62,12 +63,12 @@ public class Simulator implements Runnable {
 	 * @param gridX
 	 * @param gridY
 	 */
-	public Simulator(String name, int gridX, int gridY) {
+	public Simulator(String name, SimulationEnder se, int gridX, int gridY) {
 		this.name = name;
 		sleepPeriod = 500;
 		grid = new Grid(gridX, gridY);
 		Prototype.clearPrototypes();
-		StatisticsManager.getInstance().initialize(grid);
+		StatisticsManager.getInstance().initialize(grid,se);
 		shouldPause = new AtomicBoolean(false);
 	}
 

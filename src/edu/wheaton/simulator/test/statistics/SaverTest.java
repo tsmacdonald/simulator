@@ -15,6 +15,7 @@ import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
 import edu.wheaton.simulator.statistics.AgentSnapshotTable;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;
@@ -32,6 +33,8 @@ public class SaverTest {
 	Prototype prototypeTwo;
 	Integer step;
 	Set<TriggerSnapshot> triggers;
+	SimulationEnder simEnder; 
+	
 	
 	@Before
 	public void setUp() {
@@ -57,6 +60,12 @@ public class SaverTest {
 		}
 		
 		step = new Integer(23);
+		
+		//Create the ending conditions
+		simEnder = new SimulationEnder(); 
+		simEnder.setPopLimit(prototypeOne.getPrototypeID(), 100); 
+		simEnder.setPopLimit(prototypeTwo.getPrototypeID(), 100); 
+		simEnder.setStepLimit(20); 
 		
 		//Create the list of TriggerSnapshots
 		triggers = new HashSet<TriggerSnapshot>();
@@ -110,7 +119,7 @@ public class SaverTest {
 		protoMap.put("PrototypeSnapshot Beta", protoSnapBeta);
 		Assert.assertTrue("protoMap has values", !protoMap.isEmpty());
 		
-		Saver s = new Saver(table, protoMap, grid.getWidth(), grid.getHeight());
+		Saver s = new Saver(table, protoMap, grid.getWidth(), grid.getHeight(), simEnder);
 		s.save();
 	}
 }
