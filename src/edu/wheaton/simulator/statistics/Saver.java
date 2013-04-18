@@ -29,48 +29,19 @@ public class Saver {
 	private AgentSnapshotTable table;
 
 	/**
-	 * Map of all PrototypeSnapshots for the simulation
-	 * Since PrototypeSnapshots are immutable, this collection is the same for each step
-	 */
-	private Map<String, PrototypeSnapshot> prototypes; 
-
-	/**
-	 * The width of the grid we're saving
-	 */
-	private int width; 
-
-	/**
-	 * The height of the grid we're saving
-	 */
-	private int height; 
-
-	/**
-	 * Handles the ending conditions for the simulation
-	 */
-	private SimulationEnder simEnder; 
-
-	/**
-	 * Constructor
-	 * @param table An AgentSnapshotTable of all AgentSnapshots at every step of the simulation
-	 * @param prototypes A Map of PrototypeSnapshots
-	 */
-	public Saver(AgentSnapshotTable table, Map<String, PrototypeSnapshot> prototypes, 
-			int width, int height, SimulationEnder simEnder){
-		this.table = table; 
-		this.prototypes = prototypes; 
-		this.width = width; 
-		this.height = height; 
-		this.simEnder = simEnder; 
-	}
-
-	/**
 	 * Write data serializing the simulation's current state to a file
 	 * Saves the state of the most recent completed step only
 	 * FileWriter code taken from: http://www.javapractices.com/topic/TopicAction.do?Id=42
 	 * 
 	 * @param filename The name of the file that's going to be saved
+	 * @param table An AgentSnapshotTable of all AgentSnapshots at every step of the simulation
+	 * @param prototypes A Map of PrototypeSnapshots
+	 * @param width The width of the grid
+	 * @param height The height of the grid
+	 * @param simEnder The class that handles simulation ending conditions
 	 */
-	public void saveSimulation(String filename){
+	public void saveSimulation(String filename, AgentSnapshotTable table, Map<String, PrototypeSnapshot> prototypes, 
+			int width, int height, SimulationEnder simEnder){		
 		sb = new StringBuilder(); 
 
 		//Name the file, first
