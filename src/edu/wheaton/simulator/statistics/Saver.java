@@ -21,13 +21,6 @@ import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 public class Saver {
 
-	private StringBuilder sb;
-
-	/**
-	 * The table on which all entity snapshots are be stored.
-	 */
-	private AgentSnapshotTable table;
-
 	/**
 	 * Write data serializing the simulation's current state to a file
 	 * Saves the state of the most recent completed step only
@@ -42,12 +35,12 @@ public class Saver {
 	 */
 	public void saveSimulation(String filename, AgentSnapshotTable table, Map<String, PrototypeSnapshot> prototypes, 
 			int width, int height, SimulationEnder simEnder){		
-		sb = new StringBuilder(); 
+		StringBuilder sb = new StringBuilder(); 
 
 		//Name the file, first
 		filename = filename + ".txt";
 
-		int currentStep = getCurrentStep();  
+		int currentStep = getCurrentStep(table);  
 		ImmutableMap<AgentID, AgentSnapshot> snaps = table.getSnapshotsAtStep(currentStep); 
 
 		//Save the Grid dimensions
@@ -77,8 +70,8 @@ public class Saver {
 			e.printStackTrace();
 		}
 
-		//What just got saved to file?
-		System.out.println("The following text was just saved to SimulationState.txt: \n" + sb); // TODO Delete
+		//Debugging: What just got saved to file?
+		System.out.println("The following text was just saved to SimulationState.txt: \n" + sb);
 	}
 
 	/**
@@ -86,7 +79,7 @@ public class Saver {
 	 * @param proto
 	 */
 	public void savePrototype(Prototype proto){
-		sb = new StringBuilder(); 
+		StringBuilder sb = new StringBuilder(); 
 		PrototypeSnapshot protoSnap = SnapshotFactory.makePrototypeSnapshot(proto);
 		sb.append(protoSnap.serialize()); 
 
@@ -101,7 +94,7 @@ public class Saver {
 			e.printStackTrace();
 		}
 		
-		//What just got saved to file?
+		//Debugging: What just got saved to file?
 		System.out.println("The following text was just saved to " + filename + ": \n" + sb);
 	}
 
@@ -110,7 +103,7 @@ public class Saver {
 	 * This is assumed to be the highest numbered step stored in the table
 	 * @return The current simulation step
 	 */
-	private int getCurrentStep(){
+	private int getCurrentStep(AgentSnapshotTable table){
 		Set<Integer> steps = table.getAllSteps();
 		int max = 0; 
 
@@ -120,5 +113,4 @@ public class Saver {
 
 		return max; 
 	}
-
 }
