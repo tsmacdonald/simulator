@@ -194,9 +194,12 @@ public class ViewSimScreen extends Screen {
 		agentComboBox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				layerComboBox = new JComboBox(Simulator.getPrototype
-						(agentComboBox.getSelectedItem().toString())
-						.getCustomFieldMap().keySet().toArray());
+				if(agentComboBox.getItemAt(0)!=null)
+					layerComboBox = new JComboBox(Simulator.getPrototype
+							(agentComboBox.getSelectedItem().toString())
+							.getCustomFieldMap().keySet().toArray());
+				else
+					layerComboBox = new JComboBox();
 				layerComboBox.setMaximumSize(new Dimension(200, 50));
 				layerPanelLayers.remove(1);
 				layerPanelLayers.add(layerComboBox);
@@ -205,9 +208,12 @@ public class ViewSimScreen extends Screen {
 			}
 		});
 		if(entities.length != 0){
-			layerComboBox = new JComboBox(Simulator.getPrototype
-					(agentComboBox.getItemAt(0).toString())
-					.getCustomFieldMap().keySet().toArray());
+			if(agentComboBox.getItemAt(0)!=null)
+				layerComboBox = new JComboBox(Simulator.getPrototype
+						(agentComboBox.getItemAt(0).toString())
+						.getCustomFieldMap().keySet().toArray());
+			else
+				layerComboBox = new JComboBox();
 			layerComboBox.setMaximumSize(new Dimension(200, 50));
 			layerPanelLayers.remove(1);
 			layerPanelLayers.add(layerComboBox);

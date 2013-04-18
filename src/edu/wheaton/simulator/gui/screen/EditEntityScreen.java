@@ -101,7 +101,7 @@ public class EditEntityScreen extends Screen {
 	public EditEntityScreen(final SimulatorGuiManager gm) {
 		super(gm);
 		this.setLayout(new BorderLayout());
-
+		editing = false;
 		removedFields = new HashSet<Integer>();
 		removedTriggers = new HashSet<Integer>();
 
@@ -263,7 +263,7 @@ public class EditEntityScreen extends Screen {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					ScreenManager sm = getScreenManager();
-					sm.update(sm.getScreen("Entities"));
+					sm.update(sm.getScreen("View Simulation"));
 					if (!editing)
 						Prototype.removePrototype(nameField.getText());
 					reset();
@@ -616,8 +616,7 @@ public class EditEntityScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			removedFields.add(Integer.parseInt(e.getActionCommand()));
-			fieldListPanel.remove(fieldSubPanels.get(Integer.parseInt(e
-					.getActionCommand())));
+			fieldListPanel.remove(fieldSubPanels.get(Integer.parseInt(e.getActionCommand())));
 			validate();
 			repaint();
 		}

@@ -75,7 +75,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 		AgentID id = new AgentID(-1);
 		return id;
 	}
-	
+
 	/**
 	 * Changes the size of the grid
 	 * 
@@ -406,7 +406,9 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	public void notifyObservers() {
 		for (GridObserver current : observers)
-			current.update(this);
+			synchronized(this) {
+				current.update(this);
+			}
 	}
 
 	/**

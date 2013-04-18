@@ -27,7 +27,7 @@ import edu.wheaton.simulator.gui.screen.SetupScreen;
 import edu.wheaton.simulator.gui.screen.SpawningScreen;
 import edu.wheaton.simulator.gui.screen.StatDisplayScreen;
 import edu.wheaton.simulator.gui.screen.TitleScreen;
-import edu.wheaton.simulator.gui.screen.ViewSimScreen;
+import edu.wheaton.simulator.gui.screen.ViewSimScreen1;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
@@ -49,11 +49,11 @@ public class SimulatorGuiManager {
 	private boolean hasStarted;
 
 	public SimulatorGuiManager(Display d) {
-		gridPanel = new GridPanel(this);
 		spawnConditions = new ArrayList<SpawnCondition>();
 		startTime = 0;
 		canSpawn = true;
 		initSim("New Simulation",10, 10);
+		gridPanel = new GridPanel(this);
 		sm = new ScreenManager(d);
 		sm.putScreen("Title", new TitleScreen(this));
 		sm.putScreen("New Simulation", new NewSimulationScreen(this));
@@ -62,13 +62,14 @@ public class SimulatorGuiManager {
 		sm.putScreen("Entities", new EntityScreen(this));
 		sm.putScreen("Edit Entities", new EditEntityScreen(this));
 		sm.putScreen("Spawning", new SpawningScreen(this));
-		sm.putScreen("View Simulation", new ViewSimScreen(this));
+		sm.putScreen("View Simulation", new ViewSimScreen1(this));
 		sm.putScreen("Statistics", new StatDisplayScreen(this));
 		sm.putScreen("Grid Setup", new SetupScreen(this));
 		
 		sm.getDisplay().setJMenuBar(makeMenuBar());
 		se = new SimulationEnder();
 		statMan = StatisticsManager.getInstance();
+		hasStarted = false;
 	}
 
 	public SimulatorGuiManager(){
@@ -84,12 +85,16 @@ public class SimulatorGuiManager {
 	}
 	 
 	public void initSim(String name,int x, int y) {
+		System.out.println("Reset prototypes");
 		simulator = new Simulator(name,x, y);
+		if(gridPanel != null)
+			gridPanel.setGrid(getSimGrid());
 	}
 	
 	private Simulator getSim() {
 		return simulator;
 	}
+
 	
 	public Grid getSimGrid(){
 		return getSim().getGrid();
@@ -223,6 +228,7 @@ public class SimulatorGuiManager {
 	public void pauseSim(){
 		setSimRunning(false);
 		canSpawn = true;
+		simulator.pause();
 	}
 	
 	public boolean canSimSpawn() {
@@ -250,8 +256,7 @@ public class SimulatorGuiManager {
 	}
 	
 	public void startSim(){
-		setSimRunning(true);
-		setSimStarted(true);
+		/*
 		canSpawn = false;
 		System.out.println("StepLimit = " + getSimEnder().getStepLimit());
 		new Thread(new Runnable() {
@@ -297,6 +302,10 @@ public class SimulatorGuiManager {
 				}
 			}
 		}).start();
+		*/
+		setSimRunning(true);
+		setSimStarted(true);
+		simulator.resume();
 	}
 
 	
@@ -331,9 +340,11 @@ public class SimulatorGuiManager {
 	
 	private static JMenu makeEditMenu(final ScreenManager sm) {
 		JMenu menu = Gui.makeMenu("Edit");
-		
+
+		menu.add(Gui.makeMenuItem("Add Entities", 
+				new GeneralButtonListener("Edit Entities",sm)));
 		menu.add(Gui.makeMenuItem("Edit Entities", 
-				new GeneralButtonListener("Entities",sm)));
+				new GeneralButtonListener("Edit Entities", sm)));
 		menu.add(Gui.makeMenuItem("Edit Global Fields", 
 				new GeneralButtonListener("Fields",sm)));
 		

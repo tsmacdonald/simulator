@@ -73,6 +73,7 @@ public class EntityScreen extends Screen {
 					@Override
 					public void valueChanged(ListSelectionEvent e) {
 						edit.setEnabled(!gm.hasSimStarted());
+						delete.setEnabled(!gm.hasSimStarted());
 					}
 				}
 				);
@@ -84,6 +85,7 @@ public class EntityScreen extends Screen {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
+		
 		this.add(
 			Gui.makeButton("Add",null,
 				new AddListener()),c); 
@@ -93,12 +95,6 @@ public class EntityScreen extends Screen {
 		
 		c.gridx = 2;
 		this.add(delete, c);
-		
-		//The code between this comment and the next
-		c.gridx = 3;
-		this.add(
-			Gui.makeButton("Back",null,
-				new BackListener()),c);
 		
 		//will be removed once added to tabbed pane
 		c.gridx = 0;
@@ -119,11 +115,16 @@ public class EntityScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		delete.setEnabled(getGuiManager().hasSimStarted() ? false : true); 
 		Set<String> entities = Simulator.prototypeNames();
-		for (String s : entities)
+		for (String s : entities){
 			listModel.addElement(s);
+		}
+		delete.setEnabled(false); 
 		edit.setEnabled(false);
+	}
+	
+	public JList getEntityList(){
+		return entityList;
 	}
 	
 	class DeleteListener implements ActionListener {	

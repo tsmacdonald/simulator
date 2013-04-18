@@ -1,6 +1,5 @@
 package edu.wheaton.simulator.gui;
 
-import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 
 public class SpawnCondition {
