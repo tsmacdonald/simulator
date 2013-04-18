@@ -93,7 +93,7 @@ public class SimulatorGuiManager {
 
 	public void initSim(String name,int x, int y) {
 		System.out.println("Reset prototypes");
-		simulator = new Simulator(name,se,x, y);
+		simulator = new Simulator(name, x, y, se);
 		if(gridPanel != null)
 			gridPanel.setGrid(getSimGrid());
 	}
