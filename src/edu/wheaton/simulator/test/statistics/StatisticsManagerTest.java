@@ -99,7 +99,7 @@ public class StatisticsManagerTest {
 				SnapshotFactory.makeFieldSnapshots(fields), population,
 				children, makeTriggerSnapshots(), null, null);
 	}
-
+	new Integer(2),
 	/**
 	 * VERY IMPORTANT TO REMOVE INSTANCE OF STATISTICSMANAGER IN ORDER FOR
 	 * TESTS TO PASS

@@ -249,9 +249,15 @@ public class Loader {
 		System.out.println("Load Complete"); 
 	}
 	
+	/**
+	 * Load a Prototype from a file
+	 * @param filename The name of the file with the saved Prototype
+	 * @return
+	 */
 	public Prototype loadPrototype(String filename){
 		File file = new File(filename);
 		BufferedReader reader = null;
+		Prototype proto = null; 
 		
 		try {
 			reader = new BufferedReader(new FileReader(file));
@@ -265,7 +271,7 @@ public class Loader {
 			byte[] design = createByteArray(reader.readLine());
 
 			//Create the prototype
-			Prototype proto = new Prototype(grid, color, design, name);
+			proto = new Prototype(null, color, design, name);
 
 			//Add the prototype's default fields
 			readLine = reader.readLine(); 
@@ -289,7 +295,6 @@ public class Loader {
 			}
 			
 			System.out.println("Loaded Prototype"); 
-
 		}
 		catch (FileNotFoundException e) {
 			throw new RuntimeException("Could not find file: " + file.getAbsolutePath(), e);
@@ -306,7 +311,7 @@ public class Loader {
 			}
 		}
 		
-		return null;
+		return proto;
 	}
 
 	/**
