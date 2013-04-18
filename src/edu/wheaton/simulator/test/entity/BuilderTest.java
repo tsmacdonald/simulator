@@ -34,7 +34,7 @@ public class BuilderTest {
 
 	@After
 	public void tearDown() {
-		//TODO ExpressionEvaluationTest.tearDown() is empty
+		//ExpressionEvaluationTest.tearDown() is empty
 	}
 	
 	@Test

@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
 
 import net.sourceforge.jeval.EvaluationException;
@@ -167,23 +169,6 @@ public class Trigger implements Comparable<Trigger> {
 			fire(xThis, this, behavior, step);
 	}
 
-	/**
-	 * Get the String representation of this trigger's firing condition
-	 * 
-	 * @return the firing condition
-	 */
-	public Expression getConditions() {
-		return conditionExpression;
-	}
-
-	/**
-	 * Sets the conditional expression.
-	 * 
-	 * @param e
-	 */
-	private void setCondition(Expression e) {
-		conditionExpression = e;
-	}
 
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
@@ -230,31 +215,33 @@ public class Trigger implements Comparable<Trigger> {
 		}
 	}
 
-	/**
-	 * Sets the behavior of the trigger.
-	 * 
-	 * @param behavior
-	 *            Behavior to be added to list
-	 */
 	public void setBehavior(Expression behavior) {
 		this.behaviorExpression = behavior;
 	}
 
-	/**
-	 * Gets the name of this Trigger
-	 * 
-	 * @return
-	 */
+	private void setCondition(Expression e) {
+		conditionExpression = e;
+	}
+	
 	public String getName() {
 		return name;
 	}
 
+	public Expression getConditions() {
+		return conditionExpression;
+	}
+	
 	public Expression getBehavior() {
 		return behaviorExpression;
 	}
 
 	public int getPriority() {
 		return priority;
+	}
+	
+	@Override
+	public String toString(){
+		return name;
 	}
 
 	public static class Builder {
@@ -267,7 +254,7 @@ public class Trigger implements Comparable<Trigger> {
 		/**
 		 * HashMap of simple values to actual JEval appropriate input
 		 */
-		private HashMap<String, String> converter;
+		private HashBiMap<String, String> converter;
 
 		/**
 		 * Simple (user readable) values for creating conditionals
@@ -290,13 +277,14 @@ public class Trigger implements Comparable<Trigger> {
 		private Map<String, AbstractExpressionFunction> functions;
 
 		/**
-		 * Strings to give the gui so that they can edit it.
+		 * Strings to give the gui so that they can edit it. Obtained from parsing
+		 * triggers into something that can be read by users.
 		 */
 		private String conditionString;
 		private String behaviorString;
 		
 		/**
-		 * Constructor
+		 * Constructor for the trigger builder starting from scratch.
 		 * 
 		 * @param p
 		 *            A prototype with just fields
@@ -304,7 +292,7 @@ public class Trigger implements Comparable<Trigger> {
 		public Builder(Prototype p) {
 			prototype = p;
 			trigger = new Trigger("", 0, null, null);
-			converter = new HashMap<String, String>();
+			converter = HashBiMap.create();
 			conditionalValues = new ArrayList<String>();
 			behavioralValues = new ArrayList<String>();
 			functions= new HashMap<String, AbstractExpressionFunction>();
@@ -314,6 +302,20 @@ public class Trigger implements Comparable<Trigger> {
 			loadOperations();
 			loadBehaviorFunctions();
 			loadConditionalFunctions();
+		}
+		
+		/**
+		 * Constructor for the trigger builder starting with a trigger
+		 * @param t
+		 * @param p
+		 */
+		public Builder(Trigger t, Prototype p){
+			this(p);
+			parseTrigger(t);
+		}
+
+		private void parseTrigger(Trigger t) {
+			String condition = t.getConditions().toString();
 		}
 
 		/**
@@ -375,18 +377,11 @@ public class Trigger implements Comparable<Trigger> {
 		 * use.
 		 */
 		private void loadConditionalFunctions() {
-			conditionalValues.addAll(Expression.getConditionFunction().keySet());
+			conditionalValues.add("--Functions--");
 			for (String s : Expression.getConditionFunction().keySet()){
-				converter.put(s, s);
+				conditionalValues.add(convertCamelCaseToNormal(s));
+				converter.put(convertCamelCaseToNormal(s), s);
 			}
-			//			conditionalValues.add("Get_Field_Of_Agent_At:");
-			//			converter.put("Get_Field_Of_Agent_At", "getFieldOfAgentAt");
-			//
-			//			conditionalValues.add("Is_Slot_Open_At:");
-			//			converter.put("Is_Slot_Open_At:", "isSlotOpen");
-			//
-			//			conditionalValues.add("Is_Valid_Coord_At:");
-			//			converter.put("Is_Valid_Coord_At:", "isValidCoord");
 			/**
 			 * TODO Need to figure out how the user inputs the parameters.
 			 */
@@ -399,11 +394,11 @@ public class Trigger implements Comparable<Trigger> {
 		 * @param p
 		 */
 		private void loadBehaviorFunctions() {
-			//TODO format to be more user friendly. A_Foo_Func instead of aFooFunc
 			//TODO need to figure out how the user inputs the parameters.
-			behavioralValues.addAll(Expression.getBehaviorFunction().keySet());
+			behavioralValues.add("--Functions--");
 			for (String s : Expression.getBehaviorFunction().keySet()){
-				converter.put(s, s);
+				behavioralValues.add(convertCamelCaseToNormal(s));
+				converter.put(convertCamelCaseToNormal(s), s);
 			}
 		}
 
@@ -454,6 +449,7 @@ public class Trigger implements Comparable<Trigger> {
 		 * @param c
 		 */
 		public void addConditional(String c) {
+			conditionString = c;
 			String condition = "";
 			String[] stringArray = c.split(" ");
 			for (String a : stringArray) {
@@ -469,6 +465,7 @@ public class Trigger implements Comparable<Trigger> {
 		 * @param b
 		 */
 		public void addBehavioral(String b) {
+			behaviorString = b;
 			String behavior = "";
 			String[] stringArray = b.split(" ");
 			for (String a : stringArray) {
@@ -476,7 +473,7 @@ public class Trigger implements Comparable<Trigger> {
 			}
 			trigger.setBehavior(new Expression(behavior));
 		}
-
+		
 		/**
 		 * Provides the expression appropriate version of the inputed string.
 		 * If not are found, it just gives back the String so the user can enter
@@ -513,7 +510,6 @@ public class Trigger implements Comparable<Trigger> {
 			}
 			catch (Exception e){
 				System.out.println("Invalid trigger");
-				e.printStackTrace();
 				return false;
 			}
 			
@@ -583,6 +579,17 @@ public class Trigger implements Comparable<Trigger> {
 		 */
 		public Trigger build() {
 			return trigger;
+		}
+		
+		private String convertCamelCaseToNormal(String s){
+			String toReturn = "";
+			for (int i = 0; i < s.length(); i++){
+				if (Character.isUpperCase(s.charAt(i)))
+					toReturn+= "_" + Character.toLowerCase(s.charAt(i));					
+				else
+					toReturn += s.charAt(i);
+			}
+			return toReturn;
 		}
 	}
 
