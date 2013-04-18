@@ -127,8 +127,7 @@ public class StatisticsManagerTest {
 
 		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname",
 				SnapshotFactory.makeFieldSnapshots(new HashMap<String, String>()),
-				100, p.childIDs(), makeTriggerSnapshots(), new Integer(2),
-				null, null);
+				100, p.childIDs(), makeTriggerSnapshots(), null, null);
 		StatisticsManager.addPrototypeSnapshot(protoSnap);
 	}
 
