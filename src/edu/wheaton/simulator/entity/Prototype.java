@@ -185,20 +185,17 @@ public class Prototype extends GridEntity {
 	}
 
 	/**
-	 * Adds the given trigger to this prototype as well as all of its children.
+	 * Adds the given trigger to this prototype
 	 * 
 	 * @param trigger
 	 */
 	public void addTrigger(Trigger trigger) {
 		triggers.add(trigger);
 		Collections.sort(triggers);
-		for (Agent a : children) {
-			a.addTrigger(trigger);
-		}
 	}
 
 	/**
-	 * Removes a trigger with the given priority all children.
+	 * Removes a trigger with the given priority
 	 * 
 	 * @param priority
 	 *            The priority of the given trigger to remove.
@@ -206,14 +203,10 @@ public class Prototype extends GridEntity {
 	public void removeTrigger(int priority) {
 		triggers.remove(triggers.get(priority));
 		Collections.sort(triggers);
-		for (Agent a : children) {
-			a.removeTrigger(priority);
-		}
 	}
 
 	/**
-	 * Removes a trigger with the given name from both this Prototype and its
-	 * children.
+	 * Removes a trigger with the given name from both this Prototype
 	 * 
 	 * @param name
 	 */
@@ -222,9 +215,6 @@ public class Prototype extends GridEntity {
 			if (triggers.get(i).getName().equals(name))
 				triggers.remove(i);
 		Collections.sort(triggers);
-		for (Agent a : children) {
-			a.removeTrigger(name);
-		}
 	}
 
 	/**
@@ -237,9 +227,6 @@ public class Prototype extends GridEntity {
 			if (triggers.get(i).getName().equals(name))
 				triggers.set(i, newT);
 		Collections.sort(triggers);
-		for (Agent a : children) {
-			a.updateTrigger(name, newT);
-		}
 	}
 
 	/**

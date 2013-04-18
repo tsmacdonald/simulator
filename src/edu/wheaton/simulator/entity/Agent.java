@@ -127,10 +127,11 @@ public class Agent extends GridEntity {
 				t.evaluate(this, getGrid().getStep());
 			} catch (EvaluationException e) {
 				System.err.println(e.getMessage());
-				String errorMessage = "Error in Agent: " + this.getName()
-						+ "\n ID: " + this.getID() + "\n Trigger: "
-						+ t.getName() + "\n MSG: " + e.getMessage()
-						+ "\n condition: " + t.getConditions().toString();
+				String errorMessage = "Error in Agent: "
+						+ this.getPrototypeName() + "\n ID: " + this.getID()
+						+ "\n Trigger: " + t.getName() + "\n MSG: "
+						+ e.getMessage() + "\n condition: "
+						+ t.getConditions().toString();
 				throw new SimulationPauseException(errorMessage);
 			}
 	}
@@ -154,10 +155,11 @@ public class Agent extends GridEntity {
 					t.evaluate(this, getGrid().getStep());
 				} catch (EvaluationException e) {
 					System.err.println(e.getMessage());
-					String errorMessage = "Error in Agent: " + this.getName()
-							+ "\n ID: " + this.getID() + "\n Trigger: "
-							+ t.getName() + "\n MSG: " + e.getMessage()
-							+ "\n condition: " + t.getConditions().toString();
+					String errorMessage = "Error in Agent: "
+							+ this.getPrototypeName() + "\n ID: "
+							+ this.getID() + "\n Trigger: " + t.getName()
+							+ "\n MSG: " + e.getMessage() + "\n condition: "
+							+ t.getConditions().toString();
 					throw new SimulationPauseException(errorMessage);
 				}
 			} else if (t.getPriority() > priority) {
@@ -181,10 +183,11 @@ public class Agent extends GridEntity {
 				t.evaluateCond(this);
 			} catch (EvaluationException e) {
 				System.err.println(e.getMessage());
-				String errorMessage = "Error in Agent: " + this.getName()
-						+ "\n ID: " + this.getID() + "\n Trigger: "
-						+ t.getName() + "\n MSG: " + e.getMessage()
-						+ "\n condition: " + t.getConditions().toString();
+				String errorMessage = "Error in Agent: "
+						+ this.getPrototypeName() + "\n ID: " + this.getID()
+						+ "\n Trigger: " + t.getName() + "\n MSG: "
+						+ e.getMessage() + "\n condition: "
+						+ t.getConditions().toString();
 				throw new SimulationPauseException(errorMessage);
 			}
 	}
@@ -202,10 +205,11 @@ public class Agent extends GridEntity {
 				t.atomicFire(this, getGrid().getStep());
 			} catch (EvaluationException e) {
 				System.err.println(e.getMessage());
-				String errorMessage = "Error in Agent: " + this.getName()
-						+ "\n ID: " + this.getID() + "\n Trigger: "
-						+ t.getName() + "\n MSG: " + e.getMessage()
-						+ "\n behavior: " + t.getConditions().toString();
+				String errorMessage = "Error in Agent: "
+						+ this.getPrototypeName() + "\n ID: " + this.getID()
+						+ "\n Trigger: " + t.getName() + "\n MSG: "
+						+ e.getMessage() + "\n behavior: "
+						+ t.getConditions().toString();
 				throw new SimulationPauseException(errorMessage);
 			}
 	}
@@ -325,7 +329,12 @@ public class Agent extends GridEntity {
 		return prototype;
 	}
 
-	public String getName() {
+	/**
+	 * Provides the name of this agent's prototype
+	 * 
+	 * @return
+	 */
+	public String getPrototypeName() {
 		return getPrototype().getName();
 	}
 

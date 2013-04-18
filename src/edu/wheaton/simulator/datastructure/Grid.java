@@ -406,9 +406,9 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	public void notifyObservers() {
 		Grid copy = null;
-		synchronized(this) {
+		synchronized (this) {
 			copy = new Grid(getWidth(), getHeight());
-			
+
 			// set fields
 			for (String current : getFieldMap().keySet()) {
 				try {
@@ -417,13 +417,13 @@ public class Grid extends Entity implements Iterable<Agent> {
 				}
 			}
 			// add Agents
-			for(Agent current : this)
-				copy.addAgent(current.clone(), current.getPosX(), current.getPosY());
-			
+			for (Agent current : this)
+				copy.addAgent(current.clone(), current.getPosX(),
+						current.getPosY());
+
 			copy.step = this.step;
 		}
-		for (GridObserver current : observers)
-		{
+		for (GridObserver current : observers) {
 			current.update(copy);
 		}
 	}
