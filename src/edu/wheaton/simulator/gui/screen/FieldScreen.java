@@ -95,7 +95,7 @@ public class FieldScreen extends Screen {
 		mainPanel.add(buttonPanel);
 		
 		this.add(
-			Gui.makeLabel("Fields",new PrefSize(300, 100),HorizontalAlignment.CENTER), 
+			Gui.makeLabel("Global Fields",new PrefSize(300, 100),HorizontalAlignment.CENTER), 
 			BorderLayout.NORTH
 		);
 		this.add(mainPanel, BorderLayout.CENTER);

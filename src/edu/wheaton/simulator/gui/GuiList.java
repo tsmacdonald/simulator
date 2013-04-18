@@ -3,6 +3,7 @@ package edu.wheaton.simulator.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
@@ -18,6 +19,7 @@ public class GuiList extends JList {
 		listModel = new DefaultListModel();
 		setModel(listModel);
 		setBackground(Color.white);
+		setBorder(BorderFactory.createLineBorder(Color.black));
 		setPreferredSize(new Dimension(400, 500));
 		setFixedCellWidth(400);
 		setVisibleRowCount(20);

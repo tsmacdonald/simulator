@@ -72,7 +72,7 @@ public class ViewSimScreen1 extends Screen {
 		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
 		agentComboBox = Gui.makeComboBox(null,new MaxSize(200,50));
 
-		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
+		JLabel layers = new JLabel("Fields", SwingConstants.CENTER);
 		layerComboBox = Gui.makeComboBox(null, new MaxSize(200,50));
 
 		final JColorChooser colorTool = Gui.makeColorChooser();

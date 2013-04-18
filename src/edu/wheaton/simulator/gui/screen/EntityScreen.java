@@ -88,7 +88,7 @@ public class EntityScreen extends Screen {
 		c.gridy = 0;
 		c.gridwidth = 4;
 		this.add(
-			Gui.makeLabel("Entities",new PrefSize(300, 100),HorizontalAlignment.CENTER), 
+			Gui.makeLabel("Agents",new PrefSize(300, 100),HorizontalAlignment.CENTER), 
 			c);
 		
 		c.gridy = 1;
