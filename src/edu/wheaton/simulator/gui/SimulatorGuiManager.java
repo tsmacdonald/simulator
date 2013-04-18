@@ -27,6 +27,7 @@ import edu.wheaton.simulator.gui.screen.ViewSimScreen1;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.Loader;
+import edu.wheaton.simulator.statistics.Saver;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class SimulatorGuiManager {
@@ -40,6 +41,7 @@ public class SimulatorGuiManager {
 	private boolean canSpawn;
 	private GridPanel gridPanel;
 	private Loader loader;
+	private Saver saver;
 	private boolean hasStarted;
 	private JFileChooser fc;
 
@@ -259,6 +261,10 @@ public class SimulatorGuiManager {
 		loader.loadSimulation(fileName);
 	}
 
+	public void saveSim(String fileName) {
+		//StatisticsManager.save(fileName);
+	}
+
 	public void startSim(){
 		setSimRunning(true);
 		setSimStarted(true);
@@ -298,9 +304,26 @@ public class SimulatorGuiManager {
 		return menu;
 	}
 
-	private static JMenu makeEditMenu(final ScreenManager sm) {
+	private JMenu makeEditMenu(final ScreenManager sm) {
 		JMenu menu = Gui.makeMenu("Edit");
 
+		menu.add(Gui.makeMenuItem("Save Simulation", 
+				new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String fileName = JOptionPane.showInputDialog("Please enter file name: ");
+				saveSim(fileName);
+			}
+
+		}
+				));
+
+		menu.add(Gui.makeMenuItem("Load Simulation", 
+				new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				loadSim();
+			}
+		}
+				));
 
 		menu.add(Gui.makeMenuItem("Edit Global Fields", 
 				new GeneralButtonListener("Fields",sm)));
