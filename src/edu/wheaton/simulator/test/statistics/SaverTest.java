@@ -2,6 +2,8 @@ package edu.wheaton.simulator.test.statistics;
 
 import java.awt.Color;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -18,6 +20,7 @@ import edu.wheaton.simulator.statistics.AgentSnapshotTable;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;
 import edu.wheaton.simulator.statistics.Saver;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
+import edu.wheaton.simulator.statistics.TriggerSnapshot;
 
 public class SaverTest {
 
@@ -28,6 +31,7 @@ public class SaverTest {
 	Prototype prototypeOne;
 	Prototype prototypeTwo;
 	Integer step;
+	Set<TriggerSnapshot> triggers;
 	
 	@Before
 	public void setUp() {
@@ -53,6 +57,9 @@ public class SaverTest {
 		}
 		
 		step = new Integer(23);
+		
+		triggers = new HashSet<TriggerSnapshot>();
+		triggers.add(new TriggerSnapshot(prototypeOne.createAgent().getID(), "trigger1", 1, "conditionExpression", "behaviorExpression", 0));
 	}
 
 	@After
@@ -76,6 +83,8 @@ public class SaverTest {
 				SnapshotFactory.makeFieldSnapshots(agentOther.getCustomFieldMap()), 
 				step, prototypeTwo.getName(), null, 0, 0);
 		
+		AgentSnapshot agentSnap3 = 
+		
 		//Create the table, add two AgentSnapshots
 		AgentSnapshotTable table = new AgentSnapshotTable();
 		table.putEntity(agentSnap1); 
@@ -86,12 +95,12 @@ public class SaverTest {
 		// Create two PrototypeSnapshots
 		PrototypeSnapshot protoSnapAlpha = new PrototypeSnapshot(prototypeOne.getName(), 
 				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), prototypeOne.childPopulation(),
-				prototypeOne.childIDs(), null, step, new Color(10, 10, 10), agent.getDesign());
+				prototypeOne.childIDs(), triggers, step, new Color(10, 10, 10), agent.getDesign());
 		Assert.assertNotNull("PrototypeSnapshot not created.", protoSnapAlpha);
 		
 		PrototypeSnapshot protoSnapBeta = new PrototypeSnapshot(prototypeTwo.getName(), 
 				SnapshotFactory.makeFieldSnapshots(agentOther.getCustomFieldMap()), prototypeTwo.childPopulation(),
-				prototypeTwo.childIDs(), null, step, new Color(10, 10, 10), agentOther.getDesign());
+				prototypeTwo.childIDs(), triggers, step, new Color(10, 10, 10), agentOther.getDesign());
 		Assert.assertNotNull("PrototypeSnapshot not created.", protoSnapAlpha);
 		
 		// Creating a HashMap of PrototypeSnapshots

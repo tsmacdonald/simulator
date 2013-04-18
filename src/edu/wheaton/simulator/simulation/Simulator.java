@@ -68,6 +68,7 @@ public class Simulator implements Runnable {
 		grid = new Grid(gridX, gridY);
 		Prototype.clearPrototypes();
 		StatisticsManager.getInstance().initialize(grid);
+		shouldPause = new AtomicBoolean(false);
 	}
 
 	/**

@@ -1,3 +1,5 @@
+10
+10
 PrototypeSnapshot
 Prototype 1
 -16119286
@@ -5,6 +7,7 @@ Prototype 1
 FieldSnapshot Cat Joomba
 FieldSnapshot Pig Tom
 FieldSnapshot Monkey Olly
+Trigger~trigger1~1~conditionExpression~behaviorExpression
 PrototypeSnapshot
 Prototype 2
 -16119286
@@ -12,6 +15,7 @@ Prototype 2
 FieldSnapshot Meerkat Timon
 FieldSnapshot Crayfish Paul
 FieldSnapshot Person John Charles
+Trigger~trigger1~1~conditionExpression~behaviorExpression
 AgentSnapshot
 Prototype 1
 0
