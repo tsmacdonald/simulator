@@ -51,7 +51,7 @@ public class SetupScreen extends Screen {
 		agentNames = new String[0];
 
 		this.add(
-				Gui.makeLabel("Setup Options",new PrefSize(300,150),HorizontalAlignment.CENTER ),
+				Gui.makeLabel("Simulation Options",new PrefSize(300,150),HorizontalAlignment.CENTER ),
 				BorderLayout.NORTH
 				);
 

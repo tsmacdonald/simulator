@@ -69,7 +69,6 @@ public class ViewSimScreen1 extends Screen {
 		super(gm);
 		entities = new String[0];
 		this.setLayout(new GridBagLayout());
-		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 
 		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
 		agentComboBox = Gui.makeComboBox(null,new MaxSize(200,50));
@@ -195,14 +194,6 @@ public class ViewSimScreen1 extends Screen {
 
 		JPanel layerPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		layerPanel.setAlignmentY(CENTER_ALIGNMENT);
-
-		c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.PAGE_START;
-		c.gridx = 1;
-		c.gridy = 0;
-		c.gridwidth = 1;
-		this.add(label, c);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
