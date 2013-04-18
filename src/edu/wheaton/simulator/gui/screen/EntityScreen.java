@@ -10,24 +10,19 @@
 
 package edu.wheaton.simulator.gui.screen;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.gui.Gui;
+import edu.wheaton.simulator.gui.GuiList;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
@@ -38,9 +33,7 @@ public class EntityScreen extends Screen {
 
 	private static final long serialVersionUID = 8471925846048875713L;
 
-	private JList entityList;
-
-	private DefaultListModel listModel;
+	private GuiList entityList;
 	
 	private JButton delete;
 	
@@ -50,15 +43,7 @@ public class EntityScreen extends Screen {
 		super(gm);
 		this.setLayout(new GridBagLayout());
 		
-		listModel = new DefaultListModel();
-		entityList = new JList(listModel);
-		entityList.setBackground(Color.white);
-		entityList.setPreferredSize(new Dimension(400, 500));
-		entityList.setLayoutOrientation(JList.VERTICAL_WRAP);
-		entityList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		entityList.setFixedCellWidth(400);
-		entityList.setVisibleRowCount(20);
-		entityList.setBorder(BorderFactory.createLineBorder(Color.RED));
+		entityList = new GuiList();
 		entityList.addListSelectionListener( new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent le){
@@ -85,7 +70,6 @@ public class EntityScreen extends Screen {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
-		
 		this.add(
 			Gui.makeButton("Add",null,
 				new AddListener()),c); 
@@ -96,12 +80,11 @@ public class EntityScreen extends Screen {
 		c.gridx = 2;
 		this.add(delete, c);
 		
-		//will be removed once added to tabbed pane
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 4;
 		this.add(
-			Gui.makeLabel("Entities",new PrefSize(300, 100),HorizontalAlignment.CENTER), 
+			Gui.makeLabel("Agents",new PrefSize(300, 100),HorizontalAlignment.CENTER), 
 			c);
 		
 		c.gridy = 1;
@@ -109,22 +92,18 @@ public class EntityScreen extends Screen {
 	}
 	
 	public void reset() {
-		listModel.clear();
+		entityList.clearItems();
 	}
 	
 	@Override
 	public void load() {
 		reset();
+		delete.setEnabled(getGuiManager().hasSimStarted() ? false : true); 
 		Set<String> entities = Simulator.prototypeNames();
-		for (String s : entities){
-			listModel.addElement(s);
-		}
-		delete.setEnabled(false); 
+		for (String s : entities)
+			entityList.addItem(s);
 		edit.setEnabled(false);
-	}
-	
-	public JList getEntityList(){
-		return entityList;
+		delete.setEnabled(false);
 	}
 	
 	class DeleteListener implements ActionListener {	
@@ -134,8 +113,8 @@ public class EntityScreen extends Screen {
 			Prototype.removePrototype(
 				(String)entityList.getSelectedValue()
 			);
-			listModel.remove(index);
-			int size = listModel.getSize();
+			entityList.removeItem(index);
+			int size = entityList.getNumItems();
 			if(size == 0){
 				delete.setEnabled(false);
 				edit.setEnabled(false);
@@ -169,12 +148,6 @@ public class EntityScreen extends Screen {
 			sm.update(screen);
 		}
 	}
-	
-	class BackListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e){
-			ScreenManager sm = getScreenManager();
-			sm.update(sm.getScreen("View Simulation"));
-		}
-	}
 }
+
+

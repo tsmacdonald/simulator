@@ -9,7 +9,6 @@
  */
 package edu.wheaton.simulator.gui.screen;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -25,7 +24,6 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -64,17 +62,18 @@ public class ViewSimScreen1 extends Screen {
 	private final Screen entitiesScreen;
 	
 	private final Screen globalFieldScreen;
+	
+	private final Screen optionsScreen;
 
 	public ViewSimScreen1(final SimulatorGuiManager gm) {
 		super(gm);
 		entities = new String[0];
 		this.setLayout(new GridBagLayout());
-		JLabel label = new JLabel("View Simulation", SwingConstants.CENTER);
 
 		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
 		agentComboBox = Gui.makeComboBox(null,new MaxSize(200,50));
 
-		JLabel layers = new JLabel("Layers", SwingConstants.CENTER);
+		JLabel layers = new JLabel("Fields", SwingConstants.CENTER);
 		layerComboBox = Gui.makeComboBox(null, new MaxSize(200,50));
 
 		final JColorChooser colorTool = Gui.makeColorChooser();
@@ -144,16 +143,19 @@ public class ViewSimScreen1 extends Screen {
 		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		final JTabbedPane tabs = new JTabbedPane();
-		entitiesScreen = gm.getScreenManager().getScreen("Entities");
+		entitiesScreen = new EntityScreen(gm);
+		globalFieldScreen = new FieldScreen(gm);
+		optionsScreen = new SetupScreen(gm);
 		tabs.addTab("Agent", entitiesScreen);
 		tabs.addTab("Layers", upperLayerPanel);
-		globalFieldScreen = gm.getScreenManager().getScreen("Fields");
 		tabs.addTab("Global Fields", globalFieldScreen);
+		tabs.addTab("Options", optionsScreen);
 		tabs.addChangeListener(new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent ce) {
 				entitiesScreen.load();
 				globalFieldScreen.load();
+				optionsScreen.load();
 			}
 		});
 
@@ -192,14 +194,6 @@ public class ViewSimScreen1 extends Screen {
 
 		JPanel layerPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		layerPanel.setAlignmentY(CENTER_ALIGNMENT);
-
-		c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.PAGE_START;
-		c.gridx = 1;
-		c.gridy = 0;
-		c.gridwidth = 1;
-		this.add(label, c);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
@@ -245,7 +239,6 @@ public class ViewSimScreen1 extends Screen {
 					getGuiManager().pauseSim();
 				}
 			}),
-			Gui.makeButton("Setup options",null, new GeneralButtonListener("Grid Setup",sm)),
 			Gui.makeButton("Statistics",null, new GeneralButtonListener("Statistics",sm)));
 		return buttonPanel;
 	}
@@ -261,7 +254,6 @@ public class ViewSimScreen1 extends Screen {
 					}
 				}
 				gm.getGridPanel().repaint();
-				gm.initSimStartTime();
 				//grid.repaint();
 				//gm.setSimRunning(true);
 				//gm.setSimStarted(true);

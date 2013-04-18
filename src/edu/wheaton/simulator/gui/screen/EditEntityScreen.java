@@ -524,7 +524,11 @@ public class EditEntityScreen extends Screen {
 	public void setEditing(Boolean b) {
 		editing = b;
 	}
-
+	
+	public Color getColor(){
+		return colorTool.getColor();
+	}
+	
 	private void addField() {
 		
 		
@@ -584,7 +588,7 @@ public class EditEntityScreen extends Screen {
 		triggerListPanel.add(Box.createVerticalGlue());
 		repaint();
 	}
-
+	
 	private byte[] generateBytes() {
 		String str = "";
 		byte[] toReturn = new byte[7];

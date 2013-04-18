@@ -71,8 +71,7 @@ public class StatisticsManager {
 	public static StatisticsManager getInstance() {
 		if(instance != null) 
 			return instance;
-		else 
-			return instance = new StatisticsManager();
+		return instance = new StatisticsManager();
 	}
 	
 	/**

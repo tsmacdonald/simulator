@@ -61,8 +61,7 @@ public class Loader {
 	public Grid getGrid() throws Exception{
 		if(simulationLoaded)
 			return grid;
-		else 
-			throw new Exception("No simulation has been loaded"); 
+		throw new Exception("No simulation has been loaded"); 
 	}
 
 	/**
@@ -73,8 +72,7 @@ public class Loader {
 	public Set<Prototype> getPrototypes() throws Exception{
 		if(simulationLoaded)
 			return prototypes; 
-		else 
-			throw new Exception("No simulation has been loaded"); 
+		throw new Exception("No simulation has been loaded"); 
 	}
 
 	/**
@@ -85,8 +83,7 @@ public class Loader {
 	public String getName() throws Exception{
 		if(simulationLoaded)
 			return name; 
-		else 
-			throw new Exception("No simulation has been loaded"); 
+		throw new Exception("No simulation has been loaded"); 
 	}
 	
 	/**
@@ -97,8 +94,7 @@ public class Loader {
 	public SimulationEnder getSimEnder() throws Exception{
 		if(simulationLoaded)
 			return simEnder; 
-		else
-			throw new Exception("No simulation has been loaded"); 
+		throw new Exception("No simulation has been loaded"); 
 	}
 
 	/**

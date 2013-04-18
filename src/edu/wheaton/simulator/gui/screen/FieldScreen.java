@@ -10,30 +10,17 @@
 
 package edu.wheaton.simulator.gui.screen;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.LayoutManager;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Map;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edu.wheaton.simulator.gui.BoxLayoutAxis;
-import edu.wheaton.simulator.gui.GeneralButtonListener;
 import edu.wheaton.simulator.gui.Gui;
+import edu.wheaton.simulator.gui.GuiList;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
-import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
@@ -42,9 +29,7 @@ public class FieldScreen extends Screen {
 
 	private static final long serialVersionUID = -4286820591194407735L;
 
-	private JList fields;
-
-	private DefaultListModel listModel;
+	private GuiList fields;
 
 	private JButton delete;
 
@@ -59,24 +44,12 @@ public class FieldScreen extends Screen {
 	public FieldScreen(final SimulatorGuiManager gm) {
 		super(gm);
 		editing = false;
-		this.setLayout(new BorderLayout());
+		this.setLayout(new GridBagLayout());
 		
-		listModel = new DefaultListModel();
-		
-		fields = new JList(listModel);
-		fields.setBackground(Color.white);
-		fields.setPreferredSize(new Dimension(400, 500));
-		fields.setFixedCellWidth(400);
-		fields.setLayoutOrientation(JList.VERTICAL_WRAP);
-		fields.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		fields.setVisibleRowCount(20);
+		fields = new GuiList();
 		fields.addListSelectionListener(new ListListener());
-		fields.setAlignmentX(CENTER_ALIGNMENT);
 		
-		JPanel panel = Gui.makePanel((LayoutManager)null , MaxSize.NULL, new PrefSize(450,550));
-		panel.add(fields);
-		
-		delete = Gui.makeButton("Delete",null,new DeleteListener(listModel, fields));
+		delete = Gui.makeButton("Delete",null,new DeleteListener(fields));
 		add = Gui.makeButton("Add",null,new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae){
@@ -97,40 +70,39 @@ public class FieldScreen extends Screen {
 				sm.update(screen);
 			}
 		});
-		JPanel buttonPanel = new JPanel(new FlowLayout());
-		buttonPanel.add(add);
-		buttonPanel.add(Box.createHorizontalStrut(5));
-		buttonPanel.add(edit);
-		buttonPanel.add(Box.createHorizontalStrut(5));
-		buttonPanel.add(delete);
-		buttonPanel.add(Box.createHorizontalStrut(5));
-		buttonPanel.add(
-			Gui.makeButton("Back",null,
-				new GeneralButtonListener("View Simulation", getScreenManager())));
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		GridBagConstraints c = new GridBagConstraints();
 		
-		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
-		mainPanel.add(panel);
-		mainPanel.add(buttonPanel);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 2;
+		this.add(add,c);
 		
+		c.gridx = 1;
+		this.add(edit, c);
+		
+		c.gridx = 2;
+		this.add(delete, c);
+		
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 4;
 		this.add(
-			Gui.makeLabel("Fields",new PrefSize(300, 100),HorizontalAlignment.CENTER), 
-			BorderLayout.NORTH
-		);
-		this.add(mainPanel, BorderLayout.CENTER);
+			Gui.makeLabel("Global Fields",new PrefSize(300, 100),HorizontalAlignment.CENTER), 
+			c);
+		
+		c.gridy = 1;
+		this.add(fields, c);
 	}
 
 	public void reset() {
-		listModel.clear();
+		fields.clearItems();
 	}
 	@Override
 	public void load() {
 		reset();
-		Map<String, String> map = getGuiManager().getSimGridFieldMap();
-		Object[] fieldsA = map.keySet().toArray();
+		Object[] fieldsA = getGuiManager().getSimGridFieldMap().keySet().toArray();
 		for(Object s: fieldsA){
-			listModel.addElement(s);
+			fields.addItem(s.toString());
 		}
 		edit.setEnabled(false);
 		delete.setEnabled(false);
@@ -147,11 +119,9 @@ public class FieldScreen extends Screen {
 
 	private class DeleteListener implements ActionListener {
 
-		private DefaultListModel listModel;
-		private JList fields;
+		private GuiList fields;
 
-		public DeleteListener(DefaultListModel listModel, JList fields){
-			this.listModel = listModel;
+		public DeleteListener(GuiList fields){
 			this.fields = fields;
 		}
 
@@ -159,8 +129,8 @@ public class FieldScreen extends Screen {
 		public void actionPerformed(ActionEvent e){
 			int index = fields.getSelectedIndex();
 			getGuiManager().removeSimGlobalField((String)fields.getSelectedValue());
-			listModel.remove(index);
-			int size = listModel.getSize();
+			fields.removeItem(index);
+			int size = fields.getNumItems();
 			if(size == 0) {
 				edit.setEnabled(false);
 				delete.setEnabled(false);	

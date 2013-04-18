@@ -9,8 +9,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-
 import com.google.common.collect.ImmutableMap;
 
 import net.sourceforge.jeval.EvaluationException;
@@ -20,18 +18,16 @@ import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.gui.screen.EditEntityScreen;
 import edu.wheaton.simulator.gui.screen.EditFieldScreen;
-import edu.wheaton.simulator.gui.screen.EntityScreen;
-import edu.wheaton.simulator.gui.screen.FieldScreen;
 import edu.wheaton.simulator.gui.screen.NewSimulationScreen;
 import edu.wheaton.simulator.gui.screen.SetupScreen;
 import edu.wheaton.simulator.gui.screen.SpawningScreen;
 import edu.wheaton.simulator.gui.screen.StatDisplayScreen;
 import edu.wheaton.simulator.gui.screen.TitleScreen;
 import edu.wheaton.simulator.gui.screen.ViewSimScreen1;
-import edu.wheaton.simulator.simulation.SimulationPauseException;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.Loader;
+import edu.wheaton.simulator.statistics.Saver;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class SimulatorGuiManager {
@@ -42,26 +38,22 @@ public class SimulatorGuiManager {
 	private Simulator simulator;
 	private boolean simulationIsRunning;
 	private ArrayList<SpawnCondition> spawnConditions;
-	private int stepCount;
-	private long startTime;
 	private boolean canSpawn;
 	private GridPanel gridPanel;
 	private Loader loader;
+	private Saver saver;
 	private boolean hasStarted;
 	private JFileChooser fc;
 
 	public SimulatorGuiManager(Display d) {
 		spawnConditions = new ArrayList<SpawnCondition>();
-		startTime = 0;
 		canSpawn = true;
 		initSim("New Simulation",10, 10);
 		gridPanel = new GridPanel(this);
 		sm = new ScreenManager(d);
 		sm.putScreen("Title", new TitleScreen(this));
 		sm.putScreen("New Simulation", new NewSimulationScreen(this));
-		sm.putScreen("Fields", new FieldScreen(this));
 		sm.putScreen("Edit Fields", new EditFieldScreen(this));
-		sm.putScreen("Entities", new EntityScreen(this));
 		sm.putScreen("Edit Entities", new EditEntityScreen(this));
 		sm.putScreen("Spawning", new SpawningScreen(this));
 		sm.putScreen("View Simulation", new ViewSimScreen1(this));
@@ -241,10 +233,6 @@ public class SimulatorGuiManager {
 		return canSpawn;
 	}
 
-	public void initSimStartTime(){
-		startTime = System.currentTimeMillis();
-	}
-
 	public boolean spiralSpawnSimAgent(String prototypeName, int x, int y){
 		return getSim().spiralSpawn(prototypeName, x, y);
 	}
@@ -271,6 +259,10 @@ public class SimulatorGuiManager {
 		}
 
 		loader.loadSimulation(fileName);
+	}
+
+	public void saveSim(String fileName) {
+		//StatisticsManager.save(fileName);
 	}
 
 	public void startSim(){
@@ -312,9 +304,26 @@ public class SimulatorGuiManager {
 		return menu;
 	}
 
-	private static JMenu makeEditMenu(final ScreenManager sm) {
+	private JMenu makeEditMenu(final ScreenManager sm) {
 		JMenu menu = Gui.makeMenu("Edit");
 
+		menu.add(Gui.makeMenuItem("Save Simulation", 
+				new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String fileName = JOptionPane.showInputDialog("Please enter file name: ");
+				saveSim(fileName);
+			}
+
+		}
+				));
+
+		menu.add(Gui.makeMenuItem("Load Simulation", 
+				new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				loadSim();
+			}
+		}
+				));
 
 		menu.add(Gui.makeMenuItem("Edit Global Fields", 
 				new GeneralButtonListener("Fields",sm)));
@@ -343,5 +352,9 @@ public class SimulatorGuiManager {
 		}));
 
 		return menu;
+	}
+
+	public void setSimName(String name) {
+		getSim().setName(name);
 	}
 }
