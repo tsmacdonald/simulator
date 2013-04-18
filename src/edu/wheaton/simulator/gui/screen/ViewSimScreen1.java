@@ -62,6 +62,8 @@ public class ViewSimScreen1 extends Screen {
 	private GridBagConstraints c;
 	
 	private final Screen entitiesScreen;
+	
+	private final Screen globalFieldScreen;
 
 	public ViewSimScreen1(final SimulatorGuiManager gm) {
 		super(gm);
@@ -145,8 +147,8 @@ public class ViewSimScreen1 extends Screen {
 		entitiesScreen = gm.getScreenManager().getScreen("Entities");
 		tabs.addTab("Agent", entitiesScreen);
 		tabs.addTab("Layers", upperLayerPanel);
-		Screen globalFieldsScreen = gm.getScreenManager().getScreen("Fields");
-		tabs.addTab("Global Fields", globalFieldsScreen);
+		globalFieldScreen = gm.getScreenManager().getScreen("Fields");
+		tabs.addTab("Global Fields", globalFieldScreen);
 		tabs.addChangeListener(new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent ce) {
@@ -319,6 +321,7 @@ public class ViewSimScreen1 extends Screen {
 	@Override
 	public void load() {
 		entitiesScreen.load();
+		globalFieldScreen.load();
 		//TODO when New Simulation is pressed on the menu bar, we need to reset the number of 
 		//prototypes 
 		entities = Simulator.prototypeNames().toArray(entities);
