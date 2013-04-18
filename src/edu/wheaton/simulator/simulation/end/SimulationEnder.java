@@ -231,7 +231,7 @@ public class SimulationEnder {
 				((AgentPopulationCondition) conditions[POPULATION_CONDITIONS]).getPopLimits();
 		
 		for (Entry<String, Integer> entry : populationLimits.entrySet())
-			ret += "\nPOP " + entry.getKey() + " " + entry.getValue();
+			ret += "\nPOP~" + entry.getKey() + "~" + entry.getValue();
 		
 		
 		return ret;
