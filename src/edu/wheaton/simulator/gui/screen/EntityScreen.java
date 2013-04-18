@@ -97,9 +97,6 @@ public class EntityScreen extends Screen {
 		
 		//The code between this comment and the next
 		c.gridx = 3;
-		this.add(
-			Gui.makeButton("Back",null,
-				new BackListener()),c);
 		
 		//will be removed once added to tabbed pane
 		c.gridx = 0;
@@ -167,14 +164,6 @@ public class EntityScreen extends Screen {
 				(String)entityList.getSelectedValue());
 			screen.setEditing(true);
 			sm.update(screen);
-		}
-	}
-	
-	class BackListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e){
-			ScreenManager sm = getScreenManager();
-			sm.update(sm.getScreen("View Simulation"));
 		}
 	}
 }

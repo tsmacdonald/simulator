@@ -30,7 +30,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import edu.wheaton.simulator.gui.BoxLayoutAxis;
-import edu.wheaton.simulator.gui.GeneralButtonListener;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.MaxSize;
@@ -104,9 +103,6 @@ public class FieldScreen extends Screen {
 		buttonPanel.add(Box.createHorizontalStrut(5));
 		buttonPanel.add(delete);
 		buttonPanel.add(Box.createHorizontalStrut(5));
-		buttonPanel.add(
-			Gui.makeButton("Back",null,
-				new GeneralButtonListener("View Simulation", getScreenManager())));
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
