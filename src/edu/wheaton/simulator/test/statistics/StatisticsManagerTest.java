@@ -65,10 +65,8 @@ public class StatisticsManagerTest {
 		Agent agent = prototype.createAgent();
 		agent.addTrigger(trigger);
 
-		TriggerSnapshot tSnap = SnapshotFactory.makeTriggerSnapshot(agent
-				.getID(), trigger.getName(), trigger.getPriority(), trigger
-				.getConditions().toString(), trigger.getBehavior().toString(),
-				1);
+		TriggerSnapshot tSnap = SnapshotFactory.makeTriggerSnapshot(trigger.getName(), trigger.getPriority(), trigger
+				.getConditions().toString(), trigger.getBehavior().toString());
 		tSnaps.add(tSnap);
 		return tSnaps;
 	}
