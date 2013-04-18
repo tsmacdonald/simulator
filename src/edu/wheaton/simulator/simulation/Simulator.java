@@ -29,6 +29,7 @@ import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.datastructure.Grid;
+import edu.wheaton.simulator.datastructure.GridObserver;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Trigger;
@@ -56,6 +57,11 @@ public class Simulator implements Runnable {
 	 * Time (in milliseconds) in between each step
 	 */
 	private int sleepPeriod;
+	
+	/**
+	 * Class to hold conditions for the grid loop to end
+	 */
+	private SimulationEnder ender;
 
 	/**
 	 * Constructor.
@@ -63,13 +69,13 @@ public class Simulator implements Runnable {
 	 * @param gridX
 	 * @param gridY
 	 */
-	public Simulator(String name, SimulationEnder se, int gridX, int gridY) {
+	public Simulator(String name, int gridX, int gridY) {
 		this.name = name;
-		sleepPeriod = 500;
 		grid = new Grid(gridX, gridY);
-		Prototype.clearPrototypes();
-		StatisticsManager.getInstance().initialize(grid,se);
 		shouldPause = new AtomicBoolean(false);
+		sleepPeriod = 500;
+		ender = new SimulationEnder();
+		StatisticsManager.getInstance().initialize(grid, ender);
 	}
 
 	/**
@@ -101,6 +107,7 @@ public class Simulator implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			checkEndings();
 		}
 	}
 
@@ -117,6 +124,14 @@ public class Simulator implements Runnable {
 	 */
 	public void pause() {
 		shouldPause.set(true);
+	}
+	
+	/**
+	 * Tells the grid to stop on the next iteration if the ender evaluates to true
+	 */
+	public void checkEndings() {
+		if(ender.evaluate(grid))
+			shouldPause.set(true);
 	}
 
 	/**
@@ -512,6 +527,13 @@ public class Simulator implements Runnable {
 	 */
 	public void resizeGrid(int width, int height) {
 		grid.resizeGrid(width, height);
+	}
+	
+	/**
+	 * Adds the given observer to the grid
+	 */
+	public void addGridObserver(GridObserver ob) {
+		grid.addObserver(ob);
 	}
 
 	/**
