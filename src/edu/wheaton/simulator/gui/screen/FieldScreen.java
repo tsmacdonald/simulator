@@ -10,23 +10,17 @@
 
 package edu.wheaton.simulator.gui.screen;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.LayoutManager;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edu.wheaton.simulator.gui.BoxLayoutAxis;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.GuiList;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
-import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
@@ -50,14 +44,10 @@ public class FieldScreen extends Screen {
 	public FieldScreen(final SimulatorGuiManager gm) {
 		super(gm);
 		editing = false;
-		this.setLayout(new BorderLayout());
+		this.setLayout(new GridBagLayout());
 		
 		fields = new GuiList();
 		fields.addListSelectionListener(new ListListener());
-
-		
-		JPanel panel = Gui.makePanel((LayoutManager)null , MaxSize.NULL, new PrefSize(450,550));
-		panel.add(fields);
 		
 		delete = Gui.makeButton("Delete",null,new DeleteListener(fields));
 		add = Gui.makeButton("Add",null,new ActionListener() {
@@ -80,25 +70,28 @@ public class FieldScreen extends Screen {
 				sm.update(screen);
 			}
 		});
-		JPanel buttonPanel = new JPanel(new FlowLayout());
-		buttonPanel.add(add);
-		buttonPanel.add(Box.createHorizontalStrut(5));
-		buttonPanel.add(edit);
-		buttonPanel.add(Box.createHorizontalStrut(5));
-		buttonPanel.add(delete);
-		buttonPanel.add(Box.createHorizontalStrut(5));
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		GridBagConstraints c = new GridBagConstraints();
 		
-		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
-		mainPanel.add(panel);
-		mainPanel.add(buttonPanel);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 2;
+		this.add(add,c);
 		
+		c.gridx = 1;
+		this.add(edit, c);
+		
+		c.gridx = 2;
+		this.add(delete, c);
+		
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 4;
 		this.add(
 			Gui.makeLabel("Global Fields",new PrefSize(300, 100),HorizontalAlignment.CENTER), 
-			BorderLayout.NORTH
-		);
-		this.add(mainPanel, BorderLayout.CENTER);
+			c);
+		
+		c.gridy = 1;
+		this.add(fields, c);
 	}
 
 	public void reset() {

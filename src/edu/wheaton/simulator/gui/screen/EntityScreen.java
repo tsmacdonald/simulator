@@ -80,10 +80,6 @@ public class EntityScreen extends Screen {
 		c.gridx = 2;
 		this.add(delete, c);
 		
-		//The code between this comment and the next
-		c.gridx = 3;
-		
-		//will be removed once added to tabbed pane
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 4;
