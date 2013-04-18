@@ -130,7 +130,6 @@ public class FieldScreen extends Screen {
 		Map<String, String> map = getGuiManager().getSimGridFieldMap();
 		Object[] fieldsA = map.keySet().toArray();
 		for(Object s: fieldsA){
-			System.out.println((String) s);
 			listModel.addElement(s);
 		}
 		edit.setEnabled(false);

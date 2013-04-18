@@ -295,7 +295,6 @@ public class ViewSimScreen1 extends Screen {
 					}
 				}
 				);
-		System.out.println(entities.length);
 		if(entities.length != 0){
 			layerComboBox = new JComboBox(Simulator.getPrototype
 					(agentComboBox.getItemAt(0).toString())
