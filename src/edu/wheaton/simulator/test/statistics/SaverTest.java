@@ -98,10 +98,10 @@ public class SaverTest {
 		AgentSnapshot agentSnap3 = SnapshotFactory.makeGlobalVarSnapshot(grid, new Prototype(grid, "GRID"), step);
 		
 		//Create the table, add the AgentSnapshots				
-		AgentSnapshotTable table = new AgentSnapshotTable();
-		table.putEntity(agentSnap1); 
-		table.putEntity(agentSnap2);
-		table.putEntity(agentSnap3); 
+		Set<Agent> agents = new HashSet<Agent>(); 
+		agents.add(agentSnap1); 
+		agents.add(agentSnap2);
+		agents.add(agentSnap3); 
 		
 		// Create two PrototypeSnapshots
 		PrototypeSnapshot protoSnapAlpha = new PrototypeSnapshot(prototypeOne.getName(), 

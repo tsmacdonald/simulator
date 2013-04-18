@@ -40,7 +40,7 @@ public class AgentSnapshot {
 	/**
 	 * A list of this Agent's BehaviorSnapshots
 	 */
-	public final ImmutableList<TriggerSnapshot> triggers;
+	public final ArrayList<TriggerSnapshot> triggers;
 	
 	/**
 	 * This Agent's xPosition
@@ -70,7 +70,7 @@ public class AgentSnapshot {
 		this.step = step;
 		this.fields = fields;
 		this.prototypeName = prototypeName;
-		this.triggers = new ImmutableList.Builder().addAll(triggers).build();
+		this.triggers = triggers; 
 		this.xpos = x; 
 		this.ypos = y; 
 	}
@@ -87,7 +87,6 @@ public class AgentSnapshot {
 	 * 4 (yPos)
 	 * Fields: FieldSnapshot Name Value
 	 * Fields: FieldSnapshot Name Value
-	 * TODO: Add the triggers to serialization
 	 */
 	public String serialize(){
 		String s = "AgentSnapshot";

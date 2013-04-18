@@ -1,5 +1,6 @@
 package edu.wheaton.simulator.test.statistics;
 
+import java.io.File;
 import java.util.Set;
 
 import junit.framework.Assert;
@@ -19,7 +20,7 @@ public class LoaderTest {
 	@Test
 	public void testLoadSimulation() throws Exception {
 		Loader l = new Loader();
-		l.loadSimulation("SimulationState.txt");
+		l.loadSimulation(new File("SimulationState.txt"));
 		System.out.println("Loaded"); 
 		grid = l.getGrid(); 
 		prototypes = l.getPrototypes(); 

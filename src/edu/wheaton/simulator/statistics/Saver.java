@@ -9,12 +9,14 @@ package edu.wheaton.simulator.statistics;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multiset.Entry;
 
-import edu.wheaton.simulator.entity.AgentID;
+import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
@@ -33,28 +35,39 @@ public class Saver {
 	 * @param height The height of the grid
 	 * @param simEnder The class that handles simulation ending conditions
 	 */
-	public void saveSimulation(String filename, AgentSnapshotTable table, Map<String, PrototypeSnapshot> prototypes, 
-			int width, int height, SimulationEnder simEnder){		
+	public void saveSimulation(String filename, Set<Agent> agents, ImmutableSet<Prototype> prototypes, 
+			Map<String, String> globalFields, int width, int height, SimulationEnder simEnder){		
 		StringBuilder sb = new StringBuilder(); 
 
 		//Name the file, first
 		filename = filename + ".txt";
-
-		int currentStep = getCurrentStep(table);  
-		ImmutableMap<AgentID, AgentSnapshot> snaps = table.getSnapshotsAtStep(currentStep); 
+		
+		//Create AgentSnapshots  
+		HashSet<AgentSnapshot> agentSnaps = new HashSet<AgentSnapshot>(); 
+		for(Agent a : agents)
+			agentSnaps.add(SnapshotFactory.makeAgentSnapshot(a, null, 0));
+		
+		//Create PrototypeSnapshots
+		HashSet<PrototypeSnapshot> protoSnaps = new HashSet<PrototypeSnapshot>(); 
+		for(Prototype p : prototypes)
+			protoSnaps.add(SnapshotFactory.makePrototypeSnapshot(p)); 
 
 		//Save the Grid dimensions
 		sb.append(width + "\n"); 
 		sb.append(height + "\n");  
 
 		//Serialize and write all PrototypeSnapshots to file
-		for(PrototypeSnapshot proto : prototypes.values()){
+		for(PrototypeSnapshot proto : protoSnaps){
 			sb.append(proto.serialize() + "\n"); 
 		}
 
 		//Serialize and write all AgentSnapshots to file
-		for(AgentSnapshot snap : snaps.values()){
+		for(AgentSnapshot snap : agentSnaps){
 			sb.append(snap.serialize() + "\n"); 
+		}
+		
+		for(int i = 0; i < globalFields.size(); i++){
+			//TODO: Make global variables save/load
 		}
 
 		//Save the Ending Conditions

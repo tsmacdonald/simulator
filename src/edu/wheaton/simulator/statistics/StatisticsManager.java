@@ -51,11 +51,6 @@ public class StatisticsManager {
 	private static HashMap<String, PrototypeSnapshot> protoSnaps;
 
 	/**
-	 * Reference to the class that handles ending the simulation
-	 */
-	private SimulationEnder simEnder;
-
-	/**
 	 * Private constructor to prevent wanton instantiation.
 	 */
 	private StatisticsManager() {
@@ -89,31 +84,9 @@ public class StatisticsManager {
 		grid.addObserver(gridObserver);
 		Trigger.addObserver(gridObserver);
 		this.grid = grid;
-		this.simEnder = simEnder;
 		StatisticsManager.prototypes = Prototype.getPrototypes();
 		for(Prototype p : prototypes)
 			addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(p));
-	}
-
-	/**
-	 * Save the simulation
-	 * 
-	 * @param filename
-	 *            Name for the generated file saving the Simulation
-	 */
-
-	public void saveSimulation(String filename){
-		Saver s = new Saver(); 
-		s.saveSimulation(filename, table, protoSnaps, grid.getWidth(), grid.getHeight(), simEnder);	
-	}
-
-	/**
-	 * Load the simulation
-	 * @param filename The name of the file to load
-	 */
-	public void loadSimulation(String filename){
-		Loader l = new Loader(); 
-		l.loadSimulation(filename); 
 	}
 
 	/**
@@ -268,7 +241,7 @@ public class StatisticsManager {
 					prototypeName, step);
 
 			for (AgentSnapshot agent : agents) {
-				ImmutableList<TriggerSnapshot> triggers = agent.triggers;
+				ArrayList<TriggerSnapshot> triggers = agent.triggers;
 
 				for (TriggerSnapshot trigger : triggers)
 					if (trigger.triggerName.equals(behavior))

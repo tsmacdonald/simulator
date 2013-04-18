@@ -102,10 +102,10 @@ public class Loader {
 	 * Code based on http://stackoverflow.com/questions/15906640/
 	 * @param fileName The name of the file to load
 	 */
-	public void loadSimulation(String fileName){
-		File file = new File(fileName);
+	public void loadSimulation(File f){
+		File file = f; 
 		BufferedReader reader = null;
-		name = fileName; 
+		name = f.getName();
 		this.prototypes = new HashSet<Prototype>(); 
 
 		try {
@@ -224,11 +224,8 @@ public class Loader {
 				}
 				else{
 					readLine = reader.readLine(); 
-					System.out.println("Else"); 
 				}
-				System.out.println("Inside Loop"); 
 			}
-			System.out.println("Outside Loop"); 
 		}
 		catch (FileNotFoundException e) {
 			throw new RuntimeException("Could not find file: " + file.getAbsolutePath(), e);
@@ -254,8 +251,8 @@ public class Loader {
 	 * @param filename The name of the file with the saved Prototype
 	 * @return
 	 */
-	public Prototype loadPrototype(String filename){
-		File file = new File(filename);
+	public Prototype loadPrototype(File f){
+		File file = f; 
 		BufferedReader reader = null;
 		Prototype proto = null; 
 		
