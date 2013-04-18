@@ -107,6 +107,7 @@ public class EntityScreen extends Screen {
 		for (String s : entities)
 			entityList.addItem(s);
 		edit.setEnabled(false);
+		delete.setEnabled(false);
 	}
 	
 	class DeleteListener implements ActionListener {	
