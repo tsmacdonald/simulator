@@ -1,6 +1,8 @@
 package edu.wheaton.simulator.gui.screen;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.gui.BoxLayoutAxis;
@@ -46,14 +50,23 @@ public class SetupScreen extends Screen {
 
 	public SetupScreen(final SimulatorGuiManager gm) {
 		super(gm);
-		this.setLayout(new BorderLayout());
+		this.setLayout(new GridBagLayout());
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		this.add(new JLabel("Name: "), c);
+
+		c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 1;
+		c.gridwidth = 3;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),MinSize.NULL);
+		this.add(nameField, c);
 
 		agentNames = new String[0];
-
-		this.add(
-				Gui.makeLabel("Simulation Options",new PrefSize(300,150),HorizontalAlignment.CENTER ),
-				BorderLayout.NORTH
-				);
 
 		agentTypes = new ArrayList<JComboBox>();
 		deleteButtons = new ArrayList<JButton>();
@@ -71,19 +84,19 @@ public class SetupScreen extends Screen {
 		conListPanel.add(addConditionButton);
 		conListPanel.add(Box.createVerticalGlue());
 
-		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),MinSize.NULL);
 
 		timeField = Gui.makeTextField(null,15,new MaxSize(200,40),MinSize.NULL);
 
 		String[] updateTypes = {"Linear", "Atomic", "Priority"};
 		updateBox = Gui.makeComboBox(updateTypes, new MaxSize(200,40));
 
-		this.add(makeUberPanel(conListPanel, timeField, nameField, updateBox),
-				BorderLayout.CENTER);
+		c = new GridBagConstraints();
+		this.add(makeUberPanel(conListPanel, timeField, nameField, updateBox),c);
 
 		agentTypes = new ArrayList<JComboBox>();
 		values = new ArrayList<JTextField>();
 
+		c = new GridBagConstraints();
 		this.add(
 				Gui.makePanel(
 						Gui.makeButton("Revert",null,new ActionListener() {
@@ -92,7 +105,7 @@ public class SetupScreen extends Screen {
 								load();
 							}}),
 							makeConfirmButton()
-						), BorderLayout.SOUTH
+						), c
 				);
 	}
 
