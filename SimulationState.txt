@@ -17,6 +17,11 @@ FieldSnapshot Crayfish Paul
 FieldSnapshot Person John Charles
 Trigger~trigger1~1~conditionExpression~behaviorExpression
 AgentSnapshot
+GRID
+0
+0
+FieldSnapshot Depth 100
+AgentSnapshot
 Prototype 1
 0
 0
