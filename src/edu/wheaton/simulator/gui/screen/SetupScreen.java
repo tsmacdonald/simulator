@@ -104,7 +104,7 @@ public class SetupScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 6;
 		c.gridheight = c.REMAINDER;
-		conListPanel = Gui.makePanel(BoxLayoutAxis.PAGE_AXIS,null,null);
+		conListPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		this.add(conListPanel,c);
 		
 		c.gridx = 0;
