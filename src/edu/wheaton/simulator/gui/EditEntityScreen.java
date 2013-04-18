@@ -543,7 +543,11 @@ public class EditEntityScreen extends Screen {
 	public void setEditing(Boolean b) {
 		editing = b;
 	}
-
+	
+	public Color getColor(){
+		return colorTool.getColor();
+	}
+	
 	private void addField() {
 		JPanel newPanel = GuiUtility.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		JTextField newName = GuiUtility.makeTextField(null,25,new MaxSize(300,40),null);
@@ -589,7 +593,7 @@ public class EditEntityScreen extends Screen {
 		triggerListPanel.add(Box.createVerticalGlue());
 		repaint();
 	}
-
+	
 	private byte[] generateBytes() {
 		String str = "";
 		byte[] toReturn = new byte[7];
