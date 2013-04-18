@@ -48,7 +48,7 @@ public class Recorder implements GridObserver, TriggerObserver {
 		
 		for (Prototype prototype : prototypes)
 			StatisticsManager.addPrototypeSnapshot(SnapshotFactory
-					.makePrototypeSnapshot(prototype, grid.getStep()));
+					.makePrototypeSnapshot(prototype));
 		
 		for (Agent agent : grid) {
 			if (agent != null)
