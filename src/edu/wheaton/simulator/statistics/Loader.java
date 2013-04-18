@@ -121,7 +121,7 @@ public class Loader {
 			grid = new Grid(width, height); 
 
 			String readLine = reader.readLine();
-			while (readLine != null) {
+			while (readLine != null && !readLine.equals("")) {
 				if(readLine.equals("AgentSnapshot")){
 					//Find the appropriate prototype
 					String prototypeName = reader.readLine();
@@ -220,16 +220,19 @@ public class Loader {
 					
 					readLine = reader.readLine(); 
 					while(readLine.substring(0, 4).equals("POP")){
-						String[] tokens = readLine.split(" "); 
-						//simEnder.setPopLimit(tokens[1], tokens[2]); 
-						
+						String[] tokens = readLine.split("~"); 
+						simEnder.setPopLimit(tokens[1], Integer.parseInt(tokens[2])); 						
 						readLine = reader.readLine(); 
 					}
+					System.out.println("Added SimulationEnder"); 
 				}
 				else{
-					reader.readLine(); 
+					readLine = reader.readLine(); 
+					System.out.println("Else"); 
 				}
+				System.out.println("Inside Loop"); 
 			}
+			System.out.println("Outside Loop"); 
 		}
 		catch (FileNotFoundException e) {
 			throw new RuntimeException("Could not find file: " + file.getAbsolutePath(), e);

@@ -40,6 +40,6 @@ public class LoaderTest {
 		
 		Assert.assertNotNull(grid); 
 		Assert.assertNotNull(prototypes); 
-		Assert.assertEquals("saveFile", name); 
+		Assert.assertEquals("SimulationState.txt", name); 
 	}
 }
