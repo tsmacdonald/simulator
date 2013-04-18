@@ -10,6 +10,8 @@ package edu.wheaton.simulator.test.statistics;
  */
 import java.awt.Color;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -23,6 +25,7 @@ import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
+import edu.wheaton.simulator.statistics.TriggerSnapshot;
 
 public class PrototypeSnapshotCase {
 	
@@ -30,6 +33,7 @@ public class PrototypeSnapshotCase {
 	Grid grid;
 	Prototype prototype;
 	HashMap<String, String> fields;
+	Set<TriggerSnapshot> triggers;
 	int population;
 	ImmutableSet<AgentID> children;
 	Integer step; 
@@ -44,7 +48,12 @@ public class PrototypeSnapshotCase {
 		grid = new Grid(10, 10);
 		prototype = new Prototype(grid, "tester");
 		fields = new HashMap<String, String>();
+		triggers = new HashSet<TriggerSnapshot>();
 		fields.put("Age", "1"); 
+		fields.put("Height", "5"); 
+		fields.put("Smell", "4");
+		
+		triggers.add(new TriggerSnapshot("trigger1", 1, "conditionExpression", "behaviorExpression"));
 		population = 50;
 		children = prototype.childIDs();
 		step = new Integer(23);
@@ -58,7 +67,7 @@ public class PrototypeSnapshotCase {
 	public void prototypeSnapshotTest() {		
 		PrototypeSnapshot protoSnap = new PrototypeSnapshot(categoryName, 
 				SnapshotFactory.makeFieldSnapshots(fields), population,
-				children, step, new Color(10, 10, 10), design);
+				children, triggers, step, new Color(10, 10, 10), design);
 		Assert.assertNotNull("PrototypeSnapshot not created.", protoSnap);
 	}
 	
@@ -69,9 +78,11 @@ public class PrototypeSnapshotCase {
 	public void serializeTest(){
 		PrototypeSnapshot protoSnap = new PrototypeSnapshot(categoryName, 
 				SnapshotFactory.makeFieldSnapshots(fields), population,
-				children, step, new Color(10, 10, 10), design);
+				children, triggers, step, new Color(10, 10, 10), design);
 		
-		String expected = "PrototypeSnapshot\ntesting\n-16119286\n0000000000\nFieldSnapshot Age 1"; 
+		String expected = "PrototypeSnapshot\ntesting\n-16119286\n0000000000\nFieldSnapshot Age 1";
+		expected += "\nFieldSnapshot Height 5\nFieldSnapshot Smell 4";
+		expected += "\nTrigger~trigger1~1~conditionExpression~behaviorExpression";
 		System.out.println(protoSnap.serialize()); 
 		Assert.assertEquals(expected, protoSnap.serialize()); 	
 	}

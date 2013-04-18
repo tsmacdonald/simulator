@@ -99,13 +99,13 @@ public class Rock extends SampleAgent{
 		// conflict behavior
 		Expression engageInConflict = new Expression(
 				"kill(this.x  + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& clone('this',this.x  + this.xNextDirection, this.y + this.yNextDirection)"
-						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
-						+ "&& setFieldOfAgent('this', this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
-						+ "&& setField('this', 'endTurn', 1)");
+						+ "&& clone(this.x  + this.xNextDirection, this.y + this.yNextDirection)"
+						+ "&& setFieldOfAgent(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
 		
 		// increment the age of the agent
-		Expression incrAge = new Expression("setField('this', 'age', this.age +1)");
+		Expression incrAge = new Expression("setField('age', this.age +1)");
 
 		// reset all the flags that are used to determine behavior
 		Expression resetConflictFlags = new Expression(

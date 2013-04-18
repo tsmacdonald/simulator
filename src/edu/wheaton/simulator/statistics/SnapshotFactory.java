@@ -75,7 +75,7 @@ public class SnapshotFactory {
 		
 		Set<TriggerSnapshot> trigSnaps = new HashSet<TriggerSnapshot>();
 		for(Trigger t : triggers)
-			trigSnaps.add(makeTriggerSnapshot(null, t.getName(), t.getPriority(), t.getConditions().toString(), t.getBehavior().toString(), (Integer) null));
+			trigSnaps.add(makeTriggerSnapshot(t.getName(), t.getPriority(), t.getConditions().toString(), t.getBehavior().toString()));
 		
 		ImmutableMap<String, FieldSnapshot> fields = makeFieldSnapshots(prototype.getCustomFieldMap()); 
 		int population = prototype.childPopulation();
@@ -96,9 +96,9 @@ public class SnapshotFactory {
 	 * @param step Of the game
 	 * @return
 	 */
-	public static TriggerSnapshot makeTriggerSnapshot(AgentID id, String triggerName, int priority, String condition, 
-			String behavior, int step) {
-		return new TriggerSnapshot(id, triggerName, priority, condition, behavior, step);
+	public static TriggerSnapshot makeTriggerSnapshot(String triggerName, int priority, String condition, 
+			String behavior) {
+		return new TriggerSnapshot(triggerName, priority, condition, behavior);
 	}
  
 	/**

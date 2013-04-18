@@ -216,6 +216,11 @@ public class StatDisplayScreen extends Screen {
 	private JPanel getDisplayPanel() { 
 		return new JPanel() { 
 			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4375342368896479163L;
+
 			@Override
 			public void paint(Graphics g) {
 				super.paint(g);

@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.naming.NameNotFoundException;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
@@ -12,13 +15,14 @@ import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 public class StatisticsManager {
 
 	/**
 	 * Single instance of this class.
 	 */
-	private static StatisticsManager instance = new StatisticsManager();
+	private static StatisticsManager instance = null;
 	
 	/**
 	 * The table in which all entity snapshots will be stored.
@@ -46,6 +50,11 @@ public class StatisticsManager {
 	private static HashMap<String, PrototypeSnapshot> protoSnaps;
 	
 	/**
+	 * Reference to the class that handles ending the simulation
+	 */
+	private SimulationEnder simEnder; 
+	
+	/**
 	 * Private constructor to prevent wanton instantiation.
 	 */
 	private StatisticsManager() {
@@ -59,16 +68,27 @@ public class StatisticsManager {
 	 * Get instance of this singleton
 	 */
 	public static StatisticsManager getInstance() {
-		return instance;
+		if(instance != null) 
+			return instance;
+		else 
+			return instance = new StatisticsManager();
+	}
+	
+	/**
+	 * THIS IS FOR TESTING PURPOSES ONLY!!
+	 */
+	public static void removeInstance() {
+		instance = null;
 	}
 	
 	/**
 	 * Initialize an observer for the grid and triggers and prepare prototypes for saving.
 	 */
-	public void initialize(Grid grid) {
+	public void initialize(Grid grid, SimulationEnder simEnder) {
 		grid.addObserver(gridObserver);
 		Trigger.addObserver(gridObserver);
 		this.grid = grid;
+		this.simEnder = simEnder; 
 		StatisticsManager.prototypes = Prototype.getPrototypes();
 		for(Prototype p : prototypes)
 			addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(p, grid.getStep()));
@@ -139,10 +159,10 @@ public class StatisticsManager {
 	 *         that time
 	 */
 	public int[] getPopVsTime(String prototypeName) {
-		int[] data = new int[lastStep()+1];	
+		int[] data = new int[lastStep()];	
 		
 		//Populate agentsByStep
-		for (int i = 0; i <= lastStep(); i++) {
+		for (int i = 0; i <= lastStep() - 1; i++) {
 			Set<AgentSnapshot> stepPop = getPopulationAtStep(prototypeName, i);
 			data[i] = stepPop.size(); 
 		}

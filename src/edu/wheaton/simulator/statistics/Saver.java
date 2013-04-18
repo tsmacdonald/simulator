@@ -15,6 +15,7 @@ import java.util.Set;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.AgentID;
+import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 
 public class Saver {
@@ -31,11 +32,6 @@ public class Saver {
 	 * Since PrototypeSnapshots are immutable, this collection is the same for each step
 	 */
 	private Map<String, PrototypeSnapshot> prototypes; 
-
-	/**
-	 * The name of the file this class will generate. 
-	 */
-	private String filename;
 	
 	/**
 	 * The width of the grid we're saving
@@ -46,18 +42,25 @@ public class Saver {
 	 * The height of the grid we're saving
 	 */
 	private int height; 
+	
+	/**
+	 * Handels the ending conditions for the simulation
+	 */
+	private SimulationEnder simEnder; 
 
 	/**
 	 * Constructor
 	 * @param table An AgentSnapshotTable of all AgentSnapshots at every step of the simulation
 	 * @param prototypes A Map of PrototypeSnapshots
 	 */
-	public Saver(AgentSnapshotTable table, Map<String, PrototypeSnapshot> prototypes, int width, int height){
+	public Saver(AgentSnapshotTable table, Map<String, PrototypeSnapshot> prototypes, 
+			int width, int height, SimulationEnder simEnder){
 		this.sb = new StringBuilder(); 
 		this.table = table; 
 		this.prototypes = prototypes; 
 		this.width = width; 
 		this.height = height; 
+		this.simEnder = simEnder; 
 	}
 
 	/**
@@ -65,9 +68,9 @@ public class Saver {
 	 * Saves the state of the most recent completed step only
 	 * FileWriter code taken from: http://www.javapractices.com/topic/TopicAction.do?Id=42
 	 */
-	public void save(){
+	public void save(String filename){
 		//Name the file, first
-		filename = "SimulationState.txt"; // TODO Change if necessary
+		filename = filename + ".txt";
 		
 		int currentStep = getCurrentStep();  
 		ImmutableMap<AgentID, AgentSnapshot> snaps = table.getSnapshotsAtStep(currentStep); 
@@ -85,6 +88,9 @@ public class Saver {
 		for(AgentSnapshot snap : snaps.values()){
 			sb.append(snap.serialize() + "\n"); 
 		}
+		
+		//Save the Ending Conditions
+		sb.append(simEnder.serialize()); 
 
 		//Create BufferedWriter and BufferedReader
 		try {

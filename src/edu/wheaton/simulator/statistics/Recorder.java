@@ -83,7 +83,7 @@ public class Recorder implements GridObserver, TriggerObserver {
 	@Override
 	public void update(Agent caller, Trigger trigger, int step) {
 		TriggerSnapshot triggerSnap = SnapshotFactory.makeTriggerSnapshot(
-				caller.getID(), trigger.getName(), trigger.getPriority(), null, null, step);
+				trigger.getName(), trigger.getPriority(), null, null);
 		
 		if (triggers.containsKey(caller)) {
 			triggers.get(caller).add(triggerSnap);

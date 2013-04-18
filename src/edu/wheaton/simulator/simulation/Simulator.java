@@ -29,9 +29,11 @@ import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.datastructure.Grid;
+import edu.wheaton.simulator.datastructure.GridObserver;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class Simulator implements Runnable {
@@ -55,6 +57,11 @@ public class Simulator implements Runnable {
 	 * Time (in milliseconds) in between each step
 	 */
 	private int sleepPeriod;
+	
+	/**
+	 * Class to hold conditions for the grid loop to end
+	 */
+	private SimulationEnder ender;
 
 	/**
 	 * Constructor.
@@ -62,12 +69,13 @@ public class Simulator implements Runnable {
 	 * @param gridX
 	 * @param gridY
 	 */
-	public Simulator(String name, int gridX, int gridY) {
+	public Simulator(String name, int gridX, int gridY, SimulationEnder ender) {
 		this.name = name;
-		sleepPeriod = 500;
 		grid = new Grid(gridX, gridY);
-		Prototype.clearPrototypes();
-		StatisticsManager.getInstance().initialize(grid);
+		shouldPause = new AtomicBoolean(false);
+		sleepPeriod = 500;
+		this.ender = ender;
+		StatisticsManager.getInstance().initialize(grid, ender);
 	}
 
 	/**
@@ -99,6 +107,7 @@ public class Simulator implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			checkEndings();
 		}
 	}
 
@@ -115,6 +124,14 @@ public class Simulator implements Runnable {
 	 */
 	public void pause() {
 		shouldPause.set(true);
+	}
+	
+	/**
+	 * Tells the grid to stop on the next iteration if the ender evaluates to true
+	 */
+	public void checkEndings() {
+		if(ender.evaluate(grid))
+			shouldPause.set(true);
 	}
 
 	/**
@@ -200,40 +217,33 @@ public class Simulator implements Runnable {
 	}
 
 	/**
-	 * Whether or not a given field is contained in a Prototype
-	 * 
-	 * @param p
-	 * @param fieldName
-	 * @return
-	 */
-	public static boolean prototypeHasField(Prototype p, String fieldName) {
-		return p.hasField(fieldName);
-	}
-
-	/**
-	 * Whether or not a given trigger is contained in a Prototype
-	 * 
-	 * @param p
-	 * @param triggerName
-	 * @return
-	 */
-	public static boolean prototypeHasTrigger(Prototype p, String triggerName) {
-		return p.hasTrigger(triggerName);
-	}
-
-	/**
-	 * Causes all entities in the grid to act()
-	 */
-	public void updateEntities() throws SimulationPauseException {
-		grid.updateEntities();
-	}
-
-	/**
 	 * 
 	 * @return a String with the name of the current update method
 	 */
 	public String currentUpdater() {
 		return grid.currentUpdater();
+	}
+
+	/**
+	 * Sets the update method to use the PriorityUpdate system
+	 */
+	public void setPriorityUpdate(int minPriority, int maxPriority) {
+		grid.setPriorityUpdater(minPriority, maxPriority);
+	}
+
+	/**
+	 * Sets the update method to use the AtomicUpdate system
+	 */
+	public void setAtomicUpdate() {
+		grid.setAtomicUpdater();
+	}
+
+	/**
+	 * Sets the update method to use the LinearUpdate system LinearUpdate is the
+	 * default
+	 */
+	public void setLinearUpdate() {
+		grid.setLinearUpdater();
 	}
 
 	/**
@@ -377,37 +387,6 @@ public class Simulator implements Runnable {
 	}
 
 	/**
-	 * Sets the update method to use the PriorityUpdate system
-	 */
-	public void setPriorityUpdate(int minPriority, int maxPriority) {
-		grid.setPriorityUpdater(minPriority, maxPriority);
-	}
-
-	/**
-	 * Sets the update method to use the AtomicUpdate system
-	 */
-	public void setAtomicUpdate() {
-		grid.setAtomicUpdater();
-	}
-
-	/**
-	 * Sets the update method to use the LinearUpdate system LinearUpdate is the
-	 * default
-	 */
-	public void setLinearUpdate() {
-		grid.setLinearUpdater();
-	}
-
-	/**
-	 * Returns a List of Triggers for a specific prototype
-	 * 
-	 * @return
-	 */
-	public static List<Trigger> getPrototypeTriggers(Prototype p) {
-		return p.getTriggers();
-	}
-
-	/**
 	 * Sample simulation: Conway's Game of Life
 	 */
 	public void initGameOfLife() {
@@ -510,6 +489,13 @@ public class Simulator implements Runnable {
 	 */
 	public void resizeGrid(int width, int height) {
 		grid.resizeGrid(width, height);
+	}
+	
+	/**
+	 * Adds the given observer to the grid
+	 */
+	public void addGridObserver(GridObserver ob) {
+		grid.addObserver(ob);
 	}
 
 	/**
