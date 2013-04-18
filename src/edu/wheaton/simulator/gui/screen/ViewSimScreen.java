@@ -178,7 +178,6 @@ public class ViewSimScreen extends Screen {
 				}
 				gm.getGridPanel().repaint();
 				
-				gm.initSimStartTime();
 //				if (stepCount == 0)
 //					;//sm.getStatManager().setStartTime(startTime);
 				gm.startSim();

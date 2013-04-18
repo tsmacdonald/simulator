@@ -259,7 +259,6 @@ public class ViewSimScreen1 extends Screen {
 					}
 				}
 				gm.getGridPanel().repaint();
-				gm.initSimStartTime();
 				//grid.repaint();
 				//gm.setSimRunning(true);
 				//gm.setSimStarted(true);

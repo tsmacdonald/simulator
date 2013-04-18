@@ -39,8 +39,6 @@ public class SimulatorGuiManager {
 	private Simulator simulator;
 	private boolean simulationIsRunning;
 	private ArrayList<SpawnCondition> spawnConditions;
-	private int stepCount;
-	private long startTime;
 	private boolean canSpawn;
 	private GridPanel gridPanel;
 	private Loader loader;
@@ -49,7 +47,6 @@ public class SimulatorGuiManager {
 
 	public SimulatorGuiManager(Display d) {
 		spawnConditions = new ArrayList<SpawnCondition>();
-		startTime = 0;
 		canSpawn = true;
 		initSim("New Simulation",10, 10);
 		gridPanel = new GridPanel(this);
@@ -236,10 +233,6 @@ public class SimulatorGuiManager {
 
 	public boolean canSimSpawn() {
 		return canSpawn;
-	}
-
-	public void initSimStartTime(){
-		startTime = System.currentTimeMillis();
 	}
 
 	public boolean spiralSpawnSimAgent(String prototypeName, int x, int y){
