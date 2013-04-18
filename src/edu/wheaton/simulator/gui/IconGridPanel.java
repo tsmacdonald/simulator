@@ -5,12 +5,14 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import edu.wheaton.simulator.gui.screen.EditEntityScreen;
+
 public class IconGridPanel extends GridPanel {
 
 	private static final long serialVersionUID = 8466121263560126226L;
 
 	private ScreenManager sm;
-
+	
 	private int width;
 
 	private int height;
@@ -25,8 +27,9 @@ public class IconGridPanel extends GridPanel {
 
 	private boolean[][] icon;
 
-	public IconGridPanel(ScreenManager sm) {
-		super(sm);
+	public IconGridPanel(final SimulatorGuiManager gm) {
+		super(gm);
+		sm = gm.getScreenManager();
 		width = this.getWidth();
 		height = this.getHeight();
 		gridDimension = 7;
