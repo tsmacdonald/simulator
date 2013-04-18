@@ -53,7 +53,7 @@ public class PrototypeSnapshotCase {
 		fields.put("Height", "5"); 
 		fields.put("Smell", "4");
 		
-		triggers.add(new TriggerSnapshot(prototype.createAgent().getID(), "trigger1", 1, "conditionExpression", "behaviorExpression", 0));
+		triggers.add(new TriggerSnapshot("trigger1", 1, "conditionExpression", "behaviorExpression"));
 		population = 50;
 		children = prototype.childIDs();
 		step = new Integer(23);

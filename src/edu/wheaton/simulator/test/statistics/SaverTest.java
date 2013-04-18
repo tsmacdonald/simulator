@@ -58,8 +58,9 @@ public class SaverTest {
 		
 		step = new Integer(23);
 		
+		//Create the list of TriggerSnapshots
 		triggers = new HashSet<TriggerSnapshot>();
-		triggers.add(new TriggerSnapshot(prototypeOne.createAgent().getID(), "trigger1", 1, "conditionExpression", "behaviorExpression", 0));
+		triggers.add(new TriggerSnapshot("trigger1", 1, "conditionExpression", "behaviorExpression"));
 	}
 
 	@After
@@ -83,14 +84,14 @@ public class SaverTest {
 				SnapshotFactory.makeFieldSnapshots(agentOther.getCustomFieldMap()), 
 				step, prototypeTwo.getName(), null, 0, 0);
 		
-		AgentSnapshot agentSnap3 = 
+		//Create a global variable snapshot
+		AgentSnapshot agentSnap3 = SnapshotFactory.makeGlobalVarSnapshot(grid, new Prototype(grid, "GRID"), grid.getStep());
 		
-		//Create the table, add two AgentSnapshots
+		//Create the table, add the AgentSnapshots				
 		AgentSnapshotTable table = new AgentSnapshotTable();
 		table.putEntity(agentSnap1); 
-		table.putEntity(agentSnap2); 
-		
-		//Create the list of TriggerSnapshots
+		table.putEntity(agentSnap2);
+		table.putEntity(agentSnap3); 
 		
 		// Create two PrototypeSnapshots
 		PrototypeSnapshot protoSnapAlpha = new PrototypeSnapshot(prototypeOne.getName(), 
