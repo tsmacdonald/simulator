@@ -122,5 +122,7 @@ public class SaverTest {
 		
 		Saver s = new Saver(table, protoMap, grid.getWidth(), grid.getHeight(), simEnder);
 		s.saveSimulation("SimulationState");
+		
+		System.out.println("File creation complete.");
 	}
 }

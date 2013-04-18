@@ -7,6 +7,7 @@ package edu.wheaton.simulator.statistics;
  * @author Grant Hensel, Nico Lasta
  */
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
@@ -32,17 +33,17 @@ public class Saver {
 	 * Since PrototypeSnapshots are immutable, this collection is the same for each step
 	 */
 	private Map<String, PrototypeSnapshot> prototypes; 
-	
+
 	/**
 	 * The width of the grid we're saving
 	 */
 	private int width; 
-	
+
 	/**
 	 * The height of the grid we're saving
 	 */
 	private int height; 
-	
+
 	/**
 	 * Handels the ending conditions for the simulation
 	 */
@@ -73,14 +74,14 @@ public class Saver {
 	public void saveSimulation(String filename){
 		//Name the file, first
 		filename = filename + ".txt";
-		
+
 		int currentStep = getCurrentStep();  
 		ImmutableMap<AgentID, AgentSnapshot> snaps = table.getSnapshotsAtStep(currentStep); 
-		
+
 		//Save the Grid dimensions
 		sb.append(width + "\n"); 
 		sb.append(height + "\n");  
-		
+
 		//Serialize and write all PrototypeSnapshots to file
 		for(PrototypeSnapshot proto : prototypes.values()){
 			sb.append(proto.serialize() + "\n"); 
@@ -90,7 +91,7 @@ public class Saver {
 		for(AgentSnapshot snap : snaps.values()){
 			sb.append(snap.serialize() + "\n"); 
 		}
-		
+
 		//Save the Ending Conditions
 		sb.append(simEnder.serialize()); 
 
@@ -106,6 +107,21 @@ public class Saver {
 
 		//What just got saved to file?
 		System.out.println("The following text was just saved to SimulationState.txt: \n" + sb); // TODO Delete
+
+		// TODO FIX FIX FIX
+		// Create a file 
+		File file = new File("/Simulations/" + filename);
+		boolean created; // TODO move up once done
+		boolean directory; // TODO move up once done
+
+		try {
+			directory = file.mkdir();
+			if (directory) 
+				System.out.println("File path: " + file.getAbsolutePath()); // TODO Delete
+		} catch (Exception e) {
+			System.err.println("Saver.java: IOException");
+			e.printStackTrace();
+		}
 	}
 
 	/**
