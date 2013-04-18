@@ -37,5 +37,5 @@ FieldSnapshot Crayfish Paul
 FieldSnapshot Person John Charles
 EndConditions
 20
-POP Prototype 1 100
-POP Prototype 2 100
+POP~Prototype 1~100
+POP~Prototype 2~100

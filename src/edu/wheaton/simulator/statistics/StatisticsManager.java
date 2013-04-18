@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.naming.NameNotFoundException;
@@ -91,6 +92,24 @@ public class StatisticsManager {
 		StatisticsManager.prototypes = Prototype.getPrototypes();
 		for(Prototype p : prototypes)
 			addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(p, grid.getStep()));
+	}
+	
+	/**
+	 * Save the simulation
+	 * @param filename Name for the generated file saving the Simulation
+	 */
+	public void saveSimulation(String filename){
+		Saver s = new Saver(table, protoSnaps, grid.getWidth(), grid.getHeight(), simEnder); 
+		s.saveSimulation(filename);	
+	}
+	
+	/**
+	 * Load the simulation
+	 * @param filename The name of the file to load
+	 */
+	public void loadSimulation(String filename){
+		Loader l = new Loader(); 
+		l.loadSimulation(filename); 
 	}
 
 	/**
