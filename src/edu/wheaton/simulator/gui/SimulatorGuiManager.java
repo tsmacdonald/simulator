@@ -27,7 +27,6 @@ import edu.wheaton.simulator.gui.screen.SetupScreen;
 import edu.wheaton.simulator.gui.screen.SpawningScreen;
 import edu.wheaton.simulator.gui.screen.StatDisplayScreen;
 import edu.wheaton.simulator.gui.screen.TitleScreen;
-import edu.wheaton.simulator.gui.screen.ViewSimScreen;
 import edu.wheaton.simulator.gui.screen.ViewSimScreen1;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 import edu.wheaton.simulator.simulation.Simulator;
