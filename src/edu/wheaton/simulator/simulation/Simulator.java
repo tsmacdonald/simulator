@@ -9,9 +9,14 @@
 package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
+import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import com.google.common.collect.ImmutableSet;
 
 import sampleAgents.Bouncer;
 import sampleAgents.Confuser;
@@ -32,6 +37,10 @@ import edu.wheaton.simulator.datastructure.GridObserver;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
+import edu.wheaton.simulator.statistics.AgentSnapshotTable;
+import edu.wheaton.simulator.statistics.Loader;
+import edu.wheaton.simulator.statistics.PrototypeSnapshot;
+import edu.wheaton.simulator.statistics.Saver;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class Simulator implements Runnable {
@@ -509,5 +518,29 @@ public class Simulator implements Runnable {
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
 	}
+	
+	
+	/**
+	 * Saves a simulation to a given file.
+	 * 
+	 * @param filename
+	 */
+	public void saveToString(String filename){
+		Saver s = new Saver();
+		Set<Agent> agents = new HashSet<Agent>(); 
+		for (Agent agent : grid)
+			if (agent != null)
+				agents.add(agent);
 
+		s.saveSimulation(filename, agents, Prototype.getPrototypes(), getGlobalFieldMap(), 
+				grid.getWidth(), grid.getHeight(), ender);
+	}
+	
+	public void loadFromString(File file){
+		Loader l = new Loader();
+		l.loadSimulation(file);
+		
+		load(l.getName(), l.getGrid(), l.getPrototypes());
+		ender = l.getSimEnder();
+	}
 }
