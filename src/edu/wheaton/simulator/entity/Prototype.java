@@ -24,9 +24,9 @@ import edu.wheaton.simulator.datastructure.Grid;
 public class Prototype extends GridEntity {
 
 	/**
-	 * The list of all Agent children of this Prototype
+	 * The list of all AgentIDs that follow this Prototype
 	 */
-	private List<Agent> children;
+	private List<AgentID> children;
 
 	/**
 	 * HashMap of Prototypes with associated names
@@ -51,7 +51,7 @@ public class Prototype extends GridEntity {
 	public Prototype(Grid g, String n) {
 		super(g);
 		name = n;
-		children = new ArrayList<Agent>();
+		children = new ArrayList<AgentID>();
 		triggers = new ArrayList<Trigger>();
 	}
 
@@ -68,7 +68,7 @@ public class Prototype extends GridEntity {
 	public Prototype(Grid g, Color c, String n) {
 		super(g, c);
 		name = n;
-		children = new ArrayList<Agent>();
+		children = new ArrayList<AgentID>();
 		triggers = new ArrayList<Trigger>();
 	}
 
@@ -88,7 +88,7 @@ public class Prototype extends GridEntity {
 		super(g, c, d);
 		name = n;
 		triggers = new ArrayList<Trigger>();
-		children = new ArrayList<Agent>();
+		children = new ArrayList<AgentID>();
 	}
 
 	/**
@@ -180,7 +180,7 @@ public class Prototype extends GridEntity {
 		for (Trigger t : triggers)
 			clone.addTrigger(new Trigger(t));
 
-		children.add(clone);
+		children.add(clone.getID());
 		return clone;
 	}
 
@@ -266,8 +266,8 @@ public class Prototype extends GridEntity {
 	 */
 	public ImmutableSet<AgentID> childIDs() {
 		ImmutableSet.Builder<AgentID> builder = new ImmutableSet.Builder<AgentID>();
-		for (Agent current : children) {
-			builder.add(current.getID());
+		for (AgentID current : children) {
+			builder.add(current);
 		}
 		return builder.build();
 	}
