@@ -34,21 +34,11 @@ public class Prototype extends GridEntity {
 	private static Map<String, Prototype> prototypes = new HashMap<String, Prototype>();
 
 	/**
-	 * HashMap of ID->name as a hackish solution to getPrototype(PrototypeID)
-	 */
-	private static Map<PrototypeID, String> idNameMap = new HashMap<PrototypeID, String>();
-
-	/**
 	 * The list of all triggers/events associated with this prototype.
 	 */
 	private List<Trigger> triggers;
 
 	private String name;
-
-	/**
-	 * Unique ID
-	 */
-	private final PrototypeID id;
 
 	/**
 	 * Constructor.
@@ -61,7 +51,6 @@ public class Prototype extends GridEntity {
 	public Prototype(Grid g, String n) {
 		super(g);
 		name = n;
-		id = new PrototypeID();
 		children = new ArrayList<Agent>();
 		triggers = new ArrayList<Trigger>();
 	}
@@ -79,7 +68,6 @@ public class Prototype extends GridEntity {
 	public Prototype(Grid g, Color c, String n) {
 		super(g, c);
 		name = n;
-		id = new PrototypeID();
 		children = new ArrayList<Agent>();
 		triggers = new ArrayList<Trigger>();
 	}
@@ -99,7 +87,6 @@ public class Prototype extends GridEntity {
 	public Prototype(Grid g, Color c, byte[] d, String n) {
 		super(g, c, d);
 		name = n;
-		id = new PrototypeID();
 		triggers = new ArrayList<Trigger>();
 		children = new ArrayList<Agent>();
 	}
@@ -113,7 +100,6 @@ public class Prototype extends GridEntity {
 	 */
 	public static void addPrototype(Prototype p) {
 		prototypes.put(p.getName(), p);
-		idNameMap.put(p.getPrototypeID(), p.getName());
 	}
 
 	/**
@@ -124,10 +110,6 @@ public class Prototype extends GridEntity {
 	 */
 	public static Prototype getPrototype(String n) {
 		return prototypes.get(n);
-	}
-
-	public static Prototype getPrototype(PrototypeID id) {
-		return getPrototype(idNameMap.get(id));
 	}
 
 	/**
@@ -301,15 +283,6 @@ public class Prototype extends GridEntity {
 			builder.add(current.getID());
 		}
 		return builder.build();
-	}
-
-	/**
-	 * Provides the ID of this specific Prototype
-	 * 
-	 * @return
-	 */
-	public PrototypeID getPrototypeID() {
-		return id;
 	}
 
 	/**
