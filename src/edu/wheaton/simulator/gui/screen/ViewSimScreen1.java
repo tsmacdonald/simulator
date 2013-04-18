@@ -152,13 +152,9 @@ public class ViewSimScreen1 extends Screen {
 		tabs.addChangeListener(new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent ce) {
-				Component component = tabs.getSelectedComponent();
-				if(component instanceof Screen){
-					Screen selected = (Screen)component;
-					selected.load();
-				}
+				entitiesScreen.load();
+				globalFieldScreen.load();
 			}
-			
 		});
 
 		gm.getGridPanel().addMouseListener(new MouseListener() {
@@ -275,49 +271,7 @@ public class ViewSimScreen1 extends Screen {
 		});
 		return b;
 	}
-/*
-	private void runSim() {
-		System.out.println("StepLimit = " + gm.getSimStepLimit());
-		//program loop yay!
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while(gm.isSimRunning()) {
-					try {
-						gm.updateEntities();
-					} catch (SimulationPauseException e) {
-						gm.setSimRunning(false);
-						JOptionPane.showMessageDialog(null, e.getMessage());
-						break;
-					}
-					boolean shouldEnd = gm.getSimEnder().evaluate(stepCount, 
-							gm.getSimGrid());
-					System.out.println("shouldEnd = " + shouldEnd);
-					if (shouldEnd) {
-						gm.setSimRunning(false);
-					}
 
-					SwingUtilities.invokeLater(
-							new Thread (new Runnable() {
-								@Override
-								public void run() {
-									grid.repaint();
-								}
-							}));
-
-					System.out.println(stepCount);
-					try {
-						System.out.println("Sleep!");
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						System.err.println("ViewSimScreen.java: 'Thread.sleep(500)' was interrupted");
-						e.printStackTrace();
-					}
-				}
-			}
-		}).start();
-	}
-*/
 	@Override
 	public void load() {
 		entitiesScreen.load();
@@ -341,7 +295,6 @@ public class ViewSimScreen1 extends Screen {
 					}
 				}
 				);
-		System.out.println(entities.length);
 		if(entities.length != 0){
 			layerComboBox = new JComboBox(Simulator.getPrototype
 					(agentComboBox.getItemAt(0).toString())
@@ -355,6 +308,5 @@ public class ViewSimScreen1 extends Screen {
 		layerPanelAgents.add(agentComboBox);
 		validate();
 		getGuiManager().getGridPanel().repaint();
-
 	}
 }

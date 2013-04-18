@@ -11,8 +11,11 @@ package edu.wheaton.simulator.gui.screen;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
@@ -28,31 +31,41 @@ public class TitleScreen extends Screen {
 	public TitleScreen(SimulatorGuiManager gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
-		
+
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 50;
 		c.gridx = 0;
 		c.gridy = 0;
 		add(new JLabel("Welcome to the Simulator!",
-			SwingConstants.CENTER), c);
-		
+				SwingConstants.CENTER), c);
+
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = GridBagConstraints.RELATIVE;
 		add(makeButton("New Simulation", "New Simulation"),c);
-		add(makeButton("Load a saved Simulation", "Load Existing"),c);
-		
+		//add(makeButton("Load a saved Simulation", "Load Existing"),c);
+		JButton loadButton = new JButton("Load a Saved Simulation");
+		loadButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+
+				getGuiManager().loadSim();
+
+			}
+		});
+		add(loadButton, c);
+
 		// Since serialization is not yet implemented.
 		this.getComponent(2).setEnabled(false);
 		this.setVisible(true);
 	}
-	
+
 	private JButton makeButton(String buttonName, String listenerName){
 		PrefSize ps = new PrefSize(200,70);
 		JButton button = Gui.makeButton(buttonName,ps,
-			new GeneralButtonListener(listenerName, getScreenManager()));
+				new GeneralButtonListener(listenerName, getScreenManager()));
 		button.setAlignmentX(CENTER_ALIGNMENT);
 		button.setMinimumSize(ps);
 		return button;

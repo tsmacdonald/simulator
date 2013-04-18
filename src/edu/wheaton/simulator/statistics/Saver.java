@@ -32,11 +32,6 @@ public class Saver {
 	 * Since PrototypeSnapshots are immutable, this collection is the same for each step
 	 */
 	private Map<String, PrototypeSnapshot> prototypes; 
-
-	/**
-	 * The name of the file this class will generate. 
-	 */
-	private String filename;
 	
 	/**
 	 * The width of the grid we're saving
@@ -48,6 +43,9 @@ public class Saver {
 	 */
 	private int height; 
 	
+	/**
+	 * Handels the ending conditions for the simulation
+	 */
 	private SimulationEnder simEnder; 
 
 	/**
@@ -70,9 +68,9 @@ public class Saver {
 	 * Saves the state of the most recent completed step only
 	 * FileWriter code taken from: http://www.javapractices.com/topic/TopicAction.do?Id=42
 	 */
-	public void save(){
+	public void save(String filename){
 		//Name the file, first
-		filename = "SimulationState.txt"; // TODO Change if necessary
+		filename = filename + ".txt";
 		
 		int currentStep = getCurrentStep();  
 		ImmutableMap<AgentID, AgentSnapshot> snaps = table.getSnapshotsAtStep(currentStep); 
@@ -92,7 +90,7 @@ public class Saver {
 		}
 		
 		//Save the Ending Conditions
-		sb.append("EndingConditions\n" + simEnder.serialize()); 
+		sb.append(simEnder.serialize()); 
 
 		//Create BufferedWriter and BufferedReader
 		try {

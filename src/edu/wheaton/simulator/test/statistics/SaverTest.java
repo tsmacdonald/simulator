@@ -37,8 +37,10 @@ public class SaverTest {
 	
 	
 	@Before
-	public void setUp() {
+	public void setUp() throws ElementAlreadyContainedException {
 		grid = new Grid(10, 10);
+		grid.addField("Depth", "100"); 
+		
 		prototypeOne = new Prototype(grid, "Prototype 1");
 		agent = prototypeOne.createAgent();
 		try {
@@ -94,7 +96,7 @@ public class SaverTest {
 				step, prototypeTwo.getName(), null, 0, 0);
 		
 		//Create a global variable snapshot
-		AgentSnapshot agentSnap3 = SnapshotFactory.makeGlobalVarSnapshot(grid, new Prototype(grid, "GRID"), grid.getStep());
+		AgentSnapshot agentSnap3 = SnapshotFactory.makeGlobalVarSnapshot(grid, new Prototype(grid, "GRID"), step);
 		
 		//Create the table, add the AgentSnapshots				
 		AgentSnapshotTable table = new AgentSnapshotTable();
@@ -120,6 +122,6 @@ public class SaverTest {
 		Assert.assertTrue("protoMap has values", !protoMap.isEmpty());
 		
 		Saver s = new Saver(table, protoMap, grid.getWidth(), grid.getHeight(), simEnder);
-		s.save();
+		s.save("SimulationState");
 	}
 }

@@ -16,6 +16,7 @@ import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
+import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 public class Loader {
 
@@ -34,6 +35,11 @@ public class Loader {
 	 * The name of the simulation you are loading
 	 */
 	private String name; 
+	
+	/**
+	 * Handles ending the simulation
+	 */
+	private SimulationEnder simEnder; 
 
 	/**
 	 * Indicates if a simulation has been successfully loaded
@@ -82,9 +88,21 @@ public class Loader {
 		else 
 			throw new Exception("No simulation has been loaded"); 
 	}
+	
+	/**
+	 * Get the loaded SimulationEnder
+	 * @return A SimulationEnder object
+	 * @throws Exception If no Simulation has been loaded yet
+	 */
+	public SimulationEnder getSimEnder() throws Exception{
+		if(simulationLoaded)
+			return simEnder; 
+		else
+			throw new Exception("No simulation has been loaded"); 
+	}
 
 	/**
-	 * Load the contents of a file. After this is done call getGrid(), getPrototypes() and getName() to retrieve the loaded information
+	 * Load the contents of a file. After this is done call getGrid(), getPrototypes(), getSimEnder() and getName() to retrieve the loaded information
 	 * Code based on http://stackoverflow.com/questions/15906640/
 	 * @param fileName The name of the file to load
 	 */
@@ -128,14 +146,17 @@ public class Loader {
 							try {
 								agent.addField(tokens[1], tokens[2]);
 							} catch (ElementAlreadyContainedException e) {
-								System.out.println("Field already exists"); 
+								System.out.println("Agent Field already exists"); 
+								System.out.println(tokens[1] + " " + tokens[2]); 
 								e.printStackTrace();
 							}
+							readLine = reader.readLine(); 
 						}
 
 						//Add the agent's triggers
 						addTriggers(agent); 
-
+						
+						System.out.println("Adding Agent"); 
 						grid.addAgent(agent, xpos, ypos); 
 					}
 					//This is a snapshot storing grid global variables
@@ -151,10 +172,13 @@ public class Loader {
 							try {
 								grid.addField(tokens[1], tokens[2]);
 							} catch (ElementAlreadyContainedException e) {
-								System.out.println("Field already exists"); 
+								System.out.println("Grid Field already exists"); 
 								e.printStackTrace();
 							}
+							readLine = reader.readLine(); 
 						}
+						
+						System.out.println("Adding Grid Global"); 
 					}
 				}
 				else if(readLine.equals("PrototypeSnapshot")){
@@ -173,7 +197,7 @@ public class Loader {
 						try {
 							proto.addField(tokens[1], tokens[2]);
 						} catch (ElementAlreadyContainedException e) {
-							System.out.println("Field already exists"); 
+							System.out.println("Prototype Field already exists"); 
 							e.printStackTrace();
 						}
 						readLine = reader.readLine(); 
@@ -186,8 +210,23 @@ public class Loader {
 								new Expression(tokens[3]), new Expression(tokens[4])));
 						readLine = reader.readLine(); 
 					}
-
+					
+					System.out.println("Adding Prototype"); 
 					prototypes.add(proto); 
+				}
+				else if(readLine.equals("EndConditions")){
+					simEnder = new SimulationEnder(); 
+					
+					readLine = reader.readLine(); 					
+					simEnder.setStepLimit(Integer.parseInt(readLine));
+					
+					readLine = reader.readLine(); 
+					while(readLine.substring(0, 4).equals("POP")){
+						String[] tokens = readLine.split(" "); 
+						//simEnder.setPopLimit(tokens[1], tokens[2]); 
+						
+						readLine = reader.readLine(); 
+					}
 				}
 				else{
 					reader.readLine(); 
@@ -210,6 +249,7 @@ public class Loader {
 		}
 		//Indicate that we are ready to use the getGrid(), getPrototypes() and getName() methods
 		simulationLoaded = true; 
+		System.out.println("Load Complete"); 
 	}
 
 	/**
