@@ -99,6 +99,7 @@ public class Simulator {
 		grid = new Grid(gridX, gridY);
 		isPaused = new AtomicBoolean(false);
 		isStopped = new AtomicBoolean(false);
+		isStarted = new AtomicBoolean(false);
 		sleepPeriod = 500;
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid, ender);
