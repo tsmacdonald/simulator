@@ -54,6 +54,18 @@ public class SetupScreen extends Screen {
 		c.gridwidth = 3;
 		c.gridheight = 1;
 		
+		c.gridx = 2;
+		c.gridy = 0;
+		this.add(
+			Gui.makePanel(
+					Gui.makeButton("Revert",null,new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							load();
+						}}),
+						makeConfirmButton()
+					), c);
+		
 		c.gridx = 0;
 		c.gridy = 1;
 		this.add(new JLabel("Name: "), c);
@@ -91,7 +103,8 @@ public class SetupScreen extends Screen {
 		
 		c.gridx = 0;
 		c.gridy = 6;
-		conListPanel = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null);
+		c.gridheight = c.REMAINDER;
+		conListPanel = Gui.makePanel(BoxLayoutAxis.PAGE_AXIS,null,null);
 		this.add(conListPanel,c);
 		
 		c.gridx = 0;
@@ -114,18 +127,6 @@ public class SetupScreen extends Screen {
 			}
 		});
 		conListPanel.add(Gui.makePanel(addConditionButton),c);
-		
-		c.gridx = 2;
-		c.gridy = 7;
-		this.add(
-			Gui.makePanel(
-					Gui.makeButton("Revert",null,new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							load();
-						}}),
-						makeConfirmButton()
-					), c);
 
 		agentNames = new String[0];
 
