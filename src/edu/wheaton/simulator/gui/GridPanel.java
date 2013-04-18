@@ -26,6 +26,7 @@ public class GridPanel extends JPanel implements GridObserver {
 
 	public GridPanel(SimulatorGuiManager gm) {
 		this.gm = gm;
+		this.grid = gm.getSimGrid();
 		layers = false;
 	}
 
@@ -73,9 +74,10 @@ public class GridPanel extends JPanel implements GridObserver {
 		}
 		
 		for(Agent agent : grid){
-			int x = agent.getPosX();
-			int y = agent.getPosY();
-			if(agent != null) {
+			if(agent!= null){
+				int x = agent.getPosX();
+				int y = agent.getPosY();
+				
 				if(layers){
 					try {
 						g.setColor(agent.getLayerColor());
@@ -134,9 +136,9 @@ public class GridPanel extends JPanel implements GridObserver {
 		this.grid = grid;
 	}
 	
+	@Override
 	public void update(Grid grid){
 		setGrid(grid);
 		repaint();
-		
 	}
 }

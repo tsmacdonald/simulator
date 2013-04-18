@@ -62,6 +62,8 @@ public class ViewSimScreen1 extends Screen {
 	private GridBagConstraints c;
 	
 	private final Screen entitiesScreen;
+	
+	private final Screen globalFieldScreen;
 
 	public ViewSimScreen1(final SimulatorGuiManager gm) {
 		super(gm);
@@ -145,18 +147,14 @@ public class ViewSimScreen1 extends Screen {
 		entitiesScreen = gm.getScreenManager().getScreen("Entities");
 		tabs.addTab("Agent", entitiesScreen);
 		tabs.addTab("Layers", upperLayerPanel);
-		Screen globalFieldsScreen = gm.getScreenManager().getScreen("Fields");
-		tabs.addTab("Global Fields", globalFieldsScreen);
+		globalFieldScreen = gm.getScreenManager().getScreen("Fields");
+		tabs.addTab("Global Fields", globalFieldScreen);
 		tabs.addChangeListener(new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent ce) {
-				Component component = tabs.getSelectedComponent();
-				if(component instanceof Screen){
-					Screen selected = (Screen)component;
-					selected.load();
-				}
+				entitiesScreen.load();
+				globalFieldScreen.load();
 			}
-			
 		});
 
 		gm.getGridPanel().addMouseListener(new MouseListener() {
@@ -273,52 +271,11 @@ public class ViewSimScreen1 extends Screen {
 		});
 		return b;
 	}
-/*
-	private void runSim() {
-		System.out.println("StepLimit = " + gm.getSimStepLimit());
-		//program loop yay!
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while(gm.isSimRunning()) {
-					try {
-						gm.updateEntities();
-					} catch (SimulationPauseException e) {
-						gm.setSimRunning(false);
-						JOptionPane.showMessageDialog(null, e.getMessage());
-						break;
-					}
-					boolean shouldEnd = gm.getSimEnder().evaluate(stepCount, 
-							gm.getSimGrid());
-					System.out.println("shouldEnd = " + shouldEnd);
-					if (shouldEnd) {
-						gm.setSimRunning(false);
-					}
 
-					SwingUtilities.invokeLater(
-							new Thread (new Runnable() {
-								@Override
-								public void run() {
-									grid.repaint();
-								}
-							}));
-
-					System.out.println(stepCount);
-					try {
-						System.out.println("Sleep!");
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						System.err.println("ViewSimScreen.java: 'Thread.sleep(500)' was interrupted");
-						e.printStackTrace();
-					}
-				}
-			}
-		}).start();
-	}
-*/
 	@Override
 	public void load() {
 		entitiesScreen.load();
+		globalFieldScreen.load();
 		//TODO when New Simulation is pressed on the menu bar, we need to reset the number of 
 		//prototypes 
 		entities = Simulator.prototypeNames().toArray(entities);
@@ -338,7 +295,6 @@ public class ViewSimScreen1 extends Screen {
 					}
 				}
 				);
-		System.out.println(entities.length);
 		if(entities.length != 0){
 			layerComboBox = new JComboBox(Simulator.getPrototype
 					(agentComboBox.getItemAt(0).toString())
@@ -352,6 +308,5 @@ public class ViewSimScreen1 extends Screen {
 		layerPanelAgents.add(agentComboBox);
 		validate();
 		getGuiManager().getGridPanel().repaint();
-
 	}
 }

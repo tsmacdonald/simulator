@@ -74,9 +74,9 @@ public class SimulationEnder {
 	 * 
 	 * @return true if the simulation should end, false otherwise.
 	 */
-	public boolean evaluate(int step, Grid grid) {
+	public boolean evaluate(Grid grid) {
 		for (EndCondition condition : conditions)
-			if (condition.evaluate(step, grid))
+			if (condition.evaluate(grid.getStep(), grid))
 				return true;
 		return false;
 	}
