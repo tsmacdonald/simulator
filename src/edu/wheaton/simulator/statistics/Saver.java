@@ -68,6 +68,8 @@ public class Saver {
 	 * Write data serializing the simulation's current state to a file
 	 * Saves the state of the most recent completed step only
 	 * FileWriter code taken from: http://www.javapractices.com/topic/TopicAction.do?Id=42
+	 * 
+	 * @param filename The name of the file that's going to be saved
 	 */
 	public void saveSimulation(String filename){
 		//Name the file, first
