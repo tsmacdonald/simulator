@@ -68,7 +68,7 @@ public class Saver {
 	 * Saves the state of the most recent completed step only
 	 * FileWriter code taken from: http://www.javapractices.com/topic/TopicAction.do?Id=42
 	 */
-	public void save(String filename){
+	public void saveSimulation(String filename){
 		//Name the file, first
 		filename = filename + ".txt";
 		

@@ -35,7 +35,6 @@ public class SaverTest {
 	Set<TriggerSnapshot> triggers;
 	SimulationEnder simEnder; 
 	
-	
 	@Before
 	public void setUp() throws ElementAlreadyContainedException {
 		grid = new Grid(10, 10);
@@ -122,6 +121,6 @@ public class SaverTest {
 		Assert.assertTrue("protoMap has values", !protoMap.isEmpty());
 		
 		Saver s = new Saver(table, protoMap, grid.getWidth(), grid.getHeight(), simEnder);
-		s.save("SimulationState");
+		s.saveSimulation("SimulationState");
 	}
 }
