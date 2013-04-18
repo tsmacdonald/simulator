@@ -18,7 +18,6 @@ import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.entity.PrototypeID;
 import edu.wheaton.simulator.gui.screen.EditEntityScreen;
 import edu.wheaton.simulator.gui.screen.EditFieldScreen;
 import edu.wheaton.simulator.gui.screen.EntityScreen;
@@ -135,16 +134,16 @@ public class SimulatorGuiManager {
 		return getSimEnder().getStepLimit();
 	}
 
-	public void setSimPopLimit(PrototypeID typeID, int maxPop){
-		getSimEnder().setPopLimit(typeID, maxPop);
+	public void setSimPopLimit(String typeName, int maxPop){
+		getSimEnder().setPopLimit(typeName, maxPop);
 	}
 
-	public ImmutableMap<PrototypeID, Integer> getSimPopLimits(){
+	public ImmutableMap<String, Integer> getSimPopLimits(){
 		return getSimEnder().getPopLimits();
 	}
 
-	public void removeSimPopLimit(PrototypeID typeID){
-		getSimEnder().removePopLimit(typeID);
+	public void removeSimPopLimit(String typeName){
+		getSimEnder().removePopLimit(typeName);
 	}
 
 	public StatisticsManager getStatManager(){

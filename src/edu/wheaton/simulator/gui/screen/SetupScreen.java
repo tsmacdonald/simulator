@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import com.google.common.collect.ImmutableMap;
 
-import edu.wheaton.simulator.entity.PrototypeID;
 import edu.wheaton.simulator.gui.BoxLayoutAxis;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
@@ -32,15 +31,15 @@ public class SetupScreen extends Screen {
 
 	private JTextField nameField;
 	private JTextField timeField;
-	
+
 	private String[] agentNames;
 	private JComboBox updateBox;
-	
+
 	private ArrayList<JComboBox> agentTypes;
 	private ArrayList<JTextField> values;
 	private ArrayList<JButton> deleteButtons;
 	private ArrayList<JPanel> subPanels;
-	
+
 	private JPanel conListPanel;
 	private JButton addConditionButton;
 
@@ -49,54 +48,54 @@ public class SetupScreen extends Screen {
 	public SetupScreen(final SimulatorGuiManager gm) {
 		super(gm);
 		this.setLayout(new BorderLayout());
-		
+
 		agentNames = new String[0];
-		
+
 		this.add(
-			Gui.makeLabel("Simulation Setup",new PrefSize(300,150),HorizontalAlignment.CENTER ),
-			BorderLayout.NORTH
-		);
-		
+				Gui.makeLabel("Simulation Setup",new PrefSize(300,150),HorizontalAlignment.CENTER ),
+				BorderLayout.NORTH
+				);
+
 		agentTypes = new ArrayList<JComboBox>();
 		deleteButtons = new ArrayList<JButton>();
 		subPanels = new ArrayList<JPanel>();
-		
+
 		addConditionButton = Gui.makeButton("Add Field",null,
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					addCondition();
-				}
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addCondition();
+			}
 		});
-		
+
 		conListPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		conListPanel.add(addConditionButton);
 		conListPanel.add(Box.createVerticalGlue());
-		
+
 		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),MinSize.NULL);
-		
+
 		timeField = Gui.makeTextField(null,15,new MaxSize(200,40),MinSize.NULL);
-		
+
 		String[] updateTypes = {"Linear", "Atomic", "Priority"};
 		updateBox = Gui.makeComboBox(updateTypes, new MaxSize(200,40));
-		
+
 		this.add(makeUberPanel(conListPanel, timeField, nameField, updateBox),
-			BorderLayout.CENTER);
-		
+				BorderLayout.CENTER);
+
 		agentTypes = new ArrayList<JComboBox>();
 		values = new ArrayList<JTextField>();
-		
+
 		this.add(
-			Gui.makePanel(
-				Gui.makeButton("Back",null,new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					ScreenManager sm = getScreenManager();
-					sm.update(sm.getScreen("View Simulation"));
-				}}),
-				makeFinishButton(gm, nameField, timeField, updateBox, values, agentTypes)
-			), BorderLayout.SOUTH
-		);
+				Gui.makePanel(
+						Gui.makeButton("Back",null,new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								ScreenManager sm = getScreenManager();
+								sm.update(sm.getScreen("View Simulation"));
+							}}),
+							makeFinishButton(gm, nameField, timeField, updateBox, values, agentTypes)
+						), BorderLayout.SOUTH
+				);
 	}
 
 	private static JPanel makeConBodyPanel(JPanel conListPanel, JTextField timeField){
@@ -110,14 +109,14 @@ public class SetupScreen extends Screen {
 
 		JPanel conLabelsPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		conLabelsPanel.add(Box.createHorizontalGlue());
-		
+
 		JLabel agentTypeLabel = Gui.makeLabel("Agent Type",new PrefSize(200,30),HorizontalAlignment.LEFT);
 		agentTypeLabel.setAlignmentX(LEFT_ALIGNMENT);
 		conLabelsPanel.add(agentTypeLabel);
-		
+
 		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
 		conLabelsPanel.add(valueLabel);
-		
+
 		conLabelsPanel.add(Box.createHorizontalGlue());
 
 		conBodyPanel.add(timePanel);
@@ -129,25 +128,25 @@ public class SetupScreen extends Screen {
 
 	private static JPanel makeUberPanel(JPanel conListPanel, JTextField timeField, JTextField nameField, JComboBox updateBox){
 		JPanel uberPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-		
+
 		uberPanel.add(makeMainPanel(
-			Gui.makeLabel("Name: ",new MaxSize(100,40), HorizontalAlignment.RIGHT),
-			nameField,
-			Gui.makeLabel("Update type: ",new MaxSize(100,40),null),
-			updateBox 
-		));
+				Gui.makeLabel("Name: ",new MaxSize(100,40), HorizontalAlignment.RIGHT),
+				nameField,
+				Gui.makeLabel("Update type: ",new MaxSize(100,40),null),
+				updateBox 
+				));
 
 		JPanel conMainPanel = Gui.makePanel(new BorderLayout(),MaxSize.NULL,PrefSize.NULL);
 		conMainPanel.add(
-			Gui.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER ),
-			BorderLayout.NORTH
-		);
-		
+				Gui.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER ),
+				BorderLayout.NORTH
+				);
+
 		conMainPanel.add(
-			makeConBodyPanel(conListPanel, timeField), 
-			BorderLayout.CENTER
-		);
-		
+				makeConBodyPanel(conListPanel, timeField), 
+				BorderLayout.CENTER
+				);
+
 		uberPanel.add(conMainPanel);
 		return uberPanel;
 	}
@@ -159,35 +158,33 @@ public class SetupScreen extends Screen {
 				try {
 					if (nameField.getText().equals(""))
 						throw new Exception("All fields must have input");
-					
+
 					for (int i = 0; i < values.size(); i++)
 						if (values.get(i).getText().equals(""))
 							throw new Exception("All fields must have input.");
 
 					guiManager.setSimStepLimit(Integer.parseInt(timeField.getText()));
 					String str = (String)updateBox.getSelectedItem();
-					
+
 					if (str.equals("Linear"))
 						guiManager.setSimLinearUpdate();
 					else if (str.equals("Atomic"))
 						guiManager.setSimAtomicUpdate();
 					else
 						guiManager.setSimPriorityUpdate(0, 50);
-					
+
 					for (int i = 0; i < values.size(); i++) {
 						guiManager.setSimPopLimit(
-							Simulator.getPrototype(
-								(String)(agentTypes.get(i).getSelectedItem())
-								).getPrototypeID(), 
+								(String)(agentTypes.get(i).getSelectedItem()), 
 								Integer.parseInt(values.get(i).getText())
-						);
+								);
 					}
 					ScreenManager sm = guiManager.getScreenManager();
 					sm.update(sm.getScreen("View Simulation"));
 				}
 				catch (NumberFormatException excep) {
 					JOptionPane.showMessageDialog(null,
-						"Width and Height fields must be integers greater than 0");
+							"Width and Height fields must be integers greater than 0");
 				}
 				catch (Exception excep) {
 					JOptionPane.showMessageDialog(null, excep.getMessage());
@@ -199,12 +196,12 @@ public class SetupScreen extends Screen {
 	private static JPanel makeMainPanel(JLabel nameLabel, JTextField nameField, JLabel updateLabel, JComboBox updateBox ){
 		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
-		
+
 		JPanel panel1 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		panel1.add(nameLabel);
 		panel1.add(nameField);
 		mainPanel.add(panel1);
-		
+
 		JPanel panel3 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		panel3.add(updateLabel);
 		panel3.add(updateBox);
@@ -226,21 +223,18 @@ public class SetupScreen extends Screen {
 		//to prevent accidental starting simulation with time limit of 0
 		if (stepLimit <= 0) 
 			timeField.setText(10 + "");
-		
-		ImmutableMap<PrototypeID, Integer> popLimits = gm.getSimPopLimits();
-		
+
+		ImmutableMap<String, Integer> popLimits = gm.getSimPopLimits();
+
 		if (popLimits.size() == 0) {
 			conListPanel.add(addConditionButton);
 			conListPanel.add(Box.createVerticalGlue());
 		}
 		else {
 			int i = 0;
-			for (PrototypeID p : popLimits.keySet()) {
+			for (String p : popLimits.keySet()) {
 				addCondition();
-				
-				for (String s : agentNames) 
-					if (Simulator.getPrototype(s).getPrototypeID().equals(p)) 
-						agentTypes.get(i).setSelectedItem(s);
+				agentTypes.get(i).setSelectedItem(p);
 
 				values.get(i).setText(popLimits.get(p) + "");
 				i++;
@@ -252,25 +246,25 @@ public class SetupScreen extends Screen {
 	private void addCondition() {
 		JComboBox newBox = Gui.makeComboBox(agentNames,new MaxSize(300,40));
 		agentTypes.add(newBox);
-		
+
 		JTextField newValue = Gui.makeTextField(null,25,new MaxSize(300,40),MinSize.NULL);
 		values.add(newValue);
-		
+
 		JButton newButton = Gui.makeButton("Delete",null,new DeleteListener());
 		newButton.setActionCommand(deleteButtons.indexOf(newButton) + "");
 		deleteButtons.add(newButton);
-		
+
 		JPanel newPanel = Gui.makePanel( BoxLayoutAxis.X_AXIS,null,null);
 		newPanel.add(newBox);
 		newPanel.add(newValue);
 		newPanel.add(newButton);
 		subPanels.add(newPanel);
-		
+
 		conListPanel.add(newPanel);
 		conListPanel.add(addConditionButton);
 		conListPanel.add(Box.createVerticalGlue());
 		conListPanel.validate();
-		
+
 		validate();	
 	}
 
@@ -288,20 +282,19 @@ public class SetupScreen extends Screen {
 		public void actionPerformed(ActionEvent e){
 			int n = Integer.parseInt(e.getActionCommand());
 			String str = (String) agentTypes.get(n).getSelectedItem();
-			
+
 			if (str != null) 
-				getGuiManager().removeSimPopLimit(
-					Simulator.getPrototype(str).getPrototypeID());
-			
+				getGuiManager().removeSimPopLimit(str);
+
 			conListPanel.remove(subPanels.get(n));
 			agentTypes.remove(n);
 			values.remove(n);
 			deleteButtons.remove(n);
-			
+
 			for (int i = n; i < deleteButtons.size(); i++)
 				deleteButtons.get(i).setActionCommand(
-					(Integer.parseInt(deleteButtons.get(i).getActionCommand()) - 1) + "");
-			
+						(Integer.parseInt(deleteButtons.get(i).getActionCommand()) - 1) + "");
+
 			subPanels.remove(n);
 			validate();
 			repaint();
