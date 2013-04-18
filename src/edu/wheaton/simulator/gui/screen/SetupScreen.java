@@ -1,6 +1,5 @@
 package edu.wheaton.simulator.gui.screen;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -13,8 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.gui.BoxLayoutAxis;
@@ -65,13 +62,29 @@ public class SetupScreen extends Screen {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),MinSize.NULL);
 		this.add(nameField, c);
-
-		agentNames = new String[0];
-
-		agentTypes = new ArrayList<JComboBox>();
-		deleteButtons = new ArrayList<JButton>();
-		subPanels = new ArrayList<JPanel>();
-
+		
+		c = new GridBagConstraints();
+		JLabel updateLabel = Gui.makeLabel("Update type: ",new MaxSize(100,40),null);
+		this.add(updateLabel,c);
+		
+		c = new GridBagConstraints();
+		String[] updateTypes = {"Linear", "Atomic", "Priority"};
+		updateBox = Gui.makeComboBox(updateTypes, new MaxSize(200,40));
+		this.add(updateBox,c);
+		
+		c = new GridBagConstraints();
+		JLabel conHeader = Gui.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
+		this.add(conHeader,c);
+		
+		c = new GridBagConstraints();
+		JLabel timeLabel = new JLabel("Time limit: ");
+		this.add(timeLabel,c);
+		
+		c = new GridBagConstraints();
+		timeField = Gui.makeTextField(null,15,new MaxSize(200,40),MinSize.NULL);
+		this.add(timeField,c);
+		
+		c = new GridBagConstraints();
 		addConditionButton = Gui.makeButton("Add Field",null,
 				new ActionListener() {
 			@Override
@@ -79,87 +92,34 @@ public class SetupScreen extends Screen {
 				addCondition();
 			}
 		});
-
-		conListPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-		conListPanel.add(addConditionButton);
-		conListPanel.add(Box.createVerticalGlue());
-
-
-		timeField = Gui.makeTextField(null,15,new MaxSize(200,40),MinSize.NULL);
-
-		String[] updateTypes = {"Linear", "Atomic", "Priority"};
-		updateBox = Gui.makeComboBox(updateTypes, new MaxSize(200,40));
-
+		
 		c = new GridBagConstraints();
-		this.add(makeUberPanel(conListPanel, timeField, nameField, updateBox),c);
+		JLabel agentTypeLabel = Gui.makeLabel("Agent Type",new PrefSize(200,30),HorizontalAlignment.LEFT);
+		this.add(agentTypeLabel,c);
+		
+		c = new GridBagConstraints();
+		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
+		this.add(valueLabel,c);
+		
+		c = new GridBagConstraints();
+		this.add(
+			Gui.makePanel(
+					Gui.makeButton("Revert",null,new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							load();
+						}}),
+						makeConfirmButton()
+					), c);
+
+		agentNames = new String[0];
+
+		agentTypes = new ArrayList<JComboBox>();
+		deleteButtons = new ArrayList<JButton>();
+		subPanels = new ArrayList<JPanel>();
 
 		agentTypes = new ArrayList<JComboBox>();
 		values = new ArrayList<JTextField>();
-
-		c = new GridBagConstraints();
-		this.add(
-				Gui.makePanel(
-						Gui.makeButton("Revert",null,new ActionListener() {
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								load();
-							}}),
-							makeConfirmButton()
-						), c
-				);
-	}
-
-	private static JPanel makeConBodyPanel(JPanel conListPanel, JTextField timeField){
-		JPanel conBodyPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-
-		JPanel timePanel = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
-		JLabel timeLabel = new JLabel("Time limit: ");
-		timePanel.add(timeLabel);
-		timePanel.add(timeField);
-		timePanel.setAlignmentX(CENTER_ALIGNMENT);
-
-		JPanel conLabelsPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
-		conLabelsPanel.add(Box.createHorizontalGlue());
-
-		JLabel agentTypeLabel = Gui.makeLabel("Agent Type",new PrefSize(200,30),HorizontalAlignment.LEFT);
-		agentTypeLabel.setAlignmentX(LEFT_ALIGNMENT);
-		conLabelsPanel.add(agentTypeLabel);
-
-		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
-		conLabelsPanel.add(valueLabel);
-
-		conLabelsPanel.add(Box.createHorizontalGlue());
-
-		conBodyPanel.add(timePanel);
-		conBodyPanel.add(conLabelsPanel);
-		conBodyPanel.add(conListPanel);
-
-		return conBodyPanel;
-	}
-
-	private static JPanel makeUberPanel(JPanel conListPanel, JTextField timeField, JTextField nameField, JComboBox updateBox){
-		JPanel uberPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-
-		uberPanel.add(makeMainPanel(
-				Gui.makeLabel("Name: ",new MaxSize(100,40), HorizontalAlignment.RIGHT),
-				nameField,
-				Gui.makeLabel("Update type: ",new MaxSize(100,40),null),
-				updateBox 
-				));
-
-		JPanel conMainPanel = Gui.makePanel(new BorderLayout(),MaxSize.NULL,PrefSize.NULL);
-		conMainPanel.add(
-				Gui.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER ),
-				BorderLayout.NORTH
-				);
-
-		conMainPanel.add(
-				makeConBodyPanel(conListPanel, timeField), 
-				BorderLayout.CENTER
-				);
-
-		uberPanel.add(conMainPanel);
-		return uberPanel;
 	}
 
 	private JButton makeConfirmButton(){
@@ -203,23 +163,6 @@ public class SetupScreen extends Screen {
 				} 
 			}
 		});
-	}
-
-	private static JPanel makeMainPanel(JLabel nameLabel, JTextField nameField, JLabel updateLabel, JComboBox updateBox ){
-		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-		mainPanel.setAlignmentX(CENTER_ALIGNMENT);
-
-		JPanel panel1 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
-		panel1.add(nameLabel);
-		panel1.add(nameField);
-		mainPanel.add(panel1);
-
-		JPanel panel3 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
-		panel3.add(updateLabel);
-		panel3.add(updateBox);
-		mainPanel.add(panel3);
-
-		return mainPanel;
 	}
 
 	@Override
