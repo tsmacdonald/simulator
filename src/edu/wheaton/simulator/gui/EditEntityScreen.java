@@ -90,6 +90,8 @@ public class EditEntityScreen extends Screen {
 	private JButton finishButton;
 
 	private GridBagConstraints c;
+	
+	private TriggerScreen triggerScreen;
 
 	public EditEntityScreen(final ScreenManager sm) {
 		super(sm);
@@ -497,6 +499,9 @@ public class EditEntityScreen extends Screen {
 		catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		} 
+		triggerScreen = new TriggerScreen(sm);
+		cards.add(triggerScreen, "Triggers");
+		triggerScreen.load(agent);
 	}
 
 	public boolean sendTriggerInfo(){
