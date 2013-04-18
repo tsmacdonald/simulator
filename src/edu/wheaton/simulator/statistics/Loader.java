@@ -248,6 +248,71 @@ public class Loader {
 		simulationLoaded = true; 
 		System.out.println("Load Complete"); 
 	}
+	
+	/**
+	 * Load a Prototype from a file
+	 * @param filename The name of the file with the saved Prototype
+	 * @return
+	 */
+	public Prototype loadPrototype(String filename){
+		File file = new File(filename);
+		BufferedReader reader = null;
+		Prototype proto = null; 
+		
+		try {
+			reader = new BufferedReader(new FileReader(file));
+			
+			//Skip the "PrototypeSnapshot" header
+			String readLine = reader.readLine(); 
+			
+			//Parse the required prototype data
+			String name = reader.readLine(); 
+			Color color = new Color(Integer.parseInt(reader.readLine()));
+			byte[] design = createByteArray(reader.readLine());
+
+			//Create the prototype
+			proto = new Prototype(null, color, design, name);
+
+			//Add the prototype's default fields
+			readLine = reader.readLine(); 
+			while(readLine.substring(0,  13).equals("FieldSnapshot")){
+				String[] tokens = readLine.split(" ");
+				try {
+					proto.addField(tokens[1], tokens[2]);
+				} catch (ElementAlreadyContainedException e) {
+					System.out.println("Prototype Field already exists"); 
+					e.printStackTrace();
+				}
+				readLine = reader.readLine(); 
+			}
+
+			//Add the prototype's triggers
+			while(readLine.substring(0,  7).equals("Trigger")){
+				String[] tokens = readLine.split("~");
+				proto.addTrigger(new Trigger(tokens[1], Integer.parseInt(tokens[2]), 
+						new Expression(tokens[3]), new Expression(tokens[4])));
+				readLine = reader.readLine(); 
+			}
+			
+			System.out.println("Loaded Prototype"); 
+		}
+		catch (FileNotFoundException e) {
+			throw new RuntimeException("Could not find file: " + file.getAbsolutePath(), e);
+		}
+		catch (IOException e) {
+			throw new RuntimeException("Could not read file: " + file.getAbsolutePath(), e);
+		} finally {
+			try {
+				assert(reader!=null);
+				reader.close();
+			}
+			catch (IOException e) {
+				throw new RuntimeException("Could not close stream", e);
+			}
+		}
+		
+		return proto;
+	}
 
 	/**
 	 * Create a byte array from a string

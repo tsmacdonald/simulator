@@ -91,9 +91,8 @@ public class StatisticsManager {
 		this.grid = grid;
 		this.simEnder = simEnder;
 		StatisticsManager.prototypes = Prototype.getPrototypes();
-		for (Prototype p : prototypes)
-			addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(p,
-					grid.getStep()));
+		for(Prototype p : prototypes)
+			addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(p));
 	}
 
 	/**
@@ -102,14 +101,19 @@ public class StatisticsManager {
 	 * @param filename
 	 *            Name for the generated file saving the Simulation
 	 */
-	public void saveSimulation(String filename) {
-		Saver s = new Saver(table, protoSnaps, grid.getWidth(),
-				grid.getHeight(), simEnder);
-		s.saveSimulation(filename);
+
+	public void saveSimulation(String filename){
+		Saver s = new Saver(); 
+		s.saveSimulation(filename, table, protoSnaps, grid.getWidth(), grid.getHeight(), simEnder);	
 	}
 
-	public void loadSimulation() {
-
+	/**
+	 * Load the simulation
+	 * @param filename The name of the file to load
+	 */
+	public void loadSimulation(String filename){
+		Loader l = new Loader(); 
+		l.loadSimulation(filename); 
 	}
 
 	/**
@@ -127,7 +131,7 @@ public class StatisticsManager {
 	 */
 	public static void addPrototypeSnapshot(PrototypeSnapshot snap) {
 		protoSnaps.put(snap.categoryName, snap);
-		// TODO: Save this prototype to a file
+		//TODO: Save this prototype to a file
 	}
 
 	/**
@@ -176,9 +180,9 @@ public class StatisticsManager {
 	 *         that time
 	 */
 	public int[] getPopVsTime(String prototypeName) {
-		int[] data = new int[lastStep()];
+		int[] data = new int[lastStep()];	
 
-		// Populate agentsByStep
+		//Populate agentsByStep
 		for (int i = 0; i <= lastStep() - 1; i++) {
 			Set<AgentSnapshot> stepPop = getPopulationAtStep(prototypeName, i);
 			data[i] = stepPop.size();
