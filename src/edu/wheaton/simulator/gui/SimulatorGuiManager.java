@@ -86,7 +86,7 @@ public class SimulatorGuiManager {
 	 
 	public void initSim(String name,int x, int y) {
 		System.out.println("Reset prototypes");
-		simulator = new Simulator(name,x, y);
+		simulator = new Simulator(name,se,x, y);
 		if(gridPanel != null)
 			gridPanel.setGrid(getSimGrid());
 	}
@@ -256,58 +256,10 @@ public class SimulatorGuiManager {
 	}
 	
 	public void startSim(){
-		/*
-		canSpawn = false;
-		System.out.println("StepLimit = " + getSimEnder().getStepLimit());
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while(isSimRunning()) {
-					Simulator sim = getSim();
-					try {
-						sim.updateEntities();
-					} catch (SimulationPauseException e) {
-						setSimRunning(false);
-						JOptionPane.showMessageDialog(null, e.getMessage());
-						break;
-					}
-					long currentTime = System.currentTimeMillis();
-					//gridRec.recordSimulationStep(gm.getFacade().getGrid(), stepCount, Prototype.getPrototypes());
-					//gridRec.updateTime(currentTime, currentTime - startTime);
-					startTime = currentTime;
-					stepCount++;
-					boolean shouldEnd = getSimEnder().evaluate(stepCount, 
-							sim.getGrid());
-					System.out.println("shouldEnd = " + shouldEnd);
-					if (shouldEnd) {
-						setSimRunning(false);
-					}
-
-					SwingUtilities.invokeLater(
-						new Thread (new Runnable() {
-							@Override
-							public void run() {
-								gridPanel.repaint();
-							}
-						}));
-
-					System.out.println(stepCount);
-					try {
-						System.out.println("Sleep!");
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						System.err.println("ViewSimScreen.java: 'Thread.sleep(500)' was interrupted");
-						e.printStackTrace();
-					}
-				}
-			}
-		}).start();
-		*/
 		setSimRunning(true);
 		setSimStarted(true);
 		simulator.resume();
 	}
-
 	
 	private JMenuBar makeMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
