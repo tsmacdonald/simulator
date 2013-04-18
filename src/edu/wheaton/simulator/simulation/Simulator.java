@@ -69,12 +69,12 @@ public class Simulator implements Runnable {
 	 * @param gridX
 	 * @param gridY
 	 */
-	public Simulator(String name, int gridX, int gridY) {
+	public Simulator(String name, int gridX, int gridY, SimulationEnder ender) {
 		this.name = name;
 		grid = new Grid(gridX, gridY);
 		shouldPause = new AtomicBoolean(false);
 		sleepPeriod = 500;
-		ender = new SimulationEnder();
+		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid, ender);
 	}
 
@@ -217,40 +217,33 @@ public class Simulator implements Runnable {
 	}
 
 	/**
-	 * Whether or not a given field is contained in a Prototype
-	 * 
-	 * @param p
-	 * @param fieldName
-	 * @return
-	 */
-	public static boolean prototypeHasField(Prototype p, String fieldName) {
-		return p.hasField(fieldName);
-	}
-
-	/**
-	 * Whether or not a given trigger is contained in a Prototype
-	 * 
-	 * @param p
-	 * @param triggerName
-	 * @return
-	 */
-	public static boolean prototypeHasTrigger(Prototype p, String triggerName) {
-		return p.hasTrigger(triggerName);
-	}
-
-	/**
-	 * Causes all entities in the grid to act()
-	 */
-	public void updateEntities() throws SimulationPauseException {
-		grid.updateEntities();
-	}
-
-	/**
 	 * 
 	 * @return a String with the name of the current update method
 	 */
 	public String currentUpdater() {
 		return grid.currentUpdater();
+	}
+
+	/**
+	 * Sets the update method to use the PriorityUpdate system
+	 */
+	public void setPriorityUpdate(int minPriority, int maxPriority) {
+		grid.setPriorityUpdater(minPriority, maxPriority);
+	}
+
+	/**
+	 * Sets the update method to use the AtomicUpdate system
+	 */
+	public void setAtomicUpdate() {
+		grid.setAtomicUpdater();
+	}
+
+	/**
+	 * Sets the update method to use the LinearUpdate system LinearUpdate is the
+	 * default
+	 */
+	public void setLinearUpdate() {
+		grid.setLinearUpdater();
 	}
 
 	/**
@@ -391,37 +384,6 @@ public class Simulator implements Runnable {
 	 */
 	public Grid getGrid() {
 		return grid;
-	}
-
-	/**
-	 * Sets the update method to use the PriorityUpdate system
-	 */
-	public void setPriorityUpdate(int minPriority, int maxPriority) {
-		grid.setPriorityUpdater(minPriority, maxPriority);
-	}
-
-	/**
-	 * Sets the update method to use the AtomicUpdate system
-	 */
-	public void setAtomicUpdate() {
-		grid.setAtomicUpdater();
-	}
-
-	/**
-	 * Sets the update method to use the LinearUpdate system LinearUpdate is the
-	 * default
-	 */
-	public void setLinearUpdate() {
-		grid.setLinearUpdater();
-	}
-
-	/**
-	 * Returns a List of Triggers for a specific prototype
-	 * 
-	 * @return
-	 */
-	public static List<Trigger> getPrototypeTriggers(Prototype p) {
-		return p.getTriggers();
 	}
 
 	/**
