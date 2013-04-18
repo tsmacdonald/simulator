@@ -131,5 +131,7 @@ public class SaverTest {
 		
 		s.savePrototype(prototypeOne); 
 		s.savePrototype(prototypeTwo); 
+		
+		Assert.assertTrue(true);
 	}
 }

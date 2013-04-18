@@ -194,7 +194,7 @@ public class Trigger implements Comparable<Trigger> {
 			//			e.printStackTrace();
 			throw new EvaluationException("Behavior");
 		}
-		notifyObservers(a, t, step);
+		notifyObservers(a.getID(), t, step);
 	}
 
 	/**
@@ -609,7 +609,7 @@ public class Trigger implements Comparable<Trigger> {
 	 * @param trigger
 	 * @param step
 	 */
-	public static void notifyObservers(Agent caller, Trigger trigger, int step) {
+	public static void notifyObservers(AgentID caller, Trigger trigger, int step) {
 		for (TriggerObserver current : observers)
 			current.update(caller, trigger, step);
 	}

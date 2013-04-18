@@ -5,8 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -24,10 +23,7 @@ import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
 import edu.wheaton.simulator.simulation.Simulator;
 
-//TODO commented code for adding operators to ending conditions :
-//     see if it should stay for future use or just be deleted
-//TODO commented out code for changing width and height of grid :
-//     causing too many problems and not providing any value atm.
+//TODO add components for resizing grid
 public class SetupScreen extends Screen {
 
 	private JTextField nameField;
@@ -51,37 +47,27 @@ public class SetupScreen extends Screen {
 		this.setLayout(new GridBagLayout());
 		
 		GridBagConstraints c = new GridBagConstraints();
-		c.gridwidth = 3;
-		c.gridheight = 1;
-		
-		c.gridx = 2;
-		c.gridy = 0;
-		this.add(
-			Gui.makePanel(
-					Gui.makeButton("Revert",null,new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							load();
-						}}),
-						makeConfirmButton()
-					), c);
 		
 		c.gridx = 0;
 		c.gridy = 1;
+		c.gridwidth = 1;
 		this.add(new JLabel("Name: "), c);
 
 		c.gridx = 1;
 		c.gridy = 1;
+		c.gridwidth = 3;
 		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),new MinSize(250,30));
 		this.add(nameField, c);
 		
 		c.gridx = 0;
 		c.gridy = 2;
-		JLabel updateLabel = Gui.makeLabel("Update type: ",new MaxSize(100,40),null);
+		c.gridwidth = 2;
+		JLabel updateLabel = Gui.makeLabel("Update type: ",new MaxSize(100,40),HorizontalAlignment.RIGHT);
 		this.add(updateLabel,c);
 		
-		c.gridx = 1;
+		c.gridx = 2;
 		c.gridy = 2;
+		c.gridwidth = 2;
 		String[] updateTypes = {"Linear", "Atomic", "Priority"};
 		updateBox = Gui.makeComboBox(updateTypes, new MaxSize(200,40));
 		this.add(updateBox,c);
@@ -93,17 +79,21 @@ public class SetupScreen extends Screen {
 		
 		c.gridx = 0;
 		c.gridy = 4;
+		c.gridwidth = 1;
 		JLabel timeLabel = new JLabel("Time limit: ");
 		this.add(timeLabel,c);
 		
 		c.gridx = 1;
 		c.gridy = 4;
+		c.gridwidth = 3;
 		timeField = Gui.makeTextField(null,15,new MaxSize(200,40),new MinSize(100,30));
 		this.add(timeField,c);
 		
 		c.gridx = 0;
 		c.gridy = 6;
-		c.gridheight = c.REMAINDER;
+		c.gridwidth = 4;
+		c.gridheight = GridBagConstraints.REMAINDER;
+		c.weighty = 1.0;
 		conListPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		this.add(conListPanel,c);
 		
@@ -126,6 +116,22 @@ public class SetupScreen extends Screen {
 				addCondition();
 			}
 		});
+		
+		c.gridwidth = 3;
+		c.gridheight = 1;
+		c.anchor = GridBagConstraints.PAGE_END;
+		c.gridx = 2;
+		c.gridy = 8;
+		this.add(
+			Gui.makePanel(
+					Gui.makeButton("Revert",null,new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							load();
+						}}),
+						makeConfirmButton()
+					), c);
+		
 		conListPanel.add(Gui.makePanel(addConditionButton),c);
 
 		agentNames = new String[0];

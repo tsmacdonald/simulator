@@ -1,7 +1,9 @@
 /**
  * Simulator.java
  * 
- * Runnable simulator that in a way acts as a facade to the Agent code.
+ * Runnable simulator that in a way acts as a facade to the Agent code. 
+ * The simulator encapsulates a single simulation. Once the simulation 
+ * is completed, a new simulator must be made.
  *
  * @author Agent Team
  */
@@ -9,9 +11,15 @@
 package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
+import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.base.Preconditions;
 
 import sampleAgents.Bouncer;
 import sampleAgents.Confuser;
@@ -32,9 +40,13 @@ import edu.wheaton.simulator.datastructure.GridObserver;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
+import edu.wheaton.simulator.statistics.AgentSnapshotTable;
+import edu.wheaton.simulator.statistics.Loader;
+import edu.wheaton.simulator.statistics.PrototypeSnapshot;
+import edu.wheaton.simulator.statistics.Saver;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
-public class Simulator implements Runnable {
+public class Simulator {
 
 	/**
 	 * Name of the simulator
@@ -49,17 +61,32 @@ public class Simulator implements Runnable {
 	/**
 	 * Whether or not the simulation will pause on the next step
 	 */
-	private AtomicBoolean shouldPause;
+	private AtomicBoolean isPaused;
+
+	/**
+	 * If the simulation has ended
+	 */
+	private AtomicBoolean isStopped;
+
+	/**
+	 * Whether or not the simulation has begun
+	 */
+	private AtomicBoolean isStarted;
 
 	/**
 	 * Time (in milliseconds) in between each step
 	 */
 	private int sleepPeriod;
-	
+
 	/**
 	 * Class to hold conditions for the grid loop to end
 	 */
 	private SimulationEnder ender;
+
+	/**
+	 * Monitor for sync
+	 */
+	private static final Object lock = new Object();
 
 	/**
 	 * Constructor.
@@ -70,7 +97,8 @@ public class Simulator implements Runnable {
 	public Simulator(String name, int gridX, int gridY, SimulationEnder ender) {
 		this.name = name;
 		grid = new Grid(gridX, gridY);
-		shouldPause = new AtomicBoolean(false);
+		isPaused = new AtomicBoolean(false);
+		isStopped = new AtomicBoolean(false);
 		sleepPeriod = 500;
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid, ender);
@@ -84,52 +112,84 @@ public class Simulator implements Runnable {
 	public String getName() {
 		return name;
 	}
-	
-	public void setName(String name){
+
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	@Override
 	/**
 	 * Runs the simulation by updating all the entities
 	 */
-	public void run() {
-		while (!shouldPause.get()) {
-			try {
-				grid.updateEntities();
-				grid.notifyObservers();
-				Thread.sleep(sleepPeriod);
-			} catch (SimulationPauseException e) {
-				shouldPause.set(true);
-				System.err.println(e.getMessage());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+	public final Thread mainThread = new Thread(new Runnable() {
+		@Override
+		public void run() {
+			while (!isStopped.get()) {
+				while (!isPaused.get()) {
+					try {
+						grid.updateEntities();
+						grid.notifyObservers();
+						Thread.sleep(sleepPeriod);
+					} catch (SimulationPauseException e) {
+						isPaused.set(true);
+						System.err.println(e.getMessage());
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					checkEndings();
+				}
+				synchronized (lock) {
+					try {
+						lock.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+						Thread.currentThread().interrupt();
+						return;
+					}
+				}
 			}
-			checkEndings();
+		}
+	});
+
+	/**
+	 * Begins the simulation. This should never be called twice on a given
+	 * simulator.
+	 */
+	public void start() {
+		Preconditions.checkArgument(!isStarted.get());
+
+		isStarted.set(true);
+		mainThread.start();
+	}
+
+	/**
+	 * Resumes the update loop
+	 */
+	public void resume() {
+		if (!isStopped.get() && isPaused.get()) {
+			isPaused.set(false);
+			synchronized (lock) {
+				lock.notifyAll();
+			}
 		}
 	}
 
 	/**
-	 * Begins a new thread for this simulation
+	 * Pauses the update of the simulation. This will happen on the next
+	 * iteration
 	 */
-	public void resume() {
-		shouldPause.set(false);
-		new Thread(this).run();
+	public void pause() {
+		isPaused.set(true);
 	}
 
 	/**
-	 * Stops the flow of the simulation. This will happen on the next iteration
-	 */
-	public void pause() {
-		shouldPause.set(true);
-	}
-	
-	/**
-	 * Tells the grid to stop on the next iteration if the ender evaluates to true
+	 * Tells the grid to stop on the next iteration if the ender evaluates to
+	 * true
 	 */
 	public void checkEndings() {
-		if(ender.evaluate(grid))
-			shouldPause.set(true);
+		if (ender.evaluate(grid)) {
+			isPaused.set(true);
+			isStopped.set(true);
+		}
 	}
 
 	/**
@@ -488,7 +548,7 @@ public class Simulator implements Runnable {
 	public void resizeGrid(int width, int height) {
 		grid.resizeGrid(width, height);
 	}
-	
+
 	/**
 	 * Adds the given observer to the grid
 	 */
@@ -509,5 +569,29 @@ public class Simulator implements Runnable {
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
 	}
-
+	
+//	/**
+//	 * Saves a simulation to a given file.
+//	 * 
+//	 * @param filename
+//	 */
+//	public void saveToString(String filename){
+//		Saver s = new Saver();
+//		Set<Agent> agents = new HashSet<Agent>(); 
+//		for (Agent agent : grid)
+//			if (agent != null)
+//				agents.add(agent);
+//
+//		s.saveSimulation(filename, agents, Prototype.getPrototypes(), getGlobalFieldMap(), 
+//				grid.getWidth(), grid.getHeight(), ender);
+//	}
+//	
+//	public void loadFromString(File file){
+//		Loader l = new Loader();
+//		l.loadSimulation(file);
+//		
+//		load(l.getName(), l.getGrid(), l.getPrototypes());
+//		ender = l.getSimEnder();
+//	}
+//	
 }
