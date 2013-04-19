@@ -208,7 +208,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 		if (isValidCoord(x, y))
 			return grid[x][y];
 		System.err.println("invalid Coord: " + x + "," + y);
-		throw new ArrayIndexOutOfBoundsException();
+		return null;
 	}
 
 	/**

@@ -37,7 +37,18 @@ public class GridTest {
 
 	@Test
 	public void addAgentTest() {
-		// TODO
+		Prototype p = new Prototype(grid, "Test");
+		
+		// In bounds
+		Assert.assertTrue(grid.addAgent(p.createAgent(), 5, 5)); // ID = 0
+		Assert.assertTrue(grid.addAgent(p.createAgent(), 15, 20)); // ID = 1
+		
+		// Out of bounds
+		Assert.assertFalse(grid.addAgent(p.createAgent(), -5, -5)); // ID = 2
+		Assert.assertFalse(grid.addAgent(p.createAgent(), 30, 30)); // ID = 3
+		
+		Assert.assertEquals(0, IDOfAgentAt(5, 5));
+		Assert.assertEquals(1, IDOfAgentAt(15, 20));
 	}
 
 	/**
