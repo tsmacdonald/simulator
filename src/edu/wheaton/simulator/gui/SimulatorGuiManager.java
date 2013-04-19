@@ -232,13 +232,13 @@ public class SimulatorGuiManager {
 	}
 
 	public void loadSim() {
-		final JFileChooser fc = new JFileChooser();
-
 		int returnVal = fc.showOpenDialog(null);
 		String fileName = "";
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			fileName = fc.getSelectedFile().getName();
 			//TODO make new simulator
+			//initSim(fileName, x, y);
+			//this should eventually be statMan.loadSim(fileName), once that actually gets written
 			loader.loadSimulation(fileName);
 		}
 
@@ -246,7 +246,7 @@ public class SimulatorGuiManager {
 	}
 
 	public void saveSim(String fileName) {
-		//StatisticsManager.save(fileName);
+		statMan.saveSimulation(fileName);
 	}
 
 	public void startSim(){
