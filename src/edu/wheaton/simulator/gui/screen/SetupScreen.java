@@ -65,7 +65,7 @@ public class SetupScreen extends Screen {
 		
 		c.gridx = 0;
 		c.gridy = 3;
-		c.gridheight = 2;
+		c.gridheight = 3;
 		c.gridwidth = 3;
 		this.add(lowerPanel,c);
 		
@@ -237,6 +237,8 @@ public class SetupScreen extends Screen {
 		JLabel conHeader = Gui.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
 		JLabel timeLabel = Gui.makeLabel("Time Limit",new PrefSize(300,100),HorizontalAlignment.CENTER );
 		timeField = Gui.makeTextField(null,15,new MaxSize(200,30),new MinSize(100,25));
+		JLabel agentTypeLabel = Gui.makeLabel("Agent Type",new PrefSize(300,30),HorizontalAlignment.LEFT);
+		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -255,14 +257,20 @@ public class SetupScreen extends Screen {
 		c.gridwidth = 3;
 		lowerPanel.add(timeField,c);
 		
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 2;
+		lowerPanel.add(agentTypeLabel,c);
+		
+		c.gridx = 2;
+		c.gridy = 2;
+		lowerPanel.add(valueLabel,c);
+		
 		return lowerPanel;
 	}
 	
 	private JPanel makeConditionListPanel() {
 		JPanel conListPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-		
-		JLabel agentTypeLabel = Gui.makeLabel("Agent Type",new PrefSize(300,30),HorizontalAlignment.LEFT);
-		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
 		
 		addConditionButton = Gui.makeButton("Add Field",null,
 				new ActionListener() {
@@ -271,20 +279,11 @@ public class SetupScreen extends Screen {
 				addCondition();
 			}
 		});
-		
-		
+
 		GridBagConstraints c = new GridBagConstraints();
 		
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridwidth = 2;
-		conListPanel.add(agentTypeLabel,c);
-		
-		c.gridx = 2;
-		c.gridy = 0;
-		conListPanel.add(valueLabel,c);
-		
 		c.gridx = 3;
+		c.gridy = 0;
 		conListPanel.add(addConditionButton,c);
 		
 		return conListPanel;
