@@ -253,12 +253,9 @@ public class ViewSimScreen1 extends Screen {
 						condition.addToGrid(gm);
 					}
 				}
-				gm.getGridPanel().repaint();
-				//grid.repaint();
-				//gm.setSimRunning(true);
-				//gm.setSimStarted(true);
-				//canSpawn = false;
+				gm.getGridPanel().repaint();	
 				gm.startSim();
+				
 			}
 		});
 		return b;
