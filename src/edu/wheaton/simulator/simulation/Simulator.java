@@ -184,6 +184,13 @@ public class Simulator {
 			isStopped.set(true);
 		}
 	}
+	
+	/**
+	 * Whether or not the simulation has begun
+	 */
+	public boolean hasStarted() {
+		return isStarted.get();
+	}
 
 	/**
 	 * Changes how long the simulation waits after each step
