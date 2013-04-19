@@ -271,11 +271,6 @@ public class ViewSimScreen1 extends Screen {
 				gm.getGridPanel().repaint();
 				canSpawn = false;
 
-				if (!gm.hasSimStarted()) {
-					for (SpawnCondition condition: gm.getSimSpawnConditions()) {
-						condition.addToGrid(gm);
-					}
-				}
 				gm.getGridPanel().repaint();	
 
 				gm.startSim();
