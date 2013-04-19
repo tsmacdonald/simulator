@@ -1,5 +1,6 @@
 package edu.wheaton.simulator.gui.screen;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -246,7 +247,7 @@ public class SetupScreen extends Screen {
 	}
 	
 	private JPanel makeLowerPanel(){
-		JPanel lowerPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, PrefSize.NULL, null);
+		JPanel lowerPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, PrefSize.NULL, (Component[])null);
 		
 		JLabel conHeader = Gui.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
 		JLabel timeLabel = Gui.makeLabel("Time Limit",new PrefSize(300,100),HorizontalAlignment.LEFT );
