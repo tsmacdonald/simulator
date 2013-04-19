@@ -3,6 +3,7 @@ package edu.wheaton.simulator.gui.screen;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.gui.BoxLayoutAxis;
@@ -53,95 +56,29 @@ public class SetupScreen extends Screen {
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
+		JPanel upperPanel = makeUpperPanel();
+		JPanel lowerPanel = makeLowerPanel();
+		conListPanel = makeConditionListPanel();
+		
 		c.gridx = 0;
-		c.gridy = 1;
-		c.gridwidth = 1;
-		this.add(new JLabel("Name: "), c);
-
-		c.gridx = 1;
-		c.gridy = 1;
+		c.gridy = 0;
+		c.gridheight = 3;
 		c.gridwidth = 3;
-		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),new MinSize(250,30));
-		this.add(nameField, c);
-		
-		c.gridx = 0;
-		c.gridy = 2;
-		c.gridwidth = 2;
-		JLabel updateLabel = Gui.makeLabel("Update type: ",new MaxSize(100,40),HorizontalAlignment.RIGHT);
-		this.add(updateLabel,c);
-		
-		c.gridx = 2;
-		c.gridy = 2;
-		c.gridwidth = 2;
-		String[] updateTypes = {"Linear", "Atomic", "Priority"};
-		updateBox = Gui.makeComboBox(updateTypes, new MaxSize(200,40));
-		this.add(updateBox,c);
+		this.add(upperPanel,c);
 		
 		c.gridx = 0;
 		c.gridy = 3;
-		c.gridwidth = 1;
-		JLabel widthLabel = Gui.makeLabel("Width: ", new MaxSize(200, 40), HorizontalAlignment.RIGHT);
-		this.add(widthLabel,c);
-		
-		c.gridx = 1;
-		c.gridy = 3;
-		widthField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,30));
-		this.add(widthField,c);
-		
-		c.gridx = 2;
-		c.gridy = 3;
-		JLabel yLabel = Gui.makeLabel("Height: ", new MaxSize(200, 40), HorizontalAlignment.RIGHT);
-		this.add(yLabel,c);
-		
-		c.gridx = 3;
-		c.gridy = 3;
-		heightField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,30));
-		this.add(heightField,c);
-		
-		c.gridx = 1;
-		c.gridy = 4;
-		JLabel conHeader = Gui.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
-		this.add(conHeader,c);
-		
-		c.gridx = 0;
-		c.gridy = 5;
-		c.gridwidth = 1;
-		JLabel timeLabel = Gui.makeLabel("Time Limit",new PrefSize(300,100),HorizontalAlignment.CENTER );;
-		this.add(timeLabel,c);
-		
-		c.gridx = 1;
-		c.gridy = 5;
+		c.gridheight = 3;
 		c.gridwidth = 3;
-		timeField = Gui.makeTextField(null,15,new MaxSize(200,30),new MinSize(100,30));
-		this.add(timeField,c);
-		
-		c.gridx = 0;
-		c.gridy = 6;
-		c.gridwidth = 1;
-		JLabel agentTypeLabel = Gui.makeLabel("Agent Type",new PrefSize(300,30),HorizontalAlignment.LEFT);
-		this.add(agentTypeLabel,c);
-		
-		c.gridx = 2;
-		c.gridy = 6;
-		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
-		this.add(valueLabel,c);
+		this.add(lowerPanel,c);
 		
 		c.gridx = 0;
 		c.gridy = 7;
 		c.gridwidth = 4;
-		c.gridheight = GridBagConstraints.REMAINDER;
+		c.gridheight = GridBagConstraints.RELATIVE;
 		c.weighty = 1.0;
 		c.anchor = GridBagConstraints.PAGE_START;
-		conListPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		this.add(conListPanel,c);
-		
-		addConditionButton = Gui.makeButton("Add Field",null,
-				new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				addCondition();
-			}
-		});
 		
 		c.gridwidth = 3;
 		c.gridheight = 1;
@@ -157,8 +94,6 @@ public class SetupScreen extends Screen {
 						}}),
 						makeConfirmButton()
 					), c);
-		
-		conListPanel.add(Gui.makePanel(addConditionButton),c);
 
 		agentNames = new String[0];
 
@@ -244,10 +179,139 @@ public class SetupScreen extends Screen {
 		}
 		validate();
 	}
+	
+	private JPanel makeUpperPanel(){
+		JPanel upperPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, PrefSize.NULL, null);
+		
+		JLabel nameLabel = Gui.makeLabel("Name: ",MaxSize.NULL, HorizontalAlignment.LEFT);
+		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),new MinSize(272,25));
+		nameField.setHorizontalAlignment(SwingConstants.LEFT);
+		JLabel widthLabel = Gui.makeLabel("Width: ", new MaxSize(200, 40), HorizontalAlignment.LEFT);
+		widthField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,25));
+		widthField.setHorizontalAlignment(SwingConstants.LEFT);
+		JLabel yLabel = Gui.makeLabel("Height: ", new MaxSize(200, 40), HorizontalAlignment.LEFT);
+		heightField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,25));
+		heightField.setHorizontalAlignment(SwingConstants.LEFT);
+		JLabel updateLabel = Gui.makeLabel("Update type: ",new MaxSize(100,40),HorizontalAlignment.LEFT);
+		updateBox = Gui.makeComboBox(new String[]{"Linear", "Atomic", "Priority"}, new MaxSize(200,40));
+		updateBox.setAlignmentY(LEFT_ALIGNMENT);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.insets = new Insets(70,0,0,0);
+		upperPanel.add(nameLabel, c);
+
+		c.gridx = 1;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		c.insets = new Insets(70,0,0,0);
+		upperPanel.add(nameField, c);
+		
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(0,0,0,0);
+		upperPanel.add(widthLabel,c);
+		
+		c.gridx = 1;
+		c.gridy = 1;
+		upperPanel.add(widthField,c);
+		
+		c.gridx = 2;
+		c.gridy = 1;
+		c.insets = new Insets(0,15,0,0);
+		upperPanel.add(yLabel,c);
+		
+		c.gridx = 3;
+		c.gridy = 1;
+		c.insets = new Insets(0,0,0,0);
+		upperPanel.add(heightField,c);
+		
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 2;
+		upperPanel.add(updateLabel,c);
+		
+		c.gridx = 2;
+		c.gridy = 2;
+		c.gridwidth = 2;
+		upperPanel.add(updateBox,c);
+		
+		return upperPanel;
+	}
+	
+	private JPanel makeLowerPanel(){
+		JPanel lowerPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, PrefSize.NULL, null);
+		
+		JLabel conHeader = Gui.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
+		JLabel timeLabel = Gui.makeLabel("Time Limit",new PrefSize(300,100),HorizontalAlignment.LEFT );
+		
+		timeField = Gui.makeTextField(null,15,new MaxSize(200,30),new MinSize(100,25));
+		timeField.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		JLabel agentTypeLabel = Gui.makeLabel("Agent Type",new PrefSize(300,30),HorizontalAlignment.LEFT);
+		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.RIGHT);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.gridx = 1;
+		c.gridwidth = 3;
+		c.gridy = 0;
+		c.insets = new Insets(50,0,20,0);
+		lowerPanel.add(conHeader,c);
+		
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(0,0,20,0);
+		lowerPanel.add(timeLabel,c);
+		
+		c.gridx = 1;
+		c.gridy = 1;
+		c.gridwidth = 3;
+		c.insets = new Insets(0,0,20,0);
+		lowerPanel.add(timeField,c);
+		
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 2;
+		c.insets = new Insets(0,0,0,120);
+		lowerPanel.add(agentTypeLabel,c);
+		
+		c.gridx = 2;
+		c.gridy = 2;
+		c.insets = new Insets(0,0,0,0);
+		lowerPanel.add(valueLabel,c);
+		
+		return lowerPanel;
+	}
+	
+	private JPanel makeConditionListPanel() {
+		JPanel conListPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		
+		addConditionButton = Gui.makeButton("Add Field",null,
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addCondition();
+			}
+		});
+
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.gridx = 3;
+		c.gridy = 0;
+		conListPanel.add(addConditionButton,c);
+		
+		return conListPanel;
+	}
 
 	private void addCondition() {
 		JComboBox newBox = Gui.makeComboBox(agentNames,new MaxSize(500,40));
-		newBox.setMinimumSize(new Dimension(200,40));
+		newBox.setMinimumSize(new Dimension(200,25));
 		agentTypes.add(newBox);
 
 		JTextField newValue = Gui.makeTextField(null,25,new MaxSize(300,40),new MinSize(200,40));
@@ -265,7 +329,6 @@ public class SetupScreen extends Screen {
 
 		conListPanel.add(newPanel);
 		conListPanel.add(addConditionButton);
-		conListPanel.add(Box.createVerticalGlue());
 		conListPanel.validate();
 
 		validate();	

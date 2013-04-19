@@ -11,17 +11,12 @@
 package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
-import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.base.Preconditions;
-
+import net.sourceforge.jeval.EvaluationException;
 import sampleAgents.Bouncer;
 import sampleAgents.Confuser;
 import sampleAgents.ConwaysAliveBeing;
@@ -32,19 +27,15 @@ import sampleAgents.RightTurner;
 import sampleAgents.Rock;
 import sampleAgents.Scissors;
 
-import net.sourceforge.jeval.EvaluationException;
+import com.google.common.base.Preconditions;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.datastructure.GridObserver;
-import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
-import edu.wheaton.simulator.statistics.AgentSnapshotTable;
-import edu.wheaton.simulator.statistics.Loader;
-import edu.wheaton.simulator.statistics.PrototypeSnapshot;
-import edu.wheaton.simulator.statistics.Saver;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class Simulator {

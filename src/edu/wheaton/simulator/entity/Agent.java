@@ -10,12 +10,9 @@
 package edu.wheaton.simulator.entity;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import net.sourceforge.jeval.EvaluationException;
-
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
@@ -35,7 +32,7 @@ public class Agent extends GridEntity {
 	/**
 	 * Unique ID
 	 */
-	private final AgentID id;;
+	private final AgentID id;
 
 	/**
 	 * Current priority (used by priorityUpdate)
@@ -111,7 +108,7 @@ public class Agent extends GridEntity {
 	 * @param p
 	 */
 	private void init(Prototype p) {
-		triggers = new ArrayList<Trigger>();
+		triggers = p.getTriggers();
 		prototype = p;
 	}
 
@@ -222,60 +219,6 @@ public class Agent extends GridEntity {
 	}
 
 	/**
-	 * Adds to the Agent's list of triggers
-	 * 
-	 * @param trigger
-	 *            The trigger to add
-	 */
-	public void addTrigger(Trigger trigger) {
-		triggers.add(trigger);
-		Collections.sort(triggers);
-	}
-
-	/**
-	 * Removes a trigger with the given priority (index in array list)
-	 * 
-	 * @param priority
-	 *            The priority of the given trigger to remove.
-	 */
-	public void removeTrigger(int priority) {
-		triggers.remove(triggers.get(priority));
-		Collections.sort(triggers);
-	}
-
-	/**
-	 * Removes a trigger with the given name.
-	 * 
-	 * @param name
-	 */
-	public void removeTrigger(String name) {
-		for (int i = 0; i < triggers.size(); i++)
-			if (getTriggerName(i).equals(name))
-				triggers.remove(i);
-	}
-
-	/**
-	 * Updates the trigger(s) with the given name
-	 * 
-	 * @param name
-	 */
-	public void updateTrigger(String name, Trigger newT) {
-		for (int i = 0; i < triggers.size(); i++)
-			if (getTriggerName(i).equals(name))
-				triggers.set(i, newT);
-	}
-
-	/**
-	 * Given a trigger index, provides its name
-	 * 
-	 * @param index
-	 * @return
-	 */
-	private String getTriggerName(int index) {
-		return triggers.get(index).getName();
-	}
-
-	/**
 	 * Gets the current x position of this agent
 	 * 
 	 * @return x
@@ -307,6 +250,7 @@ public class Agent extends GridEntity {
 	/**
 	 * Provides a deep clone of this Agent
 	 */
+	@Override
 	public Agent clone() {
 		Agent clone = new Agent(getGrid(), getPrototype(), getColor(),
 				getDesign(), getID());
@@ -341,4 +285,11 @@ public class Agent extends GridEntity {
 	public AgentID getID() {
 		return id;
 	}
+
+	public void addTrigger(Trigger trigger) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

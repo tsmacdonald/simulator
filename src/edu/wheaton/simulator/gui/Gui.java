@@ -61,8 +61,9 @@ public final class Gui {
 			panel.setMaximumSize(maxSize);
 		if(prefSize != null)
 			panel.setPreferredSize(prefSize);
-		for(Component c : components)
-			panel.add(c);
+		if(components!=null)
+			for(Component c : components)
+				panel.add(c);
 		return panel;
 	}
 	
