@@ -6,10 +6,6 @@ import edu.wheaton.simulator.expression.Expression;
 
 public class SetFieldBehavior extends AbstractBehavior {
 
-//	public SetFieldBehavior(ExpressionEvaluator eval) {
-//		super(eval);
-//	}
-
 	@Override
 	public String getName() {
 		return "setField";

@@ -118,8 +118,6 @@ public class Trigger implements Comparable<Trigger> {
 			conditionResult = condition.evaluateBool();
 		} catch (Exception e) {
 			conditionResult = false;
-			//			System.out.println("Condition expression failed: "
-			//					+ condition.toString());
 		}
 
 		if (conditionResult) {
@@ -146,8 +144,6 @@ public class Trigger implements Comparable<Trigger> {
 			atomicConditionResult = condition.evaluateBool();
 		} catch (EvaluationException e) {
 			atomicConditionResult = false;
-			//			System.out.println("Condition expression failed: "
-			//					+ condition.toString());
 			throw e;
 		}
 	}
@@ -181,16 +177,10 @@ public class Trigger implements Comparable<Trigger> {
 	private static void fire(Agent a, Trigger t, Expression behavior, int step) throws EvaluationException {
 		try {
 			if (behavior.evaluateBool() == false) {
-				//				System.err.println("behavior '" + behavior.toString()
-				//						+ "' failed");
 			}
 			else {
-				//				System.out.println("behavior '" + behavior.toString()
-				//						+ "' succeeded");
 			}
 		} catch (EvaluationException e) {
-			//			System.err.println("malformed expression: " + behavior);
-			//			e.printStackTrace();
 			throw new EvaluationException("Behavior");
 		}
 		notifyObservers(a.getID(), t, step);
