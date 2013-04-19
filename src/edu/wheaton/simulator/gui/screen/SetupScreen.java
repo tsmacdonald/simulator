@@ -53,77 +53,81 @@ public class SetupScreen extends Screen {
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
+		JPanel upperPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, PrefSize.NULL, null);
+		JPanel lowerPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, PrefSize.NULL, null);
+		JLabel nameLabel = new JLabel("Name: ");
+		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),new MinSize(250,30));
+		JLabel widthLabel = Gui.makeLabel("Width: ", new MaxSize(200, 40), HorizontalAlignment.RIGHT);
+		widthField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,30));
+		JLabel yLabel = Gui.makeLabel("Height: ", new MaxSize(200, 40), HorizontalAlignment.RIGHT);
+		heightField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,30));
+		JLabel updateLabel = Gui.makeLabel("Update type: ",new MaxSize(100,40),HorizontalAlignment.RIGHT);
+		updateBox = Gui.makeComboBox(new String[]{"Linear", "Atomic", "Priority"}, new MaxSize(200,40));
+		JLabel conHeader = Gui.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
+		JLabel timeLabel = Gui.makeLabel("Time Limit",new PrefSize(300,100),HorizontalAlignment.CENTER );
+		timeField = Gui.makeTextField(null,15,new MaxSize(200,30),new MinSize(100,30));
+		JLabel agentTypeLabel = Gui.makeLabel("Agent Type",new PrefSize(300,30),HorizontalAlignment.LEFT);
+		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
+		conListPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 1;
-		this.add(new JLabel("Name: "), c);
+		this.add(nameLabel, c);
 
 		c.gridx = 1;
 		c.gridy = 1;
 		c.gridwidth = 3;
-		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),new MinSize(250,30));
 		this.add(nameField, c);
 		
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 1;
-		JLabel widthLabel = Gui.makeLabel("Width: ", new MaxSize(200, 40), HorizontalAlignment.RIGHT);
 		this.add(widthLabel,c);
 		
 		c.gridx = 1;
 		c.gridy = 2;
-		widthField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,30));
 		this.add(widthField,c);
 		
 		c.gridx = 2;
 		c.gridy = 2;
-		JLabel yLabel = Gui.makeLabel("Height: ", new MaxSize(200, 40), HorizontalAlignment.RIGHT);
 		this.add(yLabel,c);
 		
 		c.gridx = 3;
 		c.gridy = 2;
-		heightField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,30));
 		this.add(heightField,c);
 		
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridwidth = 2;
-		JLabel updateLabel = Gui.makeLabel("Update type: ",new MaxSize(100,40),HorizontalAlignment.RIGHT);
 		this.add(updateLabel,c);
 		
 		c.gridx = 2;
 		c.gridy = 3;
 		c.gridwidth = 2;
-		String[] updateTypes = {"Linear", "Atomic", "Priority"};
-		updateBox = Gui.makeComboBox(updateTypes, new MaxSize(200,40));
 		this.add(updateBox,c);
 		
 		c.gridx = 1;
 		c.gridy = 4;
-		JLabel conHeader = Gui.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
 		this.add(conHeader,c);
 		
 		c.gridx = 0;
 		c.gridy = 5;
 		c.gridwidth = 1;
-		JLabel timeLabel = Gui.makeLabel("Time Limit",new PrefSize(300,100),HorizontalAlignment.CENTER );;
 		this.add(timeLabel,c);
 		
 		c.gridx = 1;
 		c.gridy = 5;
 		c.gridwidth = 3;
-		timeField = Gui.makeTextField(null,15,new MaxSize(200,30),new MinSize(100,30));
 		this.add(timeField,c);
 		
 		c.gridx = 0;
 		c.gridy = 6;
 		c.gridwidth = 1;
-		JLabel agentTypeLabel = Gui.makeLabel("Agent Type",new PrefSize(300,30),HorizontalAlignment.LEFT);
 		this.add(agentTypeLabel,c);
 		
 		c.gridx = 2;
 		c.gridy = 6;
-		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
 		this.add(valueLabel,c);
 		
 		c.gridx = 0;
@@ -132,7 +136,6 @@ public class SetupScreen extends Screen {
 		c.gridheight = GridBagConstraints.REMAINDER;
 		c.weighty = 1.0;
 		c.anchor = GridBagConstraints.PAGE_START;
-		conListPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
 		this.add(conListPanel,c);
 		
 		addConditionButton = Gui.makeButton("Add Field",null,
