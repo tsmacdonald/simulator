@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -501,7 +502,13 @@ public class Simulator {
 	 *            The new value of the field.
 	 */
 	public void updateGlobalField(String name, String value) {
-		grid.updateField(name, value);
+		try {
+			grid.updateField(name, value);
+		}
+		catch (NoSuchElementException e) {
+			System.out.println("Attempting to update a nonexistent global field.");
+			System.err.print(e);
+		}
 	}
 
 	/**
@@ -537,7 +544,13 @@ public class Simulator {
 	 *            The name of the field to remove.
 	 */
 	public void removeGlobalField(String name) {
+		try {
 		grid.removeField(name);
+		}
+		catch (NoSuchElementException e) {
+			System.out.println("Attempting to remove a nonexistant field.");
+			System.err.print(e);
+		}
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package edu.wheaton.simulator.behavior;
 
+import java.util.NoSuchElementException;
+
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.expression.Expression;
@@ -24,9 +26,13 @@ public class SetFieldBehavior extends AbstractBehavior {
 		Entity target = resolveEntity("this");
 		String fieldName = args[0].replaceAll("'", "");
 		String fieldValue = args[1];
-		
-		target.updateField(fieldName,fieldValue);
-		return Expression.TRUE;
+		try {
+			target.updateField(fieldName,fieldValue);
+			return Expression.TRUE;
+		}
+		catch (NoSuchElementException e) {
+			return Expression.FALSE;
+		}
 	}
 
 }

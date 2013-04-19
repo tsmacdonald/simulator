@@ -38,7 +38,7 @@ public class Entity {
 	 * 
 	 * @return returns the old field
 	 */
-	public Field updateField(String name, String value) {
+	public Field updateField(String name, String value) throws NoSuchElementException {
 		name = formatFieldName(name);
 		assertHasField(name);
 		String oldvalue = putField(name, value);
@@ -52,7 +52,7 @@ public class Entity {
 	/**
 	 * Removes a field from this Entity and returns it.
 	 */
-	public Field removeField(String name) {
+	public Field removeField(String name) throws NoSuchElementException {
 		name = formatFieldName(name);
 		assertHasField(name);
 		String value = fields.remove(name.toString());
