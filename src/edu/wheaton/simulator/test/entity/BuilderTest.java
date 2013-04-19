@@ -9,6 +9,7 @@ import org.junit.Test;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.expression.Expression;
 
 public class BuilderTest {
 
@@ -49,14 +50,16 @@ public class BuilderTest {
 	public void testConditionOperation(){
 		builder.addConditional("1 EQUALS 1");
 		trigger = builder.build();
-		Assert.assertTrue(trigger.getConditions().toString().equals("1==1")); 
+		System.out.println(trigger.getConditions().toString());
+		Assert.assertTrue(trigger.getConditions().toString().equals("1 == 1")); 
 	}
 	
 	@Test
 	public void testConditionValues(){
 		builder.addConditional("weight > health");
 		trigger = builder.build();
-		Assert.assertTrue(trigger.getConditions().toString().equals("this.weight>this.health")); 
+		System.out.println(trigger.getConditions().toString());
+		Assert.assertTrue(trigger.getConditions().toString().equals("this.weight > this.health")); 
 	}
 
 	@Test
@@ -86,5 +89,12 @@ public class BuilderTest {
 		builder.addConditional("health > 3");
 		builder.addBehavioral("move(5,5,5)");
 		Assert.assertTrue(builder.isValid() == java.lang.Boolean.FALSE);
+	}
+	
+	@Test
+	public void testParserWithoutFunctions(){
+		Trigger.Builder b = new Trigger.Builder(new Trigger("name", 1,
+				new Expression("this.health>this.weight"), new Expression("TRUE")), prototype);
+		Assert.assertTrue(b.getBehaviorString().equals("TRUE") && b.getConditionString().equals("health > weight"));
 	}
 }

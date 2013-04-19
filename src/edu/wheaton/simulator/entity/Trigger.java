@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
 
@@ -253,6 +252,7 @@ public class Trigger implements Comparable<Trigger> {
 
 		/**
 		 * HashMap of simple values to actual JEval appropriate input
+		 * <name, Jeval equivalent>
 		 */
 		private HashBiMap<String, String> converter;
 
@@ -314,10 +314,46 @@ public class Trigger implements Comparable<Trigger> {
 			parseTrigger(t);
 		}
 
+		
+		/**
+		 * Converts a JEval formed trigger to something that be read by a human and makes sense.
+		 * 
+		 * TODO need to figure out how to change conditional that might contain (1+1) to ( 1 + 1 )
+		 * TODO Stuff that is got from functions/fields/our defined operators can be converted fine
+		 * but not so much with the other stuff. 
+		 * @param t
+		 */
 		private void parseTrigger(Trigger t) {
 			String condition = t.getConditions().toString();
+			String behavior = t.getBehavior().toString();
+			for (String s : converter.inverse().keySet()){
+				if (condition.contains(s)){
+					condition = condition.replace(s, converter.inverse().get(s)+ " ");
+				}
+				if (behavior.contains(s)){
+					behavior = behavior.replace(s, converter.inverse().get(s)+" ");
+				}
+			}
+			if (condition.charAt(condition.length()-1)==(' ')){
+				condition= condition.substring(0, condition.length()-1);
+			}
+			conditionString = condition;
+			System.out.println(conditionString);
+			if (behavior.charAt(behavior.length()-1)==(' ')){
+				behavior= behavior.substring(0, behavior.length()-1);
+			}
+			behaviorString = behavior;
+			System.out.println(behaviorString);
 		}
-
+		
+		public String getBehaviorString(){
+			return behaviorString;
+		}
+		
+		public String getConditionString(){
+			return conditionString;
+		}
+		
 		/**
 		 * Method to initialize conditionalValues and behaviorableValues
 		 */
@@ -394,7 +430,6 @@ public class Trigger implements Comparable<Trigger> {
 		 * @param p
 		 */
 		private void loadBehaviorFunctions() {
-			//TODO need to figure out how the user inputs the parameters.
 			behavioralValues.add("--Functions--");
 			for (String s : Expression.getBehaviorFunction().keySet()){
 				behavioralValues.add(convertCamelCaseToNormal(s));
@@ -404,7 +439,6 @@ public class Trigger implements Comparable<Trigger> {
 
 		/**
 		 * Sets the name of the Trigger
-		 * 
 		 * @param n
 		 */
 		public void addName(String n) {
@@ -453,7 +487,10 @@ public class Trigger implements Comparable<Trigger> {
 			String condition = "";
 			String[] stringArray = c.split(" ");
 			for (String a : stringArray) {
-				condition += findMatches(a);
+				condition += (findMatches(a) + " ");
+			}
+			if (condition.charAt(condition.length()-1)==(' ')){
+				condition= condition.substring(0, condition.length()-1);
 			}
 			trigger.setCondition(new Expression(condition));
 		}
@@ -469,7 +506,10 @@ public class Trigger implements Comparable<Trigger> {
 			String behavior = "";
 			String[] stringArray = b.split(" ");
 			for (String a : stringArray) {
-				behavior += findMatches(a);
+				behavior += (findMatches(a)+" ");
+			}
+			if (behavior.charAt(behavior.length()-1)==(' ')){
+				behavior= behavior.substring(0, behavior.length()-1);
 			}
 			trigger.setBehavior(new Expression(behavior));
 		}
