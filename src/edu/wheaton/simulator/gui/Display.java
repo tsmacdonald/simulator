@@ -29,9 +29,9 @@ public class Display extends JFrame {
 	public Display() {
 		super("Simulator");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(1200, 800);
+		//this.setSize(1200, 800);
 		this.setLayout(new FlowLayout(FlowLayout.CENTER));
-		this.setLocation(100, 100);
+		//this.setLocation(100, 100);
 		panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		this.add(panel);
@@ -43,6 +43,8 @@ public class Display extends JFrame {
 	 */
 	public void updateDisplay(Screen s) {
 		this.setContentPane(s);
+		this.pack();
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 }
