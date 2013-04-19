@@ -1,11 +1,13 @@
 package edu.wheaton.simulator.gui.screen;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -23,11 +25,14 @@ import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
 import edu.wheaton.simulator.simulation.Simulator;
 
-//TODO add components for resizing grid
+//TODO make sure that all information is actually being transmitted to simulation
 public class SetupScreen extends Screen {
 
 	private JTextField nameField;
 	private JTextField timeField;
+	
+	private JTextField widthField;
+	private JTextField heightField;
 
 	private String[] agentNames;
 	private JComboBox updateBox;
@@ -72,43 +77,64 @@ public class SetupScreen extends Screen {
 		updateBox = Gui.makeComboBox(updateTypes, new MaxSize(200,40));
 		this.add(updateBox,c);
 		
+		c.gridx = 0;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		JLabel widthLabel = Gui.makeLabel("Width: ", new MaxSize(200, 40), HorizontalAlignment.RIGHT);
+		this.add(widthLabel,c);
+		
 		c.gridx = 1;
 		c.gridy = 3;
+		widthField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,30));
+		this.add(widthField,c);
+		
+		c.gridx = 2;
+		c.gridy = 3;
+		JLabel yLabel = Gui.makeLabel("Height: ", new MaxSize(200, 40), HorizontalAlignment.RIGHT);
+		this.add(yLabel,c);
+		
+		c.gridx = 3;
+		c.gridy = 3;
+		heightField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,30));
+		this.add(heightField,c);
+		
+		c.gridx = 1;
+		c.gridy = 4;
 		JLabel conHeader = Gui.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
 		this.add(conHeader,c);
 		
 		c.gridx = 0;
-		c.gridy = 4;
+		c.gridy = 5;
 		c.gridwidth = 1;
-		JLabel timeLabel = new JLabel("Time limit: ");
+		JLabel timeLabel = Gui.makeLabel("Time Limit",new PrefSize(300,100),HorizontalAlignment.CENTER );;
 		this.add(timeLabel,c);
 		
 		c.gridx = 1;
-		c.gridy = 4;
+		c.gridy = 5;
 		c.gridwidth = 3;
-		timeField = Gui.makeTextField(null,15,new MaxSize(200,40),new MinSize(100,30));
+		timeField = Gui.makeTextField(null,15,new MaxSize(200,30),new MinSize(100,30));
 		this.add(timeField,c);
 		
 		c.gridx = 0;
 		c.gridy = 6;
-		c.gridwidth = 4;
-		c.gridheight = GridBagConstraints.REMAINDER;
-		c.weighty = 1.0;
-		conListPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-		this.add(conListPanel,c);
-		
-		c.gridx = 0;
-		c.gridy = 6;
-		JLabel agentTypeLabel = Gui.makeLabel("Agent Type",new PrefSize(200,30),HorizontalAlignment.LEFT);
-		conListPanel.add(agentTypeLabel,c);
-		
-		c.gridx = 1;
-		c.gridy = 6;
-		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
-		conListPanel.add(valueLabel,c);
+		c.gridwidth = 1;
+		JLabel agentTypeLabel = Gui.makeLabel("Agent Type",new PrefSize(300,30),HorizontalAlignment.LEFT);
+		this.add(agentTypeLabel,c);
 		
 		c.gridx = 2;
 		c.gridy = 6;
+		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
+		this.add(valueLabel,c);
+		
+		c.gridx = 0;
+		c.gridy = 7;
+		c.gridwidth = 4;
+		c.gridheight = GridBagConstraints.REMAINDER;
+		c.weighty = 1.0;
+		c.anchor = GridBagConstraints.PAGE_START;
+		conListPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
+		this.add(conListPanel,c);
+		
 		addConditionButton = Gui.makeButton("Add Field",null,
 				new ActionListener() {
 			@Override
@@ -220,15 +246,16 @@ public class SetupScreen extends Screen {
 	}
 
 	private void addCondition() {
-		JComboBox newBox = Gui.makeComboBox(agentNames,new MaxSize(300,40));
+		JComboBox newBox = Gui.makeComboBox(agentNames,new MaxSize(500,40));
+		newBox.setMinimumSize(new Dimension(200,40));
 		agentTypes.add(newBox);
 
-		JTextField newValue = Gui.makeTextField(null,25,new MaxSize(300,40),MinSize.NULL);
+		JTextField newValue = Gui.makeTextField(null,25,new MaxSize(300,40),new MinSize(200,40));
 		values.add(newValue);
 
 		JButton newButton = Gui.makeButton("Delete",null,new DeleteListener());
-		newButton.setActionCommand(deleteButtons.indexOf(newButton) + "");
 		deleteButtons.add(newButton);
+		newButton.setActionCommand(deleteButtons.indexOf(newButton) + "");
 
 		JPanel newPanel = Gui.makePanel( BoxLayoutAxis.X_AXIS,null,null);
 		newPanel.add(newBox);
@@ -238,6 +265,7 @@ public class SetupScreen extends Screen {
 
 		conListPanel.add(newPanel);
 		conListPanel.add(addConditionButton);
+		conListPanel.add(Box.createVerticalGlue());
 		conListPanel.validate();
 
 		validate();	

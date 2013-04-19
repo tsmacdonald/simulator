@@ -256,9 +256,11 @@ public class SimulatorGuiManager {
 		String fileName = "";
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			fileName = fc.getSelectedFile().getName();
+			//TODO make new simulator
+			loader.loadSimulation(fileName);
 		}
 
-		loader.loadSimulation(fileName);
+		
 	}
 
 	public void saveSim(String fileName) {
