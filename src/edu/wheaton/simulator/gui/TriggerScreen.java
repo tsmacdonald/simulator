@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -38,10 +39,12 @@ public class TriggerScreen extends Screen {
 		addTriggerLabel(new GridBagConstraints());
 		addEditLayout(new GridBagConstraints());
 		addListLayout(new GridBagConstraints());
+		addTriggerList(new GridBagConstraints());
 	}
 
 	private void addTriggerList(GridBagConstraints constraints) {
-		triggers = new JList();	
+		triggers = new JList();
+		triggers.setLayoutOrientation(JList.VERTICAL_WRAP);
 		triggers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		triggers.addMouseListener(new MouseListener() {
 			
@@ -71,15 +74,14 @@ public class TriggerScreen extends Screen {
 				
 			}
 		});
-		triggers.setListData(agent.getTriggers().toArray());
-		constraints = new GridBagConstraints();
+		triggers.setBorder(BorderFactory.createLineBorder(Color.magenta));
+		triggers.setLayoutOrientation(JList.VERTICAL_WRAP);
+		constraints.fill = GridBagConstraints.VERTICAL;
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.gridheight = 1;
 		constraints.gridwidth = 1;
-		constraints.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
 		triggerListView.add(triggers, constraints);
-		triggers.validate();
 	}
 
 	private void addTriggerLabel(GridBagConstraints constraints) {
@@ -118,16 +120,14 @@ public class TriggerScreen extends Screen {
 	}
 	
 	public void reset(){
-		triggerListView.removeAll();
 		edit.reset();
 		agent = null;
-		triggers = null;
+		triggers.removeAll();
 	}
 	
 	public void load(Prototype p){
-		reset();
 		agent = p;
-		addTriggerList(new GridBagConstraints());
+		triggers.setListData(agent.getTriggers().toArray());
 		validate();
 	}
 

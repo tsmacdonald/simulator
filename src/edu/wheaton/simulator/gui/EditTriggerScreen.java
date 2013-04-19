@@ -32,37 +32,35 @@ public class EditTriggerScreen extends Screen {
 	private static final long serialVersionUID = 3261558461232576081L;
 
 	private JButton addConditionalBox;
-	
+
 	private JButton addConditionalText;
-	
+
 	private JButton addBehaviorBox;
-	
+
 	private JButton addBehaviorText;
-	
+
 	private JTextField nameField;
-	
+
 	private JSpinner prioritySpinner;
-	
+
 	private ArrayList<JComponent> conditionals;
-	
+
 	private ArrayList<JComponent> behaviors;
-	
+
 	private JScrollPane conditionalScrollLayout;
-	
+
 	private JPanel conditionalLayout;
-	
+
 	private JScrollPane behaviorScrollLayout;
-	
+
 	private JPanel behaviorLayout;
-	
+
 	private Trigger.Builder builder;
-	
+
 	private int numConditionals = 0;
-	
+
 	private int numBehaviors = 0;
-	
-	private Prototype agent;
-	
+
 	public EditTriggerScreen(ScreenManager sm) {
 		super(sm);
 		conditionals = new ArrayList<JComponent>();
@@ -90,7 +88,7 @@ public class EditTriggerScreen extends Screen {
 		constraints.fill = GridBagConstraints.BOTH;
 		add(name, constraints);
 	}
-	
+
 	private void addPriorityLabel(GridBagConstraints constraints) {
 		JLabel name = new JLabel("Priority Level:");
 		constraints.gridwidth = 1; 
@@ -101,7 +99,7 @@ public class EditTriggerScreen extends Screen {
 		constraints.fill = GridBagConstraints.BOTH;
 		add(name, constraints);		
 	}
-	
+
 	private void addNameField(GridBagConstraints constraints){
 		nameField = new JTextField();
 		constraints.gridheight = 1; 
@@ -112,7 +110,7 @@ public class EditTriggerScreen extends Screen {
 		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
 		this.add(nameField, constraints);
 	}
-	
+
 	private void addSpinner(GridBagConstraints constraints) {
 		prioritySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1)); 
 		constraints.gridwidth = 1; 
@@ -135,7 +133,7 @@ public class EditTriggerScreen extends Screen {
 		constraints.fill = GridBagConstraints.NONE;  
 		add(ifLabel, constraints);
 	}
-	
+
 	private void addConditionsLayout(GridBagConstraints constraints) {
 		conditionalScrollLayout = new JScrollPane();
 		conditionalLayout = new JPanel();
@@ -152,7 +150,7 @@ public class EditTriggerScreen extends Screen {
 		conditionalLayout.setBackground(Color.white);
 		add(conditionalLayout, constraints);
 	}
-	
+
 	private void addThen(GridBagConstraints constraints) {
 		JLabel thenLabel = new JLabel("Then:"); 
 		constraints.gridwidth = 1; 
@@ -179,7 +177,7 @@ public class EditTriggerScreen extends Screen {
 		behaviorLayout.setBackground(Color.white);
 		add(behaviorLayout, constraints);
 	}
-	
+
 	private void addConditionalButtons(GridBagConstraints constraints) {
 		addConditionalBox = new JButton("Add Conditional");
 		addConditionalText = new JButton("Add Text");
@@ -194,7 +192,7 @@ public class EditTriggerScreen extends Screen {
 		constraints.gridy = 4;
 		add(addConditionalText, constraints);		
 	}
-	
+
 	private void addBehaviorButtons(GridBagConstraints constraints) {
 		addBehaviorBox = new JButton("Add Behavior");
 		addBehaviorText = new JButton("Add Text");
@@ -209,35 +207,40 @@ public class EditTriggerScreen extends Screen {
 		constraints.gridy = 7;
 		add(addBehaviorText, constraints);
 	}
-	
+
 	private JComboBox makeConditionalDropdown(){
 		JComboBox toReturn = new JComboBox(builder.conditionalValues().toArray());
 		toReturn.setPreferredSize(new Dimension(125, 20));
 		return toReturn;
 	}
-	
+
 	private JComboBox makeBehaviorDropdown(){
 		JComboBox toReturn = new JComboBox(builder.behavioralValues().toArray());
 		toReturn.setPreferredSize(new Dimension(125, 20));
 		return toReturn;
 	}	
-	
+
 	private class AddConditionalBoxListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			try{
 			conditionals.add(makeConditionalDropdown());
 			GridBagConstraints constraints = new GridBagConstraints();
 			constraints.gridwidth = 1; 
 			constraints.gridheight = 1;
 			constraints.gridx = numConditionals % 6;
 			constraints.gridy = numConditionals / 6; 
-			constraints.anchor = GridBagConstraints.BASELINE_LEADING;
+			constraints.anchor = GridBagConstraints.NORTHWEST;
 			conditionalLayout.add(conditionals.get(conditionals.size() - 1), constraints);	
 			conditionalLayout.validate();
+			}
+			catch(Exception e){
+				
+			}
 		}
 	}
-	
+
 	private class AddConditionalTextListener implements ActionListener {
 
 		@Override
@@ -254,7 +257,7 @@ public class EditTriggerScreen extends Screen {
 			conditionalLayout.repaint();
 		}
 	}
-	
+
 	private class AddBehaviorBoxListener implements ActionListener {
 
 		@Override
@@ -271,7 +274,7 @@ public class EditTriggerScreen extends Screen {
 			behaviorLayout.repaint();
 		}
 	}
-	
+
 	private class AddBehaviorTextListener implements ActionListener {
 
 		@Override
@@ -288,23 +291,32 @@ public class EditTriggerScreen extends Screen {
 			behaviorLayout.repaint();
 		}
 	}
-	
+
 	public void load(Trigger.Builder b, Trigger t){
 		builder = b;
 
 	}
-	
+
 	public void load(){
 	}
-	
+
 	public void sendInfo(){
-		
+
 	}
 
 	public void reset() {
-		// TODO Auto-generated method stub
-		
+		nameField.setText("");
+		prioritySpinner.setValue(0);
+		numConditionals = 0;
+		numBehaviors = 0;
+		conditionals = new ArrayList<JComponent>();
+		behaviors = new ArrayList<JComponent>();
+		conditionalLayout.removeAll();
+		behaviorLayout.removeAll();
+		builder = null;
+		validate();
+
 	}
-	
+
 
 }
