@@ -26,7 +26,9 @@ import edu.wheaton.simulator.simulation.SimulationPauseException;
 public class Grid extends Entity implements Iterable<Agent> {
 
 	/**
-	 * The grid of all Agents
+	 * The grid of all Agents.
+	 * This was implemented as a multi-dimensional array,
+	 * but now it uses a List of Lists, which is equivalent.
 	 */
 	private Agent[][] grid;
 
@@ -61,7 +63,10 @@ public class Grid extends Entity implements Iterable<Agent> {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		grid = new Agent[getHeight()][getWidth()];
+		
+		//Initialize the ArrayLists.
+		grid = new Agent[width][height];
+		
 		updater = new LinearUpdater(this);
 		observers = new HashSet<GridObserver>();
 		step = 0;
@@ -83,7 +88,26 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * @param height
 	 */
 	public void resizeGrid(int width, int height) {
-		// TODO
+		Agent[][] newGrid = new Agent[width][height];
+		
+		int currentWidth = grid.length;
+		int currentHeight = 0;
+		if(currentWidth != 0) {
+			currentHeight = grid[0].length;
+		}
+		
+		int minWidth = Math.min(width, currentWidth);
+		int minHeight = Math.min(height, currentHeight);
+		
+		for(int i = 0; i < minWidth; i++) {
+			for(int j = 0; j < minHeight; j++) {
+				if(grid[i][j] != null) {
+					newGrid[i][j] = grid[i][j];
+				}
+			}
+		}
+		
+		grid = newGrid;
 	}
 
 	/**
@@ -168,7 +192,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	public Agent getAgent(int x, int y) {
 		if (isValidCoord(x, y))
-			return grid[y][x];
+			return grid[x][y];
 		System.err.println("invalid Coord: " + x + "," + y);
 		throw new ArrayIndexOutOfBoundsException();
 	}
@@ -185,7 +209,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	public boolean addAgent(Agent a, int x, int y) {
 		if (isValidCoord(x, y)) {
-			grid[y][x] = a;
+			grid[x][y] = a;
 			a.setPos(x, y);
 			return true;
 		}
@@ -203,7 +227,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	public boolean addAgent(Agent a) {
 		int randomX = (int) (Math.random() * (getField("width").getIntValue() - 1));
 		int randomY = (int) (Math.random() * (getField("height").getIntValue() - 1));
-		grid[randomY][randomX] = a;
+		grid[randomX][randomY] = a;
 		a.setPos(randomX, randomY);
 		return true;
 	}
@@ -352,7 +376,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	public boolean removeAgent(int x, int y) {
 		if (isValidCoord(x, y)) {
-			grid[y][x] = null;
+			grid[x][y] = null;
 			return true;
 		}
 		return false;
