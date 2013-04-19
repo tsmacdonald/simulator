@@ -2,6 +2,8 @@ package edu.wheaton.simulator.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
+
+import edu.wheaton.simulator.gui.screen.Screen;
 	
 
 /**
@@ -15,32 +17,31 @@ public class RockPaperScissorsFinishListener implements ActionListener {
 		private JTextField name;
 		private JTextField width;
 		private JTextField height;
-		private ScreenManager sm;
+		private SimulatorGuiManager gm;
 		
 		public RockPaperScissorsFinishListener(JTextField name, JTextField width, JTextField height, 
-										  ScreenManager sm){
+										  SimulatorGuiManager gm){
 			this.name = name;
 			this.width = width;
 			this.height = height;
-			this.sm = sm;
+			this.gm = gm;
 		}
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
 				int heightInt = getHeight();
 				int widthInt = getWidth();
-				String nameStr = getName(); 
-				sm.setFacade(nameStr, widthInt, heightInt);
-				sm.updateGUIManager(getName(), widthInt, heightInt);
+				gm.initSim(name.getText(),widthInt, heightInt);
+				gm.updateGuiManager(getName(), widthInt, heightInt);
 			} catch(java.lang.NumberFormatException nfe) { 
 				System.err.println("Invalid input passed to RockPaperScissorsListener");
 			}
-			Screen upload = sm.getScreen("View Simulation");
-			sm.getFacade().initRockPaperScissors();
-			sm.getEnder().setStepLimit(1000);
-			((ScreenManager)sm).setStarted(false);
-			sm.update(upload);
-			sm.loadScreen(upload);
+			Screen upload = gm.getScreenManager().getScreen("View Simulation");
+			gm.initRockPaperScissorsSim();
+			gm.setSimStepLimit(1000);
+			gm.setSimStarted(false);
+			gm.getScreenManager().update(upload);
+			ScreenManager.loadScreen(upload);
 		}
 		public String getName(){
 			return name.getText();

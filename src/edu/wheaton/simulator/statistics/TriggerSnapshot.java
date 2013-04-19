@@ -1,8 +1,5 @@
 package edu.wheaton.simulator.statistics;
 
-import edu.wheaton.simulator.entity.AgentID;
-import edu.wheaton.simulator.expression.Expression;
-
 
 /**
  * A class representing all the information to track a specified trigger
@@ -11,36 +8,26 @@ import edu.wheaton.simulator.expression.Expression;
  * 
  */
 public class TriggerSnapshot {
-
-	/*
-	 * The unique id of the agent for this snapshot
-	 */
-	public final AgentID id;
 	
 	/**
 	 * The name of the specified trigger.
 	 */
 	public final String triggerName;
 	
-	/*
+	/**
 	 * The priority for the execution of the trigger
 	 */
 	public final Integer priority;
 	
-	/*
-	 * The step in which this was executed
-	 */
-	public final Integer step;
-	
-	/*
+	/**
 	 * A way to store the string value of the conditionExpression
 	 */
-	public final Expression conditionExpression;
+	public final String conditionExpression;
 	
-	/*
+	/**
 	 * A string to store the behaviorExpression value
 	 */
-	public final Expression behaviorExpression;
+	public final String behaviorExpression;
 
 	/**
 	 * Constructor
@@ -56,10 +43,8 @@ public class TriggerSnapshot {
 	 * @param behaviorExpression
 	 * 			  A string version of the behavior
 	 */
-	public TriggerSnapshot(AgentID id, String triggerName, int priority, Expression conditionExpression, 
-			Expression behaviorExpression, int step) {
-		this.id = id;
-		this.step = step;
+	public TriggerSnapshot(String triggerName, int priority, String conditionExpression, 
+			String behaviorExpression) {
 		this.triggerName = triggerName;
 		this.priority = priority;
 		this.conditionExpression = conditionExpression;
@@ -77,7 +62,11 @@ public class TriggerSnapshot {
 	 * TriggerSnapshot
 	 */
 	public String serialize(){
-		//TODO: Take the content and serialize it.
-		return "";
+		String ret = "Trigger";
+		ret += "~" + triggerName; 
+		ret += "~" + priority;  
+		ret += "~" + conditionExpression; 
+		ret += "~" + behaviorExpression; 
+		return ret;
 	}
 }

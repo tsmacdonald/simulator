@@ -24,9 +24,9 @@ import edu.wheaton.simulator.datastructure.Grid;
 public class Prototype extends GridEntity {
 
 	/**
-	 * The list of all Agent children of this Prototype
+	 * The list of all AgentIDs that follow this Prototype
 	 */
-	private List<Agent> children;
+	private List<AgentID> children;
 
 	/**
 	 * HashMap of Prototypes with associated names
@@ -34,21 +34,11 @@ public class Prototype extends GridEntity {
 	private static Map<String, Prototype> prototypes = new HashMap<String, Prototype>();
 
 	/**
-	 * HashMap of ID->name as a hackish solution to getPrototype(PrototypeID)
-	 */
-	private static Map<PrototypeID, String> idNameMap = new HashMap<PrototypeID, String>();
-
-	/**
 	 * The list of all triggers/events associated with this prototype.
 	 */
 	private List<Trigger> triggers;
 
 	private String name;
-
-	/**
-	 * Unique ID
-	 */
-	private final PrototypeID id;
 
 	/**
 	 * Constructor.
@@ -61,8 +51,7 @@ public class Prototype extends GridEntity {
 	public Prototype(Grid g, String n) {
 		super(g);
 		name = n;
-		id = new PrototypeID();
-		children = new ArrayList<Agent>();
+		children = new ArrayList<AgentID>();
 		triggers = new ArrayList<Trigger>();
 	}
 
@@ -79,8 +68,7 @@ public class Prototype extends GridEntity {
 	public Prototype(Grid g, Color c, String n) {
 		super(g, c);
 		name = n;
-		id = new PrototypeID();
-		children = new ArrayList<Agent>();
+		children = new ArrayList<AgentID>();
 		triggers = new ArrayList<Trigger>();
 	}
 
@@ -99,9 +87,8 @@ public class Prototype extends GridEntity {
 	public Prototype(Grid g, Color c, byte[] d, String n) {
 		super(g, c, d);
 		name = n;
-		id = new PrototypeID();
 		triggers = new ArrayList<Trigger>();
-		children = new ArrayList<Agent>();
+		children = new ArrayList<AgentID>();
 	}
 
 	/**
@@ -113,7 +100,6 @@ public class Prototype extends GridEntity {
 	 */
 	public static void addPrototype(Prototype p) {
 		prototypes.put(p.getName(), p);
-		idNameMap.put(p.getPrototypeID(), p.getName());
 	}
 
 	/**
@@ -124,10 +110,6 @@ public class Prototype extends GridEntity {
 	 */
 	public static Prototype getPrototype(String n) {
 		return prototypes.get(n);
-	}
-
-	public static Prototype getPrototype(PrototypeID id) {
-		return getPrototype(idNameMap.get(id));
 	}
 
 	/**
@@ -194,29 +176,24 @@ public class Prototype extends GridEntity {
 		// copy all fields
 		clone.getFieldMap().putAll(this.getFieldMap());
 
-		// copy all triggers
-		for (Trigger t : triggers)
-			clone.addTrigger(new Trigger(t));
+		// copying all triggers is implicitly done in the Agent constructor, so no need here.
 
-		children.add(clone);
+		children.add(clone.getID());
 		return clone;
 	}
 
 	/**
-	 * Adds the given trigger to this prototype as well as all of its children.
+	 * Adds the given trigger to this prototype
 	 * 
 	 * @param trigger
 	 */
 	public void addTrigger(Trigger trigger) {
 		triggers.add(trigger);
 		Collections.sort(triggers);
-		for (Agent a : children) {
-			a.addTrigger(trigger);
-		}
 	}
 
 	/**
-	 * Removes a trigger with the given priority all children.
+	 * Removes a trigger with the given priority
 	 * 
 	 * @param priority
 	 *            The priority of the given trigger to remove.
@@ -224,14 +201,10 @@ public class Prototype extends GridEntity {
 	public void removeTrigger(int priority) {
 		triggers.remove(triggers.get(priority));
 		Collections.sort(triggers);
-		for (Agent a : children) {
-			a.removeTrigger(priority);
-		}
 	}
 
 	/**
-	 * Removes a trigger with the given name from both this Prototype and its
-	 * children.
+	 * Removes a trigger with the given name from both this Prototype
 	 * 
 	 * @param name
 	 */
@@ -240,9 +213,6 @@ public class Prototype extends GridEntity {
 			if (triggers.get(i).getName().equals(name))
 				triggers.remove(i);
 		Collections.sort(triggers);
-		for (Agent a : children) {
-			a.removeTrigger(name);
-		}
 	}
 
 	/**
@@ -255,9 +225,6 @@ public class Prototype extends GridEntity {
 			if (triggers.get(i).getName().equals(name))
 				triggers.set(i, newT);
 		Collections.sort(triggers);
-		for (Agent a : children) {
-			a.updateTrigger(name, newT);
-		}
 	}
 
 	/**
@@ -297,19 +264,10 @@ public class Prototype extends GridEntity {
 	 */
 	public ImmutableSet<AgentID> childIDs() {
 		ImmutableSet.Builder<AgentID> builder = new ImmutableSet.Builder<AgentID>();
-		for (Agent current : children) {
-			builder.add(current.getID());
+		for (AgentID current : children) {
+			builder.add(current);
 		}
 		return builder.build();
-	}
-
-	/**
-	 * Provides the ID of this specific Prototype
-	 * 
-	 * @return
-	 */
-	public PrototypeID getPrototypeID() {
-		return id;
 	}
 
 	/**

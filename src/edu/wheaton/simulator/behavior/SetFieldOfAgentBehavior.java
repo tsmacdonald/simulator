@@ -1,5 +1,7 @@
 package edu.wheaton.simulator.behavior;
 
+import java.util.NoSuchElementException;
+
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
@@ -32,11 +34,16 @@ public class SetFieldOfAgentBehavior extends AbstractExpressionFunction {
 		String newFieldValue = args[3];
 		
 		Grid grid = target.getGrid();
-		if(grid.isValidCoord(x, y) && grid.getAgent(x,y)!=null){
-			grid.getAgent(x, y).updateField(fieldName, newFieldValue);
-			return Expression.TRUE;
+		try {
+			if(grid.isValidCoord(x, y) && grid.getAgent(x,y)!=null){
+				grid.getAgent(x, y).updateField(fieldName, newFieldValue);
+				return Expression.TRUE;
+			}
+			return Expression.FALSE;
 		}
-		return Expression.FALSE;
+		catch (NoSuchElementException e) {
+			return Expression.FALSE;
+		}
 	}
 	
 

@@ -7,9 +7,12 @@
  * Wheaton College, CSCI 335, Spring 2013
  */
 
-package edu.wheaton.simulator.gui;
+package edu.wheaton.simulator.gui.screen;
 
 import javax.swing.JPanel;
+
+import edu.wheaton.simulator.gui.ScreenManager;
+import edu.wheaton.simulator.gui.SimulatorGuiManager;
 
 /**
  * Each window will have its own subclass of this abstract class, and one
@@ -22,12 +25,19 @@ public abstract class Screen extends JPanel {
 
 	private static final long serialVersionUID = -720613104216646508L;
 
-	protected ScreenManager sm;
+	protected SimulatorGuiManager gm;
 	
-	public Screen(ScreenManager sm) {
-		this.sm = sm;
+	public Screen(SimulatorGuiManager guiManager) {
+		this.gm = guiManager;
 	}
 	
 	public abstract void load();
 	
+	public SimulatorGuiManager getGuiManager(){
+		return gm;
+	}
+	
+	public ScreenManager getScreenManager(){
+		return gm.getScreenManager();
+	}
 }

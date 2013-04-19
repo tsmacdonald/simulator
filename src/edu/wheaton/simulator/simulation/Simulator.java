@@ -1,7 +1,9 @@
 /**
  * Simulator.java
  * 
- * Runnable simulator that in a way acts as a facade to the Agent code.
+ * Runnable simulator that in a way acts as a facade to the Agent code. 
+ * The simulator encapsulates a single simulation. Once the simulation 
+ * is completed, a new simulator must be made.
  *
  * @author Agent Team
  */
@@ -9,11 +11,12 @@
 package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
-import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import net.sourceforge.jeval.EvaluationException;
 import sampleAgents.Bouncer;
 import sampleAgents.Confuser;
 import sampleAgents.ConwaysAliveBeing;
@@ -24,17 +27,18 @@ import sampleAgents.RightTurner;
 import sampleAgents.Rock;
 import sampleAgents.Scissors;
 
-import net.sourceforge.jeval.EvaluationException;
+import com.google.common.base.Preconditions;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.datastructure.Grid;
-import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.datastructure.GridObserver;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
-public class Simulator implements Runnable {
+public class Simulator {
 
 	/**
 	 * Name of the simulator
@@ -49,7 +53,17 @@ public class Simulator implements Runnable {
 	/**
 	 * Whether or not the simulation will pause on the next step
 	 */
-	private AtomicBoolean shouldPause;
+	private AtomicBoolean isPaused;
+
+	/**
+	 * If the simulation has ended
+	 */
+	private AtomicBoolean isStopped;
+
+	/**
+	 * Whether or not the simulation has begun
+	 */
+	private AtomicBoolean isStarted;
 
 	/**
 	 * Time (in milliseconds) in between each step
@@ -57,17 +71,30 @@ public class Simulator implements Runnable {
 	private int sleepPeriod;
 
 	/**
+	 * Class to hold conditions for the grid loop to end
+	 */
+	private SimulationEnder ender;
+
+	/**
+	 * Monitor for sync
+	 */
+	private static final Object lock = new Object();
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param gridX
 	 * @param gridY
 	 */
-	public Simulator(String name, int gridX, int gridY) {
+	public Simulator(String name, int gridX, int gridY, SimulationEnder ender) {
 		this.name = name;
-		sleepPeriod = 500;
 		grid = new Grid(gridX, gridY);
-		Prototype.clearPrototypes();
-		StatisticsManager.getInstance().initialize(grid);
+		isPaused = new AtomicBoolean(false);
+		isStopped = new AtomicBoolean(false);
+		isStarted = new AtomicBoolean(false);
+		sleepPeriod = 500;
+		this.ender = ender;
+		StatisticsManager.getInstance().initialize(grid, ender);
 	}
 
 	/**
@@ -79,38 +106,83 @@ public class Simulator implements Runnable {
 		return name;
 	}
 
-	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	/**
 	 * Runs the simulation by updating all the entities
 	 */
-	public void run() {
-		while (!shouldPause.get()) {
-			try {
-				grid.updateEntities();
-				grid.notifyObservers();
-				Thread.sleep(sleepPeriod);
-			} catch (SimulationPauseException e) {
-				shouldPause.set(true);
-				System.err.println(e.getMessage());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+	public final Thread mainThread = new Thread(new Runnable() {
+		@Override
+		public void run() {
+			while (!isStopped.get()) {
+				while (!isPaused.get()) {
+					try {
+						grid.updateEntities();
+						grid.notifyObservers();
+						Thread.sleep(sleepPeriod);
+					} catch (SimulationPauseException e) {
+						isPaused.set(true);
+						System.err.println(e.getMessage());
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					checkEndings();
+				}
+				synchronized (lock) {
+					try {
+						lock.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+						Thread.currentThread().interrupt();
+						return;
+					}
+				}
+			}
+		}
+	});
+
+	/**
+	 * Begins the simulation. This should never be called twice on a given
+	 * simulator.
+	 */
+	public void start() {
+		Preconditions.checkArgument(!isStarted.get());
+
+		isStarted.set(true);
+		mainThread.start();
+	}
+
+	/**
+	 * Resumes the update loop
+	 */
+	public void resume() {
+		if (!isStopped.get() && isPaused.get()) {
+			isPaused.set(false);
+			synchronized (lock) {
+				lock.notifyAll();
 			}
 		}
 	}
 
 	/**
-	 * Begins a new thread for this simulation
+	 * Pauses the update of the simulation. This will happen on the next
+	 * iteration
 	 */
-	public void resume() {
-		shouldPause.set(false);
-		new Thread(this).run();
+	public void pause() {
+		isPaused.set(true);
 	}
 
 	/**
-	 * Stops the flow of the simulation. This will happen on the next iteration
+	 * Tells the grid to stop on the next iteration if the ender evaluates to
+	 * true
 	 */
-	public void pause() {
-		shouldPause.set(true);
+	public void checkEndings() {
+		if (ender.evaluate(grid)) {
+			isPaused.set(true);
+			isStopped.set(true);
+		}
 	}
 
 	/**
@@ -196,40 +268,33 @@ public class Simulator implements Runnable {
 	}
 
 	/**
-	 * Whether or not a given field is contained in a Prototype
-	 * 
-	 * @param p
-	 * @param fieldName
-	 * @return
-	 */
-	public static boolean prototypeHasField(Prototype p, String fieldName) {
-		return p.hasField(fieldName);
-	}
-
-	/**
-	 * Whether or not a given trigger is contained in a Prototype
-	 * 
-	 * @param p
-	 * @param triggerName
-	 * @return
-	 */
-	public static boolean prototypeHasTrigger(Prototype p, String triggerName) {
-		return p.hasTrigger(triggerName);
-	}
-
-	/**
-	 * Causes all entities in the grid to act()
-	 */
-	public void updateEntities() throws SimulationPauseException {
-		grid.updateEntities();
-	}
-
-	/**
 	 * 
 	 * @return a String with the name of the current update method
 	 */
 	public String currentUpdater() {
 		return grid.currentUpdater();
+	}
+
+	/**
+	 * Sets the update method to use the PriorityUpdate system
+	 */
+	public void setPriorityUpdate(int minPriority, int maxPriority) {
+		grid.setPriorityUpdater(minPriority, maxPriority);
+	}
+
+	/**
+	 * Sets the update method to use the AtomicUpdate system
+	 */
+	public void setAtomicUpdate() {
+		grid.setAtomicUpdater();
+	}
+
+	/**
+	 * Sets the update method to use the LinearUpdate system LinearUpdate is the
+	 * default
+	 */
+	public void setLinearUpdate() {
+		grid.setLinearUpdater();
 	}
 
 	/**
@@ -373,37 +438,6 @@ public class Simulator implements Runnable {
 	}
 
 	/**
-	 * Sets the update method to use the PriorityUpdate system
-	 */
-	public void setPriorityUpdate(int minPriority, int maxPriority) {
-		grid.setPriorityUpdater(minPriority, maxPriority);
-	}
-
-	/**
-	 * Sets the update method to use the AtomicUpdate system
-	 */
-	public void setAtomicUpdate() {
-		grid.setAtomicUpdater();
-	}
-
-	/**
-	 * Sets the update method to use the LinearUpdate system LinearUpdate is the
-	 * default
-	 */
-	public void setLinearUpdate() {
-		grid.setLinearUpdater();
-	}
-
-	/**
-	 * Returns a List of Triggers for a specific prototype
-	 * 
-	 * @return
-	 */
-	public static List<Trigger> getPrototypeTriggers(Prototype p) {
-		return p.getTriggers();
-	}
-
-	/**
 	 * Sample simulation: Conway's Game of Life
 	 */
 	public void initGameOfLife() {
@@ -459,7 +493,13 @@ public class Simulator implements Runnable {
 	 *            The new value of the field.
 	 */
 	public void updateGlobalField(String name, String value) {
-		grid.updateField(name, value);
+		try {
+			grid.updateField(name, value);
+		}
+		catch (NoSuchElementException e) {
+			System.out.println("Attempting to update a nonexistent global field.");
+			System.err.print(e);
+		}
 	}
 
 	/**
@@ -495,7 +535,13 @@ public class Simulator implements Runnable {
 	 *            The name of the field to remove.
 	 */
 	public void removeGlobalField(String name) {
+		try {
 		grid.removeField(name);
+		}
+		catch (NoSuchElementException e) {
+			System.out.println("Attempting to remove a nonexistant field.");
+			System.err.print(e);
+		}
 	}
 
 	/**
@@ -506,6 +552,13 @@ public class Simulator implements Runnable {
 	 */
 	public void resizeGrid(int width, int height) {
 		grid.resizeGrid(width, height);
+	}
+
+	/**
+	 * Adds the given observer to the grid
+	 */
+	public void addGridObserver(GridObserver ob) {
+		grid.addObserver(ob);
 	}
 
 	/**
@@ -522,4 +575,29 @@ public class Simulator implements Runnable {
 			Prototype.addPrototype(current);
 	}
 
+	// /**
+	// * Saves a simulation to a given file.
+	// *
+	// * @param filename
+	// */
+	// public void saveToString(String filename){
+	// Saver s = new Saver();
+	// Set<Agent> agents = new HashSet<Agent>();
+	// for (Agent agent : grid)
+	// if (agent != null)
+	// agents.add(agent);
+	//
+	// s.saveSimulation(filename, agents, Prototype.getPrototypes(),
+	// getGlobalFieldMap(),
+	// grid.getWidth(), grid.getHeight(), ender);
+	// }
+	//
+	// public void loadFromString(File file){
+	// Loader l = new Loader();
+	// l.loadSimulation(file);
+	//
+	// load(l.getName(), l.getGrid(), l.getPrototypes());
+	// ender = l.getSimEnder();
+	// }
+	//
 }

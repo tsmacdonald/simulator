@@ -1,7 +1,6 @@
-package edu.wheaton.simulator.gui;
+package edu.wheaton.simulator.gui.screen;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,14 +8,14 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import edu.wheaton.simulator.gui.ScreenManager;
+import edu.wheaton.simulator.gui.SimulatorGuiManager;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.statistics.StatisticsManager;
-import javax.swing.border.EtchedBorder;
-import javax.swing.JButton;
 
 public class StatDisplayScreen extends Screen {
 	/**
@@ -42,13 +41,16 @@ public class StatDisplayScreen extends Screen {
 
 	private JComboBox fields; 
 
+	private SimulatorGuiManager gm; 
+	
 	/**
 	 * Constructor. 
 	 * Make the screen. 
-	 * @param sm ScreenManager. 
+	 * @param gm ScreenManager. 
 	 */
-	public StatDisplayScreen(ScreenManager sm) {
-		super(sm);
+	public StatDisplayScreen(SimulatorGuiManager gm) {
+		super(gm);
+		this.gm = gm;
 		//Setup GridBagLayout & demensions.
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{69, 81, 0, 0, 0, 0};
@@ -134,10 +136,19 @@ public class StatDisplayScreen extends Screen {
 				selectedDisplayType.equals(DISPLAY_AVG_FIELD_VALUE_STR)) { 
 			onFieldSelected();
 		} else { 
-			displayPanel.paint(displayPanel.getGraphics());
+			makeDisplayPanelPaint();
 		}
 	}
-	
+
+	private void makeDisplayPanelPaint() { 
+		new Thread() {
+			@Override
+			public void run() {
+				displayPanel.paint(displayPanel.getGraphics());
+			}
+		}.run();
+	}
+
 	/**
 	 * To be executed when a field has been selected. 
 	 */
@@ -145,7 +156,7 @@ public class StatDisplayScreen extends Screen {
 		String selectedDisplayType = (String) displayTypes.getSelectedItem();
 		if (selectedDisplayType != null &&
 				selectedDisplayType.equals(DISPLAY_AVG_FIELD_VALUE_STR)) { 
-			displayPanel.paint(displayPanel.getGraphics());
+				makeDisplayPanelPaint();
 		}
 	}
 
@@ -153,8 +164,10 @@ public class StatDisplayScreen extends Screen {
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sm.getScreen("View Simulation").load();
-				sm.update(sm.getScreen("View Simulation"));
+				ScreenManager sm = gm.getScreenManager();
+				Screen toDisplay = sm.getScreen("View Simulation");
+				sm.update(toDisplay);
+				ScreenManager.loadScreen(toDisplay);
 			}
 		});
 	}
@@ -188,6 +201,7 @@ public class StatDisplayScreen extends Screen {
 
 	@Override
 	public void load() {
+		statMan = gm.getStatManager();
 		prototypes.removeAllItems();
 		displayTypes.removeAllItems();
 		fields.removeAllItems();
@@ -201,45 +215,112 @@ public class StatDisplayScreen extends Screen {
 
 	private JPanel getDisplayPanel() { 
 		return new JPanel() { 
+			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4375342368896479163L;
+
 			@Override
 			public void paint(Graphics g) {
 				super.paint(g);
 				String selectedDisplayType = (String) displayTypes.getSelectedItem();
-				g.drawLine(0, 0, getWidth(), 0);
-				g.drawLine(0, 0, 0, getHeight());
-//				g.drawLine(getWidth(), getHeight(), getWidth(), 0);
-//				g.drawLine(getWidth(), getHeight(), 0, getHeight());
-				
+				int width = getWidth() -1; 
+				int height = getHeight() -1;
+				g.setColor(Color.BLACK);
+				g.fillRect(0, 0, width, height);
 				
 				if (selectedDisplayType == null) 
 					return; 
 				else if (selectedDisplayType.equals(DISPLAY_AVG_LIFESPAN_STR)) 
-					paintLife(g);
+					paintLife(g, width, height);
 				else if (selectedDisplayType.equals(DISPLAY_POP_OVER_TIME_STR))
-					paintPop(g);
+					paintPop(g, width, height);
 				else if (selectedDisplayType.equals(DISPLAY_AVG_FIELD_VALUE_STR))
-					paintField(g);
+					paintField(g, width, height);
 			}
 			
-			private void paintPop(Graphics g) { 
+			private void paintPop(Graphics g, int width, int height) { 
+				int[] pops = statMan.getPopVsTime((String) prototypes.getSelectedItem());
+				if (pops.length < 1)
+					return; 
+				
+				int[] extremes = getHighLowIndex(pops);
+				double max = pops[extremes[0]];
+				double min = 0;
+				
+				int lastX = 0; 
+				int lastY = getAppropriateY(pops[0], max, min, height);
+
+				g.setColor(Color.GREEN);
+				for (int index = 1; index < pops.length; index++) { 
+					int currentX = getAppropriateX(index, pops.length-1, width);
+					int currentY = getAppropriateY(pops[index], max, min, height);
+					g.drawLine(lastX, lastY, currentX, currentY);
+					lastX = currentX;
+					lastY = currentY;
+				}
+			}
+			
+			private void paintField(Graphics g, int width, int height) { 
 				String protName = (String) prototypes.getSelectedItem();
 				String fieldName = (String) fields.getSelectedItem();
 				double[] avgValues = statMan.getAvgFieldValue(protName, fieldName);
+				if (avgValues.length < 1)
+					return; 
+				
 				int[] extremes = getHighLowIndex(avgValues);
-				int maxIndex = extremes[0];
-				int minIndex = extremes[1];
-//				g.drawLine(2, 2, 40, 40);
+				double maxYValue = avgValues[extremes[0]];
+				double minYValue = avgValues[extremes[1]];
+				
+				int zeroY = getAppropriateY(0, maxYValue, minYValue, height);
+				g.setColor(Color.WHITE);
+				g.drawLine(0, zeroY, width, zeroY);
+				
+				int lastX = 0; 
+				int lastY = getAppropriateY(avgValues[0], maxYValue, minYValue, height);
+
+				g.setColor(Color.RED);
+				for (int index = 1; index < avgValues.length; index++) { 
+					int currentX = getAppropriateX(index, avgValues.length-1, width);
+					int currentY = getAppropriateY(avgValues[index], maxYValue, minYValue, height);
+					g.drawLine(lastX, lastY, currentX, currentY);
+					lastX = currentX;
+					lastY = currentY;
+				}
 			}
 			
-			private void paintField(Graphics g) { 
-//				g.drawLine(displayPanel.getWidth(), displayPanel.getHeight(), 40, 40);
+			private void paintLife(Graphics g, int width, int height) { 
+				String protName = (String) prototypes.getSelectedItem();
+				double avgLifespan = statMan.getAvgLifespan(protName);
+				g.setColor(Color.CYAN);
+				g.drawString("" + avgLifespan, width/2, height/2);
+			}
+
+			private int getAppropriateY(double currentValue, double maxValue, double minValue, int height) { 
+				return (int)(height - ((currentValue - minValue)/(maxValue - minValue)) * height); 
 			}
 			
-			private void paintLife(Graphics g) { 
-//				g.drawLine(2, 2, 40, 40);
+			private int getAppropriateX(double currentIndex, double maxIndex, double width) { 
+				return (int) ((currentIndex / maxIndex) * width);
 			}
 			
 			private int[] getHighLowIndex(double[] values) { 
+				if (values.length == 0) 
+					return new int[] {-1, -1};
+				int maxIndex = 0;
+				int minIndex = 0;
+				for (int index = 0; index < values.length; index++) { 
+					double currentValue = values[index]; 
+					if (currentValue > values[maxIndex])
+						maxIndex = index; 
+					else if (currentValue < values[minIndex])
+						minIndex = index; 
+				}
+				return new int[] {maxIndex, minIndex}; 
+			}
+			
+			private int[] getHighLowIndex(int[] values) { 
 				if (values.length == 0) 
 					return new int[] {-1, -1};
 				int maxIndex = 0;

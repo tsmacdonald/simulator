@@ -1,6 +1,7 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager;
@@ -15,20 +16,21 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 
-public final class GuiUtility {
+public final class Gui {
 
 	
-	private GuiUtility() {
+	private Gui() {
 		// Auto-generated constructor stub
 	}
 	
-	public static JButton makeButton(String name, ActionListener al){
+	public static JButton makeButton(String name, PrefSize prefSize, ActionListener al){
 		JButton b = new JButton(name);
 		if(al != null)
 			b.addActionListener(al);
+		if(prefSize != null)
+			b.setPreferredSize(prefSize);
 		return b;
 	}
 	
@@ -50,7 +52,7 @@ public final class GuiUtility {
 		return label;
 	}
 	
-	public static JPanel makePanel(LayoutManager layout, MaxSize maxSize, PrefSize prefSize){
+	public static JPanel makePanel(LayoutManager layout, MaxSize maxSize, PrefSize prefSize, Component... components){
 		JPanel panel = new JPanel();
 		
 		if(layout != null)
@@ -59,10 +61,13 @@ public final class GuiUtility {
 			panel.setMaximumSize(maxSize);
 		if(prefSize != null)
 			panel.setPreferredSize(prefSize);
+		if(components!=null)
+			for(Component c : components)
+				panel.add(c);
 		return panel;
 	}
 	
-	public static JPanel makePanel(BoxLayoutAxis axis, MaxSize maxSize, PrefSize prefSize){
+	public static JPanel makePanel(BoxLayoutAxis axis, MaxSize maxSize, PrefSize prefSize, Component... components){
 		JPanel panel = new JPanel();
 		
 		if(axis != null)
@@ -71,6 +76,15 @@ public final class GuiUtility {
 			panel.setMaximumSize(maxSize);
 		if(prefSize != null)
 			panel.setPreferredSize(prefSize);
+		for(Component c : components)
+			panel.add(c);
+		return panel;
+	}
+	
+	public static JPanel makePanel(Component... components){
+		JPanel panel = new JPanel();
+		for(Component c : components)
+			panel.add(c);
 		return panel;
 	}
 	
@@ -105,24 +119,20 @@ public final class GuiUtility {
 	}
 	
 	public static JPanel makeColorChooserPanel(JColorChooser cc){
-		JPanel panel = GuiUtility.makePanel(new GridBagLayout(), null, null);
+		JPanel panel = Gui.makePanel(new GridBagLayout(), new MaxSize(550,140), null);
 		GridBagConstraints constraints = new GridBagConstraints();
-		
-		panel.setMaximumSize(new MaxSize(550,140));
-		
 		panel.add(cc,constraints);
 		return panel;
 	}
 	
 	public static JMenu makeMenu(String name){
 		JMenu menu = new JMenu(name);
-		
 		menu.setOpaque(true);
 		menu.setForeground(Color.white);
 		menu.setBackground(Color.darkGray);
 		
-		JPopupMenu popupMenu = menu.getPopupMenu();
-		popupMenu.setBorder(BorderFactory.createLineBorder(Color.black));
+		menu.getPopupMenu().setBorder(
+			BorderFactory.createLineBorder(Color.black));
 		
 		return menu;
 	}
@@ -130,11 +140,9 @@ public final class GuiUtility {
 	public static JMenuItem makeMenuItem(String name, ActionListener al){
 		JMenuItem menuItem = new JMenuItem(name);
 		menuItem.addActionListener(al);
-		
 		menuItem.setOpaque(true);
 		menuItem.setBackground(Color.gray);
 		menuItem.setForeground(Color.white);
-		
 		return menuItem;
 	}
 }

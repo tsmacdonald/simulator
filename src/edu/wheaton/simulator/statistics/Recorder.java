@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import edu.wheaton.simulator.behavior.AbstractBehavior;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.datastructure.GridObserver;
 import edu.wheaton.simulator.entity.Agent;
@@ -47,17 +46,14 @@ public class Recorder implements GridObserver, TriggerObserver {
 	public void update(Grid grid) {
 		Collection<Prototype> prototypes = Prototype.getPrototypes();
 		
-		for (Prototype prototype : prototypes) {
-			statManager.addPrototypeSnapshot(SnapshotFactory
+		for (Prototype prototype : prototypes)
+			StatisticsManager.addPrototypeSnapshot(SnapshotFactory
 					.makePrototypeSnapshot(prototype, grid.getStep()));
-		}
 		
 		for (Agent agent : grid) {
-			if (agent != null) {
+			if (agent != null)
 				statManager.addGridEntity(SnapshotFactory.makeAgentSnapshot(
 						agent, triggers.get(agent.getID()), grid.getStep()));
-				
-			}
 		}
 		
 		if(gridPrototype == null) {
@@ -85,16 +81,16 @@ public class Recorder implements GridObserver, TriggerObserver {
 	 *            The step that this method is called in
 	 */
 	@Override
-	public void update(Agent caller, Trigger trigger, int step) {
+	public void update(AgentID caller, Trigger trigger, int step) {
 		TriggerSnapshot triggerSnap = SnapshotFactory.makeTriggerSnapshot(
-				caller.getID(), trigger.getName(), trigger.getPriority(), null, null, step);
+				trigger.getName(), trigger.getPriority(), null, null);
 		
 		if (triggers.containsKey(caller)) {
 			triggers.get(caller).add(triggerSnap);
 		} else {
 			ArrayList<TriggerSnapshot> triggerList = new ArrayList<TriggerSnapshot>();
 			triggerList.add(triggerSnap);
-			triggers.put(caller.getID(), triggerList);
+			triggers.put(caller, triggerList);
 		}
 	}
 }

@@ -9,8 +9,6 @@ package edu.wheaton.simulator.test.statistics;
  * 11 Apr 2013
  */
 
-import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,10 +20,13 @@ import edu.wheaton.simulator.behavior.MoveBehavior;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
-import edu.wheaton.simulator.statistics.BehaviorSnapshot;
+import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.entity.Trigger.Builder;
+import edu.wheaton.simulator.statistics.SnapshotFactory;
+import edu.wheaton.simulator.statistics.TriggerSnapshot;
 
 @RunWith(JUnit4.class)
-public class BehaviorSnapshotCase {
+public class TriggerSnapshotCase {
 
 	Grid grid;
 	Prototype prototype;
@@ -34,7 +35,7 @@ public class BehaviorSnapshotCase {
 	Integer step;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		grid = new Grid(1, 1);
 		prototype = new Prototype(grid, "BehaviorSnapshotTest");
 		actor = prototype.createAgent();
@@ -45,16 +46,24 @@ public class BehaviorSnapshotCase {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 	}
 
 	@Test
-	public void behaviorSnapshotTest() {
-		BehaviorSnapshot behaviorSnap = new BehaviorSnapshot(actor.getID(),
-				behavior, recipient.getID(), step);
-		Assert.assertNotNull("BehaviorSnapshot not created", behaviorSnap);
-		System.out.println(behaviorSnap.serialize());
+	public void makeSnapshotTest() {
+		Builder builder = new Trigger.Builder(prototype);
+		builder.addBehavioral("behavior");
+		builder.addConditional("conditional");
+		builder.addName("trigger");
+		builder.addPriority(1);
 		
+		Trigger trigger = builder.build();
+		
+		Agent agent = prototype.createAgent();
+		agent.addTrigger(trigger);
+		
+		TriggerSnapshot tSnap = SnapshotFactory.makeTriggerSnapshot(trigger.getName(), trigger.getPriority(), trigger.getConditions().toString(), trigger.getBehavior().toString());
+		org.junit.Assert.assertNotNull("Trigger Snapshot(" + tSnap + ") shouldn't be null", tSnap);
 	}
 
 }

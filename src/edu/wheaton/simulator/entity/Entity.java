@@ -38,7 +38,7 @@ public class Entity {
 	 * 
 	 * @return returns the old field
 	 */
-	public Field updateField(String name, String value) {
+	public Field updateField(String name, String value) throws NoSuchElementException {
 		name = formatFieldName(name);
 		assertHasField(name);
 		String oldvalue = putField(name, value);
@@ -52,7 +52,7 @@ public class Entity {
 	/**
 	 * Removes a field from this Entity and returns it.
 	 */
-	public Field removeField(String name) {
+	public Field removeField(String name) throws NoSuchElementException {
 		name = formatFieldName(name);
 		assertHasField(name);
 		String value = fields.remove(name.toString());
@@ -71,14 +71,16 @@ public class Entity {
 		return fields.get(name.toString());
 	}
 
-	private void assertHasField(String name) {
-		if (hasField(name) == false)
+	private void assertHasField(String name) throws NoSuchElementException {
+		if (!hasField(name)){
+			System.err.println("####" + name + "####");
 			throw new NoSuchElementException();
+		}
 	}
 
 	private void assertNoSuchField(String name)
 			throws ElementAlreadyContainedException {
-		if (hasField(name) == true)
+		if (hasField(name))
 			throw new ElementAlreadyContainedException();
 	}
 

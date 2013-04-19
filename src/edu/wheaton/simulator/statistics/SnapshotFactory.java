@@ -2,8 +2,9 @@ package edu.wheaton.simulator.statistics;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -13,7 +14,6 @@ import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
-import edu.wheaton.simulator.expression.Expression;
 
 /**
  * This class will create the Snapshots to be put into the Database
@@ -73,9 +73,9 @@ public class SnapshotFactory {
 		
 		ArrayList<Trigger> triggers = (ArrayList<Trigger>) prototype.getTriggers();
 		
-		List<TriggerSnapshot> trigSnaps = new ArrayList<TriggerSnapshot>();
+		Set<TriggerSnapshot> trigSnaps = new HashSet<TriggerSnapshot>();
 		for(Trigger t : triggers)
-			trigSnaps.add(makeTriggerSnapshot(null, t.getName(), t.getPriority(), t.getConditions(), t.getBehavior(), (Integer) null));
+			trigSnaps.add(makeTriggerSnapshot(t.getName(), t.getPriority(), t.getConditions().toString(), t.getBehavior().toString()));
 		
 		ImmutableMap<String, FieldSnapshot> fields = makeFieldSnapshots(prototype.getCustomFieldMap()); 
 		int population = prototype.childPopulation();
@@ -83,13 +83,22 @@ public class SnapshotFactory {
 		Color color = prototype.getColor(); 
 		byte[] design = prototype.getDesign(); 
 		
-		return new PrototypeSnapshot(name, fields, population, childIDs, step, color, design);	
+		return new PrototypeSnapshot(name, fields, population, childIDs, trigSnaps, step, color, design);	
 	}
 	
-	// TODO Add documentation
-	public static TriggerSnapshot makeTriggerSnapshot(AgentID id, String triggerName, int priority, Expression condition, 
-			Expression behavior, int step) {
-		return new TriggerSnapshot(id, triggerName, priority, condition, behavior, step);
+	/**
+	 * 
+	 * @param id Of the agent acting
+	 * @param triggerName
+	 * @param priority Of the trigger
+	 * @param condition The expression this trigger is made up of
+	 * @param behavior The expression to represent the behavior
+	 * @param step Of the game
+	 * @return
+	 */
+	public static TriggerSnapshot makeTriggerSnapshot(String triggerName, int priority, String condition, 
+			String behavior) {
+		return new TriggerSnapshot(triggerName, priority, condition, behavior);
 	}
  
 	/**
@@ -102,8 +111,7 @@ public class SnapshotFactory {
 	 */
 	public static AgentSnapshot makeGlobalVarSnapshot(Grid grid,
 			Prototype prototype, Integer step) {
-		//TODO: Note that AgentSnapshots now require an xPos and yPos in the constructor
-		return new AgentSnapshot(grid.getID(), makeFieldSnapshots(grid.getCustomFieldMap()), step, prototype.getName(), null, 0, 0);
+		return new AgentSnapshot(Grid.getID(), makeFieldSnapshots(grid.getCustomFieldMap()), step, prototype.getName(), null, 0, 0);
 	}
 	
 	/**
