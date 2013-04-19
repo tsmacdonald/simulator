@@ -184,29 +184,36 @@ public class SetupScreen extends Screen {
 		JPanel upperPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, PrefSize.NULL, null);
 		
 		JLabel nameLabel = Gui.makeLabel("Name: ",MaxSize.NULL, HorizontalAlignment.LEFT);
-		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),new MinSize(250,25));
-		JLabel widthLabel = Gui.makeLabel("Width: ", new MaxSize(200, 40), HorizontalAlignment.RIGHT);
+		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),new MinSize(272,25));
+		nameField.setHorizontalAlignment(SwingConstants.LEFT);
+		JLabel widthLabel = Gui.makeLabel("Width: ", new MaxSize(200, 40), HorizontalAlignment.LEFT);
 		widthField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,25));
-		JLabel yLabel = Gui.makeLabel("Height: ", new MaxSize(200, 40), HorizontalAlignment.RIGHT);
+		widthField.setHorizontalAlignment(SwingConstants.LEFT);
+		JLabel yLabel = Gui.makeLabel("Height: ", new MaxSize(200, 40), HorizontalAlignment.LEFT);
 		heightField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,25));
-		JLabel updateLabel = Gui.makeLabel("Update type: ",new MaxSize(100,40),HorizontalAlignment.RIGHT);
+		heightField.setHorizontalAlignment(SwingConstants.LEFT);
+		JLabel updateLabel = Gui.makeLabel("Update type: ",new MaxSize(100,40),HorizontalAlignment.LEFT);
 		updateBox = Gui.makeComboBox(new String[]{"Linear", "Atomic", "Priority"}, new MaxSize(200,40));
+		updateBox.setAlignmentY(LEFT_ALIGNMENT);
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 1;
+		c.insets = new Insets(70,0,0,0);
 		upperPanel.add(nameLabel, c);
 
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = 3;
+		c.insets = new Insets(70,0,0,0);
 		upperPanel.add(nameField, c);
 		
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 1;
+		c.insets = new Insets(0,0,0,0);
 		upperPanel.add(widthLabel,c);
 		
 		c.gridx = 1;
@@ -215,10 +222,12 @@ public class SetupScreen extends Screen {
 		
 		c.gridx = 2;
 		c.gridy = 1;
+		c.insets = new Insets(0,15,0,0);
 		upperPanel.add(yLabel,c);
 		
 		c.gridx = 3;
 		c.gridy = 1;
+		c.insets = new Insets(0,0,0,0);
 		upperPanel.add(heightField,c);
 		
 		c.gridx = 0;
@@ -251,16 +260,19 @@ public class SetupScreen extends Screen {
 		c.gridx = 1;
 		c.gridwidth = 3;
 		c.gridy = 0;
+		c.insets = new Insets(50,0,20,0);
 		lowerPanel.add(conHeader,c);
 		
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 1;
+		c.insets = new Insets(0,0,20,0);
 		lowerPanel.add(timeLabel,c);
 		
 		c.gridx = 1;
 		c.gridy = 1;
 		c.gridwidth = 3;
+		c.insets = new Insets(0,0,20,0);
 		lowerPanel.add(timeField,c);
 		
 		c.gridx = 0;
