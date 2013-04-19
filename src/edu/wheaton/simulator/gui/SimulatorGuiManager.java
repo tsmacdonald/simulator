@@ -22,7 +22,7 @@ import edu.wheaton.simulator.gui.screen.NewSimulationScreen;
 import edu.wheaton.simulator.gui.screen.SetupScreen;
 import edu.wheaton.simulator.gui.screen.StatDisplayScreen;
 import edu.wheaton.simulator.gui.screen.TitleScreen;
-import edu.wheaton.simulator.gui.screen.ViewSimScreen1;
+import edu.wheaton.simulator.gui.screen.ViewSimScreen;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.Loader;
@@ -53,7 +53,7 @@ public class SimulatorGuiManager {
 		sm.putScreen("New Simulation", new NewSimulationScreen(this));
 		sm.putScreen("Edit Fields", new EditFieldScreen(this));
 		sm.putScreen("Edit Entities", new EditEntityScreen(this));
-		sm.putScreen("View Simulation", new ViewSimScreen1(this));
+		sm.putScreen("View Simulation", new ViewSimScreen(this));
 		sm.putScreen("Statistics", new StatDisplayScreen(this));
 		sm.putScreen("Grid Setup", new SetupScreen(this));
 
