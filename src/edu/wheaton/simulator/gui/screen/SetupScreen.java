@@ -66,37 +66,37 @@ public class SetupScreen extends Screen {
 		
 		c.gridx = 0;
 		c.gridy = 2;
-		c.gridwidth = 2;
-		JLabel updateLabel = Gui.makeLabel("Update type: ",new MaxSize(100,40),HorizontalAlignment.RIGHT);
-		this.add(updateLabel,c);
-		
-		c.gridx = 2;
-		c.gridy = 2;
-		c.gridwidth = 2;
-		String[] updateTypes = {"Linear", "Atomic", "Priority"};
-		updateBox = Gui.makeComboBox(updateTypes, new MaxSize(200,40));
-		this.add(updateBox,c);
-		
-		c.gridx = 0;
-		c.gridy = 3;
 		c.gridwidth = 1;
 		JLabel widthLabel = Gui.makeLabel("Width: ", new MaxSize(200, 40), HorizontalAlignment.RIGHT);
 		this.add(widthLabel,c);
 		
 		c.gridx = 1;
-		c.gridy = 3;
+		c.gridy = 2;
 		widthField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,30));
 		this.add(widthField,c);
 		
 		c.gridx = 2;
-		c.gridy = 3;
+		c.gridy = 2;
 		JLabel yLabel = Gui.makeLabel("Height: ", new MaxSize(200, 40), HorizontalAlignment.RIGHT);
 		this.add(yLabel,c);
 		
 		c.gridx = 3;
-		c.gridy = 3;
+		c.gridy = 2;
 		heightField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,30));
 		this.add(heightField,c);
+		
+		c.gridx = 0;
+		c.gridy = 3;
+		c.gridwidth = 2;
+		JLabel updateLabel = Gui.makeLabel("Update type: ",new MaxSize(100,40),HorizontalAlignment.RIGHT);
+		this.add(updateLabel,c);
+		
+		c.gridx = 2;
+		c.gridy = 3;
+		c.gridwidth = 2;
+		String[] updateTypes = {"Linear", "Atomic", "Priority"};
+		updateBox = Gui.makeComboBox(updateTypes, new MaxSize(200,40));
+		this.add(updateBox,c);
 		
 		c.gridx = 1;
 		c.gridy = 4;

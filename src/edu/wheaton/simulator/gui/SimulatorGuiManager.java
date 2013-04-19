@@ -281,20 +281,41 @@ public class SimulatorGuiManager {
 		JMenuBar menuBar = new JMenuBar();
 
 		JMenu fileMenu = makeFileMenu(this);
-		JMenu editMenu = makeEditMenu(sm);
+		//JMenu editMenu = makeEditMenu(sm);
 		JMenu helpMenu = makeHelpMenu(sm);
 
 		menuBar.add(fileMenu);
-		menuBar.add(editMenu);
+		//menuBar.add(editMenu);
 		menuBar.add(helpMenu);
 		return menuBar;
 	}
 
-	private static JMenu makeFileMenu(final SimulatorGuiManager guiManager) {
+	private JMenu makeFileMenu(final SimulatorGuiManager guiManager) {
 		JMenu menu = Gui.makeMenu("File");
 
 		menu.add(Gui.makeMenuItem("New Simulation", 
 				new GeneralButtonListener("New Simulation",guiManager.sm)));
+		
+		menu.add(Gui.makeMenuItem("Save Simulation", 
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String fileName = JOptionPane.showInputDialog("Please enter file name: ");
+				saveSim(fileName);
+			}
+
+		}
+				));
+
+		menu.add(Gui.makeMenuItem("Load Simulation", 
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				loadSim();
+			}
+		}
+				));
+		
 		menu.add(Gui.makeMenuItem("Exit",new ActionListener(){ 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -308,24 +329,6 @@ public class SimulatorGuiManager {
 
 	private JMenu makeEditMenu(final ScreenManager sm) {
 		JMenu menu = Gui.makeMenu("Edit");
-
-		menu.add(Gui.makeMenuItem("Save Simulation", 
-				new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				String fileName = JOptionPane.showInputDialog("Please enter file name: ");
-				saveSim(fileName);
-			}
-
-		}
-				));
-
-		menu.add(Gui.makeMenuItem("Load Simulation", 
-				new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				loadSim();
-			}
-		}
-				));
 
 		menu.add(Gui.makeMenuItem("Edit Global Fields", 
 				new GeneralButtonListener("Fields",sm)));

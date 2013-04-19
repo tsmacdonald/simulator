@@ -250,6 +250,7 @@ public class Agent extends GridEntity {
 	/**
 	 * Provides a deep clone of this Agent
 	 */
+	@Override
 	public Agent clone() {
 		Agent clone = new Agent(getGrid(), getPrototype(), getColor(),
 				getDesign(), getID());
