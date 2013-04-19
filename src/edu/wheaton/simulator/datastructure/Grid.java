@@ -129,6 +129,20 @@ public class Grid extends Entity implements Iterable<Agent> {
 	}
 
 	/**
+	 * Returns true if the given space is empty, false otherwise. Also returns
+	 * false if invalid x, y values are given.
+	 * 
+	 * @param x
+	 * @param y
+	 * @return Whether or not the particular position is empty
+	 */
+	public boolean emptyPos(int x, int y) {
+		if (isValidCoord(x, y) && getAgent(x, y) == null)
+			return true;
+		return false;
+	}
+	
+	/**
 	 * Checks whether the given x/y position is a valid coordinate (both larger
 	 * than 0 and smaller than width/height respectively)
 	 * 
@@ -233,141 +247,6 @@ public class Grid extends Entity implements Iterable<Agent> {
 	}
 
 	/**
-	 * Adds the given Agent at the closest free spot to the spawn position. The
-	 * search for an open spot begins at the given x/y and then spirals
-	 * outwards.
-	 * 
-	 * @param a
-	 *            The Agent to add.
-	 * @param spawnX
-	 *            Central x location for spawn
-	 * @param spawnY
-	 *            Central y location for spawn
-	 * @return true if successful (Agent added), false otherwise
-	 */
-	public boolean spiralSpawn(Agent a, int spawnX, int spawnY) {
-
-		a.setPos(-1, -1);
-		int largestDistance = largestDistanceToSide(spawnX, spawnY);
-		for (int distance = 0; distance <= largestDistance; distance++) {
-			int x = spawnX - distance;
-			int y = spawnY - distance;
-			if (spawnHelper(a, x, y))
-				return true;
-			for (; x < spawnX + distance; x++)
-				if (spawnHelper(a, x, y))
-					return true;
-			for (; y < spawnY + distance; y++)
-				if (spawnHelper(a, x, y))
-					return true;
-			for (; x > spawnX - distance; x--)
-				if (spawnHelper(a, x, y))
-					return true;
-			for (; y > spawnY - distance; y--)
-				if (spawnHelper(a, x, y))
-					return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Calculates the biggest distance from this given x/y to a wall.
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
-	 */
-	private int largestDistanceToSide(int x, int y) {
-		int presentMax = getField("width").getIntValue() - x - 1; // presetMax
-		// = (x -->
-		// width)
-		if (presentMax < x) // presentMax < (0 --> x)
-			presentMax = x;
-		if (presentMax < (getField("height").getIntValue() - y - 1)) // presentMax
-			// < (y
-			// -->
-			// height)
-			presentMax = getField("height").getIntValue() - y - 1;
-		if (presentMax < y) // presentMax < (0 --> y)
-			presentMax = y;
-		return presentMax;
-	}
-
-	/**
-	 * Adds an Agent to a free spot along the given row
-	 * 
-	 * @param a
-	 *            The Agent to add.
-	 * @param row
-	 *            The y position of the row
-	 * @return true if successful (Agent added), false otherwise
-	 */
-	public boolean horizontalSpawn(Agent a, int row) {
-		for (int x = 0; x < getField("width").getIntValue(); x++)
-			if (spawnHelper(a, x, row))
-				return true;
-		return false;
-	}
-
-	/**
-	 * Adds an Agent to a free spot in the given column
-	 * 
-	 * @param a
-	 *            The Agent to add.
-	 * @param column
-	 *            The x position of the column
-	 * @return true if successful (Agent added), false otherwise
-	 */
-	public boolean verticalSpawn(Agent a, int column) {
-		for (int y = 0; y < getField("height").getIntValue(); y++)
-			if (spawnHelper(a, column, y))
-				return true;
-		return false;
-	}
-
-	/**
-	 * Adds an Agent to the specified x/y if that position is empty.
-	 * 
-	 * @param a
-	 * @param x
-	 * @param y
-	 * @return true when added, false otherwise
-	 */
-	private boolean spawnHelper(Agent a, int x, int y) {
-		if (emptyPos(x, y)) {
-			addAgent(a, x, y);
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Returns true if the given space is empty, false otherwise. Also returns
-	 * false if invalid x, y values are given.
-	 * 
-	 * @param x
-	 * @param y
-	 * @return Whether or not the particular position is empty
-	 */
-	public boolean emptyPos(int x, int y) {
-		if (isValidCoord(x, y) && getAgent(x, y) == null)
-			return true;
-		return false;
-	}
-
-	/**
-	 * Adds the given Agent to a random (but free) position.
-	 * 
-	 * @param a
-	 *            The Agent to add.
-	 */
-	public boolean spiralSpawn(Agent a) {
-		int randomX = (int) (Math.random() * (getField("width").getIntValue() - 1));
-		int randomY = (int) (Math.random() * (getField("height").getIntValue() - 1));
-		return spiralSpawn(a, randomX, randomY);
-	}
-
-	/**
 	 * Removes an Agent at the given coordinates
 	 * 
 	 * @param x
@@ -381,7 +260,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Makes a new Layer.
 	 * 
