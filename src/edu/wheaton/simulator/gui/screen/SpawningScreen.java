@@ -47,8 +47,8 @@ public class SpawningScreen extends Screen {
 			"Random" };
 	private String[] entities;
 
-	private ArrayList<JComboBox> entityTypes;
-	private ArrayList<JComboBox> spawnPatterns;
+	private ArrayList<JComboBox<String>> entityTypes;
+	private ArrayList<JComboBox<String>> spawnPatterns;
 	private ArrayList<JTextField> xLocs;
 	private ArrayList<JTextField> yLocs;
 	private ArrayList<JTextField> numbers;
@@ -85,8 +85,8 @@ public class SpawningScreen extends Screen {
 				}
 		});
 		
-		entityTypes = new ArrayList<JComboBox>();
-		spawnPatterns = new ArrayList<JComboBox>();
+		entityTypes = new ArrayList<JComboBox<String>>();
+		spawnPatterns = new ArrayList<JComboBox<String>>();
 		xLocs = new ArrayList<JTextField>();
 		yLocs = new ArrayList<JTextField>();
 		numbers = new ArrayList<JTextField>();
@@ -206,11 +206,11 @@ public class SpawningScreen extends Screen {
 	}
 
 	private void addSpawn() {
-		JComboBox newBox = Gui.makeComboBox(entities, new MaxSize(250,
+		JComboBox<String> newBox = Gui.makeComboBox(entities, new MaxSize(250,
 				30));
 		entityTypes.add(newBox);
 		
-		JComboBox newSpawnType = Gui.makeComboBox(spawnOptions,
+		JComboBox<String> newSpawnType = Gui.makeComboBox(spawnOptions,
 				new MaxSize(250, 30));
 		newSpawnType.addItemListener(new PatternListener(spawnPatterns
 				.indexOf(newSpawnType)));

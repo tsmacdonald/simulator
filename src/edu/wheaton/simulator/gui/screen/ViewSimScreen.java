@@ -41,8 +41,8 @@ public class ViewSimScreen extends Screen {
 
 	private static final long serialVersionUID = -6872689283286800861L;
 
-	private JComboBox agentComboBox;
-	private JComboBox layerComboBox;
+	private JComboBox<String> agentComboBox;
+	private JComboBox<String> layerComboBox;
 
 	private String[] entities;
 
@@ -189,16 +189,24 @@ public class ViewSimScreen extends Screen {
 	@Override
 	public void load() {
 		entities = Simulator.prototypeNames().toArray(entities);
-		agentComboBox = new JComboBox(entities);
+		agentComboBox = new JComboBox<String>(entities);
 		agentComboBox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if(agentComboBox.getItemAt(0)!=null)
-					layerComboBox = new JComboBox(Simulator.getPrototype
-							(agentComboBox.getSelectedItem().toString())
-							.getCustomFieldMap().keySet().toArray());
+				if(agentComboBox.getItemAt(0)!=null) {
+					
+					//To ensure type safety with the "String" combo box, we need to convert the objects to strings.
+					Object[] tempObjList = Simulator.getPrototype(agentComboBox.getSelectedItem().toString()).getCustomFieldMap().keySet().toArray();
+					String[] tempStringList = new String[tempObjList.length];
+					for(int i = 0; i < tempObjList.length; i++) {
+						tempStringList[i] = tempObjList[i].toString();
+					}
+					
+					layerComboBox = new JComboBox<String>(tempStringList);
+					
+				}
 				else
-					layerComboBox = new JComboBox();
+					layerComboBox = new JComboBox<String>();
 				layerComboBox.setMaximumSize(new Dimension(200, 50));
 				layerPanelLayers.remove(1);
 				layerPanelLayers.add(layerComboBox);
@@ -207,12 +215,20 @@ public class ViewSimScreen extends Screen {
 			}
 		});
 		if(entities.length != 0){
-			if(agentComboBox.getItemAt(0)!=null)
-				layerComboBox = new JComboBox(Simulator.getPrototype
-						(agentComboBox.getItemAt(0).toString())
-						.getCustomFieldMap().keySet().toArray());
+			if(agentComboBox.getItemAt(0)!=null) {
+				
+				//To ensure type safety with the "String" combo box, we need to convert the objects to strings.
+				Object[] tempObjList = Simulator.getPrototype(agentComboBox.getSelectedItem().toString()).getCustomFieldMap().keySet().toArray();
+				String[] tempStringList = new String[tempObjList.length];
+				for(int i = 0; i < tempObjList.length; i++) {
+					tempStringList[i] = tempObjList[i].toString();
+				}
+				
+				layerComboBox = new JComboBox<String>(tempStringList);
+				
+			}
 			else
-				layerComboBox = new JComboBox();
+				layerComboBox = new JComboBox<String>();
 			layerComboBox.setMaximumSize(new Dimension(200, 50));
 			layerPanelLayers.remove(1);
 			layerPanelLayers.add(layerComboBox);

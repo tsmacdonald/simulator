@@ -47,9 +47,9 @@ public class ViewSimScreen1 extends Screen {
 
 	private static final long serialVersionUID = -6872689283286800861L;
 
-	private JComboBox agentComboBox;
+	private JComboBox<String> agentComboBox;
 
-	private JComboBox layerComboBox;
+	private JComboBox<String> layerComboBox;
 
 	private String[] entities;
 
@@ -271,14 +271,20 @@ public class ViewSimScreen1 extends Screen {
 		//TODO when New Simulation is pressed on the menu bar, we need to reset the number of 
 		//prototypes 
 		entities = Simulator.prototypeNames().toArray(entities);
-		agentComboBox = new JComboBox(entities);
+		agentComboBox = new JComboBox<String>(entities);
 		agentComboBox.addItemListener(
 				new ItemListener() {
 					@Override
 					public void itemStateChanged(ItemEvent e) {
-						layerComboBox = new JComboBox(Simulator.getPrototype
-								(agentComboBox.getSelectedItem().toString())
-								.getCustomFieldMap().keySet().toArray());
+						
+						//To ensure type safety with the "String" combo box, we need to convert the objects to strings.
+						Object[] tempObjList = Simulator.getPrototype(agentComboBox.getSelectedItem().toString()).getCustomFieldMap().keySet().toArray();
+						String[] tempStringList = new String[tempObjList.length];
+						for(int i = 0; i < tempObjList.length; i++) {
+							tempStringList[i] = tempObjList[i].toString();
+						}
+						
+						layerComboBox = new JComboBox<String>(tempStringList);
 						layerComboBox.setMaximumSize(new Dimension(200, 50));
 						layerPanelLayers.remove(1);
 						layerPanelLayers.add(layerComboBox);
@@ -288,9 +294,15 @@ public class ViewSimScreen1 extends Screen {
 				}
 				);
 		if(entities.length != 0){
-			layerComboBox = new JComboBox(Simulator.getPrototype
-					(agentComboBox.getItemAt(0).toString())
-					.getCustomFieldMap().keySet().toArray());
+			
+			//To ensure type safety with the "String" combo box, we need to convert the objects to strings.
+			Object[] tempObjList = Simulator.getPrototype(agentComboBox.getSelectedItem().toString()).getCustomFieldMap().keySet().toArray();
+			String[] tempStringList = new String[tempObjList.length];
+			for(int i = 0; i < tempObjList.length; i++) {
+				tempStringList[i] = tempObjList[i].toString();
+			}
+			
+			layerComboBox = new JComboBox<String>(tempStringList);
 			layerComboBox.setMaximumSize(new Dimension(200, 50));
 			layerPanelLayers.remove(1);
 			layerPanelLayers.add(layerComboBox);
