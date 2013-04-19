@@ -79,7 +79,7 @@ public class SetupScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 7;
 		c.gridwidth = 4;
-		c.gridheight = GridBagConstraints.REMAINDER;
+		c.gridheight = GridBagConstraints.RELATIVE;
 		c.weighty = 1.0;
 		c.anchor = GridBagConstraints.PAGE_START;
 		this.add(conListPanel,c);
@@ -190,11 +190,11 @@ public class SetupScreen extends Screen {
 		JPanel upperPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, PrefSize.NULL, null);
 		
 		JLabel nameLabel = Gui.makeLabel("Name: ",MaxSize.NULL, HorizontalAlignment.LEFT);
-		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),new MinSize(250,30));
+		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),new MinSize(250,25));
 		JLabel widthLabel = Gui.makeLabel("Width: ", new MaxSize(200, 40), HorizontalAlignment.RIGHT);
-		widthField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,30));
+		widthField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,25));
 		JLabel yLabel = Gui.makeLabel("Height: ", new MaxSize(200, 40), HorizontalAlignment.RIGHT);
-		heightField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,30));
+		heightField = Gui.makeTextField("10", 5, new MaxSize(200, 40), new MinSize(100,25));
 		JLabel updateLabel = Gui.makeLabel("Update type: ",new MaxSize(100,40),HorizontalAlignment.RIGHT);
 		updateBox = Gui.makeComboBox(new String[]{"Linear", "Atomic", "Priority"}, new MaxSize(200,40));
 		
@@ -245,7 +245,7 @@ public class SetupScreen extends Screen {
 		
 		JLabel conHeader = Gui.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
 		JLabel timeLabel = Gui.makeLabel("Time Limit",new PrefSize(300,100),HorizontalAlignment.CENTER );
-		timeField = Gui.makeTextField(null,15,new MaxSize(200,30),new MinSize(100,30));
+		timeField = Gui.makeTextField(null,15,new MaxSize(200,30),new MinSize(100,25));
 		JLabel agentTypeLabel = Gui.makeLabel("Agent Type",new PrefSize(300,30),HorizontalAlignment.LEFT);
 		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
 		conListPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
