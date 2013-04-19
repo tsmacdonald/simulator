@@ -99,6 +99,7 @@ public class Simulator {
 		grid = new Grid(gridX, gridY);
 		isPaused = new AtomicBoolean(false);
 		isStopped = new AtomicBoolean(false);
+		isStarted = new AtomicBoolean(false);
 		sleepPeriod = 500;
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid, ender);
@@ -569,29 +570,30 @@ public class Simulator {
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
 	}
-	
-//	/**
-//	 * Saves a simulation to a given file.
-//	 * 
-//	 * @param filename
-//	 */
-//	public void saveToString(String filename){
-//		Saver s = new Saver();
-//		Set<Agent> agents = new HashSet<Agent>(); 
-//		for (Agent agent : grid)
-//			if (agent != null)
-//				agents.add(agent);
-//
-//		s.saveSimulation(filename, agents, Prototype.getPrototypes(), getGlobalFieldMap(), 
-//				grid.getWidth(), grid.getHeight(), ender);
-//	}
-//	
-//	public void loadFromString(File file){
-//		Loader l = new Loader();
-//		l.loadSimulation(file);
-//		
-//		load(l.getName(), l.getGrid(), l.getPrototypes());
-//		ender = l.getSimEnder();
-//	}
-//	
+
+	// /**
+	// * Saves a simulation to a given file.
+	// *
+	// * @param filename
+	// */
+	// public void saveToString(String filename){
+	// Saver s = new Saver();
+	// Set<Agent> agents = new HashSet<Agent>();
+	// for (Agent agent : grid)
+	// if (agent != null)
+	// agents.add(agent);
+	//
+	// s.saveSimulation(filename, agents, Prototype.getPrototypes(),
+	// getGlobalFieldMap(),
+	// grid.getWidth(), grid.getHeight(), ender);
+	// }
+	//
+	// public void loadFromString(File file){
+	// Loader l = new Loader();
+	// l.loadSimulation(file);
+	//
+	// load(l.getName(), l.getGrid(), l.getPrototypes());
+	// ender = l.getSimEnder();
+	// }
+	//
 }
