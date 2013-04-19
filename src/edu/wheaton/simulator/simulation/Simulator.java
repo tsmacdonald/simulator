@@ -305,63 +305,6 @@ public class Simulator {
 	}
 
 	/**
-	 * Adds the given Agent at the closest free spot to the spawn position. The
-	 * search for an open spot begins at the given x/y and then spirals
-	 * outwards.
-	 * 
-	 * @param prototypeName
-	 *            The name of the prototype to build the Agent from.
-	 * @param spawnX
-	 *            Central x location for spawn
-	 * @param spawnY
-	 *            Central y location for spawn
-	 * @return true if successful (agent added), false otherwise
-	 */
-	public boolean spiralSpawn(String prototypeName, int spawnX, int spawnY) {
-		Agent toAdd = getPrototype(prototypeName).createAgent();
-		return grid.spiralSpawn(toAdd, spawnX, spawnY);
-	}
-
-	/**
-	 * Adds an Agent to a free spot along the given row
-	 * 
-	 * @param prototypeName
-	 *            The name of the prototype to build the Agent from.
-	 * @param row
-	 *            The y position of the row
-	 * @return true if successful (Agent added), false otherwise
-	 */
-	public boolean horizontalSpawn(String prototypeName, int row) {
-		Agent toAdd = getPrototype(prototypeName).createAgent();
-		return grid.horizontalSpawn(toAdd, row);
-	}
-
-	/**
-	 * Adds an Agent to a free spot in the given column
-	 * 
-	 * @param prototypeName
-	 *            The name of the prototype to build the Agent from.
-	 * @param column
-	 *            The x position of the column
-	 * @return true if successful (Agent added), false otherwise
-	 */
-	public boolean verticalSpawn(String prototypeName, int column) {
-		Agent toAdd = getPrototype(prototypeName).createAgent();
-		return grid.verticalSpawn(toAdd, column);
-	}
-
-	/**
-	 * Adds the given Agent to a random (but free) position.
-	 * 
-	 * @param prototypeName
-	 *            The name of the prototype to build the Agent from.
-	 */
-	public boolean spiralSpawn(String prototypeName) {
-		Agent toAdd = getPrototype(prototypeName).createAgent();
-		return grid.spiralSpawn(toAdd);
-	}
-
-	/**
 	 * Places an new agent (that follows the given prototype) at the given
 	 * coordinates. This method replaces (kills) anything that is currently in
 	 * that position. The Agent's own position is also updated accordingly.
