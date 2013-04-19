@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -184,7 +183,7 @@ public class SetupScreen extends Screen {
 	}
 	
 	private JPanel makeUpperPanel(){
-		JPanel upperPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, PrefSize.NULL, null);
+		JPanel upperPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, PrefSize.NULL, (Component[])null);
 		
 		JLabel nameLabel = Gui.makeLabel("Name: ",MaxSize.NULL, HorizontalAlignment.LEFT);
 		nameField = Gui.makeTextField(gm.getSimName(), 25,new MaxSize(400,30),new MinSize(272,25));
