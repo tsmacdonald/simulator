@@ -233,20 +233,8 @@ public class SimulatorGuiManager {
 		return canSpawn;
 	}
 
-	public boolean spiralSpawnSimAgent(String prototypeName, int x, int y){
-		return getSim().spiralSpawn(prototypeName, x, y);
-	}
-
-	public boolean spiralSpawnSimAgent(String string) {
-		return getSim().spiralSpawn(string);
-	}
-
-	public boolean horizontalSpawnSimAgent(String prototypeName, int x) {
-		return getSim().horizontalSpawn(prototypeName, x);
-	}
-
-	public boolean verticalSpawnSimAgent(String name, int y) {
-		return getSim().verticalSpawn(name, y);
+	public boolean addAgent(String prototypeName, int x, int y){
+		return getSim().addAgent(prototypeName, x, y);
 	}
 
 	public void loadSim() {

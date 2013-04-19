@@ -16,7 +16,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -32,6 +31,7 @@ import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.gui.BoxLayoutAxis;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
+import edu.wheaton.simulator.gui.IconGridPanel;
 import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
@@ -66,7 +66,7 @@ public class EditEntityScreen extends Screen {
 
 	private JButton addFieldButton;
 
-	private JToggleButton[][] buttons;
+	private boolean[][] buttons;
 
 	private JPanel fieldListPanel;
 
@@ -110,8 +110,6 @@ public class EditEntityScreen extends Screen {
 
 		colorTool = Gui.makeColorChooser();
 
-		buttons = new JToggleButton[7][7];
-
 		fieldNames = new ArrayList<JTextField>();
 		fieldValues = new ArrayList<JTextField>();
 
@@ -125,6 +123,8 @@ public class EditEntityScreen extends Screen {
 
 		fieldDeleteButtons = new ArrayList<JButton>();
 		triggerDeleteButtons = new ArrayList<JButton>();
+		
+		buttons = new boolean[7][7];
 
 		currentCard = "General";
 
@@ -135,27 +135,27 @@ public class EditEntityScreen extends Screen {
 		cards = new JPanel(new CardLayout());
 
 		generalPanel = new JPanel(new GridBagLayout());
-	
+
 		addFieldButton = Gui.makeButton("Add Field",null,
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					addField();
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addField();
 			}
 		});
 
 		addTriggerButton = Gui.makeButton("Add Trigger",null,
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					addTrigger();
-				}
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addTrigger();
+			}
 		});
 
-		JPanel iconPanel = new JPanel(new GridLayout(7, 7));
+		IconGridPanel iconPanel = new IconGridPanel(gm);
+		iconPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 		iconPanel.setMinimumSize(new Dimension(500, 500));
-		iconPanel.setAlignmentX(RIGHT_ALIGNMENT);
-
+		//iconPanel.setAlignmentX(RIGHT_ALIGNMENT);
 		initIconDesignObject(iconPanel);
 
 		JPanel colorPanel = Gui.makeColorChooserPanel(colorTool);
@@ -170,9 +170,9 @@ public class EditEntityScreen extends Screen {
 		c.gridy = 0;
 		c.gridwidth = 4;
 		generalPanel.add(
-			Gui.makeLabel("General Info",
-				new PrefSize(300,80),
-				HorizontalAlignment.CENTER),c);
+				Gui.makeLabel("General Info",
+						new PrefSize(300,80),
+						HorizontalAlignment.CENTER),c);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -180,7 +180,7 @@ public class EditEntityScreen extends Screen {
 		c.gridy = 1;
 		c.gridwidth = 1;
 		generalPanel.add(
-			new JLabel("Agent Name: ",SwingConstants.RIGHT),c);
+				new JLabel("Agent Name: ",SwingConstants.RIGHT),c);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -204,13 +204,14 @@ public class EditEntityScreen extends Screen {
 		c.gridy = 2;
 		c.gridwidth = 2;
 		generalPanel.add(iconPanel, c);
-
+		
+		
 		addField();
 
 		// TODO make sure components line up
 
 		fieldSubPanels.get(0).setLayout(
-			new BoxLayout(fieldSubPanels.get(0), BoxLayout.X_AXIS));
+				new BoxLayout(fieldSubPanels.get(0), BoxLayout.X_AXIS));
 		fieldSubPanels.get(0).add(fieldNames.get(0));
 		fieldSubPanels.get(0).add(fieldValues.get(0));
 		fieldSubPanels.get(0).add(fieldDeleteButtons.get(0));
@@ -222,7 +223,7 @@ public class EditEntityScreen extends Screen {
 		addTrigger();
 
 		triggerSubPanels.get(0).setLayout(
-			new BoxLayout(triggerSubPanels.get(0), BoxLayout.X_AXIS));
+				new BoxLayout(triggerSubPanels.get(0), BoxLayout.X_AXIS));
 		triggerSubPanels.get(0).add(triggerNames.get(0));
 		triggerSubPanels.get(0).add(triggerPriorities.get(0));
 		triggerSubPanels.get(0).add(triggerConditions.get(0));
@@ -239,69 +240,44 @@ public class EditEntityScreen extends Screen {
 		cards.add(makeTriggerMainPanel(triggerListPanel), "Triggers");
 
 		finishButton = Gui.makeButton("Finish",null,
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (sendInfo()) {
-						gm.getScreenManager().update(gm.getScreenManager().getScreen("View Simulation"));
-						reset();
-					}
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (sendInfo()) {
+					gm.getScreenManager().update(gm.getScreenManager().getScreen("View Simulation"));
+					reset();
 				}
+			}
 		});
-		
+
 		previousButton = Gui.makeButton("Previous",null,
-			new PreviousListener());
+				new PreviousListener());
 		nextButton = Gui.makeButton("Next",null,
-			new NextListener());
+				new NextListener());
 
 		this.add(new JLabel("Edit Entities",SwingConstants.CENTER), BorderLayout.NORTH);
 		this.add(cards, BorderLayout.CENTER);
-		
+
 		this.add(Gui.makePanel(
-			Gui.makeButton("Cancel",null,
-				new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					ScreenManager sm = getScreenManager();
-					sm.update(sm.getScreen("View Simulation"));
-					if (!editing)
-						Prototype.removePrototype(nameField.getText());
-					reset();
-				}
-			}),finishButton,previousButton,nextButton), 
-			BorderLayout.SOUTH
-		);
+				Gui.makeButton("Cancel",null,
+						new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						ScreenManager sm = getScreenManager();
+						sm.update(sm.getScreen("View Simulation"));
+						if (!editing)
+							Prototype.removePrototype(nameField.getText());
+						reset();
+					}
+				}),finishButton,previousButton,nextButton), 
+				BorderLayout.SOUTH
+				);
 	}
 
-	private void initIconDesignObject(JPanel iconPanel){
+	private void initIconDesignObject(IconGridPanel iconPanel){
 		//Creates the icon design object.
-		for (int i = 0; i < 7; i++) {
-			for (int j = 0; j < 7; j++) {
-				buttons[i][j] = new JToggleButton();
-				buttons[i][j].setOpaque(true);
-				buttons[i][j].setBackground(Color.WHITE);
-				buttons[i][j].setActionCommand(i + "" + j);
-				//When the button is pushed it switches colors.
-				buttons[i][j].addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent ae) {
-						String str = ae.getActionCommand();
-						JToggleButton jb = buttons[Integer.parseInt(str
-								.charAt(0) + "")][Integer.parseInt(str
-										.charAt(1) + "")];
-						if (jb.getBackground().equals(Color.WHITE)) {
-							jb.setBackground(Color.BLACK);
-							jb.setForeground(Color.BLACK);
-						}
-						else {
-							jb.setBackground(Color.WHITE);
-							jb.setForeground(Color.WHITE);
-						}
-					}
-				});
-				iconPanel.add(buttons[i][j]);
-			}
-		}
+		iconPanel.setIcon(buttons);
+		iconPanel.repaint();
 	}
 
 	private static JPanel makeTriggerMainPanel(JPanel triggerListPanel){
@@ -328,7 +304,7 @@ public class EditEntityScreen extends Screen {
 
 	private static JPanel makeFieldMainPanel(JPanel fieldListPanel){
 		JPanel fieldMainPanel = Gui.makePanel(new GridBagLayout(),MaxSize.NULL,PrefSize.NULL);
-		
+
 		GridBagConstraints constraint = new GridBagConstraints();
 		constraint.gridx = 0;
 		constraint.gridy = 0;
@@ -336,11 +312,11 @@ public class EditEntityScreen extends Screen {
 		fieldMainPanel.add(
 				Gui.makeLabel("Field Info",new PrefSize(300,100),HorizontalAlignment.CENTER), 
 				constraint);
-		
+
 		constraint = new GridBagConstraints();
 		constraint.gridx = 0;
 		constraint.gridy = 1;
-		
+
 		JLabel fieldNameLabel = Gui.makeLabel("Field Name",new PrefSize(350,30),HorizontalAlignment.LEFT);
 		fieldNameLabel.setAlignmentX(LEFT_ALIGNMENT);
 		fieldMainPanel.add(fieldNameLabel, constraint);
@@ -357,7 +333,7 @@ public class EditEntityScreen extends Screen {
 		constraint.weighty = 1.0;
 		constraint.anchor = GridBagConstraints.PAGE_START;
 		fieldMainPanel.add(fieldListPanel, constraint);
-		
+
 		return fieldMainPanel;
 	}
 
@@ -369,11 +345,11 @@ public class EditEntityScreen extends Screen {
 
 		byte[] designBytes = agent.getDesign();
 		byte byter = Byte.parseByte("0000001", 2);
-		
+
 		for (int i = 0; i < 7; i++) 
 			for (int j = 0; j < 7; j++)
 				if ((designBytes[i] & (byter << j)) != Byte.parseByte("0000000", 2))
-					buttons[i][6-j].doClick();
+					buttons[i][6-j] = true;
 
 		Map<String, String> fields = agent.getCustomFieldMap();
 		int i = 0;
@@ -383,7 +359,7 @@ public class EditEntityScreen extends Screen {
 			fieldValues.get(i).setText(fields.get(s));
 			i++;
 		}
-		
+
 		List<Trigger> triggers = agent.getTriggers();
 		int j = 0;
 		for (Trigger t : triggers) {
@@ -404,8 +380,7 @@ public class EditEntityScreen extends Screen {
 		colorTool.setColor(Color.WHITE);
 		for (int x = 0; x < 7; x++) {
 			for (int y = 0; y < 7; y++) {
-				buttons[x][y].setSelected(false);
-				buttons[x][y].setBackground(Color.WHITE);
+				buttons[x][y] = false;
 			}
 		}
 		fieldNames.clear();
@@ -454,14 +429,14 @@ public class EditEntityScreen extends Screen {
 		try{
 			for (int i = 0; i < fieldNames.size(); i++)
 				if (!removedFields.contains(i)
-					 && (fieldNames.get(i).getText().equals("")
-							|| fieldValues.get(i).getText().equals("")))
-						throw new Exception("All fields must have input");
+						&& (fieldNames.get(i).getText().equals("")
+								|| fieldValues.get(i).getText().equals("")))
+					throw new Exception("All fields must have input");
 
 			for (int i = 0; i < fieldNames.size(); i++) {
 				if (removedFields.contains(i)
-					&& (agent.hasField(fieldNames.get(i).getText())))
-						agent.removeField(fieldNames.get(i).toString());
+						&& (agent.hasField(fieldNames.get(i).getText())))
+					agent.removeField(fieldNames.get(i).toString());
 				else {
 					if (agent.hasField(fieldNames.get(i).getText()))
 						agent.updateField(fieldNames.get(i).getText(),
@@ -487,19 +462,19 @@ public class EditEntityScreen extends Screen {
 		try{
 			for (int j = 0; j < triggerNames.size(); j++) {
 				if (!removedTriggers.contains(j)
-					&& (triggerNames.get(j).getText().equals("")
-							|| triggerConditions.get(j).getText().equals("")
-							|| triggerResults.get(j).getText().equals("")))
-						throw new Exception("All fields must have input");
-				
+						&& (triggerNames.get(j).getText().equals("")
+								|| triggerConditions.get(j).getText().equals("")
+								|| triggerResults.get(j).getText().equals("")))
+					throw new Exception("All fields must have input");
+
 				if (Integer.parseInt(triggerPriorities.get(j).getText()) < 0)
 					throw new Exception("Priority must be greater than 0");
 			}
 
 			for (int i = 0; i < triggerNames.size(); i++) {
 				if (removedTriggers.contains(i)
-					&& (agent.hasTrigger(triggerNames.get(i).getText())))
-						agent.removeTrigger(triggerNames.get(i).getText());
+						&& (agent.hasTrigger(triggerNames.get(i).getText())))
+					agent.removeTrigger(triggerNames.get(i).getText());
 				else {
 					if (agent.hasTrigger(triggerNames.get(i).getText()))
 						agent.updateTrigger(triggerNames.get(i).getText(),
@@ -524,30 +499,30 @@ public class EditEntityScreen extends Screen {
 	public void setEditing(Boolean b) {
 		editing = b;
 	}
-	
+
 	public Color getColor(){
 		return colorTool.getColor();
 	}
-	
+
 	private void addField() {
-		
-		
+
+
 		JTextField newName = Gui.makeTextField(null,25,new MaxSize(300,40),null);
 		fieldNames.add(newName);
-		
+
 		JTextField newValue = Gui.makeTextField(null,25,new MaxSize(300,40),null);
 		fieldValues.add(newValue);
-		
+
 		JButton newButton = Gui.makeButton("Delete",null,
 				new DeleteFieldListener());
 		newButton.setActionCommand(fieldDeleteButtons.indexOf(newButton) + "");
 		fieldDeleteButtons.add(newButton);
-		
+
 		JPanel newPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		newPanel.add(newName);
 		newPanel.add(newValue);
 		newPanel.add(newButton);
-		
+
 		fieldSubPanels.add(newPanel);
 		fieldListPanel.add(newPanel);
 		fieldListPanel.add(addFieldButton);
@@ -559,49 +534,49 @@ public class EditEntityScreen extends Screen {
 	private void addTrigger() {
 		JTextField newName = Gui.makeTextField(null,25,new MaxSize(200,40),null);
 		triggerNames.add(newName);
-		
+
 		JTextField newPriority = Gui.makeTextField(null,15,new MaxSize(150,40),null);
 		triggerPriorities.add(newPriority);
-		
+
 		JTextField newCondition = Gui.makeTextField(null,50,new MaxSize(300,40),null);
 		triggerConditions.add(newCondition);
-		
+
 		JTextField newResult = Gui.makeTextField(null,50,new MaxSize(300,40),null);
 		triggerResults.add(newResult);
-		
+
 		JButton newButton = Gui.makeButton("Delete",null,
 				new DeleteTriggerListener());
 		newButton.setActionCommand(triggerDeleteButtons.indexOf(newButton)
 				+ "");
 		triggerDeleteButtons.add(newButton);
-		
+
 		JPanel newPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
 		newPanel.add(newName);
 		newPanel.add(newPriority);
 		newPanel.add(newCondition);
 		newPanel.add(newResult);
 		newPanel.add(newButton);
-		
+
 		triggerSubPanels.add(newPanel);
 		triggerListPanel.add(newPanel);
 		triggerListPanel.add(addTriggerButton);
 		triggerListPanel.add(Box.createVerticalGlue());
 		repaint();
 	}
-	
+
 	private byte[] generateBytes() {
 		String str = "";
 		byte[] toReturn = new byte[7];
 		for (int column = 0; column < 7; column++) {
 			for (int row = 0; row < 7; row++) {
-				if (buttons[column][row].getBackground().equals(Color.BLACK))
+				if (buttons[column][row] == true)
 					str += "1";
 				else
 					str += "0";
 			}
 			str += ":";
 		}
-		
+
 		String[] byteStr = str.substring(0, str.lastIndexOf(':')).split(":");
 		for (int i = 0; i < 7; i++) 
 			toReturn[i] = Byte.parseByte(byteStr[i], 2);

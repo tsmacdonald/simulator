@@ -33,9 +33,9 @@ public class IconGridPanel extends GridPanel {
 		width = this.getWidth();
 		height = this.getHeight();
 		gridDimension = 7;
-		squareSize = Math.min(pixelWidth, pixelHeight);
 		pixelWidth = width / gridDimension;
 		pixelHeight = height / gridDimension;
+		squareSize = Math.min(pixelWidth, pixelHeight);
 		icon = new boolean[gridDimension][gridDimension];
 		for (int i = 0; i < gridDimension; i++){
 			for( int j = 0; j < gridDimension; j++){
@@ -107,6 +107,10 @@ public class IconGridPanel extends GridPanel {
 				g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), squareSize, squareSize);
 			}
 		}
+	}
+	
+	public void setIcon(boolean[][] icon){
+		this.icon = icon;
 	}
 }
 

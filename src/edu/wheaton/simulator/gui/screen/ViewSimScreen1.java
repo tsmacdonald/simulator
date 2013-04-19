@@ -172,7 +172,8 @@ public class ViewSimScreen1 extends Screen {
 					int y = me.getY()/standardSize;
 					
 					if(gm.getSimAgent(x,y) == null)
-						gm.spiralSpawnSimAgent(agentComboBox.getSelectedItem().toString(), x, y);
+						//TODO Ian Walling
+						gm.addAgent(agentComboBox.getSelectedItem().toString(), x, y);
 					else
 						gm.removeSimAgent(x,y);
 					gm.getGridPanel().repaint();
