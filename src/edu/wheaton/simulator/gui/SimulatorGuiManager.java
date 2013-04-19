@@ -38,6 +38,7 @@ public class SimulatorGuiManager {
 	private boolean simulationIsRunning;
 	private boolean canSpawn;
 	private GridPanel gridPanel;
+	private GridPanelObserver gpo;
 	private Loader loader;
 	private Saver saver;
 	private boolean hasStarted;
@@ -62,7 +63,7 @@ public class SimulatorGuiManager {
 		statMan = StatisticsManager.getInstance();
 
 		hasStarted = false;
-
+		gpo = new GridPanelObserver(gridPanel);
 		fc = new JFileChooser();
 	}
 
@@ -81,6 +82,7 @@ public class SimulatorGuiManager {
 	public void initSim(String name,int x, int y) {
 		System.out.println("Reset prototypes");
 		simulator = new Simulator(name, x, y, se);
+		simulator.addGridObserver(gpo);
 		if(gridPanel != null)
 			gridPanel.setGrid(getSimGrid());
 	}
@@ -251,8 +253,10 @@ public class SimulatorGuiManager {
 		setSimRunning(true);
 		setSimStarted(true);
 		canSpawn = false;
-		simulator.resume();
-
+		if(!simulator.hasStarted())
+			simulator.start();
+		else
+			simulator.resume();
 	}
 
 

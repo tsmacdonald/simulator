@@ -267,11 +267,19 @@ public class ViewSimScreen1 extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SimulatorGuiManager gm = getGuiManager();
+
 				gm.getGridPanel().repaint();
-				// gm.setSimRunning(true);
-				// gm.setSimStarted(true);
 				canSpawn = false;
+
+				if (!gm.hasSimStarted()) {
+					for (SpawnCondition condition: gm.getSimSpawnConditions()) {
+						condition.addToGrid(gm);
+					}
+				}
+				gm.getGridPanel().repaint();	
+
 				gm.startSim();
+				
 			}
 		});
 		return b;
