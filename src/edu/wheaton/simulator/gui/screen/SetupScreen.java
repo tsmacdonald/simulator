@@ -3,6 +3,7 @@ package edu.wheaton.simulator.gui.screen;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.gui.BoxLayoutAxis;
@@ -235,10 +238,13 @@ public class SetupScreen extends Screen {
 		JPanel lowerPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, PrefSize.NULL, null);
 		
 		JLabel conHeader = Gui.makeLabel("Ending Conditions",new PrefSize(300,100),HorizontalAlignment.CENTER );
-		JLabel timeLabel = Gui.makeLabel("Time Limit",new PrefSize(300,100),HorizontalAlignment.CENTER );
+		JLabel timeLabel = Gui.makeLabel("Time Limit",new PrefSize(300,100),HorizontalAlignment.LEFT );
+		
 		timeField = Gui.makeTextField(null,15,new MaxSize(200,30),new MinSize(100,25));
+		timeField.setHorizontalAlignment(SwingConstants.RIGHT);
+		
 		JLabel agentTypeLabel = Gui.makeLabel("Agent Type",new PrefSize(300,30),HorizontalAlignment.LEFT);
-		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.CENTER);
+		JLabel valueLabel = Gui.makeLabel("Population Limit",new PrefSize(400,30),HorizontalAlignment.RIGHT);
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -260,10 +266,12 @@ public class SetupScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
+		c.insets = new Insets(0,0,0,120);
 		lowerPanel.add(agentTypeLabel,c);
 		
 		c.gridx = 2;
 		c.gridy = 2;
+		c.insets = new Insets(0,0,0,0);
 		lowerPanel.add(valueLabel,c);
 		
 		return lowerPanel;
@@ -291,7 +299,7 @@ public class SetupScreen extends Screen {
 
 	private void addCondition() {
 		JComboBox newBox = Gui.makeComboBox(agentNames,new MaxSize(500,40));
-		newBox.setMinimumSize(new Dimension(200,40));
+		newBox.setMinimumSize(new Dimension(200,25));
 		agentTypes.add(newBox);
 
 		JTextField newValue = Gui.makeTextField(null,25,new MaxSize(300,40),new MinSize(200,40));
