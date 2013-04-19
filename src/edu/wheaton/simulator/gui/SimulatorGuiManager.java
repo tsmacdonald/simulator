@@ -120,7 +120,7 @@ public class SimulatorGuiManager {
 		getSimEnder().setStepLimit(maxSteps);
 	}
 
-	public int getSimStepLimit(){
+	public Integer getSimStepLimit(){
 		return getSimEnder().getStepLimit();
 	}
 
@@ -165,7 +165,7 @@ public class SimulatorGuiManager {
 		return hasStarted;
 	}
 
-	public int getSimGridHeight(){
+	public Integer getSimGridHeight(){
 		return getSim().getGrid().getHeight();
 	}
 
@@ -173,7 +173,7 @@ public class SimulatorGuiManager {
 		getSim().resizeGrid(width, height);
 	}
 
-	public int getSimGridWidth(){
+	public Integer getSimGridWidth(){
 		return getSim().getGrid().getWidth();
 	}
 

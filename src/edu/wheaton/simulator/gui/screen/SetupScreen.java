@@ -153,6 +153,8 @@ public class SetupScreen extends Screen {
 		reset();
 		nameField.setText(getGuiManager().getSimName());
 		updateBox.setSelectedItem(getGuiManager().getCurrentSimUpdater());
+		widthField.setText(gm.getSimGridWidth().toString());
+		heightField.setText(gm.getSimGridHeight().toString());
 
 		SimulatorGuiManager gm = getGuiManager();
 		int stepLimit = gm.getSimStepLimit();
