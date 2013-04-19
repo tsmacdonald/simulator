@@ -34,120 +34,116 @@ public class EntityScreen extends Screen {
 	private static final long serialVersionUID = 8471925846048875713L;
 
 	private GuiList entityList;
-	
+
 	private JButton delete;
-	
+
 	private JButton edit;
-	
+
 	public EntityScreen(final SimulatorGuiManager gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
-		
+
 		entityList = new GuiList();
-		entityList.addListSelectionListener( new ListSelectionListener() {
+		entityList.addListSelectionListener(new ListSelectionListener() {
 			@Override
-			public void valueChanged(ListSelectionEvent le){
-					edit.setEnabled(!gm.hasSimStarted());
+			public void valueChanged(ListSelectionEvent le) {
+				edit.setEnabled(!gm.hasSimStarted());
 			}
 		});
-		delete = Gui.makeButton("Delete",null,new DeleteListener());
-		edit = Gui.makeButton("Edit",null,new EditListener());
+		delete = Gui.makeButton("Delete", null, new DeleteListener());
+		edit = Gui.makeButton("Edit", null, new EditListener());
 		edit.setEnabled(false);
-		entityList.addListSelectionListener(
-				new ListSelectionListener() {
-					@Override
-					public void valueChanged(ListSelectionEvent e) {
-						edit.setEnabled(!gm.hasSimStarted());
-						delete.setEnabled(!gm.hasSimStarted());
-					}
-				}
-				);
+		entityList.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				edit.setEnabled(!gm.hasSimStarted());
+				delete.setEnabled(!gm.hasSimStarted());
+				((ViewSimScreen1) gm.getScreenManager().getScreen(
+						"View Simulation")).setSpawn(true);
+			}
+		});
 
-		//formatting needs a little work but this is now in GridBagLayout 
-		
 		GridBagConstraints c = new GridBagConstraints();
-		
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
-		this.add(
-			Gui.makeButton("Add",null,
-				new AddListener()),c); 
-		
+		this.add(Gui.makeButton("Add", null, new AddListener()), c);
+
 		c.gridx = 1;
 		this.add(edit, c);
-		
+
 		c.gridx = 2;
 		this.add(delete, c);
-		
+
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 4;
-		this.add(
-			Gui.makeLabel("Agents",new PrefSize(300, 100),HorizontalAlignment.CENTER), 
-			c);
-		
+		this.add(Gui.makeLabel("Agents", new PrefSize(300, 100),
+				HorizontalAlignment.CENTER), c);
+
 		c.gridy = 1;
 		this.add(entityList, c);
 	}
-	
+
 	public void reset() {
 		entityList.clearItems();
 	}
-	
+
 	@Override
 	public void load() {
 		reset();
-		delete.setEnabled(getGuiManager().hasSimStarted() ? false : true); 
+		delete.setEnabled(getGuiManager().hasSimStarted() ? false : true);
 		Set<String> entities = Simulator.prototypeNames();
 		for (String s : entities)
 			entityList.addItem(s);
 		edit.setEnabled(false);
 		delete.setEnabled(false);
 	}
-	
-	class DeleteListener implements ActionListener {	
+
+	public GuiList getList() {
+		return entityList;
+	}
+
+	class DeleteListener implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e){
+		public void actionPerformed(ActionEvent e) {
 			int index = entityList.getSelectedIndex();
-			Prototype.removePrototype(
-				(String)entityList.getSelectedValue()
-			);
+			Prototype.removePrototype((String) entityList.getSelectedValue());
 			entityList.removeItem(index);
 			int size = entityList.getNumItems();
-			if(size == 0){
+			if (size == 0) {
 				delete.setEnabled(false);
 				edit.setEnabled(false);
 			}
-			if(index == size)
+			if (index == size)
 				index--;
 			entityList.setSelectedIndex(index);
 			entityList.ensureIndexIsVisible(index);
 		}
 	}
-	
+
 	class AddListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			ScreenManager sm = getScreenManager();
-			EditEntityScreen screen = (EditEntityScreen)sm.getScreen("Edit Entities");
+			EditEntityScreen screen = (EditEntityScreen) sm
+					.getScreen("Edit Entities");
 			screen.load();
 			screen.setEditing(false);
 			sm.update(screen);
 		}
 	}
-	
+
 	class EditListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			ScreenManager sm = getScreenManager();
-			EditEntityScreen screen = (EditEntityScreen)sm.getScreen("Edit Entities");
-			screen.load(
-				(String)entityList.getSelectedValue());
+			EditEntityScreen screen = (EditEntityScreen) sm
+					.getScreen("Edit Entities");
+			screen.load((String) entityList.getSelectedValue());
 			screen.setEditing(true);
 			sm.update(screen);
 		}
 	}
 }
-
-

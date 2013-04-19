@@ -20,7 +20,6 @@ import edu.wheaton.simulator.gui.screen.EditEntityScreen;
 import edu.wheaton.simulator.gui.screen.EditFieldScreen;
 import edu.wheaton.simulator.gui.screen.NewSimulationScreen;
 import edu.wheaton.simulator.gui.screen.SetupScreen;
-import edu.wheaton.simulator.gui.screen.SpawningScreen;
 import edu.wheaton.simulator.gui.screen.StatDisplayScreen;
 import edu.wheaton.simulator.gui.screen.TitleScreen;
 import edu.wheaton.simulator.gui.screen.ViewSimScreen1;
@@ -37,7 +36,6 @@ public class SimulatorGuiManager {
 	private StatisticsManager statMan;
 	private Simulator simulator;
 	private boolean simulationIsRunning;
-	private ArrayList<SpawnCondition> spawnConditions;
 	private boolean canSpawn;
 	private GridPanel gridPanel;
 	private Loader loader;
@@ -46,7 +44,6 @@ public class SimulatorGuiManager {
 	private JFileChooser fc;
 
 	public SimulatorGuiManager(Display d) {
-		spawnConditions = new ArrayList<SpawnCondition>();
 		canSpawn = true;
 		initSim("New Simulation",10, 10);
 		gridPanel = new GridPanel(this);
@@ -55,7 +52,6 @@ public class SimulatorGuiManager {
 		sm.putScreen("New Simulation", new NewSimulationScreen(this));
 		sm.putScreen("Edit Fields", new EditFieldScreen(this));
 		sm.putScreen("Edit Entities", new EditEntityScreen(this));
-		sm.putScreen("Spawning", new SpawningScreen(this));
 		sm.putScreen("View Simulation", new ViewSimScreen1(this));
 		sm.putScreen("Statistics", new StatDisplayScreen(this));
 		sm.putScreen("Grid Setup", new SetupScreen(this));
@@ -165,10 +161,6 @@ public class SimulatorGuiManager {
 
 	public boolean hasSimStarted() {
 		return hasStarted;
-	}
-
-	public ArrayList<SpawnCondition> getSimSpawnConditions() { 
-		return spawnConditions; 
 	}
 
 	public int getSimGridHeight(){
