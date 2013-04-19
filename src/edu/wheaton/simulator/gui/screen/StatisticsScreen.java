@@ -39,12 +39,12 @@ public class StatisticsScreen extends Screen {
 	private String[] entities;
 	private String[] agentFields;
 	
-	private JComboBox<String> cardSelector;
-	private JComboBox<String> popEntityBox;
-	private JComboBox<String> fieldEntityBox;
-	private JComboBox<String> lifeEntityBox;
+	private JComboBox cardSelector;
+	private JComboBox popEntityBox;
+	private JComboBox fieldEntityBox;
+	private JComboBox lifeEntityBox;
 
-	private Map<String, JComboBox<String>> agentFieldsBoxes;
+	private Map<String, JComboBox> agentFieldsBoxes;
 	private JPanel fieldCard;
 	private StatisticsManager statMan;
 
@@ -69,21 +69,21 @@ public class StatisticsScreen extends Screen {
 		
 		entities = new String[0];
 		
-		popEntityBox = new JComboBox<String>(entities);
+		popEntityBox = new JComboBox(entities);
 		
 		populationCard.add(popEntityBox);
 		
 		agentFields = new String[0];
 		
-		agentFieldsBoxes = new HashMap<String, JComboBox<String>>();
-		agentFieldsBoxes.put("", new JComboBox<String>(agentFields));
+		agentFieldsBoxes = new HashMap<String, JComboBox>();
+		agentFieldsBoxes.put("", new JComboBox(agentFields));
 
 		fieldEntityBox = makeFieldEntityBox(entities);
 		
 		fieldCard.add(fieldEntityBox);
 		fieldCard.add(agentFieldsBoxes.get(""));
 
-		lifeEntityBox = new JComboBox<String>(entities);
+		lifeEntityBox = new JComboBox(entities);
 		
 		lifespanCard.add(lifeEntityBox);
 		
@@ -175,8 +175,8 @@ public class StatisticsScreen extends Screen {
 		return finishButton;
 	}
 	
-	private JComboBox<String> makeFieldEntityBox(String[] entities){
-		JComboBox<String> box = new JComboBox<String>(entities);
+	private JComboBox makeFieldEntityBox(String[] entities){
+		JComboBox box = new JComboBox(entities);
 		box.addItemListener(
 				new ItemListener() {
 					@Override
@@ -191,8 +191,8 @@ public class StatisticsScreen extends Screen {
 		return box;
 	}
 	
-	private static JComboBox<String> makeCardSelector(final String[] boxItems, final JPanel dataPanel){
-		JComboBox<String> selector = new JComboBox<String>(boxItems);
+	private static JComboBox makeCardSelector(final String[] boxItems, final JPanel dataPanel){
+		JComboBox selector = new JComboBox(boxItems);
 		selector.addItemListener(
 				new ItemListener() {
 					@Override
@@ -222,7 +222,7 @@ public class StatisticsScreen extends Screen {
 		for (String s : Simulator.prototypeNames()) {
 			entities[i++] = s;
 			agentFields = Simulator.getPrototype(s).getCustomFieldMap().keySet().toArray(agentFields);
-			agentFieldsBoxes.put(s, new JComboBox<String>(agentFields));
+			agentFieldsBoxes.put(s, new JComboBox(agentFields));
 			popEntityBox.addItem(s);
 			fieldEntityBox.addItem(s);
 			lifeEntityBox.addItem(s);

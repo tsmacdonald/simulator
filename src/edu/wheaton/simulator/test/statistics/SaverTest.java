@@ -106,12 +106,12 @@ public class SaverTest {
 		// Create two PrototypeSnapshots
 		PrototypeSnapshot protoSnapAlpha = new PrototypeSnapshot(prototypeOne.getName(), 
 				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), prototypeOne.childPopulation(),
-				prototypeOne.childIDs(), triggers, new Color(10, 10, 10), agent.getDesign());
+				prototypeOne.childIDs(), triggers, step, new Color(10, 10, 10), agent.getDesign());
 		Assert.assertNotNull("PrototypeSnapshot not created.", protoSnapAlpha);
 		
 		PrototypeSnapshot protoSnapBeta = new PrototypeSnapshot(prototypeTwo.getName(), 
 				SnapshotFactory.makeFieldSnapshots(agentOther.getCustomFieldMap()), prototypeTwo.childPopulation(),
-				prototypeTwo.childIDs(), triggers, new Color(10, 10, 10), agentOther.getDesign());
+				prototypeTwo.childIDs(), triggers, step, new Color(10, 10, 10), agentOther.getDesign());
 		Assert.assertNotNull("PrototypeSnapshot not created.", protoSnapAlpha);
 		
 		// Creating a HashMap of PrototypeSnapshots
@@ -120,14 +120,14 @@ public class SaverTest {
 		protoMap.put("PrototypeSnapshot Beta", protoSnapBeta);
 		Assert.assertTrue("protoMap has values", !protoMap.isEmpty());
 		
-		Saver s = new Saver();
-		s.saveSimulation("SimulationState", table, protoMap, grid.getWidth(), grid.getHeight(), simEnder);
+		Saver s = new Saver(table, protoMap, step, step, simEnder);
+		s.saveSimulation("SimulationState");
 	}
 	
 	@Test
 	public void testPrototypeSave(){
 		
-		Saver s = new Saver();
+		Saver s = new Saver(null, null, step, step, simEnder);
 		
 		s.savePrototype(prototypeOne); 
 		s.savePrototype(prototypeTwo); 

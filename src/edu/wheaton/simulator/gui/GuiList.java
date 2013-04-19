@@ -8,15 +8,15 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 
-public class GuiList extends JList<String> {
+public class GuiList extends JList {
 
 	private static final long serialVersionUID = -7184082010065265787L;
 	
-	private DefaultListModel<String> listModel;
+	private DefaultListModel listModel;
 
 	public GuiList() {
 		super();
-		listModel = new DefaultListModel<String>();
+		listModel = new DefaultListModel();
 		setModel(listModel);
 		setBackground(Color.white);
 		setBorder(BorderFactory.createLineBorder(Color.black));

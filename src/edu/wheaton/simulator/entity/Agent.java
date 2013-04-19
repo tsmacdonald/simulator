@@ -284,4 +284,11 @@ public class Agent extends GridEntity {
 	public AgentID getID() {
 		return id;
 	}
+
+	public void addTrigger(Trigger trigger) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

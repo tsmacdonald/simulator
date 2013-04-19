@@ -47,9 +47,9 @@ public class ViewSimScreen1 extends Screen {
 
 	private static final long serialVersionUID = -6872689283286800861L;
 
-	private JComboBox<String> agentComboBox;
+	private JComboBox agentComboBox;
 
-	private JComboBox<String> layerComboBox;
+	private JComboBox layerComboBox;
 
 	private String[] entities;
 
@@ -271,7 +271,7 @@ public class ViewSimScreen1 extends Screen {
 		//TODO when New Simulation is pressed on the menu bar, we need to reset the number of 
 		//prototypes 
 		entities = Simulator.prototypeNames().toArray(entities);
-		agentComboBox = new JComboBox<String>(entities);
+		agentComboBox = new JComboBox(entities);
 		agentComboBox.addItemListener(
 				new ItemListener() {
 					@Override
@@ -284,7 +284,7 @@ public class ViewSimScreen1 extends Screen {
 							tempStringList[i] = tempObjList[i].toString();
 						}
 						
-						layerComboBox = new JComboBox<String>(tempStringList);
+						layerComboBox = new JComboBox(tempStringList);
 						layerComboBox.setMaximumSize(new Dimension(200, 50));
 						layerPanelLayers.remove(1);
 						layerPanelLayers.add(layerComboBox);
@@ -302,7 +302,7 @@ public class ViewSimScreen1 extends Screen {
 				tempStringList[i] = tempObjList[i].toString();
 			}
 			
-			layerComboBox = new JComboBox<String>(tempStringList);
+			layerComboBox = new JComboBox(tempStringList);
 			layerComboBox.setMaximumSize(new Dimension(200, 50));
 			layerPanelLayers.remove(1);
 			layerPanelLayers.add(layerComboBox);

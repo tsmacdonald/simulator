@@ -16,6 +16,7 @@ import java.util.Set;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.AgentID;
+import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 
@@ -138,6 +139,11 @@ public class Saver {
 				max = i; 
 
 		return max; 
+	}
+
+	public void savePrototype(Prototype prototypeOne) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
