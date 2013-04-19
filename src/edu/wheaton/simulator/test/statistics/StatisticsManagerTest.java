@@ -226,6 +226,56 @@ public class StatisticsManagerTest {
 	}
 
 	@Test
+	public void testGetTriggerExecutionsFor() {
+		ArrayList<AgentSnapshot> snaps = new ArrayList<AgentSnapshot>();
+		HashSet<AgentID> ids = new HashSet<AgentID>();
+		String[] names = new String[] { "bear", "tom", "john", "piglet",
+				"reese" };
+
+		Builder builder = new Trigger.Builder(prototype);
+		builder.addBehavioral("behavior");
+		builder.addConditional("conditional");
+		builder.addName("trigger");
+		builder.addPriority(1);
+
+		Trigger trigger = builder.build();
+		
+		/* create snapshots */
+		for (int i = 0; i < 5; i++) {
+			Agent agent = prototype.createAgent();
+			try {
+				agent.addField("name", names[i]);
+				agent.addField("weight", "10");
+				agent.addTrigger(trigger);
+			} catch (ElementAlreadyContainedException e) {
+				e.printStackTrace();
+			}
+			ids.add(agent.getID());
+			for (int s = 1; s < 3; s++) {
+				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory
+						.makeFieldSnapshots(agent.getCustomFieldMap()), s,
+						protoSnap.categoryName, null, 0, 0));
+			}
+		}
+
+		/* fill table w/ snapshots */
+		for (AgentSnapshot snap : snaps) {
+			sm.addGridEntity(snap);
+		}
+
+		/* test method */
+		double[] avg = sm.getAvgFieldValue(protoSnap.categoryName, "weight");
+
+		for (double i : avg)
+			System.out.print((int) i + " ");
+
+		for (double i : avg) {
+			int a = (int) i;
+			org.junit.Assert.assertEquals(10, a);
+		}
+	}
+	
+	@Test
 	public void testGetAvgLifespan() {
 		ArrayList<AgentSnapshot> snaps = new ArrayList<AgentSnapshot>();
 

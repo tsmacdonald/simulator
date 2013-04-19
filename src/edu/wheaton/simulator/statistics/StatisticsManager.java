@@ -228,6 +228,51 @@ public class StatisticsManager {
 	}
 
 	/**
+	 * Get data for a graph of how many times a trigger was executed at each
+	 * step for a specific Prototype
+	 * 
+	 * @param prototypeName
+	 *            Name of the prototype to track
+	 * @param behavior
+	 *            The name of behavior to track
+	 * 
+	 * @return An array in which indexes refer to the step in the simulation
+	 *         and the value refers to average field value at that time
+	 */
+	public double[] getTriggerExecutionsFor(String prototypeName,
+			String behavior) {
+		// array of answers to return. size = all steps of table
+		double[] toReturn = new double[lastStep()];
+
+		// set of steps in the table
+		Set<Integer> steps = table.getAllSteps();
+
+		// index for toReturn
+		int i = 0;
+
+		// list of totals of each step
+		double found = 0;
+
+		for (int step : steps) {
+			ImmutableSet<AgentSnapshot> agents = getPopulationAtStep(
+					prototypeName, step);
+
+			for (AgentSnapshot agent : agents) {
+				ArrayList<TriggerSnapshot> triggers = agent.triggers;
+
+				for (TriggerSnapshot trigger : triggers)
+					if (trigger.triggerName.equals(behavior))
+						found++;
+			}
+
+			toReturn[i] = found;
+			found = 0;
+			i++;
+		}
+		return toReturn;
+	}
+	
+	/**
 	 * Get the average lifespan of a given GridEntity
 	 * 
 	 * @param id
