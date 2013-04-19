@@ -111,6 +111,20 @@ public class SetupScreen extends Screen {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					SimulatorGuiManager gm = getGuiManager();
+					
+					int newWidth = Integer.parseInt(widthField.getText());
+					int newHeight = Integer.parseInt(widthField.getText());
+					int newTime = Integer.parseInt(timeField.getText());
+					if(newWidth<=0 || newHeight<=0 || newTime<=0)
+						throw new NumberFormatException();
+					if(newWidth<gm.getSimGridWidth() || newHeight<gm.getSimGridHeight()){
+						int selection = JOptionPane.showConfirmDialog (null, "The new grid size you provided\nis smaller than its current value.\nThis may result in the deletion of objects placed in the grid that\ncannot fit within these new dimensions.\nFurthermore, agent data that depended on specific coordinates may\nneed to be checked for bugs after resizing.\n\nIf you are sure you want to apply these changes, click 'Ok', otherwise click 'No' or 'Cancel'");
+						if(selection == JOptionPane.YES_OPTION)
+							gm.resizeSimGrid(newWidth, newHeight);
+						else
+							return;
+					}
+					
 					if (nameField.getText().equals(""))
 						throw new Exception("All fields must have input");
 					gm.setSimName(nameField.getText());
@@ -119,7 +133,10 @@ public class SetupScreen extends Screen {
 						if (values.get(i).getText().equals(""))
 							throw new Exception("All fields must have input.");
 
-					gm.setSimStepLimit(Integer.parseInt(timeField.getText()));
+					gm.resizeSimGrid(newWidth, newHeight);
+					
+					gm.setSimStepLimit(newTime);
+					
 					String str = (String)updateBox.getSelectedItem();
 
 					if (str.equals("Linear"))
@@ -139,7 +156,7 @@ public class SetupScreen extends Screen {
 				}
 				catch (NumberFormatException excep) {
 					JOptionPane.showMessageDialog(null,
-							"Width and Height fields must be integers greater than 0");
+							"Width, Height, and Time fields must be integers greater than 0");
 				}
 				catch (Exception excep) {
 					JOptionPane.showMessageDialog(null, excep.getMessage());
