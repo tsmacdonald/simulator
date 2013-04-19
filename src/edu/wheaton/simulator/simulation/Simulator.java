@@ -404,10 +404,10 @@ public class Simulator {
 		for (int x = 0; x < grid.getWidth(); x++)
 			for (int y = 0; y < grid.getHeight(); y++) {
 				if (x == grid.getWidth() / 2) {
-					grid.spiralSpawn(Prototype.getPrototype("aliveBeing")
+					grid.addAgent(Prototype.getPrototype("aliveBeing")
 							.createAgent(), x, y);
 				} else {
-					grid.spiralSpawn(Prototype.getPrototype("deadBeing")
+					grid.addAgent(Prototype.getPrototype("deadBeing")
 							.createAgent(), x, y);
 				}
 			}

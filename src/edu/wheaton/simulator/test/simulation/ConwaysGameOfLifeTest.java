@@ -114,9 +114,9 @@ public class ConwaysGameOfLifeTest {
 				for (int x = 0; x < grid.getWidth(); x++) 
 					for(int y = 0; y < grid.getHeight(); y++) {
 						if (x == 4 || x == 5 || y == 5) {
-							grid.spiralSpawn(Prototype.getPrototype("aliveBeing").createAgent(), x, y);
+							grid.addAgent(Prototype.getPrototype("aliveBeing").createAgent(), x, y);
 						} else {
-							grid.spiralSpawn(Prototype.getPrototype("deadBeing").createAgent(), x, y);
+							grid.addAgent(Prototype.getPrototype("deadBeing").createAgent(), x, y);
 						}
 					}
 	}
