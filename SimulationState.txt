@@ -2,39 +2,27 @@
 10
 PrototypeSnapshot
 Prototype 1
--16119286
+-16777216
 127127127127127127127127
-FieldSnapshot Cat Joomba
-FieldSnapshot Pig Tom
-FieldSnapshot Monkey Olly
-Trigger~trigger1~1~conditionExpression~behaviorExpression
 PrototypeSnapshot
 Prototype 2
--16119286
+-16777216
 127127127127127127127127
-FieldSnapshot Meerkat Timon
-FieldSnapshot Crayfish Paul
-FieldSnapshot Person John Charles
-Trigger~trigger1~1~conditionExpression~behaviorExpression
-AgentSnapshot
-GRID
-0
-0
-FieldSnapshot Depth 100
 AgentSnapshot
 Prototype 1
-0
-0
-FieldSnapshot Cat Joomba
-FieldSnapshot Pig Tom
-FieldSnapshot Monkey Olly
+-1
+-1
+FieldSnapshot~Cat~Joomba
+FieldSnapshot~Pig~Tom
+FieldSnapshot~Monkey~Olly
 AgentSnapshot
 Prototype 2
-0
-0
-FieldSnapshot Meerkat Timon
-FieldSnapshot Crayfish Paul
-FieldSnapshot Person John Charles
+-1
+-1
+FieldSnapshot~Meerkat~Timon
+FieldSnapshot~Crayfish~Paul
+FieldSnapshot~Person~John Charles
+GlobalVariablesGLOBAL~Depth~100
 EndConditions
 20
 POP~Prototype 1~100
