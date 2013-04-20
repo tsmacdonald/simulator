@@ -1,6 +1,7 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -30,12 +31,7 @@ public class IconGridPanel extends GridPanel {
 	public IconGridPanel(final SimulatorGuiManager gm) {
 		super(gm);
 		sm = gm.getScreenManager();
-		width = this.getWidth();
-		height = this.getHeight();
 		gridDimension = 7;
-		squareSize = Math.min(pixelWidth, pixelHeight);
-		pixelWidth = width / gridDimension;
-		pixelHeight = height / gridDimension;
 		icon = new boolean[gridDimension][gridDimension];
 		for (int i = 0; i < gridDimension; i++){
 			for( int j = 0; j < gridDimension; j++){
@@ -46,11 +42,16 @@ public class IconGridPanel extends GridPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent me) {
+				width = getWidth();
+				height = getHeight();
+				pixelWidth = width / gridDimension;
+				pixelHeight = height / gridDimension;
+				squareSize = Math.min(pixelWidth, pixelHeight);
 				int x = me.getX();
 				int y = me.getY();
 				int xIndex = x/squareSize;
 				int yIndex = y/squareSize;
-				icon[xIndex][yIndex] = true;
+				icon[xIndex][yIndex] = !icon[xIndex][yIndex];
 				repaint();
 			}
 
@@ -71,9 +72,12 @@ public class IconGridPanel extends GridPanel {
 
 	@Override
 	public void paint(Graphics g) {
-
-		clearAgents(g);
-		agentPaint(g);
+		
+		width = getWidth();
+		height = getHeight();
+		pixelWidth = width / gridDimension;
+		pixelHeight = height / gridDimension;
+		squareSize = Math.min(pixelWidth, pixelHeight);
 		g.setColor(Color.BLACK);
 		for (int i = 0; i < gridDimension; i++) {
 			for (int j = 0; j < gridDimension; j++) {
@@ -81,17 +85,26 @@ public class IconGridPanel extends GridPanel {
 						squareSize, squareSize);
 			}
 		}
+		clearAgents(g);
+		agentPaint(g);
 	}
 
 	@Override
 	public void agentPaint(Graphics g){
+		
+		width = getWidth();
+		height = getHeight();
+		pixelWidth = width / gridDimension;
+		pixelHeight = height / gridDimension;
+		squareSize = Math.min(pixelWidth, pixelHeight);
+		
 		Color color = ((EditEntityScreen)sm.getScreen("Edit Entities")).getColor();
 		g.setColor(color);
 		for (int i = 0; i < gridDimension; i++) {
 			for (int j = 0; j < gridDimension; j++) {
 				if(icon[i][j] == true){
-					g.drawRect(squareSize * i, squareSize * j, 
-							squareSize, squareSize);
+					g.fillRect(squareSize * i + 1, squareSize * j + 1, 
+							squareSize - 1, squareSize - 1);
 				}
 			}
 		}
@@ -100,6 +113,13 @@ public class IconGridPanel extends GridPanel {
 
 	@Override
 	public void clearAgents(Graphics g) {
+		
+		width = getWidth();
+		height = getHeight();
+		pixelWidth = width / gridDimension;
+		pixelHeight = height / gridDimension;
+		squareSize = Math.min(pixelWidth, pixelHeight);
+		
 		squareSize = Math.min(pixelWidth, pixelHeight) - 1;
 		g.setColor(Color.WHITE);
 		for (int x = 0; x < gridDimension; x++) {
@@ -107,6 +127,10 @@ public class IconGridPanel extends GridPanel {
 				g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), squareSize, squareSize);
 			}
 		}
+	}
+	
+	public void setIcon(boolean[][] icon){
+		this.icon = icon;
 	}
 }
 

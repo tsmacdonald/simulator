@@ -166,8 +166,8 @@ public class StatDisplayScreen extends Screen {
 			public void actionPerformed(ActionEvent e) {
 				ScreenManager sm = gm.getScreenManager();
 				Screen toDisplay = sm.getScreen("View Simulation");
-				sm.update(toDisplay);
 				ScreenManager.loadScreen(toDisplay);
+				sm.update(toDisplay);
 			}
 		});
 	}

@@ -62,13 +62,13 @@ public class FieldSnapshot {
 	 * @return a String containing the data required to recreate this snapshot
 	 * 
 	 * Format: 
-	 * FieldSnapshot name value
+	 * FieldSnapshot~name~value
 	 * 
 	 * Example: 
-	 * "FieldSnapshot height 10"
+	 * "FieldSnapshot~height~10"
 	 */
 	public String serialize(){
-		return "FieldSnapshot " + name + " " + value;  
+		return "FieldSnapshot~" + name + "~" + value;  
 	}
 
 }

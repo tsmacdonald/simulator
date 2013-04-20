@@ -24,7 +24,7 @@ public class StatisticsManager {
 	 * Single instance of this class.
 	 */
 	private static StatisticsManager instance = null;
-	
+
 	/**
 	 * The table in which all entity snapshots will be stored.
 	 */
@@ -39,22 +39,17 @@ public class StatisticsManager {
 	 * The grid being used. Will be used by GridRecorder
 	 */
 	public Grid grid;
-	
+
 	/**
 	 * Initial set of prototypes.
 	 */
 	private static ImmutableSet<Prototype> prototypes;
-	
+
 	/**
 	 * Prototype snapshots in the game.
 	 */
 	private static HashMap<String, PrototypeSnapshot> protoSnaps;
-	
-	/**
-	 * Reference to the class that handles ending the simulation
-	 */
-	private SimulationEnder simEnder; 
-	
+
 	/**
 	 * Private constructor to prevent wanton instantiation.
 	 */
@@ -64,7 +59,7 @@ public class StatisticsManager {
 		prototypes = null;
 		protoSnaps = new HashMap<String, PrototypeSnapshot>();
 	}
-	
+
 	/**
 	 * Get instance of this singleton
 	 */
@@ -73,38 +68,24 @@ public class StatisticsManager {
 			return instance;
 		return instance = new StatisticsManager();
 	}
-	
+
 	/**
 	 * THIS IS FOR TESTING PURPOSES ONLY!!
 	 */
 	public static void removeInstance() {
 		instance = null;
 	}
-	
+
 	/**
 	 * Initialize an observer for the grid and triggers and prepare prototypes for saving.
 	 */
-	public void initialize(Grid grid, SimulationEnder simEnder) {
+	public void initialize(Grid grid) {
 		grid.addObserver(gridObserver);
 		Trigger.addObserver(gridObserver);
 		this.grid = grid;
-		this.simEnder = simEnder; 
 		StatisticsManager.prototypes = Prototype.getPrototypes();
 		for(Prototype p : prototypes)
-			addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(p, grid.getStep()));
-	}
-	
-	/**
-	 * Save the simulation
-	 * @param filename Name for the generated file saving the Simulation
-	 */
-	public void saveSimulation(String filename){
-		Saver s = new Saver(table, protoSnaps, grid.getWidth(), grid.getHeight(), simEnder); 
-		s.saveSimulation(filename);	
-	}
-	
-	public void loadSimulation(){
-		
+			addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(p));
 	}
 
 	/**
@@ -113,17 +94,14 @@ public class StatisticsManager {
 	private Integer lastStep() {
 		return table.getAllSteps().size();
 	}
-	
-	
+
 	/**
 	 * Add a PrototypeSnapshot to the StatisticsManager. 
 	 * @param prototypeSnapshot The new prototype being recorded.
 	 */
 	public static void addPrototypeSnapshot(PrototypeSnapshot snap) {
-		if(snap.step == 0 || !protoSnaps.containsKey(snap.categoryName)) {
-			protoSnaps.put(snap.categoryName, snap);
-			//TODO: Save this prototype to a file
-		}
+		protoSnaps.put(snap.categoryName, snap);
+		//TODO: Save this prototype to a file
 	}
 
 	/**
@@ -173,7 +151,7 @@ public class StatisticsManager {
 	 */
 	public int[] getPopVsTime(String prototypeName) {
 		int[] data = new int[lastStep()];	
-		
+
 		//Populate agentsByStep
 		for (int i = 0; i <= lastStep() - 1; i++) {
 			Set<AgentSnapshot> stepPop = getPopulationAtStep(prototypeName, i);
@@ -186,12 +164,12 @@ public class StatisticsManager {
 	/**
 	 * Get data for a graph of the average value of a field over time
 	 * 
-	 * @param id
-	 *            The PrototypeID of the GridEntity to be tracked
+	 * @param prototypeName
+	 *            The PrototypeName of the GridEntity to be tracked
 	 * @param FieldName
 	 *            The name of the field to be tracked
-	 * @return An array where indexes refer to the step in the simulation and
-	 *         the value refers to average field value at that time
+	 * @return An array in which indexes refer to the step in the simulation
+	 *         and the value refers to average field value at that time
 	 */
 	public double[] getAvgFieldValue(String prototypeName, String FieldName) {
 		// set of steps in table
@@ -200,7 +178,7 @@ public class StatisticsManager {
 		// array of averages
 		double[] averages = new double[steps.size()];
 
-		// marker for double[]
+		// index for double[]
 		int i = 0;
 
 		// arraylist of the values at each step to average up
@@ -226,6 +204,51 @@ public class StatisticsManager {
 			stepVals.clear();
 		}
 		return averages;
+	}
+
+	/**
+	 * Get data for a graph of how many times a trigger was executed at each
+	 * step for a specific Prototype
+	 * 
+	 * @param prototypeName
+	 *            Name of the prototype to track
+	 * @param behavior
+	 *            The name of behavior to track
+	 * 
+	 * @return An array in which indexes refer to the step in the simulation
+	 *         and the value refers to average field value at that time
+	 */
+	public double[] getTriggerExecutionsFor(String prototypeName,
+			String behavior) {
+		// array of answers to return. size = all steps of table
+		double[] toReturn = new double[lastStep()];
+
+		// set of steps in the table
+		Set<Integer> steps = table.getAllSteps();
+
+		// index for toReturn
+		int i = 0;
+
+		// list of totals of each step
+		double found = 0;
+
+		for (int step : steps) {
+			ImmutableSet<AgentSnapshot> agents = getPopulationAtStep(
+					prototypeName, step);
+
+			for (AgentSnapshot agent : agents) {
+				ArrayList<TriggerSnapshot> triggers = agent.triggers;
+
+				for (TriggerSnapshot trigger : triggers)
+					if (trigger.triggerName.equals(behavior))
+						found++;
+			}
+
+			toReturn[i] = found;
+			found = 0;
+			i++;
+		}
+		return toReturn;
 	}
 
 	/**

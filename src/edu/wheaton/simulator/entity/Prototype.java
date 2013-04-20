@@ -176,9 +176,7 @@ public class Prototype extends GridEntity {
 		// copy all fields
 		clone.getFieldMap().putAll(this.getFieldMap());
 
-		// copy all triggers
-		for (Trigger t : triggers)
-			clone.addTrigger(new Trigger(t));
+		// copying all triggers is implicitly done in the Agent constructor, so no need here.
 
 		children.add(clone.getID());
 		return clone;

@@ -91,6 +91,7 @@ public class Expression {
 	private Evaluator evaluator;
 	private EntityFieldResolver resolver;
 	private Object expr;
+	private String exprStr;
 	
 	private static HashMap<String, AbstractExpressionFunction> behaviorFunctions;
 	private static HashMap<String, AbstractExpressionFunction> conditionFunctions;
@@ -283,6 +284,7 @@ public class Expression {
 	 */
 	public void setString(Object exprStr) {
 		this.expr = exprStr;
+		this.exprStr = formatExpr(expr);
 	}
 
 	/**
@@ -351,7 +353,7 @@ public class Expression {
 
 	public Boolean evaluateBool() throws EvaluationException {
 		try {
-			return evaluator.getBooleanResult( formatExpr(expr) );
+			return evaluator.getBooleanResult( exprStr );
 		} catch (EvaluationException e) {
 			System.err.println(e.getMessage());
 			throw e;
@@ -360,7 +362,7 @@ public class Expression {
 
 	public Double evaluateDouble() throws EvaluationException {
 		try {
-			return evaluator.getNumberResult( formatExpr(expr) );
+			return evaluator.getNumberResult( exprStr );
 		} catch (EvaluationException e) {
 			System.err.println(e.getMessage());
 			throw e;
@@ -369,7 +371,7 @@ public class Expression {
 
 	public String evaluateString() throws EvaluationException {
 		try {
-			return evaluator.evaluate( formatExpr(expr) );
+			return evaluator.evaluate( exprStr );
 		} catch (EvaluationException e) {
 			System.err.println(e.getMessage());
 			throw e;

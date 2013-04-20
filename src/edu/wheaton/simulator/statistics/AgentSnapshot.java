@@ -86,7 +86,6 @@ public class AgentSnapshot {
 	 * 4 (yPos)
 	 * Fields: FieldSnapshot Name Value
 	 * Fields: FieldSnapshot Name Value
-	 * TODO: Add the triggers to serialization
 	 */
 	public String serialize(){
 		String s = "AgentSnapshot";

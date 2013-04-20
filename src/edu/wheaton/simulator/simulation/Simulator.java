@@ -11,16 +11,12 @@
 package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
-import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.base.Preconditions;
-
+import net.sourceforge.jeval.EvaluationException;
 import sampleAgents.Bouncer;
 import sampleAgents.Confuser;
 import sampleAgents.ConwaysAliveBeing;
@@ -31,19 +27,15 @@ import sampleAgents.RightTurner;
 import sampleAgents.Rock;
 import sampleAgents.Scissors;
 
-import net.sourceforge.jeval.EvaluationException;
+import com.google.common.base.Preconditions;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.datastructure.GridObserver;
-import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
-import edu.wheaton.simulator.statistics.AgentSnapshotTable;
-import edu.wheaton.simulator.statistics.Loader;
-import edu.wheaton.simulator.statistics.PrototypeSnapshot;
-import edu.wheaton.simulator.statistics.Saver;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class Simulator {
@@ -102,7 +94,8 @@ public class Simulator {
 		isStarted = new AtomicBoolean(false);
 		sleepPeriod = 500;
 		this.ender = ender;
-		StatisticsManager.getInstance().initialize(grid, ender);
+		//StatisticsManager.getInstance().initialize(grid, ender);
+		StatisticsManager.getInstance().initialize(grid);
 	}
 
 	/**
@@ -191,6 +184,13 @@ public class Simulator {
 			isPaused.set(true);
 			isStopped.set(true);
 		}
+	}
+	
+	/**
+	 * Whether or not the simulation has begun
+	 */
+	public boolean hasStarted() {
+		return isStarted.get();
 	}
 
 	/**
@@ -306,63 +306,6 @@ public class Simulator {
 	}
 
 	/**
-	 * Adds the given Agent at the closest free spot to the spawn position. The
-	 * search for an open spot begins at the given x/y and then spirals
-	 * outwards.
-	 * 
-	 * @param prototypeName
-	 *            The name of the prototype to build the Agent from.
-	 * @param spawnX
-	 *            Central x location for spawn
-	 * @param spawnY
-	 *            Central y location for spawn
-	 * @return true if successful (agent added), false otherwise
-	 */
-	public boolean spiralSpawn(String prototypeName, int spawnX, int spawnY) {
-		Agent toAdd = getPrototype(prototypeName).createAgent();
-		return grid.spiralSpawn(toAdd, spawnX, spawnY);
-	}
-
-	/**
-	 * Adds an Agent to a free spot along the given row
-	 * 
-	 * @param prototypeName
-	 *            The name of the prototype to build the Agent from.
-	 * @param row
-	 *            The y position of the row
-	 * @return true if successful (Agent added), false otherwise
-	 */
-	public boolean horizontalSpawn(String prototypeName, int row) {
-		Agent toAdd = getPrototype(prototypeName).createAgent();
-		return grid.horizontalSpawn(toAdd, row);
-	}
-
-	/**
-	 * Adds an Agent to a free spot in the given column
-	 * 
-	 * @param prototypeName
-	 *            The name of the prototype to build the Agent from.
-	 * @param column
-	 *            The x position of the column
-	 * @return true if successful (Agent added), false otherwise
-	 */
-	public boolean verticalSpawn(String prototypeName, int column) {
-		Agent toAdd = getPrototype(prototypeName).createAgent();
-		return grid.verticalSpawn(toAdd, column);
-	}
-
-	/**
-	 * Adds the given Agent to a random (but free) position.
-	 * 
-	 * @param prototypeName
-	 *            The name of the prototype to build the Agent from.
-	 */
-	public boolean spiralSpawn(String prototypeName) {
-		Agent toAdd = getPrototype(prototypeName).createAgent();
-		return grid.spiralSpawn(toAdd);
-	}
-
-	/**
 	 * Places an new agent (that follows the given prototype) at the given
 	 * coordinates. This method replaces (kills) anything that is currently in
 	 * that position. The Agent's own position is also updated accordingly.
@@ -462,10 +405,10 @@ public class Simulator {
 		for (int x = 0; x < grid.getWidth(); x++)
 			for (int y = 0; y < grid.getHeight(); y++) {
 				if (x == grid.getWidth() / 2) {
-					grid.spiralSpawn(Prototype.getPrototype("aliveBeing")
+					grid.addAgent(Prototype.getPrototype("aliveBeing")
 							.createAgent(), x, y);
 				} else {
-					grid.spiralSpawn(Prototype.getPrototype("deadBeing")
+					grid.addAgent(Prototype.getPrototype("deadBeing")
 							.createAgent(), x, y);
 				}
 			}
@@ -501,7 +444,13 @@ public class Simulator {
 	 *            The new value of the field.
 	 */
 	public void updateGlobalField(String name, String value) {
-		grid.updateField(name, value);
+		try {
+			grid.updateField(name, value);
+		}
+		catch (NoSuchElementException e) {
+			System.out.println("Attempting to update a nonexistent global field.");
+			System.err.print(e);
+		}
 	}
 
 	/**
@@ -537,7 +486,13 @@ public class Simulator {
 	 *            The name of the field to remove.
 	 */
 	public void removeGlobalField(String name) {
+		try {
 		grid.removeField(name);
+		}
+		catch (NoSuchElementException e) {
+			System.out.println("Attempting to remove a nonexistant field.");
+			System.err.print(e);
+		}
 	}
 
 	/**

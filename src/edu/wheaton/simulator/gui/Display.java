@@ -25,16 +25,18 @@ public class Display extends JFrame {
 	private static final long serialVersionUID = 8240039325787217431L;
 
 	private JPanel panel;
+	
+	private GridBagConstraints c;
 
 	public Display() {
 		super("Simulator");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(1200, 800);
-		this.setLayout(new FlowLayout(FlowLayout.CENTER));
-		this.setLocation(100, 100);
+		this.setLayout(new GridBagLayout());
 		panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		this.add(panel);
+		c = new GridBagConstraints();
+		c.insets = new Insets(5, 15, 15, 15);
+		this.add(panel, c);
 		this.setVisible(true);
 	}
 	/**
@@ -42,7 +44,11 @@ public class Display extends JFrame {
 	 * @param s The screen to display
 	 */
 	public void updateDisplay(Screen s) {
-		this.setContentPane(s);
+		this.remove(panel);
+		panel = s;
+		this.add(s, c);
+		this.pack();
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 }

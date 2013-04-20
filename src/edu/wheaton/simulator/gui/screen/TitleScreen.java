@@ -9,6 +9,7 @@
 
 package edu.wheaton.simulator.gui.screen;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -46,6 +47,7 @@ public class TitleScreen extends Screen {
 		add(makeButton("New Simulation", "New Simulation"),c);
 		//add(makeButton("Load a saved Simulation", "Load Existing"),c);
 		JButton loadButton = new JButton("Load a Saved Simulation");
+		loadButton.setPreferredSize(new Dimension(200, 70));
 		loadButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -56,9 +58,6 @@ public class TitleScreen extends Screen {
 			}
 		});
 		add(loadButton, c);
-
-		// Since serialization is not yet implemented.
-		this.getComponent(2).setEnabled(false);
 		this.setVisible(true);
 	}
 
