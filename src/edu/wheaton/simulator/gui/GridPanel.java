@@ -6,11 +6,7 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
-import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.datastructure.AgentAppearance;
-import edu.wheaton.simulator.datastructure.Grid;
-import edu.wheaton.simulator.datastructure.GridObserver;
-import edu.wheaton.simulator.entity.Agent;
 
 public class GridPanel extends JPanel {
 

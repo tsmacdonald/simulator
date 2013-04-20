@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.naming.NameNotFoundException;
@@ -16,7 +15,6 @@ import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
-import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 public class StatisticsManager {
 

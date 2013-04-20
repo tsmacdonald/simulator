@@ -9,7 +9,6 @@
  */
 package edu.wheaton.simulator.datastructure;
 
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -20,7 +19,6 @@ import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Entity;
-import edu.wheaton.simulator.simulation.Layer;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class Grid extends Entity implements Iterable<Agent> {
