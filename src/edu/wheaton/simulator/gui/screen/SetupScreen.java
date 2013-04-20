@@ -207,45 +207,42 @@ public class SetupScreen extends Screen {
 				PrefSize.NULL, (Component[]) null);
 
 		JLabel nameLabel = Gui.makeLabel("Name: ", MaxSize.NULL,
-				HorizontalAlignment.LEFT);
-		nameLabel.setAlignmentY(LEFT_ALIGNMENT);
+				null);
+		nameLabel.setAlignmentY(RIGHT_ALIGNMENT);
 		
 		nameField = Gui.makeTextField(gm.getSimName(), 25,
 				MaxSize.NULL, MinSize.NULL);
 		nameField.setAlignmentY(RIGHT_ALIGNMENT);
-		nameField.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		JLabel widthLabel = Gui.makeLabel("Width: ", MaxSize.NULL,
-				HorizontalAlignment.LEFT);
-		widthLabel.setAlignmentX(TOP_ALIGNMENT);
+				null);
+		widthLabel.setAlignmentY(RIGHT_ALIGNMENT);
 		
 		widthField = Gui.makeTextField("10", 5, MaxSize.NULL,
 				MinSize.NULL);
-		widthField.setHorizontalAlignment(SwingConstants.LEFT);
-		widthField.setAlignmentX(TOP_ALIGNMENT);
+		widthField.setAlignmentY(LEFT_ALIGNMENT);
 		
 		JLabel yLabel = Gui.makeLabel("Height: ", MaxSize.NULL,
-				HorizontalAlignment.LEFT);
+				null);
 		
 		heightField = Gui.makeTextField("10", 5, MaxSize.NULL,
 				MinSize.NULL);
-		heightField.setHorizontalAlignment(SwingConstants.LEFT);
 		heightField.setAlignmentY(RIGHT_ALIGNMENT);
 		
-		JLabel updateLabel = Gui.makeLabel("Update type: ", MaxSize.NULL, HorizontalAlignment.LEFT);
-		updateLabel.setAlignmentX(TOP_ALIGNMENT);
+		JLabel updateLabel = Gui.makeLabel("Update type: ", MaxSize.NULL, null);
+		updateLabel.setAlignmentY(RIGHT_ALIGNMENT);
 		
 		updateBox = Gui.makeComboBox(new String[] { "Linear", "Atomic",
 				"Priority" }, MaxSize.NULL);
-		updateBox.setAlignmentY(LEFT_ALIGNMENT);
+		updateBox.setAlignmentY(RIGHT_ALIGNMENT);
 		
 		//TODO working on adding step delay components
-		JLabel delayLabel = Gui.makeLabel("Step delay: ", MaxSize.NULL, HorizontalAlignment.LEFT);
-		delayLabel.setAlignmentX(TOP_ALIGNMENT);
+		JLabel delayLabel = Gui.makeLabel("Step delay: ", MaxSize.NULL, null);
+		delayLabel.setAlignmentY(RIGHT_ALIGNMENT);
 		
 		delayField = Gui.makeTextField("1.0", 5, MaxSize.NULL,
 				MinSize.NULL);
-		delayField.setHorizontalAlignment(SwingConstants.LEFT);
+		delayField.setAlignmentY(RIGHT_ALIGNMENT);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -258,6 +255,7 @@ public class SetupScreen extends Screen {
 		c.gridy = 0;
 		c.gridwidth = 3;
 		c.insets = new Insets(0, 0, 0, 0);
+		c.fill = GridBagConstraints.HORIZONTAL;
 		upperPanel.add(nameField, c);
 
 		c = new GridBagConstraints();
@@ -281,31 +279,38 @@ public class SetupScreen extends Screen {
 		c.gridx = 3;
 		c.gridy = 1;
 		c.insets = new Insets(0, 0, 0, 0);
+		c.anchor = GridBagConstraints.EAST;
 		upperPanel.add(heightField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
-		c.gridwidth = 2;
-		upperPanel.add(updateLabel, c);
-
+		c.gridwidth = 1;
+		upperPanel.add(delayLabel, c);
+		
 		c = new GridBagConstraints();
-		c.gridx = 2;
+		c.gridx = 3;
 		c.gridy = 2;
-		c.gridwidth = 2;
-		upperPanel.add(updateBox, c);
+		c.gridwidth = 3;
+		c.anchor = GridBagConstraints.EAST;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		upperPanel.add(delayField, c);
 		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 3;
-		c.gridwidth = 2;
-		upperPanel.add(delayLabel, c);
-		
+		c.gridwidth = 1;
+		upperPanel.add(updateLabel, c);
+
 		c = new GridBagConstraints();
-		c.gridx = 2;
+		c.gridx = 3;
 		c.gridy = 3;
-		c.gridwidth = 2;
-		upperPanel.add(delayField, c);
+		c.gridwidth = 3;
+		c.anchor = GridBagConstraints.EAST;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		upperPanel.add(updateBox, c);
+		
+		
 
 		upperPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		
