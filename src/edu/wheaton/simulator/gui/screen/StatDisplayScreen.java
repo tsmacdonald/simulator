@@ -159,7 +159,7 @@ public class StatDisplayScreen extends Screen {
 		}
 	}
 
-	private void setBackButtonListener(JButton backButton) { 
+	private static void setBackButtonListener(JButton backButton) { 
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

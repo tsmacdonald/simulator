@@ -209,14 +209,14 @@ public final class Gui {
 		return menu;
 	}
 
-	private static JMenu makeEditMenu() {
-		JMenu menu = Gui.makeMenu("Edit");
-
-		menu.add(Gui.makeMenuItem("Edit Global Fields", 
-				new GeneralButtonListener("Fields",ScreenManager.getInstance())));
-
-		return menu;
-	}
+//	private static JMenu makeEditMenu() {
+//		JMenu menu = Gui.makeMenu("Edit");
+//
+//		menu.add(Gui.makeMenuItem("Edit Global Fields", 
+//				new GeneralButtonListener("Fields",ScreenManager.getInstance())));
+//
+//		return menu;
+//	}
 
 	private static JMenu makeHelpMenu() {
 		JMenu menu = Gui.makeMenu("Help");
