@@ -175,7 +175,6 @@ public class TriggerScreen extends Screen {
 			if(toAdd != null){
 				agent.addTrigger(toAdd);
 				System.out.println("Agent: " + agent.getName() + " Trigger: " + toAdd + " SelectedValue: " + triggers.getSelectedValue());
-				
 				validate();
 			}
 			else
