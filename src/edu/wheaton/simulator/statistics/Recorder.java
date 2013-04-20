@@ -3,9 +3,11 @@ package edu.wheaton.simulator.statistics;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
-import edu.wheaton.simulator.datastructure.AbstractStatsGridObserver;
+import edu.wheaton.simulator.datastructure.AgentAppearance;
 import edu.wheaton.simulator.datastructure.Grid;
+import edu.wheaton.simulator.datastructure.GridObserver;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
@@ -16,7 +18,7 @@ import edu.wheaton.simulator.entity.TriggerObserver;
  * @author Daniel Gill, Nico Lasta
  * 
  */
-public class Recorder extends AbstractStatsGridObserver implements TriggerObserver {
+public class Recorder implements GridObserver, TriggerObserver {
 
 	private StatisticsManager statManager;
 
@@ -57,7 +59,7 @@ public class Recorder extends AbstractStatsGridObserver implements TriggerObserv
 		}
 		
 		if(gridPrototype == null) {
-			gridPrototype = new Prototype("GRID");
+			gridPrototype = new Prototype(grid, "GRID");
 			statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, grid.getStep()));
 		}
 		else
@@ -92,5 +94,11 @@ public class Recorder extends AbstractStatsGridObserver implements TriggerObserv
 			triggerList.add(triggerSnap);
 			triggers.put(caller, triggerList);
 		}
+	}
+
+	@Override
+	public void update(Set<AgentAppearance> agents) {
+		// TODO Auto-generated method stub
+		
 	}
 }
