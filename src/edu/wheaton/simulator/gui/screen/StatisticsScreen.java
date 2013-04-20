@@ -16,7 +16,7 @@ import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorFacade;
 
-public class StatDisplayScreen extends Screen {
+public class StatisticsScreen extends Screen {
 	/**
 	 * 
 	 */
@@ -47,7 +47,7 @@ public class StatDisplayScreen extends Screen {
 	 * Make the screen. 
 	 * @param gm ScreenManager. 
 	 */
-	public StatDisplayScreen(SimulatorFacade gm) {
+	public StatisticsScreen(SimulatorFacade gm) {
 		super(gm);
 		this.gm = gm;
 		//Setup GridBagLayout & demensions.
