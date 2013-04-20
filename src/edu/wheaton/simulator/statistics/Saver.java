@@ -81,7 +81,6 @@ public class Saver {
 			File newDir = new File(mySubFolder);
 			boolean success = newDir.mkdir();
 			if (success) {
-				newDir.delete();
 				newDir = new File(newDir, filename);
 				newDir.createNewFile();
 			}
@@ -121,7 +120,6 @@ public class Saver {
 			boolean success = newDir.mkdir();
 			if (success) {
 				newDir = new File(newDir, filename);
-				newDir.delete();
 				newDir.createNewFile();
 			}
 			if (newDir.exists()) {
