@@ -206,27 +206,26 @@ public class SetupScreen extends Screen {
 		JLabel nameLabel = Gui.makeLabel("Name: ", MaxSize.NULL,
 				HorizontalAlignment.LEFT);
 		nameField = Gui.makeTextField(gm.getSimName(), 25,
-				new MaxSize(400, 30), new MinSize(272, 25));
+				MaxSize.NULL, new MinSize(272, 25));
 		nameField.setHorizontalAlignment(SwingConstants.LEFT);
-		JLabel widthLabel = Gui.makeLabel("Width: ", new MaxSize(200, 40),
+		JLabel widthLabel = Gui.makeLabel("Width: ", MaxSize.NULL,
 				HorizontalAlignment.LEFT);
-		widthField = Gui.makeTextField("10", 5, new MaxSize(200, 40),
+		widthField = Gui.makeTextField("10", 5, MaxSize.NULL,
 				new MinSize(100, 25));
 		widthField.setHorizontalAlignment(SwingConstants.LEFT);
-		JLabel yLabel = Gui.makeLabel("Height: ", new MaxSize(200, 40),
+		JLabel yLabel = Gui.makeLabel("Height: ", MaxSize.NULL,
 				HorizontalAlignment.LEFT);
-		heightField = Gui.makeTextField("10", 5, new MaxSize(200, 40),
+		heightField = Gui.makeTextField("10", 5, MaxSize.NULL,
 				new MinSize(100, 25));
 		heightField.setHorizontalAlignment(SwingConstants.LEFT);
-		JLabel updateLabel = Gui.makeLabel("Update type: ", new MaxSize(100,
-				40), HorizontalAlignment.LEFT);
+		JLabel updateLabel = Gui.makeLabel("Update type: ", MaxSize.NULL, HorizontalAlignment.LEFT);
 		updateBox = Gui.makeComboBox(new String[] { "Linear", "Atomic",
-				"Priority" }, new MaxSize(200, 40));
+				"Priority" }, MaxSize.NULL);
 		updateBox.setAlignmentY(LEFT_ALIGNMENT);
 		//TODO working on adding step delay components
 		JLabel delayLabel = Gui.makeLabel("Step delay: ", new MaxSize(100,
 				40), HorizontalAlignment.LEFT);
-		delayField = Gui.makeTextField("1.0", 5, new MaxSize(200, 40),
+		delayField = Gui.makeTextField("1.0", 5, MaxSize.NULL,
 				new MinSize(100, 25));
 		delayField.setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -293,18 +292,15 @@ public class SetupScreen extends Screen {
 		JPanel lowerPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL,
 				PrefSize.NULL, (Component[]) null);
 
-		JLabel conHeader = Gui.makeLabel("Ending Conditions", new PrefSize(
-				100, 100), null);
-		JLabel timeLabel = Gui.makeLabel("Time Limit", new PrefSize(100, 100),
+		JLabel conHeader = Gui.makeLabel("Ending Conditions", MaxSize.NULL, null);
+		JLabel timeLabel = Gui.makeLabel("Time Limit", MaxSize.NULL,
 				null);
 
-		timeField = Gui.makeTextField(null, 15, new MaxSize(100, 30),
+		timeField = Gui.makeTextField(null, 15, MaxSize.NULL,
 				new MinSize(100, 25));
 
-		JLabel agentTypeLabel = Gui.makeLabel("Agent Type", new PrefSize(100,
-				30), null);
-		JLabel valueLabel = Gui.makeLabel("Population Limit", new PrefSize(
-				100, 30), null);
+		JLabel agentTypeLabel = Gui.makeLabel("Agent Type", MaxSize.NULL, null);
+		JLabel valueLabel = Gui.makeLabel("Population Limit", MaxSize.NULL, null);
 		
 		conListPanel = makeConditionListPanel();
 
@@ -366,12 +362,12 @@ public class SetupScreen extends Screen {
 	}
 
 	private void addCondition() {
-		JComboBox newBox = Gui.makeComboBox(agentNames, new MaxSize(200, 30));
+		JComboBox newBox = Gui.makeComboBox(agentNames, MaxSize.NULL);
 		newBox.setMinimumSize(new Dimension(200, 25));
 		agentTypes.add(newBox);
 
 		JTextField newValue = Gui.makeTextField(null, 25,
-				new MaxSize(100, 30), new MinSize(100, 30));
+				MaxSize.NULL, new MinSize(100, 30));
 		values.add(newValue);
 
 		JButton newButton = Gui.makeButton("Delete", null,
