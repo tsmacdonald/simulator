@@ -3,6 +3,8 @@ package edu.wheaton.simulator.statistics;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import edu.wheaton.simulator.datastructure.AbstractStatsGridObserver;
 import edu.wheaton.simulator.datastructure.Grid;
@@ -22,6 +24,10 @@ public class Recorder extends AbstractStatsGridObserver implements TriggerObserv
 
 	private Prototype gridPrototype;
 	
+	private final ExecutorService pool;
+	
+	private final int poolSize = 5;
+	
 	private static HashMap<AgentID, ArrayList<TriggerSnapshot>> triggers;
 
 	/**
@@ -31,39 +37,51 @@ public class Recorder extends AbstractStatsGridObserver implements TriggerObserv
 		this.statManager = statManager;
 		gridPrototype = null;
 		Recorder.triggers = new HashMap<AgentID, ArrayList<TriggerSnapshot>>();
+		pool = Executors.newFixedThreadPool(poolSize);
 	}
-
-	/**
-	 * Record a step of the simulation.
-	 * 
-	 * @param grid
-	 *            The grid at the point in time corresponding to step.
-	 * @param step
-	 *            The point in the simulation being recorded.
-	 * @param prototypes
-	 */
-	@Override
-	public void update(Grid grid) {
-		Collection<Prototype> prototypes = Prototype.getPrototypes();
-		
-		for (Prototype prototype : prototypes)
-			StatisticsManager.addPrototypeSnapshot(SnapshotFactory
-					.makePrototypeSnapshot(prototype));
-		
-		for (Agent agent : grid) {
-			if (agent != null)
-				statManager.addGridEntity(SnapshotFactory.makeAgentSnapshot(
-						agent, triggers.get(agent.getID()), grid.getStep()));
+	public void update(Grid grid){
+		pool.execute(new Updater(grid));
+	}
+	
+	class Updater implements Runnable {
+		private Grid grid;
+		public Updater(Grid grid){
+			this.grid = grid;
 		}
 		
-		if(gridPrototype == null) {
-			gridPrototype = new Prototype("GRID");
-			statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, grid.getStep()));
-		}
-		else
-			statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, grid.getStep()));
+		/**
+		 * Record a step of the simulation.
+		 * 
+		 * @param grid
+		 *            The grid at the point in time corresponding to step.
+		 * @param step
+		 *            The point in the simulation being recorded.
+		 * @param prototypes
+		 */
 		
-		triggers.clear();
+		@Override
+		public void run(){
+			Collection<Prototype> prototypes = Prototype.getPrototypes();
+			
+			for (Prototype prototype : prototypes)
+				StatisticsManager.addPrototypeSnapshot(SnapshotFactory
+						.makePrototypeSnapshot(prototype));
+			
+			for (Agent agent : grid) {
+				if (agent != null)
+					statManager.addGridEntity(SnapshotFactory.makeAgentSnapshot(
+							agent, triggers.get(agent.getID()), grid.getStep()));
+			}
+			
+			if(gridPrototype == null) {
+				gridPrototype = new Prototype("GRID");
+				statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, grid.getStep()));
+			}
+			else
+				statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, grid.getStep()));
+			
+			triggers.clear();
+		}
 	}
 
 	/**

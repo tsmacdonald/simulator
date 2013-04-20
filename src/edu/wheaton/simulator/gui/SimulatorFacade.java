@@ -44,6 +44,7 @@ public class SimulatorFacade {
 
 		hasStarted = false;
 		gpo = new GridPanelObserver(gridPanel);
+		getSim().addGridObserver(gpo);
 		fc = new JFileChooser();
 	}
 	

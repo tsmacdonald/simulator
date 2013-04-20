@@ -112,7 +112,7 @@ public class Simulation {
 	}
 
 	/**
-	 * Provides this simulations's name
+	 * Provides this simulation's name
 	 * 
 	 * @return
 	 */

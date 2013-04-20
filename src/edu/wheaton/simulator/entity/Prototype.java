@@ -3,7 +3,8 @@
  *
  * A template for an Agent
  * 
- * @author Elliot Penson
+ * @author Agent Team
+ * 
  * Wheaton College, CSCI 335, Spring 2013
  */
 

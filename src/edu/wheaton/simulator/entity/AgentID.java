@@ -1,6 +1,7 @@
 package edu.wheaton.simulator.entity;
 
 public class AgentID implements Comparable<AgentID> {
+
 	private static Integer nextID = 0;
 
 	private final Integer value;
@@ -10,13 +11,14 @@ public class AgentID implements Comparable<AgentID> {
 	}
 
 	/**
-	 * Used for the grid ID, for stats team. Hackish method tho.
+	 * Used for the grid ID, for stats team.
+	 * 
 	 * @param id
 	 */
-	public AgentID(int id){
+	public AgentID(int id) {
 		value = id;
 	}
-	
+
 	public final Integer getInt() {
 		return value;
 	}

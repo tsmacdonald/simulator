@@ -288,11 +288,6 @@ public class Agent extends GridEntity {
 		return id;
 	}
 
-	public void addTrigger(Trigger trigger) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	/**
 	 * Provides the grid that this agent is in.
 	 * 
