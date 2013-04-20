@@ -58,12 +58,9 @@ public class TriggerSnapshotCase {
 		builder.addPriority(1);
 		
 		Trigger trigger = builder.build();
-		
 		prototype.addTrigger(trigger);
-		Agent agent = prototype.createAgent(grid);
 		
 		TriggerSnapshot tSnap = SnapshotFactory.makeTriggerSnapshot(trigger.getName(), trigger.getPriority(), trigger.getConditions().toString(), trigger.getBehavior().toString());
 		org.junit.Assert.assertNotNull("Trigger Snapshot(" + tSnap + ") shouldn't be null", tSnap);
 	}
-
 }
