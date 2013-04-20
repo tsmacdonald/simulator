@@ -87,6 +87,10 @@ public class SimulatorGuiManager {
 			gridPanel.setGrid(getSimGrid());
 		}
 	}
+	
+	public Map<String,String> getGlobalFieldMap(){
+		return getSim().getGlobalFieldMap();
+	}
 
 	private Simulator getSim() {
 		return simulator;
