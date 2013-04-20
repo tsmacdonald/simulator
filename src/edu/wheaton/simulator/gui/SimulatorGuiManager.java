@@ -51,7 +51,7 @@ public class SimulatorGuiManager {
 		gridPanel = new GridPanel(this);
 		load("New Simulation",10, 10);
 		d = Display.getInstance();
-		sm = new ScreenManager(d);
+		sm = ScreenManager.getInstance();
 		sm.putScreen("Title", new TitleScreen(this));
 		sm.putScreen("New Simulation", new NewSimulationScreen(this));
 		sm.putScreen("Edit Fields", new EditFieldScreen(this));

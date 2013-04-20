@@ -6,11 +6,19 @@ import edu.wheaton.simulator.gui.screen.Screen;
 
 public class ScreenManager {
 
+	private static ScreenManager sm;
+	
 	private Display display;
 	
-	public ScreenManager(Display d) {
-		this.display = d;
+	private ScreenManager() {
+		this.display = Display.getInstance();
 		screens = new HashMap<String, Screen>();
+	}
+	
+	public static ScreenManager getInstance(){
+		if(sm==null)
+			sm = new ScreenManager();
+		return sm;
 	}
 	
 	public void putScreen(String name, Screen screen){
