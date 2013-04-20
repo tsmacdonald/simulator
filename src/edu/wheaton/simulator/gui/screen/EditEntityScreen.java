@@ -284,9 +284,8 @@ public class EditEntityScreen extends Screen {
 							Prototype.removePrototype(nameField.getText());
 						reset();
 					}
-				}),finishButton,previousButton,nextButton), 
-				BorderLayout.SOUTH
-				);
+				}), finishButton, previousButton, nextButton), 
+				BorderLayout.SOUTH );
 	}
 
 	private void initIconDesignObject(IconGridPanel iconPanel){
