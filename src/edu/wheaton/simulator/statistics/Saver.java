@@ -81,8 +81,8 @@ public class Saver {
 			File newDir = new File(mySubFolder);
 			boolean success = newDir.mkdir();
 			if (success) {
-				newDir = new File(newDir, filename);
 				newDir.delete();
+				newDir = new File(newDir, filename);
 				newDir.createNewFile();
 			}
 			if (newDir.exists()) {
@@ -129,7 +129,7 @@ public class Saver {
 				System.out.println("File path: " + newDir.getAbsolutePath());
 			}
 
-			FileWriter writer = new FileWriter(newDir, false);
+			BufferedWriter writer = new BufferedWriter(new FileWriter(newDir, false));
 			writer.write(sb.toString());
 			writer.close();
 		} catch (IOException e) {
