@@ -104,6 +104,8 @@ public class Grid extends Entity implements Iterable<Agent> {
 			}
 		}
 
+		updateField("width", width + "");
+		updateField("height", height + "");
 		grid = newGrid;
 	}
 
