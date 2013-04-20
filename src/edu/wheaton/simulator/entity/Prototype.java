@@ -187,6 +187,14 @@ public class Prototype extends GridEntity {
 		Collections.sort(triggers);
 	}
 
+	public void replaceTrigger(String name, Trigger trigger){
+		for (Trigger t : triggers){
+			if (t.getName().equals(name))
+				triggers.remove(t);
+		}
+		triggers.add(trigger);
+	}
+	
 	/**
 	 * Removes a trigger with the given priority
 	 * 
