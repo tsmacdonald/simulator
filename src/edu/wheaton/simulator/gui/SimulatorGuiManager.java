@@ -157,7 +157,7 @@ public class SimulatorGuiManager {
 	}
 
 	public Integer getSimGridHeight(){
-		return getSim().getGrid().getHeight();
+		return getSim().getHeight();
 	}
 
 	public void resizeSimGrid(int width,int height){
@@ -165,7 +165,7 @@ public class SimulatorGuiManager {
 	}
 
 	public Integer getSimGridWidth(){
-		return getSim().getGrid().getWidth();
+		return getSim().getWidth();
 	}
 
 	public void setSimLayerExtremes() throws EvaluationException{
