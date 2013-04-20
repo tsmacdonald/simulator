@@ -343,4 +343,12 @@ public class SimulatorGuiManager {
 	public void setSimName(String name) {
 		getSim().setName(name);
 	}
+	
+	public Integer getSleepPeriod() {
+		return getSim().getSleepPeriod();
+	}
+	
+	public void setSleepPeriod(int n) {
+		getSim().setSleepPeriod(n);
+	}
 }
