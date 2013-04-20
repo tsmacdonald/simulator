@@ -245,7 +245,8 @@ public class SimulatorGuiManager {
 	}
 
 	public void saveSim(String fileName) {
-		statMan.saveSimulation(fileName);
+		//TODO get statistics team to provide a 'saveSim(String fileName)' method
+		//statMan.saveSimulation(fileName);
 	}
 
 	public void startSim(){
