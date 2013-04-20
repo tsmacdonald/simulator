@@ -27,7 +27,6 @@ public class Driver {
 					e.printStackTrace();
 				}
 				Gui.init();
-				SimulatorGuiManager gm = SimulatorGuiManager.getInstance();
 				ScreenManager sm = Gui.getScreenManager();
 				sm.update(sm.getScreen("Title"));
 			}
