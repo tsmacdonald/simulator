@@ -65,6 +65,13 @@ public final class Gui {
 		return label;
 	}
 	
+	public static JLabel makeLabel(String name, MinSize size){
+		JLabel label = new JLabel(name);
+		if(size!=null)
+			label.setMinimumSize(size);
+		return label;
+	}
+	
 	public static JPanel makePanel(LayoutManager layout, MaxSize maxSize, PrefSize prefSize, Component... components){
 		JPanel panel = new JPanel();
 		

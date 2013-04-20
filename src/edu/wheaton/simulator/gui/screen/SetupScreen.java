@@ -206,34 +206,35 @@ public class SetupScreen extends Screen {
 		JPanel upperPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL,
 				PrefSize.NULL, (Component[]) null);
 
-		JLabel nameLabel = Gui.makeLabel("Name:", MaxSize.NULL,
-				null);
+		JLabel nameLabel = Gui.makeLabel("Name:",
+				new MinSize(50,30));
 		
 		nameField = Gui.makeTextField(gm.getSimName(), 25,
-				MaxSize.NULL, MinSize.NULL);
+				null, new MinSize(150,30));
 		
-		JLabel widthLabel = Gui.makeLabel("Width:", MaxSize.NULL,
-				null);
+		JLabel widthLabel = Gui.makeLabel("Width:",
+				new MinSize(50,30));
 		
 		widthField = Gui.makeTextField("10", 5, MaxSize.NULL,
-				MinSize.NULL);
+				new MinSize(50,30));
 		
-		JLabel yLabel = Gui.makeLabel("Height:", MaxSize.NULL,
-				null);
+		JLabel yLabel = Gui.makeLabel("Height:", 
+				new MinSize(70,30));
 		
 		heightField = Gui.makeTextField("10", 5, MaxSize.NULL,
-				MinSize.NULL);
+				new MinSize(50,30));
 		
 		JLabel updateLabel = Gui.makeLabel("Update type:", MaxSize.NULL, null);
 		
 		updateBox = Gui.makeComboBox(new String[] { "Linear", "Atomic",
 				"Priority" }, MaxSize.NULL);
+		updateBox.setMinimumSize(new MinSize(150,30));
 		
 		//TODO working on adding step delay components
 		JLabel delayLabel = Gui.makeLabel("Step delay:", MaxSize.NULL, null);
 		
 		delayField = Gui.makeTextField("1.0", 5, MaxSize.NULL,
-				MinSize.NULL);
+				new MinSize(150,30));
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -263,7 +264,7 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 1;
-		c.insets = new Insets(0, 0, 0, 0);
+		c.insets = new Insets(0, 10, 0, 0);
 		upperPanel.add(yLabel, c);
 
 		c = new GridBagConstraints();
