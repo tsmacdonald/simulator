@@ -71,9 +71,9 @@ public class ViewSimScreen extends Screen {
 			@Override
 			public void stateChanged(ChangeEvent ce) {
 				if (tabs.getSelectedComponent().toString() == "Agent")
-					canSpawn = true;
+					setSpawn(true);
 				else {
-					canSpawn = false;
+					setSpawn(false);
 				}
 				entitiesScreen.load();
 				layerScreen.load();
@@ -121,8 +121,6 @@ public class ViewSimScreen extends Screen {
 			}
 		});
 
-		JPanel layerPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS, null, null);
-		layerPanel.setAlignmentY(CENTER_ALIGNMENT);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.NONE;
@@ -168,7 +166,21 @@ public class ViewSimScreen extends Screen {
 						canSpawn = true;
 					}
 				}), Gui.makeButton("Statistics", null,
-				new GeneralButtonListener("Statistics", sm)));
+				new GeneralButtonListener("Statistics", sm)),
+				Gui.makeButton("Clear Agents", null,
+						new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						//adding clear all here
+					}
+				}), Gui.makeButton("Fill Grid", null,
+						new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						//adding fill grid here
+					}
+				})
+				);
 		return buttonPanel;
 	}
 

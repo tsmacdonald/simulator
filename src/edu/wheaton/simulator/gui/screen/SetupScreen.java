@@ -1,5 +1,6 @@
 package edu.wheaton.simulator.gui.screen;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -9,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -55,36 +57,23 @@ public class SetupScreen extends Screen {
 		super(gm);
 		this.setLayout(new GridBagLayout());
 
-		GridBagConstraints c = new GridBagConstraints();
-
 		JPanel upperPanel = makeUpperPanel();
 		JPanel lowerPanel = makeLowerPanel();
-		conListPanel = makeConditionListPanel();
-
+		
+		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridheight = 3;
-		c.gridwidth = 3;
 		this.add(upperPanel, c);
 
+		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 3;
-		c.gridheight = 3;
-		c.gridwidth = 3;
+		c.insets = new Insets(20,20,20,20);
 		this.add(lowerPanel, c);
 
-		c.gridx = 0;
-		c.gridy = 7;
-		c.gridwidth = 4;
-		c.gridheight = GridBagConstraints.RELATIVE;
-		c.weighty = 1.0;
-		c.anchor = GridBagConstraints.PAGE_START;
-		this.add(conListPanel, c);
-
-		c.gridwidth = 3;
-		c.gridheight = 1;
+		c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.PAGE_END;
-		c.gridx = 2;
+		c.gridx =0;
 		c.gridy = 8;
 		this.add(
 				Gui.makePanel(
@@ -217,28 +206,26 @@ public class SetupScreen extends Screen {
 		JLabel nameLabel = Gui.makeLabel("Name: ", MaxSize.NULL,
 				HorizontalAlignment.LEFT);
 		nameField = Gui.makeTextField(gm.getSimName(), 25,
-				new MaxSize(400, 30), new MinSize(272, 25));
+				MaxSize.NULL, MinSize.NULL);
 		nameField.setHorizontalAlignment(SwingConstants.LEFT);
-		JLabel widthLabel = Gui.makeLabel("Width: ", new MaxSize(200, 40),
+		JLabel widthLabel = Gui.makeLabel("Width: ", MaxSize.NULL,
 				HorizontalAlignment.LEFT);
-		widthField = Gui.makeTextField("10", 5, new MaxSize(200, 40),
-				new MinSize(100, 25));
+		widthField = Gui.makeTextField("10", 5, MaxSize.NULL,
+				MinSize.NULL);
 		widthField.setHorizontalAlignment(SwingConstants.LEFT);
-		JLabel yLabel = Gui.makeLabel("Height: ", new MaxSize(200, 40),
+		JLabel yLabel = Gui.makeLabel("Height: ", MaxSize.NULL,
 				HorizontalAlignment.LEFT);
-		heightField = Gui.makeTextField("10", 5, new MaxSize(200, 40),
-				new MinSize(100, 25));
+		heightField = Gui.makeTextField("10", 5, MaxSize.NULL,
+				MinSize.NULL);
 		heightField.setHorizontalAlignment(SwingConstants.LEFT);
-		JLabel updateLabel = Gui.makeLabel("Update type: ", new MaxSize(100,
-				40), HorizontalAlignment.LEFT);
+		JLabel updateLabel = Gui.makeLabel("Update type: ", MaxSize.NULL, HorizontalAlignment.LEFT);
 		updateBox = Gui.makeComboBox(new String[] { "Linear", "Atomic",
-				"Priority" }, new MaxSize(200, 40));
+				"Priority" }, MaxSize.NULL);
 		updateBox.setAlignmentY(LEFT_ALIGNMENT);
 		//TODO working on adding step delay components
-		JLabel delayLabel = Gui.makeLabel("Step delay: ", new MaxSize(100,
-				40), HorizontalAlignment.LEFT);
-		delayField = Gui.makeTextField("1.0", 5, new MaxSize(200, 40),
-				new MinSize(100, 25));
+		JLabel delayLabel = Gui.makeLabel("Step delay: ", MaxSize.NULL, HorizontalAlignment.LEFT);
+		delayField = Gui.makeTextField("1.0", 5, MaxSize.NULL,
+				MinSize.NULL);
 		delayField.setHorizontalAlignment(SwingConstants.LEFT);
 
 		GridBagConstraints c = new GridBagConstraints();
@@ -295,6 +282,8 @@ public class SetupScreen extends Screen {
 		c.gridwidth = 2;
 		upperPanel.add(delayField, c);
 
+		upperPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		
 		return upperPanel;
 	}
 
@@ -302,56 +291,61 @@ public class SetupScreen extends Screen {
 		JPanel lowerPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL,
 				PrefSize.NULL, (Component[]) null);
 
-		JLabel conHeader = Gui.makeLabel("Ending Conditions", new PrefSize(
-				300, 100), HorizontalAlignment.CENTER);
-		JLabel timeLabel = Gui.makeLabel("Time Limit", new PrefSize(300, 100),
-				HorizontalAlignment.LEFT);
+		JLabel conHeader = Gui.makeLabel("Ending Conditions", MaxSize.NULL, null);
+		JLabel timeLabel = Gui.makeLabel("Time Limit", MaxSize.NULL,
+				null);
 
-		timeField = Gui.makeTextField(null, 15, new MaxSize(200, 30),
-				new MinSize(100, 25));
-		timeField.setHorizontalAlignment(SwingConstants.RIGHT);
+		timeField = Gui.makeTextField(null, 15, MaxSize.NULL,
+				MinSize.NULL);
 
-		JLabel agentTypeLabel = Gui.makeLabel("Agent Type", new PrefSize(300,
-				30), HorizontalAlignment.LEFT);
-		JLabel valueLabel = Gui.makeLabel("Population Limit", new PrefSize(
-				400, 30), HorizontalAlignment.RIGHT);
+		JLabel agentTypeLabel = Gui.makeLabel("Agent Type", MaxSize.NULL, null);
+		JLabel valueLabel = Gui.makeLabel("Population Limit", MaxSize.NULL, null);
+		
+		conListPanel = makeConditionListPanel();
 
 		GridBagConstraints c = new GridBagConstraints();
-
 		c.gridx = 1;
 		c.gridwidth = 3;
 		c.gridy = 0;
-		c.insets = new Insets(50, 0, 20, 0);
+		c.insets = new Insets(0, 0, 0, 0);
 		lowerPanel.add(conHeader, c);
 
+		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 1;
-		c.gridwidth = 1;
-		c.insets = new Insets(0, 0, 20, 0);
+		c.insets = new Insets(0, 0, 0, 0);
 		lowerPanel.add(timeLabel, c);
 
+		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
-		c.gridwidth = 3;
-		c.insets = new Insets(0, 0, 20, 0);
+		c.insets = new Insets(0, 0, 0, 0);
 		lowerPanel.add(timeField, c);
 
+		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
-		c.gridwidth = 2;
-		c.insets = new Insets(0, 0, 0, 120);
+		c.insets = new Insets(0, 0, 0, 0);
 		lowerPanel.add(agentTypeLabel, c);
 
+		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 2;
 		c.insets = new Insets(0, 0, 0, 0);
 		lowerPanel.add(valueLabel, c);
+		
+		c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 4;
+		this.add(conListPanel, c);
 
+		lowerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		
 		return lowerPanel;
 	}
 
 	private JPanel makeConditionListPanel() {
-		JPanel conListPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS, null, null);
+		JPanel conListPanel = Gui.makePanel((BoxLayoutAxis)null, null, null);
 
 		addConditionButton = Gui.makeButton("Add Field", null,
 				new ActionListener() {
@@ -361,22 +355,17 @@ public class SetupScreen extends Screen {
 					}
 				});
 
-		GridBagConstraints c = new GridBagConstraints();
-
-		c.gridx = 3;
-		c.gridy = 0;
-		conListPanel.add(addConditionButton, c);
-
+		conListPanel.add(addConditionButton);
+		
 		return conListPanel;
 	}
 
 	private void addCondition() {
-		JComboBox newBox = Gui.makeComboBox(agentNames, new MaxSize(500, 40));
-		newBox.setMinimumSize(new Dimension(200, 25));
+		JComboBox newBox = Gui.makeComboBox(agentNames, MaxSize.NULL);
 		agentTypes.add(newBox);
 
 		JTextField newValue = Gui.makeTextField(null, 25,
-				new MaxSize(300, 40), new MinSize(200, 40));
+				MaxSize.NULL, MinSize.NULL);
 		values.add(newValue);
 
 		JButton newButton = Gui.makeButton("Delete", null,
@@ -384,12 +373,9 @@ public class SetupScreen extends Screen {
 		deleteButtons.add(newButton);
 		newButton.setActionCommand(deleteButtons.indexOf(newButton) + "");
 
-		JPanel newPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS, null, null);
-		newPanel.add(newBox);
-		newPanel.add(newValue);
-		newPanel.add(newButton);
+		JPanel newPanel = Gui.makePanel(newBox,newValue,newButton);
 		subPanels.add(newPanel);
-
+		
 		conListPanel.add(newPanel);
 		conListPanel.add(addConditionButton);
 		conListPanel.validate();
