@@ -58,10 +58,18 @@ public class SetupScreen extends Screen {
 		this.setLayout(new GridBagLayout());
 
 		JPanel upperPanel = makeUpperPanel();
-		upperPanel.setMinimumSize(new MinSize(420,114));
+		upperPanel.setMinimumSize(new MinSize(300,117));
 		
 		JPanel lowerPanel = makeLowerPanel();
 		lowerPanel.setMinimumSize(new MinSize(398,70));
+		
+		JPanel bottomButtons = Gui.makePanel(
+				Gui.makeButton("Revert", null, new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						load();
+					}
+				}), makeConfirmButton());
 		
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -78,14 +86,7 @@ public class SetupScreen extends Screen {
 		c.anchor = GridBagConstraints.PAGE_END;
 		c.gridx =0;
 		c.gridy = 8;
-		this.add(
-				Gui.makePanel(
-						Gui.makeButton("Revert", null, new ActionListener() {
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								load();
-							}
-						}), makeConfirmButton()), c);
+		this.add(bottomButtons, c);
 
 		agentNames = new String[0];
 
@@ -95,6 +96,7 @@ public class SetupScreen extends Screen {
 
 		agentTypes = new ArrayList<JComboBox>();
 		values = new ArrayList<JTextField>();
+		validate();
 	}
 
 	private JButton makeConfirmButton() {
@@ -297,10 +299,8 @@ public class SetupScreen extends Screen {
 		c.fill = c.HORIZONTAL;
 		upperPanel.add(updateBox, c);
 		
-		
-
 		upperPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		
+		validate();
 		return upperPanel;
 	}
 
@@ -357,7 +357,7 @@ public class SetupScreen extends Screen {
 		this.add(conListPanel, c);
 
 		lowerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		
+		validate();
 		return lowerPanel;
 	}
 
