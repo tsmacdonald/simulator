@@ -7,8 +7,11 @@ package edu.wheaton.simulator.statistics;
  * @author Grant Hensel, Nico Lasta
  */
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -26,6 +29,7 @@ public class Saver {
 	 * Write data serializing the simulation's current state to a file
 	 * Saves the state of the most recent completed step only
 	 * FileWriter code taken from: http://www.javapractices.com/topic/TopicAction.do?Id=42
+	 * Folder/directory code taken from: http://stackoverflow.com/questions/8387581/java-how-to-create-a-new-folder-in-mac-os-x
 	 * 
 	 * @param filename The name of the file that's going to be saved
 	 * @param table An AgentSnapshotTable of all AgentSnapshots at every step of the simulation
@@ -40,12 +44,12 @@ public class Saver {
 
 		//Name the file, first
 		filename = filename + ".txt";
-		
+
 		//Create AgentSnapshots  
 		HashSet<AgentSnapshot> agentSnaps = new HashSet<AgentSnapshot>(); 
 		for(Agent a : agents)
 			agentSnaps.add(SnapshotFactory.makeAgentSnapshot(a, null, 0));
-		
+
 		//Create PrototypeSnapshots
 		HashSet<PrototypeSnapshot> protoSnaps = new HashSet<PrototypeSnapshot>(); 
 		for(Prototype p : prototypes)
@@ -58,22 +62,34 @@ public class Saver {
 		//Serialize and write all PrototypeSnapshots to file
 		for(PrototypeSnapshot proto : protoSnaps)
 			sb.append(proto.serialize() + "\n"); 
-		
+
 		//Serialize and write all AgentSnapshots to file
 		for(AgentSnapshot snap : agentSnaps)
 			sb.append(snap.serialize() + "\n"); 
-		
+
 		//Save the Global Fields
 		sb.append("GlobalVariables"); 
 		for (Map.Entry<String, String> entry : globalFields.entrySet())
-		    sb.append("GLOBAL~" + entry.getKey() + "~" + entry.getValue() + "\n");
+			sb.append("GLOBAL~" + entry.getKey() + "~" + entry.getValue() + "\n");
 
 		//Save the Ending Conditions
 		sb.append(simEnder.serialize()); 
 
-		//Create BufferedWriter and BufferedReader
+		//Make a folder, create the file
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+			String mySubFolder = "simulations";
+			File newDir = new File(mySubFolder);
+			boolean success = newDir.mkdir();
+			if (success) {
+				newDir = new File(newDir, filename);
+				newDir.createNewFile();
+			}
+			if (newDir.exists()) {
+				System.out.println("File created!");
+				System.out.println("File path: " + newDir.getAbsolutePath());
+			}
+
+			FileWriter writer = new FileWriter(newDir, false);
 			writer.write(sb.toString());
 			writer.close();
 		} catch (IOException e) {
@@ -83,6 +99,7 @@ public class Saver {
 
 		//Debugging: What just got saved to file?
 		System.out.println("The following text was just saved to SimulationState.txt: \n" + sb);
+
 	}
 
 	/**
@@ -95,18 +112,29 @@ public class Saver {
 		sb.append(protoSnap.serialize()); 
 
 		String filename = proto.getName() + ".txt"; 
-		//Create BufferedWriter and BufferedReader
+
+		//Make a folder, create the file
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+			String mySubFolder = "prototypes";
+			File newDir = new File(mySubFolder);
+			boolean success = newDir.mkdir();
+			if (success) {
+				newDir = new File(newDir, filename);
+				newDir.createNewFile();
+			}
+			if (newDir.exists()) {
+				System.out.println("File created!");
+				System.out.println("File path: " + newDir.getAbsolutePath());
+			}
+
+			BufferedWriter writer = new BufferedWriter(new FileWriter(newDir, false));
 			writer.write(sb.toString());
 			writer.close();
-//			if (directory) 
-//				System.out.println("File path: " + file.getAbsolutePath()); // TODO Delete
 		} catch (IOException e) {
 			System.err.println("Saver.java: IOException");
 			e.printStackTrace();
 		}
-		
+
 		//Debugging: What just got saved to file?
 		System.out.println("The following text was just saved to " + filename + ": \n" + sb);
 	}

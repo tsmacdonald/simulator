@@ -10,6 +10,8 @@
 package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
+import java.io.File;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -33,6 +35,8 @@ import edu.wheaton.simulator.datastructure.GridObserver;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
+import edu.wheaton.simulator.statistics.Loader;
+import edu.wheaton.simulator.statistics.Saver;
 
 public class Simulator {
 
@@ -317,7 +321,7 @@ public class Simulator {
 	public void removeAgent(int x, int y) {
 		simulationGrid().removeAgent(x, y);
 	}
-	
+
 	/**
 	 * Provides the simulation's name
 	 * 
@@ -326,7 +330,7 @@ public class Simulator {
 	public String getName() {
 		return simulation.getName();
 	}
-	
+
 	/**
 	 * Change the name of the simulation
 	 */
@@ -419,7 +423,7 @@ public class Simulator {
 		setPriorityUpdate(0, 60);
 		new Rock().initSampleAgent(new Prototype("rock"));
 		new Paper()
-				.initSampleAgent(new Prototype("paper"));
+		.initSampleAgent(new Prototype("paper"));
 		new Scissors().initSampleAgent(new Prototype("scissors"));
 	}
 
@@ -456,7 +460,7 @@ public class Simulator {
 			simulationGrid().updateField(name, value);
 		} catch (NoSuchElementException e) {
 			System.out
-					.println("Attempting to update a nonexistent global field.");
+			.println("Attempting to update a nonexistent global field.");
 			System.err.print(e);
 		}
 	}
@@ -472,7 +476,7 @@ public class Simulator {
 			simulationGrid().addField(name, startingValue);
 		} catch (ElementAlreadyContainedException e) {
 			System.out
-					.println("Problem adding a global field. Name already in the map. Exiting.");
+			.println("Problem adding a global field. Name already in the map. Exiting.");
 			e.printStackTrace();
 			System.exit(1);
 		}
@@ -492,14 +496,14 @@ public class Simulator {
 			System.err.print(e);
 		}
 	}
-	
+
 	/**
 	 * Provides the width of the grid
 	 */
 	public int getWidth() {
 		return simulationGrid().getWidth();
 	}
-	
+
 	/**
 	 * Provides the height of the grid
 	 */
@@ -525,22 +529,7 @@ public class Simulator {
 	}
 
 	/**
-	 * Loads a simulation from a grid and prototypes
-	 * 
-	 * @param name
-	 * @param grid
-	 * @param prototypes
-	 * @param se
-	 */
-	public void load(String name, Grid grid, Set<Prototype> prototypes,
-			SimulationEnder se) {
-		simulation = new Simulation(name, grid, se);
-		for (Prototype current : prototypes)
-			Prototype.addPrototype(current);
-	}
-
-	/**
-	 * Loads a new blank simulation
+	 * Creates a new simulation with a blank grid
 	 * 
 	 * @param name
 	 * @param width
@@ -550,30 +539,54 @@ public class Simulator {
 	public void load(String name, int width, int height, SimulationEnder se) {
 		simulation = new Simulation(name, width, height, se);
 	}
+	
+	/**
+	 * Replicates the simulation from the given file
+	 * 
+	 * @param file
+	 */
+	public void loadFromString(File file){
+		Loader l = new Loader();
+		l.loadSimulation(file);
+		try{
+			load(l.getName(), l.getGrid(), l.getPrototypes(), l.getSimEnder());
+		}catch(Exception e){
+			System.out.println("No grid has been loaded yet!"); 
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Loads a simulation from a grid and prototypes
+	 * 
+	 * @param name
+	 * @param grid
+	 * @param prototypes
+	 * @param se
+	 */
+	private void load(String name, Grid grid, Set<Prototype> prototypes,
+			SimulationEnder se) {
+		simulation = new Simulation(name, grid, se);
+		for (Prototype current : prototypes)
+			Prototype.addPrototype(current);
+	}
 
-	// /**
-	// * Saves a simulation to a given file.
-	// *
-	// * @param filename
-	// */
-	// public void saveToString(String filename){
-	// Saver s = new Saver();
-	// Set<Agent> agents = new HashSet<Agent>();
-	// for (Agent agent : grid)
-	// if (agent != null)
-	// agents.add(agent);
-	//
-	// s.saveSimulation(filename, agents, Prototype.getPrototypes(),
-	// getGlobalFieldMap(),
-	// grid.getWidth(), grid.getHeight(), ender);
-	// }
-	//
-	// public void loadFromString(File file){
-	// Loader l = new Loader();
-	// l.loadSimulation(file);
-	//
-	// load(l.getName(), l.getGrid(), l.getPrototypes());
-	// ender = l.getSimEnder();
-	// }
-	//
+	/**
+	 * Saves a simulation to a given file.
+	 *
+	 * @param filename
+	 */
+	public void saveToString(String filename, SimulationEnder ender){
+		Saver s = new Saver();
+		Set<Agent> agents = new HashSet<Agent>();
+		Grid grid = simulationGrid();
+		for (Agent agent : grid)
+			if (agent != null)
+				agents.add(agent);
+
+		s.saveSimulation(filename, agents, Prototype.getPrototypes(),
+				getGlobalFieldMap(),
+				grid.getWidth(), grid.getHeight(), ender);
+	}
+
 }
