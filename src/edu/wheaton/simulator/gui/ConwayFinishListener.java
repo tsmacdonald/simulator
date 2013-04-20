@@ -4,37 +4,39 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 
+import edu.wheaton.simulator.gui.screen.Screen;
+
 public class ConwayFinishListener implements ActionListener {
 	
 	private JTextField name;
 	private JTextField width;
 	private JTextField height;
-	private Manager sm;
+	private SimulatorFacade gm;
 	
 	public ConwayFinishListener(JTextField name, JTextField width, JTextField height, 
-									  Manager sm){
+			SimulatorFacade gm){
 		this.name = name;
 		this.width = width;
 		this.height = height;
-		this.sm = sm;
+		this.gm = gm;
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
 			int heightInt = getHeight();
 			int widthInt = getWidth();
-			sm.setFacade(widthInt, heightInt);
-			sm.updateGUIManager(getName(), widthInt, heightInt);
+			gm.load(name.getText(),widthInt, heightInt);
+			gm.updateGuiManager(getName(), widthInt, heightInt);
 		} catch(java.lang.NumberFormatException nfe) { 
 			System.err.println("Invalid input passed to ConwayFinishListener");
 		}
-		Screen upload = sm.getScreen("Edit Simulation");
-		sm.getFacade().setPriorityUpdate();
-		sm.getFacade().initGameOfLife();
-		sm.getEnder().setStepLimit(1000);
-		((ScreenManager)sm).setStarted(false);
-		sm.update(upload);
-		sm.loadScreen(upload);
+
+		Screen upload = Gui.getScreenManager().getScreen("View Simulation");
+		gm.initGameOfLife();
+		gm.setStepLimit(1000);
+		gm.setStarted(false);
+		Gui.getScreenManager().update(upload);
+		ScreenManager.loadScreen(upload);
 	}
 	public String getName(){
 		return name.getText();

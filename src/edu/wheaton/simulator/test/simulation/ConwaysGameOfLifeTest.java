@@ -31,7 +31,7 @@ public class ConwaysGameOfLifeTest {
 
 		// grid = new Grid(grid.getWidth(), grid.getHeight());
 
-				Prototype deadBeing = new Prototype(grid, Color.RED, "deadBeing");
+				Prototype deadBeing = new Prototype(Color.RED, "deadBeing");
 
 				// Add fields
 				try {
@@ -56,13 +56,13 @@ public class ConwaysGameOfLifeTest {
 				Expression reviveCond = new Expression("(this.alive == 0) && (this.neighbors == 3)");
 
 				// Set up behaviors
-				Expression incrementAge = new Expression("setField('this', 'age', this.age+1)");
-				Expression incrementNeighbors = new Expression("setField('this', 'neighbors', this.neighbors+1)");
-				Expression die = new Expression("setField('this', 'alive', 0) || setField('this', 'age', 0) || " +
-						"setField('this', 'colorRed', 250) || setField('this', 'colorGreen', 0) || setField('this', 'colorBlue', 0)");
-				Expression revive = new Expression("setField('this', 'alive', 1) || " +
-						"setField('this', 'colorRed', 0) || setField('this', 'colorGreen', 0) || setField('this', 'colorBlue', 250)");
-				Expression resetNeighbors = new Expression("setField('this', 'neighbors', 0)");
+				Expression incrementAge = new Expression("setField( 'age', this.age+1)");
+				Expression incrementNeighbors = new Expression("setField( 'neighbors', this.neighbors+1)");
+				Expression die = new Expression("setField( 'alive', 0) || setField( 'age', 0) || " +
+						"setField( 'colorRed', 250) || setField( 'colorGreen', 0) || setField( 'colorBlue', 0)");
+				Expression revive = new Expression("setField( 'alive', 1) || " +
+						"setField( 'colorRed', 0) || setField( 'colorGreen', 0) || setField( 'colorBlue', 250)");
+				Expression resetNeighbors = new Expression("setField( 'neighbors', 0)");
 
 				// Add triggers
 				deadBeing.addTrigger(new Trigger("updateAge", 1, isAlive, incrementAge));
@@ -82,7 +82,7 @@ public class ConwaysGameOfLifeTest {
 				Prototype.addPrototype(deadBeing);
 
 				// Make a another prototype that is initially alive
-				Prototype aliveBeing = new Prototype(grid, Color.BLUE, "aliveBeing");
+				Prototype aliveBeing = new Prototype(Color.BLUE, "aliveBeing");
 
 				// Add fields
 				try {
@@ -114,9 +114,9 @@ public class ConwaysGameOfLifeTest {
 				for (int x = 0; x < grid.getWidth(); x++) 
 					for(int y = 0; y < grid.getHeight(); y++) {
 						if (x == 4 || x == 5 || y == 5) {
-							grid.spiralSpawn(Prototype.getPrototype("aliveBeing").createAgent(), x, y);
+							grid.addAgent(Prototype.getPrototype("aliveBeing").createAgent(grid), x, y);
 						} else {
-							grid.spiralSpawn(Prototype.getPrototype("deadBeing").createAgent(), x, y);
+							grid.addAgent(Prototype.getPrototype("deadBeing").createAgent(grid), x, y);
 						}
 					}
 	}

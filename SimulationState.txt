@@ -1,0 +1,29 @@
+10
+10
+PrototypeSnapshot
+Prototype 2
+-16777216
+127127127127127127127127
+PrototypeSnapshot
+Prototype 1
+-16777216
+127127127127127127127127
+AgentSnapshot
+Prototype 2
+-1
+-1
+FieldSnapshot~Meerkat~Timon
+FieldSnapshot~Crayfish~Paul
+FieldSnapshot~Person~John Charles
+AgentSnapshot
+Prototype 1
+-1
+-1
+FieldSnapshot~Cat~Joomba
+FieldSnapshot~Pig~Tom
+FieldSnapshot~Monkey~Olly
+GlobalVariablesGLOBAL~Depth~100
+EndConditions
+20
+POP~Prototype 1~100
+POP~Prototype 2~100

@@ -4,6 +4,7 @@ import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
+import edu.wheaton.simulator.simulation.Simulator;
 
 /**
  * Multiplier is the prototype for an agent that will clone itself into any 
@@ -27,7 +28,7 @@ public class Multiplier extends SampleAgent{
 	 * Creates a new multiplier (sample Prototype) and adds it to the static list of Prototypes.
 	 */
 	private static Prototype initMultiplier(Prototype multiplier) {
-		multiplier.getGrid().setAtomicUpdater();
+		Simulator.getInstance().setAtomicUpdate();
 		
 		// Add fields
 		try {

@@ -10,21 +10,18 @@
 package edu.wheaton.simulator.entity;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import net.sourceforge.jeval.EvaluationException;
-
+import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class Agent extends GridEntity {
 
 	/**
-	 * The list of all triggers/events associated with this agent.
+	 * A pointer to the environment so new Agents can be added or removed.
 	 */
-	private List<Trigger> triggers;
+	private Grid grid;
 
 	/**
 	 * Prototype of the agent
@@ -34,7 +31,7 @@ public class Agent extends GridEntity {
 	/**
 	 * Unique ID
 	 */
-	private final AgentID id = new AgentID();
+	private final AgentID id;
 
 	/**
 	 * Current priority (used by priorityUpdate)
@@ -47,10 +44,11 @@ public class Agent extends GridEntity {
 	 * Makes an agent with the default gridEntity color
 	 * 
 	 * @param g
-	 *            The grid (passed to super constructor)
+	 *            The grid
 	 */
 	public Agent(Grid g, Prototype prototype) {
-		super(g);
+		grid = g;
+		id = new AgentID();
 		init(prototype);
 	}
 
@@ -58,12 +56,14 @@ public class Agent extends GridEntity {
 	 * Constructor. Makes an agent with a solid color
 	 * 
 	 * @param g
-	 *            The grid (passed to super constructor)
+	 *            The grid
 	 * @param c
 	 *            The color of this agent (passed to super constructor)
 	 */
 	public Agent(Grid g, Prototype prototype, Color c) {
-		super(g, c);
+		super(c);
+		grid = g;
+		id = new AgentID();
 		init(prototype);
 	}
 
@@ -71,14 +71,36 @@ public class Agent extends GridEntity {
 	 * Constructor. Makes an agent with custom color and color map
 	 * 
 	 * @param g
-	 *            The grid (passed to super constructor)
+	 *            The grid
 	 * @param c
 	 *            The color of this agent (passed to super constructor)
 	 * @param d
 	 *            The design for this agent (passed to super constructor)
 	 */
 	public Agent(Grid g, Prototype prototype, Color c, byte[] d) {
-		super(g, c, d);
+		super(c, d);
+		grid = g;
+		id = new AgentID();
+		init(prototype);
+	}
+
+	/**
+	 * Constructor. Makes an agent with custom color and color map. Sets the id
+	 * to something specific.
+	 * 
+	 * @param g
+	 *            The grid (passed to super constructor)
+	 * @param c
+	 *            The color of this agent (passed to super constructor)
+	 * @param d
+	 *            The design for this agent (passed to super constructor)
+	 * @param id
+	 *            Identifier for this agent
+	 */
+	public Agent(Grid g, Prototype prototype, Color c, byte[] d, AgentID id) {
+		super(c, d);
+		grid = g;
+		this.id = id;
 		init(prototype);
 	}
 
@@ -88,7 +110,7 @@ public class Agent extends GridEntity {
 	 * @param p
 	 */
 	private void init(Prototype p) {
-		triggers = new ArrayList<Trigger>();
+		triggers = p.getTriggers();
 		prototype = p;
 	}
 
@@ -101,13 +123,14 @@ public class Agent extends GridEntity {
 	public void act() throws SimulationPauseException {
 		for (Trigger t : triggers)
 			try {
-				t.evaluate(this);
+				t.evaluate(this, grid.getStep());
 			} catch (EvaluationException e) {
 				System.err.println(e.getMessage());
-				String errorMessage = "Error in Agent: " + this.getName()
-						+ "\n ID: " + this.getID() + "\n Trigger: "
-						+ t.getName() + "\n MSG: " + e.getMessage()
-						+ "\n condition: " + t.getConditions().toString();
+				String errorMessage = "Error in Agent: "
+						+ this.getPrototypeName() + "\n ID: " + this.getID()
+						+ "\n Trigger: " + t.getName() + "\n MSG: "
+						+ e.getMessage() + "\n condition: "
+						+ t.getConditions().toString();
 				throw new SimulationPauseException(errorMessage);
 			}
 	}
@@ -128,13 +151,14 @@ public class Agent extends GridEntity {
 			Trigger t = triggers.get(i);
 			if (t.getPriority() == priority) {
 				try {
-					t.evaluate(this);
+					t.evaluate(this, grid.getStep());
 				} catch (EvaluationException e) {
 					System.err.println(e.getMessage());
-					String errorMessage = "Error in Agent: " + this.getName()
-							+ "\n ID: " + this.getID() + "\n Trigger: "
-							+ t.getName() + "\n MSG: " + e.getMessage()
-							+ "\n condition: " + t.getConditions().toString();
+					String errorMessage = "Error in Agent: "
+							+ this.getPrototypeName() + "\n ID: "
+							+ this.getID() + "\n Trigger: " + t.getName()
+							+ "\n MSG: " + e.getMessage() + "\n condition: "
+							+ t.getConditions().toString();
 					throw new SimulationPauseException(errorMessage);
 				}
 			} else if (t.getPriority() > priority) {
@@ -158,10 +182,11 @@ public class Agent extends GridEntity {
 				t.evaluateCond(this);
 			} catch (EvaluationException e) {
 				System.err.println(e.getMessage());
-				String errorMessage = "Error in Agent: " + this.getName()
-						+ "\n ID: " + this.getID() + "\n Trigger: "
-						+ t.getName() + "\n MSG: " + e.getMessage()
-						+ "\n condition: " + t.getConditions().toString();
+				String errorMessage = "Error in Agent: "
+						+ this.getPrototypeName() + "\n ID: " + this.getID()
+						+ "\n Trigger: " + t.getName() + "\n MSG: "
+						+ e.getMessage() + "\n condition: "
+						+ t.getConditions().toString();
 				throw new SimulationPauseException(errorMessage);
 			}
 	}
@@ -176,13 +201,14 @@ public class Agent extends GridEntity {
 	public void atomicFire() throws SimulationPauseException {
 		for (Trigger t : triggers)
 			try {
-				t.atomicFire(this);
+				t.atomicFire(this, grid.getStep());
 			} catch (EvaluationException e) {
 				System.err.println(e.getMessage());
-				String errorMessage = "Error in Agent: " + this.getName()
-						+ "\n ID: " + this.getID() + "\n Trigger: "
-						+ t.getName() + "\n MSG: " + e.getMessage()
-						+ "\n behavior: " + t.getConditions().toString();
+				String errorMessage = "Error in Agent: "
+						+ this.getPrototypeName() + "\n ID: " + this.getID()
+						+ "\n Trigger: " + t.getName() + "\n MSG: "
+						+ e.getMessage() + "\n behavior: "
+						+ t.getConditions().toString();
 				throw new SimulationPauseException(errorMessage);
 			}
 	}
@@ -191,61 +217,7 @@ public class Agent extends GridEntity {
 	 * Removes this Agent from the environment's list.
 	 */
 	public void die() {
-		getGrid().removeAgent(getPosX(), getPosY());
-	}
-
-	/**
-	 * Adds to the Agent's list of triggers
-	 * 
-	 * @param trigger
-	 *            The trigger to add
-	 */
-	public void addTrigger(Trigger trigger) {
-		triggers.add(trigger);
-		Collections.sort(triggers);
-	}
-
-	/**
-	 * Removes a trigger with the given priority (index in array list)
-	 * 
-	 * @param priority
-	 *            The priority of the given trigger to remove.
-	 */
-	public void removeTrigger(int priority) {
-		triggers.remove(triggers.get(priority));
-		Collections.sort(triggers);
-	}
-
-	/**
-	 * Removes a trigger with the given name.
-	 * 
-	 * @param name
-	 */
-	public void removeTrigger(String name) {
-		for (int i = 0; i < triggers.size(); i++)
-			if (getTriggerName(i).equals(name))
-				triggers.remove(i);
-	}
-
-	/**
-	 * Updates the trigger(s) with the given name
-	 * 
-	 * @param name
-	 */
-	public void updateTrigger(String name, Trigger newT) {
-		for (int i = 0; i < triggers.size(); i++)
-			if (getTriggerName(i).equals(name))
-				triggers.set(i, newT);
-	}
-
-	/**
-	 * Given a trigger index, provides its name
-	 * 
-	 * @param index
-	 * @return
-	 */
-	private String getTriggerName(int index) {
-		return triggers.get(index).getName();
+		grid.removeAgent(getPosX(), getPosY());
 	}
 
 	/**
@@ -277,15 +249,52 @@ public class Agent extends GridEntity {
 		updateField("y", y + "");
 	}
 
+	/**
+	 * Provides a deep clone of this Agent
+	 */
+	@Override
+	public Agent clone() {
+		Agent clone = new Agent(grid, getPrototype(), getColor(),
+				getDesign(), getID());
+
+		// set fields
+		for (String current : getFieldMap().keySet()) {
+			try {
+				clone.addField(current, getFieldValue(current));
+			} catch (ElementAlreadyContainedException e) {
+			}
+		}
+
+		// set Triggers
+		clone.triggers = this.triggers;
+
+		return clone;
+	}
+
 	public Prototype getPrototype() {
 		return prototype;
 	}
 
-	public String getName() {
+	/**
+	 * Provides the name of this agent's prototype
+	 * 
+	 * @return
+	 */
+	public String getPrototypeName() {
 		return getPrototype().getName();
 	}
 
 	public AgentID getID() {
 		return id;
 	}
+
+	/**
+	 * Provides the grid that this agent is in.
+	 * 
+	 * @return the Grid object
+	 */
+	public Grid getGrid() {
+		return grid;
+	}
+	
 }

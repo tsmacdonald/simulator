@@ -1,16 +1,19 @@
 package edu.wheaton.simulator.statistics;
 
+import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.datastructure.Grid;
-import edu.wheaton.simulator.behavior.AbstractBehavior;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.entity.Trigger;
 
 /**
  * This class will create the Snapshots to be put into the Database
@@ -26,11 +29,11 @@ public class SnapshotFactory {
 	 * @param step The point at which the capture was taken. 
 	 * @return
 	 */
-	public static AgentSnapshot makeAgentSnapshot(Agent agent, ArrayList<BehaviorSnapshot> behaviors,
+	public static AgentSnapshot makeAgentSnapshot(Agent agent, ArrayList<TriggerSnapshot> behaviors,
 			Integer step) {
 		return new AgentSnapshot(agent.getID(), 
 				makeFieldSnapshots(agent.getCustomFieldMap()), step, 
-				agent.getPrototype().getName(), behaviors);
+				agent.getPrototype().getName(), behaviors, agent.getPosX(), agent.getPosY());
 	}
 
 	/**
@@ -64,20 +67,37 @@ public class SnapshotFactory {
 	 * @param step The point in the simulation being captured. 
 	 * @return A PrototypeSnapshot corresponding to the provided Prototype. 
 	 */
-	public static PrototypeSnapshot makePrototypeSnapshot(Prototype prototype,
-			Integer step) {
+	public static PrototypeSnapshot makePrototypeSnapshot(Prototype prototype) {
 		String name = prototype.getName();
+		
+		ArrayList<Trigger> triggers = (ArrayList<Trigger>) prototype.getTriggers();
+		
+		Set<TriggerSnapshot> trigSnaps = new HashSet<TriggerSnapshot>();
+		for(Trigger t : triggers)
+			trigSnaps.add(makeTriggerSnapshot(t.getName(), t.getPriority(), t.getConditions().toString(), t.getBehavior().toString()));
+		
 		ImmutableMap<String, FieldSnapshot> fields = makeFieldSnapshots(prototype.getCustomFieldMap()); 
 		int population = prototype.childPopulation();
-		ImmutableSet<AgentID> childIDs = prototype.childIDs(); 
+		ImmutableSet<AgentID> childIDs = prototype.childIDs();
+		Color color = prototype.getColor(); 
+		byte[] design = prototype.getDesign(); 
 		
-		return new PrototypeSnapshot(name, fields, population, childIDs, step);	
+		return new PrototypeSnapshot(name, fields, population, childIDs, trigSnaps, color, design);	
 	}
 	
-	// TODO Add documentation
-	public static BehaviorSnapshot makeBehaviorSnapshot(AgentID actor, AbstractBehavior behavior,
-			AgentID recipient, Integer step) {
-		return new BehaviorSnapshot(actor, behavior, recipient, step);
+	/**
+	 * 
+	 * @param id Of the agent acting
+	 * @param triggerName
+	 * @param priority Of the trigger
+	 * @param condition The expression this trigger is made up of
+	 * @param behavior The expression to represent the behavior
+	 * @param step Of the game
+	 * @return
+	 */
+	public static TriggerSnapshot makeTriggerSnapshot(String triggerName, int priority, String condition, 
+			String behavior) {
+		return new TriggerSnapshot(triggerName, priority, condition, behavior);
 	}
  
 	/**
@@ -90,7 +110,7 @@ public class SnapshotFactory {
 	 */
 	public static AgentSnapshot makeGlobalVarSnapshot(Grid grid,
 			Prototype prototype, Integer step) {
-		return new AgentSnapshot(null, makeFieldSnapshots(grid.getCustomFieldMap()), step, prototype.getName(), null);
+		return new AgentSnapshot(Grid.getID(), makeFieldSnapshots(grid.getCustomFieldMap()), step, prototype.getName(), null, 0, 0);
 	}
 	
 	/**

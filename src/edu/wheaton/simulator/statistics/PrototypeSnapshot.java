@@ -1,6 +1,8 @@
 package edu.wheaton.simulator.statistics;
 
+import java.awt.Color;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -28,16 +30,26 @@ public class PrototypeSnapshot {
 	 * The children of this Prototype at this point in time. 
 	 */
 	public final ImmutableSet<AgentID> children;
+	
+	/**
+	 * This Prototope's Triggers
+	 */
+	public final Set<TriggerSnapshot> triggers; 
 
 	/**
 	 * The present population of this category of Agent. 
 	 */
 	public final int population;
-
+	
 	/**
-	 * The point in the simulation at which this snapshot was taken. 
+	 * The color the agents are displayed
 	 */
-	public final int step; 
+	public final Color color; 
+	
+	/**
+	 * A bitmap of the design for displaying the agents 
+	 */
+	public final byte[] design;
 
 	/**
 	 * Constructor. 
@@ -46,16 +58,18 @@ public class PrototypeSnapshot {
 	 * @param fields The default fields for this prototype. 
 	 * @param population The population of this prototype. 
 	 * @param poulation The number of this prototype's children. 
-	 * @param step The current moment in time. 
 	 */
 	public PrototypeSnapshot(String categoryName,
 			ImmutableMap<String, FieldSnapshot> fields, int population,
-			ImmutableSet<AgentID> children, Integer step) {
+			ImmutableSet<AgentID> children, Set<TriggerSnapshot> triggers, 
+			Color color, byte[] design) {
 		this.categoryName = categoryName; 
 		this.defaultFields = fields; 
 		this.children = children;
 		this.population = children.size(); 
-		this.step = step; 
+		this.triggers = triggers; 
+		this.color = color; 
+		this.design = design; 
 	}
 	
 	/**
@@ -66,32 +80,39 @@ public class PrototypeSnapshot {
 	 * -----------------------------------------------------------------
 	 * PrototypeSnapshot
 	 * Dog (categoryName)
+	 * Color (color)
+	 * Bitmask (design)
 	 * DefaultFields: FieldSnapshot Name Value
 	 * DefaultFields: FieldSnapshot Name Value
-	 * Children: 3345
-	 * Children: 1237
-	 * Children: 9457
-	 * 3 (population)
-	 * 35 (step)
+	 * #
+	 * TODO: Add the triggers to serialization
 	 */
 	public String serialize(){
 		String s = "PrototypeSnapshot";
 		s += "\n" + categoryName; 
+		s += "\n" + String.valueOf(color.getRGB());
+		s += "\n" + displayByteArray(design); 
 		
 		//Serialize the defaultFields map
 		for (Entry<String, FieldSnapshot> entry : defaultFields.entrySet()) {
-			s += "\nDefaultFields: " + entry.getValue().serialize();
+			s += "\n" + entry.getValue().serialize();
 		}
 		
-		//Serialize the Children set
-		for (AgentID a : children) {
-			s += "\nChildren: " + a.getInt(); 
+		//Serialize the Triggers
+		for(TriggerSnapshot trigger : triggers){
+			s += "\n" + trigger.serialize(); 
 		}
-		
-		s += "\n" + population; 
-		s += "\n" + step; 
 		
 		return s; 
+	}
+	
+	private static String displayByteArray(byte[] array){
+		String ret = ""; 
+		
+		for(byte b : array)
+			ret += b; 
+		
+		return ret; 
 	}
 
 }

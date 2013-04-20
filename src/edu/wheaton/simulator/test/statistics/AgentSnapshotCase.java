@@ -39,14 +39,13 @@ public class AgentSnapshotCase {
 	@Before
 	public void setUp() {
 		grid = new Grid(10, 10);
-		prototype = new Prototype(grid, "tester");
-		agent = prototype.createAgent();
+		prototype = new Prototype("tester");
+		agent = prototype.createAgent(grid);
 		try {
 			agent.addField("Pig", "Tom");
 			agent.addField("Monkey", "Olly");
 			agent.addField("Cat", "Joomba");
 		} catch (ElementAlreadyContainedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		step = new Integer(23);
@@ -70,7 +69,7 @@ public class AgentSnapshotCase {
 	public void agentSnapshotTest() {
 		AgentSnapshot agentSnap = new AgentSnapshot(agent.getID(),
 				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step,
-				prototype.getName());
+				prototype.getName(), null, 0, 0);
 		Assert.assertNotNull("AgentSnapshot not created.", agentSnap);
 	}
 	
@@ -81,10 +80,10 @@ public class AgentSnapshotCase {
 	public void serializeTest(){
 		AgentSnapshot agentSnap = new AgentSnapshot(agent.getID(),
 				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step,
-				prototype.getName());
+				prototype.getName(), null, 0, 0);
 		
-		String expected = "AgentSnapshot\n1\nFields: Cat FieldSnapshot Cat Joomba" +
-				"\nFields: Pig FieldSnapshot Pig Tom\nFields: Monkey FieldSnapshot Monkey Olly\n23\ntester"; 
+		String expected = "AgentSnapshot\ntester\n0\n0\nFieldSnapshot Cat Joomba\nFieldSnapshot " +
+				"Pig Tom\nFieldSnapshot Monkey Olly"; 
 		System.out.println(agentSnap.serialize()); 
 		
 		Assert.assertEquals(expected, agentSnap.serialize()); 	
@@ -94,14 +93,18 @@ public class AgentSnapshotCase {
 	 * Tests making a snapshot for global variables
 	 */
 	@Test
-	public static void globalVarTest() {
-		Grid grid = new Grid(10, 10);
-		Prototype gType = new Prototype(grid, "GRID");
-		Integer step = 1;
+	public void globalVarTest() {
+		Prototype gType = new Prototype("GRID");
+		try {
+			grid.addField("name", "akon");
+			grid.addField("owner", "chris");
+		} catch (ElementAlreadyContainedException e) {
+			e.printStackTrace();
+		}
 		AgentSnapshot gSnap = SnapshotFactory.makeGlobalVarSnapshot(grid, gType, step);
 		
-		String expected = "AgentSnapshot\n0000\nFields: height FieldSnapshot height 10" +
-				"\nFields: width FieldSnapshot width 10\n1\nGRID"; 
+		String expected = "AgentSnapshot\nGRID\n0\n0\nFieldSnapshot name akon" +
+				"\nFieldSnapshot owner chris"; 
 		System.out.println(gSnap.serialize());
 		
 		org.junit.Assert.assertEquals(expected, gSnap.serialize());

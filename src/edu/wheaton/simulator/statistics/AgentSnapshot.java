@@ -36,7 +36,20 @@ public class AgentSnapshot {
 	 */
 	public final Integer step;
 	
-	public final ArrayList<BehaviorSnapshot> behaviors;
+	/**
+	 * A list of this Agent's BehaviorSnapshots
+	 */
+	public final ArrayList<TriggerSnapshot> triggers;
+	
+	/**
+	 * This Agent's xPosition
+	 */
+	public final int xpos; 
+	
+	/**
+	 * This Agent's yPosition
+	 */
+	public final int ypos; 
 
 	/**
 	 * Constructor
@@ -51,12 +64,14 @@ public class AgentSnapshot {
 	 *            The prototype for this category of Agent.
 	 */
 	public AgentSnapshot(AgentID id, ImmutableMap<String, FieldSnapshot> fields,
-			Integer step, String prototypeName, ArrayList<BehaviorSnapshot> behaviors) {
+			Integer step, String prototypeName, ArrayList<TriggerSnapshot> triggers, int x, int y) {
 		this.id = id;
 		this.step = step;
 		this.fields = fields;
 		this.prototypeName = prototypeName;
-		this.behaviors = behaviors;
+		this.triggers = triggers;
+		this.xpos = x; 
+		this.ypos = y; 
 	}
 
 	/**
@@ -66,23 +81,22 @@ public class AgentSnapshot {
 	 * Format: (Stuff in parentheses is just notes - not actually there)
 	 * -----------------------------------------------------------------
 	 * AgentSnapshot
-	 * 145 (id - just an int)
-	 * Fields: FieldSnapshot Name Value
-	 * Fields: FieldSnapshot Name Value
-	 * 3 (step - an int)
 	 * Dog (prototypeName - a string)
-	 * TODO: Put in an ending character
+	 * 2 (xPos)
+	 * 4 (yPos)
+	 * Fields: FieldSnapshot Name Value
+	 * Fields: FieldSnapshot Name Value
 	 */
 	public String serialize(){
 		String s = "AgentSnapshot";
-		s += "\n" + id.getInt();
+		s += "\n" + prototypeName;
+		s += "\n" + xpos; 
+		s += "\n" + ypos; 
 		
 		for (Entry<String, FieldSnapshot> entry : fields.entrySet()) {
-			s += "\nFields: " + entry.getKey() + " " + entry.getValue().serialize();
+			s += "\n" + entry.getValue().serialize();
 		}
 		
-		s += "\n" + step; 
-		s += "\n" + prototypeName; 
 		return s; 
 	}
 }

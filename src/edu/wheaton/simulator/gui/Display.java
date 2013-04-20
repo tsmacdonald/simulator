@@ -13,6 +13,8 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import edu.wheaton.simulator.gui.screen.Screen;
+
 /**
  * This class will act as the singular JFrame window for the interface, with
  * different screens being displayed on it by using the setContentPane method
@@ -20,28 +22,42 @@ import javax.swing.*;
  */
 public class Display extends JFrame {
 
+	private static Display d;
+	
 	private static final long serialVersionUID = 8240039325787217431L;
 
 	private JPanel panel;
+	
+	private GridBagConstraints c;
 
-	public Display() {
+	private Display() {
 		super("Simulator");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(1200, 800);
-		this.setLayout(new FlowLayout(FlowLayout.CENTER));
-		this.setLocation(100, 100);
+		this.setLayout(new GridBagLayout());
 		panel = new JPanel();
-		this.add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		c = new GridBagConstraints();
+		c.insets = new Insets(5, 15, 15, 15);
+		this.add(panel, c);
 		this.setVisible(true);
 	}
+	
+	public static Display getInstance() {
+		if(d==null)
+			d = new Display();
+		return d;
+	}
+	
 	/**
 	 * Updates what screen is being displayed
 	 * @param s The screen to display
 	 */
 	public void updateDisplay(Screen s) {
-		this.setContentPane(s);
+		this.remove(panel);
+		panel = s;
+		this.add(s, c);
+		this.pack();
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
-	
 }

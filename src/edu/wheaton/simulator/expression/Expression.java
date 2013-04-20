@@ -91,6 +91,10 @@ public class Expression {
 	private Evaluator evaluator;
 	private EntityFieldResolver resolver;
 	private Object expr;
+	private String exprStr;
+	
+	private static HashMap<String, AbstractExpressionFunction> behaviorFunctions;
+	private static HashMap<String, AbstractExpressionFunction> conditionFunctions;
 
 	/**
 	 * Default constructor
@@ -114,6 +118,24 @@ public class Expression {
 		this.importFunction(new IsValidCoord());
 		this.importFunction(new CloneAgentAtPositionBehavior());
 		this.importFunction(new SetFieldOfAgentBehavior());
+		
+		//make a hashmap of names and actual objects.
+		initializeFunctions();
+	}
+	
+	public static void initializeFunctions(){
+		behaviorFunctions = new HashMap<String, AbstractExpressionFunction>();
+		conditionFunctions = new HashMap<String, AbstractExpressionFunction>();
+		behaviorFunctions.put("clone", new CloneBehavior());
+		behaviorFunctions.put("cloneAgentAtPosition", new CloneAgentAtPositionBehavior());
+		behaviorFunctions.put("die", new DieBehavior());
+		behaviorFunctions.put("kill", new KillBehavior());
+		behaviorFunctions.put("move", new MoveBehavior());
+		behaviorFunctions.put("setField", new SetFieldBehavior());
+		behaviorFunctions.put("setFieldOfAgent", new SetFieldOfAgentBehavior());
+		conditionFunctions.put("getFieldOfAgent", new GetFieldOfAgentAt());
+		conditionFunctions.put("isSlotOpen", new IsSlotOpen());
+		conditionFunctions.put("isValidCoord", new IsValidCoord());	
 	}
 
 	/**
@@ -131,6 +153,18 @@ public class Expression {
 	protected Expression(Evaluator eval, EntityFieldResolver res){
 		this.evaluator = eval;
 		this.resolver = res;
+	}
+	
+	public static Map<String,AbstractExpressionFunction> getBehaviorFunction(){
+		if (behaviorFunctions == null)
+			initializeFunctions();
+		return behaviorFunctions;
+	}
+
+	public static Map<String,AbstractExpressionFunction> getConditionFunction(){
+		if (conditionFunctions == null)
+			initializeFunctions();
+		return conditionFunctions;
 	}
 	
 	/**
@@ -250,6 +284,7 @@ public class Expression {
 	 */
 	public void setString(Object exprStr) {
 		this.expr = exprStr;
+		this.exprStr = formatExpr(expr);
 	}
 
 	/**
@@ -318,7 +353,7 @@ public class Expression {
 
 	public Boolean evaluateBool() throws EvaluationException {
 		try {
-			return evaluator.getBooleanResult( formatExpr(expr) );
+			return evaluator.getBooleanResult( exprStr );
 		} catch (EvaluationException e) {
 			System.err.println(e.getMessage());
 			throw e;
@@ -327,7 +362,7 @@ public class Expression {
 
 	public Double evaluateDouble() throws EvaluationException {
 		try {
-			return evaluator.getNumberResult( formatExpr(expr) );
+			return evaluator.getNumberResult( exprStr );
 		} catch (EvaluationException e) {
 			System.err.println(e.getMessage());
 			throw e;
@@ -336,7 +371,7 @@ public class Expression {
 
 	public String evaluateString() throws EvaluationException {
 		try {
-			return evaluator.evaluate( formatExpr(expr) );
+			return evaluator.evaluate( exprStr );
 		} catch (EvaluationException e) {
 			System.err.println(e.getMessage());
 			throw e;

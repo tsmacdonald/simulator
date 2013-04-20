@@ -1,139 +1,60 @@
 package edu.wheaton.simulator.gui;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.JPanel;
+import edu.wheaton.simulator.gui.screen.EditEntityScreen;
+import edu.wheaton.simulator.gui.screen.EditFieldScreen;
+import edu.wheaton.simulator.gui.screen.NewSimulationScreen;
+import edu.wheaton.simulator.gui.screen.Screen;
+import edu.wheaton.simulator.gui.screen.SetupScreen;
+import edu.wheaton.simulator.gui.screen.StatDisplayScreen;
+import edu.wheaton.simulator.gui.screen.TitleScreen;
+import edu.wheaton.simulator.gui.screen.ViewSimScreen;
 
-import edu.wheaton.simulator.simulation.GUIToAgentFacade;
-import edu.wheaton.simulator.simulation.end.SimulationEnder;
-import edu.wheaton.simulator.statistics.StatisticsManager;
+public class ScreenManager {
 
-public class ScreenManager implements Manager{
-
-	private HashMap<String, Screen> screens;
-
-	private Display d;
+	private static ScreenManager sm;
 	
-	private JPanel[][] grid;
+	private Display display;
 	
-	private SimulationEnder se;
-	
-	private StatisticsManager statMan;
-	
-	private GUIToAgentFacade facade;
-	
-	private boolean simulationIsRunning;
-	
-	private ArrayList<SpawnCondition> spawnConditions;
-	
-	//for determining when components should be disabled while running a sim.
-	private boolean hasStarted;
-
-	public ScreenManager(Display d) {
-		spawnConditions = new ArrayList<SpawnCondition>();
+	private ScreenManager() {
+		this.display = Gui.getDisplay();
 		screens = new HashMap<String, Screen>();
-		this.d = d;
-		se = new SimulationEnder();
-		statMan = new StatisticsManager();
-		screens.put("Title", new TitleScreen(this));
-		screens.put("New Simulation", new NewSimulationScreen(this));
-		screens.put("Edit Simulation", new EditSimScreen(this));
-		screens.put("Fields", new FieldScreen(this));
-		screens.put("Edit Fields", new EditFieldScreen(this));
-		screens.put("Entities", new EntityScreen(this));
-		screens.put("Edit Entities", new EditEntityScreen(this));
-		screens.put("Spawning", new SpawningScreen(this));
-		screens.put("View Simulation", new ViewSimScreen(this));
-		screens.put("Statistics", new StatisticsScreen(this));
-		screens.put("Grid Setup", new SetupScreen(this));
+		SimulatorFacade gm = SimulatorFacade.getInstance();
+		putScreen("Title", new TitleScreen(gm));
+		putScreen("New Simulation", new NewSimulationScreen(gm));
+		putScreen("Edit Fields", new EditFieldScreen(gm));
+		putScreen("Edit Entities", new EditEntityScreen(gm));
+		putScreen("View Simulation", new ViewSimScreen(gm));
+		putScreen("Statistics", new StatDisplayScreen(gm));
+		putScreen("Grid Setup", new SetupScreen(gm));
 	}
 	
-	public ScreenManager(){
-		this(new Display());
+	public static ScreenManager getInstance(){
+		if(sm==null)
+			sm = new ScreenManager();
+		return sm;
 	}
-
-	@Override
+	
+	public void putScreen(String name, Screen screen){
+		screens.put(name, screen);
+	}
+	
 	public Screen getScreen(String screenName) {
 		return screens.get(screenName);
 	}
-	@Override
+	 
 	public void update(Screen update) {
-		d.updateDisplay(update);
+		display.updateDisplay(update);
 	}
 	
-	public void setGrid(JPanel[][] grid){
-		this.grid = grid;
-	}
-	
-	public JPanel[][] getGrid(){
-		return grid;
-	}
-
-	@Override
-	public void setFacade(int x, int y) {
-		facade = new GUIToAgentFacade(x, y);
-	}
-	
-	@Override
-	public GUIToAgentFacade getFacade() {
-		return facade;
-	}
-	
-	@Override
-	public SimulationEnder getEnder() {
-		return se;
-	}
-	
-	public StatisticsManager getStatManager(){
-		return statMan;
-	}
-	
-	public static String getGUIname(){
-		return GUI.getNameOfSim();
-	}
-	
-	public static int getGUIheight(){
-		return GUI.getGridHeight();
-	}
-	
-	public static int getGUIwidth(){
-		return GUI.getGridWidth();
-	}
-
-	@Override
-	public void updateGUIManager(String nos, int width, int height){
-	
-		GUI.setNameOfSim(nos);
-		GUI.setGridWidth(width);
-		GUI.setGridHeight(height);
-
-	}
-	
-	public boolean isRunning() {
-		return simulationIsRunning;
-	}
-	
-	public void setRunning(boolean b) {
-		simulationIsRunning = b;
-	}
-	
-	public void setStarted(boolean b) {
-		hasStarted = b;
-	}
-	
-	@Override
-	public boolean hasStarted() {
-		return hasStarted;
-	}
-
-	@Override
-	public ArrayList<SpawnCondition> getSpawnConditions() { 
-		return spawnConditions; 
-	}
-	
-	@Override
-	public void loadScreen(Screen s){
+	public static void loadScreen(Screen s){
 		s.load();
 	}
+	
+	public Display getDisplay(){
+		return display;
+	}
+	
+	private HashMap<String, Screen> screens;
 }

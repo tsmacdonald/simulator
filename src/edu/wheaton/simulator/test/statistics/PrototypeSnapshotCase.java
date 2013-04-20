@@ -8,11 +8,13 @@ package edu.wheaton.simulator.test.statistics;
  * Spring 2013
  * 25 Mar 2013
  */
+import java.awt.Color;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import junit.framework.Assert;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,6 +25,7 @@ import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
+import edu.wheaton.simulator.statistics.TriggerSnapshot;
 
 public class PrototypeSnapshotCase {
 	
@@ -30,9 +33,11 @@ public class PrototypeSnapshotCase {
 	Grid grid;
 	Prototype prototype;
 	HashMap<String, String> fields;
+	Set<TriggerSnapshot> triggers;
 	int population;
 	ImmutableSet<AgentID> children;
 	Integer step; 
+	byte[] design; 
 
 	/**
 	 * Initialize variables.
@@ -41,30 +46,28 @@ public class PrototypeSnapshotCase {
 	public void setUp() {
 		categoryName = "testing";
 		grid = new Grid(10, 10);
-		prototype = new Prototype(grid, "tester");
+		prototype = new Prototype("tester");
 		fields = new HashMap<String, String>();
+		triggers = new HashSet<TriggerSnapshot>();
 		fields.put("Age", "1"); 
+		fields.put("Height", "5"); 
+		fields.put("Smell", "4");
+		
+		triggers.add(new TriggerSnapshot("trigger1", 1, "conditionExpression", "behaviorExpression"));
 		population = 50;
 		children = prototype.childIDs();
 		step = new Integer(23);
-	}
-
-	/**
-	 * Give variables null pointers.
-	 */
-	@After
-	public void tearDown() {
-		//Nothing to do here
+		design = new byte[10]; 
 	}
 	
 	/**
 	 * Tests to make sure a PrototypeSnapshot object was successfully created.
 	 */
 	@Test
-	public void prototypeSnapshotTest() {
+	public void prototypeSnapshotTest() {		
 		PrototypeSnapshot protoSnap = new PrototypeSnapshot(categoryName, 
 				SnapshotFactory.makeFieldSnapshots(fields), population,
-				children, step);
+				children, triggers, new Color(10, 10, 10), design);
 		Assert.assertNotNull("PrototypeSnapshot not created.", protoSnap);
 	}
 	
@@ -75,9 +78,12 @@ public class PrototypeSnapshotCase {
 	public void serializeTest(){
 		PrototypeSnapshot protoSnap = new PrototypeSnapshot(categoryName, 
 				SnapshotFactory.makeFieldSnapshots(fields), population,
-				children, step);
+				children, triggers, new Color(10, 10, 10), design);
 		
-		String expected = "PrototypeSnapshot\ntesting\nDefaultFields: FieldSnapshot Age 1\n0\n23"; 
+		String expected = "PrototypeSnapshot\ntesting\n-16119286\n0000000000\nFieldSnapshot Age 1";
+		expected += "\nFieldSnapshot Height 5\nFieldSnapshot Smell 4";
+		expected += "\nTrigger~trigger1~1~conditionExpression~behaviorExpression";
+		System.out.println(protoSnap.serialize()); 
 		Assert.assertEquals(expected, protoSnap.serialize()); 	
 	}
 }

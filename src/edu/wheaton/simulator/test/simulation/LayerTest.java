@@ -27,12 +27,12 @@ public class LayerTest {
 
 	@Before
 	public void setUp() {
-		//TODO LayerTest.setUp() is empty
+		// TODO LayerTest.setUp() is empty
 	}
 
 	@After
 	public void tearDown() {
-		//TODO LayerTest.tearDown() is empty
+		// TODO LayerTest.tearDown() is empty
 	}
 
 	@Test

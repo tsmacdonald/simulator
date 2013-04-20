@@ -17,10 +17,6 @@ public class CloneBehavior extends AbstractBehavior {
 	 *            The expression for the y-coordinate where the clone will be
 	 *            placed
 	 */
-//	public CloneBehavior(ExpressionEvaluator eval) {
-//		super(eval);
-//	}
-
 	@Override
 	public String getName() {
 		return "clone";
@@ -47,7 +43,7 @@ public class CloneBehavior extends AbstractBehavior {
 		Grid grid = target.getGrid();
 		
 		if(grid.isValidCoord(x, y) && grid.getAgent(x,y)==null){
-			grid.addAgent(target.getPrototype().createAgent(), x, y);
+			grid.addAgent(target.getPrototype().createAgent(grid), x, y);
 			return Expression.TRUE;
 		}
 		return Expression.FALSE;

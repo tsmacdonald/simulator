@@ -6,13 +6,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.expression.Expression;
 
 public class BuilderTest {
 
-	private Grid grid;
 	private Prototype prototype;
 	private Trigger.Builder builder;
 	private Trigger trigger;
@@ -20,8 +19,7 @@ public class BuilderTest {
 	@Before
 	public void setUp() {
 		try{
-			grid = new Grid(1,1);
-			prototype = new Prototype(grid, "test");
+			prototype = new Prototype("test");
 			prototype.addField("weight", "1");
 			prototype.addField("health", "10");
 			builder = new Trigger.Builder(prototype);
@@ -29,13 +27,12 @@ public class BuilderTest {
 		catch (Exception e){
 			System.out.println(e.getMessage());
 			e.printStackTrace();
-			Assert.fail("didn't setup right");
 		}
 	}
 
 	@After
 	public void tearDown() {
-		//TODO ExpressionEvaluationTest.tearDown() is empty
+		//ExpressionEvaluationTest.tearDown() is empty
 	}
 	
 	@Test
@@ -50,31 +47,57 @@ public class BuilderTest {
 	public void testConditionOperation(){
 		builder.addConditional("1 EQUALS 1");
 		trigger = builder.build();
-		System.out.println(trigger.getConditions());
-		Assert.assertTrue(trigger.getConditions().toString().equals("1==1")); // not sure why 1==1 isnt the same as 1==1.
+		System.out.println(trigger.getConditions().toString());
+		Assert.assertTrue(trigger.getConditions().toString().equals("1 == 1")); 
 	}
 	
 	@Test
 	public void testConditionValues(){
 		builder.addConditional("weight > health");
 		trigger = builder.build();
-		System.out.println(trigger.getConditions());
-		Assert.assertTrue(trigger.getConditions().toString().equals("this.weight>this.health")); 
+		System.out.println(trigger.getConditions().toString());
+		Assert.assertTrue(trigger.getConditions().toString().equals("this.weight > this.health")); 
 	}
 
 	@Test
-	public void tesetIsValidMethod(){
-		builder.addConditional("TRUE");
-		builder.addBehavioral("TRUE");
+	public void testIsValidMethod(){
+		builder.addConditional("this.weight>2"); 
+		builder.addBehavioral("move(2,2)");
+		Assert.assertTrue(builder.isValid() == java.lang.Boolean.TRUE);
+	}
+	
+
+	@Test
+	public void testForUserEnteredExpression(){
+		builder.addConditional("health > 3");
+		builder.addBehavioral("move(5,5)");
 		Assert.assertTrue(builder.isValid() == java.lang.Boolean.TRUE);
 	}
 	
 	@Test
-	public void tesetIsValidMethod2(){
-		builder.addConditional("abcdefg");
-		builder.addBehavioral("DieBehavior(this)");
+	public void testIsValidBlank(){
 		Assert.assertTrue(builder.isValid() == java.lang.Boolean.FALSE);
 	}
 	
 	
+	@Test
+	public void testIsValidMethod2(){
+		builder.addConditional("blah blah blah");
+		builder.addBehavioral("gibberish");
+		Assert.assertTrue(builder.isValid() == java.lang.Boolean.FALSE);
+	}
+	
+	@Test
+	public void testForIncorrectArguments(){
+		builder.addConditional("health > 3");
+		builder.addBehavioral("move(5,5,5)");
+		Assert.assertTrue(builder.isValid() == java.lang.Boolean.FALSE);
+	}
+	
+	@Test
+	public void testParserWithoutFunctions(){
+		Trigger.Builder b = new Trigger.Builder(new Trigger("name", 1,
+				new Expression("this.health>this.weight"), new Expression("TRUE")), prototype);
+		Assert.assertTrue(b.getBehaviorString().equals("TRUE") && b.getConditionString().equals("health > weight"));
+	}
 }

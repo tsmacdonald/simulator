@@ -15,7 +15,6 @@ import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
-import edu.wheaton.simulator.entity.PrototypeID;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
 import edu.wheaton.simulator.statistics.FieldSnapshot;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
@@ -41,20 +40,19 @@ public class SnapshotFactoryTest {
 
 	@Test
 	public void testMakeAgentSnapshot() {
-		Prototype p = new Prototype(g, "bear"); 
-		Agent a = p.createAgent();
-		PrototypeID pID = p.getPrototypeID();
+		Prototype p = new Prototype("bear"); 
+		Agent a = p.createAgent(g);
 		AgentID aID = a.getID(); 
 		Integer step = 15; 
 		
-		AgentSnapshot ass = SnapshotFactory.makeAgentSnapshot(a, step);
+		AgentSnapshot ass = SnapshotFactory.makeAgentSnapshot(a, null, step);
 		
 		Assert.assertNotNull(ass.id);
 		Assert.assertNotNull(ass.fields);
 		Assert.assertNotNull(ass.prototypeName);
 		Assert.assertNotNull(ass.step);
 		Assert.assertEquals(ass.id, aID);
-		Assert.assertEquals(ass.prototypeName, pID);
+		Assert.assertEquals(ass.prototypeName, ass.prototypeName);
 		Assert.assertEquals(ass.step, step);
 	}
 

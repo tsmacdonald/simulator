@@ -41,11 +41,12 @@ public class AgentSnapshotTableCase {
 	 */
 	@Before
 	public void setUp() {
+		Grid grid = new Grid(10, 10);
 		snaps = new ArrayList<AgentSnapshot>();
 		ids = new HashSet<AgentID>();
-		prototype = new Prototype(new Grid(10, 10), "Tester");
+		prototype = new Prototype("Tester");
 		for(int i = 0; i < 5; i++) {
-			Agent agent = prototype.createAgent();
+			Agent agent = prototype.createAgent(grid);
 			try {
 				agent.addField("name", names[i]);
 				agent.addField("weight", "50");
@@ -54,7 +55,7 @@ public class AgentSnapshotTableCase {
 			}
 			ids.add(agent.getID());
 			for(int s = 1; s < 3; s++) {
-				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), s, prototype.getName()));
+				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), s, prototype.getName(), null, 0, 0));
 			}
 		}
 		table = null;
@@ -105,11 +106,11 @@ public class AgentSnapshotTableCase {
 		}
 		
 		Grid grid = new Grid(10, 10);
-		Prototype gType = new Prototype(grid, "GRID");
+		Prototype gType = new Prototype("GRID");
 		Integer step = 1;
 		AgentSnapshot gSnap = SnapshotFactory.makeGlobalVarSnapshot(grid, gType, step);
 		table.putEntity(gSnap);
-		org.junit.Assert.assertNotNull("failure-Snap should not be null(" + table.get(null, step) +")", table.get(null, step));
+		org.junit.Assert.assertNotNull("failure-Snap should not be null(" + table.get(Grid.getID(), step) +")", table.get(Grid.getID(), step));
 
 	}
 
