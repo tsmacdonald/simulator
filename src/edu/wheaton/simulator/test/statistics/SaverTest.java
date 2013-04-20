@@ -120,9 +120,18 @@ public class SaverTest {
 		protoMap.put("PrototypeSnapshot Beta", protoSnapBeta);
 		Assert.assertTrue("protoMap has values", !protoMap.isEmpty());
 		
-		Saver s = new Saver(table, protoMap, grid.getWidth(), grid.getHeight(), simEnder);
+		Saver s = new Saver(table, protoMap, step, step, simEnder);
 		s.saveSimulation("SimulationState");
+	}
+	
+	@Test
+	public void testPrototypeSave(){
 		
-		System.out.println("File creation complete.");
+		Saver s = new Saver(null, null, step, step, simEnder);
+		
+		s.savePrototype(prototypeOne); 
+		s.savePrototype(prototypeTwo); 
+		
+		Assert.assertTrue(true);
 	}
 }

@@ -36,55 +36,19 @@ public class GridTest {
 	}
 
 	@Test
-	public void spiralSpawnTest() {
-		// Add six agents to the grid
+	public void addAgentTest() {
 		Prototype p = new Prototype(grid, "Test");
-		for(int i = 0; i < 6; i++) 
-			grid.spiralSpawn(p.createAgent(), 1, 1);
-
-		// The upper right corner:
-		// ___________
-		// |x|x|x| | |
-		// | |x|x| | |
-		// | |x| | | |
-		// | | | | | |
-
-		Assert.assertTrue(IDOfAgentAt(1, 1) == 0);
-		Assert.assertTrue(IDOfAgentAt(0, 0) == 1);
-		Assert.assertTrue(IDOfAgentAt(1, 0) == 2);
-		Assert.assertTrue(IDOfAgentAt(2, 0) == 3);
-		Assert.assertTrue(IDOfAgentAt(2, 1) == 4);
-		Assert.assertTrue(IDOfAgentAt(2, 2) == 5);
-	}
-
-	@Test
-	public void horizontalSpawnTest() {
-		// Add six agents to the grid
-		Prototype p = new Prototype(grid, "Test");
-		for(int i = 0; i < 6; i++) 
-			grid.horizontalSpawn(p.createAgent(), 1);
-
-		Assert.assertTrue(IDOfAgentAt(0, 1) == 6);
-		Assert.assertTrue(IDOfAgentAt(1, 1) == 7);
-		Assert.assertTrue(IDOfAgentAt(2, 1) == 8);
-		Assert.assertTrue(IDOfAgentAt(3, 1) == 9);
-		Assert.assertTrue(IDOfAgentAt(4, 1) == 10);
-		Assert.assertTrue(IDOfAgentAt(5, 1) == 11);
-	}
-
-	@Test
-	public void verticalSpawnSpawnTest() {
-		// Add six agents to the grid
-		Prototype p = new Prototype(grid, "Test");
-		for(int i = 0; i < 6; i++) 
-			grid.verticalSpawn(p.createAgent(), 1);
-
-		Assert.assertTrue(IDOfAgentAt(1, 0) == 12);
-		Assert.assertTrue(IDOfAgentAt(1, 1) == 13);
-		Assert.assertTrue(IDOfAgentAt(1, 2) == 14);
-		Assert.assertTrue(IDOfAgentAt(1, 3) == 15);
-		Assert.assertTrue(IDOfAgentAt(1, 4) == 16);
-		Assert.assertTrue(IDOfAgentAt(1, 5) == 17);
+		
+		// In bounds
+		Assert.assertTrue(grid.addAgent(p.createAgent(), 5, 5)); // ID = 0
+		Assert.assertTrue(grid.addAgent(p.createAgent(), 15, 20)); // ID = 1
+		
+		// Out of bounds
+		Assert.assertFalse(grid.addAgent(p.createAgent(), -5, -5)); // ID = 2
+		Assert.assertFalse(grid.addAgent(p.createAgent(), 30, 30)); // ID = 3
+		
+		Assert.assertEquals(0, IDOfAgentAt(5, 5));
+		Assert.assertEquals(1, IDOfAgentAt(15, 20));
 	}
 
 	/**
@@ -101,7 +65,7 @@ public class GridTest {
 	@Test
 	public void removeTest() {
 		Prototype p = new Prototype(grid, "Test");
-		grid.spiralSpawn(p.createAgent(), 5, 5);
+		grid.addAgent(p.createAgent(), 5, 5);
 		grid.removeAgent(5, 5);
 		Assert.assertNull(grid.getAgent(5, 5));
 	}

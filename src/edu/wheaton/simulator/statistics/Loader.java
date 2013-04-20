@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
@@ -146,9 +145,6 @@ public class Loader {
 							}
 							readLine = reader.readLine(); 
 						}
-
-						//Add the agent's triggers
-						addTriggers(agent); 
 						
 						System.out.println("Adding Agent"); 
 						grid.addAgent(agent, xpos, ypos); 
@@ -323,17 +319,6 @@ public class Loader {
 			ret[i] = (byte) s.charAt(i); 
 
 		return ret; 
-	}
-
-	/**
-	 * Add the appropriate Triggers to the specified Agent
-	 * @param a The Agent to add Triggers to
-	 */
-	private void addTriggers(Agent a){
-		Prototype parent = getPrototype(a.getPrototype().getName()); 
-		List<Trigger> triggers = parent.getTriggers(); 
-		for(Trigger t : triggers)
-			a.addTrigger(t);
 	}
 
 	/**

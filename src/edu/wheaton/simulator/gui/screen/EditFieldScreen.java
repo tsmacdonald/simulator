@@ -131,9 +131,9 @@ public class EditFieldScreen extends Screen {
 			}
 			if(toMove) {
 				ScreenManager sm = getScreenManager();
-				Screen fieldsScreen = sm.getScreen("Fields");
-				fieldsScreen.load();
-				sm.update(fieldsScreen);
+				Screen viewSimScreen = sm.getScreen("View Simulation");
+				viewSimScreen.load();
+				sm.update(viewSimScreen);
 				//TODO should not switch screens if the error message was shown.
 			}
 		}

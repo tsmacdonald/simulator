@@ -2,7 +2,6 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Map;
 
 import javax.swing.JFileChooser;
@@ -20,10 +19,9 @@ import edu.wheaton.simulator.gui.screen.EditEntityScreen;
 import edu.wheaton.simulator.gui.screen.EditFieldScreen;
 import edu.wheaton.simulator.gui.screen.NewSimulationScreen;
 import edu.wheaton.simulator.gui.screen.SetupScreen;
-import edu.wheaton.simulator.gui.screen.SpawningScreen;
 import edu.wheaton.simulator.gui.screen.StatDisplayScreen;
 import edu.wheaton.simulator.gui.screen.TitleScreen;
-import edu.wheaton.simulator.gui.screen.ViewSimScreen1;
+import edu.wheaton.simulator.gui.screen.ViewSimScreen;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.Loader;
@@ -37,16 +35,15 @@ public class SimulatorGuiManager {
 	private StatisticsManager statMan;
 	private Simulator simulator;
 	private boolean simulationIsRunning;
-	private ArrayList<SpawnCondition> spawnConditions;
 	private boolean canSpawn;
 	private GridPanel gridPanel;
+	private GridPanelObserver gpo;
 	private Loader loader;
 	private Saver saver;
 	private boolean hasStarted;
 	private JFileChooser fc;
 
 	public SimulatorGuiManager(Display d) {
-		spawnConditions = new ArrayList<SpawnCondition>();
 		canSpawn = true;
 		initSim("New Simulation",10, 10);
 		gridPanel = new GridPanel(this);
@@ -55,8 +52,7 @@ public class SimulatorGuiManager {
 		sm.putScreen("New Simulation", new NewSimulationScreen(this));
 		sm.putScreen("Edit Fields", new EditFieldScreen(this));
 		sm.putScreen("Edit Entities", new EditEntityScreen(this));
-		sm.putScreen("Spawning", new SpawningScreen(this));
-		sm.putScreen("View Simulation", new ViewSimScreen1(this));
+		sm.putScreen("View Simulation", new ViewSimScreen(this));
 		sm.putScreen("Statistics", new StatDisplayScreen(this));
 		sm.putScreen("Grid Setup", new SetupScreen(this));
 
@@ -66,7 +62,7 @@ public class SimulatorGuiManager {
 		statMan = StatisticsManager.getInstance();
 
 		hasStarted = false;
-
+		gpo = new GridPanelObserver(gridPanel);
 		fc = new JFileChooser();
 	}
 
@@ -85,6 +81,7 @@ public class SimulatorGuiManager {
 	public void initSim(String name,int x, int y) {
 		System.out.println("Reset prototypes");
 		simulator = new Simulator(name, x, y, se);
+		simulator.addGridObserver(gpo);
 		if(gridPanel != null)
 			gridPanel.setGrid(getSimGrid());
 	}
@@ -122,7 +119,7 @@ public class SimulatorGuiManager {
 		getSimEnder().setStepLimit(maxSteps);
 	}
 
-	public int getSimStepLimit(){
+	public Integer getSimStepLimit(){
 		return getSimEnder().getStepLimit();
 	}
 
@@ -167,11 +164,7 @@ public class SimulatorGuiManager {
 		return hasStarted;
 	}
 
-	public ArrayList<SpawnCondition> getSimSpawnConditions() { 
-		return spawnConditions; 
-	}
-
-	public int getSimGridHeight(){
+	public Integer getSimGridHeight(){
 		return getSim().getGrid().getHeight();
 	}
 
@@ -179,7 +172,7 @@ public class SimulatorGuiManager {
 		getSim().resizeGrid(width, height);
 	}
 
-	public int getSimGridWidth(){
+	public Integer getSimGridWidth(){
 		return getSim().getGrid().getWidth();
 	}
 
@@ -233,44 +226,36 @@ public class SimulatorGuiManager {
 		return canSpawn;
 	}
 
-	public boolean spiralSpawnSimAgent(String prototypeName, int x, int y){
-		return getSim().spiralSpawn(prototypeName, x, y);
-	}
-
-	public boolean spiralSpawnSimAgent(String string) {
-		return getSim().spiralSpawn(string);
-	}
-
-	public boolean horizontalSpawnSimAgent(String prototypeName, int x) {
-		return getSim().horizontalSpawn(prototypeName, x);
-	}
-
-	public boolean verticalSpawnSimAgent(String name, int y) {
-		return getSim().verticalSpawn(name, y);
+	public boolean addAgent(String prototypeName, int x, int y){
+		return getSim().addAgent(prototypeName, x, y);
 	}
 
 	public void loadSim() {
-		final JFileChooser fc = new JFileChooser();
-
 		int returnVal = fc.showOpenDialog(null);
 		String fileName = "";
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			fileName = fc.getSelectedFile().getName();
+			//TODO make new simulator
+			//initSim(fileName, x, y);
+			//this should eventually be statMan.loadSim(fileName), once that actually gets written
+			loader.loadSimulation(fileName);
 		}
 
-		loader.loadSimulation(fileName);
+		
 	}
 
 	public void saveSim(String fileName) {
-		//StatisticsManager.save(fileName);
+		statMan.saveSimulation(fileName);
 	}
 
 	public void startSim(){
 		setSimRunning(true);
 		setSimStarted(true);
 		canSpawn = false;
-		simulator.resume();
-
+		if(!simulator.hasStarted())
+			simulator.start();
+		else
+			simulator.resume();
 	}
 
 
@@ -279,20 +264,41 @@ public class SimulatorGuiManager {
 		JMenuBar menuBar = new JMenuBar();
 
 		JMenu fileMenu = makeFileMenu(this);
-		JMenu editMenu = makeEditMenu(sm);
+		//JMenu editMenu = makeEditMenu(sm);
 		JMenu helpMenu = makeHelpMenu(sm);
 
 		menuBar.add(fileMenu);
-		menuBar.add(editMenu);
+		//menuBar.add(editMenu);
 		menuBar.add(helpMenu);
 		return menuBar;
 	}
 
-	private static JMenu makeFileMenu(final SimulatorGuiManager guiManager) {
+	private JMenu makeFileMenu(final SimulatorGuiManager guiManager) {
 		JMenu menu = Gui.makeMenu("File");
 
 		menu.add(Gui.makeMenuItem("New Simulation", 
 				new GeneralButtonListener("New Simulation",guiManager.sm)));
+		
+		menu.add(Gui.makeMenuItem("Save Simulation", 
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String fileName = JOptionPane.showInputDialog("Please enter file name: ");
+				saveSim(fileName);
+			}
+
+		}
+				));
+
+		menu.add(Gui.makeMenuItem("Load Simulation", 
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				loadSim();
+			}
+		}
+				));
+		
 		menu.add(Gui.makeMenuItem("Exit",new ActionListener(){ 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -306,24 +312,6 @@ public class SimulatorGuiManager {
 
 	private JMenu makeEditMenu(final ScreenManager sm) {
 		JMenu menu = Gui.makeMenu("Edit");
-
-		menu.add(Gui.makeMenuItem("Save Simulation", 
-				new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				String fileName = JOptionPane.showInputDialog("Please enter file name: ");
-				saveSim(fileName);
-			}
-
-		}
-				));
-
-		menu.add(Gui.makeMenuItem("Load Simulation", 
-				new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				loadSim();
-			}
-		}
-				));
 
 		menu.add(Gui.makeMenuItem("Edit Global Fields", 
 				new GeneralButtonListener("Fields",sm)));
