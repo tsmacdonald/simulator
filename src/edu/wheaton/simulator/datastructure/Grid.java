@@ -26,9 +26,8 @@ import edu.wheaton.simulator.simulation.SimulationPauseException;
 public class Grid extends Entity implements Iterable<Agent> {
 
 	/**
-	 * The grid of all Agents.
-	 * This was implemented as a multi-dimensional array,
-	 * but now it uses a List of Lists, which is equivalent.
+	 * The grid of all Agents. This was implemented as a multi-dimensional
+	 * array, but now it uses a List of Lists, which is equivalent.
 	 */
 	private Agent[][] grid;
 
@@ -64,7 +63,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 			System.exit(1);
 		}
 
-		//Initialize the ArrayLists.
+		// Initialize the ArrayLists.
 		grid = new Agent[width][height];
 
 		updater = new LinearUpdater(this);
@@ -92,16 +91,16 @@ public class Grid extends Entity implements Iterable<Agent> {
 
 		int currentWidth = grid.length;
 		int currentHeight = 0;
-		if(currentWidth != 0) {
+		if (currentWidth != 0) {
 			currentHeight = grid[0].length;
 		}
 
 		int minWidth = Math.min(width, currentWidth);
 		int minHeight = Math.min(height, currentHeight);
 
-		for(int i = 0; i < minWidth; i++) {
-			for(int j = 0; j < minHeight; j++) {
-				if(grid[i][j] != null) {
+		for (int i = 0; i < minWidth; i++) {
+			for (int j = 0; j < minHeight; j++) {
+				if (grid[i][j] != null) {
 					newGrid[i][j] = grid[i][j];
 				}
 			}
@@ -284,20 +283,25 @@ public class Grid extends Entity implements Iterable<Agent> {
 			for (String current : getFieldMap().keySet()) {
 				try {
 					copy.addField(current, getFieldValue(current));
-				} catch (ElementAlreadyContainedException e) { }
+				} catch (ElementAlreadyContainedException e) {
+				}
 			}
 			// add Agents
 			for (Agent current : this) {
 				copy.addAgent(current.clone(), current.getPosX(),
 						current.getPosY());
-				if(layerRunning)
+				if (layerRunning)
 					try {
-						agentView.add(new AgentAppearance(current.getLayerColor(), current.getDesign(), current.getPosX(), current.getPosY()));
+						agentView.add(new AgentAppearance(current
+								.getLayerColor(), current.getDesign(), current
+								.getPosX(), current.getPosY()));
 					} catch (EvaluationException e) {
 						e.printStackTrace();
 					}
 				else
-					agentView.add(new AgentAppearance(current.getColor(), current.getDesign(), current.getPosX(), current.getPosY()));
+					agentView.add(new AgentAppearance(current.getColor(),
+							current.getDesign(), current.getPosX(), current
+									.getPosY()));
 			}
 
 			copy.step = this.step;

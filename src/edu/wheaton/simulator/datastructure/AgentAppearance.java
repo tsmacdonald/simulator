@@ -14,22 +14,22 @@ public class AgentAppearance {
 	 * The color of the Agent
 	 */
 	private final Color color;
-	
+
 	/**
 	 * The Agent's bitmask
 	 */
 	private final byte[] design;
-	
+
 	/**
 	 * X coordinate
 	 */
 	private int x;
-	
+
 	/**
 	 * Y coordinate
 	 */
 	private int y;
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -42,7 +42,7 @@ public class AgentAppearance {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	/**
 	 * Provides the color
 	 * 
@@ -51,7 +51,7 @@ public class AgentAppearance {
 	public Color getColor() {
 		return color;
 	}
-	
+
 	/**
 	 * Gives the design
 	 * 
@@ -60,7 +60,7 @@ public class AgentAppearance {
 	public byte[] getDesign() {
 		return design;
 	}
-	
+
 	/**
 	 * Provides the Agent's x pos
 	 * 
@@ -69,7 +69,7 @@ public class AgentAppearance {
 	public int getX() {
 		return x;
 	}
-	
+
 	/**
 	 * Provides the Agent's y pos
 	 * 

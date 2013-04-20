@@ -16,27 +16,27 @@ import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class Simulation {
-	
+
 	/**
 	 * Name of the simulation
 	 */
 	private String name;
-	
+
 	/**
 	 * The Grid to hold all the Agents
 	 */
 	private Grid grid;
-	
+
 	/**
 	 * Whether or not the simulation has begun
 	 */
 	private AtomicBoolean isStarted;
-	
+
 	/**
 	 * Ending conditions for the loop
 	 */
 	private SimulationEnder ender;
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -52,7 +52,7 @@ public class Simulation {
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid, ender);
 	}
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -67,16 +67,17 @@ public class Simulation {
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid, ender);
 	}
-	
+
 	/**
-	 * Causes all the triggers of all the entities in the simulator's grid to be fired
+	 * Causes all the triggers of all the entities in the simulator's grid to be
+	 * fired
 	 * 
 	 * @throws SimulationPauseException
 	 */
 	public void updateEntities() throws SimulationPauseException {
 		grid.updateEntities();
 	}
-	
+
 	/**
 	 * Tells the grid to stop on the next iteration if the ender evaluates to
 	 * true
@@ -86,21 +87,21 @@ public class Simulation {
 	public boolean shouldEnd() {
 		return ender.evaluate(grid);
 	}
-	
+
 	/**
 	 * Returns whether or not the simulation has begun
 	 */
 	public boolean getStarted() {
 		return isStarted.get();
 	}
-	
+
 	/**
 	 * Let's the simulation know it has begun
 	 */
 	public void setStarted() {
 		isStarted.set(true);
 	}
-	
+
 	/**
 	 * Notifies all the observers following this simulation's grid
 	 * 
@@ -109,7 +110,7 @@ public class Simulation {
 	public void notifyObservers(boolean layerRunning) {
 		grid.notifyObservers(layerRunning);
 	}
-	
+
 	/**
 	 * Provides this simulator's name
 	 * 
@@ -118,7 +119,7 @@ public class Simulation {
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * Provides the Grid the Facade is using
 	 * 

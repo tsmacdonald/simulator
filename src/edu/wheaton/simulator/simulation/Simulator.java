@@ -108,7 +108,8 @@ public class Simulator {
 					try {
 						simulation.updateEntities();
 						simulation.notifyObservers(layerRunning.get());
-						if(layerRunning.get()) setLayerExtremes();
+						if (layerRunning.get())
+							setLayerExtremes();
 						Thread.sleep(sleepPeriod);
 					} catch (SimulationPauseException e) {
 						isPaused.set(true);
@@ -135,10 +136,10 @@ public class Simulator {
 	 * Resumes the simulation
 	 */
 	public void play() {
-		if(simulation.getStarted()) {
+		if (simulation.getStarted()) {
 			simulation.setStarted();
 			mainThread.start();
-		} else if (!isStopped.get() && isPaused.get()){
+		} else if (!isStopped.get() && isPaused.get()) {
 			isPaused.set(false);
 			synchronized (lock) {
 				lock.notifyAll();
@@ -158,7 +159,7 @@ public class Simulator {
 	 * Tells the grid to stop on the next iteration if the ender evaluates to
 	 * true
 	 */
-	public void checkEndings() {
+	private void checkEndings() {
 		if (simulation.shouldEnd()) {
 			isPaused.set(true);
 			isStopped.set(true);
@@ -367,14 +368,14 @@ public class Simulator {
 	 * Adds the some sample prototypes
 	 */
 	public void initSamples() {
-		new Multiplier().initSampleAgent(new Prototype(simulation.getGrid(), Color.BLUE,
-				"Multiplier"));
-		new Bouncer()
-		.initSampleAgent(new Prototype(simulation.getGrid(), Color.RED, "bouncer"));
-		new RightTurner().initSampleAgent(new Prototype(simulation.getGrid(), Color.BLACK,
-				"rightTurner"));
-		new Confuser().initSampleAgent(new Prototype(simulation.getGrid(), Color.GREEN,
-				"confuser"));
+		new Multiplier().initSampleAgent(new Prototype(simulation.getGrid(),
+				Color.BLUE, "Multiplier"));
+		new Bouncer().initSampleAgent(new Prototype(simulation.getGrid(),
+				Color.RED, "bouncer"));
+		new RightTurner().initSampleAgent(new Prototype(simulation.getGrid(),
+				Color.BLACK, "rightTurner"));
+		new Confuser().initSampleAgent(new Prototype(simulation.getGrid(),
+				Color.GREEN, "confuser"));
 	}
 
 	/**
@@ -385,20 +386,22 @@ public class Simulator {
 		simulation.getGrid().setPriorityUpdater(0, 50);
 
 		// add prototypes
-		new ConwaysDeadBeing().initSampleAgent(new Prototype(simulation.getGrid(), new Color(
-				219, 219, 219), "deadBeing"));
-		new ConwaysAliveBeing().initSampleAgent(new Prototype(simulation.getGrid(), new Color(
-				93, 198, 245), "aliveBeing"));
+		new ConwaysDeadBeing().initSampleAgent(new Prototype(simulation
+				.getGrid(), new Color(219, 219, 219), "deadBeing"));
+		new ConwaysAliveBeing().initSampleAgent(new Prototype(simulation
+				.getGrid(), new Color(93, 198, 245), "aliveBeing"));
 
 		// Place dead beings in Grid with some that are alive
 		for (int x = 0; x < simulation.getGrid().getWidth(); x++)
 			for (int y = 0; y < simulation.getGrid().getHeight(); y++) {
 				if (x == simulation.getGrid().getWidth() / 2) {
-					simulation.getGrid().addAgent(Prototype.getPrototype("aliveBeing")
-							.createAgent(), x, y);
+					simulation.getGrid().addAgent(
+							Prototype.getPrototype("aliveBeing").createAgent(),
+							x, y);
 				} else {
-					simulation.getGrid().addAgent(Prototype.getPrototype("deadBeing")
-							.createAgent(), x, y);
+					simulation.getGrid().addAgent(
+							Prototype.getPrototype("deadBeing").createAgent(),
+							x, y);
 				}
 			}
 	}
@@ -409,8 +412,10 @@ public class Simulator {
 	public void initRockPaperScissors() {
 		setPriorityUpdate(0, 60);
 		new Rock().initSampleAgent(new Prototype(simulation.getGrid(), "rock"));
-		new Paper().initSampleAgent(new Prototype(simulation.getGrid(), "paper"));
-		new Scissors().initSampleAgent(new Prototype(simulation.getGrid(), "scissors"));
+		new Paper()
+				.initSampleAgent(new Prototype(simulation.getGrid(), "paper"));
+		new Scissors().initSampleAgent(new Prototype(simulation.getGrid(),
+				"scissors"));
 	}
 
 	/**
@@ -433,7 +438,6 @@ public class Simulator {
 		return simulationGrid().getFieldMap();
 	}
 
-
 	/**
 	 * Updates the field with the given name to the given value.
 	 * 
@@ -445,9 +449,9 @@ public class Simulator {
 	public void updateGlobalField(String name, String value) {
 		try {
 			simulationGrid().updateField(name, value);
-		}
-		catch (NoSuchElementException e) {
-			System.out.println("Attempting to update a nonexistent global field.");
+		} catch (NoSuchElementException e) {
+			System.out
+					.println("Attempting to update a nonexistent global field.");
 			System.err.print(e);
 		}
 	}
@@ -463,7 +467,7 @@ public class Simulator {
 			simulationGrid().addField(name, startingValue);
 		} catch (ElementAlreadyContainedException e) {
 			System.out
-			.println("Problem adding a global field. Name already in the map. Exiting.");
+					.println("Problem adding a global field. Name already in the map. Exiting.");
 			e.printStackTrace();
 			System.exit(1);
 		}
@@ -478,8 +482,7 @@ public class Simulator {
 	public void removeGlobalField(String name) {
 		try {
 			simulationGrid().removeField(name);
-		}
-		catch (NoSuchElementException e) {
+		} catch (NoSuchElementException e) {
 			System.out.println("Attempting to remove a nonexistant field.");
 			System.err.print(e);
 		}
@@ -510,7 +513,8 @@ public class Simulator {
 	 * @param prototypes
 	 * @param se
 	 */
-	public void load(String name, Grid grid, Set<Prototype> prototypes, SimulationEnder se) {
+	public void load(String name, Grid grid, Set<Prototype> prototypes,
+			SimulationEnder se) {
 		simulation = new Simulation(name, grid, se);
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
