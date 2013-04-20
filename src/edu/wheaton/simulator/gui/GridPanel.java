@@ -65,19 +65,19 @@ public class GridPanel extends JPanel {
 			if(squareSize < 9){
 				g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 
 						squareSize, squareSize);
+			}
 
 
-				int iconSize = squareSize/7;
-				for (int a = 0; a < 7; a+=1) {
-					for (int b = 0; b <  7; b+=1) {
-						byte[] icon = agent.getDesign();
-						byte val = new Byte("0000001");
-						if((icon[a]&(val<<b)) > 0){
-							g.fillRect((squareSize * x + 1) + (6-b)*iconSize,
-									(squareSize * y + 1) + (a)*iconSize, 
-									iconSize, iconSize);
+			int iconSize = squareSize/7;
+			for (int a = 0; a < 7; a+=1) {
+				for (int b = 0; b <  7; b+=1) {
+					byte[] icon = agent.getDesign();
+					byte val = new Byte("0000001");
+					if((icon[a]&(val<<b)) > 0){
+						g.fillRect((squareSize * x + 1) + (6-b)*iconSize,
+								(squareSize * y + 1) + (a)*iconSize, 
+								iconSize, iconSize);
 
-						}
 					}
 				}
 			}
