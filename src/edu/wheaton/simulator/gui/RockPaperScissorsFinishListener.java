@@ -36,11 +36,11 @@ public class RockPaperScissorsFinishListener implements ActionListener {
 			} catch(java.lang.NumberFormatException nfe) { 
 				System.err.println("Invalid input passed to RockPaperScissorsListener");
 			}
-			Screen upload = gm.getScreenManager().getScreen("View Simulation");
+			Screen upload = Gui.getScreenManager().getScreen("View Simulation");
 			gm.initRockPaperScissors();
 			gm.setStepLimit(1000);
 			gm.setStarted(false);
-			gm.getScreenManager().update(upload);
+			Gui.getScreenManager().update(upload);
 			ScreenManager.loadScreen(upload);
 		}
 		public String getName(){

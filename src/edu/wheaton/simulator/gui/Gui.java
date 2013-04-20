@@ -30,6 +30,14 @@ public final class Gui {
 		getDisplay().setJMenuBar(makeMenuBar());
 	}
 	
+	public static Display getDisplay(){
+		return Display.getInstance();
+	}
+	
+	public static ScreenManager getScreenManager(){
+		return ScreenManager.getInstance();
+	}
+	
 	public static JButton makeButton(String name, PrefSize prefSize, ActionListener al){
 		JButton b = new JButton(name);
 		if(al != null)
@@ -149,10 +157,6 @@ public final class Gui {
 		menuItem.setBackground(Color.gray);
 		menuItem.setForeground(Color.white);
 		return menuItem;
-	}
-	
-	public static Display getDisplay(){
-		return Display.getInstance();
 	}
 	
 	private static JMenuBar makeMenuBar() {

@@ -32,8 +32,6 @@ public class SimulatorGuiManager {
 
 	private static SimulatorGuiManager gm;
 	
-	private ScreenManager sm;
-	private Display d;
 	private SimulationEnder se;
 	private StatisticsManager statMan;
 	private Simulator simulator;
@@ -50,8 +48,6 @@ public class SimulatorGuiManager {
 		canSpawn = true;
 		gridPanel = new GridPanel(this);
 		load("New Simulation",10, 10);
-		d = Gui.getDisplay();
-		sm = ScreenManager.getInstance();
 		se = new SimulationEnder();
 		loader = new Loader();
 		statMan = StatisticsManager.getInstance();
@@ -65,10 +61,6 @@ public class SimulatorGuiManager {
 		if(gm==null)
 			gm = new SimulatorGuiManager();
 		return gm;
-	}
-
-	public ScreenManager getScreenManager(){
-		return sm;
 	}
 
 	public GridPanel getGridPanel(){

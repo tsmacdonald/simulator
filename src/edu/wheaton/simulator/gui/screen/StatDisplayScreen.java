@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
 import edu.wheaton.simulator.simulation.Simulator;
@@ -164,7 +165,7 @@ public class StatDisplayScreen extends Screen {
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ScreenManager sm = gm.getScreenManager();
+				ScreenManager sm = Gui.getScreenManager();
 				Screen toDisplay = sm.getScreen("View Simulation");
 				ScreenManager.loadScreen(toDisplay);
 				sm.update(toDisplay);

@@ -11,6 +11,7 @@ package edu.wheaton.simulator.gui.screen;
 
 import javax.swing.JPanel;
 
+import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
 
@@ -38,6 +39,6 @@ public abstract class Screen extends JPanel {
 	}
 	
 	public ScreenManager getScreenManager(){
-		return gm.getScreenManager();
+		return Gui.getScreenManager();
 	}
 }

@@ -58,7 +58,7 @@ public class EntityScreen extends Screen {
 			public void valueChanged(ListSelectionEvent e) {
 				edit.setEnabled(!gm.hasStarted());
 				delete.setEnabled(!gm.hasStarted());
-				((ViewSimScreen) gm.getScreenManager().getScreen(
+				((ViewSimScreen) Gui.getScreenManager().getScreen(
 						"View Simulation")).setSpawn(true);
 			}
 		});

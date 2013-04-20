@@ -29,7 +29,7 @@ public class IconGridPanel extends GridPanel {
 
 	public IconGridPanel(final SimulatorGuiManager gm) {
 		super(gm);
-		sm = gm.getScreenManager();
+		sm = Gui.getScreenManager();
 		gridDimension = 7;
 		icon = new boolean[gridDimension][gridDimension];
 		for (int i = 0; i < gridDimension; i++){
