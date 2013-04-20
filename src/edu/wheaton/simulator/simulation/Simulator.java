@@ -529,22 +529,7 @@ public class Simulator {
 	}
 
 	/**
-	 * Loads a simulation from a grid and prototypes
-	 * 
-	 * @param name
-	 * @param grid
-	 * @param prototypes
-	 * @param se
-	 */
-	public void load(String name, Grid grid, Set<Prototype> prototypes,
-			SimulationEnder se) {
-		simulation = new Simulation(name, grid, se);
-		for (Prototype current : prototypes)
-			Prototype.addPrototype(current);
-	}
-
-	/**
-	 * Loads a new blank simulation
+	 * Creates a new simulation with a blank grid
 	 * 
 	 * @param name
 	 * @param width
@@ -553,6 +538,37 @@ public class Simulator {
 	 */
 	public void load(String name, int width, int height, SimulationEnder se) {
 		simulation = new Simulation(name, width, height, se);
+	}
+	
+	/**
+	 * Replicates the simulation from the given file
+	 * 
+	 * @param file
+	 */
+	public void loadFromString(File file){
+		Loader l = new Loader();
+		l.loadSimulation(file);
+		try{
+			load(l.getName(), l.getGrid(), l.getPrototypes(), l.getSimEnder());
+		}catch(Exception e){
+			System.out.println("No grid has been loaded yet!"); 
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Loads a simulation from a grid and prototypes
+	 * 
+	 * @param name
+	 * @param grid
+	 * @param prototypes
+	 * @param se
+	 */
+	private void load(String name, Grid grid, Set<Prototype> prototypes,
+			SimulationEnder se) {
+		simulation = new Simulation(name, grid, se);
+		for (Prototype current : prototypes)
+			Prototype.addPrototype(current);
 	}
 
 	/**
@@ -571,17 +587,6 @@ public class Simulator {
 		s.saveSimulation(filename, agents, Prototype.getPrototypes(),
 				getGlobalFieldMap(),
 				grid.getWidth(), grid.getHeight(), ender);
-	}
-
-	public void loadFromString(File file){
-		Loader l = new Loader();
-		l.loadSimulation(file);
-		try{
-			load(l.getName(), l.getGrid(), l.getPrototypes(), l.getSimEnder());
-		}catch(Exception e){
-			System.out.println("No grid has been loaded yet!"); 
-			e.printStackTrace();
-		}
 	}
 
 }
