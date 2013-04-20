@@ -285,6 +285,7 @@ public class Simulator {
 	 */
 	public boolean addAgent(String prototypeName, int x, int y) {
 		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
+		simulation.notifyObservers(layerRunning.get());
 		return simulationGrid().addAgent(toAdd, x, y);
 	}
 
@@ -299,6 +300,7 @@ public class Simulator {
 	 */
 	public boolean addAgent(String prototypeName) {
 		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
+		simulation.notifyObservers(layerRunning.get());
 		return simulationGrid().addAgent(toAdd);
 	}
 
@@ -320,6 +322,7 @@ public class Simulator {
 	 */
 	public void removeAgent(int x, int y) {
 		simulationGrid().removeAgent(x, y);
+		simulation.notifyObservers(layerRunning.get());
 	}
 
 	/**
@@ -352,6 +355,7 @@ public class Simulator {
 		Layer.getInstance().setFieldName(fieldName);
 		Layer.getInstance().setColor(c);
 		Layer.getInstance().resetMinMax();
+		simulation.notifyObservers(layerRunning.get());
 	}
 
 	/**
@@ -359,6 +363,7 @@ public class Simulator {
 	 */
 	public void clearLayer() {
 		layerRunning.set(false);
+		simulation.notifyObservers(layerRunning.get());
 	}
 
 	/**
@@ -414,6 +419,7 @@ public class Simulator {
 							x, y);
 				}
 			}
+		simulation.notifyObservers(layerRunning.get());
 	}
 
 	/**
@@ -425,6 +431,7 @@ public class Simulator {
 		new Paper()
 		.initSampleAgent(new Prototype("paper"));
 		new Scissors().initSampleAgent(new Prototype("scissors"));
+		simulation.notifyObservers(layerRunning.get());
 	}
 
 	/**
