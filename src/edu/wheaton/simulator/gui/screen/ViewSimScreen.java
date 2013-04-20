@@ -166,14 +166,20 @@ public class ViewSimScreen extends Screen {
 						canSpawn = true;
 					}
 				}), Gui.makeButton("Statistics", null,
-				new GeneralButtonListener("Statistics", sm))
-////				, Gui.makeButton("Clear Agents", null, new ActionListener() {
-////					@Override
-////					public void actionPerformed(ActionEvent e) {
-////						getGuiManager().getGridPanel().clearAgents(g);
-////						canSpawn = true;
-//					}
-//				})
+				new GeneralButtonListener("Statistics", sm)),
+				Gui.makeButton("Clear Agents", null,
+						new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						//adding clear all here
+					}
+				}), Gui.makeButton("Fill Grid", null,
+						new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						//adding fill grid here
+					}
+				})
 				);
 		return buttonPanel;
 	}

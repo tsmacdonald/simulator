@@ -58,7 +58,6 @@ public class GridPanel extends JPanel {
 		int squareSize = Math.min(pixelWidth, pixelHeight);
 
 		for(AgentAppearance agent : grid){
-
 			int x = agent.getX();
 			int y = agent.getY();
 			g.setColor(agent.getColor());
