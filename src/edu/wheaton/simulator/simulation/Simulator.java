@@ -136,7 +136,7 @@ public class Simulator {
 	 * Resumes the simulation
 	 */
 	public void play() {
-		if (simulation.getStarted()) {
+		if (!simulation.getStarted()) {
 			simulation.setStarted();
 			mainThread.start();
 		} else if (!isStopped.get() && isPaused.get()) {
