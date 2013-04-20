@@ -28,7 +28,7 @@ import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
 import edu.wheaton.simulator.simulation.Simulator;
 
-//TODO make sure that all information is actually being transmitted to simulation
+//TODO add elements for step delay
 public class SetupScreen extends Screen {
 
 	private JTextField nameField;
@@ -36,6 +36,8 @@ public class SetupScreen extends Screen {
 
 	private JTextField widthField;
 	private JTextField heightField;
+	
+	private JTextField delayField;
 
 	private String[] agentNames;
 	private JComboBox updateBox;
@@ -114,7 +116,8 @@ public class SetupScreen extends Screen {
 					int newWidth = Integer.parseInt(widthField.getText());
 					int newHeight = Integer.parseInt(widthField.getText());
 					int newTime = Integer.parseInt(timeField.getText());
-					if (newWidth <= 0 || newHeight <= 0 || newTime <= 0)
+					int newDelay = Integer.parseInt(delayField.getText());
+					if (newWidth <= 0 || newHeight <= 0 || newTime <= 0 || newDelay <= 0)
 						throw new NumberFormatException();
 					if (newWidth < gm.getSimGridWidth()
 							|| newHeight < gm.getSimGridHeight()) {
@@ -145,6 +148,8 @@ public class SetupScreen extends Screen {
 					gm.resizeSimGrid(newWidth, newHeight);
 
 					gm.setSimStepLimit(newTime);
+					
+					gm.setSleepPeriod(newDelay);
 
 					String str = (String) updateBox.getSelectedItem();
 
@@ -179,6 +184,7 @@ public class SetupScreen extends Screen {
 		updateBox.setSelectedItem(getGuiManager().getCurrentSimUpdater());
 		widthField.setText(gm.getSimGridWidth().toString());
 		heightField.setText(gm.getSimGridHeight().toString());
+		delayField.setText(gm.getSleepPeriod().toString());
 
 		SimulatorGuiManager gm = getGuiManager();
 		int stepLimit = gm.getSimStepLimit();
@@ -229,6 +235,12 @@ public class SetupScreen extends Screen {
 		updateBox = Gui.makeComboBox(new String[] { "Linear", "Atomic",
 				"Priority" }, new MaxSize(200, 40));
 		updateBox.setAlignmentY(LEFT_ALIGNMENT);
+		//TODO working on adding step delay components
+		JLabel delayLabel = Gui.makeLabel("Step delay: ", new MaxSize(100,
+				40), HorizontalAlignment.LEFT);
+		delayField = Gui.makeTextField("1.0", 5, new MaxSize(200, 40),
+				new MinSize(100, 25));
+		delayField.setHorizontalAlignment(SwingConstants.LEFT);
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -273,6 +285,16 @@ public class SetupScreen extends Screen {
 		c.gridy = 2;
 		c.gridwidth = 2;
 		upperPanel.add(updateBox, c);
+		
+		c.gridx = 0;
+		c.gridy = 3;
+		c.gridwidth = 2;
+		upperPanel.add(delayLabel, c);
+		
+		c.gridx = 2;
+		c.gridy = 3;
+		c.gridwidth = 2;
+		upperPanel.add(delayField, c);
 
 		return upperPanel;
 	}
