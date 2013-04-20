@@ -34,7 +34,7 @@ public class Loader {
 	 * The name of the simulation you are loading
 	 */
 	private String name; 
-	
+
 	/**
 	 * Handles ending the simulation
 	 */
@@ -84,7 +84,7 @@ public class Loader {
 			return name; 
 		throw new Exception("No simulation has been loaded"); 
 	}
-	
+
 	/**
 	 * Get the loaded SimulationEnder
 	 * @return A SimulationEnder object
@@ -121,56 +121,49 @@ public class Loader {
 					//Find the appropriate prototype
 					String prototypeName = reader.readLine();
 
-					//This is an actual AgentSnapshot
-					if(!prototypeName.equals("GRID")){
-						Prototype parent = getPrototype(prototypeName);  
+					Prototype parent = getPrototype(prototypeName);  
 
-						//Create the Agent
-						Agent agent = new Agent(grid, parent);
+					//Create the Agent
+					Agent agent = new Agent(grid, parent);
 
-						//Get the Agent's position on the Grid
-						int xpos = Integer.parseInt(reader.readLine()); 
-						int ypos = Integer.parseInt(reader.readLine()); 
+					//Get the Agent's position on the Grid
+					int xpos = Integer.parseInt(reader.readLine()); 
+					int ypos = Integer.parseInt(reader.readLine()); 
 
-						//Add the agent's default fields
-						readLine = reader.readLine(); 
-						while(readLine.substring(0,  13).equals("FieldSnapshot")){
-							String[] tokens = readLine.split(" ");
-							try {
-								agent.addField(tokens[1], tokens[2]);
-							} catch (ElementAlreadyContainedException e) {
-								System.out.println("Agent Field already exists"); 
-								System.out.println(tokens[1] + " " + tokens[2]); 
-								e.printStackTrace();
-							}
-							readLine = reader.readLine(); 
+					//Add the agent's default fields
+					readLine = reader.readLine(); 
+					while(readLine.substring(0,  13).equals("FieldSnapshot")){
+						String[] tokens = readLine.split("~");
+						try {
+							agent.addField(tokens[1], tokens[2]);
+						} catch (ElementAlreadyContainedException e) {
+							System.out.println("Agent Field already exists"); 
+							System.out.println(tokens[1] + " " + tokens[2]); 
+							e.printStackTrace();
 						}
-						
-						System.out.println("Adding Agent"); 
-						grid.addAgent(agent, xpos, ypos); 
-					}
-					//This is a snapshot storing grid global variables
-					else{ //prototypeName.equals("GRID")
-						//Skip the x and y position - doesn't matter
-						reader.readLine(); 
-						reader.readLine(); 
-
-						//Add the Grid's global variables
 						readLine = reader.readLine(); 
-						while(readLine.substring(0,  13).equals("FieldSnapshot")){
-							String[] tokens = readLine.split(" ");
-							try {
-								grid.addField(tokens[1], tokens[2]);
-							} catch (ElementAlreadyContainedException e) {
-								System.out.println("Grid Field already exists"); 
-								e.printStackTrace();
-							}
-							readLine = reader.readLine(); 
-						}
-						
-						System.out.println("Adding Grid Global"); 
 					}
+
+					System.out.println("Adding Agent"); 
+					grid.addAgent(agent, xpos, ypos); 
 				}
+
+				else if(readLine.equals("GlobalVariables")){ 
+					readLine = reader.readLine(); 
+					while(readLine.substring(0,  7).equals("GLOBAL")){
+						String[] tokens = readLine.split("~");
+						try {
+							grid.addField(tokens[1], tokens[2]);
+						} catch (ElementAlreadyContainedException e) {
+							System.out.println("Grid Field already exists"); 
+							e.printStackTrace();
+						}
+						readLine = reader.readLine(); 
+					}
+
+					System.out.println("Adding Grid Global"); 
+				}
+				
 				else if(readLine.equals("PrototypeSnapshot")){
 					//Parse the required prototype data
 					String name = reader.readLine(); 
@@ -183,7 +176,7 @@ public class Loader {
 					//Add the prototype's default fields
 					readLine = reader.readLine(); 
 					while(readLine.substring(0,  13).equals("FieldSnapshot")){
-						String[] tokens = readLine.split(" ");
+						String[] tokens = readLine.split("~");
 						try {
 							proto.addField(tokens[1], tokens[2]);
 						} catch (ElementAlreadyContainedException e) {
@@ -200,16 +193,16 @@ public class Loader {
 								new Expression(tokens[3]), new Expression(tokens[4])));
 						readLine = reader.readLine(); 
 					}
-					
+
 					System.out.println("Adding Prototype"); 
 					prototypes.add(proto); 
 				}
 				else if(readLine.equals("EndConditions")){
 					simEnder = new SimulationEnder(); 
-					
+
 					readLine = reader.readLine(); 					
 					simEnder.setStepLimit(Integer.parseInt(readLine));
-					
+
 					readLine = reader.readLine(); 
 					while(readLine.substring(0, 4).equals("POP")){
 						String[] tokens = readLine.split("~"); 
@@ -241,7 +234,7 @@ public class Loader {
 		simulationLoaded = true; 
 		System.out.println("Load Complete"); 
 	}
-	
+
 	/**
 	 * Load a Prototype from a file
 	 * @param filename The name of the file with the saved Prototype
@@ -251,13 +244,13 @@ public class Loader {
 		File file = f; 
 		BufferedReader reader = null;
 		Prototype proto = null; 
-		
+
 		try {
 			reader = new BufferedReader(new FileReader(file));
-			
+
 			//Skip the "PrototypeSnapshot" header
 			String readLine = reader.readLine(); 
-			
+
 			//Parse the required prototype data
 			String name = reader.readLine(); 
 			Color color = new Color(Integer.parseInt(reader.readLine()));
@@ -286,7 +279,7 @@ public class Loader {
 						new Expression(tokens[3]), new Expression(tokens[4])));
 				readLine = reader.readLine(); 
 			}
-			
+
 			System.out.println("Loaded Prototype"); 
 		}
 		catch (FileNotFoundException e) {
@@ -303,7 +296,7 @@ public class Loader {
 				throw new RuntimeException("Could not close stream", e);
 			}
 		}
-		
+
 		return proto;
 	}
 
