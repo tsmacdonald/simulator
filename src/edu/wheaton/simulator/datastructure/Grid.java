@@ -260,40 +260,6 @@ public class Grid extends Entity implements Iterable<Agent> {
 		}
 		return false;
 	}
-	
-	/**
-	 * Makes a new Layer.
-	 * 
-	 * @param fieldName
-	 *            The name of the Field that the Layer will represent
-	 * @param c
-	 *            The Color that will be shaded differently to represent Field
-	 *            values
-	 */
-	public static void newLayer(String fieldName, Color c) {
-		Layer.getInstance().setFieldName(fieldName);
-		Layer.getInstance().setColor(c);
-		Layer.getInstance().resetMinMax();
-	}
-
-	/**
-	 * Resets the min/max values of the layer and then loops through the grid to
-	 * set's a new Layer's min/max values PRECONDITION: The newLayer method has
-	 * been called to setup a layer
-	 * 
-	 * @throws EvaluationException
-	 */
-	public void setLayerExtremes() throws EvaluationException {
-		Layer.getInstance().resetMinMax();
-		for (Iterator<Agent> it = iterator(); it.hasNext();) {
-			Agent current = it.next();
-			if (current != null) {
-				Field currentField = current.getField(Layer.getInstance()
-						.getFieldName());
-				Layer.getInstance().setExtremes(currentField);
-			}
-		}
-	}
 
 	/**
 	 * Adds an observer to the grid's list
@@ -312,12 +278,11 @@ public class Grid extends Entity implements Iterable<Agent> {
 		synchronized (this) {
 			copy = new Grid(getWidth(), getHeight());
 
-			// set fields
+			// set grid fields
 			for (String current : getFieldMap().keySet()) {
 				try {
 					copy.addField(current, getFieldValue(current));
-				} catch (ElementAlreadyContainedException e) {
-				}
+				} catch (ElementAlreadyContainedException e) { }
 			}
 			// add Agents
 			for (Agent current : this)
