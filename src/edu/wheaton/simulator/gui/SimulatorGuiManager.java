@@ -11,6 +11,7 @@ import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.Loader;
@@ -54,6 +55,10 @@ public class SimulatorGuiManager {
 
 	public GridPanel getGridPanel(){
 		return gridPanel;
+	}
+	
+	public static Expression makeExpression(String str){
+		return new Expression(str);
 	}
 
 	public void load(String name,int x, int y) {

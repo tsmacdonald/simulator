@@ -30,7 +30,6 @@ import javax.swing.event.ChangeListener;
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
-import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.gui.BoxLayoutAxis;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
@@ -622,8 +621,8 @@ public class EditEntityScreen extends Screen {
 	private Trigger generateTrigger(int i) {
 		return new Trigger(triggerNames.get(i).getText(),
 				Integer.parseInt(triggerPriorities.get(i).getText()),
-				new Expression(triggerConditions.get(i).getText()),
-				new Expression(triggerResults.get(i).getText()));
+				SimulatorGuiManager.makeExpression(triggerConditions.get(i).getText()),
+				SimulatorGuiManager.makeExpression(triggerResults.get(i).getText()));
 	}
 
 	private class DeleteFieldListener implements ActionListener {
