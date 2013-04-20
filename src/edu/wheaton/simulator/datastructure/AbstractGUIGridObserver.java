@@ -20,6 +20,7 @@ public abstract class AbstractGUIGridObserver implements GridObserver {
 	 * 
 	 * @param agents
 	 */
+	@Override
 	public abstract void update(Set<AgentAppearance> agents);
 
 }

@@ -16,6 +16,7 @@ public abstract class AbstractStatsGridObserver implements GridObserver {
 	 * 
 	 * @param grid
 	 */
+	@Override
 	public abstract void update(Grid grid);
 
 	@Override
