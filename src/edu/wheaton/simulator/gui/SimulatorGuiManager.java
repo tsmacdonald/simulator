@@ -45,8 +45,8 @@ public class SimulatorGuiManager {
 
 	public SimulatorGuiManager(Display d) {
 		canSpawn = true;
-		initSim("New Simulation",10, 10);
 		gridPanel = new GridPanel(this);
+		initSim("New Simulation",10, 10);
 		sm = new ScreenManager(d);
 		sm.putScreen("Title", new TitleScreen(this));
 		sm.putScreen("New Simulation", new NewSimulationScreen(this));
