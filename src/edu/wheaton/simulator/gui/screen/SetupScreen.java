@@ -119,8 +119,8 @@ public class SetupScreen extends Screen {
 					int newDelay = Integer.parseInt(delayField.getText());
 					if (newWidth <= 0 || newHeight <= 0 || newTime <= 0 || newDelay <= 0)
 						throw new NumberFormatException();
-					if (newWidth < gm.getSimGridWidth()
-							|| newHeight < gm.getSimGridHeight()) {
+					if (newWidth < gm.getGridWidth()
+							|| newHeight < gm.getGridHeight()) {
 						int selection = JOptionPane
 								.showConfirmDialog(
 										null,
@@ -132,36 +132,36 @@ public class SetupScreen extends Screen {
 												+ "\nneed to be checked for bugs after resizing."
 												+ "\n\nIf you are sure you want to apply these changes, click 'Ok', otherwise click 'No' or 'Cancel'");
 						if (selection == JOptionPane.YES_OPTION)
-							gm.resizeSimGrid(newWidth, newHeight);
+							gm.resizeGrid(newWidth, newHeight);
 						else
 							return;
 					}
 
 					if (nameField.getText().equals(""))
 						throw new Exception("All fields must have input");
-					gm.setSimName(nameField.getText());
+					gm.setName(nameField.getText());
 
 					for (int i = 0; i < values.size(); i++)
 						if (values.get(i).getText().equals(""))
 							throw new Exception("All fields must have input.");
 
-					gm.resizeSimGrid(newWidth, newHeight);
+					gm.resizeGrid(newWidth, newHeight);
 
-					gm.setSimStepLimit(newTime);
+					gm.setStepLimit(newTime);
 					
 					gm.setSleepPeriod(newDelay);
 
 					String str = (String) updateBox.getSelectedItem();
 
 					if (str.equals("Linear"))
-						gm.setSimLinearUpdate();
+						gm.setLinearUpdate();
 					else if (str.equals("Atomic"))
-						gm.setSimAtomicUpdate();
+						gm.setAtomicUpdate();
 					else
-						gm.setSimPriorityUpdate(0, 50);
+						gm.setPriorityUpdate(0, 50);
 
 					for (int i = 0; i < values.size(); i++) {
-						gm.setSimPopLimit(
+						gm.setPopLimit(
 								(String) (agentTypes.get(i).getSelectedItem()),
 								Integer.parseInt(values.get(i).getText()));
 					}
@@ -181,20 +181,20 @@ public class SetupScreen extends Screen {
 	public void load() {
 		reset();
 		nameField.setText(getGuiManager().getSimName());
-		updateBox.setSelectedItem(getGuiManager().getCurrentSimUpdater());
-		widthField.setText(gm.getSimGridWidth().toString());
-		heightField.setText(gm.getSimGridHeight().toString());
+		updateBox.setSelectedItem(getGuiManager().getCurrentUpdater());
+		widthField.setText(gm.getGridWidth().toString());
+		heightField.setText(gm.getGridHeight().toString());
 		delayField.setText(gm.getSleepPeriod().toString());
 
 		SimulatorGuiManager gm = getGuiManager();
-		int stepLimit = gm.getSimStepLimit();
+		int stepLimit = gm.getStepLimit();
 		agentNames = Simulator.prototypeNames().toArray(agentNames);
 		timeField.setText(stepLimit + "");
 		// to prevent accidental starting simulation with time limit of 0
 		if (stepLimit <= 0)
 			timeField.setText(10 + "");
 
-		ImmutableMap<String, Integer> popLimits = gm.getSimPopLimits();
+		ImmutableMap<String, Integer> popLimits = gm.getPopLimits();
 
 		if (popLimits.size() == 0) {
 			conListPanel.add(addConditionButton);
@@ -414,7 +414,7 @@ public class SetupScreen extends Screen {
 			String str = (String) agentTypes.get(n).getSelectedItem();
 
 			if (str != null)
-				getGuiManager().removeSimPopLimit(str);
+				getGuiManager().removePopLimit(str);
 
 			conListPanel.remove(subPanels.get(n));
 			agentTypes.remove(n);

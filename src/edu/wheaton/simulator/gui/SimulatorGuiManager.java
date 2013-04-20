@@ -46,7 +46,7 @@ public class SimulatorGuiManager {
 	public SimulatorGuiManager(Display d) {
 		canSpawn = true;
 		gridPanel = new GridPanel(this);
-		initSim("New Simulation",10, 10);
+		load("New Simulation",10, 10);
 		sm = new ScreenManager(d);
 		sm.putScreen("Title", new TitleScreen(this));
 		sm.putScreen("New Simulation", new NewSimulationScreen(this));
@@ -78,8 +78,7 @@ public class SimulatorGuiManager {
 		return gridPanel;
 	}
 
-	public void initSim(String name,int x, int y) {
-		System.out.println("Reset prototypes");
+	public void load(String name,int x, int y) {
 		simulator = Simulator.getInstance();
 		simulator.load(name, x,y,se);
 		simulator.addGridObserver(gpo);
@@ -96,40 +95,40 @@ public class SimulatorGuiManager {
 		return simulator;
 	}
 
-	public Field getSimGlobalField(String name){
+	public Field getGlobalField(String name){
 		return getSim().getGlobalField(name);
 	}
 
-	public void addSimGlobalField(String name, String value){
+	public void addGlobalField(String name, String value){
 		getSim().addGlobalField(name, value);
 	}
 
-	public void removeSimGlobalField(String name){
+	public void removeGlobalField(String name){
 		getSim().removeGlobalField(name);
 	}
 
-	private SimulationEnder getSimEnder() {
+	private SimulationEnder getEnder() {
 		return se;
 	}
 
-	public void setSimStepLimit(int maxSteps){
-		getSimEnder().setStepLimit(maxSteps);
+	public void setStepLimit(int maxSteps){
+		getEnder().setStepLimit(maxSteps);
 	}
 
-	public Integer getSimStepLimit(){
-		return getSimEnder().getStepLimit();
+	public Integer getStepLimit(){
+		return getEnder().getStepLimit();
 	}
 
-	public void setSimPopLimit(String typeName, int maxPop){
-		getSimEnder().setPopLimit(typeName, maxPop);
+	public void setPopLimit(String typeName, int maxPop){
+		getEnder().setPopLimit(typeName, maxPop);
 	}
 
-	public ImmutableMap<String, Integer> getSimPopLimits(){
-		return getSimEnder().getPopLimits();
+	public ImmutableMap<String, Integer> getPopLimits(){
+		return getEnder().getPopLimits();
 	}
 
-	public void removeSimPopLimit(String typeName){
-		getSimEnder().removePopLimit(typeName);
+	public void removePopLimit(String typeName){
+		getEnder().removePopLimit(typeName);
 	}
 
 	public StatisticsManager getStatManager(){
@@ -142,80 +141,80 @@ public class SimulatorGuiManager {
 
 	public void updateGuiManager(String nos, int width, int height){
 		getSim().setName(nos);
-		resizeSimGrid(width, height);
+		resizeGrid(width, height);
 	}
 
-	public boolean isSimRunning() {
+	public boolean isRunning() {
 		return simulationIsRunning;
 	}
 
-	public void setSimRunning(boolean b) {
+	public void setRunning(boolean b) {
 		simulationIsRunning = b;
 	}
 
-	public void setSimStarted(boolean b) {
+	public void setStarted(boolean b) {
 		hasStarted = b;
 	}
 
-	public boolean hasSimStarted() {
+	public boolean hasStarted() {
 		return hasStarted;
 	}
 
-	public Integer getSimGridHeight(){
+	public Integer getGridHeight(){
 		return getSim().getHeight();
 	}
 
-	public void resizeSimGrid(int width,int height){
+	public void resizeGrid(int width,int height){
 		getSim().resizeGrid(width, height);
 	}
 
-	public Integer getSimGridWidth(){
+	public Integer getGridWidth(){
 		return getSim().getWidth();
 	}
 
-	public Agent getSimAgent(int x, int y){
+	public Agent getAgent(int x, int y){
 		return getSim().getAgent(x, y);
 	}
 
-	public void removeSimAgent(int x, int y){
+	public void removeAgent(int x, int y){
 		getSim().removeAgent(x, y);
 	}
 
-	public void initSampleSims(){
+	public void initSampleAgents(){
 		getSim().initSamples();
 	}
 
-	public void initGameOfLifeSim(){
+	public void initGameOfLife(){
 		getSim().initGameOfLife();
 	}
 
-	public void initRockPaperScissorsSim(){
+	public void initRockPaperScissors(){
 		getSim().initRockPaperScissors();
 	}
 
-	public void setSimLinearUpdate(){
+	public void setLinearUpdate(){
 		getSim().setLinearUpdate();
 	}
 
-	public void setSimAtomicUpdate(){
+	public void setAtomicUpdate(){
 		getSim().setAtomicUpdate();
 	}
 
-	public void setSimPriorityUpdate(int a, int b){
+	public void setPriorityUpdate(int a, int b){
 		getSim().setPriorityUpdate(a, b);
 	}
 
-	public String getCurrentSimUpdater(){
+	public String getCurrentUpdater(){
 		return getSim().currentUpdater();
 	}
 
-	public void pauseSim(){
-		setSimRunning(false);
+	public void pause(){
+		setRunning(false);
 		canSpawn = true;
 		simulator.pause();
 	}
 
-	public boolean canSimSpawn() {
+	public boolean canSpawn() {
 		return canSpawn;
 	}
 
@@ -223,7 +222,7 @@ public class SimulatorGuiManager {
 		return getSim().addAgent(prototypeName, x, y);
 	}
 
-	public void loadSim() {
+	public void load() {
 		int returnVal = fc.showOpenDialog(null);
 		String fileName = "";
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -237,14 +236,14 @@ public class SimulatorGuiManager {
 		
 	}
 
-	public void saveSim(String fileName) {
+	public void save(String fileName) {
 		//TODO get statistics team to provide a 'saveSim(String fileName)' method
 		//statMan.saveSimulation(fileName);
 	}
 
-	public void startSim(){
-		setSimRunning(true);
-		setSimStarted(true);
+	public void start(){
+		setRunning(true);
+		setStarted(true);
 		canSpawn = false;
 		simulator.play();
 	}
@@ -275,7 +274,7 @@ public class SimulatorGuiManager {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String fileName = JOptionPane.showInputDialog("Please enter file name: ");
-				saveSim(fileName);
+				save(fileName);
 			}
 
 		}
@@ -285,7 +284,7 @@ public class SimulatorGuiManager {
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				loadSim();
+				load();
 			}
 		}
 				));
@@ -293,7 +292,7 @@ public class SimulatorGuiManager {
 		menu.add(Gui.makeMenuItem("Exit",new ActionListener(){ 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				guiManager.setSimRunning(false);
+				guiManager.setRunning(false);
 				System.exit(0);
 			}
 		}));
@@ -333,7 +332,7 @@ public class SimulatorGuiManager {
 		return menu;
 	}
 
-	public void setSimName(String name) {
+	public void setName(String name) {
 		getSim().setName(name);
 	}
 	

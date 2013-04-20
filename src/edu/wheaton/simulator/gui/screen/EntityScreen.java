@@ -47,7 +47,7 @@ public class EntityScreen extends Screen {
 		entityList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent le) {
-				edit.setEnabled(!gm.hasSimStarted());
+				edit.setEnabled(!gm.hasStarted());
 			}
 		});
 		delete = Gui.makeButton("Delete", null, new DeleteListener());
@@ -56,8 +56,8 @@ public class EntityScreen extends Screen {
 		entityList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				edit.setEnabled(!gm.hasSimStarted());
-				delete.setEnabled(!gm.hasSimStarted());
+				edit.setEnabled(!gm.hasStarted());
+				delete.setEnabled(!gm.hasStarted());
 				((ViewSimScreen) gm.getScreenManager().getScreen(
 						"View Simulation")).setSpawn(true);
 			}
@@ -93,7 +93,7 @@ public class EntityScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		delete.setEnabled(getGuiManager().hasSimStarted() ? false : true);
+		delete.setEnabled(getGuiManager().hasStarted() ? false : true);
 		Set<String> entities = Simulator.prototypeNames();
 		for (String s : entities)
 			entityList.addItem(s);

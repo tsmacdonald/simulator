@@ -94,7 +94,7 @@ public class EditFieldScreen extends Screen {
 		//edit listener should call this?
 		reset();
 		nameField.setText(n);
-		initValue.setText(getGuiManager().getSimGlobalField(n).getValue());
+		initValue.setText(getGuiManager().getGlobalField(n).getValue());
 		prevName = n;
 	}
 
@@ -120,11 +120,11 @@ public class EditFieldScreen extends Screen {
 					throw new Exception("All fields must have input");
 				}
 				if (FieldScreen.getEditing()){
-					gm.removeSimGlobalField(prevName);
-					gm.addSimGlobalField(nameFieldText,initValueText);
+					gm.removeGlobalField(prevName);
+					gm.addGlobalField(nameFieldText,initValueText);
 				}
 				else
-					gm.addSimGlobalField(nameFieldText,initValueText);
+					gm.addGlobalField(nameFieldText,initValueText);
 			} catch (Exception e) {
 				toMove = false;
 				JOptionPane.showMessageDialog(null, e.getMessage());

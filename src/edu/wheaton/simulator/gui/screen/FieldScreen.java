@@ -112,8 +112,8 @@ public class FieldScreen extends Screen {
 	private class ListListener implements ListSelectionListener {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			edit.setEnabled(getGuiManager().hasSimStarted() ? false : true); 
-			delete.setEnabled(getGuiManager().hasSimStarted() ? false : true); 
+			edit.setEnabled(getGuiManager().hasStarted() ? false : true); 
+			delete.setEnabled(getGuiManager().hasStarted() ? false : true); 
 		}
 	}
 
@@ -128,7 +128,7 @@ public class FieldScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = fields.getSelectedIndex();
-			getGuiManager().removeSimGlobalField((String)fields.getSelectedValue());
+			getGuiManager().removeGlobalField((String)fields.getSelectedValue());
 			fields.removeItem(index);
 			int size = fields.getNumItems();
 			if(size == 0) {

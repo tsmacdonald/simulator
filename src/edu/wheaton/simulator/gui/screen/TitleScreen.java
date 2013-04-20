@@ -60,7 +60,7 @@ public class TitleScreen extends Screen {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				getGuiManager().loadSim();
+				getGuiManager().load();
 			}
 		});
 		loadButton.setPreferredSize(new Dimension(200, 70));

@@ -94,19 +94,19 @@ public class ViewSimScreen extends Screen {
 		gm.getGridPanel().addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				if (getGuiManager().canSimSpawn()) {
+				if (getGuiManager().canSpawn()) {
 					int standardSize = Math.min(gm.getGridPanel().getWidth()
-							/ gm.getSimGridWidth(), gm.getGridPanel()
-							.getHeight() / gm.getSimGridHeight());
+							/ gm.getGridWidth(), gm.getGridPanel()
+							.getHeight() / gm.getGridHeight());
 
 					int x = me.getX() / standardSize;
 					int y = me.getY() / standardSize;
 					if (canSpawn) {
-						if (gm.getSimAgent(x, y) == null) {
+						if (gm.getAgent(x, y) == null) {
 							gm.addAgent(entitiesScreen.getList()
 									.getSelectedValue().toString(), x, y);
 						} else {
-							gm.removeSimAgent(x, y);
+							gm.removeAgent(x, y);
 						}
 					}
 					gm.getGridPanel().repaint();
@@ -173,7 +173,7 @@ public class ViewSimScreen extends Screen {
 				"Pause", null, new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						getGuiManager().pauseSim();
+						getGuiManager().pause();
 						canSpawn = true;
 					}
 				}), Gui.makeButton("Statistics", null,
@@ -192,7 +192,7 @@ public class ViewSimScreen extends Screen {
 				SimulatorGuiManager gm = getGuiManager();
 				canSpawn = false;
 				gm.getGridPanel().repaint();	
-				gm.startSim();
+				gm.start();
 				
 			}
 		});
