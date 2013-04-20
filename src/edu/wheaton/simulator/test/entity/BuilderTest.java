@@ -6,14 +6,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
 
 public class BuilderTest {
 
-	private Grid grid;
 	private Prototype prototype;
 	private Trigger.Builder builder;
 	private Trigger trigger;
@@ -21,7 +19,6 @@ public class BuilderTest {
 	@Before
 	public void setUp() {
 		try{
-			grid = new Grid(1,1);
 			prototype = new Prototype("test");
 			prototype.addField("weight", "1");
 			prototype.addField("health", "10");

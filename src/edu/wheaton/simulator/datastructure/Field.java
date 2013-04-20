@@ -1,4 +1,6 @@
 /**
+ * Field.java
+ * 
  * Field class for modeling variables. The name and type of the field will not
  * be changeable throughout the life of the field. The value of the field will
  * be changeable.
