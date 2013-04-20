@@ -1,7 +1,9 @@
 package edu.wheaton.simulator.test.statistics;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 import junit.framework.Assert;
@@ -46,7 +48,7 @@ public class LoaderTest {
 	@Test
 	public void testLoadSimulation() throws Exception {
 		Loader l = new Loader();
-		l.loadSimulation(new File("SimulationState.txt"));
+		l.loadSimulation(new File("/homes/grant.hensel/Software Development/simulations/SimulationState.txt"));
 		System.out.println("Loaded"); 
 		grid = l.getGrid(); 
 		prototypes = l.getPrototypes(); 
@@ -58,7 +60,19 @@ public class LoaderTest {
 	}
 	
 	@Test
-	public void testLoadPrototype(){
+	public void testLoadPrototype() throws FileNotFoundException{
+		Loader l = new Loader(); 
+		Prototype proto = null; 
+		File loadFile = new File("/homes/grant.hensel/Software Development/prototypes/Prototype 1.txt"); 
 		
+		//Print loadFile contents for debugging 
+		System.out.println("\nLoad File Contents:"); 
+		Scanner s = new Scanner(loadFile); 
+		while(s.hasNext())
+			System.out.println(s.nextLine()); 
+		
+		proto = l.loadPrototype(loadFile);
+		Assert.assertNotNull(proto); 
+		Assert.assertEquals("Prototype 1", proto.getName()); 
 	}	
 }

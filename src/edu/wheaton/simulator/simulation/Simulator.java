@@ -285,8 +285,9 @@ public class Simulator {
 	 */
 	public boolean addAgent(String prototypeName, int x, int y) {
 		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
+		boolean toReturn = simulationGrid().addAgent(toAdd, x, y);
 		simulation.notifyObservers(layerRunning.get());
-		return simulationGrid().addAgent(toAdd, x, y);
+		return toReturn;
 	}
 
 	/**
@@ -300,8 +301,9 @@ public class Simulator {
 	 */
 	public boolean addAgent(String prototypeName) {
 		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
+		boolean toReturn = simulationGrid().addAgent(toAdd);
 		simulation.notifyObservers(layerRunning.get());
-		return simulationGrid().addAgent(toAdd);
+		return toReturn;
 	}
 
 	/**

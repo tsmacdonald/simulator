@@ -11,6 +11,7 @@ import net.sourceforge.jeval.VariableResolver;
 import net.sourceforge.jeval.function.FunctionException;
 import edu.wheaton.simulator.behavior.CloneAgentAtPositionBehavior;
 import edu.wheaton.simulator.behavior.CloneBehavior;
+import edu.wheaton.simulator.behavior.ClonePrototype;
 import edu.wheaton.simulator.behavior.DieBehavior;
 import edu.wheaton.simulator.behavior.KillBehavior;
 import edu.wheaton.simulator.behavior.MoveBehavior;
@@ -118,7 +119,8 @@ public class Expression {
 		this.importFunction(new IsValidCoord());
 		this.importFunction(new CloneAgentAtPositionBehavior());
 		this.importFunction(new SetFieldOfAgentBehavior());
-		
+		this.importFunction(new ClonePrototype());
+
 		//make a hashmap of names and actual objects.
 		initializeFunctions();
 	}
@@ -133,9 +135,11 @@ public class Expression {
 		behaviorFunctions.put("move", new MoveBehavior());
 		behaviorFunctions.put("setField", new SetFieldBehavior());
 		behaviorFunctions.put("setFieldOfAgent", new SetFieldOfAgentBehavior());
+		behaviorFunctions.put("clonePrototype", new ClonePrototype());	
 		conditionFunctions.put("getFieldOfAgent", new GetFieldOfAgentAt());
 		conditionFunctions.put("isSlotOpen", new IsSlotOpen());
 		conditionFunctions.put("isValidCoord", new IsValidCoord());	
+
 	}
 
 	/**
