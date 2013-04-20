@@ -43,7 +43,7 @@ public class CloneBehavior extends AbstractBehavior {
 		Grid grid = target.getGrid();
 		
 		if(grid.isValidCoord(x, y) && grid.getAgent(x,y)==null){
-			grid.addAgent(target.getPrototype().createAgent(), x, y);
+			grid.addAgent(target.getPrototype().createAgent(grid), x, y);
 			return Expression.TRUE;
 		}
 		return Expression.FALSE;

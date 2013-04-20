@@ -23,7 +23,7 @@ import edu.wheaton.simulator.gui.GuiList;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class FieldScreen extends Screen {
 
@@ -41,7 +41,7 @@ public class FieldScreen extends Screen {
 
 	//TODO prevent clicking edit when no object is selected 
 
-	public FieldScreen(final SimulatorGuiManager gm) {
+	public FieldScreen(final SimulatorFacade gm) {
 		super(gm);
 		editing = false;
 		this.setLayout(new GridBagLayout());
@@ -100,7 +100,7 @@ public class FieldScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		Object[] fieldsA = getGuiManager().getSimGridFieldMap().keySet().toArray();
+		Object[] fieldsA = getGuiManager().getGlobalFieldMap().keySet().toArray();
 		for(Object s: fieldsA){
 			fields.addItem(s.toString());
 		}
@@ -112,8 +112,8 @@ public class FieldScreen extends Screen {
 	private class ListListener implements ListSelectionListener {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			edit.setEnabled(getGuiManager().hasSimStarted() ? false : true); 
-			delete.setEnabled(getGuiManager().hasSimStarted() ? false : true); 
+			edit.setEnabled(getGuiManager().hasStarted() ? false : true); 
+			delete.setEnabled(getGuiManager().hasStarted() ? false : true); 
 		}
 	}
 
@@ -128,7 +128,7 @@ public class FieldScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = fields.getSelectedIndex();
-			getGuiManager().removeSimGlobalField((String)fields.getSelectedValue());
+			getGuiManager().removeGlobalField((String)fields.getSelectedValue());
 			fields.removeItem(index);
 			int size = fields.getNumItems();
 			if(size == 0) {

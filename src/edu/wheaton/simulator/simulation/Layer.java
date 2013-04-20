@@ -126,18 +126,22 @@ public class Layer {
 	 * @throws EvaluationException
 	 * 
 	 */
-	public void setExtremes(Field f) throws EvaluationException {
+	public void setExtremes(Field f) {
 		if (min == null && max == null) {
 			min = f;
 			max = f;
 			return;
 		}
 
-		if (Expression.evaluateBool(f.getValue() + "<" + this.min.getValue()))
-			this.min = f;
-		else if (Expression.evaluateBool(f.getValue() + ">"
-				+ this.max.getValue()))
-			this.max = f;
+		try {
+			if (Expression.evaluateBool(f.getValue() + "<" + this.min.getValue()))
+				this.min = f;
+			else if (Expression.evaluateBool(f.getValue() + ">"
+					+ this.max.getValue()))
+				this.max = f;
+		} catch(EvaluationException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

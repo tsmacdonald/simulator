@@ -46,7 +46,7 @@ public class PrototypeSnapshotCase {
 	public void setUp() {
 		categoryName = "testing";
 		grid = new Grid(10, 10);
-		prototype = new Prototype(grid, "tester");
+		prototype = new Prototype("tester");
 		fields = new HashMap<String, String>();
 		triggers = new HashSet<TriggerSnapshot>();
 		fields.put("Age", "1"); 

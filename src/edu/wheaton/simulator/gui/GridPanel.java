@@ -2,19 +2,17 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
-import net.sourceforge.jeval.EvaluationException;
-import edu.wheaton.simulator.datastructure.Grid;
-import edu.wheaton.simulator.datastructure.GridObserver;
-import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.datastructure.AgentAppearance;
 
-public class GridPanel extends JPanel implements GridObserver {
+public class GridPanel extends JPanel {
 
 	private static final long serialVersionUID = 6168906849044462629L;
 
-	private SimulatorGuiManager gm;
+	private SimulatorFacade gm;
 
 	private int width;
 
@@ -22,11 +20,11 @@ public class GridPanel extends JPanel implements GridObserver {
 	
 	private boolean layers;
 	
-	private Grid grid;
+	private Set<AgentAppearance> grid;
 
-	public GridPanel(SimulatorGuiManager gm) {
+	public GridPanel(SimulatorFacade gm) {
 		this.gm = gm;
-		this.grid = gm.getSimGrid();
+
 		layers = false;
 	}
 
@@ -35,8 +33,8 @@ public class GridPanel extends JPanel implements GridObserver {
 		width = this.getWidth();
 		height = this.getHeight();
 		
-		int gridWidth = gm.getSimGridWidth();
-		int gridHeight = gm.getSimGridHeight();
+		int gridWidth = gm.getGridWidth();
+		int gridHeight = gm.getGridHeight();
 		
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
@@ -56,36 +54,17 @@ public class GridPanel extends JPanel implements GridObserver {
 		
 		width = this.getWidth();
 		height = this.getHeight();
-		
-		int gridWidth = gm.getSimGridWidth();
-		int gridHeight = gm.getSimGridHeight();
-		
+		int gridWidth = gm.getGridWidth();
+		int gridHeight = gm.getGridHeight();
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
-		
 		int squareSize = Math.min(pixelWidth, pixelHeight);
 		
-		if(layers) {
-			try {
-				gm.setSimLayerExtremes();
-			} catch (EvaluationException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		for(Agent agent : grid){
+		for(AgentAppearance agent : grid){
 			if(agent!= null){
-				int x = agent.getPosX();
-				int y = agent.getPosY();
-				
-				if(layers){
-					try {
-						g.setColor(agent.getLayerColor());
-					} catch (EvaluationException e) {
-						e.printStackTrace();
-					}
-				}
-				else{g.setColor(agent.getColor());}
+				int x = agent.getX();
+				int y = agent.getY();
+				g.setColor(agent.getColor());
 				if(squareSize < 9){
 					g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 
 							squareSize, squareSize);
@@ -113,8 +92,8 @@ public class GridPanel extends JPanel implements GridObserver {
 		width = this.getWidth();
 		height = this.getHeight();
 
-		int gridWidth = gm.getSimGridWidth();
-		int gridHeight = gm.getSimGridHeight();
+		int gridWidth = gm.getGridWidth();
+		int gridHeight = gm.getGridHeight();
 
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
@@ -128,17 +107,8 @@ public class GridPanel extends JPanel implements GridObserver {
 				g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), squareSize, squareSize);
 	}
 
-	public void setLayers(boolean args){
-		layers = args;
-	}
-	
-	public void setGrid(Grid grid){
+	public void setAgents(Set<AgentAppearance> grid){
 		this.grid = grid;
 	}
-	
-	@Override
-	public void update(Grid grid){
-		setGrid(grid);
-		repaint();
-	}
+
 }

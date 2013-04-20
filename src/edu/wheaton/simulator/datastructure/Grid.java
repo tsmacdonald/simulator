@@ -9,7 +9,6 @@
  */
 package edu.wheaton.simulator.datastructure;
 
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -20,15 +19,13 @@ import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Entity;
-import edu.wheaton.simulator.simulation.Layer;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class Grid extends Entity implements Iterable<Agent> {
 
 	/**
-	 * The grid of all Agents.
-	 * This was implemented as a multi-dimensional array,
-	 * but now it uses a List of Lists, which is equivalent.
+	 * The grid of all Agents. This was implemented as a multi-dimensional
+	 * array, but now it uses a List of Lists, which is equivalent.
 	 */
 	private Agent[][] grid;
 
@@ -63,10 +60,10 @@ public class Grid extends Entity implements Iterable<Agent> {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
-		//Initialize the ArrayLists.
+
+		// Initialize the ArrayLists.
 		grid = new Agent[width][height];
-		
+
 		updater = new LinearUpdater(this);
 		observers = new HashSet<GridObserver>();
 		step = 0;
@@ -89,24 +86,26 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	public void resizeGrid(int width, int height) {
 		Agent[][] newGrid = new Agent[width][height];
-		
+
 		int currentWidth = grid.length;
 		int currentHeight = 0;
-		if(currentWidth != 0) {
+		if (currentWidth != 0) {
 			currentHeight = grid[0].length;
 		}
-		
+
 		int minWidth = Math.min(width, currentWidth);
 		int minHeight = Math.min(height, currentHeight);
-		
-		for(int i = 0; i < minWidth; i++) {
-			for(int j = 0; j < minHeight; j++) {
-				if(grid[i][j] != null) {
+
+		for (int i = 0; i < minWidth; i++) {
+			for (int j = 0; j < minHeight; j++) {
+				if (grid[i][j] != null) {
 					newGrid[i][j] = grid[i][j];
 				}
 			}
 		}
-		
+
+		updateField("width", width + "");
+		updateField("height", height + "");
 		grid = newGrid;
 	}
 
@@ -141,7 +140,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 			return true;
 		return false;
 	}
-	
+
 	/**
 	 * Checks whether the given x/y position is a valid coordinate (both larger
 	 * than 0 and smaller than width/height respectively)
@@ -260,40 +259,6 @@ public class Grid extends Entity implements Iterable<Agent> {
 		}
 		return false;
 	}
-	
-	/**
-	 * Makes a new Layer.
-	 * 
-	 * @param fieldName
-	 *            The name of the Field that the Layer will represent
-	 * @param c
-	 *            The Color that will be shaded differently to represent Field
-	 *            values
-	 */
-	public static void newLayer(String fieldName, Color c) {
-		Layer.getInstance().setFieldName(fieldName);
-		Layer.getInstance().setColor(c);
-		Layer.getInstance().resetMinMax();
-	}
-
-	/**
-	 * Resets the min/max values of the layer and then loops through the grid to
-	 * set's a new Layer's min/max values PRECONDITION: The newLayer method has
-	 * been called to setup a layer
-	 * 
-	 * @throws EvaluationException
-	 */
-	public void setLayerExtremes() throws EvaluationException {
-		Layer.getInstance().resetMinMax();
-		for (Iterator<Agent> it = iterator(); it.hasNext();) {
-			Agent current = it.next();
-			if (current != null) {
-				Field currentField = current.getField(Layer.getInstance()
-						.getFieldName());
-				Layer.getInstance().setExtremes(currentField);
-			}
-		}
-	}
 
 	/**
 	 * Adds an observer to the grid's list
@@ -307,12 +272,14 @@ public class Grid extends Entity implements Iterable<Agent> {
 	/**
 	 * Notifies all of the observers watching this grid
 	 */
-	public void notifyObservers() {
+	public void notifyObservers(boolean layerRunning) {
 		Grid copy = null;
+		Set<AgentAppearance> agentView = new HashSet<AgentAppearance>();
+
 		synchronized (this) {
 			copy = new Grid(getWidth(), getHeight());
 
-			// set fields
+			// set grid fields
 			for (String current : getFieldMap().keySet()) {
 				try {
 					copy.addField(current, getFieldValue(current));
@@ -320,14 +287,28 @@ public class Grid extends Entity implements Iterable<Agent> {
 				}
 			}
 			// add Agents
-			for (Agent current : this)
+			for (Agent current : this) {
 				copy.addAgent(current.clone(), current.getPosX(),
 						current.getPosY());
+				if (layerRunning)
+					try {
+						agentView.add(new AgentAppearance(current
+								.getLayerColor(), current.getDesign(), current
+								.getPosX(), current.getPosY()));
+					} catch (EvaluationException e) {
+						e.printStackTrace();
+					}
+				else
+					agentView.add(new AgentAppearance(current.getColor(),
+							current.getDesign(), current.getPosX(), current
+									.getPosY()));
+			}
 
 			copy.step = this.step;
 		}
 		for (GridObserver current : observers) {
 			current.update(copy);
+			current.update(agentView);
 		}
 	}
 

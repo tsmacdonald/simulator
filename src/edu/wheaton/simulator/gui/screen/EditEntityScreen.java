@@ -24,10 +24,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
-import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.gui.BoxLayoutAxis;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
@@ -35,8 +37,7 @@ import edu.wheaton.simulator.gui.IconGridPanel;
 import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
-import edu.wheaton.simulator.simulation.Simulator;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class EditEntityScreen extends Screen {
 
@@ -98,7 +99,7 @@ public class EditEntityScreen extends Screen {
 
 	private GridBagConstraints c;
 
-	public EditEntityScreen(final SimulatorGuiManager gm) {
+	public EditEntityScreen(final SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new BorderLayout());
 		editing = false;
@@ -154,7 +155,7 @@ public class EditEntityScreen extends Screen {
 			}
 		});
 
-		IconGridPanel iconPanel = new IconGridPanel(gm);
+		final IconGridPanel iconPanel = new IconGridPanel(gm);
 		iconPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 		iconPanel.setMinimumSize(new Dimension(500, 500));
 		//iconPanel.setAlignmentX(RIGHT_ALIGNMENT);
@@ -164,6 +165,16 @@ public class EditEntityScreen extends Screen {
 		Dimension maxSize = colorPanel.getMaximumSize();
 		maxSize.height += 50;
 		colorPanel.setMaximumSize(maxSize);
+		
+		colorTool.getSelectionModel().addChangeListener( new ChangeListener(){
+
+			@Override
+			public void stateChanged(ChangeEvent ce) {
+				iconPanel.repaint();
+			}
+			
+		});
+		
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -204,6 +215,8 @@ public class EditEntityScreen extends Screen {
 		c.weighty = 1.0;
 		c.gridx = 2;
 		c.gridy = 2;
+		c.ipadx = 500;
+		c.ipady = 500;
 		c.gridwidth = 2;
 		generalPanel.add(iconPanel, c);
 		
@@ -246,7 +259,7 @@ public class EditEntityScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (sendInfo()) {
-					gm.getScreenManager().update(gm.getScreenManager().getScreen("View Simulation"));
+					Gui.getScreenManager().update(Gui.getScreenManager().getScreen("View Simulation"));
 					reset();
 				}
 			}
@@ -349,7 +362,7 @@ public class EditEntityScreen extends Screen {
 
 	public void load(String str) {
 		reset();
-		agent = Simulator.getPrototype(str);
+		agent = gm.getPrototype(str);
 		nameField.setText(agent.getName());
 		colorTool.setColor(agent.getColor());
 
@@ -427,9 +440,9 @@ public class EditEntityScreen extends Screen {
 				throw new Exception("Please enter an Agent name");
 			}
 			if (!editing) {
-				Simulator.createPrototype(nameField.getText(), getGuiManager()
-						.getSimGrid(), colorTool.getColor(), generateBytes());
-				agent = Simulator.getPrototype(nameField.getText());
+				//TODO signature of create prototype needs to not take a grid
+				gm.createPrototype(nameField.getText(), null, colorTool.getColor(), generateBytes());
+				agent = gm.getPrototype(nameField.getText());
 			} else {
 				agent.setPrototypeName(agent.getName(), nameField.getText());
 				agent.setColor(colorTool.getColor());
@@ -608,8 +621,8 @@ public class EditEntityScreen extends Screen {
 	private Trigger generateTrigger(int i) {
 		return new Trigger(triggerNames.get(i).getText(),
 				Integer.parseInt(triggerPriorities.get(i).getText()),
-				new Expression(triggerConditions.get(i).getText()),
-				new Expression(triggerResults.get(i).getText()));
+				SimulatorFacade.makeExpression(triggerConditions.get(i).getText()),
+				SimulatorFacade.makeExpression(triggerResults.get(i).getText()));
 	}
 
 	private class DeleteFieldListener implements ActionListener {

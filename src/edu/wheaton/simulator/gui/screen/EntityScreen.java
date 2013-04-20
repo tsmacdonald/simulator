@@ -26,8 +26,7 @@ import edu.wheaton.simulator.gui.GuiList;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
-import edu.wheaton.simulator.simulation.Simulator;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class EntityScreen extends Screen {
 
@@ -39,7 +38,7 @@ public class EntityScreen extends Screen {
 
 	private JButton edit;
 
-	public EntityScreen(final SimulatorGuiManager gm) {
+	public EntityScreen(final SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
 
@@ -47,7 +46,7 @@ public class EntityScreen extends Screen {
 		entityList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent le) {
-				edit.setEnabled(!gm.hasSimStarted());
+				edit.setEnabled(!gm.hasStarted());
 			}
 		});
 		delete = Gui.makeButton("Delete", null, new DeleteListener());
@@ -56,9 +55,9 @@ public class EntityScreen extends Screen {
 		entityList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				edit.setEnabled(!gm.hasSimStarted());
-				delete.setEnabled(!gm.hasSimStarted());
-				((ViewSimScreen) gm.getScreenManager().getScreen(
+				edit.setEnabled(!gm.hasStarted());
+				delete.setEnabled(!gm.hasStarted());
+				((ViewSimScreen) Gui.getScreenManager().getScreen(
 						"View Simulation")).setSpawn(true);
 			}
 		});
@@ -93,8 +92,8 @@ public class EntityScreen extends Screen {
 	@Override
 	public void load() {
 		reset();
-		delete.setEnabled(getGuiManager().hasSimStarted() ? false : true);
-		Set<String> entities = Simulator.prototypeNames();
+		delete.setEnabled(getGuiManager().hasStarted() ? false : true);
+		Set<String> entities = gm.getPrototypeNames();
 		for (String s : entities)
 			entityList.addItem(s);
 		edit.setEnabled(false);

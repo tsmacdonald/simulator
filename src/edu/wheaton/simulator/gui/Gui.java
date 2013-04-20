@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
@@ -14,15 +15,27 @@ import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public final class Gui {
-
 	
 	private Gui() {
-		// Auto-generated constructor stub
+	}
+	
+	public static void init(){
+		getDisplay().setJMenuBar(makeMenuBar());
+	}
+	
+	public static Display getDisplay(){
+		return Display.getInstance();
+	}
+	
+	public static ScreenManager getScreenManager(){
+		return ScreenManager.getInstance();
 	}
 	
 	public static JButton makeButton(String name, PrefSize prefSize, ActionListener al){
@@ -144,5 +157,87 @@ public final class Gui {
 		menuItem.setBackground(Color.gray);
 		menuItem.setForeground(Color.white);
 		return menuItem;
+	}
+	
+	private static JMenuBar makeMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+
+		JMenu fileMenu = makeFileMenu();
+		//JMenu editMenu = makeEditMenu(sm);
+		JMenu helpMenu = makeHelpMenu();
+
+		menuBar.add(fileMenu);
+		//menuBar.add(editMenu);
+		menuBar.add(helpMenu);
+		return menuBar;
+	}
+
+	private static JMenu makeFileMenu() {
+		JMenu menu = Gui.makeMenu("File");
+
+		menu.add(Gui.makeMenuItem("New Simulation", 
+				new GeneralButtonListener("New Simulation",ScreenManager.getInstance())));
+
+		menu.add(Gui.makeMenuItem("Save Simulation", 
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String fileName = JOptionPane.showInputDialog("Please enter file name: ");
+				SimulatorFacade.getInstance().save(fileName);
+			}
+
+		}
+				));
+
+		menu.add(Gui.makeMenuItem("Load Simulation", 
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				SimulatorFacade.getInstance().load();
+			}
+		}
+				));
+
+		menu.add(Gui.makeMenuItem("Exit",new ActionListener(){ 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SimulatorFacade.getInstance().setRunning(false);
+				System.exit(0);
+			}
+		}));
+
+		return menu;
+	}
+
+//	private static JMenu makeEditMenu() {
+//		JMenu menu = Gui.makeMenu("Edit");
+//
+//		menu.add(Gui.makeMenuItem("Edit Global Fields", 
+//				new GeneralButtonListener("Fields",ScreenManager.getInstance())));
+//
+//		return menu;
+//	}
+
+	private static JMenu makeHelpMenu() {
+		JMenu menu = Gui.makeMenu("Help");
+
+		menu.add(Gui.makeMenuItem("About",new ActionListener(){ 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(getDisplay(),
+						"Wheaton College. Software Development 2013.",
+						"About",JOptionPane.PLAIN_MESSAGE);
+			}
+		}));
+		menu.add(Gui.makeMenuItem("Help Contents",new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(getDisplay(),
+						"Wheaton College. Software Development 2013.\n Help Contents",
+						"Help Contents",JOptionPane.PLAIN_MESSAGE);
+			}
+		}));
+
+		return menu;
 	}
 }

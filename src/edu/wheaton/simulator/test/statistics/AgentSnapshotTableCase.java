@@ -41,11 +41,12 @@ public class AgentSnapshotTableCase {
 	 */
 	@Before
 	public void setUp() {
+		Grid grid = new Grid(10, 10);
 		snaps = new ArrayList<AgentSnapshot>();
 		ids = new HashSet<AgentID>();
-		prototype = new Prototype(new Grid(10, 10), "Tester");
+		prototype = new Prototype("Tester");
 		for(int i = 0; i < 5; i++) {
-			Agent agent = prototype.createAgent();
+			Agent agent = prototype.createAgent(grid);
 			try {
 				agent.addField("name", names[i]);
 				agent.addField("weight", "50");
@@ -105,7 +106,7 @@ public class AgentSnapshotTableCase {
 		}
 		
 		Grid grid = new Grid(10, 10);
-		Prototype gType = new Prototype(grid, "GRID");
+		Prototype gType = new Prototype("GRID");
 		Integer step = 1;
 		AgentSnapshot gSnap = SnapshotFactory.makeGlobalVarSnapshot(grid, gType, step);
 		table.putEntity(gSnap);

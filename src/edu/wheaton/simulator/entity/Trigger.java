@@ -365,6 +365,19 @@ public class Trigger implements Comparable<Trigger> {
 			conditionalValues.add("-- Operations --");
 			behavioralValues.add("-- Operations --");
 
+			converter.put("(",  "(");
+			conditionalValues.add("(");
+			behavioralValues.add("(");
+
+			converter.put(")", ")");
+			conditionalValues.add(")");
+			behavioralValues.add(")");
+
+			converter.put(",", ",");
+			conditionalValues.add(",");
+			behavioralValues.add(",");
+
+		
 			converter.put("OR", "||");
 			conditionalValues.add("OR");
 			behavioralValues.add("OR");
@@ -389,13 +402,6 @@ public class Trigger implements Comparable<Trigger> {
 			conditionalValues.add("<");
 			behavioralValues.add("<");
 
-			converter.put("(",  "(");
-			conditionalValues.add("(");
-			behavioralValues.add("(");
-
-			converter.put(")", ")");
-			conditionalValues.add(")");
-			behavioralValues.add(")");
 		}
 
 		/**
@@ -524,7 +530,7 @@ public class Trigger implements Comparable<Trigger> {
 		 * @return
 		 */
 		public boolean isValid() {
-			Agent test = prototype.createAgent();
+			Agent test = prototype.createAgent(null);
 			try{
 				Expression condition = trigger.getConditions();
 				Expression behavior = trigger.getBehavior();

@@ -22,7 +22,7 @@ public class BuilderTest {
 	public void setUp() {
 		try{
 			grid = new Grid(1,1);
-			prototype = new Prototype(grid, "test");
+			prototype = new Prototype("test");
 			prototype.addField("weight", "1");
 			prototype.addField("health", "10");
 			builder = new Trigger.Builder(prototype);
@@ -76,6 +76,12 @@ public class BuilderTest {
 		builder.addBehavioral("move(5,5)");
 		Assert.assertTrue(builder.isValid() == java.lang.Boolean.TRUE);
 	}
+	
+	@Test
+	public void testIsValidBlank(){
+		Assert.assertTrue(builder.isValid() == java.lang.Boolean.FALSE);
+	}
+	
 	
 	@Test
 	public void testIsValidMethod2(){

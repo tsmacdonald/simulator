@@ -31,7 +31,7 @@ public class ConwaysGameOfLifeTest {
 
 		// grid = new Grid(grid.getWidth(), grid.getHeight());
 
-				Prototype deadBeing = new Prototype(grid, Color.RED, "deadBeing");
+				Prototype deadBeing = new Prototype(Color.RED, "deadBeing");
 
 				// Add fields
 				try {
@@ -82,7 +82,7 @@ public class ConwaysGameOfLifeTest {
 				Prototype.addPrototype(deadBeing);
 
 				// Make a another prototype that is initially alive
-				Prototype aliveBeing = new Prototype(grid, Color.BLUE, "aliveBeing");
+				Prototype aliveBeing = new Prototype(Color.BLUE, "aliveBeing");
 
 				// Add fields
 				try {
@@ -114,9 +114,9 @@ public class ConwaysGameOfLifeTest {
 				for (int x = 0; x < grid.getWidth(); x++) 
 					for(int y = 0; y < grid.getHeight(); y++) {
 						if (x == 4 || x == 5 || y == 5) {
-							grid.addAgent(Prototype.getPrototype("aliveBeing").createAgent(), x, y);
+							grid.addAgent(Prototype.getPrototype("aliveBeing").createAgent(grid), x, y);
 						} else {
-							grid.addAgent(Prototype.getPrototype("deadBeing").createAgent(), x, y);
+							grid.addAgent(Prototype.getPrototype("deadBeing").createAgent(grid), x, y);
 						}
 					}
 	}

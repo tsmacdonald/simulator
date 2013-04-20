@@ -1,18 +1,21 @@
 package edu.wheaton.simulator.gui;
 
-import edu.wheaton.simulator.datastructure.Grid;
-import edu.wheaton.simulator.datastructure.GridObserver;
+import java.util.Set;
 
-public class GridPanelObserver implements GridObserver{
+import edu.wheaton.simulator.datastructure.AbstractGUIGridObserver;
+import edu.wheaton.simulator.datastructure.AgentAppearance;
+
+public class GridPanelObserver extends AbstractGUIGridObserver{
 
 	private GridPanel gp;
 	
 	public GridPanelObserver(GridPanel gp){
 		this.gp = gp;
 	}
-	
-	public void update(Grid grid){
-		gp.setGrid(grid);
+
+	@Override
+	public void update(Set<AgentAppearance> agents) {
+		
 		gp.repaint();
 	}
 }

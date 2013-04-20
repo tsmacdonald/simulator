@@ -11,8 +11,9 @@ package edu.wheaton.simulator.gui.screen;
 
 import javax.swing.JPanel;
 
+import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.ScreenManager;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 /**
  * Each window will have its own subclass of this abstract class, and one
@@ -25,19 +26,19 @@ public abstract class Screen extends JPanel {
 
 	private static final long serialVersionUID = -720613104216646508L;
 
-	protected SimulatorGuiManager gm;
+	protected SimulatorFacade gm;
 	
-	public Screen(SimulatorGuiManager guiManager) {
+	public Screen(SimulatorFacade guiManager) {
 		this.gm = guiManager;
 	}
 	
 	public abstract void load();
 	
-	public SimulatorGuiManager getGuiManager(){
+	public SimulatorFacade getGuiManager(){
 		return gm;
 	}
 	
 	public ScreenManager getScreenManager(){
-		return gm.getScreenManager();
+		return Gui.getScreenManager();
 	}
 }
