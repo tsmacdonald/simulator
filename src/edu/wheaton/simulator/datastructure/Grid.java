@@ -312,6 +312,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 			current.update(copy);
 			current.update(agentView);
 		}
+		System.out.println("NOTIFIED! # agents: " + agentView.size());
 	}
 
 	/**
