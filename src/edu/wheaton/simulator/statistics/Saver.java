@@ -7,7 +7,6 @@ package edu.wheaton.simulator.statistics;
  * @author Grant Hensel, Nico Lasta
  */
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
@@ -15,7 +14,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multiset.Entry;
 
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
@@ -58,18 +56,17 @@ public class Saver {
 		sb.append(height + "\n");  
 
 		//Serialize and write all PrototypeSnapshots to file
-		for(PrototypeSnapshot proto : protoSnaps){
+		for(PrototypeSnapshot proto : protoSnaps)
 			sb.append(proto.serialize() + "\n"); 
-		}
-
-		//Serialize and write all AgentSnapshots to file
-		for(AgentSnapshot snap : agentSnaps){
-			sb.append(snap.serialize() + "\n"); 
-		}
 		
-		for(int i = 0; i < globalFields.size(); i++){
-			//TODO: Make global variables save/load
-		}
+		//Serialize and write all AgentSnapshots to file
+		for(AgentSnapshot snap : agentSnaps)
+			sb.append(snap.serialize() + "\n"); 
+		
+		//Save the Global Fields
+		sb.append("GlobalVariables"); 
+		for (Map.Entry<String, String> entry : globalFields.entrySet())
+		    sb.append("GLOBAL~" + entry.getKey() + "~" + entry.getValue() + "\n");
 
 		//Save the Ending Conditions
 		sb.append(simEnder.serialize()); 
@@ -103,8 +100,8 @@ public class Saver {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 			writer.write(sb.toString());
 			writer.close();
-			if (directory) 
-				System.out.println("File path: " + file.getAbsolutePath()); // TODO Delete
+//			if (directory) 
+//				System.out.println("File path: " + file.getAbsolutePath()); // TODO Delete
 		} catch (IOException e) {
 			System.err.println("Saver.java: IOException");
 			e.printStackTrace();
@@ -112,21 +109,5 @@ public class Saver {
 		
 		//Debugging: What just got saved to file?
 		System.out.println("The following text was just saved to " + filename + ": \n" + sb);
-	}
-
-	/**
-	 * Get the current step in the simulation
-	 * This is assumed to be the highest numbered step stored in the table
-	 * @return The current simulation step
-	 */
-	private int getCurrentStep(AgentSnapshotTable table){
-		Set<Integer> steps = table.getAllSteps();
-		int max = 0; 
-
-		for(Integer i : steps)
-			if(i > max) 
-				max = i; 
-
-		return max; 
 	}
 }

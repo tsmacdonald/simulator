@@ -238,7 +238,7 @@ public class SimulatorGuiManager {
 			//TODO make new simulator
 			//initSim(fileName, x, y);
 			//this should eventually be statMan.loadSim(fileName), once that actually gets written
-			loader.loadSimulation(fileName);
+			//loader.loadSimulation(fileName);
 		}
 
 		
