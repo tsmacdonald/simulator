@@ -227,14 +227,14 @@ public class SetupScreen extends Screen {
 		
 		heightField = Gui.makeTextField("10", 5, MaxSize.NULL,
 				MinSize.NULL);
-		heightField.setAlignmentY(RIGHT_ALIGNMENT);
+		heightField.setAlignmentY(LEFT_ALIGNMENT);
 		
 		JLabel updateLabel = Gui.makeLabel("Update type: ", MaxSize.NULL, null);
 		updateLabel.setAlignmentY(RIGHT_ALIGNMENT);
 		
 		updateBox = Gui.makeComboBox(new String[] { "Linear", "Atomic",
 				"Priority" }, MaxSize.NULL);
-		updateBox.setAlignmentY(RIGHT_ALIGNMENT);
+		updateBox.setAlignmentY(LEFT_ALIGNMENT);
 		
 		//TODO working on adding step delay components
 		JLabel delayLabel = Gui.makeLabel("Step delay: ", MaxSize.NULL, null);
@@ -242,7 +242,7 @@ public class SetupScreen extends Screen {
 		
 		delayField = Gui.makeTextField("1.0", 5, MaxSize.NULL,
 				MinSize.NULL);
-		delayField.setAlignmentY(RIGHT_ALIGNMENT);
+		delayField.setAlignmentY(LEFT_ALIGNMENT);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -267,6 +267,7 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
+		c.fill = c.HORIZONTAL;
 		upperPanel.add(widthField, c);
 
 		c = new GridBagConstraints();
@@ -280,6 +281,7 @@ public class SetupScreen extends Screen {
 		c.gridy = 1;
 		c.insets = new Insets(0, 0, 0, 0);
 		c.anchor = GridBagConstraints.EAST;
+		c.fill = c.HORIZONTAL;
 		upperPanel.add(heightField, c);
 
 		c = new GridBagConstraints();
