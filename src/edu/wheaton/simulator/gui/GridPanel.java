@@ -66,7 +66,6 @@ public class GridPanel extends JPanel {
 						squareSize, squareSize);
 			}
 
-
 			int iconSize = squareSize/7;
 			for (int a = 0; a < 7; a+=1) {
 				for (int b = 0; b <  7; b+=1) {
@@ -82,6 +81,7 @@ public class GridPanel extends JPanel {
 			}
 		}
 	}
+
 
 
 	public void clearAgents(Graphics g) {

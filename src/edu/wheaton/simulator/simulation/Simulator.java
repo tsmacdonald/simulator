@@ -278,7 +278,7 @@ public class Simulator {
 	 * coordinates. This method replaces (kills) anything that is currently in
 	 * that position. The Agent's own position is also updated accordingly.
 	 * 
-	 * @param a
+	 * @param prototypeName
 	 * @param x
 	 * @param y
 	 * @return false if the x/y values are invalid
@@ -296,7 +296,7 @@ public class Simulator {
 	 * currently in that position. The Agent's own position is also updated
 	 * accordingly.
 	 * 
-	 * @param a
+	 * @param prototypeName
 	 * @return returns true if successful
 	 */
 	public boolean addAgent(String prototypeName) {
@@ -306,6 +306,30 @@ public class Simulator {
 		return toReturn;
 	}
 
+	/**
+	 * Fills the entire grid with agents that follow the given prototype name
+	 * 
+	 * @param prototypeName
+	 */
+	public void fillAll(String prototypeName) {
+		for(int x = 0; x < getWidth(); x++) 
+			for(int y = 0; y < getHeight(); y++)
+				addAgent(prototypeName, x, y);
+		simulation.notifyObservers(layerRunning.get());
+	}
+	
+	/**
+	 * Clears all the Agents from the grid
+	 * 
+	 * @param a
+	 */
+	public void clearAll(String prototypeName) {
+		for(int x = 0; x < getWidth(); x++) 
+			for(int y = 0; y < getHeight(); y++)
+				removeAgent(x, y);
+		simulation.notifyObservers(layerRunning.get());
+	}
+	
 	/**
 	 * Returns the Agent at the given coordinates
 	 * 
