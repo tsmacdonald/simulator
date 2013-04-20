@@ -58,7 +58,7 @@ public class SetupScreen extends Screen {
 		this.setLayout(new GridBagLayout());
 
 		JPanel upperPanel = makeUpperPanel();
-		upperPanel.setMinimumSize(new MinSize(385,114));
+		upperPanel.setMinimumSize(new MinSize(420,114));
 		
 		JPanel lowerPanel = makeLowerPanel();
 		lowerPanel.setMinimumSize(new MinSize(398,70));
@@ -70,7 +70,7 @@ public class SetupScreen extends Screen {
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
-		c.gridy = 3;
+		c.gridy = c.RELATIVE;
 		c.insets = new Insets(20,20,20,20);
 		this.add(lowerPanel, c);
 
