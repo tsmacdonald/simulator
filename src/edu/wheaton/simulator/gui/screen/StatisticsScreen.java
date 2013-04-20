@@ -34,11 +34,11 @@ public class StatisticsScreen extends Screen {
 
 	private JPanel displayPanel; 
 
-	private JComboBox prototypes; 
+	private JComboBox agentTypeList; 
 
-	private JComboBox displayTypes; 
+	private JComboBox analysisTypeList; 
 
-	private JComboBox fields; 
+	private JComboBox fieldTypeList; 
 
 	private SimulatorFacade gm; 
 	
@@ -70,37 +70,37 @@ public class StatisticsScreen extends Screen {
 		add(displayPanel, gbc_displayPanel);
 
 		//Setup agentList -- The ComboBox which lists possible categories of agents to view.
-		prototypes = new JComboBox();
+		agentTypeList = new JComboBox();
 		GridBagConstraints gbc_agentList = new GridBagConstraints();
 		//Setup agentList's GridBagConstraints
 		gbc_agentList.insets = new Insets(0, 30, 10, 5);
 		gbc_agentList.fill = GridBagConstraints.HORIZONTAL;
 		gbc_agentList.gridx = 0;
 		gbc_agentList.gridy = 1;
-		add(prototypes, gbc_agentList);
-		setPrototypeListener(prototypes);
+		add(agentTypeList, gbc_agentList);
+		setPrototypeListener(agentTypeList);
 
 		//Setup displayList -- The ComboBox which lists possible ways of viewing the selected population.
-		displayTypes = new JComboBox();
+		analysisTypeList = new JComboBox();
 		GridBagConstraints gbc_displayList = new GridBagConstraints();
 		//Setup displayList's GridBagConstraints
 		gbc_displayList.insets = new Insets(0, -5, 10, 5);
 		gbc_displayList.fill = GridBagConstraints.HORIZONTAL;
 		gbc_displayList.gridx = 1;
 		gbc_displayList.gridy = 1;
-		add(displayTypes, gbc_displayList);
-		setDisplayTypeListener(displayTypes);
+		add(analysisTypeList, gbc_displayList);
+		setDisplayTypeListener(analysisTypeList);
 
 		//Setup fieldList -- The ComboBox which lists possible fields to track. 
-		fields = new JComboBox();
+		fieldTypeList = new JComboBox();
 		GridBagConstraints gbc_fieldList = new GridBagConstraints();
 		//Setup fieldList's GridBagConstraints
 		gbc_fieldList.insets = new Insets(0, -5, 10, 30);
 		gbc_fieldList.fill = GridBagConstraints.HORIZONTAL;
 		gbc_fieldList.gridx = 2;
 		gbc_fieldList.gridy = 1;
-		add(fields, gbc_fieldList);
-		setDisplayTypeListener(fields);
+		add(fieldTypeList, gbc_fieldList);
+		setDisplayTypeListener(fieldTypeList);
 
 		//Setup the backButton. 
 		JButton backButton = new JButton("Back");
@@ -118,10 +118,10 @@ public class StatisticsScreen extends Screen {
 	 * To be executed when a prototype has been selected. 
 	 */
 	private void onPrototypeSelected() { 
-		String selectedPrototype = (String) prototypes.getSelectedItem();
-		fields.removeAllItems();
+		String selectedPrototype = (String) agentTypeList.getSelectedItem();
+		fieldTypeList.removeAllItems();
 		for (String fieldName : gm.getPrototype(selectedPrototype).getCustomFieldMap().keySet()) { 
-			fields.addItem(fieldName);
+			fieldTypeList.addItem(fieldName);
 		}
 		onDisplayTypeSelected();
 	}
@@ -130,7 +130,7 @@ public class StatisticsScreen extends Screen {
 	 * To be executed when a display type has been selected. 
 	 */
 	private void onDisplayTypeSelected() { 
-		String selectedDisplayType = (String) displayTypes.getSelectedItem();
+		String selectedDisplayType = (String) analysisTypeList.getSelectedItem();
 		if (selectedDisplayType != null && 
 				selectedDisplayType.equals(DISPLAY_AVG_FIELD_VALUE_STR)) { 
 			onFieldSelected();
@@ -152,7 +152,7 @@ public class StatisticsScreen extends Screen {
 	 * To be executed when a field has been selected. 
 	 */
 	private void onFieldSelected() { 
-		String selectedDisplayType = (String) displayTypes.getSelectedItem();
+		String selectedDisplayType = (String) analysisTypeList.getSelectedItem();
 		if (selectedDisplayType != null &&
 				selectedDisplayType.equals(DISPLAY_AVG_FIELD_VALUE_STR)) { 
 				makeDisplayPanelPaint();
@@ -200,15 +200,15 @@ public class StatisticsScreen extends Screen {
 
 	@Override
 	public void load() {
-		prototypes.removeAllItems();
-		displayTypes.removeAllItems();
-		fields.removeAllItems();
+		agentTypeList.removeAllItems();
+		analysisTypeList.removeAllItems();
+		fieldTypeList.removeAllItems();
 		for (String name : gm.getPrototypeNames()) { 
-			prototypes.addItem(name);
+			agentTypeList.addItem(name);
 		}
-		displayTypes.addItem(DISPLAY_AVG_FIELD_VALUE_STR);
-		displayTypes.addItem(DISPLAY_AVG_LIFESPAN_STR);
-		displayTypes.addItem(DISPLAY_POP_OVER_TIME_STR);
+		analysisTypeList.addItem(DISPLAY_AVG_FIELD_VALUE_STR);
+		analysisTypeList.addItem(DISPLAY_AVG_LIFESPAN_STR);
+		analysisTypeList.addItem(DISPLAY_POP_OVER_TIME_STR);
 	}
 
 	private JPanel getDisplayPanel() { 
@@ -222,7 +222,7 @@ public class StatisticsScreen extends Screen {
 			@Override
 			public void paint(Graphics g) {
 				super.paint(g);
-				String selectedDisplayType = (String) displayTypes.getSelectedItem();
+				String selectedDisplayType = (String) analysisTypeList.getSelectedItem();
 				int width = getWidth() -1; 
 				int height = getHeight() -1;
 				g.setColor(Color.BLACK);
@@ -239,7 +239,7 @@ public class StatisticsScreen extends Screen {
 			}
 			
 			private void paintPop(Graphics g, int width, int height) { 
-				int[] pops = gm.getPopVsTime((String) prototypes.getSelectedItem());
+				int[] pops = gm.getPopVsTime((String) agentTypeList.getSelectedItem());
 				if (pops.length < 1)
 					return; 
 				
@@ -261,8 +261,8 @@ public class StatisticsScreen extends Screen {
 			}
 			
 			private void paintField(Graphics g, int width, int height) { 
-				String protName = (String) prototypes.getSelectedItem();
-				String fieldName = (String) fields.getSelectedItem();
+				String protName = (String) agentTypeList.getSelectedItem();
+				String fieldName = (String) fieldTypeList.getSelectedItem();
 				double[] avgValues = gm.getAvgFieldValue(protName, fieldName);
 				if (avgValues.length < 1)
 					return; 
@@ -289,7 +289,7 @@ public class StatisticsScreen extends Screen {
 			}
 			
 			private void paintLife(Graphics g, int width, int height) { 
-				String protName = (String) prototypes.getSelectedItem();
+				String protName = (String) agentTypeList.getSelectedItem();
 				double avgLifespan = gm.getAvgLifespan(protName);
 				g.setColor(Color.CYAN);
 				g.drawString("" + avgLifespan, width/2, height/2);
