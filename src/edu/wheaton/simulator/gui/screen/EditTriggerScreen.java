@@ -64,9 +64,7 @@ public class EditTriggerScreen extends Screen {
 	private JButton deleteConditionalButton;
 
 	private JButton deleteBehaviorButton;
-	
-	private JButton saveButton;
-	
+		
 	private JLabel isValidText;
 	
 	private Trigger selectedTrigger;
@@ -86,7 +84,6 @@ public class EditTriggerScreen extends Screen {
 		addBehaviorLayout(new GridBagConstraints());
 		addConditionalButtons(new GridBagConstraints());
 		addBehaviorButtons(new GridBagConstraints());
-		addSaveButton(new GridBagConstraints());
 		addValidLabel(new GridBagConstraints());
 	}
 
@@ -102,7 +99,7 @@ public class EditTriggerScreen extends Screen {
 	}
 	
 	private void addValidLabel(GridBagConstraints constraints){
-		isValidText = new JLabel();
+		isValidText = new JLabel("Invalid");
 		isValidText.setToolTipText("Tells whether or not the trigger created is valid" +
 								"\nUpdates when save button is pressed");
 		constraints.gridwidth = 1;
@@ -229,7 +226,7 @@ public class EditTriggerScreen extends Screen {
 		deleteBehaviorButton = new JButton("Delete Behavior");
 		addBehaviorBox.addActionListener(new AddBehaviorBoxListener());
 		addBehaviorText.addActionListener(new AddBehaviorTextListener());
-		deleteConditionalButton.addActionListener(new DeleteBehaviorListener());
+		deleteBehaviorButton.addActionListener(new DeleteBehaviorListener());
 		constraints.anchor = GridBagConstraints.NORTHWEST;
 		constraints.gridx = 3;
 		constraints.gridy = 7;
@@ -241,17 +238,6 @@ public class EditTriggerScreen extends Screen {
 		add(addBehaviorText, constraints);
 		constraints.gridy = 9;
 		add(deleteBehaviorButton, constraints);
-	}
-
-	private void addSaveButton(GridBagConstraints constraints) {
-		saveButton = new JButton("Save");
-		saveButton.addActionListener(new SaveListener());
-		constraints.anchor = GridBagConstraints.BASELINE_TRAILING;
-		constraints.gridx = 0;
-		constraints.gridy = 10;
-		constraints.gridheight = 1;
-		constraints.gridwidth = 1;
-		add(saveButton, constraints);
 	}
 
 	private JComboBox makeConditionalDropdown(){
@@ -400,43 +386,6 @@ public class EditTriggerScreen extends Screen {
 			deleteBehavior();
 		}
 	}
-	
-	private class SaveListener implements ActionListener {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String expression = "";
-			for(int i = 0; i < conditionals.size(); i++){
-				if(conditionals.get(i) instanceof JComboBox){
-					expression += (JComboBox) conditionals.get(i);
-				}
-				else{
-					expression += (JTextField) conditionals.get(i);
-				}
-				if(i < conditionals.size() - 1)
-					expression += " ";
-			}
-			builder.addConditional(expression);
-			expression = "";
-			for(int i = 0; i < behaviors.size(); i++){
-				if(behaviors.get(i) instanceof JComboBox){
-					expression += (JComboBox) behaviors.get(i);
-				}
-				else{
-					expression += (JTextField) behaviors.get(i);
-				}
-				if(i < behaviors.size() - 1)
-					expression += " ";
-			}
-			builder.addBehavioral(expression);
-			builder.addName(nameField.getText());
-			builder.addPriority((Integer) prioritySpinner.getValue());
-			if(builder.isValid())
-				isValidText.setText("Valid");
-			else
-				isValidText.setText("Invalid");
-		}
-	}
 
 	public void load(Trigger.Builder b, Trigger t){
 		reset();
@@ -454,8 +403,39 @@ public class EditTriggerScreen extends Screen {
 	}
 	
 	public Trigger sendInfo(){
-		if(builder.isValid())
+		String expression = "";
+		for(int i = 0; i < conditionals.size(); i++){
+			JComponent current = conditionals.get(i);
+			if(current instanceof JComboBox){
+				expression += ((JComboBox) current).getSelectedItem().toString();
+			}
+			else{
+				expression += ((JTextField) current).getText();
+			}
+			if(i < conditionals.size() - 1)
+				expression += " ";
+		}
+		builder.addConditional(expression);
+		expression = "";
+		for(int i = 0; i < behaviors.size(); i++){
+			JComponent current = behaviors.get(i);
+			if(current instanceof JComboBox){
+				expression += ((JComboBox) current).getSelectedItem().toString();
+			}
+			else{
+				expression += ((JTextField) current).getText();
+			}
+			if(i < behaviors.size() - 1)
+				expression += " ";
+		}
+		builder.addBehavioral(expression);
+		builder.addName(nameField.getText());
+		builder.addPriority((Integer) prioritySpinner.getValue());
+		if(builder.isValid()){
+			isValidText.setText("Valid");
 			return builder.build();
+		}
+		isValidText.setText("Invalid");
 		return null;
 	}
 

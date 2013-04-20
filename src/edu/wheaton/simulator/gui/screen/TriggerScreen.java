@@ -14,7 +14,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
@@ -41,6 +40,8 @@ public class TriggerScreen extends Screen {
 	
 	private JButton addButton;
 	
+	private JButton saveButton;
+	
 	public TriggerScreen(SimulatorGuiManager sm) {
 		super(sm);
 		setLayout(new GridBagLayout());
@@ -49,6 +50,7 @@ public class TriggerScreen extends Screen {
 		addListLayout(new GridBagConstraints());
 		addTriggerList(new GridBagConstraints());
 		addAddButton(new GridBagConstraints());
+		addSaveButton(new GridBagConstraints());
 	}
 
 	private void addTriggerList(GridBagConstraints constraints) {
@@ -140,17 +142,44 @@ public class TriggerScreen extends Screen {
 		add(addButton, constraints);
 	}
 	
+	private void addSaveButton(GridBagConstraints constraints) {
+		saveButton = new JButton("Save");
+		saveButton.addActionListener(new SaveListener());
+		constraints.anchor = GridBagConstraints.BASELINE_TRAILING;
+		constraints.gridx = 0;
+		constraints.gridy = 10;
+		constraints.gridheight = 1;
+		constraints.gridwidth = 1;
+		add(saveButton, constraints);
+	}
+	
 	private class AddTriggerListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// Sets default to 100 because that is the lowest possible priority and the 
 			// added trigger should appear at the end of the trigger list
-			Trigger t = new Trigger("", 100, null, null);
+			Trigger t = new Trigger("Untitled", 100, null, null);
 			edit.load(new Trigger.Builder(agent), t);
 			agent.addTrigger(t);
 			triggers.setSelectedIndex(triggers.getLastVisibleIndex());
 			load(agent);
+		}
+	}
+	
+	private class SaveListener implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Trigger toAdd = edit.sendInfo();
+			if(toAdd != null){
+				agent.addTrigger(toAdd);
+				System.out.println("Agent: " + agent.getName() + " Trigger: " + toAdd + " SelectedValue: " + triggers.getSelectedValue());
+				
+				validate();
+			}
+			else
+				System.out.println("Invalid Trigger");
 		}
 	}
 	
@@ -170,11 +199,7 @@ public class TriggerScreen extends Screen {
 	public void load() {
 	}
 	
-	public boolean sendInfo(){
-		if(edit.sendInfo() == null){
-			JOptionPane.showMessageDialog(null, "Invalid trigger input");
-			return false;
-		}
-		return true;
+	public Prototype sendInfo(){
+		return agent;
 	}
 }

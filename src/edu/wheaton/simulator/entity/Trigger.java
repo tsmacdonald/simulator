@@ -479,9 +479,7 @@ public class Trigger implements Comparable<Trigger> {
 			for (String a : stringArray) {
 				condition += (findMatches(a) + " ");
 			}
-			if (condition.charAt(condition.length()-1)==(' ')){
-				condition= condition.substring(0, condition.length()-1);
-			}
+			condition = condition.trim();
 			trigger.setCondition(new Expression(condition));
 		}
 
@@ -498,9 +496,7 @@ public class Trigger implements Comparable<Trigger> {
 			for (String a : stringArray) {
 				behavior += (findMatches(a)+" ");
 			}
-			if (behavior.charAt(behavior.length()-1)==(' ')){
-				behavior= behavior.substring(0, behavior.length()-1);
-			}
+			behavior.trim();
 			trigger.setBehavior(new Expression(behavior));
 		}
 		
