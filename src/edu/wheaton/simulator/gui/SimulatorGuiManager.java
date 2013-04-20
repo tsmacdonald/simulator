@@ -245,17 +245,15 @@ public class SimulatorGuiManager {
 	}
 
 	public void saveSim(String fileName) {
-		statMan.saveSimulation(fileName);
+		//TODO get statistics team to provide a 'saveSim(String fileName)' method
+		//statMan.saveSimulation(fileName);
 	}
 
 	public void startSim(){
 		setSimRunning(true);
 		setSimStarted(true);
 		canSpawn = false;
-		if(!simulator.hasStarted())
-			simulator.start();
-		else
-			simulator.resume();
+		simulator.play();
 	}
 
 
