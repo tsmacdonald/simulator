@@ -31,7 +31,7 @@ import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class ViewSimScreen extends Screen {
 
@@ -51,7 +51,7 @@ public class ViewSimScreen extends Screen {
 
 	private final Screen optionsScreen;
 	
-	public ViewSimScreen(final SimulatorGuiManager gm) {
+	public ViewSimScreen(final SimulatorFacade gm) {
 		super(gm);
 		setSpawn(false);
 		this.setLayout(new GridBagLayout());
@@ -180,7 +180,7 @@ public class ViewSimScreen extends Screen {
 		JButton b = Gui.makeButton("Start/Resume", null, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SimulatorGuiManager gm = getGuiManager();
+				SimulatorFacade gm = getGuiManager();
 				canSpawn = false;
 				gm.getGridPanel().repaint();	
 				gm.start();

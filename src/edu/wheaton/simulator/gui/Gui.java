@@ -183,7 +183,7 @@ public final class Gui {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String fileName = JOptionPane.showInputDialog("Please enter file name: ");
-				SimulatorGuiManager.getInstance().save(fileName);
+				SimulatorFacade.getInstance().save(fileName);
 			}
 
 		}
@@ -193,7 +193,7 @@ public final class Gui {
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				SimulatorGuiManager.getInstance().load();
+				SimulatorFacade.getInstance().load();
 			}
 		}
 				));
@@ -201,7 +201,7 @@ public final class Gui {
 		menu.add(Gui.makeMenuItem("Exit",new ActionListener(){ 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SimulatorGuiManager.getInstance().setRunning(false);
+				SimulatorFacade.getInstance().setRunning(false);
 				System.exit(0);
 			}
 		}));

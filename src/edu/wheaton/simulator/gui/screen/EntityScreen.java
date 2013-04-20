@@ -26,7 +26,7 @@ import edu.wheaton.simulator.gui.GuiList;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class EntityScreen extends Screen {
 
@@ -38,7 +38,7 @@ public class EntityScreen extends Screen {
 
 	private JButton edit;
 
-	public EntityScreen(final SimulatorGuiManager gm) {
+	public EntityScreen(final SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
 

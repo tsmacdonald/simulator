@@ -12,7 +12,7 @@ public class GridPanel extends JPanel {
 
 	private static final long serialVersionUID = 6168906849044462629L;
 
-	private SimulatorGuiManager gm;
+	private SimulatorFacade gm;
 
 	private int width;
 
@@ -22,7 +22,7 @@ public class GridPanel extends JPanel {
 	
 	private Set<AgentAppearance> grid;
 
-	public GridPanel(SimulatorGuiManager gm) {
+	public GridPanel(SimulatorFacade gm) {
 		this.gm = gm;
 
 		layers = false;

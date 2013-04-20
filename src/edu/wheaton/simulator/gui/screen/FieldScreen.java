@@ -23,7 +23,7 @@ import edu.wheaton.simulator.gui.GuiList;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class FieldScreen extends Screen {
 
@@ -41,7 +41,7 @@ public class FieldScreen extends Screen {
 
 	//TODO prevent clicking edit when no object is selected 
 
-	public FieldScreen(final SimulatorGuiManager gm) {
+	public FieldScreen(final SimulatorFacade gm) {
 		super(gm);
 		editing = false;
 		this.setLayout(new GridBagLayout());

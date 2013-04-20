@@ -27,7 +27,7 @@ public class IconGridPanel extends GridPanel {
 
 	private boolean[][] icon;
 
-	public IconGridPanel(final SimulatorGuiManager gm) {
+	public IconGridPanel(final SimulatorFacade gm) {
 		super(gm);
 		sm = Gui.getScreenManager();
 		gridDimension = 7;

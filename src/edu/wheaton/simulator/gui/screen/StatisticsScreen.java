@@ -24,8 +24,7 @@ import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.gui.BoxLayoutAxis;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.ScreenManager;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
-import edu.wheaton.simulator.statistics.StatisticsManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class StatisticsScreen extends Screen {
 	
@@ -45,16 +44,13 @@ public class StatisticsScreen extends Screen {
 
 	private Map<String, JComboBox> agentFieldsBoxes;
 	private JPanel fieldCard;
-	private StatisticsManager statMan;
 
 	private static final long serialVersionUID = 714636604315959167L;
 	
 	//TODO fix layout of this screen	
-	public StatisticsScreen(final SimulatorGuiManager gm) {
+	public StatisticsScreen(final SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new BorderLayout());
-
-		statMan = gm.getStatManager();
 				
 		JPanel populationCard = makeCard();
 		fieldCard = makeCard();
@@ -140,7 +136,7 @@ public class StatisticsScreen extends Screen {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (cardSelector.getSelectedItem().equals(POPS_STR)) {
-							int[] pops = statMan.getPopVsTime(gm.
+							int[] pops = gm.getPopVsTime(gm.
 														getPrototype((String)popEntityBox.getSelectedItem())
 														.getName());
 							//TODO output stats
@@ -148,7 +144,7 @@ public class StatisticsScreen extends Screen {
 						else if (cardSelector.getSelectedItem().equals(FIELDS_STR)) {
 							String s = (String)fieldEntityBox.getSelectedItem();
 							Prototype p = gm.getPrototype(s);
-							double[] vals = statMan.getAvgFieldValue(p.getName(),
+							double[] vals = gm.getAvgFieldValue(p.getName(),
 									((String)agentFieldsBoxes.get(s).getSelectedItem()));
 							//TODO output stats
 						}

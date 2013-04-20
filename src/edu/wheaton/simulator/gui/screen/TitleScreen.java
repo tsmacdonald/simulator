@@ -22,13 +22,13 @@ import javax.swing.SwingConstants;
 import edu.wheaton.simulator.gui.GeneralButtonListener;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.PrefSize;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class TitleScreen extends Screen {
 
 	private static final long serialVersionUID = 4901621402376078633L;
 
-	public TitleScreen(SimulatorGuiManager gm) {
+	public TitleScreen(SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
 

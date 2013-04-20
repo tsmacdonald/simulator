@@ -37,7 +37,7 @@ import edu.wheaton.simulator.gui.IconGridPanel;
 import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class EditEntityScreen extends Screen {
 
@@ -99,7 +99,7 @@ public class EditEntityScreen extends Screen {
 
 	private GridBagConstraints c;
 
-	public EditEntityScreen(final SimulatorGuiManager gm) {
+	public EditEntityScreen(final SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new BorderLayout());
 		editing = false;
@@ -621,8 +621,8 @@ public class EditEntityScreen extends Screen {
 	private Trigger generateTrigger(int i) {
 		return new Trigger(triggerNames.get(i).getText(),
 				Integer.parseInt(triggerPriorities.get(i).getText()),
-				SimulatorGuiManager.makeExpression(triggerConditions.get(i).getText()),
-				SimulatorGuiManager.makeExpression(triggerResults.get(i).getText()));
+				SimulatorFacade.makeExpression(triggerConditions.get(i).getText()),
+				SimulatorFacade.makeExpression(triggerResults.get(i).getText()));
 	}
 
 	private class DeleteFieldListener implements ActionListener {

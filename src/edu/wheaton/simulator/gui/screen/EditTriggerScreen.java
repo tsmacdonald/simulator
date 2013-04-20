@@ -14,7 +14,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 /**
  * 
@@ -41,7 +41,7 @@ public class EditTriggerScreen extends Screen {
 	
 	private JScrollPane behaviorLayout;
 	
-	public EditTriggerScreen(SimulatorGuiManager gm) {
+	public EditTriggerScreen(SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
 		addNameLabel();

@@ -19,7 +19,7 @@ import edu.wheaton.simulator.gui.BoxLayoutAxis;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class LayerScreen extends Screen {
 
@@ -37,7 +37,7 @@ public class LayerScreen extends Screen {
 	
 	private GridBagConstraints c;
 	
-	public LayerScreen(SimulatorGuiManager guiManager) {
+	public LayerScreen(SimulatorFacade guiManager) {
 		super(guiManager);
 		entities = new String[0];
 		

@@ -28,7 +28,7 @@ import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class EditFieldScreen extends Screen {
 
@@ -40,7 +40,7 @@ public class EditFieldScreen extends Screen {
 
 	private String prevName;
 
-	public EditFieldScreen(final SimulatorGuiManager gm) {
+	public EditFieldScreen(final SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new BorderLayout());
 		
@@ -112,7 +112,7 @@ public class EditFieldScreen extends Screen {
 		public void actionPerformed(ActionEvent ae) {
 			boolean toMove = true;
 			try {
-				SimulatorGuiManager gm = getGuiManager();
+				SimulatorFacade gm = getGuiManager();
 				String nameFieldText = nameField.getText();
 				String initValueText = initValue.getText();
 				if (nameFieldText.equals("") ||

@@ -25,7 +25,7 @@ import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.MinSize;
 import edu.wheaton.simulator.gui.PrefSize;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 //TODO add elements for step delay
 public class SetupScreen extends Screen {
@@ -51,7 +51,7 @@ public class SetupScreen extends Screen {
 
 	private static final long serialVersionUID = -8347080877399964861L;
 
-	public SetupScreen(final SimulatorGuiManager gm) {
+	public SetupScreen(final SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
 
@@ -110,7 +110,7 @@ public class SetupScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					SimulatorGuiManager gm = getGuiManager();
+					SimulatorFacade gm = getGuiManager();
 
 					int newWidth = Integer.parseInt(widthField.getText());
 					int newHeight = Integer.parseInt(widthField.getText());
@@ -185,7 +185,7 @@ public class SetupScreen extends Screen {
 		heightField.setText(gm.getGridHeight().toString());
 		delayField.setText(gm.getSleepPeriod().toString());
 
-		SimulatorGuiManager gm = getGuiManager();
+		SimulatorFacade gm = getGuiManager();
 		int stepLimit = gm.getStepLimit();
 		agentNames = gm.getPrototypeNames().toArray(agentNames);
 		timeField.setText(stepLimit + "");

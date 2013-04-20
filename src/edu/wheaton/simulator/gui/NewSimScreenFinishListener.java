@@ -11,10 +11,10 @@ public class NewSimScreenFinishListener implements ActionListener {
 	private JTextField name;
 	private JTextField width;
 	private JTextField height;
-	private SimulatorGuiManager gm;
+	private SimulatorFacade gm;
 	
 	public NewSimScreenFinishListener(JTextField name, JTextField width, JTextField height, 
-									  SimulatorGuiManager gm){
+									  SimulatorFacade gm){
 		this.name = name;
 		this.width = width;
 		this.height = height;

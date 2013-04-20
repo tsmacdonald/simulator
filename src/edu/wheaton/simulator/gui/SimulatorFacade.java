@@ -18,9 +18,9 @@ import edu.wheaton.simulator.statistics.Loader;
 import edu.wheaton.simulator.statistics.Saver;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
-public class SimulatorGuiManager {
+public class SimulatorFacade {
 
-	private static SimulatorGuiManager gm;
+	private static SimulatorFacade gm;
 	
 	private SimulationEnder se;
 	private StatisticsManager statMan;
@@ -34,7 +34,7 @@ public class SimulatorGuiManager {
 	private boolean hasStarted;
 	private JFileChooser fc;
 
-	private SimulatorGuiManager() {
+	private SimulatorFacade() {
 		canSpawn = true;
 		gridPanel = new GridPanel(this);
 		load("New Simulation",10, 10);
@@ -47,9 +47,9 @@ public class SimulatorGuiManager {
 		fc = new JFileChooser();
 	}
 	
-	public static SimulatorGuiManager getInstance(){
+	public static SimulatorFacade getInstance(){
 		if(gm==null)
-			gm = new SimulatorGuiManager();
+			gm = new SimulatorFacade();
 		return gm;
 	}
 
@@ -259,9 +259,15 @@ public class SimulatorGuiManager {
 		Simulator.createPrototype(text, grid, color, generateBytes);
 	}
 
-	public void createPrototype(String text, Object object, Color color,
-			byte[] generateBytes) {
-		// TODO Auto-generated method stub
-		
+	public int[] getPopVsTime(String selectedItem) {
+		return getStatManager().getPopVsTime(selectedItem);
+	}
+
+	public double[] getAvgFieldValue(String protName, String fieldName) {
+		return getStatManager().getAvgFieldValue(protName, fieldName);
+	}
+
+	public double getAvgLifespan(String protName) {
+		return getStatManager().getAvgLifespan(protName);
 	}
 }

@@ -20,7 +20,7 @@ public class ScreenManager {
 	private ScreenManager() {
 		this.display = Gui.getDisplay();
 		screens = new HashMap<String, Screen>();
-		SimulatorGuiManager gm = SimulatorGuiManager.getInstance();
+		SimulatorFacade gm = SimulatorFacade.getInstance();
 		putScreen("Title", new TitleScreen(gm));
 		putScreen("New Simulation", new NewSimulationScreen(gm));
 		putScreen("Edit Fields", new EditFieldScreen(gm));

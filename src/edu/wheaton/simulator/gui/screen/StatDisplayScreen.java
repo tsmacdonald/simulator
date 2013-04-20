@@ -14,8 +14,7 @@ import javax.swing.JPanel;
 
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.ScreenManager;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
-import edu.wheaton.simulator.statistics.StatisticsManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class StatDisplayScreen extends Screen {
 	/**
@@ -31,7 +30,7 @@ public class StatDisplayScreen extends Screen {
 	/**
 	 * Source of simulation statistics. 
 	 */
-	private StatisticsManager statMan; 
+	//private StatisticsManager statMan; 
 
 	private JPanel displayPanel; 
 
@@ -41,14 +40,14 @@ public class StatDisplayScreen extends Screen {
 
 	private JComboBox fields; 
 
-	private SimulatorGuiManager gm; 
+	private SimulatorFacade gm; 
 	
 	/**
 	 * Constructor. 
 	 * Make the screen. 
 	 * @param gm ScreenManager. 
 	 */
-	public StatDisplayScreen(SimulatorGuiManager gm) {
+	public StatDisplayScreen(SimulatorFacade gm) {
 		super(gm);
 		this.gm = gm;
 		//Setup GridBagLayout & demensions.
@@ -201,7 +200,6 @@ public class StatDisplayScreen extends Screen {
 
 	@Override
 	public void load() {
-		statMan = gm.getStatManager();
 		prototypes.removeAllItems();
 		displayTypes.removeAllItems();
 		fields.removeAllItems();
@@ -241,7 +239,7 @@ public class StatDisplayScreen extends Screen {
 			}
 			
 			private void paintPop(Graphics g, int width, int height) { 
-				int[] pops = statMan.getPopVsTime((String) prototypes.getSelectedItem());
+				int[] pops = gm.getPopVsTime((String) prototypes.getSelectedItem());
 				if (pops.length < 1)
 					return; 
 				
@@ -265,7 +263,7 @@ public class StatDisplayScreen extends Screen {
 			private void paintField(Graphics g, int width, int height) { 
 				String protName = (String) prototypes.getSelectedItem();
 				String fieldName = (String) fields.getSelectedItem();
-				double[] avgValues = statMan.getAvgFieldValue(protName, fieldName);
+				double[] avgValues = gm.getAvgFieldValue(protName, fieldName);
 				if (avgValues.length < 1)
 					return; 
 				
@@ -292,7 +290,7 @@ public class StatDisplayScreen extends Screen {
 			
 			private void paintLife(Graphics g, int width, int height) { 
 				String protName = (String) prototypes.getSelectedItem();
-				double avgLifespan = statMan.getAvgLifespan(protName);
+				double avgLifespan = gm.getAvgLifespan(protName);
 				g.setColor(Color.CYAN);
 				g.drawString("" + avgLifespan, width/2, height/2);
 			}
