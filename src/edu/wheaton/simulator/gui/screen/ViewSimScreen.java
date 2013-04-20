@@ -48,7 +48,7 @@ public class ViewSimScreen extends Screen {
 
 	private JComboBox agentComboBox;
 
-	private JComboBox layerComboBox;
+	final private JComboBox layerComboBox;
 
 	private String[] entities;
 
@@ -85,14 +85,7 @@ public class ViewSimScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
-						Simulator.newLayer(layerComboBox.getSelectedItem()
-								.toString(), colorTool.getColor());
-						try {
-							gm.setSimLayerExtremes();
-						} catch (EvaluationException e) {
-							e.printStackTrace();
-						}
-						gm.getGridPanel().setLayers(true);
+						Simulator.getInstance().displayLayer(layerComboBox.getSelectedItem());
 						gm.getGridPanel().repaint();
 					}
 				});
