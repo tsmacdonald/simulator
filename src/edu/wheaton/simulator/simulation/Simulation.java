@@ -9,6 +9,8 @@
 
 package edu.wheaton.simulator.simulation;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
@@ -26,6 +28,11 @@ public class Simulation {
 	private Grid grid;
 	
 	/**
+	 * Whether or not the simulation has begun
+	 */
+	private AtomicBoolean isStarted;
+	
+	/**
 	 * Ending conditions for the loop
 	 */
 	private SimulationEnder ender;
@@ -41,6 +48,7 @@ public class Simulation {
 	public Simulation(String name, int gridX, int gridY, SimulationEnder ender) {
 		this.name = name;
 		grid = new Grid(gridX, gridY);
+		isStarted = new AtomicBoolean(false);
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid, ender);
 	}
@@ -55,6 +63,7 @@ public class Simulation {
 	public Simulation(String name, Grid grid, SimulationEnder ender) {
 		this.name = name;
 		this.grid = grid;
+		isStarted = new AtomicBoolean(false);
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid, ender);
 	}
@@ -76,6 +85,20 @@ public class Simulation {
 	 */
 	public boolean shouldEnd() {
 		return ender.evaluate(grid);
+	}
+	
+	/**
+	 * Returns whether or not the simulation has begun
+	 */
+	public boolean getStarted() {
+		return isStarted.get();
+	}
+	
+	/**
+	 * Let's the simulation know it has begun
+	 */
+	public void setStarted() {
+		isStarted.set(true);
 	}
 	
 	/**

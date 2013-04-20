@@ -253,10 +253,7 @@ public class SimulatorGuiManager {
 		setSimRunning(true);
 		setSimStarted(true);
 		canSpawn = false;
-		if(!simulator.hasStarted())
-			simulator.start();
-		else
-			simulator.resume();
+		simulator.play();
 	}
 
 

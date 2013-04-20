@@ -44,12 +44,12 @@ public class Simulator {
 	 * Single instance of the simulator
 	 */
 	private static Simulator simulator = null;
-	
+
 	/**
 	 * Houses the properties of a simulation
 	 */
 	private Simulation simulation;
-	
+
 	/**
 	 * Whether or not the simulation will pause on the next step
 	 */
@@ -61,15 +61,10 @@ public class Simulator {
 	private AtomicBoolean isStopped;
 
 	/**
-	 * Whether or not the simulation has begun
-	 */
-	private AtomicBoolean isStarted;
-
-	/**
 	 * Time (in milliseconds) in between each step
 	 */
 	private int sleepPeriod;
-	
+
 	/**
 	 * If a layer is being displayed
 	 */
@@ -86,12 +81,11 @@ public class Simulator {
 	private Simulator() {
 		isPaused = new AtomicBoolean(false);
 		isStopped = new AtomicBoolean(false);
-		isStarted = new AtomicBoolean(false);
 		layerRunning = new AtomicBoolean(false);
 		sleepPeriod = 500;
 		layerRunning.set(false);
 	}
-	
+
 	/**
 	 * Get the instance of the simulator
 	 * 
@@ -138,21 +132,13 @@ public class Simulator {
 	});
 
 	/**
-	 * Begins the simulation. This should never be called twice on a given
-	 * simulator.
+	 * Resumes the simulation
 	 */
-	public void start() {
-		Preconditions.checkArgument(!isStarted.get());
-
-		isStarted.set(true);
-		mainThread.start();
-	}
-
-	/**
-	 * Resumes the update loop
-	 */
-	public void resume() {
-		if (!isStopped.get() && isPaused.get()) {
+	public void play() {
+		if(simulation.getStarted()) {
+			simulation.setStarted();
+			mainThread.start();
+		} else if (!isStopped.get() && isPaused.get()){
 			isPaused.set(false);
 			synchronized (lock) {
 				lock.notifyAll();
@@ -162,7 +148,7 @@ public class Simulator {
 
 	/**
 	 * Pauses the update of the simulation. This will happen on the next
-	 * iteration
+	 * iteration.
 	 */
 	public void pause() {
 		isPaused.set(true);
@@ -177,13 +163,6 @@ public class Simulator {
 			isPaused.set(true);
 			isStopped.set(true);
 		}
-	}
-	
-	/**
-	 * Whether or not the simulation has begun
-	 */
-	public boolean hasStarted() {
-		return isStarted.get();
 	}
 
 	/**
@@ -262,7 +241,7 @@ public class Simulator {
 	private Grid simulationGrid() {
 		return simulation.getGrid();
 	}
-	
+
 	/**
 	 * 
 	 * @return a String with the name of the current update method
@@ -357,7 +336,7 @@ public class Simulator {
 		Layer.getInstance().setColor(c);
 		Layer.getInstance().resetMinMax();
 	}
-	
+
 	/**
 	 * Stops the layer from displaying
 	 */
@@ -383,7 +362,7 @@ public class Simulator {
 			}
 		}
 	}
-	
+
 	/**
 	 * Adds the some sample prototypes
 	 */
@@ -391,7 +370,7 @@ public class Simulator {
 		new Multiplier().initSampleAgent(new Prototype(simulation.getGrid(), Color.BLUE,
 				"Multiplier"));
 		new Bouncer()
-				.initSampleAgent(new Prototype(simulation.getGrid(), Color.RED, "bouncer"));
+		.initSampleAgent(new Prototype(simulation.getGrid(), Color.RED, "bouncer"));
 		new RightTurner().initSampleAgent(new Prototype(simulation.getGrid(), Color.BLACK,
 				"rightTurner"));
 		new Confuser().initSampleAgent(new Prototype(simulation.getGrid(), Color.GREEN,
@@ -444,7 +423,7 @@ public class Simulator {
 	public Field getGlobalField(String s) {
 		return simulationGrid().getField(s);
 	}
-	
+
 	/**
 	 * Gets a map holding all values for the global fields.
 	 * 
@@ -472,7 +451,7 @@ public class Simulator {
 			System.err.print(e);
 		}
 	}
-	
+
 	/**
 	 * Adds a global field to the simulation.
 	 * 
@@ -484,12 +463,12 @@ public class Simulator {
 			simulationGrid().addField(name, startingValue);
 		} catch (ElementAlreadyContainedException e) {
 			System.out
-					.println("Problem adding a global field. Name already in the map. Exiting.");
+			.println("Problem adding a global field. Name already in the map. Exiting.");
 			e.printStackTrace();
 			System.exit(1);
 		}
 	}
-	
+
 	/**
 	 * Removes the global field with the given name.
 	 * 
@@ -515,7 +494,7 @@ public class Simulator {
 	public void resizeGrid(int width, int height) {
 		simulationGrid().resizeGrid(width, height);
 	}
-	
+
 	/**
 	 * Adds the given observer to the grid
 	 */
@@ -536,7 +515,7 @@ public class Simulator {
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
 	}
-	
+
 	/**
 	 * Loads a new blank simulation
 	 * 
