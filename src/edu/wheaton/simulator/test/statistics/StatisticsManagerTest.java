@@ -87,7 +87,7 @@ public class StatisticsManagerTest {
 
 		protoSnap = new PrototypeSnapshot(categoryName,
 				SnapshotFactory.makeFieldSnapshots(fields), population,
-				children, makeTriggerSnapshots(), null, null);
+				children, makeTriggerSnapshots(), step, null, null);
 
 		categoryName = "testing2";
 		prototype = new Prototype(grid, "tester2");
@@ -97,9 +97,9 @@ public class StatisticsManagerTest {
 		// Add another test PrototypeSnapshot
 		protoSnap2 = new PrototypeSnapshot(categoryName,
 				SnapshotFactory.makeFieldSnapshots(fields), population,
-				children, makeTriggerSnapshots(), null, null);
+				children, makeTriggerSnapshots(), step, null, null);
 	}
-	
+
 	/**
 	 * VERY IMPORTANT TO REMOVE INSTANCE OF STATISTICSMANAGER IN ORDER FOR
 	 * TESTS TO PASS
@@ -126,8 +126,10 @@ public class StatisticsManagerTest {
 		Assert.assertNotNull(p);
 
 		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname",
-				SnapshotFactory.makeFieldSnapshots(new HashMap<String, String>()),
-				100, p.childIDs(), makeTriggerSnapshots(), null, null);
+				SnapshotFactory
+						.makeFieldSnapshots(new HashMap<String, String>()),
+				100, p.childIDs(), makeTriggerSnapshots(), new Integer(2),
+				null, null);
 		StatisticsManager.addPrototypeSnapshot(protoSnap);
 	}
 

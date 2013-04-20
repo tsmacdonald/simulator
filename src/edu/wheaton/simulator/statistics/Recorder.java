@@ -48,7 +48,7 @@ public class Recorder implements GridObserver, TriggerObserver {
 		
 		for (Prototype prototype : prototypes)
 			StatisticsManager.addPrototypeSnapshot(SnapshotFactory
-					.makePrototypeSnapshot(prototype));
+					.makePrototypeSnapshot(prototype, grid.getStep()));
 		
 		for (Agent agent : grid) {
 			if (agent != null)
@@ -81,7 +81,7 @@ public class Recorder implements GridObserver, TriggerObserver {
 	 *            The step that this method is called in
 	 */
 	@Override
-	public void update(AgentID caller, Trigger trigger, int step) {
+	public void update(Agent caller, Trigger trigger, int step) {
 		TriggerSnapshot triggerSnap = SnapshotFactory.makeTriggerSnapshot(
 				trigger.getName(), trigger.getPriority(), null, null);
 		
@@ -90,7 +90,7 @@ public class Recorder implements GridObserver, TriggerObserver {
 		} else {
 			ArrayList<TriggerSnapshot> triggerList = new ArrayList<TriggerSnapshot>();
 			triggerList.add(triggerSnap);
-			triggers.put(caller, triggerList);
+			triggers.put(caller.getID(), triggerList);
 		}
 	}
 }

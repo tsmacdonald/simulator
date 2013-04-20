@@ -3,7 +3,6 @@ package edu.wheaton.simulator.statistics;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.entity.AgentID;
@@ -70,7 +69,7 @@ public class AgentSnapshot {
 		this.step = step;
 		this.fields = fields;
 		this.prototypeName = prototypeName;
-		this.triggers = triggers; 
+		this.triggers = triggers;
 		this.xpos = x; 
 		this.ypos = y; 
 	}

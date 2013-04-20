@@ -67,7 +67,7 @@ public class PrototypeSnapshotCase {
 	public void prototypeSnapshotTest() {		
 		PrototypeSnapshot protoSnap = new PrototypeSnapshot(categoryName, 
 				SnapshotFactory.makeFieldSnapshots(fields), population,
-				children, triggers, new Color(10, 10, 10), design);
+				children, triggers, step, new Color(10, 10, 10), design);
 		Assert.assertNotNull("PrototypeSnapshot not created.", protoSnap);
 	}
 	
@@ -78,7 +78,7 @@ public class PrototypeSnapshotCase {
 	public void serializeTest(){
 		PrototypeSnapshot protoSnap = new PrototypeSnapshot(categoryName, 
 				SnapshotFactory.makeFieldSnapshots(fields), population,
-				children, triggers, new Color(10, 10, 10), design);
+				children, triggers, step, new Color(10, 10, 10), design);
 		
 		String expected = "PrototypeSnapshot\ntesting\n-16119286\n0000000000\nFieldSnapshot Age 1";
 		expected += "\nFieldSnapshot Height 5\nFieldSnapshot Smell 4";

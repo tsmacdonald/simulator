@@ -67,7 +67,8 @@ public class SnapshotFactory {
 	 * @param step The point in the simulation being captured. 
 	 * @return A PrototypeSnapshot corresponding to the provided Prototype. 
 	 */
-	public static PrototypeSnapshot makePrototypeSnapshot(Prototype prototype) {
+	public static PrototypeSnapshot makePrototypeSnapshot(Prototype prototype,
+			Integer step) {
 		String name = prototype.getName();
 		
 		ArrayList<Trigger> triggers = (ArrayList<Trigger>) prototype.getTriggers();
@@ -82,7 +83,7 @@ public class SnapshotFactory {
 		Color color = prototype.getColor(); 
 		byte[] design = prototype.getDesign(); 
 		
-		return new PrototypeSnapshot(name, fields, population, childIDs, trigSnaps, color, design);	
+		return new PrototypeSnapshot(name, fields, population, childIDs, trigSnaps, step, color, design);	
 	}
 	
 	/**

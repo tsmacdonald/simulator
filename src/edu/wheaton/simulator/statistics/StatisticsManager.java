@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.naming.NameNotFoundException;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
@@ -24,7 +24,7 @@ public class StatisticsManager {
 	 * Single instance of this class.
 	 */
 	private static StatisticsManager instance = null;
-
+	
 	/**
 	 * The table in which all entity snapshots will be stored.
 	 */
@@ -39,17 +39,22 @@ public class StatisticsManager {
 	 * The grid being used. Will be used by GridRecorder
 	 */
 	public Grid grid;
-
+	
 	/**
 	 * Initial set of prototypes.
 	 */
 	private static ImmutableSet<Prototype> prototypes;
-
+	
 	/**
 	 * Prototype snapshots in the game.
 	 */
 	private static HashMap<String, PrototypeSnapshot> protoSnaps;
-
+	
+	/**
+	 * Reference to the class that handles ending the simulation
+	 */
+	private SimulationEnder simEnder; 
+	
 	/**
 	 * Private constructor to prevent wanton instantiation.
 	 */
@@ -59,34 +64,47 @@ public class StatisticsManager {
 		prototypes = null;
 		protoSnaps = new HashMap<String, PrototypeSnapshot>();
 	}
-
+	
 	/**
 	 * Get instance of this singleton
 	 */
 	public static StatisticsManager getInstance() {
-		if (instance != null)
+		if(instance != null) 
 			return instance;
 		return instance = new StatisticsManager();
 	}
-
+	
 	/**
 	 * THIS IS FOR TESTING PURPOSES ONLY!!
 	 */
 	public static void removeInstance() {
 		instance = null;
 	}
-
+	
 	/**
-	 * Initialize an observer for the grid and triggers and prepare prototypes
-	 * for saving.
+	 * Initialize an observer for the grid and triggers and prepare prototypes for saving.
 	 */
 	public void initialize(Grid grid, SimulationEnder simEnder) {
 		grid.addObserver(gridObserver);
 		Trigger.addObserver(gridObserver);
 		this.grid = grid;
+		this.simEnder = simEnder; 
 		StatisticsManager.prototypes = Prototype.getPrototypes();
 		for(Prototype p : prototypes)
-			addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(p));
+			addPrototypeSnapshot(SnapshotFactory.makePrototypeSnapshot(p, grid.getStep()));
+	}
+	
+	/**
+	 * Save the simulation
+	 * @param filename Name for the generated file saving the Simulation
+	 */
+	public void saveSimulation(String filename){
+		Saver s = new Saver(table, protoSnaps, grid.getWidth(), grid.getHeight(), simEnder); 
+		s.saveSimulation(filename);	
+	}
+	
+	public void loadSimulation(){
+		
 	}
 
 	/**
@@ -97,14 +115,14 @@ public class StatisticsManager {
 	}
 
 	/**
-	 * Add a PrototypeSnapshot to the StatisticsManager.
-	 * 
-	 * @param prototypeSnapshot
-	 *            The new prototype being recorded.
+	 * Add a PrototypeSnapshot to the StatisticsManager. 
+	 * @param prototypeSnapshot The new prototype being recorded.
 	 */
 	public static void addPrototypeSnapshot(PrototypeSnapshot snap) {
-		protoSnaps.put(snap.categoryName, snap);
-		//TODO: Save this prototype to a file
+		if(snap.step == 0 || !protoSnaps.containsKey(snap.categoryName)) {
+			protoSnaps.put(snap.categoryName, snap);
+			//TODO: Save this prototype to a file
+		}
 	}
 
 	/**
@@ -154,11 +172,11 @@ public class StatisticsManager {
 	 */
 	public int[] getPopVsTime(String prototypeName) {
 		int[] data = new int[lastStep()];	
-
+		
 		//Populate agentsByStep
 		for (int i = 0; i <= lastStep() - 1; i++) {
 			Set<AgentSnapshot> stepPop = getPopulationAtStep(prototypeName, i);
-			data[i] = stepPop.size();
+			data[i] = stepPop.size(); 
 		}
 
 		return data;
@@ -188,8 +206,7 @@ public class StatisticsManager {
 		ArrayList<Double> stepVals = new ArrayList<Double>();
 
 		for (int step : steps) {
-			ImmutableSet<AgentSnapshot> agents = getPopulationAtStep(
-					prototypeName, step);
+			ImmutableSet<AgentSnapshot> agents = getPopulationAtStep(prototypeName, step);
 
 			for (AgentSnapshot agent : agents) {
 				ImmutableMap<String, FieldSnapshot> fields = agent.fields;
@@ -267,35 +284,34 @@ public class StatisticsManager {
 		// alive at that time
 		List<Set<AgentSnapshot>> agentsByStep = new ArrayList<Set<AgentSnapshot>>();
 
-		// Set of all Agent IDs
-		Set<AgentID> allIDs = new HashSet<AgentID>();
+		//Set of all Agent IDs
+		Set<AgentID> allIDs = new HashSet<AgentID>(); 
 
-		// Populate agentsByStep
+		//Populate agentsByStep
 		for (int i = 0; i <= lastStep(); i++) {
 			Set<AgentSnapshot> stepData = getPopulationAtStep(prototypeName, i);
 
-			// Populate the list of unique Agent IDs for the Agents we're
-			// tracking
-			for (AgentSnapshot snap : stepData) {
-				allIDs.add(snap.id);
+			//Populate the list of unique Agent IDs for the Agents we're tracking
+			for(AgentSnapshot snap : stepData){
+				allIDs.add(snap.id); 
 			}
 
-			// Populate the list of agent snapshots by step
+			//Populate the list of agent snapshots by step
 			agentsByStep.add(i, stepData);
 		}
 
 		double avg = 0.0;
 
-		// Get the lifespan of each agent
+		//Get the lifespan of each agent
 		for (AgentID ID : allIDs) {
 			int birthTime = getBirthStep(agentsByStep, ID);
 			int deathTime = getDeathStep(agentsByStep, ID);
 
 			// Build the sum of all lifetimes - we'll divide by the number of
 			// agents at the end to get the average
-			int lifespan = (deathTime - birthTime);
-			avg += lifespan;
-		}
+			int lifespan = (deathTime - birthTime); 
+			avg += lifespan; 
+		}	
 
 		return avg / allIDs.size();
 	}
@@ -315,14 +331,15 @@ public class StatisticsManager {
 	 */
 	private int getBirthStep(List<Set<AgentSnapshot>> agentsByStep,
 			AgentID target) {
-		for (int i = 0; i < lastStep(); i++) {
-			for (AgentSnapshot s : agentsByStep.get(i)) {
-				if (s.id.equals(target))
+		for (int i = 0; i < lastStep(); i++){
+			for(AgentSnapshot s : agentsByStep.get(i)){
+				if(s.id.equals(target))
 					return i;
 			}
 		}
 
-		throw new IllegalArgumentException("The target AgentID was not found");
+		throw new IllegalArgumentException(
+				"The target AgentID was not found");
 	}
 
 	/**
@@ -340,15 +357,16 @@ public class StatisticsManager {
 	 */
 	private static int getDeathStep(List<Set<AgentSnapshot>> agentsByStep,
 			AgentID target) {
-		for (int i = agentsByStep.size() - 1; i >= 0; i--) {
-			if (agentsByStep.get(i) != null) {
-				for (AgentSnapshot s : agentsByStep.get(i)) {
-					if (s.id.equals(target))
+		for (int i = agentsByStep.size()-1; i >= 0; i--){
+			if (agentsByStep.get(i) != null){
+				for(AgentSnapshot s : agentsByStep.get(i)){
+					if(s.id.equals(target))
 						return i;
 				}
-			}
+			}	
 		}
 
-		throw new IllegalArgumentException("The target AgentID was not found");
+		throw new IllegalArgumentException(
+				"The target AgentID was not found");
 	}
 }

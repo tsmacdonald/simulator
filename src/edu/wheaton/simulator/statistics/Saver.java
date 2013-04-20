@@ -7,6 +7,7 @@ package edu.wheaton.simulator.statistics;
  * @author Grant Hensel, Nico Lasta
  */
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
@@ -98,10 +99,12 @@ public class Saver {
 
 		String filename = proto.getName() + ".txt"; 
 		//Create BufferedWriter and BufferedReader
-		try {	
+		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 			writer.write(sb.toString());
 			writer.close();
+			if (directory) 
+				System.out.println("File path: " + file.getAbsolutePath()); // TODO Delete
 		} catch (IOException e) {
 			System.err.println("Saver.java: IOException");
 			e.printStackTrace();

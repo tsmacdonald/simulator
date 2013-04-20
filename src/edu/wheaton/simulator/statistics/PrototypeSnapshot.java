@@ -40,6 +40,11 @@ public class PrototypeSnapshot {
 	 * The present population of this category of Agent. 
 	 */
 	public final int population;
+
+	/**
+	 * The point in the simulation at which this snapshot was taken. 
+	 */
+	public final int step; 
 	
 	/**
 	 * The color the agents are displayed
@@ -62,13 +67,14 @@ public class PrototypeSnapshot {
 	 */
 	public PrototypeSnapshot(String categoryName,
 			ImmutableMap<String, FieldSnapshot> fields, int population,
-			ImmutableSet<AgentID> children, Set<TriggerSnapshot> triggers,
+			ImmutableSet<AgentID> children, Set<TriggerSnapshot> triggers, Integer step, 
 			Color color, byte[] design) {
 		this.categoryName = categoryName; 
 		this.defaultFields = fields; 
 		this.children = children;
 		this.population = children.size(); 
 		this.triggers = triggers; 
+		this.step = step; 
 		this.color = color; 
 		this.design = design; 
 	}
