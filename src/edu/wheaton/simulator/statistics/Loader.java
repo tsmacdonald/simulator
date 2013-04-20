@@ -260,8 +260,8 @@ public class Loader {
 			proto = new Prototype(color, design, name);
 
 			//Add the prototype's default fields
-			readLine = reader.readLine(); 
-			while(readLine.substring(0,  13).equals("FieldSnapshot")){
+			readLine = reader.readLine();
+			while(readLine != null && readLine.substring(0,  13).equals("FieldSnapshot")){
 				String[] tokens = readLine.split(" ");
 				try {
 					proto.addField(tokens[1], tokens[2]);
@@ -273,7 +273,7 @@ public class Loader {
 			}
 
 			//Add the prototype's triggers
-			while(readLine.substring(0,  7).equals("Trigger")){
+			while(readLine != null && readLine.substring(0,  7).equals("Trigger")){
 				String[] tokens = readLine.split("~");
 				proto.addTrigger(new Trigger(tokens[1], Integer.parseInt(tokens[2]), 
 						new Expression(tokens[3]), new Expression(tokens[4])));
