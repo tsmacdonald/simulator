@@ -61,8 +61,8 @@ public class StatisticsManagerTest {
 		Trigger trigger = builder.build();
 
 		Set<TriggerSnapshot> tSnaps = new HashSet<TriggerSnapshot>();
-		Agent agent = prototype.createAgent(g);
-		agent.addTrigger(trigger);
+		prototype.addTrigger(trigger);
+		
 
 		TriggerSnapshot tSnap = SnapshotFactory.makeTriggerSnapshot(trigger.getName(), trigger.getPriority(), trigger
 				.getConditions().toString(), trigger.getBehavior().toString());
@@ -238,11 +238,11 @@ public class StatisticsManagerTest {
 		
 		/* create snapshots */
 		for (int i = 0; i < 5; i++) {
+			prototype.addTrigger(trigger);
 			Agent agent = prototype.createAgent(g);
 			try {
 				agent.addField("name", names[i]);
 				agent.addField("weight", "10");
-				agent.addTrigger(trigger);
 			} catch (ElementAlreadyContainedException e) {
 				e.printStackTrace();
 			}
