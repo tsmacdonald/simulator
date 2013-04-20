@@ -145,4 +145,8 @@ public final class Gui {
 		menuItem.setForeground(Color.white);
 		return menuItem;
 	}
+	
+	public static Display getDisplay(){
+		return Display.getInstance();
+	}
 }

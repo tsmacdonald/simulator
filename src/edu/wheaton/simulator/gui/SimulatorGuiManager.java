@@ -50,7 +50,7 @@ public class SimulatorGuiManager {
 		canSpawn = true;
 		gridPanel = new GridPanel(this);
 		load("New Simulation",10, 10);
-		d = Display.getInstance();
+		d = Gui.getDisplay();
 		sm = ScreenManager.getInstance();
 		sm.putScreen("Title", new TitleScreen(this));
 		sm.putScreen("New Simulation", new NewSimulationScreen(this));

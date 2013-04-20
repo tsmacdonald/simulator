@@ -11,7 +11,7 @@ public class ScreenManager {
 	private Display display;
 	
 	private ScreenManager() {
-		this.display = Display.getInstance();
+		this.display = Gui.getDisplay();
 		screens = new HashMap<String, Screen>();
 	}
 	
