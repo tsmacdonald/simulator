@@ -63,10 +63,10 @@ public class Grid extends Entity implements Iterable<Agent> {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
+
 		//Initialize the ArrayLists.
 		grid = new Agent[width][height];
-		
+
 		updater = new LinearUpdater(this);
 		observers = new HashSet<GridObserver>();
 		step = 0;
@@ -89,16 +89,16 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	public void resizeGrid(int width, int height) {
 		Agent[][] newGrid = new Agent[width][height];
-		
+
 		int currentWidth = grid.length;
 		int currentHeight = 0;
 		if(currentWidth != 0) {
 			currentHeight = grid[0].length;
 		}
-		
+
 		int minWidth = Math.min(width, currentWidth);
 		int minHeight = Math.min(height, currentHeight);
-		
+
 		for(int i = 0; i < minWidth; i++) {
 			for(int j = 0; j < minHeight; j++) {
 				if(grid[i][j] != null) {
@@ -106,7 +106,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 				}
 			}
 		}
-		
+
 		grid = newGrid;
 	}
 
@@ -141,7 +141,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 			return true;
 		return false;
 	}
-	
+
 	/**
 	 * Checks whether the given x/y position is a valid coordinate (both larger
 	 * than 0 and smaller than width/height respectively)
@@ -273,8 +273,10 @@ public class Grid extends Entity implements Iterable<Agent> {
 	/**
 	 * Notifies all of the observers watching this grid
 	 */
-	public void notifyObservers() {
+	public void notifyObservers(boolean layerRunning) {
 		Grid copy = null;
+		Set<AgentAppearance> agentView = new HashSet<AgentAppearance>();
+
 		synchronized (this) {
 			copy = new Grid(getWidth(), getHeight());
 
@@ -285,14 +287,24 @@ public class Grid extends Entity implements Iterable<Agent> {
 				} catch (ElementAlreadyContainedException e) { }
 			}
 			// add Agents
-			for (Agent current : this)
+			for (Agent current : this) {
 				copy.addAgent(current.clone(), current.getPosX(),
 						current.getPosY());
+				if(layerRunning)
+					try {
+						agentView.add(new AgentAppearance(current.getLayerColor(), current.getDesign(), current.getPosX(), current.getPosY()));
+					} catch (EvaluationException e) {
+						e.printStackTrace();
+					}
+				else
+					agentView.add(new AgentAppearance(current.getColor(), current.getDesign(), current.getPosX(), current.getPosY()));
+			}
 
 			copy.step = this.step;
 		}
 		for (GridObserver current : observers) {
 			current.update(copy);
+			current.update(agentView);
 		}
 	}
 

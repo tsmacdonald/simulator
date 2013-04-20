@@ -26,7 +26,7 @@ public class Simulation {
 	private Grid grid;
 	
 	/**
-	 * 
+	 * Ending conditions for the loop
 	 */
 	private SimulationEnder ender;
 	
@@ -80,9 +80,11 @@ public class Simulation {
 	
 	/**
 	 * Notifies all the observers following this simulation's grid
+	 * 
+	 * @param layerRunning
 	 */
-	public void notifyObservers() {
-		grid.notifyObservers();
+	public void notifyObservers(boolean layerRunning) {
+		grid.notifyObservers(layerRunning);
 	}
 	
 	/**

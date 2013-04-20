@@ -113,7 +113,7 @@ public class Simulator {
 				while (!isPaused.get()) {
 					try {
 						simulation.updateEntities();
-						simulation.notifyObservers();
+						simulation.notifyObservers(layerRunning.get());
 						if(layerRunning.get()) setLayerExtremes();
 						Thread.sleep(sleepPeriod);
 					} catch (SimulationPauseException e) {
