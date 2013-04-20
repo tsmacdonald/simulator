@@ -83,8 +83,9 @@ public class SimulatorGuiManager {
 		simulator = Simulator.getInstance();
 		simulator.load(name, x,y,se);
 		simulator.addGridObserver(gpo);
-		if(gridPanel != null)
+		if(gridPanel != null){
 			gridPanel.setGrid(getSimGrid());
+		}
 	}
 
 	private Simulator getSim() {
@@ -166,10 +167,6 @@ public class SimulatorGuiManager {
 
 	public Integer getSimGridWidth(){
 		return getSim().getWidth();
-	}
-
-	public void setSimLayerExtremes() throws EvaluationException{
-		getSim().setLayerExtremes();
 	}
 
 	public Agent getSimAgent(int x, int y){
