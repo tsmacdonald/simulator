@@ -97,6 +97,8 @@ public class EditEntityScreen extends Screen {
 	private JButton finishButton;
 
 	private GridBagConstraints c;
+	
+	private TriggerScreen triggerScreen;
 
 	public EditEntityScreen(final SimulatorGuiManager gm) {
 		super(gm);
@@ -236,7 +238,9 @@ public class EditEntityScreen extends Screen {
 
 		cards.add(generalPanel, "General");
 		cards.add(makeFieldMainPanel(fieldListPanel), "Fields");
-		cards.add(makeTriggerMainPanel(triggerListPanel), "Triggers");
+//		cards.add(makeTriggerMainPanel(triggerListPanel), "Triggers");
+		triggerScreen = new TriggerScreen(gm);
+		cards.add(triggerScreen, "Triggers");
 
 		finishButton = Gui.makeButton("Finish",null,
 			new ActionListener() {
@@ -424,6 +428,7 @@ public class EditEntityScreen extends Screen {
 		removedTriggers.clear();
 		triggerListPanel.removeAll();
 		triggerListPanel.add(addTriggerButton);
+		triggerScreen.reset();
 		previousButton.setEnabled(false);
 		nextButton.setEnabled(true);
 		finishButton.setEnabled(false);
@@ -432,7 +437,7 @@ public class EditEntityScreen extends Screen {
 	public boolean sendInfo() {
 		sendGeneralInfo();
 		sendFieldInfo();
-		return sendTriggerInfo();
+		return triggerScreen.sendInfo();
 	}
 
 	public void sendGeneralInfo(){
@@ -650,6 +655,7 @@ public class EditEntityScreen extends Screen {
 			}
 			else if (currentCard == "Fields"){
 				sendFieldInfo();
+				triggerScreen.load(agent);
 				c1.next(cards);
 				nextButton.setEnabled(false);
 				finishButton.setEnabled(true);
