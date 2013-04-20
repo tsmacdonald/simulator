@@ -15,7 +15,7 @@ public class GridPanelObserver extends AbstractGUIGridObserver{
 
 	@Override
 	public void update(Set<AgentAppearance> agents) {
-		
+		gp.setAgents(agents);
 		gp.repaint();
 	}
 }
