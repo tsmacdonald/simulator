@@ -208,33 +208,48 @@ public class SetupScreen extends Screen {
 
 		JLabel nameLabel = Gui.makeLabel("Name: ", MaxSize.NULL,
 				HorizontalAlignment.LEFT);
+		nameLabel.setAlignmentY(LEFT_ALIGNMENT);
+		
 		nameField = Gui.makeTextField(gm.getSimName(), 25,
 				MaxSize.NULL, MinSize.NULL);
-		nameField.setHorizontalAlignment(SwingConstants.RIGHT);
+		nameField.setAlignmentY(RIGHT_ALIGNMENT);
+		nameField.setHorizontalAlignment(SwingConstants.LEFT);
+		
 		JLabel widthLabel = Gui.makeLabel("Width: ", MaxSize.NULL,
 				HorizontalAlignment.LEFT);
+		widthLabel.setAlignmentX(TOP_ALIGNMENT);
+		
 		widthField = Gui.makeTextField("10", 5, MaxSize.NULL,
 				MinSize.NULL);
 		widthField.setHorizontalAlignment(SwingConstants.LEFT);
+		widthField.setAlignmentX(TOP_ALIGNMENT);
+		
 		JLabel yLabel = Gui.makeLabel("Height: ", MaxSize.NULL,
 				HorizontalAlignment.LEFT);
+		
 		heightField = Gui.makeTextField("10", 5, MaxSize.NULL,
 				MinSize.NULL);
-		heightField.setHorizontalAlignment(SwingConstants.RIGHT);
+		heightField.setHorizontalAlignment(SwingConstants.LEFT);
+		heightField.setAlignmentY(RIGHT_ALIGNMENT);
+		
 		JLabel updateLabel = Gui.makeLabel("Update type: ", MaxSize.NULL, HorizontalAlignment.LEFT);
+		updateLabel.setAlignmentX(TOP_ALIGNMENT);
+		
 		updateBox = Gui.makeComboBox(new String[] { "Linear", "Atomic",
 				"Priority" }, MaxSize.NULL);
-		updateBox.setAlignmentY(RIGHT_ALIGNMENT);
+		updateBox.setAlignmentY(LEFT_ALIGNMENT);
+		
 		//TODO working on adding step delay components
 		JLabel delayLabel = Gui.makeLabel("Step delay: ", MaxSize.NULL, HorizontalAlignment.LEFT);
+		delayLabel.setAlignmentX(TOP_ALIGNMENT);
+		
 		delayField = Gui.makeTextField("1.0", 5, MaxSize.NULL,
 				MinSize.NULL);
-		delayField.setHorizontalAlignment(SwingConstants.RIGHT);
+		delayField.setHorizontalAlignment(SwingConstants.LEFT);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridwidth = 1;
 		c.insets = new Insets(0, 0, 0, 0);
 		upperPanel.add(nameLabel, c);
 
@@ -248,7 +263,6 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 1;
-		c.gridwidth = 1;
 		c.insets = new Insets(0, 0, 0, 0);
 		upperPanel.add(widthLabel, c);
 
@@ -260,7 +274,7 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 1;
-		c.insets = new Insets(0, 15, 0, 0);
+		c.insets = new Insets(0, 0, 0, 0);
 		upperPanel.add(yLabel, c);
 
 		c = new GridBagConstraints();
