@@ -26,6 +26,7 @@ public class Driver {
 					System.err.println("L&F trouble.");
 					e.printStackTrace();
 				}
+				Gui.init();
 				SimulatorGuiManager gm = SimulatorGuiManager.getInstance();
 				ScreenManager sm = gm.getScreenManager();
 				sm.update(sm.getScreen("Title"));

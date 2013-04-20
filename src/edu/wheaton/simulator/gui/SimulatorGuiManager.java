@@ -52,7 +52,6 @@ public class SimulatorGuiManager {
 		load("New Simulation",10, 10);
 		d = Gui.getDisplay();
 		sm = ScreenManager.getInstance();
-		sm.getDisplay().setJMenuBar(makeMenuBar());
 		se = new SimulationEnder();
 		loader = new Loader();
 		statMan = StatisticsManager.getInstance();
@@ -238,88 +237,6 @@ public class SimulatorGuiManager {
 		setStarted(true);
 		canSpawn = false;
 		simulator.play();
-	}
-
-	private JMenuBar makeMenuBar() {
-		JMenuBar menuBar = new JMenuBar();
-
-		JMenu fileMenu = makeFileMenu(this);
-		//JMenu editMenu = makeEditMenu(sm);
-		JMenu helpMenu = makeHelpMenu(sm);
-
-		menuBar.add(fileMenu);
-		//menuBar.add(editMenu);
-		menuBar.add(helpMenu);
-		return menuBar;
-	}
-
-	private JMenu makeFileMenu(final SimulatorGuiManager guiManager) {
-		JMenu menu = Gui.makeMenu("File");
-
-		menu.add(Gui.makeMenuItem("New Simulation", 
-				new GeneralButtonListener("New Simulation",guiManager.sm)));
-
-		menu.add(Gui.makeMenuItem("Save Simulation", 
-				new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				String fileName = JOptionPane.showInputDialog("Please enter file name: ");
-				save(fileName);
-			}
-
-		}
-				));
-
-		menu.add(Gui.makeMenuItem("Load Simulation", 
-				new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				load();
-			}
-		}
-				));
-
-		menu.add(Gui.makeMenuItem("Exit",new ActionListener(){ 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				guiManager.setRunning(false);
-				System.exit(0);
-			}
-		}));
-
-		return menu;
-	}
-
-	private JMenu makeEditMenu(final ScreenManager sm) {
-		JMenu menu = Gui.makeMenu("Edit");
-
-		menu.add(Gui.makeMenuItem("Edit Global Fields", 
-				new GeneralButtonListener("Fields",sm)));
-
-		return menu;
-	}
-
-	private static JMenu makeHelpMenu(final ScreenManager sm) {
-		JMenu menu = Gui.makeMenu("Help");
-
-		menu.add(Gui.makeMenuItem("About",new ActionListener(){ 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(sm.getDisplay(),
-						"Wheaton College. Software Development 2013.",
-						"About",JOptionPane.PLAIN_MESSAGE);
-			}
-		}));
-		menu.add(Gui.makeMenuItem("Help Contents",new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(sm.getDisplay(),
-						"Wheaton College. Software Development 2013.\n Help Contents",
-						"Help Contents",JOptionPane.PLAIN_MESSAGE);
-			}
-		}));
-
-		return menu;
 	}
 
 	public void setName(String name) {
