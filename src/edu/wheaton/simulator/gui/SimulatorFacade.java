@@ -108,7 +108,7 @@ public class SimulatorFacade {
 		getEnder().removePopLimit(typeName);
 	}
 
-	public StatisticsManager getStatManager(){
+	private StatisticsManager getStatManager(){
 		return statMan;
 	}
 

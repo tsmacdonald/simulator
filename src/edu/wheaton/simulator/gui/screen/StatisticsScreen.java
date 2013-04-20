@@ -83,7 +83,7 @@ public class StatisticsScreen extends Screen {
 		lifespanCard.add(lifeEntityBox);
 		
 		if(popEntityBox.getSelectedIndex() >= 0){
-			int[] popVsTime = gm.getStatManager().getPopVsTime(gm.
+			int[] popVsTime = gm.getPopVsTime(gm.
 					getPrototype(popEntityBox.getSelectedItem().toString())
 					.getName()
 					);
