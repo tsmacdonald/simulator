@@ -17,31 +17,28 @@ public class GridPanel extends JPanel {
 	private int width;
 
 	private int height;
-	
-	private boolean layers;
-	
+
 	private Set<AgentAppearance> grid;
 
 	public GridPanel(SimulatorFacade gm) {
 		this.gm = gm;
-
-		layers = false;
 	}
 
 	@Override
 	public void paint(Graphics g) {
 		width = this.getWidth();
 		height = this.getHeight();
-		
+
 		int gridWidth = gm.getGridWidth();
 		int gridHeight = gm.getGridHeight();
-		
+
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
-		
+
 		clearAgents(g);
-		agentPaint(g);
-		
+		if(grid != null){
+			agentPaint(g);
+		}
 		g.setColor(Color.BLACK);
 		int squareSize = Math.min(pixelWidth, pixelHeight);
 		for (int i = 0; i < gridWidth; i++)
@@ -51,7 +48,7 @@ public class GridPanel extends JPanel {
 	}
 
 	public void agentPaint(Graphics g){
-		
+
 		width = this.getWidth();
 		height = this.getHeight();
 		int gridWidth = gm.getGridWidth();
@@ -59,28 +56,28 @@ public class GridPanel extends JPanel {
 		int pixelWidth = width / gridWidth;
 		int pixelHeight = height / gridHeight;
 		int squareSize = Math.min(pixelWidth, pixelHeight);
-		
+
 		for(AgentAppearance agent : grid){
-			if(agent!= null){
-				int x = agent.getX();
-				int y = agent.getY();
-				g.setColor(agent.getColor());
-				if(squareSize < 9){
-					g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 
-							squareSize, squareSize);
-				}
-				else{
-					int iconSize = squareSize/7;
-					for (int a = 0; a < 7; a+=1) {
-						for (int b = 0; b <  7; b+=1) {
-							byte[] icon = agent.getDesign();
-							byte val = new Byte("0000001");
-							if((icon[a]&(val<<b)) > 0){
-								g.fillRect((squareSize * x + 1) + (6-b)*iconSize,
-										(squareSize * y + 1) + (a)*iconSize, 
-										iconSize, iconSize);
-							}
-						}
+
+			int x = agent.getX();
+			int y = agent.getY();
+			g.setColor(agent.getColor());
+			if(squareSize < 9){
+				g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 
+						squareSize, squareSize);
+			}
+
+
+			int iconSize = squareSize/7;
+			for (int a = 0; a < 7; a+=1) {
+				for (int b = 0; b <  7; b+=1) {
+					byte[] icon = agent.getDesign();
+					byte val = new Byte("0000001");
+					if((icon[a]&(val<<b)) > 0){
+						g.fillRect((squareSize * x + 1) + (6-b)*iconSize,
+								(squareSize * y + 1) + (a)*iconSize, 
+								iconSize, iconSize);
+
 					}
 				}
 			}
@@ -110,5 +107,4 @@ public class GridPanel extends JPanel {
 	public void setAgents(Set<AgentAppearance> grid){
 		this.grid = grid;
 	}
-
 }

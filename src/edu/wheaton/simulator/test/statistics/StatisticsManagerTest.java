@@ -31,6 +31,7 @@ import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.entity.Trigger.Builder;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;
+import edu.wheaton.simulator.statistics.Recorder;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 import edu.wheaton.simulator.statistics.TriggerSnapshot;
@@ -47,6 +48,7 @@ public class StatisticsManagerTest {
 	Integer step;
 	PrototypeSnapshot protoSnap;
 	PrototypeSnapshot protoSnap2;
+	Recorder recorder;
 
 	/*
 	 * Helper method used in tests
@@ -111,12 +113,6 @@ public class StatisticsManagerTest {
 	public void testStatisticsManager() {
 		Assert.assertNotNull("Constructor failed", sm);
 	}
-
-	// @Test
-	// public void testGetGridObserver() {
-	// Assert.assertNotNull("Failed to get GridObserver",
-	// sm.getGridObserver());
-	// }
 
 	@Test
 	public void testAddPrototypeSnapshot() {
@@ -308,6 +304,16 @@ public class StatisticsManagerTest {
 		System.out.println("Actual:   " + actual);
 		Assert.assertEquals((int) expected, (int) actual);
 	}
+	
+	@Test
+	public void testRecorder(){
+		recorder = new Recorder(sm);
+		
+		recorder.update(g);
+	}
+	
+	
+	
 
 	/**
 	 * Calculate the average of the values in an int array

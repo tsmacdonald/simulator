@@ -285,7 +285,9 @@ public class Simulator {
 	 */
 	public boolean addAgent(String prototypeName, int x, int y) {
 		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
-		return simulationGrid().addAgent(toAdd, x, y);
+		boolean toReturn = simulationGrid().addAgent(toAdd, x, y);
+		simulation.notifyObservers(layerRunning.get());
+		return toReturn;
 	}
 
 	/**
@@ -299,7 +301,9 @@ public class Simulator {
 	 */
 	public boolean addAgent(String prototypeName) {
 		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
-		return simulationGrid().addAgent(toAdd);
+		boolean toReturn = simulationGrid().addAgent(toAdd);
+		simulation.notifyObservers(layerRunning.get());
+		return toReturn;
 	}
 
 	/**
@@ -320,6 +324,7 @@ public class Simulator {
 	 */
 	public void removeAgent(int x, int y) {
 		simulationGrid().removeAgent(x, y);
+		simulation.notifyObservers(layerRunning.get());
 	}
 
 	/**
@@ -352,6 +357,7 @@ public class Simulator {
 		Layer.getInstance().setFieldName(fieldName);
 		Layer.getInstance().setColor(c);
 		Layer.getInstance().resetMinMax();
+		simulation.notifyObservers(layerRunning.get());
 	}
 
 	/**
@@ -359,6 +365,7 @@ public class Simulator {
 	 */
 	public void clearLayer() {
 		layerRunning.set(false);
+		simulation.notifyObservers(layerRunning.get());
 	}
 
 	/**
@@ -414,6 +421,7 @@ public class Simulator {
 							x, y);
 				}
 			}
+		simulation.notifyObservers(layerRunning.get());
 	}
 
 	/**
@@ -425,6 +433,7 @@ public class Simulator {
 		new Paper()
 		.initSampleAgent(new Prototype("paper"));
 		new Scissors().initSampleAgent(new Prototype("scissors"));
+		simulation.notifyObservers(layerRunning.get());
 	}
 
 	/**
@@ -570,6 +579,16 @@ public class Simulator {
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
 	}
+	
+	/**
+	 * Load a prototype from a file and add it to the simulation
+	 *
+	 * @param file
+	 */
+	public void loadPrototypeFromString(File file){
+		Loader l = new Loader();
+		Prototype.addPrototype(l.loadPrototype(file));
+	}
 
 	/**
 	 * Saves a simulation to a given file.
@@ -587,6 +606,18 @@ public class Simulator {
 		s.saveSimulation(filename, agents, Prototype.getPrototypes(),
 				getGlobalFieldMap(),
 				grid.getWidth(), grid.getHeight(), ender);
+	}
+	
+	
+	
+	/**
+	 * Saves a given prototype to a string representation and put into file
+	 *
+	 * @param proto
+	 */
+	public void savePrototypeToString(Prototype proto){
+		Saver s = new Saver();
+		s.savePrototype(proto);
 	}
 
 }

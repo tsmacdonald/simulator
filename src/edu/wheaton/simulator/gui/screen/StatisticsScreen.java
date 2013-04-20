@@ -1,226 +1,337 @@
-/**
- * StatisticsScreen
- * 
- * Class representing the screen that allows users to view statistics.
- * 
- * @author Willy McHie
- * Wheaton College, CSCI 335, Spring 2013
- */
-
 package edu.wheaton.simulator.gui.screen;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
 
-import edu.wheaton.simulator.entity.Prototype;
-import edu.wheaton.simulator.gui.BoxLayoutAxis;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class StatisticsScreen extends Screen {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	private static final String POPS_STR = "Populations";
-	private static final String FIELDS_STR = "Fields";
-	private static final String LIFESPANS_STR = "Lifespans";
+	private static String DISPLAY_AVG_FIELD_VALUE_STR = "Average field value"; 
+	private static String DISPLAY_AVG_LIFESPAN_STR = "Average lifespan"; 
+	private static String DISPLAY_POP_OVER_TIME_STR = "Population over time";
 
-	private JPanel dataPanel;
-
-	private String[] entities;
-	private String[] agentFields;
 	
-	private JComboBox cardSelector;
-	private JComboBox popEntityBox;
-	private JComboBox fieldEntityBox;
-	private JComboBox lifeEntityBox;
+	/**
+	 * Source of simulation statistics. 
+	 */
+	//private StatisticsManager statMan; 
 
-	private Map<String, JComboBox> agentFieldsBoxes;
-	private JPanel fieldCard;
+	private JPanel displayPanel; 
 
-	private static final long serialVersionUID = 714636604315959167L;
+	private JComboBox prototypes; 
+
+	private JComboBox displayTypes; 
+
+	private JComboBox fields; 
+
+	private SimulatorFacade gm; 
 	
-	//TODO fix layout of this screen	
-	public StatisticsScreen(final SimulatorFacade gm) {
+	/**
+	 * Constructor. 
+	 * Make the screen. 
+	 * @param gm ScreenManager. 
+	 */
+	public StatisticsScreen(SimulatorFacade gm) {
 		super(gm);
-		this.setLayout(new BorderLayout());
-				
-		JPanel populationCard = makeCard();
-		fieldCard = makeCard();
-		JPanel lifespanCard = makeCard();
-		String[] boxItems = {POPS_STR, FIELDS_STR, LIFESPANS_STR};
-		
-		dataPanel = new JPanel(new CardLayout());
-		dataPanel.add(populationCard, POPS_STR);
-		dataPanel.add(fieldCard, FIELDS_STR);
-		dataPanel.add(lifespanCard, LIFESPANS_STR);
-		
-		entities = new String[0];
-		
-		popEntityBox = new JComboBox(entities);
-		
-		populationCard.add(popEntityBox);
-		
-		agentFields = new String[0];
-		
-		agentFieldsBoxes = new HashMap<String, JComboBox>();
-		agentFieldsBoxes.put("", new JComboBox(agentFields));
+		this.gm = gm;
+		//Setup GridBagLayout & demensions.
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{69, 81, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		setLayout(gridBagLayout);
 
-		fieldEntityBox = makeFieldEntityBox(entities);
-		
-		fieldCard.add(fieldEntityBox);
-		fieldCard.add(agentFieldsBoxes.get(""));
+		//Setup displayPanel -- The panel which displays the graph
+		displayPanel = getDisplayPanel();
+		//Setup displayPanel's GridBagConstraints
+		GridBagConstraints gbc_displayPanel = new GridBagConstraints();
+		gbc_displayPanel.gridwidth = 5;
+		gbc_displayPanel.insets = new Insets(20, 30, 20, 30);
+		gbc_displayPanel.fill = GridBagConstraints.BOTH;
+		gbc_displayPanel.gridx = 0;
+		gbc_displayPanel.gridy = 0;
+		add(displayPanel, gbc_displayPanel);
 
-		lifeEntityBox = new JComboBox(entities);
-		
-		lifespanCard.add(lifeEntityBox);
-		
-		if(popEntityBox.getSelectedIndex() >= 0){
-			int[] popVsTime = gm.getPopVsTime(gm.
-					getPrototype(popEntityBox.getSelectedItem().toString())
-					.getName()
-					);
-			
-			Object[][] timePop = new Object[popVsTime.length][2];
-			for(int i = 0; i < popVsTime.length; i++)
-				timePop[i] = new Object[]{i, popVsTime[i]};
+		//Setup agentList -- The ComboBox which lists possible categories of agents to view.
+		prototypes = new JComboBox();
+		GridBagConstraints gbc_agentList = new GridBagConstraints();
+		//Setup agentList's GridBagConstraints
+		gbc_agentList.insets = new Insets(0, 30, 10, 5);
+		gbc_agentList.fill = GridBagConstraints.HORIZONTAL;
+		gbc_agentList.gridx = 0;
+		gbc_agentList.gridy = 1;
+		add(prototypes, gbc_agentList);
+		setPrototypeListener(prototypes);
 
-			populationCard.add(new JTable(timePop, 
-				new String[]{"Population", "Time"})
-			);
+		//Setup displayList -- The ComboBox which lists possible ways of viewing the selected population.
+		displayTypes = new JComboBox();
+		GridBagConstraints gbc_displayList = new GridBagConstraints();
+		//Setup displayList's GridBagConstraints
+		gbc_displayList.insets = new Insets(0, -5, 10, 5);
+		gbc_displayList.fill = GridBagConstraints.HORIZONTAL;
+		gbc_displayList.gridx = 1;
+		gbc_displayList.gridy = 1;
+		add(displayTypes, gbc_displayList);
+		setDisplayTypeListener(displayTypes);
+
+		//Setup fieldList -- The ComboBox which lists possible fields to track. 
+		fields = new JComboBox();
+		GridBagConstraints gbc_fieldList = new GridBagConstraints();
+		//Setup fieldList's GridBagConstraints
+		gbc_fieldList.insets = new Insets(0, -5, 10, 30);
+		gbc_fieldList.fill = GridBagConstraints.HORIZONTAL;
+		gbc_fieldList.gridx = 2;
+		gbc_fieldList.gridy = 1;
+		add(fields, gbc_fieldList);
+		setDisplayTypeListener(fields);
+
+		//Setup the backButton. 
+		JButton backButton = new JButton("Back");
+		GridBagConstraints gbc_backButton = new GridBagConstraints();
+		gbc_backButton.gridwidth = 2;
+		//Setup backButton's GridBagConstraints
+		gbc_backButton.insets = new Insets(-5, -30, 6, 30);
+		gbc_backButton.gridx = 3;
+		gbc_backButton.gridy = 1;
+		add(backButton, gbc_backButton);
+		setBackButtonListener(backButton);
+	}
+
+	/**
+	 * To be executed when a prototype has been selected. 
+	 */
+	private void onPrototypeSelected() { 
+		String selectedPrototype = (String) prototypes.getSelectedItem();
+		fields.removeAllItems();
+		for (String fieldName : gm.getPrototype(selectedPrototype).getCustomFieldMap().keySet()) { 
+			fields.addItem(fieldName);
 		}
-
-		//COMING SOON: Average Field Table Statistics
-
-		//		if(fieldEntityTypes.getSelectedIndex() >= 0){
-		//			double[] p = statMan.getAvgFieldValue((gm.getFacade().
-		//					getPrototype(popEntityTypes.getSelectedItem().toString())
-		//					.getPrototypeID()), (String) agentFieldsBox.getSelectedItem()
-		//					);
-		//			String[] popTime = {"Population", "Time"};
-		//			Object[][] timePop = new Object[p.length][2];
-		//			for(int i = 0; i < p.length; i++){
-		//				Object[] array= {i, p[i]};
-		//				timePop[i] = array;
-		//			}
-		//
-		//			JTable jt = new JTable(timePop ,popTime);
-		//			populationCard.add(jt);
-		//		}
-		//		JLabel label = new JLabel("Statistics");
-		//		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		//		label.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		//		label.setPreferredSize(new Dimension(300, 150));
-		//
-		//		this.add(label, BorderLayout.NORTH);
-		
-		//TODO MAJOR figure out how to make a graph or something!!
-		
-		cardSelector = makeCardSelector(boxItems,dataPanel);
-		
-		this.add(Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null,
-				Gui.makePanel(new JLabel("Graph object goes here")),
-				Gui.makePanel(cardSelector),dataPanel,Gui.makePanel(
-				makeDisplayButton(), makeFinishButton())));
+		onDisplayTypeSelected();
 	}
 	
-	private JButton makeDisplayButton(){
-		JButton displayButton = Gui.makeButton("Display",null,new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						if (cardSelector.getSelectedItem().equals(POPS_STR)) {
-							int[] pops = gm.getPopVsTime(gm.
-														getPrototype((String)popEntityBox.getSelectedItem())
-														.getName());
-							//TODO output stats
-						}
-						else if (cardSelector.getSelectedItem().equals(FIELDS_STR)) {
-							String s = (String)fieldEntityBox.getSelectedItem();
-							Prototype p = gm.getPrototype(s);
-							double[] vals = gm.getAvgFieldValue(p.getName(),
-									((String)agentFieldsBoxes.get(s).getSelectedItem()));
-							//TODO output stats
-						}
-						else {
-							Prototype p = gm.getPrototype((String)lifeEntityBox.getSelectedItem());
-							//TODO output stats
-						}
-					}
-				}
-				);
-		return displayButton;
+	/**
+	 * To be executed when a display type has been selected. 
+	 */
+	private void onDisplayTypeSelected() { 
+		String selectedDisplayType = (String) displayTypes.getSelectedItem();
+		if (selectedDisplayType != null && 
+				selectedDisplayType.equals(DISPLAY_AVG_FIELD_VALUE_STR)) { 
+			onFieldSelected();
+		} else { 
+			makeDisplayPanelPaint();
+		}
 	}
-	
-	private JButton makeFinishButton(){
-		JButton finishButton = Gui.makeButton("Finish",null,
-				new ActionListener() {
+
+	private void makeDisplayPanelPaint() { 
+		new Thread() {
+			@Override
+			public void run() {
+				displayPanel.paint(displayPanel.getGraphics());
+			}
+		}.run();
+	}
+
+	/**
+	 * To be executed when a field has been selected. 
+	 */
+	private void onFieldSelected() { 
+		String selectedDisplayType = (String) displayTypes.getSelectedItem();
+		if (selectedDisplayType != null &&
+				selectedDisplayType.equals(DISPLAY_AVG_FIELD_VALUE_STR)) { 
+				makeDisplayPanelPaint();
+		}
+	}
+
+	private static void setBackButtonListener(JButton backButton) { 
+		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ScreenManager sm = getScreenManager();
-				sm.update(sm.getScreen("View Simulation")); 
+				ScreenManager sm = Gui.getScreenManager();
+				Screen toDisplay = sm.getScreen("View Simulation");
+				ScreenManager.loadScreen(toDisplay);
+				sm.update(toDisplay);
 			}
 		});
-		return finishButton;
-	}
-	
-	private JComboBox makeFieldEntityBox(String[] entities){
-		JComboBox box = new JComboBox(entities);
-		box.addItemListener(
-				new ItemListener() {
-					@Override
-					public void itemStateChanged(ItemEvent e) {
-						fieldCard.remove(1);
-						fieldCard.add(agentFieldsBoxes.get(e.getItem()));
-						validate();
-						repaint();
-					}
-				}
-				);
-		return box;
-	}
-	
-	private static JComboBox makeCardSelector(final String[] boxItems, final JPanel dataPanel){
-		JComboBox selector = new JComboBox(boxItems);
-		selector.addItemListener(
-				new ItemListener() {
-					@Override
-					public void itemStateChanged(ItemEvent e) {
-						CardLayout cl = (CardLayout)dataPanel.getLayout();
-						cl.show(dataPanel, (String)e.getItem());
-					}
-				}
-				);
-		return selector;
 	}
 
-	private static JPanel makeCard(){
-		JPanel card = new JPanel();
-		card.setLayout(new BoxLayout(card, BoxLayout.X_AXIS));
-		return card;
+	private void setPrototypeListener(JComboBox protBox) { 
+		protBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				onPrototypeSelected();
+			}
+		});
 	}
 	
+	private void setDisplayTypeListener(JComboBox catBox) { 
+		catBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				onDisplayTypeSelected();
+			}
+		});
+	}
+	
+	private void setFieldListener(JComboBox fieldBox) {
+		fieldBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				onFieldSelected();
+			}
+		});
+	}
+
 	@Override
 	public void load() {
-		entities = new String[gm.getPrototypeNames().size()];
-		popEntityBox.removeAllItems();
-		fieldEntityBox.removeAllItems();
-		lifeEntityBox.removeAllItems();
-		agentFieldsBoxes.clear();
-		int i = 0;
-		for (String s : gm.getPrototypeNames()) {
-			entities[i++] = s;
-			agentFields = gm.getPrototype(s).getCustomFieldMap().keySet().toArray(agentFields);
-			agentFieldsBoxes.put(s, new JComboBox(agentFields));
-			popEntityBox.addItem(s);
-			fieldEntityBox.addItem(s);
-			lifeEntityBox.addItem(s);
+		prototypes.removeAllItems();
+		displayTypes.removeAllItems();
+		fields.removeAllItems();
+		for (String name : gm.getPrototypeNames()) { 
+			prototypes.addItem(name);
 		}
+		displayTypes.addItem(DISPLAY_AVG_FIELD_VALUE_STR);
+		displayTypes.addItem(DISPLAY_AVG_LIFESPAN_STR);
+		displayTypes.addItem(DISPLAY_POP_OVER_TIME_STR);
+	}
+
+	private JPanel getDisplayPanel() { 
+		return new JPanel() { 
+			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4375342368896479163L;
+
+			@Override
+			public void paint(Graphics g) {
+				super.paint(g);
+				String selectedDisplayType = (String) displayTypes.getSelectedItem();
+				int width = getWidth() -1; 
+				int height = getHeight() -1;
+				g.setColor(Color.BLACK);
+				g.fillRect(0, 0, width, height);
+				
+				if (selectedDisplayType == null) 
+					return; 
+				else if (selectedDisplayType.equals(DISPLAY_AVG_LIFESPAN_STR)) 
+					paintLife(g, width, height);
+				else if (selectedDisplayType.equals(DISPLAY_POP_OVER_TIME_STR))
+					paintPop(g, width, height);
+				else if (selectedDisplayType.equals(DISPLAY_AVG_FIELD_VALUE_STR))
+					paintField(g, width, height);
+			}
+			
+			private void paintPop(Graphics g, int width, int height) { 
+				int[] pops = gm.getPopVsTime((String) prototypes.getSelectedItem());
+				if (pops.length < 1)
+					return; 
+				
+				int[] extremes = getHighLowIndex(pops);
+				double max = pops[extremes[0]];
+				double min = 0;
+				
+				int lastX = 0; 
+				int lastY = getAppropriateY(pops[0], max, min, height);
+
+				g.setColor(Color.GREEN);
+				for (int index = 1; index < pops.length; index++) { 
+					int currentX = getAppropriateX(index, pops.length-1, width);
+					int currentY = getAppropriateY(pops[index], max, min, height);
+					g.drawLine(lastX, lastY, currentX, currentY);
+					lastX = currentX;
+					lastY = currentY;
+				}
+			}
+			
+			private void paintField(Graphics g, int width, int height) { 
+				String protName = (String) prototypes.getSelectedItem();
+				String fieldName = (String) fields.getSelectedItem();
+				double[] avgValues = gm.getAvgFieldValue(protName, fieldName);
+				if (avgValues.length < 1)
+					return; 
+				
+				int[] extremes = getHighLowIndex(avgValues);
+				double maxYValue = avgValues[extremes[0]];
+				double minYValue = avgValues[extremes[1]];
+				
+				int zeroY = getAppropriateY(0, maxYValue, minYValue, height);
+				g.setColor(Color.WHITE);
+				g.drawLine(0, zeroY, width, zeroY);
+				
+				int lastX = 0; 
+				int lastY = getAppropriateY(avgValues[0], maxYValue, minYValue, height);
+
+				g.setColor(Color.RED);
+				for (int index = 1; index < avgValues.length; index++) { 
+					int currentX = getAppropriateX(index, avgValues.length-1, width);
+					int currentY = getAppropriateY(avgValues[index], maxYValue, minYValue, height);
+					g.drawLine(lastX, lastY, currentX, currentY);
+					lastX = currentX;
+					lastY = currentY;
+				}
+			}
+			
+			private void paintLife(Graphics g, int width, int height) { 
+				String protName = (String) prototypes.getSelectedItem();
+				double avgLifespan = gm.getAvgLifespan(protName);
+				g.setColor(Color.CYAN);
+				g.drawString("" + avgLifespan, width/2, height/2);
+			}
+
+			private int getAppropriateY(double currentValue, double maxValue, double minValue, int height) { 
+				return (int)(height - ((currentValue - minValue)/(maxValue - minValue)) * height); 
+			}
+			
+			private int getAppropriateX(double currentIndex, double maxIndex, double width) { 
+				return (int) ((currentIndex / maxIndex) * width);
+			}
+			
+			private int[] getHighLowIndex(double[] values) { 
+				if (values.length == 0) 
+					return new int[] {-1, -1};
+				int maxIndex = 0;
+				int minIndex = 0;
+				for (int index = 0; index < values.length; index++) { 
+					double currentValue = values[index]; 
+					if (currentValue > values[maxIndex])
+						maxIndex = index; 
+					else if (currentValue < values[minIndex])
+						minIndex = index; 
+				}
+				return new int[] {maxIndex, minIndex}; 
+			}
+			
+			private int[] getHighLowIndex(int[] values) { 
+				if (values.length == 0) 
+					return new int[] {-1, -1};
+				int maxIndex = 0;
+				int minIndex = 0;
+				for (int index = 0; index < values.length; index++) { 
+					double currentValue = values[index]; 
+					if (currentValue > values[maxIndex])
+						maxIndex = index; 
+					else if (currentValue < values[minIndex])
+						minIndex = index; 
+				}
+				return new int[] {maxIndex, minIndex}; 
+			}
+		};
 	}
 }
