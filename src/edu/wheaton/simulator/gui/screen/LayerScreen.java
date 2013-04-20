@@ -20,7 +20,6 @@ import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
-import edu.wheaton.simulator.simulation.Simulator;
 
 public class LayerScreen extends Screen {
 
@@ -54,7 +53,7 @@ public class LayerScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
-						Simulator.getInstance().displayLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
+						gm.displayLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
 						gm.getGridPanel().repaint();
 					}
 				});
@@ -112,14 +111,14 @@ public class LayerScreen extends Screen {
 
 	@Override
 	public void load() {
-		entities = Simulator.prototypeNames().toArray(entities);
+		entities = gm.getPrototypeNames().toArray(entities);
 		agentComboBox = new JComboBox(entities);
 		agentComboBox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				// To ensure type safety with the "String" combo box, we need
 				// to convert the objects to strings.
-				Object[] tempObjList = Simulator
+				Object[] tempObjList = gm
 						.getPrototype(
 								agentComboBox.getSelectedItem().toString())
 						.getCustomFieldMap().keySet().toArray();
@@ -140,7 +139,7 @@ public class LayerScreen extends Screen {
 
 			// To ensure type safety with the "String" combo box, we need to
 			// convert the objects to strings.
-			Object[] tempObjList = Simulator
+			Object[] tempObjList = gm
 					.getPrototype(agentComboBox.getSelectedItem().toString())
 					.getCustomFieldMap().keySet().toArray();
 			String[] tempStringList = new String[tempObjList.length];

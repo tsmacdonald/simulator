@@ -1,12 +1,15 @@
 package edu.wheaton.simulator.gui;
 
+import java.awt.Color;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JFileChooser;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.Loader;
@@ -144,6 +147,10 @@ public class SimulatorGuiManager {
 		return getSim().getAgent(x, y);
 	}
 
+	public Set<String> getPrototypeNames(){
+		return Simulator.prototypeNames();
+	}
+	
 	public void removeAgent(int x, int y){
 		getSim().removeAgent(x, y);
 	}
@@ -230,5 +237,13 @@ public class SimulatorGuiManager {
 
 	public Map<String, String> getGlobalFieldMap() {
 		return getSim().getGlobalFieldMap();
+	}
+
+	public Prototype getPrototype(String string) {
+		return getSim().getPrototype(string);
+	}
+
+	public void displayLayer(String string, Color color) {
+		getSim().displayLayer(string, color);
 	}
 }

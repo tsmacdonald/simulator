@@ -26,7 +26,6 @@ import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.MinSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
-import edu.wheaton.simulator.simulation.Simulator;
 
 //TODO add elements for step delay
 public class SetupScreen extends Screen {
@@ -188,7 +187,7 @@ public class SetupScreen extends Screen {
 
 		SimulatorGuiManager gm = getGuiManager();
 		int stepLimit = gm.getStepLimit();
-		agentNames = Simulator.prototypeNames().toArray(agentNames);
+		agentNames = gm.getPrototypeNames().toArray(agentNames);
 		timeField.setText(stepLimit + "");
 		// to prevent accidental starting simulation with time limit of 0
 		if (stepLimit <= 0)
