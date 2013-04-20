@@ -571,8 +571,13 @@ public class Simulator {
 		s.saveSimulation(filename, agents, Prototype.getPrototypes(),
 				getGlobalFieldMap(),
 				grid.getWidth(), grid.getHeight(), ender);
-	}
+	}	
 
+	/**
+	 * Loads a simulation from a given file
+	 *
+	 * @param file
+	 */
 	public void loadFromString(File file){
 		Loader l = new Loader();
 		l.loadSimulation(file);
@@ -582,6 +587,26 @@ public class Simulator {
 			System.out.println("No grid has been loaded yet!"); 
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Saves a given prototype to a string representation and put into file
+	 *
+	 * @param proto
+	 */
+	public void savePrototypeToString(Prototype proto){
+		Saver s = new Saver();
+		s.savePrototype(proto);
+	}
+	
+	/**
+	 * Load a prototype from a file and add it to the simulation
+	 *
+	 * @param file
+	 */
+	public void loadPrototypeFromString(File file){
+		Loader l = new Loader();
+		Prototype.addPrototype(l.loadPrototype(file));
 	}
 
 }
