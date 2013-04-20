@@ -52,14 +52,6 @@ public class SimulatorGuiManager {
 		load("New Simulation",10, 10);
 		d = Gui.getDisplay();
 		sm = ScreenManager.getInstance();
-		sm.putScreen("Title", new TitleScreen(this));
-		sm.putScreen("New Simulation", new NewSimulationScreen(this));
-		sm.putScreen("Edit Fields", new EditFieldScreen(this));
-		sm.putScreen("Edit Entities", new EditEntityScreen(this));
-		sm.putScreen("View Simulation", new ViewSimScreen(this));
-		sm.putScreen("Statistics", new StatDisplayScreen(this));
-		sm.putScreen("Grid Setup", new SetupScreen(this));
-
 		sm.getDisplay().setJMenuBar(makeMenuBar());
 		se = new SimulationEnder();
 		loader = new Loader();
