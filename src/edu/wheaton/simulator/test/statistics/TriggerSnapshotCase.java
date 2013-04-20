@@ -37,9 +37,9 @@ public class TriggerSnapshotCase {
 	@Before
 	public void setUp() {
 		grid = new Grid(1, 1);
-		prototype = new Prototype(grid, "BehaviorSnapshotTest");
-		actor = prototype.createAgent();
-		recipient = prototype.createAgent();
+		prototype = new Prototype("BehaviorSnapshotTest");
+		actor = prototype.createAgent(grid);
+		recipient = prototype.createAgent(grid);
 		behavior = new MoveBehavior();
 		step = 23; // arbitrary
 
@@ -59,7 +59,7 @@ public class TriggerSnapshotCase {
 		
 		Trigger trigger = builder.build();
 		
-		Agent agent = prototype.createAgent();
+		Agent agent = prototype.createAgent(grid);
 		agent.addTrigger(trigger);
 		
 		TriggerSnapshot tSnap = SnapshotFactory.makeTriggerSnapshot(trigger.getName(), trigger.getPriority(), trigger.getConditions().toString(), trigger.getBehavior().toString());

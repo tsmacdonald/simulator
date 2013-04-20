@@ -43,13 +43,11 @@ public class Prototype extends GridEntity {
 	/**
 	 * Constructor.
 	 * 
-	 * @param g
-	 *            The grid (passed to super constructor)
 	 * @param n
 	 *            The name of this prototype
 	 */
-	public Prototype(Grid g, String n) {
-		super(g);
+	public Prototype(String n) {
+		super();
 		name = n;
 		children = new ArrayList<AgentID>();
 		triggers = new ArrayList<Trigger>();
@@ -58,15 +56,13 @@ public class Prototype extends GridEntity {
 	/**
 	 * Constructor.
 	 * 
-	 * @param g
-	 *            The grid (passed to super constructor)
 	 * @param c
 	 *            The color of this prototype (passed to super constructor)
 	 * @param n
 	 *            The name of this prototype
 	 */
-	public Prototype(Grid g, Color c, String n) {
-		super(g, c);
+	public Prototype(Color c, String n) {
+		super(c);
 		name = n;
 		children = new ArrayList<AgentID>();
 		triggers = new ArrayList<Trigger>();
@@ -75,8 +71,6 @@ public class Prototype extends GridEntity {
 	/**
 	 * Constructor.
 	 * 
-	 * @param g
-	 *            The grid (passed to super constructor)
 	 * @param c
 	 *            The color of this prototype (passed to super constructor)
 	 * @param d
@@ -84,8 +78,8 @@ public class Prototype extends GridEntity {
 	 * @param n
 	 *            The name of this prototype
 	 */
-	public Prototype(Grid g, Color c, byte[] d, String n) {
-		super(g, c, d);
+	public Prototype(Color c, byte[] d, String n) {
+		super(c, d);
 		name = n;
 		triggers = new ArrayList<Trigger>();
 		children = new ArrayList<AgentID>();
@@ -170,8 +164,8 @@ public class Prototype extends GridEntity {
 	 * 
 	 * @return An Agent following this prototype
 	 */
-	public Agent createAgent() {
-		Agent clone = new Agent(getGrid(), this, getColor(), getDesign());
+	public Agent createAgent(Grid grid) {
+		Agent clone = new Agent(grid, this, getColor(), getDesign());
 
 		// copy all fields
 		clone.getFieldMap().putAll(this.getFieldMap());

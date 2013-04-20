@@ -171,7 +171,7 @@ public class Loader {
 					byte[] design = createByteArray(reader.readLine());
 
 					//Create the prototype
-					Prototype proto = new Prototype(grid, color, design, name);
+					Prototype proto = new Prototype(color, design, name);
 
 					//Add the prototype's default fields
 					readLine = reader.readLine(); 
@@ -257,7 +257,7 @@ public class Loader {
 			byte[] design = createByteArray(reader.readLine());
 
 			//Create the prototype
-			proto = new Prototype(null, color, design, name);
+			proto = new Prototype(color, design, name);
 
 			//Add the prototype's default fields
 			readLine = reader.readLine(); 

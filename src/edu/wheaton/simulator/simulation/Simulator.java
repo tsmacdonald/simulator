@@ -188,8 +188,8 @@ public class Simulator {
 	 * @param g
 	 * @param c
 	 */
-	public static void createPrototype(String n, Grid g, Color c) {
-		Prototype.addPrototype(new Prototype(g, c, n));
+	public static void createPrototype(String n, Color c) {
+		Prototype.addPrototype(new Prototype(c, n));
 	}
 
 	/**
@@ -200,8 +200,8 @@ public class Simulator {
 	 * @param c
 	 * @param d
 	 */
-	public static void createPrototype(String n, Grid g, Color c, byte[] d) {
-		Prototype.addPrototype(new Prototype(g, c, d, n));
+	public static void createPrototype(String n, Color c, byte[] d) {
+		Prototype.addPrototype(new Prototype(c, d, n));
 	}
 
 	/**
@@ -280,7 +280,7 @@ public class Simulator {
 	 * @return false if the x/y values are invalid
 	 */
 	public boolean addAgent(String prototypeName, int x, int y) {
-		Agent toAdd = getPrototype(prototypeName).createAgent();
+		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
 		return simulationGrid().addAgent(toAdd, x, y);
 	}
 
@@ -294,7 +294,7 @@ public class Simulator {
 	 * @return returns true if successful
 	 */
 	public boolean addAgent(String prototypeName) {
-		Agent toAdd = getPrototype(prototypeName).createAgent();
+		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
 		return simulationGrid().addAgent(toAdd);
 	}
 
@@ -367,7 +367,7 @@ public class Simulator {
 	 */
 	private void setLayerExtremes() {
 		Layer.getInstance().resetMinMax();
-		for (Agent current : simulation.getGrid()) {
+		for (Agent current : simulationGrid()) {
 			if (current != null) {
 				Field currentField = current.getField(Layer.getInstance()
 						.getFieldName());
@@ -380,14 +380,10 @@ public class Simulator {
 	 * Adds the some sample prototypes
 	 */
 	public void initSamples() {
-		new Multiplier().initSampleAgent(new Prototype(simulation.getGrid(),
-				Color.BLUE, "Multiplier"));
-		new Bouncer().initSampleAgent(new Prototype(simulation.getGrid(),
-				Color.RED, "bouncer"));
-		new RightTurner().initSampleAgent(new Prototype(simulation.getGrid(),
-				Color.BLACK, "rightTurner"));
-		new Confuser().initSampleAgent(new Prototype(simulation.getGrid(),
-				Color.GREEN, "confuser"));
+		new Multiplier().initSampleAgent(new Prototype(Color.BLUE, "Multiplier"));
+		new Bouncer().initSampleAgent(new Prototype(Color.RED, "bouncer"));
+		new RightTurner().initSampleAgent(new Prototype(Color.BLACK, "rightTurner"));
+		new Confuser().initSampleAgent(new Prototype(Color.GREEN, "confuser"));
 	}
 
 	/**
@@ -395,24 +391,22 @@ public class Simulator {
 	 */
 	public void initGameOfLife() {
 		clearPrototypes();
-		simulation.getGrid().setPriorityUpdater(0, 50);
+		simulationGrid().setPriorityUpdater(0, 50);
 
 		// add prototypes
-		new ConwaysDeadBeing().initSampleAgent(new Prototype(simulation
-				.getGrid(), new Color(219, 219, 219), "deadBeing"));
-		new ConwaysAliveBeing().initSampleAgent(new Prototype(simulation
-				.getGrid(), new Color(93, 198, 245), "aliveBeing"));
+		new ConwaysDeadBeing().initSampleAgent(new Prototype(new Color(219, 219, 219), "deadBeing"));
+		new ConwaysAliveBeing().initSampleAgent(new Prototype(new Color(93, 198, 245), "aliveBeing"));
 
 		// Place dead beings in Grid with some that are alive
-		for (int x = 0; x < simulation.getGrid().getWidth(); x++)
-			for (int y = 0; y < simulation.getGrid().getHeight(); y++) {
-				if (x == simulation.getGrid().getWidth() / 2) {
-					simulation.getGrid().addAgent(
-							Prototype.getPrototype("aliveBeing").createAgent(),
+		for (int x = 0; x < simulationGrid().getWidth(); x++)
+			for (int y = 0; y < simulationGrid().getHeight(); y++) {
+				if (x == simulationGrid().getWidth() / 2) {
+					simulationGrid().addAgent(
+							Prototype.getPrototype("aliveBeing").createAgent(simulationGrid()),
 							x, y);
 				} else {
-					simulation.getGrid().addAgent(
-							Prototype.getPrototype("deadBeing").createAgent(),
+					simulationGrid().addAgent(
+							Prototype.getPrototype("deadBeing").createAgent(simulationGrid()),
 							x, y);
 				}
 			}
@@ -423,11 +417,10 @@ public class Simulator {
 	 */
 	public void initRockPaperScissors() {
 		setPriorityUpdate(0, 60);
-		new Rock().initSampleAgent(new Prototype(simulation.getGrid(), "rock"));
+		new Rock().initSampleAgent(new Prototype("rock"));
 		new Paper()
-				.initSampleAgent(new Prototype(simulation.getGrid(), "paper"));
-		new Scissors().initSampleAgent(new Prototype(simulation.getGrid(),
-				"scissors"));
+				.initSampleAgent(new Prototype("paper"));
+		new Scissors().initSampleAgent(new Prototype("scissors"));
 	}
 
 	/**
@@ -504,14 +497,14 @@ public class Simulator {
 	 * Provides the width of the grid
 	 */
 	public int getWidth() {
-		return simulation.getGrid().getWidth();
+		return simulationGrid().getWidth();
 	}
 	
 	/**
 	 * Provides the height of the grid
 	 */
 	public int getHeight() {
-		return simulation.getGrid().getHeight();
+		return simulationGrid().getHeight();
 	}
 
 	/**

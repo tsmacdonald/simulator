@@ -11,6 +11,7 @@ package edu.wheaton.simulator.entity;
 
 import java.awt.Color;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -23,60 +24,56 @@ import edu.wheaton.simulator.simulation.Layer;
 public abstract class GridEntity extends Entity {
 
 	/**
-	 * A pointer to the environment so new Agents can be added or removed.
-	 */
-	private Grid grid;
-
-	/**
 	 * Bitmask for storing an entity's customized appearance, initially set
 	 */
 	private byte[] design;
 
 	/**
-	 * Constructor
-	 * 
-	 * @param g
-	 *            The grid object
-	 * @param c
-	 *            This entity's defaut color
-	 * 
+	 * The list of all triggers/events associated with this agent.
 	 */
-	public GridEntity(Grid g) {
+	protected List<Trigger> triggers;
+
+	/**
+	 * Constructor. Gives the entity a default color of black and a solid
+	 * design.
+	 */
+	public GridEntity() {
 		super();
-		init(g, Color.black, makeDesign());
+		init(Color.black, makeDesign());
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param g
-	 *            The grid object
 	 * @param c
 	 *            This entity's defaut color
 	 * 
 	 */
-	public GridEntity(Grid g, Color c) {
+	public GridEntity(Color c) {
 		super();
-		init(g, c, makeDesign());
+		init(c, makeDesign());
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param g
-	 *            The grid object
 	 * @param c
 	 *            This entity's defaut color
 	 * @param d
 	 *            The bitmask design chosen by the user
 	 */
-	public GridEntity(Grid g, Color c, byte[] d) {
+	public GridEntity(Color c, byte[] d) {
 		super();
-		init(g, c, d);
+		init(c, d);
 	}
 
-	private void init(Grid g, Color c, byte[] d) {
-		grid = g;
+	/**
+	 * Helper method initializing a color and design
+	 * 
+	 * @param c
+	 * @param d
+	 */
+	private void init(Color c, byte[] d) {
 		setDesign(d);
 		initFields(c);
 	}
@@ -207,15 +204,6 @@ public abstract class GridEntity extends Entity {
 	 */
 	public byte[] getDesign() {
 		return design;
-	}
-
-	/**
-	 * Provides the grid that this entity is in.
-	 * 
-	 * @return the Grid object
-	 */
-	public Grid getGrid() {
-		return grid;
 	}
 
 }

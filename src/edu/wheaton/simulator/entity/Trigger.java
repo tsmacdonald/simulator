@@ -530,7 +530,7 @@ public class Trigger implements Comparable<Trigger> {
 		 * @return
 		 */
 		public boolean isValid() {
-			Agent test = prototype.createAgent();
+			Agent test = prototype.createAgent(null);
 			try{
 				Expression condition = trigger.getConditions();
 				Expression behavior = trigger.getBehavior();

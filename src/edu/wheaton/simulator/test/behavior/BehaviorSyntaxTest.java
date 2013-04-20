@@ -30,9 +30,9 @@ public class BehaviorSyntaxTest {
 	@Before
 	public void setUp() throws ElementAlreadyContainedException {
 		testGrid = new Grid(20, 20);
-		proto = new Prototype(testGrid, "cat");
+		proto = new Prototype("cat");
 		proto.addField("health", 100 + "");
-		testGrid.addAgent(proto.createAgent(), 5, 5);
+		testGrid.addAgent(proto.createAgent(testGrid), 5, 5);
 	}
 	
 	@Test
@@ -99,7 +99,7 @@ public class BehaviorSyntaxTest {
 		Assert.assertFalse(testGrid.emptyPos(5, 5));
 		// spawn another agent at 4, 4 and make sure that it spawned
 		Assert.assertTrue(testGrid.emptyPos(4, 4));
-		testGrid.addAgent(proto.createAgent(), 4, 4);
+		testGrid.addAgent(proto.createAgent(testGrid), 4, 4);
 		Assert.assertFalse(testGrid.emptyPos(4, 4));
 		// health starts at 100
 		Assert.assertEquals(testGrid.getAgent(4, 4).getFieldValue("health") + "", "100");

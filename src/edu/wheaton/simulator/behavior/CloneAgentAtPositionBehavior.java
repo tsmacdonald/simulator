@@ -40,7 +40,7 @@ public class CloneAgentAtPositionBehavior extends AbstractExpressionFunction{
 		
 		Grid grid = target.getGrid();
 		if(grid.isValidCoord(x2, y2) && grid.getAgent(x2,y2)==null){
-				grid.addAgent(grid.getAgent(x1, y1).getPrototype().createAgent(), x2, y2);
+				grid.addAgent(grid.getAgent(x1, y1).getPrototype().createAgent(grid), x2, y2);
 				return Expression.TRUE;
 		}
 		return Expression.FALSE;

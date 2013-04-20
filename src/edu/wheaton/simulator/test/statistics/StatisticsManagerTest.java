@@ -40,7 +40,6 @@ public class StatisticsManagerTest {
 	StatisticsManager sm;
 	Grid g;
 	String categoryName;
-	Grid grid;
 	Prototype prototype;
 	HashMap<String, String> fields;
 	int population;
@@ -62,7 +61,7 @@ public class StatisticsManagerTest {
 		Trigger trigger = builder.build();
 
 		Set<TriggerSnapshot> tSnaps = new HashSet<TriggerSnapshot>();
-		Agent agent = prototype.createAgent();
+		Agent agent = prototype.createAgent(g);
 		agent.addTrigger(trigger);
 
 		TriggerSnapshot tSnap = SnapshotFactory.makeTriggerSnapshot(trigger.getName(), trigger.getPriority(), trigger
@@ -78,8 +77,7 @@ public class StatisticsManagerTest {
 
 		// Add a test PrototypeSnapshot
 		categoryName = "testing";
-		grid = new Grid(10, 10);
-		prototype = new Prototype(grid, "tester");
+		prototype = new Prototype("tester");
 		fields = new HashMap<String, String>();
 		population = 50;
 		children = prototype.childIDs();
@@ -90,7 +88,7 @@ public class StatisticsManagerTest {
 				children, makeTriggerSnapshots(), null, null);
 
 		categoryName = "testing2";
-		prototype = new Prototype(grid, "tester2");
+		prototype = new Prototype("tester2");
 		population = 40;
 		step = new Integer(2);
 
@@ -122,7 +120,7 @@ public class StatisticsManagerTest {
 
 	@Test
 	public void testAddPrototypeSnapshot() {
-		Prototype p = new Prototype(g, "TestPrototype");
+		Prototype p = new Prototype("TestPrototype");
 		Assert.assertNotNull(p);
 
 		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname",
@@ -148,7 +146,7 @@ public class StatisticsManagerTest {
 
 			// Add the appropriate AgentSnapshots to the StatsManager
 			for (int pop = 0; pop < expected[i]; pop++) {
-				Agent agent = prototype.createAgent();
+				Agent agent = prototype.createAgent(g);
 				sm.addGridEntity(new AgentSnapshot(agent.getID(),
 						SnapshotFactory.makeFieldSnapshots(agent
 								.getCustomFieldMap()), i,
@@ -191,7 +189,7 @@ public class StatisticsManagerTest {
 
 		/* create snapshots */
 		for (int i = 0; i < 5; i++) {
-			Agent agent = prototype.createAgent();
+			Agent agent = prototype.createAgent(g);
 			try {
 				agent.addField("name", names[i]);
 				agent.addField("weight", "10");
@@ -240,7 +238,7 @@ public class StatisticsManagerTest {
 		
 		/* create snapshots */
 		for (int i = 0; i < 5; i++) {
-			Agent agent = prototype.createAgent();
+			Agent agent = prototype.createAgent(g);
 			try {
 				agent.addField("name", names[i]);
 				agent.addField("weight", "10");
@@ -287,7 +285,7 @@ public class StatisticsManagerTest {
 
 		/* create snapshots */
 		for (int i = 0; i < lifespans.size(); i++) {
-			Agent agent = prototype.createAgent();
+			Agent agent = prototype.createAgent(g);
 			AgentID ID = agent.getID();
 
 			// For each agent, add a snapshot of it at each Step it was alive

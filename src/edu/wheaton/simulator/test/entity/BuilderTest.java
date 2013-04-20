@@ -22,7 +22,7 @@ public class BuilderTest {
 	public void setUp() {
 		try{
 			grid = new Grid(1,1);
-			prototype = new Prototype(grid, "test");
+			prototype = new Prototype("test");
 			prototype.addField("weight", "1");
 			prototype.addField("health", "10");
 			builder = new Trigger.Builder(prototype);

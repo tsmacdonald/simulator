@@ -57,7 +57,7 @@ public class Recorder implements GridObserver, TriggerObserver {
 		}
 		
 		if(gridPrototype == null) {
-			gridPrototype = new Prototype(grid, "GRID");
+			gridPrototype = new Prototype("GRID");
 			statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, grid.getStep()));
 		}
 		else

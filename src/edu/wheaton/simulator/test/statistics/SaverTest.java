@@ -36,8 +36,8 @@ public class SaverTest {
 		grid = new Grid(10, 10);
 		grid.addField("Depth", "100"); 
 		
-		prototypeOne = new Prototype(grid, "Prototype 1");
-		agent = prototypeOne.createAgent();
+		prototypeOne = new Prototype("Prototype 1");
+		agent = prototypeOne.createAgent(grid);
 		try {
 			agent.addField("Pig", "Tom");
 			agent.addField("Monkey", "Olly");
@@ -46,8 +46,8 @@ public class SaverTest {
 			e.printStackTrace();
 		}
 		
-		prototypeTwo = new Prototype(grid, "Prototype 2");
-		agentOther = prototypeTwo.createAgent();
+		prototypeTwo = new Prototype("Prototype 2");
+		agentOther = prototypeTwo.createAgent(grid);
 		try {
 			agentOther.addField("Crayfish", "Paul");
 			agentOther.addField("Meerkat", "Timon");

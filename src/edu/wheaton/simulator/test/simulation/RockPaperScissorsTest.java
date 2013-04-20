@@ -57,7 +57,7 @@ public class RockPaperScissorsTest {
 		Expression checkId2 = new Expression("this.typeId%3 == 2 && !(this.type == 'scissors')");		// scissors
 				
 		for(int j = 0; j < agentType.length; j ++){
-			Prototype testPrototype = new Prototype(testGrid, "testPrototype");
+			Prototype testPrototype = new Prototype("testPrototype");
 			try {
 				testPrototype.addField("type", agentType[j]);
 				testPrototype.addField("typeID", j + "");
@@ -87,7 +87,7 @@ public class RockPaperScissorsTest {
 			// There is an obstacle ahead of us so we need to turn
 			
 			for(int i = 0; i < 10; i ++){
-				testGrid.addAgent(testPrototype.createAgent());
+				testGrid.addAgent(testPrototype.createAgent(testGrid));
 			}
 		}
 	}

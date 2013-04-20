@@ -182,12 +182,12 @@ public class ExpressionEvaluationTest {
 //		ExpressionEvaluator xMoveLeft = new Expression("move('this', #{this.x} - 1, #{this.y})");		
 //		ExpressionEvaluator yMoveDown = new Expression("move('this', #{this.x}, #{this.y} - 1)");
 		Expression dir1 = new Expression("this.direction==1");
-		Prototype testPrototype = new Prototype(testGrid, "name");
+		Prototype testPrototype = new Prototype("name");
 		testPrototype.addField("type", "'test'");
 		testPrototype.addField("direction", "1");
 //		Trigger testTrigger = new Trigger("moveRight", 1, dir1, xMoveRight);
 //		testPrototype.addTrigger(testTrigger);
-		Agent testAgent1 = testPrototype.createAgent();
+		Agent testAgent1 = testPrototype.createAgent(testGrid);
 //		Agent testAgent2 = testPrototype.clonePrototype();
 		testGrid.addAgent(testAgent1, 0, 0);
 //		testGrid.addAgent(testAgent2, 1, 0);

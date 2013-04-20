@@ -256,7 +256,7 @@ public class SimulatorFacade {
 
 	public void createPrototype(String text, Grid grid, Color color,
 			byte[] generateBytes) {
-		Simulator.createPrototype(text, grid, color, generateBytes);
+		Simulator.createPrototype(text, color, generateBytes);
 	}
 
 	public int[] getPopVsTime(String selectedItem) {
