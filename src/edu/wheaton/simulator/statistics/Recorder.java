@@ -23,11 +23,11 @@ public class Recorder extends AbstractStatsGridObserver implements TriggerObserv
 	private StatisticsManager statManager;
 
 	private Prototype gridPrototype;
-	
+
 	private final ExecutorService pool;
-	
+
 	private final int poolSize = 5;
-	
+
 	private static HashMap<AgentID, ArrayList<TriggerSnapshot>> triggers;
 
 	/**
@@ -40,15 +40,19 @@ public class Recorder extends AbstractStatsGridObserver implements TriggerObserv
 		pool = Executors.newFixedThreadPool(poolSize);
 	}
 	public void update(Grid grid){
-		pool.execute(new Updater(grid));
+		try {
+			pool.execute(new Updater(grid));
+		} catch (Exception ex) {
+			pool.shutdown();
+		}
 	}
-	
+
 	class Updater implements Runnable {
 		private Grid grid;
 		public Updater(Grid grid){
 			this.grid = grid;
 		}
-		
+
 		/**
 		 * Record a step of the simulation.
 		 * 
@@ -58,28 +62,28 @@ public class Recorder extends AbstractStatsGridObserver implements TriggerObserv
 		 *            The point in the simulation being recorded.
 		 * @param prototypes
 		 */
-		
+
 		@Override
 		public void run(){
 			Collection<Prototype> prototypes = Prototype.getPrototypes();
-			
+
 			for (Prototype prototype : prototypes)
 				StatisticsManager.addPrototypeSnapshot(SnapshotFactory
 						.makePrototypeSnapshot(prototype));
-			
+
 			for (Agent agent : grid) {
 				if (agent != null)
 					statManager.addGridEntity(SnapshotFactory.makeAgentSnapshot(
 							agent, triggers.get(agent.getID()), grid.getStep()));
 			}
-			
+
 			if(gridPrototype == null) {
 				gridPrototype = new Prototype("GRID");
 				statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, grid.getStep()));
 			}
 			else
 				statManager.addGridEntity(SnapshotFactory.makeGlobalVarSnapshot(grid, gridPrototype, grid.getStep()));
-			
+
 			triggers.clear();
 		}
 	}
@@ -102,7 +106,7 @@ public class Recorder extends AbstractStatsGridObserver implements TriggerObserv
 	public void update(AgentID caller, Trigger trigger, int step) {
 		TriggerSnapshot triggerSnap = SnapshotFactory.makeTriggerSnapshot(
 				trigger.getName(), trigger.getPriority(), null, null);
-		
+
 		if (triggers.containsKey(caller)) {
 			triggers.get(caller).add(triggerSnap);
 		} else {

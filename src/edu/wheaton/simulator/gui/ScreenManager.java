@@ -7,7 +7,7 @@ import edu.wheaton.simulator.gui.screen.EditFieldScreen;
 import edu.wheaton.simulator.gui.screen.NewSimulationScreen;
 import edu.wheaton.simulator.gui.screen.Screen;
 import edu.wheaton.simulator.gui.screen.SetupScreen;
-import edu.wheaton.simulator.gui.screen.StatDisplayScreen;
+import edu.wheaton.simulator.gui.screen.StatisticsScreen;
 import edu.wheaton.simulator.gui.screen.TitleScreen;
 import edu.wheaton.simulator.gui.screen.ViewSimScreen;
 
@@ -34,7 +34,7 @@ public class ScreenManager {
 		putScreen("Edit Fields", new EditFieldScreen(gm));
 		putScreen("Edit Entities", new EditEntityScreen(gm));
 		putScreen("View Simulation", new ViewSimScreen(gm));
-		putScreen("Statistics", new StatDisplayScreen(gm));
+		putScreen("Statistics", new StatisticsScreen(gm));
 		putScreen("Grid Setup", new SetupScreen(gm));
 	}
 	

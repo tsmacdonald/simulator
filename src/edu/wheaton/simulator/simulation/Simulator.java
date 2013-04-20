@@ -577,6 +577,16 @@ public class Simulator {
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
 	}
+	
+	/**
+	 * Load a prototype from a file and add it to the simulation
+	 *
+	 * @param file
+	 */
+	public void loadPrototypeFromString(File file){
+		Loader l = new Loader();
+		Prototype.addPrototype(l.loadPrototype(file));
+	}
 
 	/**
 	 * Saves a simulation to a given file.
@@ -594,6 +604,18 @@ public class Simulator {
 		s.saveSimulation(filename, agents, Prototype.getPrototypes(),
 				getGlobalFieldMap(),
 				grid.getWidth(), grid.getHeight(), ender);
+	}
+	
+	
+	
+	/**
+	 * Saves a given prototype to a string representation and put into file
+	 *
+	 * @param proto
+	 */
+	public void savePrototypeToString(Prototype proto){
+		Saver s = new Saver();
+		s.savePrototype(proto);
 	}
 
 }
