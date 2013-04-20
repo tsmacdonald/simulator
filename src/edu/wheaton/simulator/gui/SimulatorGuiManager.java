@@ -82,13 +82,7 @@ public class SimulatorGuiManager {
 		simulator = Simulator.getInstance();
 		simulator.load(name, x,y,se);
 		simulator.addGridObserver(gpo);
-		if(gridPanel != null){
-			gridPanel.setGrid(getSimGrid());
-		}
-	}
-	
-	public Map<String,String> getGlobalFieldMap(){
-		return getSim().getGlobalFieldMap();
+
 	}
 
 	private Simulator getSim() {
@@ -233,7 +227,7 @@ public class SimulatorGuiManager {
 			//loader.loadSimulation(fileName);
 		}
 
-		
+
 	}
 
 	public void save(String fileName) {
@@ -268,7 +262,7 @@ public class SimulatorGuiManager {
 
 		menu.add(Gui.makeMenuItem("New Simulation", 
 				new GeneralButtonListener("New Simulation",guiManager.sm)));
-		
+
 		menu.add(Gui.makeMenuItem("Save Simulation", 
 				new ActionListener() {
 			@Override
@@ -288,7 +282,7 @@ public class SimulatorGuiManager {
 			}
 		}
 				));
-		
+
 		menu.add(Gui.makeMenuItem("Exit",new ActionListener(){ 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -335,11 +329,11 @@ public class SimulatorGuiManager {
 	public void setName(String name) {
 		getSim().setName(name);
 	}
-	
+
 	public Integer getSleepPeriod() {
 		return getSim().getSleepPeriod();
 	}
-	
+
 	public void setSleepPeriod(int n) {
 		getSim().setSleepPeriod(n);
 	}

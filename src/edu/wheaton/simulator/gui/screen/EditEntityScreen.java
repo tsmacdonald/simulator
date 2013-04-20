@@ -442,6 +442,7 @@ public class EditEntityScreen extends Screen {
 				throw new Exception("Please enter an Agent name");
 			}
 			if (!editing) {
+				//TODO signature of create prototype needs to not take a grid
 				Simulator.createPrototype(nameField.getText(), null, colorTool.getColor(), generateBytes());
 				agent = Simulator.getPrototype(nameField.getText());
 			} else {
