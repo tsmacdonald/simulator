@@ -241,7 +241,8 @@ public class SimulatorGuiManager {
 	}
 
 	public Prototype getPrototype(String string) {
-		return getSim().getPrototype(string);
+		getSim();
+		return Simulator.getPrototype(string);
 	}
 
 	public void displayLayer(String string, Color color) {
