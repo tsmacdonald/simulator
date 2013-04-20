@@ -94,7 +94,8 @@ public class Simulator {
 		isStarted = new AtomicBoolean(false);
 		sleepPeriod = 500;
 		this.ender = ender;
-		StatisticsManager.getInstance().initialize(grid, ender);
+		//StatisticsManager.getInstance().initialize(grid, ender);
+		StatisticsManager.getInstance().initialize(grid);
 	}
 
 	/**
