@@ -10,7 +10,6 @@
 package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -318,6 +317,22 @@ public class Simulator {
 	public void removeAgent(int x, int y) {
 		simulationGrid().removeAgent(x, y);
 	}
+	
+	/**
+	 * Provides the simulation's name
+	 * 
+	 * @return
+	 */
+	public String getName() {
+		return simulation.getName();
+	}
+	
+	/**
+	 * Change the name of the simulation
+	 */
+	public void setName(String name) {
+		simulation.setName(name);
+	}
 
 	/**
 	 * Makes a new Layer.
@@ -483,6 +498,20 @@ public class Simulator {
 			System.out.println("Attempting to remove a nonexistant field.");
 			System.err.print(e);
 		}
+	}
+	
+	/**
+	 * Provides the width of the grid
+	 */
+	public int getWidth() {
+		return simulation.getGrid().getWidth();
+	}
+	
+	/**
+	 * Provides the height of the grid
+	 */
+	public int getHeight() {
+		return simulation.getGrid().getHeight();
 	}
 
 	/**

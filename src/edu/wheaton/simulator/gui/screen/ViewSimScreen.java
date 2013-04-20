@@ -190,12 +190,8 @@ public class ViewSimScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SimulatorGuiManager gm = getGuiManager();
-
-				gm.getGridPanel().repaint();
 				canSpawn = false;
-
 				gm.getGridPanel().repaint();	
-
 				gm.startSim();
 				
 			}
