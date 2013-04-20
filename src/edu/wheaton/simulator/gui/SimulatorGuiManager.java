@@ -343,4 +343,8 @@ public class SimulatorGuiManager {
 	public void setSleepPeriod(int n) {
 		getSim().setSleepPeriod(n);
 	}
+
+	public Map<String, String> getSimGridFieldMap() {
+		return getSim().getGlobalFieldMap();
+	}
 }
