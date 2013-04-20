@@ -288,20 +288,22 @@ public class Grid extends Entity implements Iterable<Agent> {
 			}
 			// add Agents
 			for (Agent current : this) {
-				copy.addAgent(current.clone(), current.getPosX(),
-						current.getPosY());
-				if (layerRunning)
-					try {
-						agentView.add(new AgentAppearance(current
-								.getLayerColor(), current.getDesign(), current
-								.getPosX(), current.getPosY()));
-					} catch (EvaluationException e) {
-						e.printStackTrace();
-					}
-				else
-					agentView.add(new AgentAppearance(current.getColor(),
-							current.getDesign(), current.getPosX(), current
-									.getPosY()));
+				if (current != null) {
+					copy.addAgent(current.clone(), current.getPosX(),
+							current.getPosY());
+					if (layerRunning)
+						try {
+							agentView.add(new AgentAppearance(current
+									.getLayerColor(), current.getDesign(), current
+									.getPosX(), current.getPosY()));
+						} catch (EvaluationException e) {
+							e.printStackTrace();
+						}
+					else
+						agentView.add(new AgentAppearance(current.getColor(),
+								current.getDesign(), current.getPosX(), current
+								.getPosY()));
+				}
 			}
 
 			copy.step = this.step;
