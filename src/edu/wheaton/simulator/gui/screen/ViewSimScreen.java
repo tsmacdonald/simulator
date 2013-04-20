@@ -121,8 +121,6 @@ public class ViewSimScreen extends Screen {
 			}
 		});
 
-		JPanel layerPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS, null, null);
-		layerPanel.setAlignmentY(CENTER_ALIGNMENT);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.NONE;
