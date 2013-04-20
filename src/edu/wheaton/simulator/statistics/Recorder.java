@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+import edu.wheaton.simulator.datastructure.AbstractStatsGridObserver;
 import edu.wheaton.simulator.datastructure.Grid;
-import edu.wheaton.simulator.datastructure.GridObserver;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
@@ -16,7 +16,7 @@ import edu.wheaton.simulator.entity.TriggerObserver;
  * @author Daniel Gill, Nico Lasta
  * 
  */
-public class Recorder implements GridObserver, TriggerObserver {
+public class Recorder extends AbstractStatsGridObserver implements TriggerObserver {
 
 	private StatisticsManager statManager;
 
