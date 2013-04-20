@@ -80,7 +80,8 @@ public class SimulatorGuiManager {
 
 	public void initSim(String name,int x, int y) {
 		System.out.println("Reset prototypes");
-		simulator = new Simulator(name, x, y, se);
+		simulator = Simulator.getInstance();
+		simulator.load(name, x,y,se);
 		simulator.addGridObserver(gpo);
 		if(gridPanel != null)
 			gridPanel.setGrid(getSimGrid());
@@ -88,15 +89,6 @@ public class SimulatorGuiManager {
 
 	private Simulator getSim() {
 		return simulator;
-	}
-
-
-	public Grid getSimGrid(){
-		return getSim().getGrid();
-	}
-
-	public Map<String,String> getSimGridFieldMap(){
-		return getSimGrid().getFieldMap();
 	}
 
 	public Field getSimGlobalField(String name){
