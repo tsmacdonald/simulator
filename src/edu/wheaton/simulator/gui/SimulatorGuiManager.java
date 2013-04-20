@@ -45,8 +45,8 @@ public class SimulatorGuiManager {
 
 	public SimulatorGuiManager(Display d) {
 		canSpawn = true;
-		initSim("New Simulation",10, 10);
 		gridPanel = new GridPanel(this);
+		initSim("New Simulation",10, 10);
 		sm = new ScreenManager(d);
 		sm.putScreen("Title", new TitleScreen(this));
 		sm.putScreen("New Simulation", new NewSimulationScreen(this));
@@ -80,7 +80,8 @@ public class SimulatorGuiManager {
 
 	public void initSim(String name,int x, int y) {
 		System.out.println("Reset prototypes");
-		simulator = new Simulator(name, x, y, se);
+		simulator = Simulator.getInstance();
+		simulator.load(name, x,y,se);
 		simulator.addGridObserver(gpo);
 		if(gridPanel != null)
 			gridPanel.setGrid(getSimGrid());
@@ -88,15 +89,6 @@ public class SimulatorGuiManager {
 
 	private Simulator getSim() {
 		return simulator;
-	}
-
-
-	public Grid getSimGrid(){
-		return getSim().getGrid();
-	}
-
-	public Map<String,String> getSimGridFieldMap(){
-		return getSimGrid().getFieldMap();
 	}
 
 	public Field getSimGlobalField(String name){
@@ -253,10 +245,7 @@ public class SimulatorGuiManager {
 		setSimRunning(true);
 		setSimStarted(true);
 		canSpawn = false;
-		if(!simulator.hasStarted())
-			simulator.start();
-		else
-			simulator.resume();
+		simulator.play();
 	}
 
 
@@ -345,5 +334,13 @@ public class SimulatorGuiManager {
 
 	public void setSimName(String name) {
 		getSim().setName(name);
+	}
+	
+	public Integer getSleepPeriod() {
+		return getSim().getSleepPeriod();
+	}
+	
+	public void setSleepPeriod(int n) {
+		getSim().setSleepPeriod(n);
 	}
 }

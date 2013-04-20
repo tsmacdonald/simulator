@@ -2,8 +2,7 @@
  * Simulator.java
  * 
  * Runnable simulator that in a way acts as a facade to the Agent code. 
- * The simulator encapsulates a single simulation. Once the simulation 
- * is completed, a new simulator must be made.
+ * The simulator holds simulations.
  *
  * @author Agent Team
  */
@@ -27,8 +26,6 @@ import sampleAgents.RightTurner;
 import sampleAgents.Rock;
 import sampleAgents.Scissors;
 
-import com.google.common.base.Preconditions;
-
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.datastructure.Grid;
@@ -36,19 +33,18 @@ import edu.wheaton.simulator.datastructure.GridObserver;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
-import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class Simulator {
 
 	/**
-	 * Name of the simulator
+	 * Single instance of the simulator
 	 */
-	private String name;
+	private static Simulator simulator = null;
 
 	/**
-	 * The Grid to hold all the Agents
+	 * Houses the properties of a simulation
 	 */
-	private Grid grid;
+	private Simulation simulation;
 
 	/**
 	 * Whether or not the simulation will pause on the next step
@@ -61,19 +57,14 @@ public class Simulator {
 	private AtomicBoolean isStopped;
 
 	/**
-	 * Whether or not the simulation has begun
-	 */
-	private AtomicBoolean isStarted;
-
-	/**
 	 * Time (in milliseconds) in between each step
 	 */
 	private int sleepPeriod;
 
 	/**
-	 * Class to hold conditions for the grid loop to end
+	 * If a layer is being displayed
 	 */
-	private SimulationEnder ender;
+	private AtomicBoolean layerRunning;
 
 	/**
 	 * Monitor for sync
@@ -81,34 +72,25 @@ public class Simulator {
 	private static final Object lock = new Object();
 
 	/**
-	 * Constructor.
-	 * 
-	 * @param gridX
-	 * @param gridY
+	 * Constructor
 	 */
-	public Simulator(String name, int gridX, int gridY, SimulationEnder ender) {
-		this.name = name;
-		grid = new Grid(gridX, gridY);
+	private Simulator() {
 		isPaused = new AtomicBoolean(false);
 		isStopped = new AtomicBoolean(false);
-		isStarted = new AtomicBoolean(false);
+		layerRunning = new AtomicBoolean(false);
 		sleepPeriod = 500;
-		this.ender = ender;
-		//StatisticsManager.getInstance().initialize(grid, ender);
-		StatisticsManager.getInstance().initialize(grid);
+		layerRunning.set(false);
 	}
 
 	/**
-	 * Provides this simulator's name
+	 * Get the instance of the simulator
 	 * 
 	 * @return
 	 */
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public static Simulator getInstance() {
+		if (simulator == null)
+			simulator = new Simulator();
+		return simulator;
 	}
 
 	/**
@@ -120,8 +102,10 @@ public class Simulator {
 			while (!isStopped.get()) {
 				while (!isPaused.get()) {
 					try {
-						grid.updateEntities();
-						grid.notifyObservers();
+						simulation.updateEntities();
+						simulation.notifyObservers(layerRunning.get());
+						if (layerRunning.get())
+							setLayerExtremes();
 						Thread.sleep(sleepPeriod);
 					} catch (SimulationPauseException e) {
 						isPaused.set(true);
@@ -145,21 +129,13 @@ public class Simulator {
 	});
 
 	/**
-	 * Begins the simulation. This should never be called twice on a given
-	 * simulator.
+	 * Resumes the simulation
 	 */
-	public void start() {
-		Preconditions.checkArgument(!isStarted.get());
-
-		isStarted.set(true);
-		mainThread.start();
-	}
-
-	/**
-	 * Resumes the update loop
-	 */
-	public void resume() {
-		if (!isStopped.get() && isPaused.get()) {
+	public void play() {
+		if (simulation.getStarted()) {
+			simulation.setStarted();
+			mainThread.start();
+		} else if (!isStopped.get() && isPaused.get()) {
 			isPaused.set(false);
 			synchronized (lock) {
 				lock.notifyAll();
@@ -169,7 +145,7 @@ public class Simulator {
 
 	/**
 	 * Pauses the update of the simulation. This will happen on the next
-	 * iteration
+	 * iteration.
 	 */
 	public void pause() {
 		isPaused.set(true);
@@ -179,18 +155,11 @@ public class Simulator {
 	 * Tells the grid to stop on the next iteration if the ender evaluates to
 	 * true
 	 */
-	public void checkEndings() {
-		if (ender.evaluate(grid)) {
+	private void checkEndings() {
+		if (simulation.shouldEnd()) {
 			isPaused.set(true);
 			isStopped.set(true);
 		}
-	}
-	
-	/**
-	 * Whether or not the simulation has begun
-	 */
-	public boolean hasStarted() {
-		return isStarted.get();
 	}
 
 	/**
@@ -210,20 +179,6 @@ public class Simulator {
 	 */
 	public int getSleepPeriod() {
 		return sleepPeriod;
-	}
-
-	/**
-	 * Adds the some sample prototypes
-	 */
-	public void initSamples() {
-		new Multiplier().initSampleAgent(new Prototype(grid, Color.BLUE,
-				"Multiplier"));
-		new Bouncer()
-				.initSampleAgent(new Prototype(grid, Color.RED, "bouncer"));
-		new RightTurner().initSampleAgent(new Prototype(grid, Color.BLACK,
-				"rightTurner"));
-		new Confuser().initSampleAgent(new Prototype(grid, Color.GREEN,
-				"confuser"));
 	}
 
 	/**
@@ -276,25 +231,34 @@ public class Simulator {
 	}
 
 	/**
+	 * Provides the Grid object that the simulation houses
+	 * 
+	 * @return
+	 */
+	private Grid simulationGrid() {
+		return simulation.getGrid();
+	}
+
+	/**
 	 * 
 	 * @return a String with the name of the current update method
 	 */
 	public String currentUpdater() {
-		return grid.currentUpdater();
+		return simulationGrid().currentUpdater();
 	}
 
 	/**
 	 * Sets the update method to use the PriorityUpdate system
 	 */
 	public void setPriorityUpdate(int minPriority, int maxPriority) {
-		grid.setPriorityUpdater(minPriority, maxPriority);
+		simulationGrid().setPriorityUpdater(minPriority, maxPriority);
 	}
 
 	/**
 	 * Sets the update method to use the AtomicUpdate system
 	 */
 	public void setAtomicUpdate() {
-		grid.setAtomicUpdater();
+		simulationGrid().setAtomicUpdater();
 	}
 
 	/**
@@ -302,7 +266,7 @@ public class Simulator {
 	 * default
 	 */
 	public void setLinearUpdate() {
-		grid.setLinearUpdater();
+		simulationGrid().setLinearUpdater();
 	}
 
 	/**
@@ -317,7 +281,7 @@ public class Simulator {
 	 */
 	public boolean addAgent(String prototypeName, int x, int y) {
 		Agent toAdd = getPrototype(prototypeName).createAgent();
-		return grid.addAgent(toAdd, x, y);
+		return simulationGrid().addAgent(toAdd, x, y);
 	}
 
 	/**
@@ -331,7 +295,7 @@ public class Simulator {
 	 */
 	public boolean addAgent(String prototypeName) {
 		Agent toAdd = getPrototype(prototypeName).createAgent();
-		return grid.addAgent(toAdd);
+		return simulationGrid().addAgent(toAdd);
 	}
 
 	/**
@@ -341,7 +305,7 @@ public class Simulator {
 	 * @param y
 	 */
 	public Agent getAgent(int x, int y) {
-		return grid.getAgent(x, y);
+		return simulationGrid().getAgent(x, y);
 	}
 
 	/**
@@ -351,7 +315,23 @@ public class Simulator {
 	 * @param y
 	 */
 	public void removeAgent(int x, int y) {
-		grid.removeAgent(x, y);
+		simulationGrid().removeAgent(x, y);
+	}
+	
+	/**
+	 * Provides the simulation's name
+	 * 
+	 * @return
+	 */
+	public String getName() {
+		return simulation.getName();
+	}
+	
+	/**
+	 * Change the name of the simulation
+	 */
+	public void setName(String name) {
+		simulation.setName(name);
 	}
 
 	/**
@@ -363,8 +343,18 @@ public class Simulator {
 	 *            The Color that will be shaded differently to represent Field
 	 *            values
 	 */
-	public static void newLayer(String fieldName, Color c) {
-		Grid.newLayer(fieldName, c);
+	public void displayLayer(String fieldName, Color c) {
+		layerRunning.set(true);
+		Layer.getInstance().setFieldName(fieldName);
+		Layer.getInstance().setColor(c);
+		Layer.getInstance().resetMinMax();
+	}
+
+	/**
+	 * Stops the layer from displaying
+	 */
+	public void clearLayer() {
+		layerRunning.set(false);
 	}
 
 	/**
@@ -375,17 +365,29 @@ public class Simulator {
 	 * 
 	 * @throws EvaluationException
 	 */
-	public void setLayerExtremes() throws EvaluationException {
-		grid.setLayerExtremes();
+	private void setLayerExtremes() {
+		Layer.getInstance().resetMinMax();
+		for (Agent current : simulation.getGrid()) {
+			if (current != null) {
+				Field currentField = current.getField(Layer.getInstance()
+						.getFieldName());
+				Layer.getInstance().setExtremes(currentField);
+			}
+		}
 	}
 
 	/**
-	 * Provides the Grid the Facade is using
-	 * 
-	 * @return Grid object
+	 * Adds the some sample prototypes
 	 */
-	public Grid getGrid() {
-		return grid;
+	public void initSamples() {
+		new Multiplier().initSampleAgent(new Prototype(simulation.getGrid(),
+				Color.BLUE, "Multiplier"));
+		new Bouncer().initSampleAgent(new Prototype(simulation.getGrid(),
+				Color.RED, "bouncer"));
+		new RightTurner().initSampleAgent(new Prototype(simulation.getGrid(),
+				Color.BLACK, "rightTurner"));
+		new Confuser().initSampleAgent(new Prototype(simulation.getGrid(),
+				Color.GREEN, "confuser"));
 	}
 
 	/**
@@ -393,23 +395,25 @@ public class Simulator {
 	 */
 	public void initGameOfLife() {
 		clearPrototypes();
-		grid.setPriorityUpdater(0, 50);
+		simulation.getGrid().setPriorityUpdater(0, 50);
 
 		// add prototypes
-		new ConwaysDeadBeing().initSampleAgent(new Prototype(grid, new Color(
-				219, 219, 219), "deadBeing"));
-		new ConwaysAliveBeing().initSampleAgent(new Prototype(grid, new Color(
-				93, 198, 245), "aliveBeing"));
+		new ConwaysDeadBeing().initSampleAgent(new Prototype(simulation
+				.getGrid(), new Color(219, 219, 219), "deadBeing"));
+		new ConwaysAliveBeing().initSampleAgent(new Prototype(simulation
+				.getGrid(), new Color(93, 198, 245), "aliveBeing"));
 
 		// Place dead beings in Grid with some that are alive
-		for (int x = 0; x < grid.getWidth(); x++)
-			for (int y = 0; y < grid.getHeight(); y++) {
-				if (x == grid.getWidth() / 2) {
-					grid.addAgent(Prototype.getPrototype("aliveBeing")
-							.createAgent(), x, y);
+		for (int x = 0; x < simulation.getGrid().getWidth(); x++)
+			for (int y = 0; y < simulation.getGrid().getHeight(); y++) {
+				if (x == simulation.getGrid().getWidth() / 2) {
+					simulation.getGrid().addAgent(
+							Prototype.getPrototype("aliveBeing").createAgent(),
+							x, y);
 				} else {
-					grid.addAgent(Prototype.getPrototype("deadBeing")
-							.createAgent(), x, y);
+					simulation.getGrid().addAgent(
+							Prototype.getPrototype("deadBeing").createAgent(),
+							x, y);
 				}
 			}
 	}
@@ -419,9 +423,11 @@ public class Simulator {
 	 */
 	public void initRockPaperScissors() {
 		setPriorityUpdate(0, 60);
-		new Rock().initSampleAgent(new Prototype(grid, "rock"));
-		new Paper().initSampleAgent(new Prototype(grid, "paper"));
-		new Scissors().initSampleAgent(new Prototype(grid, "scissors"));
+		new Rock().initSampleAgent(new Prototype(simulation.getGrid(), "rock"));
+		new Paper()
+				.initSampleAgent(new Prototype(simulation.getGrid(), "paper"));
+		new Scissors().initSampleAgent(new Prototype(simulation.getGrid(),
+				"scissors"));
 	}
 
 	/**
@@ -432,7 +438,16 @@ public class Simulator {
 	 * @return The field to return.
 	 */
 	public Field getGlobalField(String s) {
-		return grid.getField(s);
+		return simulationGrid().getField(s);
+	}
+
+	/**
+	 * Gets a map holding all values for the global fields.
+	 * 
+	 * @return A map holding all values for the global fields.
+	 */
+	public Map<String, String> getGlobalFieldMap() {
+		return simulationGrid().getFieldMap();
 	}
 
 	/**
@@ -445,21 +460,12 @@ public class Simulator {
 	 */
 	public void updateGlobalField(String name, String value) {
 		try {
-			grid.updateField(name, value);
-		}
-		catch (NoSuchElementException e) {
-			System.out.println("Attempting to update a nonexistent global field.");
+			simulationGrid().updateField(name, value);
+		} catch (NoSuchElementException e) {
+			System.out
+					.println("Attempting to update a nonexistent global field.");
 			System.err.print(e);
 		}
-	}
-
-	/**
-	 * Gets a map holding all values for the global fields.
-	 * 
-	 * @return A map holding all values for the global fields.
-	 */
-	public Map<String, String> getGlobalFieldMap() {
-		return grid.getFieldMap();
 	}
 
 	/**
@@ -470,7 +476,7 @@ public class Simulator {
 	 */
 	public void addGlobalField(String name, String startingValue) {
 		try {
-			grid.addField(name, startingValue);
+			simulationGrid().addField(name, startingValue);
 		} catch (ElementAlreadyContainedException e) {
 			System.out
 					.println("Problem adding a global field. Name already in the map. Exiting.");
@@ -487,12 +493,25 @@ public class Simulator {
 	 */
 	public void removeGlobalField(String name) {
 		try {
-		grid.removeField(name);
-		}
-		catch (NoSuchElementException e) {
+			simulationGrid().removeField(name);
+		} catch (NoSuchElementException e) {
 			System.out.println("Attempting to remove a nonexistant field.");
 			System.err.print(e);
 		}
+	}
+	
+	/**
+	 * Provides the width of the grid
+	 */
+	public int getWidth() {
+		return simulation.getGrid().getWidth();
+	}
+	
+	/**
+	 * Provides the height of the grid
+	 */
+	public int getHeight() {
+		return simulation.getGrid().getHeight();
 	}
 
 	/**
@@ -502,14 +521,14 @@ public class Simulator {
 	 * @param height
 	 */
 	public void resizeGrid(int width, int height) {
-		grid.resizeGrid(width, height);
+		simulationGrid().resizeGrid(width, height);
 	}
 
 	/**
 	 * Adds the given observer to the grid
 	 */
 	public void addGridObserver(GridObserver ob) {
-		grid.addObserver(ob);
+		simulationGrid().addObserver(ob);
 	}
 
 	/**
@@ -518,12 +537,25 @@ public class Simulator {
 	 * @param name
 	 * @param grid
 	 * @param prototypes
+	 * @param se
 	 */
-	public void load(String name, Grid grid, Set<Prototype> prototypes) {
-		this.name = name;
-		this.grid = grid;
+	public void load(String name, Grid grid, Set<Prototype> prototypes,
+			SimulationEnder se) {
+		simulation = new Simulation(name, grid, se);
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
+	}
+
+	/**
+	 * Loads a new blank simulation
+	 * 
+	 * @param name
+	 * @param width
+	 * @param height
+	 * @param se
+	 */
+	public void load(String name, int width, int height, SimulationEnder se) {
+		simulation = new Simulation(name, width, height, se);
 	}
 
 	// /**

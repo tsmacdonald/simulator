@@ -46,21 +46,15 @@ public class ViewSimScreen extends Screen {
 
 	private static final long serialVersionUID = -6872689283286800861L;
 
-	private JComboBox agentComboBox;
-
-	private JComboBox layerComboBox;
-
-	private String[] entities;
-
-	private JPanel layerPanelAgents;
-
-	private JPanel layerPanelLayers;
+	
 
 	private GridBagConstraints c;
 
 	private boolean canSpawn;
 
 	private final EntityScreen entitiesScreen;
+	
+	private final Screen layerScreen;
 
 	private final Screen globalFieldScreen;
 
@@ -68,90 +62,18 @@ public class ViewSimScreen extends Screen {
 	
 	public ViewSimScreen(final SimulatorGuiManager gm) {
 		super(gm);
-		entities = new String[0];
 		setSpawn(false);
 		this.setLayout(new GridBagLayout());
 		((GridBagLayout)this.getLayout()).columnWeights = new double[]{0, 1};
 
-		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
-		agentComboBox = Gui.makeComboBox(null, new MaxSize(200, 50));
-
-		JLabel layers = new JLabel("Fields", SwingConstants.CENTER);
-		layerComboBox = Gui.makeComboBox(null, new MaxSize(200, 50));
-
-		final JColorChooser colorTool = Gui.makeColorChooser();
-
-		JButton apply = Gui.makeButton("Apply", PrefSize.NULL,
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent ae) {
-						Simulator.newLayer(layerComboBox.getSelectedItem()
-								.toString(), colorTool.getColor());
-						try {
-							gm.setSimLayerExtremes();
-						} catch (EvaluationException e) {
-							e.printStackTrace();
-						}
-						gm.getGridPanel().setLayers(true);
-						gm.getGridPanel().repaint();
-					}
-				});
-
-		JButton clear = Gui.makeButton("Clear", PrefSize.NULL,
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent ae) {
-						gm.getGridPanel().setLayers(true);
-						gm.getGridPanel().repaint();
-					}
-				});
-
-		layerPanelAgents = Gui.makePanel(BoxLayoutAxis.LINE_AXIS, null, null);
-		layerPanelAgents.add(agents);
-		layerPanelAgents.add(agentComboBox);
-
-		layerPanelLayers = Gui.makePanel(BoxLayoutAxis.LINE_AXIS, null, null);
-		layerPanelLayers.add(layers);
-		layerPanelLayers.add(layerComboBox);
-
-		JPanel layerPanelButtons = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,
-				null, null);
-		layerPanelButtons.add(apply);
-		layerPanelButtons.add(clear);
-
-		JPanel colorPanel = Gui.makeColorChooserPanel(colorTool);
-
-		JPanel upperLayerPanel = new JPanel();
-		upperLayerPanel.setLayout(new GridBagLayout());
-
-		c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridy = 0;
-		upperLayerPanel.add(layerPanelAgents, c);
-
-		c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridy = 1;
-		upperLayerPanel.add(layerPanelLayers, c);
-
-		c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridy = 2;
-		upperLayerPanel.add(layerPanelButtons, c);
-
-		c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridy = 3;
-		upperLayerPanel.add(colorPanel, c);
-		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
-
 		final JTabbedPane tabs = new JTabbedPane();
 		tabs.setMaximumSize(new Dimension(550, 550));
 		entitiesScreen = new EntityScreen(gm);
+		layerScreen = new LayerScreen(gm);
 		globalFieldScreen = new FieldScreen(gm);
 		optionsScreen = new SetupScreen(gm);
 		tabs.addTab("Agent", entitiesScreen);
-		tabs.addTab("Layers", upperLayerPanel);
+		tabs.addTab("Layers", layerScreen);
 		tabs.addTab("Global Fields", globalFieldScreen);
 		tabs.addTab("Options", optionsScreen);
 		tabs.addChangeListener(new ChangeListener() {
@@ -163,6 +85,7 @@ public class ViewSimScreen extends Screen {
 					canSpawn = false;
 				}
 				entitiesScreen.load();
+				layerScreen.load();
 				globalFieldScreen.load();
 				optionsScreen.load();
 			}
@@ -267,12 +190,8 @@ public class ViewSimScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SimulatorGuiManager gm = getGuiManager();
-
-				gm.getGridPanel().repaint();
 				canSpawn = false;
-
 				gm.getGridPanel().repaint();	
-
 				gm.startSim();
 				
 			}
@@ -283,55 +202,10 @@ public class ViewSimScreen extends Screen {
 	@Override
 	public void load() {
 		entitiesScreen.load();
+		layerScreen.load();
 		globalFieldScreen.load();
-		// TODO when New Simulation is pressed on the menu bar, we need to
-		// reset the number of
-		// prototypes
-		entities = Simulator.prototypeNames().toArray(entities);
-		agentComboBox = new JComboBox(entities);
-		agentComboBox.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
+		optionsScreen.load();
 
-				// To ensure type safety with the "String" combo box, we need
-				// to convert the objects to strings.
-				Object[] tempObjList = Simulator
-						.getPrototype(
-								agentComboBox.getSelectedItem().toString())
-						.getCustomFieldMap().keySet().toArray();
-				String[] tempStringList = new String[tempObjList.length];
-				for (int i = 0; i < tempObjList.length; i++) {
-					tempStringList[i] = tempObjList[i].toString();
-				}
-
-				layerComboBox = new JComboBox(tempStringList);
-				layerComboBox.setMaximumSize(new Dimension(200, 50));
-				layerPanelLayers.remove(1);
-				layerPanelLayers.add(layerComboBox);
-				validate();
-				repaint();
-			}
-		});
-		if (entities.length != 0) {
-
-			// To ensure type safety with the "String" combo box, we need to
-			// convert the objects to strings.
-			Object[] tempObjList = Simulator
-					.getPrototype(agentComboBox.getSelectedItem().toString())
-					.getCustomFieldMap().keySet().toArray();
-			String[] tempStringList = new String[tempObjList.length];
-			for (int i = 0; i < tempObjList.length; i++) {
-				tempStringList[i] = tempObjList[i].toString();
-			}
-
-			layerComboBox = new JComboBox(tempStringList);
-			layerComboBox.setMaximumSize(new Dimension(200, 50));
-			layerPanelLayers.remove(1);
-			layerPanelLayers.add(layerComboBox);
-		}
-		agentComboBox.setMaximumSize(new Dimension(200, 50));
-		layerPanelAgents.remove(1);
-		layerPanelAgents.add(agentComboBox);
 		validate();
 		getGuiManager().getGridPanel().repaint();
 	}
