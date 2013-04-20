@@ -1,27 +1,12 @@
 package edu.wheaton.simulator.gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Map;
 
 import javax.swing.JFileChooser;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
 import com.google.common.collect.ImmutableMap;
 
-import net.sourceforge.jeval.EvaluationException;
-
 import edu.wheaton.simulator.datastructure.Field;
-import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
-import edu.wheaton.simulator.gui.screen.EditEntityScreen;
-import edu.wheaton.simulator.gui.screen.EditFieldScreen;
-import edu.wheaton.simulator.gui.screen.NewSimulationScreen;
-import edu.wheaton.simulator.gui.screen.SetupScreen;
-import edu.wheaton.simulator.gui.screen.StatDisplayScreen;
-import edu.wheaton.simulator.gui.screen.TitleScreen;
-import edu.wheaton.simulator.gui.screen.ViewSimScreen;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.Loader;
