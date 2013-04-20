@@ -50,7 +50,7 @@ public class Simulation {
 		grid = new Grid(gridX, gridY);
 		isStarted = new AtomicBoolean(false);
 		this.ender = ender;
-		StatisticsManager.getInstance().initialize(grid, ender);
+		StatisticsManager.getInstance().initialize(grid);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class Simulation {
 		this.grid = grid;
 		isStarted = new AtomicBoolean(false);
 		this.ender = ender;
-		StatisticsManager.getInstance().initialize(grid, ender);
+		StatisticsManager.getInstance().initialize(grid);
 	}
 
 	/**
