@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
-import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class StatDisplayScreen extends Screen {
@@ -122,7 +121,7 @@ public class StatDisplayScreen extends Screen {
 	private void onPrototypeSelected() { 
 		String selectedPrototype = (String) prototypes.getSelectedItem();
 		fields.removeAllItems();
-		for (String fieldName : Simulator.getPrototype(selectedPrototype).getCustomFieldMap().keySet()) { 
+		for (String fieldName : gm.getPrototype(selectedPrototype).getCustomFieldMap().keySet()) { 
 			fields.addItem(fieldName);
 		}
 		onDisplayTypeSelected();
@@ -206,7 +205,7 @@ public class StatDisplayScreen extends Screen {
 		prototypes.removeAllItems();
 		displayTypes.removeAllItems();
 		fields.removeAllItems();
-		for (String name : Simulator.prototypeNames()) { 
+		for (String name : gm.getPrototypeNames()) { 
 			prototypes.addItem(name);
 		}
 		displayTypes.addItem(DISPLAY_AVG_FIELD_VALUE_STR);
