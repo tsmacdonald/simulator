@@ -206,27 +206,26 @@ public class SetupScreen extends Screen {
 		JLabel nameLabel = Gui.makeLabel("Name: ", MaxSize.NULL,
 				HorizontalAlignment.LEFT);
 		nameField = Gui.makeTextField(gm.getSimName(), 25,
-				MaxSize.NULL, new MinSize(272, 25));
+				MaxSize.NULL, MinSize.NULL);
 		nameField.setHorizontalAlignment(SwingConstants.LEFT);
 		JLabel widthLabel = Gui.makeLabel("Width: ", MaxSize.NULL,
 				HorizontalAlignment.LEFT);
 		widthField = Gui.makeTextField("10", 5, MaxSize.NULL,
-				new MinSize(100, 25));
+				MinSize.NULL);
 		widthField.setHorizontalAlignment(SwingConstants.LEFT);
 		JLabel yLabel = Gui.makeLabel("Height: ", MaxSize.NULL,
 				HorizontalAlignment.LEFT);
 		heightField = Gui.makeTextField("10", 5, MaxSize.NULL,
-				new MinSize(100, 25));
+				MinSize.NULL);
 		heightField.setHorizontalAlignment(SwingConstants.LEFT);
 		JLabel updateLabel = Gui.makeLabel("Update type: ", MaxSize.NULL, HorizontalAlignment.LEFT);
 		updateBox = Gui.makeComboBox(new String[] { "Linear", "Atomic",
 				"Priority" }, MaxSize.NULL);
 		updateBox.setAlignmentY(LEFT_ALIGNMENT);
 		//TODO working on adding step delay components
-		JLabel delayLabel = Gui.makeLabel("Step delay: ", new MaxSize(100,
-				40), HorizontalAlignment.LEFT);
+		JLabel delayLabel = Gui.makeLabel("Step delay: ", MaxSize.NULL, HorizontalAlignment.LEFT);
 		delayField = Gui.makeTextField("1.0", 5, MaxSize.NULL,
-				new MinSize(100, 25));
+				MinSize.NULL);
 		delayField.setHorizontalAlignment(SwingConstants.LEFT);
 
 		GridBagConstraints c = new GridBagConstraints();
@@ -297,7 +296,7 @@ public class SetupScreen extends Screen {
 				null);
 
 		timeField = Gui.makeTextField(null, 15, MaxSize.NULL,
-				new MinSize(100, 25));
+				MinSize.NULL);
 
 		JLabel agentTypeLabel = Gui.makeLabel("Agent Type", MaxSize.NULL, null);
 		JLabel valueLabel = Gui.makeLabel("Population Limit", MaxSize.NULL, null);
@@ -363,11 +362,10 @@ public class SetupScreen extends Screen {
 
 	private void addCondition() {
 		JComboBox newBox = Gui.makeComboBox(agentNames, MaxSize.NULL);
-		newBox.setMinimumSize(new Dimension(200, 25));
 		agentTypes.add(newBox);
 
 		JTextField newValue = Gui.makeTextField(null, 25,
-				MaxSize.NULL, new MinSize(100, 30));
+				MaxSize.NULL, MinSize.NULL);
 		values.add(newValue);
 
 		JButton newButton = Gui.makeButton("Delete", null,
