@@ -442,8 +442,7 @@ public class EditEntityScreen extends Screen {
 				throw new Exception("Please enter an Agent name");
 			}
 			if (!editing) {
-				Simulator.createPrototype(nameField.getText(), getGuiManager()
-						.getSimGrid(), colorTool.getColor(), generateBytes());
+				Simulator.createPrototype(nameField.getText(), null, colorTool.getColor(), generateBytes());
 				agent = Simulator.getPrototype(nameField.getText());
 			} else {
 				agent.setPrototypeName(agent.getName(), nameField.getText());
