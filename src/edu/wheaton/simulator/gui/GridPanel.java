@@ -40,7 +40,8 @@ public class GridPanel extends JPanel {
 		int pixelHeight = height / gridHeight;
 		
 		clearAgents(g);
-		agentPaint(g);
+		if(grid!=null)
+			agentPaint(g);
 		
 		g.setColor(Color.BLACK);
 		int squareSize = Math.min(pixelWidth, pixelHeight);
