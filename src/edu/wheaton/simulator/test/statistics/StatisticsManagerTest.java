@@ -114,12 +114,6 @@ public class StatisticsManagerTest {
 		Assert.assertNotNull("Constructor failed", sm);
 	}
 
-	// @Test
-	// public void testGetGridObserver() {
-	// Assert.assertNotNull("Failed to get GridObserver",
-	// sm.getGridObserver());
-	// }
-
 	@Test
 	public void testAddPrototypeSnapshot() {
 		Prototype p = new Prototype("TestPrototype");

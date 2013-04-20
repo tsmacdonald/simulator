@@ -20,6 +20,14 @@ public class ScreenManager {
 	private ScreenManager() {
 		this.display = Gui.getDisplay();
 		screens = new HashMap<String, Screen>();
+	}
+	
+	public static void init(){
+		sm = new ScreenManager();
+		sm.initInstance();
+	}
+	
+	private void initInstance(){
 		SimulatorFacade gm = SimulatorFacade.getInstance();
 		putScreen("Title", new TitleScreen(gm));
 		putScreen("New Simulation", new NewSimulationScreen(gm));

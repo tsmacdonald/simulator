@@ -285,6 +285,7 @@ public class Simulator {
 	 */
 	public boolean addAgent(String prototypeName, int x, int y) {
 		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
+		simulation.notifyObservers(layerRunning.get());
 		return simulationGrid().addAgent(toAdd, x, y);
 	}
 
@@ -299,6 +300,7 @@ public class Simulator {
 	 */
 	public boolean addAgent(String prototypeName) {
 		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
+		simulation.notifyObservers(layerRunning.get());
 		return simulationGrid().addAgent(toAdd);
 	}
 
@@ -320,6 +322,7 @@ public class Simulator {
 	 */
 	public void removeAgent(int x, int y) {
 		simulationGrid().removeAgent(x, y);
+		simulation.notifyObservers(layerRunning.get());
 	}
 
 	/**
@@ -352,6 +355,7 @@ public class Simulator {
 		Layer.getInstance().setFieldName(fieldName);
 		Layer.getInstance().setColor(c);
 		Layer.getInstance().resetMinMax();
+		simulation.notifyObservers(layerRunning.get());
 	}
 
 	/**
@@ -359,6 +363,7 @@ public class Simulator {
 	 */
 	public void clearLayer() {
 		layerRunning.set(false);
+		simulation.notifyObservers(layerRunning.get());
 	}
 
 	/**
@@ -414,6 +419,7 @@ public class Simulator {
 							x, y);
 				}
 			}
+		simulation.notifyObservers(layerRunning.get());
 	}
 
 	/**
@@ -425,6 +431,7 @@ public class Simulator {
 		new Paper()
 		.initSampleAgent(new Prototype("paper"));
 		new Scissors().initSampleAgent(new Prototype("scissors"));
+		simulation.notifyObservers(layerRunning.get());
 	}
 
 	/**
@@ -529,22 +536,7 @@ public class Simulator {
 	}
 
 	/**
-	 * Loads a simulation from a grid and prototypes
-	 * 
-	 * @param name
-	 * @param grid
-	 * @param prototypes
-	 * @param se
-	 */
-	public void load(String name, Grid grid, Set<Prototype> prototypes,
-			SimulationEnder se) {
-		simulation = new Simulation(name, grid, se);
-		for (Prototype current : prototypes)
-			Prototype.addPrototype(current);
-	}
-
-	/**
-	 * Loads a new blank simulation
+	 * Creates a new simulation with a blank grid
 	 * 
 	 * @param name
 	 * @param width
@@ -553,6 +545,37 @@ public class Simulator {
 	 */
 	public void load(String name, int width, int height, SimulationEnder se) {
 		simulation = new Simulation(name, width, height, se);
+	}
+	
+	/**
+	 * Replicates the simulation from the given file
+	 * 
+	 * @param file
+	 */
+	public void loadFromString(File file){
+		Loader l = new Loader();
+		l.loadSimulation(file);
+		try{
+			load(l.getName(), l.getGrid(), l.getPrototypes(), l.getSimEnder());
+		}catch(Exception e){
+			System.out.println("No grid has been loaded yet!"); 
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Loads a simulation from a grid and prototypes
+	 * 
+	 * @param name
+	 * @param grid
+	 * @param prototypes
+	 * @param se
+	 */
+	private void load(String name, Grid grid, Set<Prototype> prototypes,
+			SimulationEnder se) {
+		simulation = new Simulation(name, grid, se);
+		for (Prototype current : prototypes)
+			Prototype.addPrototype(current);
 	}
 
 	/**
@@ -571,42 +594,6 @@ public class Simulator {
 		s.saveSimulation(filename, agents, Prototype.getPrototypes(),
 				getGlobalFieldMap(),
 				grid.getWidth(), grid.getHeight(), ender);
-	}	
-
-	/**
-	 * Loads a simulation from a given file
-	 *
-	 * @param file
-	 */
-	public void loadFromString(File file){
-		Loader l = new Loader();
-		l.loadSimulation(file);
-		try{
-			load(l.getName(), l.getGrid(), l.getPrototypes(), l.getSimEnder());
-		}catch(Exception e){
-			System.out.println("No grid has been loaded yet!"); 
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Saves a given prototype to a string representation and put into file
-	 *
-	 * @param proto
-	 */
-	public void savePrototypeToString(Prototype proto){
-		Saver s = new Saver();
-		s.savePrototype(proto);
-	}
-	
-	/**
-	 * Load a prototype from a file and add it to the simulation
-	 *
-	 * @param file
-	 */
-	public void loadPrototypeFromString(File file){
-		Loader l = new Loader();
-		Prototype.addPrototype(l.loadPrototype(file));
 	}
 
 }

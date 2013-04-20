@@ -32,7 +32,7 @@ public class CloneAgentAtPositionBehavior extends AbstractExpressionFunction{
 	@Override
 	public String execute(String[] args) throws EvaluationException {
 		Agent target = resolveAgent("this");
-	
+		
 		Integer x1 = Double.valueOf(args[0]).intValue();		
 		Integer y1 = Double.valueOf(args[1]).intValue();
 		Integer x2 = Double.valueOf(args[2]).intValue();		
