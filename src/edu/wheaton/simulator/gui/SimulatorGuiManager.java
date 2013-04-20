@@ -30,7 +30,10 @@ import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class SimulatorGuiManager {
 
+	private static SimulatorGuiManager gm;
+	
 	private ScreenManager sm;
+	private Display d;
 	private SimulationEnder se;
 	private StatisticsManager statMan;
 	private Simulator simulator;
@@ -43,10 +46,11 @@ public class SimulatorGuiManager {
 	private boolean hasStarted;
 	private JFileChooser fc;
 
-	public SimulatorGuiManager(Display d) {
+	private SimulatorGuiManager() {
 		canSpawn = true;
 		gridPanel = new GridPanel(this);
 		load("New Simulation",10, 10);
+		d = Display.getInstance();
 		sm = new ScreenManager(d);
 		sm.putScreen("Title", new TitleScreen(this));
 		sm.putScreen("New Simulation", new NewSimulationScreen(this));
@@ -65,9 +69,11 @@ public class SimulatorGuiManager {
 		gpo = new GridPanelObserver(gridPanel);
 		fc = new JFileChooser();
 	}
-
-	public SimulatorGuiManager(){
-		this(new Display());
+	
+	public static SimulatorGuiManager getInstance(){
+		if(gm==null)
+			gm = new SimulatorGuiManager();
+		return gm;
 	}
 
 	public ScreenManager getScreenManager(){
@@ -242,8 +248,6 @@ public class SimulatorGuiManager {
 		simulator.play();
 	}
 
-
-
 	private JMenuBar makeMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 
@@ -338,7 +342,7 @@ public class SimulatorGuiManager {
 		getSim().setSleepPeriod(n);
 	}
 
-	public Map<String, String> getGridFieldMap() {
+	public Map<String, String> getGlobalFieldMap() {
 		return getSim().getGlobalFieldMap();
 	}
 }

@@ -22,13 +22,15 @@ import edu.wheaton.simulator.gui.screen.Screen;
  */
 public class Display extends JFrame {
 
+	private static Display d;
+	
 	private static final long serialVersionUID = 8240039325787217431L;
 
 	private JPanel panel;
 	
 	private GridBagConstraints c;
 
-	public Display() {
+	private Display() {
 		super("Simulator");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new GridBagLayout());
@@ -39,6 +41,13 @@ public class Display extends JFrame {
 		this.add(panel, c);
 		this.setVisible(true);
 	}
+	
+	public static Display getInstance() {
+		if(d==null)
+			d = new Display();
+		return d;
+	}
+	
 	/**
 	 * Updates what screen is being displayed
 	 * @param s The screen to display
