@@ -112,12 +112,19 @@ public class Simulation {
 	}
 
 	/**
-	 * Provides this simulator's name
+	 * Provides this simulations's name
 	 * 
 	 * @return
 	 */
 	public String getName() {
 		return name;
+	}
+	
+	/**
+	 * Change the name of the simulation
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
