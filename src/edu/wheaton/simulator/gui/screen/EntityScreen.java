@@ -27,7 +27,6 @@ import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
-import edu.wheaton.simulator.simulation.Simulator;
 
 public class EntityScreen extends Screen {
 
@@ -94,7 +93,7 @@ public class EntityScreen extends Screen {
 	public void load() {
 		reset();
 		delete.setEnabled(getGuiManager().hasStarted() ? false : true);
-		Set<String> entities = Simulator.prototypeNames();
+		Set<String> entities = gm.getPrototypeNames();
 		for (String s : entities)
 			entityList.addItem(s);
 		edit.setEnabled(false);

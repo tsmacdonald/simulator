@@ -39,7 +39,6 @@ import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
-import edu.wheaton.simulator.simulation.Simulator;
 
 public class EditEntityScreen extends Screen {
 
@@ -364,7 +363,7 @@ public class EditEntityScreen extends Screen {
 
 	public void load(String str) {
 		reset();
-		agent = Simulator.getPrototype(str);
+		agent = gm.getPrototype(str);
 		nameField.setText(agent.getName());
 		colorTool.setColor(agent.getColor());
 
@@ -443,8 +442,8 @@ public class EditEntityScreen extends Screen {
 			}
 			if (!editing) {
 				//TODO signature of create prototype needs to not take a grid
-				Simulator.createPrototype(nameField.getText(), null, colorTool.getColor(), generateBytes());
-				agent = Simulator.getPrototype(nameField.getText());
+				gm.createPrototype(nameField.getText(), null, colorTool.getColor(), generateBytes());
+				agent = gm.getPrototype(nameField.getText());
 			} else {
 				agent.setPrototypeName(agent.getName(), nameField.getText());
 				agent.setColor(colorTool.getColor());

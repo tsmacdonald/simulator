@@ -8,6 +8,7 @@ import javax.swing.JFileChooser;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.datastructure.Field;
+import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.Simulator;
@@ -245,5 +246,16 @@ public class SimulatorGuiManager {
 
 	public void displayLayer(String string, Color color) {
 		getSim().displayLayer(string, color);
+	}
+
+	public void createPrototype(String text, Grid grid, Color color,
+			byte[] generateBytes) {
+		Simulator.createPrototype(text, grid, color, generateBytes);
+	}
+
+	public void createPrototype(String text, Object object, Color color,
+			byte[] generateBytes) {
+		// TODO Auto-generated method stub
+		
 	}
 }

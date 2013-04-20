@@ -25,7 +25,6 @@ import edu.wheaton.simulator.gui.BoxLayoutAxis;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorGuiManager;
-import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class StatisticsScreen extends Screen {
@@ -88,7 +87,7 @@ public class StatisticsScreen extends Screen {
 		lifespanCard.add(lifeEntityBox);
 		
 		if(popEntityBox.getSelectedIndex() >= 0){
-			int[] popVsTime = gm.getStatManager().getPopVsTime(Simulator.
+			int[] popVsTime = gm.getStatManager().getPopVsTime(gm.
 					getPrototype(popEntityBox.getSelectedItem().toString())
 					.getName()
 					);
@@ -141,20 +140,20 @@ public class StatisticsScreen extends Screen {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (cardSelector.getSelectedItem().equals(POPS_STR)) {
-							int[] pops = statMan.getPopVsTime(Simulator.
+							int[] pops = statMan.getPopVsTime(gm.
 														getPrototype((String)popEntityBox.getSelectedItem())
 														.getName());
 							//TODO output stats
 						}
 						else if (cardSelector.getSelectedItem().equals(FIELDS_STR)) {
 							String s = (String)fieldEntityBox.getSelectedItem();
-							Prototype p = Simulator.getPrototype(s);
+							Prototype p = gm.getPrototype(s);
 							double[] vals = statMan.getAvgFieldValue(p.getName(),
 									((String)agentFieldsBoxes.get(s).getSelectedItem()));
 							//TODO output stats
 						}
 						else {
-							Prototype p = Simulator.getPrototype((String)lifeEntityBox.getSelectedItem());
+							Prototype p = gm.getPrototype((String)lifeEntityBox.getSelectedItem());
 							//TODO output stats
 						}
 					}
@@ -213,15 +212,15 @@ public class StatisticsScreen extends Screen {
 	
 	@Override
 	public void load() {
-		entities = new String[Simulator.prototypeNames().size()];
+		entities = new String[gm.getPrototypeNames().size()];
 		popEntityBox.removeAllItems();
 		fieldEntityBox.removeAllItems();
 		lifeEntityBox.removeAllItems();
 		agentFieldsBoxes.clear();
 		int i = 0;
-		for (String s : Simulator.prototypeNames()) {
+		for (String s : gm.getPrototypeNames()) {
 			entities[i++] = s;
-			agentFields = Simulator.getPrototype(s).getCustomFieldMap().keySet().toArray(agentFields);
+			agentFields = gm.getPrototype(s).getCustomFieldMap().keySet().toArray(agentFields);
 			agentFieldsBoxes.put(s, new JComboBox(agentFields));
 			popEntityBox.addItem(s);
 			fieldEntityBox.addItem(s);
