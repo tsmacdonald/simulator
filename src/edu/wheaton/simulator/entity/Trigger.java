@@ -375,6 +375,19 @@ public class Trigger implements Comparable<Trigger> {
 			conditionalValues.add("-- Operations --");
 			behavioralValues.add("-- Operations --");
 
+			converter.put("(",  "(");
+			conditionalValues.add("(");
+			behavioralValues.add("(");
+
+			converter.put(")", ")");
+			conditionalValues.add(")");
+			behavioralValues.add(")");
+
+			converter.put(",", ",");
+			conditionalValues.add(",");
+			behavioralValues.add(",");
+
+		
 			converter.put("OR", "||");
 			conditionalValues.add("OR");
 			behavioralValues.add("OR");
@@ -399,13 +412,6 @@ public class Trigger implements Comparable<Trigger> {
 			conditionalValues.add("<");
 			behavioralValues.add("<");
 
-			converter.put("(",  "(");
-			conditionalValues.add("(");
-			behavioralValues.add("(");
-
-			converter.put(")", ")");
-			conditionalValues.add(")");
-			behavioralValues.add(")");
 		}
 
 		/**

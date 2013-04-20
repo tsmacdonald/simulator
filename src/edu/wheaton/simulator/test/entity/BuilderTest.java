@@ -78,6 +78,12 @@ public class BuilderTest {
 	}
 	
 	@Test
+	public void testIsValidBlank(){
+		Assert.assertTrue(builder.isValid() == java.lang.Boolean.FALSE);
+	}
+	
+	
+	@Test
 	public void testIsValidMethod2(){
 		builder.addConditional("blah blah blah");
 		builder.addBehavioral("gibberish");
