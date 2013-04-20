@@ -58,10 +58,10 @@ public class SetupScreen extends Screen {
 		this.setLayout(new GridBagLayout());
 
 		JPanel upperPanel = makeUpperPanel();
-		upperPanel.setMinimumSize(new MinSize(400,120));
+		upperPanel.setMinimumSize(new MinSize(385,114));
 		
 		JPanel lowerPanel = makeLowerPanel();
-		lowerPanel.setMinimumSize(new MinSize(400,100));
+		lowerPanel.setMinimumSize(new MinSize(398,70));
 		
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -210,7 +210,7 @@ public class SetupScreen extends Screen {
 				HorizontalAlignment.LEFT);
 		nameField = Gui.makeTextField(gm.getSimName(), 25,
 				MaxSize.NULL, MinSize.NULL);
-		nameField.setHorizontalAlignment(SwingConstants.LEFT);
+		nameField.setHorizontalAlignment(SwingConstants.RIGHT);
 		JLabel widthLabel = Gui.makeLabel("Width: ", MaxSize.NULL,
 				HorizontalAlignment.LEFT);
 		widthField = Gui.makeTextField("10", 5, MaxSize.NULL,
@@ -220,66 +220,74 @@ public class SetupScreen extends Screen {
 				HorizontalAlignment.LEFT);
 		heightField = Gui.makeTextField("10", 5, MaxSize.NULL,
 				MinSize.NULL);
-		heightField.setHorizontalAlignment(SwingConstants.LEFT);
+		heightField.setHorizontalAlignment(SwingConstants.RIGHT);
 		JLabel updateLabel = Gui.makeLabel("Update type: ", MaxSize.NULL, HorizontalAlignment.LEFT);
 		updateBox = Gui.makeComboBox(new String[] { "Linear", "Atomic",
 				"Priority" }, MaxSize.NULL);
-		updateBox.setAlignmentY(LEFT_ALIGNMENT);
+		updateBox.setAlignmentY(RIGHT_ALIGNMENT);
 		//TODO working on adding step delay components
 		JLabel delayLabel = Gui.makeLabel("Step delay: ", MaxSize.NULL, HorizontalAlignment.LEFT);
 		delayField = Gui.makeTextField("1.0", 5, MaxSize.NULL,
 				MinSize.NULL);
-		delayField.setHorizontalAlignment(SwingConstants.LEFT);
+		delayField.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		GridBagConstraints c = new GridBagConstraints();
-
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 1;
 		c.insets = new Insets(0, 0, 0, 0);
 		upperPanel.add(nameLabel, c);
 
+		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = 3;
 		c.insets = new Insets(0, 0, 0, 0);
 		upperPanel.add(nameField, c);
 
+		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(0, 0, 0, 0);
 		upperPanel.add(widthLabel, c);
 
+		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
 		upperPanel.add(widthField, c);
 
+		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 1;
 		c.insets = new Insets(0, 15, 0, 0);
 		upperPanel.add(yLabel, c);
 
+		c = new GridBagConstraints();
 		c.gridx = 3;
 		c.gridy = 1;
 		c.insets = new Insets(0, 0, 0, 0);
 		upperPanel.add(heightField, c);
 
+		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
 		upperPanel.add(updateLabel, c);
 
+		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 2;
 		c.gridwidth = 2;
 		upperPanel.add(updateBox, c);
 		
+		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridwidth = 2;
 		upperPanel.add(delayLabel, c);
 		
+		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 3;
 		c.gridwidth = 2;
