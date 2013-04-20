@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
@@ -154,7 +157,7 @@ public class EditEntityScreen extends Screen {
 			}
 		});
 
-		IconGridPanel iconPanel = new IconGridPanel(gm);
+		final IconGridPanel iconPanel = new IconGridPanel(gm);
 		iconPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 		iconPanel.setMinimumSize(new Dimension(500, 500));
 		//iconPanel.setAlignmentX(RIGHT_ALIGNMENT);
@@ -164,6 +167,16 @@ public class EditEntityScreen extends Screen {
 		Dimension maxSize = colorPanel.getMaximumSize();
 		maxSize.height += 50;
 		colorPanel.setMaximumSize(maxSize);
+		
+		colorTool.getSelectionModel().addChangeListener( new ChangeListener(){
+
+			@Override
+			public void stateChanged(ChangeEvent ce) {
+				iconPanel.repaint();
+			}
+			
+		});
+		
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -204,6 +217,8 @@ public class EditEntityScreen extends Screen {
 		c.weighty = 1.0;
 		c.gridx = 2;
 		c.gridy = 2;
+		c.ipadx = 500;
+		c.ipady = 500;
 		c.gridwidth = 2;
 		generalPanel.add(iconPanel, c);
 		
