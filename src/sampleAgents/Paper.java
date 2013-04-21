@@ -86,6 +86,7 @@ public class Paper extends SampleAgent {
 				"&& this.agentAhead == 1.0");
 
 		// collect information about conflict
+		// TODO get rid of this warning
 		Expression setHeadToHeadConflictFlag = new Expression(
 				"setField('conflictAhead',"
 						+ " getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'typeID') == (this.typeID + 2)%3"

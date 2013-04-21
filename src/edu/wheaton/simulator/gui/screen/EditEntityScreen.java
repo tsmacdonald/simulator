@@ -446,7 +446,7 @@ public class EditEntityScreen extends Screen {
 			}
 			if (!editing) {
 				//TODO signature of create prototype needs to not take a grid
-				gm.createPrototype(nameField.getText(), null, colorTool.getColor(), generateBytes());
+				gm.createPrototype(nameField.getText(), colorTool.getColor(), generateBytes());
 				agent = gm.getPrototype(nameField.getText());
 			} else {
 				agent.setPrototypeName(agent.getName(), nameField.getText());

@@ -180,7 +180,7 @@ public class EntityScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int index = entityList.getSelectedIndex();
-			Prototype.removePrototype((String) entityList.getSelectedValue());
+			Prototype.removePrototype(entityList.getSelectedValue());
 			entityList.removeItem(index);
 			int size = entityList.getNumItems();
 			if (size == 0) {
@@ -213,7 +213,7 @@ public class EntityScreen extends Screen {
 			ScreenManager sm = getScreenManager();
 			EditEntityScreen screen = (EditEntityScreen) sm
 					.getScreen("Edit Entities");
-			screen.load((String) entityList.getSelectedValue());
+			screen.load(entityList.getSelectedValue());
 			screen.setEditing(true);
 			sm.update(screen);
 		}

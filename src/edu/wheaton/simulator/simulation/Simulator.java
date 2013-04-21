@@ -286,10 +286,11 @@ public class Simulator {
 	 *            values
 	 */
 	public void displayLayer(String fieldName, Color c) {
-		simulation.runLayer();
 		Layer.getInstance().setFieldName(fieldName);
 		Layer.getInstance().setColor(c);
 		Layer.getInstance().resetMinMax();
+		simulation.setLayerExtremes();
+		simulation.runLayer();
 		simulation.notifyObservers();
 	}
 
@@ -441,6 +442,7 @@ public class Simulator {
 	 */
 	public void resizeGrid(int width, int height) {
 		simulationGrid().resizeGrid(width, height);
+		simulation.notifyObservers();
 	}
 
 	/**
