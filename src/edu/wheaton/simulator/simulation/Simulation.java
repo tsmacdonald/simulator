@@ -227,7 +227,7 @@ public class Simulation {
 	 * 
 	 * @throws EvaluationException
 	 */
-	private void setLayerExtremes() {
+	public void setLayerExtremes() {
 		Layer.getInstance().resetMinMax();
 		for (Agent current : grid) {
 			if (current != null) {
