@@ -25,17 +25,17 @@ public class EditTriggerScreen extends Screen {
 
 	private static final long serialVersionUID = 3261558461232576081L;
 
-	private JButton addConditional;
+	private JButton addConditional; //TODO fix this warning
 	
-	private JButton addBehavior;
+	private JButton addBehavior; //TODO fix this warning
 	
 	private JTextField nameField;
 	
 	private JSpinner prioritySpinner;
 	
-	private ArrayList<JComboBox> conditionals;
+	private ArrayList<JComboBox> conditionals; //TODO fix this warning
 	
-	private ArrayList<JComboBox> behaviors;
+	private ArrayList<JComboBox> behaviors; //TODO fix this warning
 	
 	private JScrollPane conditionalLayout;
 	
