@@ -100,7 +100,7 @@ public class Rock extends SampleAgent{
 		// collect information about one facing another conflict
 		Expression setEnemyAheadConflictFlag = new Expression(
 				"setField('conflictAhead',"
-						+ " getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'typeID') == (this.typeID + 2)%3");
+						+ " getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'typeID') == (this.typeID + 2)%3)");
 
 		// check the flag that is set when a conflict is ahead
 		Expression checkConflictAheadFlag = new Expression("this.endTurn != 1" +

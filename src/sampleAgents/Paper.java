@@ -86,12 +86,17 @@ public class Paper extends SampleAgent {
 				"&& this.agentAhead == 1.0");
 
 		// collect information about conflict
-		Expression setConflictAheadFlag = new Expression(
+		Expression setHeadToHeadConflictFlag = new Expression(
 				"setField('conflictAhead',"
 						+ " getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'typeID') == (this.typeID + 2)%3"
 						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection') == - this.xNextDirection"
 						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'yNextDirection') == - this.yNextDirection)");
-
+		
+		// collect information about one facing another conflict
+		Expression setEnemyAheadConflictFlag = new Expression(
+				"setField('conflictAhead',"
+						+ " getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'typeID') == (this.typeID + 2)%3)");
+		
 		// check the flag that is set when a conflict is ahead
 		Expression checkConflictAheadFlag = new Expression("this.endTurn != 1" +
 				" && this.conflictAhead");
@@ -125,7 +130,7 @@ public class Paper extends SampleAgent {
 				paper.addTrigger(new Trigger("agentAhead", 1, isAgentAhead,
 						setAgentAhead));
 				paper.addTrigger(new Trigger("conflictAhead", 1,
-						checkAgentAheadFlag, setConflictAheadFlag));
+						checkAgentAheadFlag, setEnemyAheadConflictFlag));
 				paper.addTrigger(new Trigger("engageConflict", 1,
 						checkConflictAheadFlag, engageInConflict));
 				if(rotateDirection == 1)
