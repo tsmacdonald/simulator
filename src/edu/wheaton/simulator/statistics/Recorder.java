@@ -39,6 +39,7 @@ public class Recorder extends AbstractStatsGridObserver implements TriggerObserv
 		Recorder.triggers = new HashMap<AgentID, ArrayList<TriggerSnapshot>>();
 		pool = Executors.newFixedThreadPool(poolSize);
 	}
+	@Override
 	public void update(Grid grid){
 		try {
 			pool.execute(new Updater(grid));

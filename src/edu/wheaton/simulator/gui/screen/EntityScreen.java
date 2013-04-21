@@ -57,6 +57,7 @@ public class EntityScreen extends Screen {
 		edit.setEnabled(false);
 		JButton load = Gui.makeButton("Load", null,  
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						//TODO load agents
 					}
@@ -64,12 +65,14 @@ public class EntityScreen extends Screen {
 		
 		JButton importButton = Gui.makeButton("Import", null, 
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						gm.importAgent();
 					}
 		});
 		save = Gui.makeButton("Save Agent", null, 
 				new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						String fileName = JOptionPane.showInputDialog("Please enter file name: ");
 						gm.saveAgent(fileName);

@@ -610,7 +610,7 @@ public class Trigger implements Comparable<Trigger> {
 		 * @param s
 		 * @return
 		 */
-		private String convertCamelCaseToNormal(String s){
+		private static String convertCamelCaseToNormal(String s){
 			String toReturn = "";
 			for (int i = 0; i < s.length(); i++){
 				if (Character.isUpperCase(s.charAt(i)))

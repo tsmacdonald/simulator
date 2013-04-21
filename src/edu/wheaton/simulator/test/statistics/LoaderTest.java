@@ -28,7 +28,7 @@ public class LoaderTest {
 	Set<TriggerSnapshot> triggers;
 
 	@Before
-	public void setUp() throws ElementAlreadyContainedException {
+	public void setUp() {
 		
 		prototypeOne = new Prototype("Prototype 1");
 		agent = prototypeOne.createAgent(grid);
@@ -74,5 +74,6 @@ public class LoaderTest {
 		proto = l.loadPrototype(loadFile);
 		Assert.assertNotNull(proto); 
 		Assert.assertEquals("Prototype 1", proto.getName()); 
+		s.close();
 	}	
 }
