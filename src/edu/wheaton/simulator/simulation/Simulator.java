@@ -15,9 +15,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import net.sourceforge.jeval.EvaluationException;
 import sampleAgents.Bouncer;
 import sampleAgents.Confuser;
 import sampleAgents.ConwaysAliveBeing;
@@ -51,42 +49,6 @@ public class Simulator {
 	private Simulation simulation;
 
 	/**
-	 * Whether or not the simulation will pause on the next step
-	 */
-	private AtomicBoolean isPaused;
-
-	/**
-	 * If the simulation has ended
-	 */
-	private AtomicBoolean isStopped;
-
-	/**
-	 * Time (in milliseconds) in between each step
-	 */
-	private int sleepPeriod;
-
-	/**
-	 * If a layer is being displayed
-	 */
-	private AtomicBoolean layerRunning;
-
-	/**
-	 * Monitor for sync
-	 */
-	private static final Object lock = new Object();
-
-	/**
-	 * Constructor
-	 */
-	private Simulator() {
-		isPaused = new AtomicBoolean(false);
-		isStopped = new AtomicBoolean(false);
-		layerRunning = new AtomicBoolean(false);
-		sleepPeriod = 500;
-		layerRunning.set(false);
-	}
-
-	/**
 	 * Get the instance of the simulator
 	 * 
 	 * @return
@@ -98,53 +60,10 @@ public class Simulator {
 	}
 
 	/**
-	 * Runs the simulation by updating all the entities
-	 */
-	public final Thread mainThread = new Thread(new Runnable() {
-		@Override
-		public void run() {
-			while (!isStopped.get()) {
-				while (!isPaused.get()) {
-					try {
-						simulation.updateEntities();
-						simulation.notifyObservers(layerRunning.get());
-						if (layerRunning.get())
-							setLayerExtremes();
-						Thread.sleep(sleepPeriod);
-					} catch (SimulationPauseException e) {
-						isPaused.set(true);
-						System.err.println(e.getMessage());
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					checkEndings();
-				}
-				synchronized (lock) {
-					try {
-						lock.wait();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-						Thread.currentThread().interrupt();
-						return;
-					}
-				}
-			}
-		}
-	});
-
-	/**
 	 * Resumes the simulation
 	 */
 	public void play() {
-		if (!simulation.getStarted()) {
-			simulation.setStarted();
-			mainThread.start();
-		} else if (!isStopped.get() && isPaused.get()) {
-			isPaused.set(false);
-			synchronized (lock) {
-				lock.notifyAll();
-			}
-		}
+		simulation.play();
 	}
 
 	/**
@@ -152,18 +71,7 @@ public class Simulator {
 	 * iteration.
 	 */
 	public void pause() {
-		isPaused.set(true);
-	}
-
-	/**
-	 * Tells the grid to stop on the next iteration if the ender evaluates to
-	 * true
-	 */
-	private void checkEndings() {
-		if (simulation.shouldEnd()) {
-			isPaused.set(true);
-			isStopped.set(true);
-		}
+		simulation.pause();
 	}
 
 	/**
@@ -173,7 +81,7 @@ public class Simulator {
 	 *            Time in milliseconds
 	 */
 	public void setSleepPeriod(int sleepPeriod) {
-		this.sleepPeriod = sleepPeriod;
+		simulation.setSleepPeriod(sleepPeriod);
 	}
 
 	/**
@@ -182,7 +90,7 @@ public class Simulator {
 	 * @return
 	 */
 	public int getSleepPeriod() {
-		return sleepPeriod;
+		return simulation.getSleepPeriod();
 	}
 
 	/**
@@ -286,7 +194,7 @@ public class Simulator {
 	public boolean addAgent(String prototypeName, int x, int y) {
 		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
 		boolean toReturn = simulationGrid().addAgent(toAdd, x, y);
-		simulation.notifyObservers(layerRunning.get());
+		simulation.notifyObservers();
 		return toReturn;
 	}
 
@@ -302,7 +210,7 @@ public class Simulator {
 	public boolean addAgent(String prototypeName) {
 		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
 		boolean toReturn = simulationGrid().addAgent(toAdd);
-		simulation.notifyObservers(layerRunning.get());
+		simulation.notifyObservers();
 		return toReturn;
 	}
 
@@ -315,7 +223,7 @@ public class Simulator {
 		for(int x = 0; x < getWidth(); x++) 
 			for(int y = 0; y < getHeight(); y++)
 				addAgent(prototypeName, x, y);
-		simulation.notifyObservers(layerRunning.get());
+		simulation.notifyObservers();
 	}
 	
 	/**
@@ -327,7 +235,7 @@ public class Simulator {
 		for(int x = 0; x < getWidth(); x++) 
 			for(int y = 0; y < getHeight(); y++)
 				removeAgent(x, y);
-		simulation.notifyObservers(layerRunning.get());
+		simulation.notifyObservers();
 	}
 	
 	/**
@@ -348,7 +256,7 @@ public class Simulator {
 	 */
 	public void removeAgent(int x, int y) {
 		simulationGrid().removeAgent(x, y);
-		simulation.notifyObservers(layerRunning.get());
+		simulation.notifyObservers();
 	}
 
 	/**
@@ -377,38 +285,19 @@ public class Simulator {
 	 *            values
 	 */
 	public void displayLayer(String fieldName, Color c) {
-		layerRunning.set(true);
+		simulation.runLayer();
 		Layer.getInstance().setFieldName(fieldName);
 		Layer.getInstance().setColor(c);
 		Layer.getInstance().resetMinMax();
-		simulation.notifyObservers(layerRunning.get());
+		simulation.notifyObservers();
 	}
 
 	/**
 	 * Stops the layer from displaying
 	 */
 	public void clearLayer() {
-		layerRunning.set(false);
-		simulation.notifyObservers(layerRunning.get());
-	}
-
-	/**
-	 * Resets the min/max values of the layer and then loops through the grid to
-	 * set's a new Layer's min/max values. This must be done before a Layer is
-	 * shown. Usually every step if the Layer is being displayed. PRECONDITION:
-	 * The newLayer method has been called to setup a layer
-	 * 
-	 * @throws EvaluationException
-	 */
-	private void setLayerExtremes() {
-		Layer.getInstance().resetMinMax();
-		for (Agent current : simulationGrid()) {
-			if (current != null) {
-				Field currentField = current.getField(Layer.getInstance()
-						.getFieldName());
-				Layer.getInstance().setExtremes(currentField);
-			}
-		}
+		simulation.stopLayer();
+		simulation.notifyObservers();
 	}
 
 	/**
@@ -445,7 +334,7 @@ public class Simulator {
 							x, y);
 				}
 			}
-		simulation.notifyObservers(layerRunning.get());
+		simulation.notifyObservers();
 	}
 
 	/**
@@ -457,7 +346,7 @@ public class Simulator {
 		new Paper()
 		.initSampleAgent(new Prototype("paper"));
 		new Scissors().initSampleAgent(new Prototype("scissors"));
-		simulation.notifyObservers(layerRunning.get());
+		simulation.notifyObservers();
 	}
 
 	/**
@@ -571,9 +460,8 @@ public class Simulator {
 	 */
 	public void load(String name, int width, int height, SimulationEnder se) {
 		simulation = new Simulation(name, width, height, se);
-		System.out.println("loaded");
 		clearPrototypes();
-		simulation.notifyObservers(layerRunning.get());
+		simulation.notifyObservers();
 	}
 	
 	/**
@@ -606,7 +494,7 @@ public class Simulator {
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
 		clearPrototypes();
-		simulation.notifyObservers(layerRunning.get());
+		simulation.notifyObservers();
 	}
 	
 	/**
@@ -636,8 +524,6 @@ public class Simulator {
 				getGlobalFieldMap(),
 				grid.getWidth(), grid.getHeight(), ender);
 	}
-	
-	
 	
 	/**
 	 * Saves a given prototype to a string representation and put into file
