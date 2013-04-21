@@ -196,8 +196,12 @@ public class SimulatorFacade {
 		return canSpawn;
 	}
 
-	public boolean addAgent(String prototypeName, int x, int y){
-		return getSim().addAgent(prototypeName, x, y);
+	public void addAgent(String prototypeName, int x, int y){
+		getSim().addAgent(prototypeName, x, y);
+	}
+	
+	public void addAgentRandom(String prototypeName){
+		getSim().addAgent(prototypeName);
 	}
 	
 	public void clearGrid() {
