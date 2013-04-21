@@ -50,6 +50,7 @@ public class SetupScreen extends Screen {
 	private ArrayList<JButton> deleteButtons;
 	private ArrayList<JPanel> subPanels;
 
+	private JScrollPane scrollPane;
 	private JPanel conListPanel;
 	private JButton addConditionButton;
 
@@ -344,8 +345,8 @@ public class SetupScreen extends Screen {
 		JLabel valueLabel = Gui.makeLabel("Population Limit", MaxSize.NULL, null);
 		
 		conListPanel = makeConditionListPanel();
-		JScrollPane scrollPane = new JScrollPane(conListPanel,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane = new JScrollPane(conListPanel,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 1;
@@ -382,8 +383,9 @@ public class SetupScreen extends Screen {
 		
 		c = new GridBagConstraints();
 		c.gridx = 1;
-		c.gridy = 2;
+		c.gridy = 3;
 		c.insets = new Insets(8, 3, 3, 3);
+		c.anchor = GridBagConstraints.CENTER;
 		lowerPanel.add(scrollPane,c);
 
 		validate();
