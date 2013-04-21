@@ -31,6 +31,7 @@ import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.entity.Trigger.Builder;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;
+import edu.wheaton.simulator.statistics.Recorder;
 import edu.wheaton.simulator.statistics.SnapshotFactory;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 import edu.wheaton.simulator.statistics.TriggerSnapshot;
@@ -40,7 +41,6 @@ public class StatisticsManagerTest {
 	StatisticsManager sm;
 	Grid g;
 	String categoryName;
-	Grid grid;
 	Prototype prototype;
 	HashMap<String, String> fields;
 	int population;
@@ -48,6 +48,7 @@ public class StatisticsManagerTest {
 	Integer step;
 	PrototypeSnapshot protoSnap;
 	PrototypeSnapshot protoSnap2;
+	Recorder recorder;
 
 	/*
 	 * Helper method used in tests
@@ -62,8 +63,8 @@ public class StatisticsManagerTest {
 		Trigger trigger = builder.build();
 
 		Set<TriggerSnapshot> tSnaps = new HashSet<TriggerSnapshot>();
-		Agent agent = prototype.createAgent();
-		agent.addTrigger(trigger);
+		prototype.addTrigger(trigger);
+		
 
 		TriggerSnapshot tSnap = SnapshotFactory.makeTriggerSnapshot(trigger.getName(), trigger.getPriority(), trigger
 				.getConditions().toString(), trigger.getBehavior().toString());
@@ -78,8 +79,7 @@ public class StatisticsManagerTest {
 
 		// Add a test PrototypeSnapshot
 		categoryName = "testing";
-		grid = new Grid(10, 10);
-		prototype = new Prototype(grid, "tester");
+		prototype = new Prototype("tester");
 		fields = new HashMap<String, String>();
 		population = 50;
 		children = prototype.childIDs();
@@ -87,17 +87,17 @@ public class StatisticsManagerTest {
 
 		protoSnap = new PrototypeSnapshot(categoryName,
 				SnapshotFactory.makeFieldSnapshots(fields), population,
-				children, makeTriggerSnapshots(), step, null, null);
+				children, makeTriggerSnapshots(), null, null);
 
 		categoryName = "testing2";
-		prototype = new Prototype(grid, "tester2");
+		prototype = new Prototype("tester2");
 		population = 40;
 		step = new Integer(2);
 
 		// Add another test PrototypeSnapshot
 		protoSnap2 = new PrototypeSnapshot(categoryName,
 				SnapshotFactory.makeFieldSnapshots(fields), population,
-				children, makeTriggerSnapshots(), step, null, null);
+				children, makeTriggerSnapshots(), null, null);
 	}
 
 	/**
@@ -114,22 +114,14 @@ public class StatisticsManagerTest {
 		Assert.assertNotNull("Constructor failed", sm);
 	}
 
-	// @Test
-	// public void testGetGridObserver() {
-	// Assert.assertNotNull("Failed to get GridObserver",
-	// sm.getGridObserver());
-	// }
-
 	@Test
 	public void testAddPrototypeSnapshot() {
-		Prototype p = new Prototype(g, "TestPrototype");
+		Prototype p = new Prototype("TestPrototype");
 		Assert.assertNotNull(p);
 
 		PrototypeSnapshot protoSnap = new PrototypeSnapshot("categoryname",
-				SnapshotFactory
-						.makeFieldSnapshots(new HashMap<String, String>()),
-				100, p.childIDs(), makeTriggerSnapshots(), new Integer(2),
-				null, null);
+				SnapshotFactory.makeFieldSnapshots(new HashMap<String, String>()),
+				100, p.childIDs(), makeTriggerSnapshots(), null, null);
 		StatisticsManager.addPrototypeSnapshot(protoSnap);
 	}
 
@@ -150,7 +142,7 @@ public class StatisticsManagerTest {
 
 			// Add the appropriate AgentSnapshots to the StatsManager
 			for (int pop = 0; pop < expected[i]; pop++) {
-				Agent agent = prototype.createAgent();
+				Agent agent = prototype.createAgent(g);
 				sm.addGridEntity(new AgentSnapshot(agent.getID(),
 						SnapshotFactory.makeFieldSnapshots(agent
 								.getCustomFieldMap()), i,
@@ -193,7 +185,7 @@ public class StatisticsManagerTest {
 
 		/* create snapshots */
 		for (int i = 0; i < 5; i++) {
-			Agent agent = prototype.createAgent();
+			Agent agent = prototype.createAgent(g);
 			try {
 				agent.addField("name", names[i]);
 				agent.addField("weight", "10");
@@ -242,11 +234,11 @@ public class StatisticsManagerTest {
 		
 		/* create snapshots */
 		for (int i = 0; i < 5; i++) {
-			Agent agent = prototype.createAgent();
+			prototype.addTrigger(trigger);
+			Agent agent = prototype.createAgent(g);
 			try {
 				agent.addField("name", names[i]);
 				agent.addField("weight", "10");
-				agent.addTrigger(trigger);
 			} catch (ElementAlreadyContainedException e) {
 				e.printStackTrace();
 			}
@@ -289,7 +281,7 @@ public class StatisticsManagerTest {
 
 		/* create snapshots */
 		for (int i = 0; i < lifespans.size(); i++) {
-			Agent agent = prototype.createAgent();
+			Agent agent = prototype.createAgent(g);
 			AgentID ID = agent.getID();
 
 			// For each agent, add a snapshot of it at each Step it was alive
@@ -312,6 +304,16 @@ public class StatisticsManagerTest {
 		System.out.println("Actual:   " + actual);
 		Assert.assertEquals((int) expected, (int) actual);
 	}
+	
+	@Test
+	public void testRecorder(){
+		recorder = new Recorder(sm);
+		
+		recorder.update(g);
+	}
+	
+	
+	
 
 	/**
 	 * Calculate the average of the values in an int array

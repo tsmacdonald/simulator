@@ -1,5 +1,7 @@
 package sampleAgents;
 
+import java.awt.Color;
+
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
@@ -18,7 +20,8 @@ public class ConwaysAliveBeing extends SampleAgent{
 	}
 	
 	@Override
-	public Prototype initSampleAgent(Prototype aliveBeing) {
+	public Prototype initSampleAgent() {
+		Prototype aliveBeing = new Prototype(new Color(93, 198, 245), "aliveBeing");
 		return initAliveBeing(aliveBeing);
 	}
 	

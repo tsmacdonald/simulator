@@ -17,10 +17,10 @@ public class RockPaperScissorsFinishListener implements ActionListener {
 		private JTextField name;
 		private JTextField width;
 		private JTextField height;
-		private SimulatorGuiManager gm;
+		private SimulatorFacade gm;
 		
 		public RockPaperScissorsFinishListener(JTextField name, JTextField width, JTextField height, 
-										  SimulatorGuiManager gm){
+										  SimulatorFacade gm){
 			this.name = name;
 			this.width = width;
 			this.height = height;
@@ -31,16 +31,16 @@ public class RockPaperScissorsFinishListener implements ActionListener {
 			try {
 				int heightInt = getHeight();
 				int widthInt = getWidth();
-				gm.initSim(name.getText(),widthInt, heightInt);
+				gm.load(name.getText(),widthInt, heightInt);
 				gm.updateGuiManager(getName(), widthInt, heightInt);
 			} catch(java.lang.NumberFormatException nfe) { 
 				System.err.println("Invalid input passed to RockPaperScissorsListener");
 			}
-			Screen upload = gm.getScreenManager().getScreen("View Simulation");
-			gm.initRockPaperScissorsSim();
-			gm.setSimStepLimit(1000);
-			gm.setSimStarted(false);
-			gm.getScreenManager().update(upload);
+			Screen upload = Gui.getScreenManager().getScreen("View Simulation");
+			gm.initRockPaperScissors();
+			gm.setStepLimit(1000);
+			gm.setStarted(false);
+			Gui.getScreenManager().update(upload);
 			ScreenManager.loadScreen(upload);
 		}
 		public String getName(){

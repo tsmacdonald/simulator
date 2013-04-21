@@ -1,5 +1,7 @@
 package sampleAgents;
 
+import java.awt.Color;
+
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
@@ -19,7 +21,8 @@ public class RightTurner extends SampleAgent{
 	}
 
 	@Override
-	public Prototype initSampleAgent(Prototype rightTurner) {
+	public Prototype initSampleAgent() {
+		Prototype rightTurner = new Prototype(Color.BLACK, "rightTurner");
 		return initRightTurner(rightTurner);
 	}
 

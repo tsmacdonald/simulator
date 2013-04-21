@@ -10,7 +10,6 @@
 package edu.wheaton.simulator.entity;
 
 import java.awt.Color;
-import java.util.List;
 
 import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
@@ -20,9 +19,9 @@ import edu.wheaton.simulator.simulation.SimulationPauseException;
 public class Agent extends GridEntity {
 
 	/**
-	 * The list of all triggers/events associated with this agent.
+	 * A pointer to the environment so new Agents can be added or removed.
 	 */
-	private List<Trigger> triggers;
+	private Grid grid;
 
 	/**
 	 * Prototype of the agent
@@ -45,10 +44,10 @@ public class Agent extends GridEntity {
 	 * Makes an agent with the default gridEntity color
 	 * 
 	 * @param g
-	 *            The grid (passed to super constructor)
+	 *            The grid
 	 */
 	public Agent(Grid g, Prototype prototype) {
-		super(g);
+		grid = g;
 		id = new AgentID();
 		init(prototype);
 	}
@@ -57,12 +56,13 @@ public class Agent extends GridEntity {
 	 * Constructor. Makes an agent with a solid color
 	 * 
 	 * @param g
-	 *            The grid (passed to super constructor)
+	 *            The grid
 	 * @param c
 	 *            The color of this agent (passed to super constructor)
 	 */
 	public Agent(Grid g, Prototype prototype, Color c) {
-		super(g, c);
+		super(c);
+		grid = g;
 		id = new AgentID();
 		init(prototype);
 	}
@@ -71,14 +71,15 @@ public class Agent extends GridEntity {
 	 * Constructor. Makes an agent with custom color and color map
 	 * 
 	 * @param g
-	 *            The grid (passed to super constructor)
+	 *            The grid
 	 * @param c
 	 *            The color of this agent (passed to super constructor)
 	 * @param d
 	 *            The design for this agent (passed to super constructor)
 	 */
 	public Agent(Grid g, Prototype prototype, Color c, byte[] d) {
-		super(g, c, d);
+		super(c, d);
+		grid = g;
 		id = new AgentID();
 		init(prototype);
 	}
@@ -97,7 +98,8 @@ public class Agent extends GridEntity {
 	 *            Identifier for this agent
 	 */
 	public Agent(Grid g, Prototype prototype, Color c, byte[] d, AgentID id) {
-		super(g, c, d);
+		super(c, d);
+		grid = g;
 		this.id = id;
 		init(prototype);
 	}
@@ -121,7 +123,7 @@ public class Agent extends GridEntity {
 	public void act() throws SimulationPauseException {
 		for (Trigger t : triggers)
 			try {
-				t.evaluate(this, getGrid().getStep());
+				t.evaluate(this, grid.getStep());
 			} catch (EvaluationException e) {
 				System.err.println(e.getMessage());
 				String errorMessage = "Error in Agent: "
@@ -149,7 +151,7 @@ public class Agent extends GridEntity {
 			Trigger t = triggers.get(i);
 			if (t.getPriority() == priority) {
 				try {
-					t.evaluate(this, getGrid().getStep());
+					t.evaluate(this, grid.getStep());
 				} catch (EvaluationException e) {
 					System.err.println(e.getMessage());
 					String errorMessage = "Error in Agent: "
@@ -199,7 +201,7 @@ public class Agent extends GridEntity {
 	public void atomicFire() throws SimulationPauseException {
 		for (Trigger t : triggers)
 			try {
-				t.atomicFire(this, getGrid().getStep());
+				t.atomicFire(this, grid.getStep());
 			} catch (EvaluationException e) {
 				System.err.println(e.getMessage());
 				String errorMessage = "Error in Agent: "
@@ -215,7 +217,7 @@ public class Agent extends GridEntity {
 	 * Removes this Agent from the environment's list.
 	 */
 	public void die() {
-		getGrid().removeAgent(getPosX(), getPosY());
+		grid.removeAgent(getPosX(), getPosY());
 	}
 
 	/**
@@ -252,7 +254,7 @@ public class Agent extends GridEntity {
 	 */
 	@Override
 	public Agent clone() {
-		Agent clone = new Agent(getGrid(), getPrototype(), getColor(),
+		Agent clone = new Agent(grid, getPrototype(), getColor(),
 				getDesign(), getID());
 
 		// set fields
@@ -286,10 +288,13 @@ public class Agent extends GridEntity {
 		return id;
 	}
 
-	public void addTrigger(Trigger trigger) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Provides the grid that this agent is in.
+	 * 
+	 * @return the Grid object
+	 */
+	public Grid getGrid() {
+		return grid;
 	}
-
 	
 }

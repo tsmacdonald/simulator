@@ -109,12 +109,9 @@ public class Entity {
 	 * 
 	 * @return String to String map
 	 */
-	//public abstract Map<String, String> getCustomFieldMap();
-
 	private static String formatFieldName(String name) {
 		String fieldName = name.toString();
 
-		// to make Expression parsing more lenient
 		if (fieldName.charAt(0) == '\''
 				&& fieldName.charAt(fieldName.length() - 1) == '\'')
 			fieldName = fieldName.substring(1, fieldName.length() - 1);

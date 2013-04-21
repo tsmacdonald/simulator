@@ -40,8 +40,8 @@ public class SnapshotFactoryTest {
 
 	@Test
 	public void testMakeAgentSnapshot() {
-		Prototype p = new Prototype(g, "bear"); 
-		Agent a = p.createAgent();
+		Prototype p = new Prototype("bear"); 
+		Agent a = p.createAgent(g);
 		AgentID aID = a.getID(); 
 		Integer step = 15; 
 		

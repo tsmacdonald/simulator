@@ -29,9 +29,9 @@ public class GetFieldOfAgentAt extends AbstractExpressionFunction {
 		Agent xThis = resolveAgent("this");
 		Grid grid = xThis.getGrid();
 		
-		if(grid.isValidCoord(x.intValue(), y.intValue())==false){
-			System.err.println("invalid coord sent as param to 'getFieldOfAgentAt(" + x.intValue() + "," + y.intValue() + ")");
-		}
+//		if(grid.isValidCoord(x.intValue(), y.intValue())==false){
+//			System.err.println("invalid coord sent as param to 'getFieldOfAgentAt(" + x.intValue() + "," + y.intValue() + ")");
+//		}
 		
 		Agent target = grid.getAgent(x.intValue(), y.intValue());
 		

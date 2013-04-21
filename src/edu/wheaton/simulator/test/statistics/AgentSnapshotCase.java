@@ -39,8 +39,8 @@ public class AgentSnapshotCase {
 	@Before
 	public void setUp() {
 		grid = new Grid(10, 10);
-		prototype = new Prototype(grid, "tester");
-		agent = prototype.createAgent();
+		prototype = new Prototype("tester");
+		agent = prototype.createAgent(grid);
 		try {
 			agent.addField("Pig", "Tom");
 			agent.addField("Monkey", "Olly");
@@ -94,7 +94,7 @@ public class AgentSnapshotCase {
 	 */
 	@Test
 	public void globalVarTest() {
-		Prototype gType = new Prototype(grid, "GRID");
+		Prototype gType = new Prototype("GRID");
 		try {
 			grid.addField("name", "akon");
 			grid.addField("owner", "chris");

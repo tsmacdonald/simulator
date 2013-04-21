@@ -12,7 +12,7 @@ import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 /**
- * Simple tests to verify the syntax of important hard coded behaviors
+ * Simple tests to verify the syntax of important hard coded behaviors functions
  * 
  * @author David Emmanuel
  *
@@ -30,14 +30,17 @@ public class BehaviorSyntaxTest {
 	@Before
 	public void setUp() throws ElementAlreadyContainedException {
 		testGrid = new Grid(20, 20);
-		proto = new Prototype(testGrid, "cat");
+		proto = new Prototype("cat");
+		Prototype.addPrototype(proto);
 		proto.addField("health", 100 + "");
-		testGrid.spiralSpawn(proto.createAgent(), 5, 5);
+		testGrid.addAgent(proto.createAgent(testGrid), 5, 5);
+		// there is an agent at 5, 5
+		Assert.assertFalse(testGrid.emptyPos(5, 5));
 	}
 	
 	@Test
 	public void testCloneAgentAtPositionBehavior() throws SimulationPauseException {
-		Expression cloneAgentAtPosition = new Expression("cloneAgentAtPosition( 5, 5, 6 , 6)");
+		Expression cloneAgentAtPosition = new Expression("cloneAgentAtPosition( 5, 5, 6, 6)");
 		Expression alwaysTrue = new Expression("1 < 2");
 		proto.addTrigger(new Trigger("cloneAgentAtPosition", 1, alwaysTrue, cloneAgentAtPosition));
 		testGrid.updateEntities();
@@ -55,9 +58,6 @@ public class BehaviorSyntaxTest {
 
 	@Test
 	public void testDieBehavior() throws SimulationPauseException {
-		// there is an agent at 5, 5
-		Assert.assertFalse(testGrid.emptyPos(5, 5));	
-
 		Expression die = new Expression("die()");
 		Expression alwaysTrue = new Expression("1 < 2");
 		proto.addTrigger(new Trigger("clone", 1, alwaysTrue, die));
@@ -68,8 +68,6 @@ public class BehaviorSyntaxTest {
 
 	@Test
 	public void testMoveBehavior() throws SimulationPauseException {
-		// one agent was spawned at 5, 5
-		Assert.assertFalse(testGrid.emptyPos(5, 5));
 		// 6, 6 is open for an agent to move there
 		Assert.assertTrue(testGrid.emptyPos(6, 6));
 		Expression move = new Expression("move( 6 , 6)");
@@ -82,8 +80,6 @@ public class BehaviorSyntaxTest {
 	
 	@Test
 	public void testSetFieldBehavior() throws SimulationPauseException {
-		// one agent was spawned at 5, 5
-		Assert.assertFalse(testGrid.emptyPos(5, 5));
 		// health starts at 100
 		Assert.assertEquals(testGrid.getAgent(5, 5).getFieldValue("health") + "", "100");
 		Expression setField = new Expression("setField( 'health' , 50)");
@@ -95,11 +91,9 @@ public class BehaviorSyntaxTest {
 	
 	@Test
 	public void testSetFieldOfAgentBehavior() throws SimulationPauseException {
-		// one agent was spawned at 5, 5
-		Assert.assertFalse(testGrid.emptyPos(5, 5));
 		// spawn another agent at 4, 4 and make sure that it spawned
 		Assert.assertTrue(testGrid.emptyPos(4, 4));
-		testGrid.spiralSpawn(proto.createAgent(), 4, 4);
+		testGrid.addAgent(proto.createAgent(testGrid), 4, 4);
 		Assert.assertFalse(testGrid.emptyPos(4, 4));
 		// health starts at 100
 		Assert.assertEquals(testGrid.getAgent(4, 4).getFieldValue("health") + "", "100");
@@ -108,5 +102,14 @@ public class BehaviorSyntaxTest {
 		proto.addTrigger(new Trigger("setFieldOfAgent", 1, alwaysTrue, setFieldOfAgent));
 		testGrid.updateEntities();
 		Assert.assertEquals(testGrid.getAgent(4, 4).getFieldValue("health"), "50.0");	
+		
+	}
+	@Test
+	public void testClonePrototype() throws SimulationPauseException{
+		Expression clonePrototype = new Expression("clonePrototype(4, 4, 'cat')");
+		Expression alwaysTrue = new Expression("true");
+		proto.addTrigger(new Trigger("cloneCat", 1, alwaysTrue, clonePrototype));
+		testGrid.updateEntities();
+		Assert.assertEquals( "cat", testGrid.getAgent(4, 4).getPrototypeName());
 	}
 }

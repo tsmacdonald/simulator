@@ -9,7 +9,6 @@
  */
 package edu.wheaton.simulator.datastructure;
 
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -20,13 +19,13 @@ import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Entity;
-import edu.wheaton.simulator.simulation.Layer;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
 
 public class Grid extends Entity implements Iterable<Agent> {
 
 	/**
-	 * The grid of all Agents
+	 * The grid of all Agents. This was implemented as a multi-dimensional
+	 * array, but now it uses a List of Lists, which is equivalent.
 	 */
 	private Agent[][] grid;
 
@@ -61,7 +60,10 @@ public class Grid extends Entity implements Iterable<Agent> {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		grid = new Agent[getHeight()][getWidth()];
+
+		// Initialize the ArrayLists.
+		grid = new Agent[width][height];
+
 		updater = new LinearUpdater(this);
 		observers = new HashSet<GridObserver>();
 		step = 0;
@@ -83,7 +85,28 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 * @param height
 	 */
 	public void resizeGrid(int width, int height) {
-		// TODO
+		Agent[][] newGrid = new Agent[width][height];
+
+		int currentWidth = grid.length;
+		int currentHeight = 0;
+		if (currentWidth != 0) {
+			currentHeight = grid[0].length;
+		}
+
+		int minWidth = Math.min(width, currentWidth);
+		int minHeight = Math.min(height, currentHeight);
+
+		for (int i = 0; i < minWidth; i++) {
+			for (int j = 0; j < minHeight; j++) {
+				if (grid[i][j] != null) {
+					newGrid[i][j] = grid[i][j];
+				}
+			}
+		}
+
+		updateField("width", width + "");
+		updateField("height", height + "");
+		grid = newGrid;
 	}
 
 	/**
@@ -102,6 +125,20 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	public Integer getHeight() {
 		return getField("height").getIntValue();
+	}
+
+	/**
+	 * Returns true if the given space is empty, false otherwise. Also returns
+	 * false if invalid x, y values are given.
+	 * 
+	 * @param x
+	 * @param y
+	 * @return Whether or not the particular position is empty
+	 */
+	public boolean emptyPos(int x, int y) {
+		if (isValidCoord(x, y) && getAgent(x, y) == null)
+			return true;
+		return false;
 	}
 
 	/**
@@ -168,9 +205,9 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	public Agent getAgent(int x, int y) {
 		if (isValidCoord(x, y))
-			return grid[y][x];
-		System.err.println("invalid Coord: " + x + "," + y);
-		throw new ArrayIndexOutOfBoundsException();
+			return grid[x][y];
+//		System.err.println("invalid Coord: " + x + "," + y);
+		return null;
 	}
 
 	/**
@@ -185,7 +222,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	public boolean addAgent(Agent a, int x, int y) {
 		if (isValidCoord(x, y)) {
-			grid[y][x] = a;
+			grid[x][y] = a;
 			a.setPos(x, y);
 			return true;
 		}
@@ -203,144 +240,9 @@ public class Grid extends Entity implements Iterable<Agent> {
 	public boolean addAgent(Agent a) {
 		int randomX = (int) (Math.random() * (getField("width").getIntValue() - 1));
 		int randomY = (int) (Math.random() * (getField("height").getIntValue() - 1));
-		grid[randomY][randomX] = a;
+		grid[randomX][randomY] = a;
 		a.setPos(randomX, randomY);
 		return true;
-	}
-
-	/**
-	 * Adds the given Agent at the closest free spot to the spawn position. The
-	 * search for an open spot begins at the given x/y and then spirals
-	 * outwards.
-	 * 
-	 * @param a
-	 *            The Agent to add.
-	 * @param spawnX
-	 *            Central x location for spawn
-	 * @param spawnY
-	 *            Central y location for spawn
-	 * @return true if successful (Agent added), false otherwise
-	 */
-	public boolean spiralSpawn(Agent a, int spawnX, int spawnY) {
-
-		a.setPos(-1, -1);
-		int largestDistance = largestDistanceToSide(spawnX, spawnY);
-		for (int distance = 0; distance <= largestDistance; distance++) {
-			int x = spawnX - distance;
-			int y = spawnY - distance;
-			if (spawnHelper(a, x, y))
-				return true;
-			for (; x < spawnX + distance; x++)
-				if (spawnHelper(a, x, y))
-					return true;
-			for (; y < spawnY + distance; y++)
-				if (spawnHelper(a, x, y))
-					return true;
-			for (; x > spawnX - distance; x--)
-				if (spawnHelper(a, x, y))
-					return true;
-			for (; y > spawnY - distance; y--)
-				if (spawnHelper(a, x, y))
-					return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Calculates the biggest distance from this given x/y to a wall.
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
-	 */
-	private int largestDistanceToSide(int x, int y) {
-		int presentMax = getField("width").getIntValue() - x - 1; // presetMax
-		// = (x -->
-		// width)
-		if (presentMax < x) // presentMax < (0 --> x)
-			presentMax = x;
-		if (presentMax < (getField("height").getIntValue() - y - 1)) // presentMax
-			// < (y
-			// -->
-			// height)
-			presentMax = getField("height").getIntValue() - y - 1;
-		if (presentMax < y) // presentMax < (0 --> y)
-			presentMax = y;
-		return presentMax;
-	}
-
-	/**
-	 * Adds an Agent to a free spot along the given row
-	 * 
-	 * @param a
-	 *            The Agent to add.
-	 * @param row
-	 *            The y position of the row
-	 * @return true if successful (Agent added), false otherwise
-	 */
-	public boolean horizontalSpawn(Agent a, int row) {
-		for (int x = 0; x < getField("width").getIntValue(); x++)
-			if (spawnHelper(a, x, row))
-				return true;
-		return false;
-	}
-
-	/**
-	 * Adds an Agent to a free spot in the given column
-	 * 
-	 * @param a
-	 *            The Agent to add.
-	 * @param column
-	 *            The x position of the column
-	 * @return true if successful (Agent added), false otherwise
-	 */
-	public boolean verticalSpawn(Agent a, int column) {
-		for (int y = 0; y < getField("height").getIntValue(); y++)
-			if (spawnHelper(a, column, y))
-				return true;
-		return false;
-	}
-
-	/**
-	 * Adds an Agent to the specified x/y if that position is empty.
-	 * 
-	 * @param a
-	 * @param x
-	 * @param y
-	 * @return true when added, false otherwise
-	 */
-	private boolean spawnHelper(Agent a, int x, int y) {
-		if (emptyPos(x, y)) {
-			addAgent(a, x, y);
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Returns true if the given space is empty, false otherwise. Also returns
-	 * false if invalid x, y values are given.
-	 * 
-	 * @param x
-	 * @param y
-	 * @return Whether or not the particular position is empty
-	 */
-	public boolean emptyPos(int x, int y) {
-		if (isValidCoord(x, y) && getAgent(x, y) == null)
-			return true;
-		return false;
-	}
-
-	/**
-	 * Adds the given Agent to a random (but free) position.
-	 * 
-	 * @param a
-	 *            The Agent to add.
-	 */
-	public boolean spiralSpawn(Agent a) {
-		int randomX = (int) (Math.random() * (getField("width").getIntValue() - 1));
-		int randomY = (int) (Math.random() * (getField("height").getIntValue() - 1));
-		return spiralSpawn(a, randomX, randomY);
 	}
 
 	/**
@@ -352,44 +254,10 @@ public class Grid extends Entity implements Iterable<Agent> {
 	 */
 	public boolean removeAgent(int x, int y) {
 		if (isValidCoord(x, y)) {
-			grid[y][x] = null;
+			grid[x][y] = null;
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Makes a new Layer.
-	 * 
-	 * @param fieldName
-	 *            The name of the Field that the Layer will represent
-	 * @param c
-	 *            The Color that will be shaded differently to represent Field
-	 *            values
-	 */
-	public static void newLayer(String fieldName, Color c) {
-		Layer.getInstance().setFieldName(fieldName);
-		Layer.getInstance().setColor(c);
-		Layer.getInstance().resetMinMax();
-	}
-
-	/**
-	 * Resets the min/max values of the layer and then loops through the grid to
-	 * set's a new Layer's min/max values PRECONDITION: The newLayer method has
-	 * been called to setup a layer
-	 * 
-	 * @throws EvaluationException
-	 */
-	public void setLayerExtremes() throws EvaluationException {
-		Layer.getInstance().resetMinMax();
-		for (Iterator<Agent> it = iterator(); it.hasNext();) {
-			Agent current = it.next();
-			if (current != null) {
-				Field currentField = current.getField(Layer.getInstance()
-						.getFieldName());
-				Layer.getInstance().setExtremes(currentField);
-			}
-		}
 	}
 
 	/**
@@ -404,12 +272,14 @@ public class Grid extends Entity implements Iterable<Agent> {
 	/**
 	 * Notifies all of the observers watching this grid
 	 */
-	public void notifyObservers() {
+	public void notifyObservers(boolean layerRunning) {
 		Grid copy = null;
+		Set<AgentAppearance> agentView = new HashSet<AgentAppearance>();
+
 		synchronized (this) {
 			copy = new Grid(getWidth(), getHeight());
 
-			// set fields
+			// set grid fields
 			for (String current : getFieldMap().keySet()) {
 				try {
 					copy.addField(current, getFieldValue(current));
@@ -417,14 +287,30 @@ public class Grid extends Entity implements Iterable<Agent> {
 				}
 			}
 			// add Agents
-			for (Agent current : this)
-				copy.addAgent(current.clone(), current.getPosX(),
-						current.getPosY());
+			for (Agent current : this) {
+				if (current != null) {
+					copy.addAgent(current.clone(), current.getPosX(),
+							current.getPosY());
+					if (layerRunning)
+						try {
+							agentView.add(new AgentAppearance(current
+									.getLayerColor(), current.getDesign(), current
+									.getPosX(), current.getPosY()));
+						} catch (EvaluationException e) {
+							e.printStackTrace();
+						}
+					else
+						agentView.add(new AgentAppearance(current.getColor(),
+								current.getDesign(), current.getPosX(), current
+								.getPosY()));
+				}
+			}
 
 			copy.step = this.step;
 		}
 		for (GridObserver current : observers) {
 			current.update(copy);
+			current.update(agentView);
 		}
 	}
 

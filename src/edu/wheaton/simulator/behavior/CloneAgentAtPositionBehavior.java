@@ -32,7 +32,7 @@ public class CloneAgentAtPositionBehavior extends AbstractExpressionFunction{
 	@Override
 	public String execute(String[] args) throws EvaluationException {
 		Agent target = resolveAgent("this");
-	
+		
 		Integer x1 = Double.valueOf(args[0]).intValue();		
 		Integer y1 = Double.valueOf(args[1]).intValue();
 		Integer x2 = Double.valueOf(args[2]).intValue();		
@@ -40,7 +40,7 @@ public class CloneAgentAtPositionBehavior extends AbstractExpressionFunction{
 		
 		Grid grid = target.getGrid();
 		if(grid.isValidCoord(x2, y2) && grid.getAgent(x2,y2)==null){
-				grid.addAgent(grid.getAgent(x1, y1).getPrototype().createAgent(), x2, y2);
+				grid.addAgent(grid.getAgent(x1, y1).getPrototype().createAgent(grid), x2, y2);
 				return Expression.TRUE;
 		}
 		return Expression.FALSE;

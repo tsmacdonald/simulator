@@ -7,180 +7,185 @@
  * @author Willy McHie and Ian Walling
  * Wheaton College, CSCI 335, Spring 2013
  */
-
 package edu.wheaton.simulator.gui.screen;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.JButton;
-import javax.swing.JColorChooser;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import net.sourceforge.jeval.EvaluationException;
 
-import edu.wheaton.simulator.gui.BoxLayoutAxis;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.wheaton.simulator.gui.GeneralButtonListener;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
-import edu.wheaton.simulator.gui.SpawnCondition;
-import edu.wheaton.simulator.simulation.Simulator;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class ViewSimScreen extends Screen {
 
 	private static final long serialVersionUID = -6872689283286800861L;
 
-	private JComboBox agentComboBox;
-	private JComboBox layerComboBox;
 
-	private String[] entities;
 
-	private JPanel layerPanelAgents;
-	private JPanel layerPanelLayers;
+	private GridBagConstraints c;
 
-	public ViewSimScreen(final SimulatorGuiManager gm) {
+	private boolean canSpawn;
+
+	private final EntityScreen entitiesScreen;
+
+	private final Screen layerScreen;
+
+	private final Screen globalFieldScreen;
+
+	private final Screen optionsScreen;
+
+	public ViewSimScreen(final SimulatorFacade gm) {
 		super(gm);
-		
-		entities = new String[0];
-		this.setLayout(new BorderLayout());
-		//gridRec = new SimulationRecorder(sm.getStatManager());
+		setSpawn(false);
+		this.setLayout(new GridBagLayout());
+		((GridBagLayout)this.getLayout()).columnWeights = new double[]{0, 1};
 
-		agentComboBox = Gui.makeComboBox(null,new MaxSize(200,50));
-
-		layerComboBox = Gui.makeComboBox(null, new MaxSize(200,50));
-
-		final JColorChooser colorTool = Gui.makeColorChooser();
-
-		layerPanelAgents = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null,
-				new JLabel("Agents", SwingConstants.CENTER),agentComboBox);
-
-		layerPanelLayers = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null,
-				new JLabel("Layers", SwingConstants.CENTER),layerComboBox);
-
-		JPanel layerPanelButtons = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null,
-			Gui.makeButton("Apply",null,
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent ae) {
-						Simulator.newLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
-						try {
-							gm.setSimLayerExtremes();
-						} catch (EvaluationException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						gm.getGridPanel().setLayers(true);
-						gm.getGridPanel().repaint();
-					}
+		final JTabbedPane tabs = new JTabbedPane();
+		tabs.setMaximumSize(new Dimension(550, 550));
+		entitiesScreen = new EntityScreen(gm);
+		layerScreen = new LayerScreen(gm);
+		globalFieldScreen = new FieldScreen(gm);
+		optionsScreen = new SetupScreen(gm);
+		tabs.addTab("Options", optionsScreen);
+		tabs.addTab("Agent", entitiesScreen);
+		tabs.addTab("Layers", layerScreen);
+		tabs.addTab("Global Fields", globalFieldScreen);
+		tabs.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent ce) {
+				if (tabs.getSelectedComponent().toString() == "Agent")
+					setSpawn(true);
+				else {
+					setSpawn(false);
 				}
-			),
-			Gui.makeButton("Clear",null,
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent ae) {
-						gm.getGridPanel().setLayers(false);
-						gm.getGridPanel().repaint();
-					} 
-				}
-			)
-		);
+				entitiesScreen.load();
+				layerScreen.load();
+				globalFieldScreen.load();
+				optionsScreen.load();
+			}
+		});
 
-		JPanel upperLayerPanel = Gui.makePanel(BoxLayoutAxis.PAGE_AXIS, null, null,
-				layerPanelAgents,layerPanelLayers,layerPanelButtons);
-		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
-
-		gm.getGridPanel().setAlignmentY(CENTER_ALIGNMENT);
 		gm.getGridPanel().addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				if(getGuiManager().canSimSpawn()){
-					int standardSize = Math.min(
-							gm.getGridPanel().getWidth()/gm.getSimGridWidth(),
-							gm.getGridPanel().getHeight()/gm.getSimGridHeight()
-					);
-					
-					int x = me.getX()/standardSize;
-					int y = me.getY()/standardSize;
-					
-					if(gm.getSimAgent(x,y) == null)
-						gm.spiralSpawnSimAgent(agentComboBox.getSelectedItem().toString(), x, y);
-					else
-						gm.removeSimAgent(x,y);
+				if (getGuiManager().canSpawn()) {
+					int standardSize = Math.min(gm.getGridPanel().getWidth()
+							/ gm.getGridWidth(), gm.getGridPanel()
+							.getHeight() / gm.getGridHeight());
+
+					int x = me.getX() / standardSize;
+					int y = me.getY() / standardSize;
+					if (canSpawn) {
+						if (gm.getAgent(x, y) == null) {
+							gm.addAgent(entitiesScreen.getList()
+									.getSelectedValue().toString(), x, y);
+						} else {
+							gm.removeAgent(x, y);
+						}
+					}
 					gm.getGridPanel().repaint();
 				}
 			}
 
 			@Override
-			public void mouseEntered(MouseEvent arg0) {}
+			public void mouseEntered(MouseEvent arg0) {
+			}
 
 			@Override
-			public void mouseExited(MouseEvent arg0) {}
+			public void mouseExited(MouseEvent arg0) {
+			}
 
 			@Override
-			public void mousePressed(MouseEvent arg0) {}
+			public void mousePressed(MouseEvent arg0) {
+			}
 
 			@Override
-			public void mouseReleased(MouseEvent arg0) {}
+			public void mouseReleased(MouseEvent arg0) {
+			}
 		});
 
-		JPanel layerPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null,
-				upperLayerPanel,Gui.makeColorChooserPanel(colorTool));
-		layerPanel.setAlignmentY(CENTER_ALIGNMENT);
 
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = 2;
+		c.weightx = 0;
+		c.insets = new Insets(5, 5, 5, 5);
+		this.add(tabs, c);
 
-		this.add(
-			new JLabel("View Simulation", SwingConstants.CENTER), BorderLayout.NORTH
-		);
-		this.add(makeButtonPanel(), BorderLayout.SOUTH);
-		this.add(Gui.makePanel(BoxLayoutAxis.LINE_AXIS,null,null,
-				layerPanel,gm.getGridPanel()), BorderLayout.CENTER);
-		this.setVisible(true);	
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 1;
+		c.gridy = 0;
+		c.ipadx = 600;
+		c.ipady = 600;
+		c.gridwidth = 2;
+		c.weighty = 1;
+		c.weightx = 1;
+		c.insets = new Insets(5, 5, 5, 5);
+		this.add(gm.getGridPanel(), c);
+
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 1;
+		c.gridwidth = 2;
+		this.add(makeButtonPanel(), c);
+
+		this.setVisible(true);
 	}
 
-	private JPanel makeButtonPanel(){
-		//TODO most of these will become tabs, adding temporarily for navigation purposes
+	private JPanel makeButtonPanel() {
+		// TODO most of these will become tabs, adding temporarily for
+		// navigation purposes
 		ScreenManager sm = getScreenManager();
-		JPanel buttonPanel = Gui.makePanel((LayoutManager)null,new MaxSize(500,50),PrefSize.NULL,
-			makeStartButton(),
-			Gui.makeButton("Pause",null,new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					getGuiManager().pauseSim();
-				}
-			}),
-			Gui.makeButton("Entities",null, new GeneralButtonListener("Entities",sm)),
-			Gui.makeButton("Global Fields",null, new GeneralButtonListener("Fields",sm)),
-			Gui.makeButton("Setup options",null, new GeneralButtonListener("Grid Setup",sm)),
-			Gui.makeButton("Statistics",null, new GeneralButtonListener("Statistics",sm)));
+		JPanel buttonPanel = Gui.makePanel((LayoutManager) null, new MaxSize(
+				500, 50), PrefSize.NULL, makeStartButton(), 
+				Gui.makeButton("Statistics", null,
+				new GeneralButtonListener("Statistics", sm))
+				);
 		return buttonPanel;
 	}
 
-	private JButton makeStartButton(){
-		JButton b = Gui.makeButton("Start/Resume",null,new ActionListener() {
+	public void setSpawn(boolean canSpawn) {
+		this.canSpawn = canSpawn;
+	}
+
+	private JButton makeStartButton() {
+		final JButton b = Gui.makeButton("Start", null, null); 
+		b.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SimulatorGuiManager gm = getGuiManager();
-				if (!gm.hasSimStarted()) {
-					for (SpawnCondition condition: gm.getSimSpawnConditions()) {
-						condition.addToGrid(gm);
-					}
+				SimulatorFacade gm = getGuiManager();
+				if(b.getText().equals("Pause")){
+					getGuiManager().pause();
+					canSpawn = true;
+					b.setText("Resume");
 				}
-				gm.getGridPanel().repaint();
-				
-//				if (stepCount == 0)
-//					;//sm.getStatManager().setStartTime(startTime);
-				gm.startSim();
+				else{
+					canSpawn = false;
+					gm.getGridPanel().repaint();	
+					gm.start();
+					b.setText("Pause");
+
+				}
 			}
 		});
 		return b;
@@ -188,54 +193,11 @@ public class ViewSimScreen extends Screen {
 
 	@Override
 	public void load() {
-		entities = Simulator.prototypeNames().toArray(entities);
-		agentComboBox = new JComboBox(entities);
-		agentComboBox.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				if(agentComboBox.getItemAt(0)!=null) {
-					
-					//To ensure type safety with the "String" combo box, we need to convert the objects to strings.
-					Object[] tempObjList = Simulator.getPrototype(agentComboBox.getSelectedItem().toString()).getCustomFieldMap().keySet().toArray();
-					String[] tempStringList = new String[tempObjList.length];
-					for(int i = 0; i < tempObjList.length; i++) {
-						tempStringList[i] = tempObjList[i].toString();
-					}
-					
-					layerComboBox = new JComboBox(tempStringList);
-					
-				}
-				else
-					layerComboBox = new JComboBox();
-				layerComboBox.setMaximumSize(new Dimension(200, 50));
-				layerPanelLayers.remove(1);
-				layerPanelLayers.add(layerComboBox);
-				validate();
-				repaint();
-			}
-		});
-		if(entities.length != 0){
-			if(agentComboBox.getItemAt(0)!=null) {
-				
-				//To ensure type safety with the "String" combo box, we need to convert the objects to strings.
-				Object[] tempObjList = Simulator.getPrototype(agentComboBox.getSelectedItem().toString()).getCustomFieldMap().keySet().toArray();
-				String[] tempStringList = new String[tempObjList.length];
-				for(int i = 0; i < tempObjList.length; i++) {
-					tempStringList[i] = tempObjList[i].toString();
-				}
-				
-				layerComboBox = new JComboBox(tempStringList);
-				
-			}
-			else
-				layerComboBox = new JComboBox();
-			layerComboBox.setMaximumSize(new Dimension(200, 50));
-			layerPanelLayers.remove(1);
-			layerPanelLayers.add(layerComboBox);
-		}
-		agentComboBox.setMaximumSize(new Dimension(200, 50));
-		layerPanelAgents.remove(1);
-		layerPanelAgents.add(agentComboBox);
+		entitiesScreen.load();
+		layerScreen.load();
+		globalFieldScreen.load();
+		optionsScreen.load();
+
 		validate();
 		getGuiManager().getGridPanel().repaint();
 	}

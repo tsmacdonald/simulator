@@ -6,14 +6,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
 
 public class BuilderTest {
 
-	private Grid grid;
 	private Prototype prototype;
 	private Trigger.Builder builder;
 	private Trigger trigger;
@@ -21,8 +19,7 @@ public class BuilderTest {
 	@Before
 	public void setUp() {
 		try{
-			grid = new Grid(1,1);
-			prototype = new Prototype(grid, "test");
+			prototype = new Prototype("test");
 			prototype.addField("weight", "1");
 			prototype.addField("health", "10");
 			builder = new Trigger.Builder(prototype);
@@ -50,7 +47,6 @@ public class BuilderTest {
 	public void testConditionOperation(){
 		builder.addConditional("1 EQUALS 1");
 		trigger = builder.build();
-		System.out.println(trigger.getConditions().toString());
 		Assert.assertTrue(trigger.getConditions().toString().equals("1 == 1")); 
 	}
 	
@@ -58,12 +54,11 @@ public class BuilderTest {
 	public void testConditionValues(){
 		builder.addConditional("weight > health");
 		trigger = builder.build();
-		System.out.println(trigger.getConditions().toString());
 		Assert.assertTrue(trigger.getConditions().toString().equals("this.weight > this.health")); 
 	}
 
 	@Test
-	public void testIsValidMethod(){
+	public void testIsValidMethod() throws Exception{
 		builder.addConditional("this.weight>2"); 
 		builder.addBehavioral("move(2,2)");
 		Assert.assertTrue(builder.isValid() == java.lang.Boolean.TRUE);
@@ -71,24 +66,46 @@ public class BuilderTest {
 	
 
 	@Test
-	public void testForUserEnteredExpression(){
+	public void testForUserEnteredExpression() {
 		builder.addConditional("health > 3");
-		builder.addBehavioral("move(5,5)");
-		Assert.assertTrue(builder.isValid() == java.lang.Boolean.TRUE);
+		builder.addBehavioral("1+move(5,5)");
+		try {
+			Assert.assertTrue(builder.isValid() == java.lang.Boolean.TRUE);
+		} catch (Exception e) {
+			Assert.fail();
+		}
 	}
+	
+	@Test
+	public void testIsValidBlank(){
+		try {
+			Assert.assertTrue(builder.isValid() == java.lang.Boolean.FALSE);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+		}
+	}
+	
 	
 	@Test
 	public void testIsValidMethod2(){
 		builder.addConditional("blah blah blah");
 		builder.addBehavioral("gibberish");
-		Assert.assertTrue(builder.isValid() == java.lang.Boolean.FALSE);
+		try {
+			Assert.assertTrue(builder.isValid() == java.lang.Boolean.FALSE);
+		} catch (Exception e) {
+			Assert.assertTrue(java.lang.Boolean.TRUE);
+		}
 	}
 	
 	@Test
 	public void testForIncorrectArguments(){
-		builder.addConditional("health > 3");
+		builder.addConditional("TRUE");
 		builder.addBehavioral("move(5,5,5)");
-		Assert.assertTrue(builder.isValid() == java.lang.Boolean.FALSE);
+		try {
+			Assert.assertTrue(builder.isValid() == java.lang.Boolean.FALSE);
+		} catch (Exception e) {
+			Assert.assertTrue(java.lang.Boolean.TRUE);
+		}
 	}
 	
 	@Test

@@ -1,9 +1,12 @@
 package sampleAgents;
 
+import java.awt.Color;
+
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
+import edu.wheaton.simulator.simulation.Simulator;
 /**
  * Bouncer is a prototype for an agent that will begin in one direction and when it reaches
  * any kind of obstacle, it will reveres that direction.
@@ -18,10 +21,16 @@ public class Bouncer extends SampleAgent{
 	}
 	
 	@Override
-	public Prototype initSampleAgent(Prototype bouncer) {
+	public Prototype initSampleAgent() {
+		Prototype bouncer = new Prototype(Color.RED, "bouncer");
 		return initBouncer(bouncer);
 	}
 	
+	/**
+	 * Adds all information to make a bouncer agent and saves the bouncer agent.
+	 * @param bouncer An empty prototype to be converted into a bouncer
+	 * @return The initialized bouncer
+	 */
 	private static Prototype initBouncer(Prototype bouncer){
 		// Add fields
 		try {
@@ -46,7 +55,8 @@ public class Bouncer extends SampleAgent{
 		bouncer.addTrigger(new Trigger("move", 1, freeSpot, move));
 		
 		Prototype.addPrototype(bouncer);
-
+		// save the prototype
+		Simulator.getInstance().savePrototypeToFile(bouncer);
 		return bouncer;
 	}
 

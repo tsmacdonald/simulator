@@ -17,7 +17,7 @@ import edu.wheaton.simulator.gui.MinSize;
 import edu.wheaton.simulator.gui.NewSimScreenFinishListener;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.RockPaperScissorsFinishListener;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 
 public class NewSimulationScreen extends Screen {
@@ -30,7 +30,7 @@ public class NewSimulationScreen extends Screen {
 
 	private JTextField width;
 
-	public NewSimulationScreen(SimulatorGuiManager gm) {
+	public NewSimulationScreen(SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
 
