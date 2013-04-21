@@ -63,10 +63,10 @@ public class ViewSimScreen extends Screen {
 		layerScreen = new LayerScreen(gm);
 		globalFieldScreen = new FieldScreen(gm);
 		optionsScreen = new SetupScreen(gm);
+		tabs.addTab("Options", optionsScreen);
 		tabs.addTab("Agent", entitiesScreen);
 		tabs.addTab("Layers", layerScreen);
 		tabs.addTab("Global Fields", globalFieldScreen);
-		tabs.addTab("Options", optionsScreen);
 		tabs.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent ce) {
@@ -191,7 +191,7 @@ public class ViewSimScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SimulatorFacade gm = getGuiManager();
-				if(b.getText() == "Pause"){
+				if(b.getText().equals("Pause")){
 					getGuiManager().pause();
 					canSpawn = true;
 					b.setText("Resume");
