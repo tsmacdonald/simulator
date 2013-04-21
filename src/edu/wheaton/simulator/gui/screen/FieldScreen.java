@@ -66,7 +66,7 @@ public class FieldScreen extends Screen {
 				ScreenManager sm = getScreenManager();
 				FieldScreen.setEditing(true);
 				EditFieldScreen screen = (EditFieldScreen) sm.getScreen("Edit Fields");
-				screen.load((String)fields.getSelectedValue());
+				screen.load(fields.getSelectedValue());
 				sm.update(screen);
 			}
 		});
@@ -128,7 +128,7 @@ public class FieldScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e){
 			int index = fields.getSelectedIndex();
-			getGuiManager().removeGlobalField((String)fields.getSelectedValue());
+			getGuiManager().removeGlobalField(fields.getSelectedValue());
 			fields.removeItem(index);
 			int size = fields.getNumItems();
 			if(size == 0) {
