@@ -25,6 +25,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.wheaton.simulator.gui.BoxLayoutAxis;
 import edu.wheaton.simulator.gui.GeneralButtonListener;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.MaxSize;
@@ -153,24 +154,26 @@ public class ViewSimScreen extends Screen {
 	}
 
 	private JPanel makeButtonPanel() {
+		// TODO most of these will become tabs, adding temporarily for
+		// navigation purposes
 		ScreenManager sm = getScreenManager();
 		JPanel buttonPanel = Gui.makePanel((LayoutManager) null, new MaxSize(
 				500, 50), PrefSize.NULL, makeStartButton(), 
 				Gui.makeButton("Statistics", null,
-				new GeneralButtonListener("Statistics", sm)),
-				Gui.makeButton("Clear Agents", null,
-						new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						//adding clear all here
-					}
-				}), Gui.makeButton("Fill Grid", null,
-						new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						//adding fill grid here
-					}
-				})
+						new GeneralButtonListener("Statistics", sm)),
+						Gui.makeButton("Clear Agents", null,
+								new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								//adding clear all here
+							}
+						}), Gui.makeButton("Fill Grid", null,
+								new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								//adding fill grid here
+							}
+						})
 				);
 		return buttonPanel;
 	}
@@ -181,20 +184,21 @@ public class ViewSimScreen extends Screen {
 
 	private JButton makeStartButton() {
 		final JButton b = Gui.makeButton("Start", null, null); 
-			b.addActionListener(new ActionListener() {
+		b.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SimulatorFacade gm = getGuiManager();
-				if(b.getName() == "Start" || b.getName() == "Resume"){
-				canSpawn = false;
-				gm.getGridPanel().repaint();	
-				gm.start();
-				b.setName("Pause");
-				}
-				else{
+				if(b.getText() == "Pause"){
 					getGuiManager().pause();
 					canSpawn = true;
-					b.setName("Resume");
+					b.setText("Resume");
+				}
+				else{
+					canSpawn = false;
+					gm.getGridPanel().repaint();	
+					gm.start();
+					b.setText("Pause");
+
 				}
 			}
 		});
