@@ -65,12 +65,15 @@ public class EntityScreen extends Screen {
 				new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						//TODO import agent files, need filebrowser
+						gm.importAgent();
 					}
 		});
 		save = Gui.makeButton("Save Agent", null, 
 				new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//TODO save selected agent
+						//TODO 
+						//select name for file: dialog box? file browser/selector?
+						//gm.saveAgent(agentName);
 					}
 		});
 		

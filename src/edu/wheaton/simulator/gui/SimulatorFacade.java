@@ -1,6 +1,7 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.Color;
+import java.io.File;
 import java.util.Map;
 import java.util.Set;
 
@@ -211,24 +212,33 @@ public class SimulatorFacade {
 	public void fillGrid(String prototypeName) {
 		getSim().fillAll(prototypeName);
 	}
-
+	
+	public void save(String fileName) {
+		getSim().saveToFile(fileName, se);
+	}
+	
 	public void load() {
 		int returnVal = fc.showOpenDialog(null);
-		String fileName = "";
+		File file = null;
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			fileName = fc.getSelectedFile().getName();
-			//TODO make new simulator
-			//initSim(fileName, x, y);
-			//this should eventually be statMan.loadSim(fileName), once that actually gets written
-			//loader.loadSimulation(fileName);
+			file = fc.getSelectedFile();
+			getSim().loadFromFile(file);
 		}
-
-
 	}
-
-	public void save(String fileName) {
-		//TODO get statistics team to provide a 'saveSim(String fileName)' method
-		//statMan.saveSimulation(fileName);
+	
+	public void saveAgent(String agentName) {
+		getSim().savePrototypeToFile(Prototype.getPrototype(agentName));
+	}
+	
+	public void importAgent() {
+		//TODO need different fc because different directories/file extensions?
+		int returnVal = fc.showOpenDialog(null);
+		File file = null;
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			file = fc.getSelectedFile();
+			getSim().loadPrototypeFromFile(file);
+		}
+		
 	}
 
 	public void start(){
