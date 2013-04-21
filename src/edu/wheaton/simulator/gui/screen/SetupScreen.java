@@ -378,7 +378,7 @@ public class SetupScreen extends Screen {
 		c.gridx = 1;
 		c.gridy = 3;
 		c.insets = new Insets(8, 3, 3, 3);
-		c.anchor = GridBagConstraints.CENTER;
+		c.anchor = GridBagConstraints.LINE_START;
 		lowerPanel.add(scrollPane,c);
 
 		validate();
@@ -403,12 +403,30 @@ public class SetupScreen extends Screen {
 				new DeleteListener());
 		deleteButtons.add(newButton);
 		newButton.setActionCommand(deleteButtons.indexOf(newButton) + "");
+		
+		JPanel newPanel = new JPanel(new GridBagLayout());
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 0;
+		c.insets = new Insets(3, 3, 3, 3);
+		newPanel.add(newBox, c);
 
-		JPanel newPanel = Gui.makePanel(newBox,newValue,newButton);
+		c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 0;
+		c.insets = new Insets(3, 3, 3, 3);
+		newPanel.add(newValue, c);
+		
+		c = new GridBagConstraints();
+		c.gridx = 2;
+		c.gridy = 0;
+		c.insets = new Insets(3, 3, 3, 3);
+		newPanel.add(newButton, c);
+		
 		subPanels.add(newPanel);
 		
 		conListPanel.add(newPanel);
-		conListPanel.validate();
 
 		validate();
 	}
