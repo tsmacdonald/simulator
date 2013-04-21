@@ -40,6 +40,7 @@ public class LayerScreen extends Screen {
 	
 	public LayerScreen(SimulatorFacade guiManager) {
 		super(guiManager);
+		this.setLayout(new GridBagLayout());
 		entities = new String[0];
 		
 		JLabel agents = new JLabel("Agents");
@@ -141,13 +142,12 @@ public class LayerScreen extends Screen {
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridy = 3;
+		c.gridy = 4;
 		c.insets = new Insets(10,10,10,10);
 		upperLayerPanel.add(colorPanel, c);
-		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
 		
 		c = new GridBagConstraints();
-		c.insets = new Insets(10,10,10,10);
+		c.insets = new Insets(30,10,10,10);
 		this.add(upperLayerPanel,c);
 	}
 
