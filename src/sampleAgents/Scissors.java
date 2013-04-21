@@ -21,7 +21,8 @@ public class Scissors extends SampleAgent{
 	 * @return Scissors prototype
 	 */
 	@Override
-	public Prototype initSampleAgent(Prototype scissors) {
+	public Prototype initSampleAgent() {
+		Prototype scissors = new Prototype("scissors");
 		return initScissors(scissors);
 	}
 	

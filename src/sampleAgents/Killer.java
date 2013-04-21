@@ -1,5 +1,7 @@
 package sampleAgents;
 
+import java.awt.Color;
+
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
@@ -8,7 +10,8 @@ import edu.wheaton.simulator.expression.Expression;
 public class Killer extends SampleAgent{
 
 	@Override
-	public Prototype initSampleAgent(Prototype killer) {
+	public Prototype initSampleAgent() {
+		Prototype killer = new Prototype(Color.yellow, "killer");
 		return initKiller(killer);
 	}
 	

@@ -17,7 +17,8 @@ import edu.wheaton.simulator.expression.Expression;
 public class Rock extends SampleAgent{
 
 	@Override
-	public Prototype initSampleAgent(Prototype rock) {
+	public Prototype initSampleAgent() {
+		Prototype rock = new Prototype("rock");
 		return initRock(rock);
 	}
 
@@ -72,6 +73,10 @@ public class Rock extends SampleAgent{
 				" setField('temp', this.xNextDirection) || setField('xNextDirection', round(this.xNextDirection * cos(-PI/4) - this.yNextDirection * sin(-PI/4)))"
 						+ " || setField('yNextDirection', round(this.temp * sin(-PI/4) + this.yNextDirection * cos(-PI/4)))");
 
+		// turn 180 degrees
+		Expression bounce = new Expression("setField('xNextDirection', -1 * this.xNextDirection) ||" +
+				"setField('yNextDirection', -1 * this.yNextDirection)");
+		
 		// Check for agent ahead
 		Expression isAgentAhead = new Expression(
 				"this.endTurn != 1"
@@ -85,12 +90,17 @@ public class Rock extends SampleAgent{
 		Expression checkAgentAheadFlag = new Expression("this.endTurn != 1" +
 				"&& this.agentAhead == 1.0");
 
-		// collect information about conflict
-		Expression setConflictAheadFlag = new Expression(
+		// collect information about head to head conflict
+		Expression setHeadToHeadConflictFlag = new Expression(
 				"setField('conflictAhead',"
 						+ " getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'typeID') == (this.typeID + 2)%3"
 						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection') == - this.xNextDirection"
 						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'yNextDirection') == - this.yNextDirection)");
+		
+		// collect information about one facing another conflict
+		Expression setEnemyAheadConflictFlag = new Expression(
+				"setField('conflictAhead',"
+						+ " getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'typeID') == (this.typeID + 2)%3");
 
 		// check the flag that is set when a conflict is ahead
 		Expression checkConflictAheadFlag = new Expression("this.endTurn != 1" +
@@ -124,7 +134,7 @@ public class Rock extends SampleAgent{
 				rock.addTrigger(new Trigger("agentAhead", 1, isAgentAhead,
 						setAgentAhead));
 				rock.addTrigger(new Trigger("conflictAhead", 1,
-						checkAgentAheadFlag, setConflictAheadFlag));
+						checkAgentAheadFlag, setEnemyAheadConflictFlag));
 				rock.addTrigger(new Trigger("engageConflict", 1,
 						checkConflictAheadFlag, engageInConflict));
 				if(rotateDirection == 1)

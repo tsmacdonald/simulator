@@ -1,5 +1,7 @@
 package sampleAgents;
 
+import java.awt.Color;
+
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
@@ -20,7 +22,8 @@ public class Multiplier extends SampleAgent{
 	}
 
 	@Override
-	public Prototype initSampleAgent(Prototype multiplier) {
+	public Prototype initSampleAgent() {
+		Prototype multiplier = new Prototype(Color.BLUE, "Multiplier");
 		return initMultiplier(multiplier);
 	}
 	

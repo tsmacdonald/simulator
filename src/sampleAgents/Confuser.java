@@ -1,5 +1,7 @@
 package sampleAgents;
 
+import java.awt.Color;
+
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
@@ -18,7 +20,8 @@ public class Confuser extends SampleAgent {
 	}
 	
 	@Override
-	public Prototype initSampleAgent(Prototype confuser) {
+	public Prototype initSampleAgent() {
+		Prototype confuser = new Prototype(Color.GREEN, "confuser");
 		return initConfuser(confuser);
 	}
 	

@@ -21,7 +21,8 @@ public class Paper extends SampleAgent {
 	 * @return Paper prototype
 	 */
 	@Override
-	public Prototype initSampleAgent(Prototype paper) {
+	public Prototype initSampleAgent() {
+		Prototype paper = new Prototype("paper");
 		return initPaper(paper);
 	}
 	

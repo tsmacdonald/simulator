@@ -391,10 +391,10 @@ public class Simulator {
 	 * Adds the some sample prototypes
 	 */
 	public void initSamples() {
-		new Multiplier().initSampleAgent(new Prototype(Color.BLUE, "Multiplier"));
-		new Bouncer().initSampleAgent(new Prototype(Color.RED, "bouncer"));
-		new RightTurner().initSampleAgent(new Prototype(Color.BLACK, "rightTurner"));
-		new Confuser().initSampleAgent(new Prototype(Color.GREEN, "confuser"));
+		new Multiplier().initSampleAgent();
+		new Bouncer().initSampleAgent();
+		new RightTurner().initSampleAgent();
+		new Confuser().initSampleAgent();
 	}
 
 	/**
@@ -405,8 +405,8 @@ public class Simulator {
 		simulationGrid().setPriorityUpdater(0, 50);
 
 		// add prototypes
-		new ConwaysDeadBeing().initSampleAgent(new Prototype(new Color(219, 219, 219), "deadBeing"));
-		new ConwaysAliveBeing().initSampleAgent(new Prototype(new Color(93, 198, 245), "aliveBeing"));
+		new ConwaysDeadBeing().initSampleAgent();
+		new ConwaysAliveBeing().initSampleAgent();
 
 		// Place dead beings in Grid with some that are alive
 		for (int x = 0; x < simulationGrid().getWidth(); x++)
@@ -429,10 +429,9 @@ public class Simulator {
 	 */
 	public void initRockPaperScissors() {
 		setPriorityUpdate(0, 60);
-		new Rock().initSampleAgent(new Prototype("rock"));
-		new Paper()
-		.initSampleAgent(new Prototype("paper"));
-		new Scissors().initSampleAgent(new Prototype("scissors"));
+		new Rock().initSampleAgent();
+		new Paper().initSampleAgent();
+		new Scissors().initSampleAgent();
 		simulation.notifyObservers(layerRunning.get());
 	}
 

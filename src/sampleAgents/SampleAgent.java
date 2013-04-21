@@ -25,7 +25,7 @@ public abstract class SampleAgent {
 	 * @param prototype A blank prototype
 	 * @return The prototype with all of the triggers and fields to make it a functional sample unit
 	 */
-	public abstract Prototype initSampleAgent(Prototype prototype);
+	public abstract Prototype initSampleAgent();
 	
 	/**
 	 * @return An iterator over all of the sample agent creator classes
