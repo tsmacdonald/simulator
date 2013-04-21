@@ -159,23 +159,7 @@ public class ViewSimScreen extends Screen {
 		JPanel buttonPanel = Gui.makePanel((LayoutManager) null, new MaxSize(
 				500, 50), PrefSize.NULL, makeStartButton(), 
 				Gui.makeButton("Statistics", null,
-				new GeneralButtonListener("Statistics", sm)),
-				Gui.makeButton("Clear Agents", null,
-						new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						gm.clearGrid();
-					}
-				}), Gui.makeButton("Fill Grid", null,
-						new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						String agentName = entitiesScreen.getList().getSelectedValue().toString();
-						if (agentName != null) {
-							gm.fillGrid(agentName);
-						}
-					}
-				})
+				new GeneralButtonListener("Statistics", sm))
 				);
 		return buttonPanel;
 	}

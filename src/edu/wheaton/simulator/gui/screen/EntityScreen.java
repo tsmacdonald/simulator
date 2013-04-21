@@ -40,6 +40,10 @@ public class EntityScreen extends Screen {
 	private JButton edit;
 	
 	private JButton save;
+	
+	private JButton clear;
+	
+	private JButton fill;
 
 	public EntityScreen(final SimulatorFacade gm) {
 		super(gm);
@@ -79,12 +83,33 @@ public class EntityScreen extends Screen {
 					}
 		});
 		
+		clear = Gui.makeButton("Clear Agents", null,
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gm.clearGrid();
+			}
+		});
+		
+		fill = Gui.makeButton("Fill Grid", null,
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String agentName = getList().getSelectedValue().toString();
+				if (agentName != null) {
+					gm.fillGrid(agentName);
+				}
+			}
+		});
+		
 		entityList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				edit.setEnabled(!gm.hasStarted());
 				delete.setEnabled(!gm.hasStarted());
 				save.setEnabled(!gm.isRunning());
+				clear.setEnabled(!gm.isRunning());
+				fill.setEnabled(!gm.isRunning());
 				((ViewSimScreen) Gui.getScreenManager().getScreen(
 						"View Simulation")).setSpawn(true);
 			}
@@ -103,6 +128,12 @@ public class EntityScreen extends Screen {
 		c.gridx = 2;
 		this.add(delete, c);
 		
+		c.gridx = 3;
+		this.add(clear,c);
+		
+		c.gridx = 4;
+		this.add(fill,c);
+		
 		c.gridx = 0;
 		c.gridy = 3;
 		this.add(load, c);
@@ -115,7 +146,7 @@ public class EntityScreen extends Screen {
 
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridwidth = 4;
+		c.gridwidth = 5;
 		this.add(Gui.makeLabel("Agents", new PrefSize(300, 100),
 				HorizontalAlignment.CENTER), c);
 
