@@ -1,6 +1,7 @@
 package edu.wheaton.simulator.gui.screen;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -39,8 +40,6 @@ public class StatisticsScreen extends Screen {
 	private JComboBox displayTypes; 
 
 	private JComboBox fields; 
-
-	private SimulatorFacade gm; 
 	
 	/**
 	 * Constructor. 
@@ -49,8 +48,7 @@ public class StatisticsScreen extends Screen {
 	 */
 	public StatisticsScreen(SimulatorFacade gm) {
 		super(gm);
-		this.gm = gm;
-		//Setup GridBagLayout & demensions.
+		//Setup GridBagLayout & dimensions.
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{69, 81, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0};
@@ -68,6 +66,7 @@ public class StatisticsScreen extends Screen {
 		gbc_displayPanel.gridx = 0;
 		gbc_displayPanel.gridy = 0;
 		add(displayPanel, gbc_displayPanel);
+		displayPanel.setPreferredSize(new Dimension(500, 400));
 
 		//Setup agentList -- The ComboBox which lists possible categories of agents to view.
 		prototypes = new JComboBox();

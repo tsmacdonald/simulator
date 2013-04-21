@@ -136,7 +136,7 @@ public class Simulator {
 	 * Resumes the simulation
 	 */
 	public void play() {
-		if (simulation.getStarted()) {
+		if (!simulation.getStarted()) {
 			simulation.setStarted();
 			mainThread.start();
 		} else if (!isStopped.get() && isPaused.get()) {
@@ -278,7 +278,7 @@ public class Simulator {
 	 * coordinates. This method replaces (kills) anything that is currently in
 	 * that position. The Agent's own position is also updated accordingly.
 	 * 
-	 * @param a
+	 * @param prototypeName
 	 * @param x
 	 * @param y
 	 * @return false if the x/y values are invalid
@@ -296,7 +296,7 @@ public class Simulator {
 	 * currently in that position. The Agent's own position is also updated
 	 * accordingly.
 	 * 
-	 * @param a
+	 * @param prototypeName
 	 * @return returns true if successful
 	 */
 	public boolean addAgent(String prototypeName) {
@@ -306,6 +306,30 @@ public class Simulator {
 		return toReturn;
 	}
 
+	/**
+	 * Fills the entire grid with agents that follow the given prototype name
+	 * 
+	 * @param prototypeName
+	 */
+	public void fillAll(String prototypeName) {
+		for(int x = 0; x < getWidth(); x++) 
+			for(int y = 0; y < getHeight(); y++)
+				addAgent(prototypeName, x, y);
+		simulation.notifyObservers(layerRunning.get());
+	}
+	
+	/**
+	 * Clears all the Agents from the grid
+	 * 
+	 * @param a
+	 */
+	public void clearAll() {
+		for(int x = 0; x < getWidth(); x++) 
+			for(int y = 0; y < getHeight(); y++)
+				removeAgent(x, y);
+		simulation.notifyObservers(layerRunning.get());
+	}
+	
 	/**
 	 * Returns the Agent at the given coordinates
 	 * 
@@ -547,6 +571,9 @@ public class Simulator {
 	 */
 	public void load(String name, int width, int height, SimulationEnder se) {
 		simulation = new Simulation(name, width, height, se);
+		System.out.println("loaded");
+		clearPrototypes();
+		simulation.notifyObservers(layerRunning.get());
 	}
 	
 	/**
@@ -554,7 +581,7 @@ public class Simulator {
 	 * 
 	 * @param file
 	 */
-	public void loadFromString(File file){
+	public void loadFromFile(File file){
 		Loader l = new Loader();
 		l.loadSimulation(file);
 		try{
@@ -578,6 +605,8 @@ public class Simulator {
 		simulation = new Simulation(name, grid, se);
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
+		clearPrototypes();
+		simulation.notifyObservers(layerRunning.get());
 	}
 	
 	/**
@@ -585,7 +614,7 @@ public class Simulator {
 	 *
 	 * @param file
 	 */
-	public void loadPrototypeFromString(File file){
+	public void loadPrototypeFromFile(File file){
 		Loader l = new Loader();
 		Prototype.addPrototype(l.loadPrototype(file));
 	}
@@ -595,7 +624,7 @@ public class Simulator {
 	 *
 	 * @param filename
 	 */
-	public void saveToString(String filename, SimulationEnder ender){
+	public void saveToFile(String filename, SimulationEnder ender){
 		Saver s = new Saver();
 		Set<Agent> agents = new HashSet<Agent>();
 		Grid grid = simulationGrid();
@@ -615,7 +644,7 @@ public class Simulator {
 	 *
 	 * @param proto
 	 */
-	public void savePrototypeToString(Prototype proto){
+	public void savePrototypeToFile(Prototype proto){
 		Saver s = new Saver();
 		s.savePrototype(proto);
 	}

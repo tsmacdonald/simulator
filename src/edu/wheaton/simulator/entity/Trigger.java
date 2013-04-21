@@ -203,14 +203,6 @@ public class Trigger implements Comparable<Trigger> {
 			return -1;
 		}
 	}
-
-	public void setBehavior(Expression behavior) {
-		this.behaviorExpression = behavior;
-	}
-
-	private void setCondition(Expression e) {
-		conditionExpression = e;
-	}
 	
 	public String getName() {
 		return name;
@@ -308,9 +300,6 @@ public class Trigger implements Comparable<Trigger> {
 		/**
 		 * Converts a JEval formed trigger to something that be read by a human and makes sense.
 		 * 
-		 * TODO need to figure out how to change conditional that might contain (1+1) to ( 1 + 1 )
-		 * TODO Stuff that is got from functions/fields/our defined operators can be converted fine
-		 * but not so much with the other stuff. 
 		 * @param t
 		 */
 		private void parseTrigger(Trigger t) {
@@ -328,12 +317,10 @@ public class Trigger implements Comparable<Trigger> {
 				condition= condition.substring(0, condition.length()-1);
 			}
 			conditionString = condition;
-			System.out.println(conditionString);
 			if (behavior.charAt(behavior.length()-1)==(' ')){
 				behavior= behavior.substring(0, behavior.length()-1);
 			}
 			behaviorString = behavior;
-			System.out.println(behaviorString);
 		}
 		
 		public String getBehaviorString(){
@@ -410,6 +397,7 @@ public class Trigger implements Comparable<Trigger> {
 		 */
 		private void loadConditionalFunctions() {
 			conditionalValues.add("--Functions--");
+			conditionalValues.add("True");
 			for (String s : Expression.getConditionFunction().keySet()){
 				conditionalValues.add(convertCamelCaseToNormal(s));
 				converter.put(convertCamelCaseToNormal(s), s);
@@ -488,7 +476,7 @@ public class Trigger implements Comparable<Trigger> {
 			if (condition.charAt(condition.length()-1)==(' ')){
 				condition= condition.substring(0, condition.length()-1);
 			}
-			trigger.setCondition(new Expression(condition));
+			trigger.conditionExpression = (new Expression(condition));
 		}
 
 		/**
@@ -507,7 +495,7 @@ public class Trigger implements Comparable<Trigger> {
 			if (behavior.charAt(behavior.length()-1)==(' ')){
 				behavior= behavior.substring(0, behavior.length()-1);
 			}
-			trigger.setBehavior(new Expression(behavior));
+			trigger.behaviorExpression= (new Expression(behavior));
 		}
 		
 		/**
@@ -527,44 +515,31 @@ public class Trigger implements Comparable<Trigger> {
 		 * Whether or not the last conditional and behavioral are a valid
 		 * trigger
 		 * 
-		 * @return
+		 * @return True if it works. Otherwise throws an exception 
+		 * telling what went wrong
 		 */
-		public boolean isValid() {
-			Agent test = prototype.createAgent(null);
+		public boolean isValid() throws Exception{
 			try{
-				Expression condition = trigger.getConditions();
-				Expression behavior = trigger.getBehavior();
-				condition.importEntity("this", test);
-				behavior.importEntity("this", test);
-				condition.evaluateBool();
-				behavior.evaluateBool();
-				String conditions = trigger.getConditions().toString();
-				new Expression(isValidHelper(conditions)).evaluateBool();
-				String behaviors =  trigger.getBehavior().toString();
-				new Expression(isValidHelper(behaviors)).evaluateBool();
+				if (trigger.priority < 0){
+					throw new Exception("Trigger priority cannot be negative");
+				}
+				if (trigger.conditionExpression == null)
+					throw new Exception("Trigger condition is blank");
+				if (trigger.behaviorExpression == null)
+					throw new Exception("Trigger behavior is blank");
+				new Expression(isValidHelper(trigger.conditionExpression.toString())).evaluateBool();
+				new Expression(isValidHelper(trigger.behaviorExpression.toString())).evaluateBool();
 				return true;
 			}
 			catch (Exception e){
-				System.out.println("Invalid trigger");
-				return false;
+//				System.out.println("Invalid trigger");
+				throw e;
 			}
-			
-//			try {
-//				String condition = trigger.getConditions().toString();
-//				new Expression(isValidHelper(condition)).evaluateBool();
-//				String behavior =  trigger.getBehavior().toString();
-//				new Expression(isValidHelper(behavior)).evaluateBool();
-//				return true;
-//			} catch (Exception e) {
-//				System.out.println("Trigger failed: "
-//						+ trigger.getConditions() + "\n"+trigger.getBehavior());
-//				e.printStackTrace();
-//				return false;
-//			}		
 		}
 
 		/**
-		 * Helper method for isValid method to avoid having same loops twice.
+		 * Helper method for isValid method to change this.xxxx to the value of xxxx 
+		 * in the prototype.
 		 * @param s
 		 * @return simplified expression that we can evaluate
 		 */
@@ -583,15 +558,27 @@ public class Trigger implements Comparable<Trigger> {
 				}
 				s = beginning + s;
 			}
+			return isValidHelper2(s);
+		}
+		
+		/**
+		 * Helper method for isValid method to check functions for correct number of 
+		 * arguments and the 
+		 * @param s
+		 * @return simplified expression that we can evaluate
+		 */
+		private String isValidHelper2(String s) throws Exception{
 			for (String f : functions.keySet()){
 				while (s.indexOf(f)!= -1){
 					int index = s.indexOf(f);
 					String beginning = s.substring(0, index);
 					s= s.substring(index);
-					String test = s.substring(0, s.indexOf(")"));
+					String test = isValidHelper2(s.substring(s.indexOf("(", index)));
+					System.out.println(test);
 					String[] numArgs = test.split(",");
 					if (numArgs.length != functions.get(f).numArgs()){
-						throw new Exception("function has wrong number of arguments"); 
+						throw new Exception("The function: " + convertCamelCaseToNormal(functions.get(f).getName()) + 
+								", has the wrong number of arguments"); 
 					}
 					s = s.substring(s.indexOf(")")+1);
 					s = beginning + functionType(f)+s;
@@ -599,6 +586,7 @@ public class Trigger implements Comparable<Trigger> {
 			}
 			return s;
 		}
+		
 
 		private String functionType(String name){
 			switch (functions.get(name).getResultType()){
@@ -617,6 +605,11 @@ public class Trigger implements Comparable<Trigger> {
 			return trigger;
 		}
 		
+		/**
+		 * converts thisIsCamelCase to this_is_camel_case.
+		 * @param s
+		 * @return
+		 */
 		private String convertCamelCaseToNormal(String s){
 			String toReturn = "";
 			for (int i = 0; i < s.length(); i++){
