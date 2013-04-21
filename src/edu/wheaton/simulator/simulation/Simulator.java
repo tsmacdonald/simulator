@@ -323,7 +323,7 @@ public class Simulator {
 	 * 
 	 * @param a
 	 */
-	public void clearAll(String prototypeName) {
+	public void clearAll() {
 		for(int x = 0; x < getWidth(); x++) 
 			for(int y = 0; y < getHeight(); y++)
 				removeAgent(x, y);
@@ -571,6 +571,9 @@ public class Simulator {
 	 */
 	public void load(String name, int width, int height, SimulationEnder se) {
 		simulation = new Simulation(name, width, height, se);
+		System.out.println("loaded");
+		clearPrototypes();
+		simulation.notifyObservers(layerRunning.get());
 	}
 	
 	/**
@@ -578,7 +581,7 @@ public class Simulator {
 	 * 
 	 * @param file
 	 */
-	public void loadFromString(File file){
+	public void loadFromFile(File file){
 		Loader l = new Loader();
 		l.loadSimulation(file);
 		try{
@@ -602,6 +605,8 @@ public class Simulator {
 		simulation = new Simulation(name, grid, se);
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
+		clearPrototypes();
+		simulation.notifyObservers(layerRunning.get());
 	}
 	
 	/**
@@ -609,7 +614,7 @@ public class Simulator {
 	 *
 	 * @param file
 	 */
-	public void loadPrototypeFromString(File file){
+	public void loadPrototypeFromFile(File file){
 		Loader l = new Loader();
 		Prototype.addPrototype(l.loadPrototype(file));
 	}
@@ -619,7 +624,7 @@ public class Simulator {
 	 *
 	 * @param filename
 	 */
-	public void saveToString(String filename, SimulationEnder ender){
+	public void saveToFile(String filename, SimulationEnder ender){
 		Saver s = new Saver();
 		Set<Agent> agents = new HashSet<Agent>();
 		Grid grid = simulationGrid();
@@ -639,7 +644,7 @@ public class Simulator {
 	 *
 	 * @param proto
 	 */
-	public void savePrototypeToString(Prototype proto){
+	public void savePrototypeToFile(Prototype proto){
 		Saver s = new Saver();
 		s.savePrototype(proto);
 	}

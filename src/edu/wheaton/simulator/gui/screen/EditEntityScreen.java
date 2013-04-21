@@ -249,6 +249,7 @@ public class EditEntityScreen extends Screen {
 		triggerListPanel.add(triggerSubPanels.get(0));
 		triggerListPanel.add(addTriggerButton);
 		triggerListPanel.add(Box.createVerticalGlue());
+		triggerListPanel.setPreferredSize(new Dimension(750, 350));
 
 		cards.add(generalPanel, "General");
 		cards.add(makeFieldMainPanel(fieldListPanel), "Fields");
@@ -284,9 +285,8 @@ public class EditEntityScreen extends Screen {
 							Prototype.removePrototype(nameField.getText());
 						reset();
 					}
-				}),finishButton,previousButton,nextButton), 
-				BorderLayout.SOUTH
-				);
+				}), finishButton, previousButton, nextButton), 
+				BorderLayout.SOUTH );
 	}
 
 	private void initIconDesignObject(IconGridPanel iconPanel){
