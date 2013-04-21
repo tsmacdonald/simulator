@@ -88,22 +88,15 @@ public class ViewSimScreen extends Screen {
 		gm.getGridPanel().addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				if (getGuiManager().canSpawn()) {
-
-					int standardSize = Math.min(gm.getGridPanel().getWidth()
-							/ gm.getGridWidth(), gm.getGridPanel().getHeight()
-							/ gm.getGridHeight());
-
-					int x = me.getX() / standardSize;
-					int y = me.getY() / standardSize;
+				int standardSize = Math.min(gm.getGridPanel().getWidth()
+						/ gm.getGridWidth(), gm.getGridPanel().getHeight()
+						/ gm.getGridHeight());
+				int x = me.getX() / standardSize;
+				int y = me.getY() / standardSize;
+				if (canSpawn) {
 					if (gm.getAgent(x, y) == null) {
-						if (canSpawn && randomSpawn) {
-							gm.addAgentRandom(entitiesScreen.getList()
-									.getSelectedValue().toString());
-						} else if (canSpawn && !randomSpawn) {
-							gm.addAgent(entitiesScreen.getList()
-									.getSelectedValue().toString(), x, y);
-						}
+						gm.addAgent(entitiesScreen.getList()
+								.getSelectedValue().toString(), x, y);
 					}
 
 					else {
@@ -176,8 +169,8 @@ public class ViewSimScreen extends Screen {
 		});
 		JPanel buttonPanel = Gui.makePanel((LayoutManager) null, new MaxSize(
 				500, 50), PrefSize.NULL, makeStartButton(), Gui.makeButton(
-				"Statistics", null,
-				new GeneralButtonListener("Statistics", sm)), random);
+						"Statistics", null,
+						new GeneralButtonListener("Statistics", sm)), random);
 		return buttonPanel;
 	}
 

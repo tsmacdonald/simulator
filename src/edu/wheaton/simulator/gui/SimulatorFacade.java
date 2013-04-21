@@ -24,14 +24,12 @@ public class SimulatorFacade {
 	private StatisticsManager statMan;
 	private Simulator simulator;
 	private boolean simulationIsRunning;
-	private boolean canSpawn;
 	private GridPanel gridPanel;
 	private GridPanelObserver gpo;
 	private boolean hasStarted;
 	private JFileChooser fc;
 
 	private SimulatorFacade() {
-		canSpawn = true;
 		gridPanel = new GridPanel(this);
 		load("New Simulation",10, 10);
 		se = new SimulationEnder();
@@ -187,12 +185,7 @@ public class SimulatorFacade {
 
 	public void pause(){
 		setRunning(false);
-		canSpawn = true;
 		simulator.pause();
-	}
-
-	public boolean canSpawn() {
-		return canSpawn;
 	}
 
 	public void addAgent(String prototypeName, int x, int y){
@@ -242,7 +235,6 @@ public class SimulatorFacade {
 	public void start(){
 		setRunning(true);
 		setStarted(true);
-		canSpawn = false;
 		simulator.play();
 	}
 
