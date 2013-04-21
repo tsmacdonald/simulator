@@ -37,20 +37,20 @@ public class ViewSimScreen extends Screen {
 
 	private static final long serialVersionUID = -6872689283286800861L;
 
-	
+
 
 	private GridBagConstraints c;
 
 	private boolean canSpawn;
 
 	private final EntityScreen entitiesScreen;
-	
+
 	private final Screen layerScreen;
 
 	private final Screen globalFieldScreen;
 
 	private final Screen optionsScreen;
-	
+
 	public ViewSimScreen(final SimulatorFacade gm) {
 		super(gm);
 		setSpawn(false);
@@ -154,32 +154,34 @@ public class ViewSimScreen extends Screen {
 	}
 
 	private JPanel makeButtonPanel() {
-		// TODO most of these will become tabs, adding temporarily for
-		// navigation purposes
 		ScreenManager sm = getScreenManager();
 		JPanel buttonPanel = Gui.makePanel((LayoutManager) null, new MaxSize(
 				500, 50), PrefSize.NULL, makeStartButton(), Gui.makeButton(
-				"Pause", null, new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						getGuiManager().pause();
-						canSpawn = true;
-					}
-				}), Gui.makeButton("Statistics", null,
-				new GeneralButtonListener("Statistics", sm)),
-				Gui.makeButton("Clear Agents", null,
-						new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						//adding clear all here
-					}
-				}), Gui.makeButton("Fill Grid", null,
-						new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						//adding fill grid here
-					}
-				})
+						"Pause", null, new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								getGuiManager().pause();
+								canSpawn = true;
+							}
+						}), Gui.makeButton("Statistics", null,
+								new GeneralButtonListener("Statistics", sm)),
+								Gui.makeButton("Clear Agents", null,
+										new ActionListener() {
+									@Override
+									public void actionPerformed(ActionEvent e) {
+										getGuiManager().clearGrid();
+									}
+								}), Gui.makeButton("Fill Grid", null,
+										new ActionListener() {
+									@Override
+									//TODO make sure that this is disabled when the user shouldn't be able to press it
+									public void actionPerformed(ActionEvent e) {
+										//adding fill grid here
+										String agentName = entitiesScreen.getList().getSelectedValue().toString();
+										if (agentName != null)
+											getGuiManager().fillGrid(agentName);
+									}
+								})
 				);
 		return buttonPanel;
 	}
@@ -196,7 +198,7 @@ public class ViewSimScreen extends Screen {
 				canSpawn = false;
 				gm.getGridPanel().repaint();	
 				gm.start();
-				
+
 			}
 		});
 		return b;

@@ -203,6 +203,14 @@ public class SimulatorFacade {
 	public boolean addAgent(String prototypeName, int x, int y){
 		return getSim().addAgent(prototypeName, x, y);
 	}
+	
+	public void clearGrid() {
+		getSim().clearAll();
+	}
+	
+	public void fillGrid(String prototypeName) {
+		getSim().fillAll(prototypeName);
+	}
 
 	public void load() {
 		int returnVal = fc.showOpenDialog(null);
