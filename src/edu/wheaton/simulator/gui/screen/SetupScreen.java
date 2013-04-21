@@ -16,6 +16,8 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -55,38 +57,6 @@ public class SetupScreen extends Screen {
 
 	public SetupScreen(final SimulatorFacade gm) {
 		super(gm);
-		this.setLayout(new GridBagLayout());
-
-		JPanel upperPanel = makeUpperPanel();
-		upperPanel.setMinimumSize(new MinSize(300,117));
-		
-		JPanel lowerPanel = makeLowerPanel();
-		lowerPanel.setMinimumSize(new MinSize(398,70));
-		
-		JPanel bottomButtons = Gui.makePanel(
-				Gui.makeButton("Revert", null, new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						load();
-					}
-				}), makeConfirmButton());
-		
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 0;
-		this.add(upperPanel, c);
-
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = GridBagConstraints.RELATIVE;
-		c.insets = new Insets(20,20,20,20);
-		this.add(lowerPanel, c);
-
-		c = new GridBagConstraints();
-		c.anchor = GridBagConstraints.PAGE_END;
-		c.gridx =0;
-		c.gridy = 8;
-		this.add(bottomButtons, c);
 
 		agentNames = new String[0];
 
@@ -96,7 +66,48 @@ public class SetupScreen extends Screen {
 
 		agentTypes = new ArrayList<JComboBox>();
 		values = new ArrayList<JTextField>();
-		validate();
+		
+		JPanel upperPanel = makeUpperPanel();
+		upperPanel.setMinimumSize(new MinSize(300,140));
+		
+		JPanel lowerPanel = makeLowerPanel();
+		lowerPanel.setMinimumSize(new MinSize(398,300));
+		
+		JPanel bottomButtons = Gui.makePanel(
+				Gui.makeButton("Revert", null, new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						load();
+					}
+				}), makeConfirmButton());
+		
+		JPanel mainPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, null, null);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 0;
+		c.anchor = GridBagConstraints.NORTH;
+		mainPanel.add(upperPanel, c);
+
+		c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = GridBagConstraints.RELATIVE;
+		c.anchor = GridBagConstraints.CENTER;
+		mainPanel.add(lowerPanel, c);
+
+		c = new GridBagConstraints();
+		c.anchor = GridBagConstraints.SOUTH;
+		c.gridx =0;
+		c.gridy = 8;
+		mainPanel.add(bottomButtons, c);
+		
+		JScrollPane scrollPane = new JScrollPane(mainPanel);
+		scrollPane.setMinimumSize(new MinSize(300,400));
+		scrollPane.setMaximumSize(new MaxSize(300,400));
+		
+		this.add(scrollPane);
+		
+		this.validate();
 	}
 
 	private JButton makeConfirmButton() {
@@ -378,13 +389,12 @@ public class SetupScreen extends Screen {
 		c.insets = new Insets(8, 3, 3, 3);
 		this.add(conListPanel, c);
 
-		lowerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		validate();
 		return lowerPanel;
 	}
 
 	private JPanel makeConditionListPanel() {
-		JPanel conListPanel = Gui.makePanel((BoxLayoutAxis)null, null, null);
+		JPanel conListPanel = Gui.makePanel(BoxLayoutAxis.PAGE_AXIS, null, null);
 		
 		return conListPanel;
 	}
@@ -406,7 +416,6 @@ public class SetupScreen extends Screen {
 		subPanels.add(newPanel);
 		
 		conListPanel.add(newPanel);
-		conListPanel.add(addConditionButton);
 		conListPanel.validate();
 
 		validate();
