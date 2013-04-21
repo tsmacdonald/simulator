@@ -238,7 +238,7 @@ public class SetupScreen extends Screen {
 		updateBox.setMinimumSize(new MinSize(150,30));
 		
 		//TODO working on adding step delay components
-		JLabel delayLabel = Gui.makeLabel("Step delay:", MaxSize.NULL, null);
+		JLabel delayLabel = Gui.makeLabel("Step delay (ms):", MaxSize.NULL, null);
 		
 		delayField = Gui.makeTextField("1.0", 5, MaxSize.NULL,
 				new MinSize(150,30));
@@ -318,7 +318,7 @@ public class SetupScreen extends Screen {
 				PrefSize.NULL, (Component[]) null);
 
 		JLabel conHeader = Gui.makeLabel("Ending Conditions", MaxSize.NULL, null);
-		JLabel timeLabel = Gui.makeLabel("Time Limit", MaxSize.NULL,
+		JLabel timeLabel = Gui.makeLabel("Max steps:", MaxSize.NULL,
 				null);
 
 		timeField = Gui.makeTextField(null, 15, MaxSize.NULL,
