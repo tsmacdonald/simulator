@@ -194,8 +194,8 @@ public final class Gui {
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String fileName = JOptionPane.showInputDialog("Please enter file name: ");
-				SimulatorFacade.getInstance().save(fileName);
+				//String fileName = JOptionPane.showInputDialog("Please enter file name: ");
+				SimulatorFacade.getInstance().save();
 			}
 
 		}
