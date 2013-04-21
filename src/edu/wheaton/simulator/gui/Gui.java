@@ -96,6 +96,7 @@ public final class Gui {
 			panel.setMaximumSize(maxSize);
 		if(prefSize != null)
 			panel.setPreferredSize(prefSize);
+		if(components != null)
 		for(Component c : components)
 			panel.add(c);
 		return panel;
@@ -103,6 +104,7 @@ public final class Gui {
 	
 	public static JPanel makePanel(Component... components){
 		JPanel panel = new JPanel();
+		if(components != null)
 		for(Component c : components)
 			panel.add(c);
 		return panel;

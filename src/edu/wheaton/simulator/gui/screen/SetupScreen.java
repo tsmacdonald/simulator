@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -86,32 +87,20 @@ public class SetupScreen extends Screen {
 		JPanel mainPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, null, (Component[])null);
 		
 		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
 		c.gridy = 0;
-		c.anchor = GridBagConstraints.NORTH;
-		mainPanel.add(upperPanel, c);
+		mainPanel.add(upperPanel,c);
 
 		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = GridBagConstraints.RELATIVE;
-		c.anchor = GridBagConstraints.CENTER;
-		mainPanel.add(lowerPanel, c);
+		c.gridy = 1;
+		c.insets = new Insets(15,50,50,15);
+		mainPanel.add(lowerPanel,c);
 
 		c = new GridBagConstraints();
-		c.anchor = GridBagConstraints.SOUTH;
-		c.gridx =0;
-		c.gridy = 8;
-		mainPanel.add(bottomButtons, c);
-		
-		c = new GridBagConstraints();
-		c.anchor = GridBagConstraints.LINE_END;
-		c.gridx =0;
-		c.gridy = 8;
-		mainPanel.add(addConditionButton,c);
+		c.gridy = 2;
+		mainPanel.add(Gui.makePanel(bottomButtons,addConditionButton),c);
 		
 		this.add(mainPanel);
-		
-		this.validate();
+		validate();
 	}
 
 	private JButton makeConfirmButton() {
@@ -339,7 +328,10 @@ public class SetupScreen extends Screen {
 		
 		conListPanel = makeConditionListPanel();
 		scrollPane = new JScrollPane(conListPanel,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setPreferredSize(new PrefSize(550,300));
+		JPanel scrollPaneWrapper = Gui.makePanel(BoxLayoutAxis.PAGE_AXIS,MaxSize.NULL,null,(Component[])null);
+		scrollPaneWrapper.add(scrollPane);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 1;
@@ -353,6 +345,7 @@ public class SetupScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 1;
 		c.insets = new Insets(3, 3, 3, 3);
+		c.anchor = c.CENTER;
 		lowerPanel.add(timeLabel, c);
 
 		c = new GridBagConstraints();
@@ -360,26 +353,31 @@ public class SetupScreen extends Screen {
 		c.gridy = 1;
 		c.gridwidth = 2;
 		c.insets = new Insets(3, 3, 3, 3);
+		c.anchor = c.CENTER;
 		lowerPanel.add(timeField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
-		c.insets = new Insets(15, 3, 3, 3);
+		c.insets = new Insets(15, 10, 3, 3);
+		c.anchor = c.CENTER;
 		lowerPanel.add(agentTypeLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 2;
-		c.insets = new Insets(15, 3, 3, 3);
+		c.insets = new Insets(15, 50, 3, 3);
+		c.anchor = c.CENTER;
 		lowerPanel.add(valueLabel, c);
 		
 		c = new GridBagConstraints();
-		c.gridx = 1;
+		c.gridx = 0;
 		c.gridy = 3;
+		c.gridwidth = 4;
 		c.insets = new Insets(8, 3, 3, 3);
 		c.anchor = GridBagConstraints.LINE_START;
-		lowerPanel.add(scrollPane,c);
+		c.fill = GridBagConstraints.NONE;
+		lowerPanel.add(scrollPaneWrapper,c);
 
 		validate();
 		return lowerPanel;
@@ -409,25 +407,27 @@ public class SetupScreen extends Screen {
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
-		c.insets = new Insets(3, 3, 3, 3);
+		c.fill = c.HORIZONTAL;
+		c.insets = new Insets(3, 0, 3, 0);
 		newPanel.add(newBox, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 0;
-		c.insets = new Insets(3, 3, 3, 3);
+		c.fill = c.HORIZONTAL;
+		c.insets = new Insets(3, 0, 3, 0);
 		newPanel.add(newValue, c);
 		
 		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 0;
-		c.insets = new Insets(3, 3, 3, 3);
+		c.fill = c.HORIZONTAL;
+		c.insets = new Insets(3, 0, 3, 0);
 		newPanel.add(newButton, c);
 		
 		subPanels.add(newPanel);
 		
 		conListPanel.add(newPanel);
-
 		validate();
 	}
 
