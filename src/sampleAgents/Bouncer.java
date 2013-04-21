@@ -56,7 +56,7 @@ public class Bouncer extends SampleAgent{
 		
 		Prototype.addPrototype(bouncer);
 		// save the prototype
-		Simulator.getInstance().savePrototypeToString(bouncer);
+		Simulator.getInstance().savePrototypeToFile(bouncer);
 		return bouncer;
 	}
 

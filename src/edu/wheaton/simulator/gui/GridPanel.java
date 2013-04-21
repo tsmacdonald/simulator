@@ -58,7 +58,6 @@ public class GridPanel extends JPanel {
 		int squareSize = Math.min(pixelWidth, pixelHeight);
 
 		for(AgentAppearance agent : grid){
-
 			int x = agent.getX();
 			int y = agent.getY();
 			g.setColor(agent.getColor());
@@ -66,7 +65,6 @@ public class GridPanel extends JPanel {
 				g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 
 						squareSize, squareSize);
 			}
-
 
 			int iconSize = squareSize/7;
 			for (int a = 0; a < 7; a+=1) {
@@ -83,6 +81,7 @@ public class GridPanel extends JPanel {
 			}
 		}
 	}
+
 
 
 	public void clearAgents(Graphics g) {

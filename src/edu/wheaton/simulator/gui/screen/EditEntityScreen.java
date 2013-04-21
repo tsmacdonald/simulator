@@ -107,7 +107,8 @@ public class EditEntityScreen extends Screen {
 		removedTriggers = new HashSet<Integer>();
 
 		nameField = new JTextField(25);
-		nameField.setMaximumSize(new Dimension(400, 40));
+		//nameField.setPreferredSize(new Dimension(400, 40));
+		//nameField.setMinimumSize(new Dimension(200, 40));
 
 		colorTool = Gui.makeColorChooser();
 
@@ -124,7 +125,7 @@ public class EditEntityScreen extends Screen {
 
 		fieldDeleteButtons = new ArrayList<JButton>();
 		triggerDeleteButtons = new ArrayList<JButton>();
-		
+
 		buttons = new boolean[7][7];
 
 		currentCard = "General";
@@ -156,8 +157,7 @@ public class EditEntityScreen extends Screen {
 		});
 
 		final IconGridPanel iconPanel = new IconGridPanel(gm);
-		iconPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
-		iconPanel.setMinimumSize(new Dimension(500, 500));
+		iconPanel.setPreferredSize(new Dimension(500, 500));
 		//iconPanel.setAlignmentX(RIGHT_ALIGNMENT);
 		initIconDesignObject(iconPanel);
 
@@ -165,16 +165,16 @@ public class EditEntityScreen extends Screen {
 		Dimension maxSize = colorPanel.getMaximumSize();
 		maxSize.height += 50;
 		colorPanel.setMaximumSize(maxSize);
-		
+
 		colorTool.getSelectionModel().addChangeListener( new ChangeListener(){
 
 			@Override
 			public void stateChanged(ChangeEvent ce) {
 				iconPanel.repaint();
 			}
-			
+
 		});
-		
+
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -200,6 +200,7 @@ public class EditEntityScreen extends Screen {
 		c.gridx = 2;
 		c.gridy = 1;
 		c.gridwidth = 1;
+		c.ipadx = 250;
 		generalPanel.add(nameField, c);
 
 		c = new GridBagConstraints();
@@ -219,8 +220,8 @@ public class EditEntityScreen extends Screen {
 		c.ipady = 500;
 		c.gridwidth = 2;
 		generalPanel.add(iconPanel, c);
-		
-		
+
+
 		addField();
 
 		// TODO make sure components line up
@@ -249,6 +250,7 @@ public class EditEntityScreen extends Screen {
 		triggerListPanel.add(triggerSubPanels.get(0));
 		triggerListPanel.add(addTriggerButton);
 		triggerListPanel.add(Box.createVerticalGlue());
+		triggerListPanel.setPreferredSize(new Dimension(750, 350));
 
 		cards.add(generalPanel, "General");
 		cards.add(makeFieldMainPanel(fieldListPanel), "Fields");
@@ -274,6 +276,7 @@ public class EditEntityScreen extends Screen {
 		this.add(cards, BorderLayout.CENTER);
 
 		this.add(Gui.makePanel(
+				previousButton,
 				Gui.makeButton("Cancel",null,
 						new ActionListener() {
 					@Override
@@ -284,9 +287,8 @@ public class EditEntityScreen extends Screen {
 							Prototype.removePrototype(nameField.getText());
 						reset();
 					}
-				}),finishButton,previousButton,nextButton), 
-				BorderLayout.SOUTH
-				);
+				}), finishButton, nextButton), 
+				BorderLayout.SOUTH );
 	}
 
 	private void initIconDesignObject(IconGridPanel iconPanel){
@@ -423,8 +425,11 @@ public class EditEntityScreen extends Screen {
 		triggerListPanel.removeAll();
 		triggerListPanel.add(addTriggerButton);
 		previousButton.setEnabled(false);
+		//previousButton.setVisible(false);
 		nextButton.setEnabled(true);
+		//nextButton.setVisible(true);
 		finishButton.setEnabled(false);
+		//finishButton.setVisible(false);
 	}
 
 	public boolean sendInfo() {
@@ -475,8 +480,9 @@ public class EditEntityScreen extends Screen {
 								fieldValues.get(i).getText());
 					else {
 						try {
-							agent.addField(fieldNames.get(i).getText(),
-									fieldValues.get(i).getText());
+							if (!removedFields.contains(i))
+								agent.addField(fieldNames.get(i).getText(),
+										fieldValues.get(i).getText());
 						} catch (ElementAlreadyContainedException e) {
 							e.printStackTrace();
 						}
@@ -549,7 +555,7 @@ public class EditEntityScreen extends Screen {
 				new DeleteFieldListener());
 		fieldDeleteButtons.add(newButton);
 		newButton.setActionCommand(fieldDeleteButtons.indexOf(newButton) + "");
-		
+
 
 		JPanel newPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS, null, null);
 		newPanel.add(newName);
@@ -632,7 +638,6 @@ public class EditEntityScreen extends Screen {
 			fieldListPanel.remove(fieldSubPanels.get(Integer.parseInt(e
 					.getActionCommand())));
 			validate();
-			repaint();
 		}
 	}
 
@@ -643,7 +648,6 @@ public class EditEntityScreen extends Screen {
 			triggerListPanel.remove(triggerSubPanels.get(Integer.parseInt(e
 					.getActionCommand())));
 			validate();
-			repaint();
 		}
 	}
 
@@ -654,6 +658,7 @@ public class EditEntityScreen extends Screen {
 			if (currentCard == "General") {
 				if (sendGeneralInfo()) {
 					previousButton.setEnabled(true);
+					//previousButton.setVisible(true);
 					c1.next(cards);
 					currentCard = "Fields";
 				}
@@ -661,10 +666,13 @@ public class EditEntityScreen extends Screen {
 				if (sendFieldInfo()) {
 					c1.next(cards);
 					nextButton.setEnabled(false);
+					//nextButton.setVisible(false);
 					finishButton.setEnabled(true);
+					//finishButton.setVisible(true);
 					currentCard = "Triggers";
 				}
 			}
+			validate();
 		}
 	}
 
@@ -675,6 +683,7 @@ public class EditEntityScreen extends Screen {
 			if (currentCard == "Fields") {
 				if (sendFieldInfo()) {
 					previousButton.setEnabled(false);
+					//previousButton.setVisible(false);
 					c1.previous(cards);
 					currentCard = "General";
 				}
@@ -682,9 +691,11 @@ public class EditEntityScreen extends Screen {
 				if (sendTriggerInfo()) {
 					c1.previous(cards);
 					nextButton.setEnabled(true);
+					//nextButton.setVisible(true);
 					currentCard = "Fields";
 				}
 			}
+			validate();
 		}
 	}
 

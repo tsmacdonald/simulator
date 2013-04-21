@@ -37,20 +37,20 @@ public class ViewSimScreen extends Screen {
 
 	private static final long serialVersionUID = -6872689283286800861L;
 
-	
+
 
 	private GridBagConstraints c;
 
 	private boolean canSpawn;
 
 	private final EntityScreen entitiesScreen;
-	
+
 	private final Screen layerScreen;
 
 	private final Screen globalFieldScreen;
 
 	private final Screen optionsScreen;
-	
+
 	public ViewSimScreen(final SimulatorFacade gm) {
 		super(gm);
 		setSpawn(false);
@@ -63,10 +63,10 @@ public class ViewSimScreen extends Screen {
 		layerScreen = new LayerScreen(gm);
 		globalFieldScreen = new FieldScreen(gm);
 		optionsScreen = new SetupScreen(gm);
+		tabs.addTab("Options", optionsScreen);
 		tabs.addTab("Agent", entitiesScreen);
 		tabs.addTab("Layers", layerScreen);
 		tabs.addTab("Global Fields", globalFieldScreen);
-		tabs.addTab("Options", optionsScreen);
 		tabs.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent ce) {
@@ -158,22 +158,25 @@ public class ViewSimScreen extends Screen {
 		// navigation purposes
 		ScreenManager sm = getScreenManager();
 		JPanel buttonPanel = Gui.makePanel((LayoutManager) null, new MaxSize(
-				500, 50), PrefSize.NULL, makeStartButton(), Gui.makeButton(
-				"Pause", null, new ActionListener() {
+				500, 50), PrefSize.NULL, makeStartButton(), 
+				Gui.makeButton("Statistics", null,
+				new GeneralButtonListener("Statistics", sm)),
+				Gui.makeButton("Clear Agents", null,
+						new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						getGuiManager().pause();
-						canSpawn = true;
+						gm.clearGrid();
 					}
-				}), Gui.makeButton("Statistics", null,
-				new GeneralButtonListener("Statistics", sm))
-////				, Gui.makeButton("Clear Agents", null, new ActionListener() {
-////					@Override
-////					public void actionPerformed(ActionEvent e) {
-////						getGuiManager().getGridPanel().clearAgents(g);
-////						canSpawn = true;
-//					}
-//				})
+				}), Gui.makeButton("Fill Grid", null,
+						new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String agentName = entitiesScreen.getList().getSelectedValue().toString();
+						if (agentName != null) {
+							gm.fillGrid(agentName);
+						}
+					}
+				})
 				);
 		return buttonPanel;
 	}
@@ -183,14 +186,23 @@ public class ViewSimScreen extends Screen {
 	}
 
 	private JButton makeStartButton() {
-		JButton b = Gui.makeButton("Start/Resume", null, new ActionListener() {
+		final JButton b = Gui.makeButton("Start", null, null); 
+		b.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SimulatorFacade gm = getGuiManager();
-				canSpawn = false;
-				gm.getGridPanel().repaint();	
-				gm.start();
-				
+				if(b.getText().equals("Pause")){
+					getGuiManager().pause();
+					canSpawn = true;
+					b.setText("Resume");
+				}
+				else{
+					canSpawn = false;
+					gm.getGridPanel().repaint();	
+					gm.start();
+					b.setText("Pause");
+
+				}
 			}
 		});
 		return b;

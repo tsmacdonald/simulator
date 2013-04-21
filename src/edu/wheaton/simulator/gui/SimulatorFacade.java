@@ -1,6 +1,7 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.Color;
+import java.io.File;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,8 +15,6 @@ import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
-import edu.wheaton.simulator.statistics.Loader;
-import edu.wheaton.simulator.statistics.Saver;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class SimulatorFacade {
@@ -29,8 +28,6 @@ public class SimulatorFacade {
 	private boolean canSpawn;
 	private GridPanel gridPanel;
 	private GridPanelObserver gpo;
-	private Loader loader;
-	private Saver saver;
 	private boolean hasStarted;
 	private JFileChooser fc;
 
@@ -39,7 +36,6 @@ public class SimulatorFacade {
 		gridPanel = new GridPanel(this);
 		load("New Simulation",10, 10);
 		se = new SimulationEnder();
-		loader = new Loader();
 		statMan = StatisticsManager.getInstance();
 
 		hasStarted = false;
@@ -203,24 +199,41 @@ public class SimulatorFacade {
 	public boolean addAgent(String prototypeName, int x, int y){
 		return getSim().addAgent(prototypeName, x, y);
 	}
-
+	
+	public void clearGrid() {
+		getSim().clearAll();
+	}
+	
+	public void fillGrid(String prototypeName) {
+		getSim().fillAll(prototypeName);
+	}
+	
+	public void save(String fileName) {
+		getSim().saveToFile(fileName, se);
+	}
+	
 	public void load() {
 		int returnVal = fc.showOpenDialog(null);
-		String fileName = "";
+		File file = null;
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			fileName = fc.getSelectedFile().getName();
-			//TODO make new simulator
-			//initSim(fileName, x, y);
-			//this should eventually be statMan.loadSim(fileName), once that actually gets written
-			//loader.loadSimulation(fileName);
+			file = fc.getSelectedFile();
+			getSim().loadFromFile(file);
 		}
-
-
 	}
-
-	public void save(String fileName) {
-		//TODO get statistics team to provide a 'saveSim(String fileName)' method
-		//statMan.saveSimulation(fileName);
+	
+	public void saveAgent(String agentName) {
+		getSim().savePrototypeToFile(Prototype.getPrototype(agentName));
+	}
+	
+	public void importAgent() {
+		//TODO need different fc because different directories/file extensions?
+		int returnVal = fc.showOpenDialog(null);
+		File file = null;
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			file = fc.getSelectedFile();
+			getSim().loadPrototypeFromFile(file);
+		}
+		
 	}
 
 	public void start(){

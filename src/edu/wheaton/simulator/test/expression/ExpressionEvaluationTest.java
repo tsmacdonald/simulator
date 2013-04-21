@@ -74,7 +74,7 @@ public class ExpressionEvaluationTest {
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Test
 	public void testDoubleEvaluation() {
 		Double result = 1.0;
@@ -254,33 +254,33 @@ public class ExpressionEvaluationTest {
 		Assert.assertEquals(new Double(5.0), expr.evaluateDouble());
 	}
 	
-	@Test
-	public void testSetFieldBehavior() throws Exception {
-		Entity entity = new Entity();
-		entity.addField("money", "8");
-
-		final Expression testExpression = new Expression(
-				"setField('entity','money',10)");
-		
-		testExpression.importEntity("entity", entity);
-		
-		testExpression.evaluateBool();
-		
-		Assert.assertEquals(new Double(10.0), entity.getField("money").getDoubleValue());  
-	}
-	
-	@Test
-	public void testFormatFunctionParams() throws Exception {
-		Entity entity = new Entity();
-		entity.addField("money", "8");
-
-		final Expression testExpression = new Expression(
-				"setField(" + Expression.fParams("entity,money,10") + ")");
-		
-		testExpression.importEntity("entity", entity);
-		
-		testExpression.evaluateBool();
-		
-		Assert.assertEquals(new Double(10.0), entity.getField("money").getDoubleValue());  
-	}
+//	@Test
+//	public void testSetFieldBehavior() throws Exception {
+//		Entity entity = new Entity();
+//		entity.addField("money", "8");
+//
+//		final Expression testExpression = new Expression(
+//				"setField('entity','money',10)");
+//		
+//		testExpression.importEntity("entity", entity);
+//		
+//		testExpression.evaluateBool();
+//		
+//		Assert.assertEquals(new Double(10.0), entity.getField("money").getDoubleValue());  
+//	}
+//	
+//	@Test
+//	public void testFormatFunctionParams() throws Exception {
+//		Entity entity = new Entity();
+//		entity.addField("money", "8");
+//
+//		final Expression testExpression = new Expression(
+//				"setField(" + Expression.fParams("entity,money,10") + ")");
+//		
+//		testExpression.importEntity("entity", entity);
+//		
+//		testExpression.evaluateBool();
+//		
+//		Assert.assertEquals(new Double(10.0), entity.getField("money").getDoubleValue());  
+//	}
 }

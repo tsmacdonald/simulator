@@ -139,6 +139,8 @@ public class LayerScreen extends Screen {
 
 			// To ensure type safety with the "String" combo box, we need to
 			// convert the objects to strings.
+			//TODO throwing null pointer when making new blank simulation after Conway's/RPS
+			//or when switching tabs
 			Object[] tempObjList = gm
 					.getPrototype(agentComboBox.getSelectedItem().toString())
 					.getCustomFieldMap().keySet().toArray();

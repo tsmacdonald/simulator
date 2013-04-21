@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.Set;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -37,6 +38,8 @@ public class EntityScreen extends Screen {
 	private JButton delete;
 
 	private JButton edit;
+	
+	private JButton save;
 
 	public EntityScreen(final SimulatorFacade gm) {
 		super(gm);
@@ -52,11 +55,33 @@ public class EntityScreen extends Screen {
 		delete = Gui.makeButton("Delete", null, new DeleteListener());
 		edit = Gui.makeButton("Edit", null, new EditListener());
 		edit.setEnabled(false);
+		JButton load = Gui.makeButton("Load", null,  
+				new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						//TODO load agents
+					}
+		});
+		
+		JButton importButton = Gui.makeButton("Import", null, 
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						gm.importAgent();
+					}
+		});
+		save = Gui.makeButton("Save Agent", null, 
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String fileName = JOptionPane.showInputDialog("Please enter file name: ");
+						gm.saveAgent(fileName);
+					}
+		});
+		
 		entityList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				edit.setEnabled(!gm.hasStarted());
 				delete.setEnabled(!gm.hasStarted());
+				save.setEnabled(!gm.isRunning());
 				((ViewSimScreen) Gui.getScreenManager().getScreen(
 						"View Simulation")).setSpawn(true);
 			}
@@ -74,6 +99,16 @@ public class EntityScreen extends Screen {
 
 		c.gridx = 2;
 		this.add(delete, c);
+		
+		c.gridx = 0;
+		c.gridy = 3;
+		this.add(load, c);
+		
+		c.gridx = 1;
+		this.add(importButton, c);
+		
+		c.gridx = 2;
+		this.add(save, c);
 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -98,6 +133,7 @@ public class EntityScreen extends Screen {
 			entityList.addItem(s);
 		edit.setEnabled(false);
 		delete.setEnabled(false);
+		save.setEnabled(false);
 	}
 
 	public GuiList getList() {
@@ -114,6 +150,7 @@ public class EntityScreen extends Screen {
 			if (size == 0) {
 				delete.setEnabled(false);
 				edit.setEnabled(false);
+				save.setEnabled(false);
 			}
 			if (index == size)
 				index--;
