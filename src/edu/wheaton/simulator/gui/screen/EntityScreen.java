@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.Set;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -64,16 +65,14 @@ public class EntityScreen extends Screen {
 		JButton importButton = Gui.makeButton("Import", null, 
 				new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//TODO import agent files, need filebrowser
 						gm.importAgent();
 					}
 		});
 		save = Gui.makeButton("Save Agent", null, 
 				new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//TODO 
-						//select name for file: dialog box? file browser/selector?
-						//gm.saveAgent(agentName);
+						String fileName = JOptionPane.showInputDialog("Please enter file name: ");
+						gm.saveAgent(fileName);
 					}
 		});
 		
