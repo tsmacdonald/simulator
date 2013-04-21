@@ -35,11 +35,11 @@ public class StatisticsScreen extends Screen {
 
 	private JPanel displayPanel; 
 
-	private JComboBox<String> prototypes; 
+	private JComboBox prototypes; 
 
-	private JComboBox<String> displayTypes; 
+	private JComboBox displayTypes; 
 
-	private JComboBox<String> fields; 
+	private JComboBox fields; 
 	
 	/**
 	 * Constructor. 
@@ -69,7 +69,7 @@ public class StatisticsScreen extends Screen {
 		displayPanel.setPreferredSize(new Dimension(500, 400));
 
 		//Setup agentList -- The ComboBox which lists possible categories of agents to view.
-		prototypes = new JComboBox<String>();
+		prototypes = new JComboBox();
 		GridBagConstraints gbc_agentList = new GridBagConstraints();
 		//Setup agentList's GridBagConstraints
 		gbc_agentList.insets = new Insets(0, 30, 10, 5);
@@ -80,7 +80,7 @@ public class StatisticsScreen extends Screen {
 		setPrototypeListener(prototypes);
 
 		//Setup displayList -- The ComboBox which lists possible ways of viewing the selected population.
-		displayTypes = new JComboBox<String>();
+		displayTypes = new JComboBox();
 		GridBagConstraints gbc_displayList = new GridBagConstraints();
 		//Setup displayList's GridBagConstraints
 		gbc_displayList.insets = new Insets(0, -5, 10, 5);
@@ -91,7 +91,7 @@ public class StatisticsScreen extends Screen {
 		setDisplayTypeListener(displayTypes);
 
 		//Setup fieldList -- The ComboBox which lists possible fields to track. 
-		fields = new JComboBox<String>();
+		fields = new JComboBox();
 		GridBagConstraints gbc_fieldList = new GridBagConstraints();
 		//Setup fieldList's GridBagConstraints
 		gbc_fieldList.insets = new Insets(0, -5, 10, 30);
@@ -170,7 +170,7 @@ public class StatisticsScreen extends Screen {
 		});
 	}
 
-	private void setPrototypeListener(JComboBox<String> protBox) { 
+	private void setPrototypeListener(JComboBox protBox) { 
 		protBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -179,7 +179,7 @@ public class StatisticsScreen extends Screen {
 		});
 	}
 	
-	private void setDisplayTypeListener(JComboBox<String> catBox) { 
+	private void setDisplayTypeListener(JComboBox catBox) { 
 		catBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -188,7 +188,7 @@ public class StatisticsScreen extends Screen {
 		});
 	}
 	
-	private void setFieldListener(JComboBox<String> fieldBox) { // TODO get rid of this warning
+	private void setFieldListener(JComboBox fieldBox) {
 		fieldBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

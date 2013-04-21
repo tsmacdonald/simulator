@@ -74,7 +74,6 @@ public class Rock extends SampleAgent{
 						+ " || setField('yNextDirection', round(this.temp * sin(-PI/4) + this.yNextDirection * cos(-PI/4)))");
 
 		// turn 180 degrees
-		// TODO get rid of this warning
 		Expression bounce = new Expression("setField('xNextDirection', -1 * this.xNextDirection) ||" +
 				"setField('yNextDirection', -1 * this.yNextDirection)");
 		
@@ -92,7 +91,6 @@ public class Rock extends SampleAgent{
 				"&& this.agentAhead == 1.0");
 
 		// collect information about head to head conflict
-		// TODO get rid of this warning
 		Expression setHeadToHeadConflictFlag = new Expression(
 				"setField('conflictAhead',"
 						+ " getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'typeID') == (this.typeID + 2)%3"

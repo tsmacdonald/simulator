@@ -110,12 +110,12 @@ public final class Gui {
 		return panel;
 	}
 	
-	public static JComboBox<String> makeComboBox(String[] items, MaxSize size){
-		JComboBox<String>  cb;
+	public static JComboBox makeComboBox(String[] items, MaxSize size){
+		JComboBox cb;
 		if(items != null)
-			cb = new JComboBox<String>(items);
+			cb = new JComboBox(items);
 		else
-			cb = new JComboBox<String>();
+			cb = new JComboBox();
 		if(size != null)
 			cb.setMaximumSize(size);
 		return cb;	
