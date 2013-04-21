@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Set;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import edu.wheaton.simulator.datastructure.AgentAppearance;
@@ -22,6 +23,7 @@ public class GridPanel extends JPanel {
 
 	public GridPanel(SimulatorFacade gm) {
 		this.gm = gm;
+		this.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 
 	@Override
@@ -81,8 +83,6 @@ public class GridPanel extends JPanel {
 			}
 		}
 	}
-
-
 
 	public void clearAgents(Graphics g) {
 		width = this.getWidth();
