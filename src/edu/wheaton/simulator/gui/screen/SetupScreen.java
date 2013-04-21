@@ -241,7 +241,7 @@ public class SetupScreen extends Screen {
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
-		c.insets = new Insets(0, 0, 0, 0);
+		c.insets = new Insets(3, 3, 3, 3);
 		upperPanel.add(nameLabel, c);
 
 		c = new GridBagConstraints();
@@ -249,35 +249,37 @@ public class SetupScreen extends Screen {
 		c.gridy = 0;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.fill = c.HORIZONTAL;
-		c.insets = new Insets(0, 0, 0, 0);
+		c.insets = new Insets(3, 3, 3, 3);
 		upperPanel.add(nameField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 1;
-		c.insets = new Insets(0, 0, 0, 0);
+		c.insets = new Insets(3, 3, 3, 3);
 		upperPanel.add(widthLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
+		c.insets = new Insets(3, 3, 3, 3);
 		upperPanel.add(widthField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 1;
-		c.insets = new Insets(0, 10, 0, 0);
+		c.insets = new Insets(3, 13, 3, 3);
 		upperPanel.add(yLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 3;
 		c.gridy = 1;
-		c.insets = new Insets(0, 0, 0, 0);
+		c.insets = new Insets(3, 3, 3, 3);
 		upperPanel.add(heightField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
+		c.insets = new Insets(3, 3, 3, 3);
 		upperPanel.add(delayLabel, c);
 		
 		c = new GridBagConstraints();
@@ -285,11 +287,13 @@ public class SetupScreen extends Screen {
 		c.gridy = 2;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.fill = c.HORIZONTAL;
+		c.insets = new Insets(3, 3, 3, 3);
 		upperPanel.add(delayField, c);
 		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 3;
+		c.insets = new Insets(3, 3, 3, 3);
 		upperPanel.add(updateLabel, c);
 
 		c = new GridBagConstraints();
@@ -297,6 +301,7 @@ public class SetupScreen extends Screen {
 		c.gridy = 3;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.fill = c.HORIZONTAL;
+		c.insets = new Insets(3, 3, 3, 3);
 		upperPanel.add(updateBox, c);
 		
 		upperPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -322,38 +327,40 @@ public class SetupScreen extends Screen {
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 1;
-		c.gridwidth = 3;
 		c.gridy = 0;
-		c.insets = new Insets(0, 0, 0, 0);
+		c.gridwidth = 3;
+		c.insets = new Insets(3, 3, 3, 3);
 		lowerPanel.add(conHeader, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 1;
-		c.insets = new Insets(0, 0, 0, 0);
+		c.insets = new Insets(3, 3, 3, 3);
 		lowerPanel.add(timeLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
-		c.insets = new Insets(0, 0, 0, 0);
+		c.gridwidth = 2;
+		c.insets = new Insets(3, 3, 3, 3);
 		lowerPanel.add(timeField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
-		c.insets = new Insets(0, 0, 0, 0);
+		c.insets = new Insets(3, 3, 3, 3);
 		lowerPanel.add(agentTypeLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 2;
-		c.insets = new Insets(0, 0, 0, 0);
+		c.insets = new Insets(3, 3, 3, 3);
 		lowerPanel.add(valueLabel, c);
 		
 		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 4;
+		c.gridx = 1;
+		c.gridy = 3;
+		c.insets = new Insets(3, 3, 3, 3);
 		this.add(conListPanel, c);
 
 		lowerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
