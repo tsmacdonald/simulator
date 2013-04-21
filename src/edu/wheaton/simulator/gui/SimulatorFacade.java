@@ -15,8 +15,6 @@ import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.expression.Expression;
 import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
-import edu.wheaton.simulator.statistics.Loader;
-import edu.wheaton.simulator.statistics.Saver;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class SimulatorFacade {
@@ -30,8 +28,6 @@ public class SimulatorFacade {
 	private boolean canSpawn;
 	private GridPanel gridPanel;
 	private GridPanelObserver gpo;
-	private Loader loader;
-	private Saver saver;
 	private boolean hasStarted;
 	private JFileChooser fc;
 
@@ -40,7 +36,6 @@ public class SimulatorFacade {
 		gridPanel = new GridPanel(this);
 		load("New Simulation",10, 10);
 		se = new SimulationEnder();
-		loader = new Loader();
 		statMan = StatisticsManager.getInstance();
 
 		hasStarted = false;

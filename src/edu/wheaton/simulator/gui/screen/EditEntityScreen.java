@@ -200,6 +200,7 @@ public class EditEntityScreen extends Screen {
 		c.gridx = 2;
 		c.gridy = 1;
 		c.gridwidth = 1;
+		c.ipadx = 250;
 		generalPanel.add(nameField, c);
 
 		c = new GridBagConstraints();
@@ -275,6 +276,7 @@ public class EditEntityScreen extends Screen {
 		this.add(cards, BorderLayout.CENTER);
 
 		this.add(Gui.makePanel(
+				previousButton,
 				Gui.makeButton("Cancel",null,
 						new ActionListener() {
 					@Override
@@ -285,7 +287,7 @@ public class EditEntityScreen extends Screen {
 							Prototype.removePrototype(nameField.getText());
 						reset();
 					}
-				}), finishButton, previousButton, nextButton), 
+				}), finishButton, nextButton), 
 				BorderLayout.SOUTH );
 	}
 
@@ -423,8 +425,11 @@ public class EditEntityScreen extends Screen {
 		triggerListPanel.removeAll();
 		triggerListPanel.add(addTriggerButton);
 		previousButton.setEnabled(false);
+		//previousButton.setVisible(false);
 		nextButton.setEnabled(true);
+		//nextButton.setVisible(true);
 		finishButton.setEnabled(false);
+		//finishButton.setVisible(false);
 	}
 
 	public boolean sendInfo() {
@@ -633,7 +638,6 @@ public class EditEntityScreen extends Screen {
 			fieldListPanel.remove(fieldSubPanels.get(Integer.parseInt(e
 					.getActionCommand())));
 			validate();
-			repaint();
 		}
 	}
 
@@ -644,7 +648,6 @@ public class EditEntityScreen extends Screen {
 			triggerListPanel.remove(triggerSubPanels.get(Integer.parseInt(e
 					.getActionCommand())));
 			validate();
-			repaint();
 		}
 	}
 
@@ -655,6 +658,7 @@ public class EditEntityScreen extends Screen {
 			if (currentCard == "General") {
 				if (sendGeneralInfo()) {
 					previousButton.setEnabled(true);
+					//previousButton.setVisible(true);
 					c1.next(cards);
 					currentCard = "Fields";
 				}
@@ -662,10 +666,13 @@ public class EditEntityScreen extends Screen {
 				if (sendFieldInfo()) {
 					c1.next(cards);
 					nextButton.setEnabled(false);
+					nextButton.setVisible(false);
 					finishButton.setEnabled(true);
+					//finishButton.setVisible(true);
 					currentCard = "Triggers";
 				}
 			}
+			validate();
 		}
 	}
 
@@ -676,6 +683,7 @@ public class EditEntityScreen extends Screen {
 			if (currentCard == "Fields") {
 				if (sendFieldInfo()) {
 					previousButton.setEnabled(false);
+					//previousButton.setVisible(false);
 					c1.previous(cards);
 					currentCard = "General";
 				}
@@ -683,9 +691,11 @@ public class EditEntityScreen extends Screen {
 				if (sendTriggerInfo()) {
 					c1.previous(cards);
 					nextButton.setEnabled(true);
+					//nextButton.setVisible(true);
 					currentCard = "Fields";
 				}
 			}
+			validate();
 		}
 	}
 

@@ -162,13 +162,16 @@ public class ViewSimScreen extends Screen {
 						new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						//adding clear all here
+						gm.clearGrid();
 					}
 				}), Gui.makeButton("Fill Grid", null,
 						new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						//adding fill grid here
+						String agentName = entitiesScreen.getList().getSelectedValue().toString();
+						if (agentName != null) {
+							gm.fillGrid(agentName);
+						}
 					}
 				})
 				);
