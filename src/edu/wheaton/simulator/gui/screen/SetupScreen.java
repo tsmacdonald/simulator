@@ -304,7 +304,6 @@ public class SetupScreen extends Screen {
 		c.insets = new Insets(3, 3, 3, 3);
 		upperPanel.add(updateBox, c);
 		
-		upperPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		validate();
 		return upperPanel;
 	}
