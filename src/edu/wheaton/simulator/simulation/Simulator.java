@@ -442,6 +442,7 @@ public class Simulator {
 	 */
 	public void resizeGrid(int width, int height) {
 		simulationGrid().resizeGrid(width, height);
+		simulation.notifyObservers();
 	}
 
 	/**
