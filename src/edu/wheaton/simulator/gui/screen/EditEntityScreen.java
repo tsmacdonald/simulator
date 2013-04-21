@@ -261,7 +261,9 @@ public class EditEntityScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (sendInfo()) {
-					Gui.getScreenManager().update(Gui.getScreenManager().getScreen("View Simulation"));
+					Screen update = Gui.getScreenManager().getScreen("View Simulation");
+					update.load();
+					Gui.getScreenManager().update(update);
 					reset();
 				}
 			}
@@ -681,19 +683,15 @@ public class EditEntityScreen extends Screen {
 		public void actionPerformed(ActionEvent e) {
 			CardLayout c1 = (CardLayout) cards.getLayout();
 			if (currentCard == "Fields") {
-				if (sendFieldInfo()) {
-					previousButton.setEnabled(false);
-					//previousButton.setVisible(false);
-					c1.previous(cards);
-					currentCard = "General";
-				}
+				previousButton.setEnabled(false);
+				//previousButton.setVisible(false);
+				c1.previous(cards);
+				currentCard = "General";
 			} else if (currentCard == "Triggers") {
-				if (sendTriggerInfo()) {
-					c1.previous(cards);
-					nextButton.setEnabled(true);
-					//nextButton.setVisible(true);
-					currentCard = "Fields";
-				}
+				c1.previous(cards);
+				nextButton.setEnabled(true);
+				//nextButton.setVisible(true);
+				currentCard = "Fields";
 			}
 			validate();
 		}
