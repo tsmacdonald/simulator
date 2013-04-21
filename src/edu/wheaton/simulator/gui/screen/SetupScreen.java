@@ -38,9 +38,9 @@ public class SetupScreen extends Screen {
 	private JTextField delayField;
 
 	private String[] agentNames;
-	private JComboBox updateBox;
+	private JComboBox<String> updateBox;
 
-	private ArrayList<JComboBox> agentTypes;
+	private ArrayList<JComboBox<String>> agentTypes;
 	private ArrayList<JTextField> values;
 	private ArrayList<JButton> deleteButtons;
 	private ArrayList<JPanel> subPanels;
@@ -56,11 +56,11 @@ public class SetupScreen extends Screen {
 
 		agentNames = new String[0];
 
-		agentTypes = new ArrayList<JComboBox>();
+		agentTypes = new ArrayList<JComboBox<String>>();
 		deleteButtons = new ArrayList<JButton>();
 		subPanels = new ArrayList<JPanel>();
 
-		agentTypes = new ArrayList<JComboBox>();
+		agentTypes = new ArrayList<JComboBox<String>>();
 		values = new ArrayList<JTextField>();
 		
 		JPanel upperPanel = makeUpperPanel();
@@ -391,7 +391,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private void addCondition() {
-		JComboBox newBox = Gui.makeComboBox(agentNames, MaxSize.NULL);
+		JComboBox<String> newBox = Gui.makeComboBox(agentNames, MaxSize.NULL);
 		agentTypes.add(newBox);
 
 		JTextField newValue = Gui.makeTextField(null, 25,

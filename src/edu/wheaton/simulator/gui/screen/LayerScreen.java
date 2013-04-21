@@ -23,9 +23,9 @@ public class LayerScreen extends Screen {
 
 	private static final long serialVersionUID = -3839942858274589928L;
 
-	private JComboBox agentComboBox;
+	private JComboBox<String> agentComboBox;
 
-	private JComboBox layerComboBox;
+	private JComboBox<String> layerComboBox;
 
 	private String[] entities;
 
@@ -154,22 +154,21 @@ public class LayerScreen extends Screen {
 	@Override
 	public void load() {
 		entities = gm.getPrototypeNames().toArray(entities);
-		agentComboBox = new JComboBox(entities);
+		agentComboBox = new JComboBox<String>(entities);
 		agentComboBox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				// To ensure type safety with the "String" combo box, we need
 				// to convert the objects to strings.
 				Object[] tempObjList = gm
-						.getPrototype(
-								agentComboBox.getSelectedItem().toString())
+						.getPrototype(agentComboBox.getSelectedItem().toString())
 						.getCustomFieldMap().keySet().toArray();
 				String[] tempStringList = new String[tempObjList.length];
 				for (int i = 0; i < tempObjList.length; i++) {
 					tempStringList[i] = tempObjList[i].toString();
 				}
 
-				layerComboBox = new JComboBox(tempStringList);
+				layerComboBox = new JComboBox<String>(tempStringList);
 				layerComboBox.setMaximumSize(new Dimension(200, 50));
 				layerPanelLayers.remove(1);
 				layerPanelLayers.add(layerComboBox);
@@ -191,7 +190,7 @@ public class LayerScreen extends Screen {
 				tempStringList[i] = tempObjList[i].toString();
 			}
 
-			layerComboBox = new JComboBox(tempStringList);
+			layerComboBox = new JComboBox<String>(tempStringList);
 			layerComboBox.setMaximumSize(new Dimension(200, 50));
 			layerPanelLayers.remove(1);
 			layerPanelLayers.add(layerComboBox);
