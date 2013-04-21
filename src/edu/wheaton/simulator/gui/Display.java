@@ -39,7 +39,6 @@ public class Display extends JFrame {
 		c = new GridBagConstraints();
 		c.insets = new Insets(5, 15, 15, 15);
 		this.add(panel, c);
-		this.setVisible(true);
 	}
 	
 	public static Display getInstance() {
