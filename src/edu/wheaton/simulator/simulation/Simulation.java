@@ -9,6 +9,7 @@
 
 package edu.wheaton.simulator.simulation;
 
+import java.awt.Color;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import net.sourceforge.jeval.EvaluationException;
@@ -85,6 +86,7 @@ public class Simulation {
 		layerRunning.set(false);
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid);
+		resetLayer();
 	}
 
 	/**
@@ -105,6 +107,7 @@ public class Simulation {
 		layerRunning.set(false);
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid);
+		resetLayer();
 	}
 	
 	/**
@@ -236,6 +239,15 @@ public class Simulation {
 				Layer.getInstance().setExtremes(currentField);
 			}
 		}
+	}
+	
+	/**
+	 * Clears settings in the Layer singleton
+	 */
+	public void resetLayer() {
+		Layer.getInstance().setFieldName("");
+		Layer.getInstance().setColor(Color.WHITE);
+		Layer.getInstance().resetMinMax();
 	}
 
 	/**
