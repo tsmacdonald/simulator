@@ -158,14 +158,8 @@ public class ViewSimScreen extends Screen {
 		// navigation purposes
 		ScreenManager sm = getScreenManager();
 		JPanel buttonPanel = Gui.makePanel((LayoutManager) null, new MaxSize(
-				500, 50), PrefSize.NULL, makeStartButton(), Gui.makeButton(
-				"Pause", null, new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						getGuiManager().pause();
-						canSpawn = true;
-					}
-				}), Gui.makeButton("Statistics", null,
+				500, 50), PrefSize.NULL, makeStartButton(), 
+				Gui.makeButton("Statistics", null,
 				new GeneralButtonListener("Statistics", sm)),
 				Gui.makeButton("Clear Agents", null,
 						new ActionListener() {
@@ -189,14 +183,22 @@ public class ViewSimScreen extends Screen {
 	}
 
 	private JButton makeStartButton() {
-		JButton b = Gui.makeButton("Start/Resume", null, new ActionListener() {
+		final JButton b = Gui.makeButton("Start", null, null); 
+			b.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SimulatorFacade gm = getGuiManager();
+				if(b.getName() == "Start" || b.getName() == "Resume"){
 				canSpawn = false;
 				gm.getGridPanel().repaint();	
 				gm.start();
-				
+				b.setName("Pause");
+				}
+				else{
+					getGuiManager().pause();
+					canSpawn = true;
+					b.setName("Resume");
+				}
 			}
 		});
 		return b;
