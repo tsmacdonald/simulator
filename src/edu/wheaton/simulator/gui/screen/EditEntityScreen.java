@@ -342,14 +342,14 @@ public class EditEntityScreen extends Screen {
 		constraint.gridy = 1;
 		constraint.gridwidth = 1;
 
-		JLabel fieldNameLabel = Gui.makeLabel("Field Name", new PrefSize(350,
+		JLabel fieldNameLabel = Gui.makeLabel("Field Name", new PrefSize(263,
 				30), HorizontalAlignment.LEFT);
 		fieldNameLabel.setAlignmentX(LEFT_ALIGNMENT);
 		fieldMainPanel.add(fieldNameLabel, constraint);
 
 		constraint.gridx = 1;
 		JLabel fieldValueLabel = Gui.makeLabel("Field Initial Value",
-				new PrefSize(350, 30), HorizontalAlignment.LEFT);
+				new PrefSize(263, 30), HorizontalAlignment.LEFT);
 		fieldValueLabel.setAlignmentX(LEFT_ALIGNMENT);
 		fieldMainPanel.add(fieldValueLabel, constraint);
 
