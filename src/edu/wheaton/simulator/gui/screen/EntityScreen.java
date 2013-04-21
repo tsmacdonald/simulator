@@ -137,6 +137,8 @@ public class EntityScreen extends Screen {
 		edit.setEnabled(false);
 		delete.setEnabled(false);
 		save.setEnabled(false);
+		entityList.setSelectedIndex(0);
+		validate();
 	}
 
 	public GuiList getList() {
