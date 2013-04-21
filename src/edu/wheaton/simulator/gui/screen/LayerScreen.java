@@ -56,6 +56,7 @@ public class LayerScreen extends Screen {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
 						gm.displayLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
+						gm.getGridPanel().validate();
 						gm.getGridPanel().repaint();
 					}
 				});
@@ -65,6 +66,7 @@ public class LayerScreen extends Screen {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
 						//gm.getGridPanel().setLayers(true);
+						gm.getGridPanel().validate();
 						gm.getGridPanel().repaint();
 					}
 				});
@@ -149,6 +151,7 @@ public class LayerScreen extends Screen {
 		c = new GridBagConstraints();
 		c.insets = new Insets(30,10,10,10);
 		this.add(upperLayerPanel,c);
+		this.validate();
 	}
 
 	@Override
