@@ -45,6 +45,8 @@ public class EntityScreen extends Screen {
 	
 	private JButton fill;
 
+	private JButton random;
+	
 	public EntityScreen(final SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
@@ -102,6 +104,17 @@ public class EntityScreen extends Screen {
 			}
 		});
 		
+		random = Gui.makeButton("Random Spawn", null,
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String agentName = getList().getSelectedValue().toString();
+				if (agentName != null) {
+					gm.addAgentRandom(agentName);
+				}
+			}
+		});
+		
 		entityList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -143,7 +156,10 @@ public class EntityScreen extends Screen {
 		
 		c.gridx = 2;
 		this.add(save, c);
-
+		
+		c.gridx = 4;
+		this.add(random, c);
+		
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 5;
