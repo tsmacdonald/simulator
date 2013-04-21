@@ -249,6 +249,7 @@ public class EditEntityScreen extends Screen {
 		triggerListPanel.add(triggerSubPanels.get(0));
 		triggerListPanel.add(addTriggerButton);
 		triggerListPanel.add(Box.createVerticalGlue());
+		triggerListPanel.setPreferredSize(new Dimension(750, 350));
 
 		cards.add(generalPanel, "General");
 		cards.add(makeFieldMainPanel(fieldListPanel), "Fields");
