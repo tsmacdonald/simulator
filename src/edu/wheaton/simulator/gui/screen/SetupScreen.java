@@ -1,5 +1,6 @@
 package edu.wheaton.simulator.gui.screen;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -330,7 +331,7 @@ public class SetupScreen extends Screen {
 		scrollPane = new JScrollPane(conListPanel,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setPreferredSize(new PrefSize(550,300));
-		JPanel scrollPaneWrapper = Gui.makePanel(BoxLayoutAxis.PAGE_AXIS,MaxSize.NULL,null,(Component[])null);
+		JPanel scrollPaneWrapper = Gui.makePanel((BoxLayoutAxis)null,MaxSize.NULL,null,(Component[])null);
 		scrollPaneWrapper.add(scrollPane);
 
 		GridBagConstraints c = new GridBagConstraints();
