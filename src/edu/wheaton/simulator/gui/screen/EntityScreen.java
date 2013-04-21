@@ -80,8 +80,7 @@ public class EntityScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						String fileName = JOptionPane.showInputDialog("Please enter file name: ");
-						gm.saveAgent(fileName);
+						gm.saveAgent((String)entityList.getSelectedValue());
 					}
 		});
 		

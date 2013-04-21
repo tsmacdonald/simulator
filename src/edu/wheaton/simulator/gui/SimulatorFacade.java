@@ -19,7 +19,7 @@ import edu.wheaton.simulator.statistics.StatisticsManager;
 public class SimulatorFacade {
 
 	private static SimulatorFacade gm;
-	
+
 	private SimulationEnder se;
 	private StatisticsManager statMan;
 	private Simulator simulator;
@@ -40,7 +40,7 @@ public class SimulatorFacade {
 		getSim().addGridObserver(gpo);
 		fc = new JFileChooser();
 	}
-	
+
 	public static SimulatorFacade getInstance(){
 		if(gm==null)
 			gm = new SimulatorFacade();
@@ -50,7 +50,7 @@ public class SimulatorFacade {
 	public GridPanel getGridPanel(){
 		return gridPanel;
 	}
-	
+
 	public static Expression makeExpression(String str){
 		return new Expression(str);
 	}
@@ -150,7 +150,7 @@ public class SimulatorFacade {
 	public Set<String> getPrototypeNames(){
 		return Simulator.prototypeNames();
 	}
-	
+
 	public void removeAgent(int x, int y){
 		getSim().removeAgent(x, y);
 	}
@@ -191,23 +191,30 @@ public class SimulatorFacade {
 	public void addAgent(String prototypeName, int x, int y){
 		getSim().addAgent(prototypeName, x, y);
 	}
-	
+
 	public void addAgentRandom(String prototypeName){
 		getSim().addAgent(prototypeName);
 	}
-	
+
 	public void clearGrid() {
 		getSim().clearAll();
 	}
-	
+
 	public void fillGrid(String prototypeName) {
 		getSim().fillAll(prototypeName);
 	}
-	
-	public void save(String fileName) {
-		getSim().saveToFile(fileName, se);
+
+	public void save() {
+		//how to deal with possibility of simulation name being different from selected file name?
+		String fileName = "";
+		int returnVal = fc.showSaveDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			fileName = fc.getSelectedFile().getName();
+			getSim().saveToFile(fileName, se);
+		}
+		
 	}
-	
+
 	public void load() {
 		int returnVal = fc.showOpenDialog(null);
 		File file = null;
@@ -216,11 +223,15 @@ public class SimulatorFacade {
 			getSim().loadFromFile(file);
 		}
 	}
-	
+
 	public void saveAgent(String agentName) {
-		getSim().savePrototypeToFile(Prototype.getPrototype(agentName));
+		//how to deal with possibility of agent name being different from selected file name?
+		int returnVal = fc.showSaveDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			getSim().savePrototypeToFile(Prototype.getPrototype(agentName));
+		}
 	}
-	
+
 	public void importAgent() {
 		//TODO need different fc because different directories/file extensions?
 		int returnVal = fc.showOpenDialog(null);
@@ -229,7 +240,7 @@ public class SimulatorFacade {
 			file = fc.getSelectedFile();
 			getSim().loadPrototypeFromFile(file);
 		}
-		
+
 	}
 
 	public void start(){
