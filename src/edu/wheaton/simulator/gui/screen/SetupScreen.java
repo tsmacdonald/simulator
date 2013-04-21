@@ -78,7 +78,7 @@ public class SetupScreen extends Screen {
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
-		c.gridy = c.RELATIVE;
+		c.gridy = GridBagConstraints.RELATIVE;
 		c.insets = new Insets(20,20,20,20);
 		this.add(lowerPanel, c);
 
@@ -190,7 +190,7 @@ public class SetupScreen extends Screen {
 		ImmutableMap<String, Integer> popLimits = gm.getPopLimits();
 
 		if (popLimits.size() == 0) {
-			conListPanel.add(addConditionButton);
+			addConditionButton.setEnabled(true);
 		} else {
 			int i = 0;
 			for (String p : popLimits.keySet()) {
@@ -248,7 +248,7 @@ public class SetupScreen extends Screen {
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = GridBagConstraints.REMAINDER;
-		c.fill = c.HORIZONTAL;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(3, 3, 3, 3);
 		upperPanel.add(nameField, c);
 
@@ -286,7 +286,7 @@ public class SetupScreen extends Screen {
 		c.gridx = 1;
 		c.gridy = 2;
 		c.gridwidth = GridBagConstraints.REMAINDER;
-		c.fill = c.HORIZONTAL;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(3, 3, 3, 3);
 		upperPanel.add(delayField, c);
 		
@@ -300,7 +300,7 @@ public class SetupScreen extends Screen {
 		c.gridx = 1;
 		c.gridy = 3;
 		c.gridwidth = GridBagConstraints.REMAINDER;
-		c.fill = c.HORIZONTAL;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(3, 3, 3, 3);
 		upperPanel.add(updateBox, c);
 		
@@ -322,12 +322,22 @@ public class SetupScreen extends Screen {
 		JLabel agentTypeLabel = Gui.makeLabel("Agent Type", MaxSize.NULL, null);
 		JLabel valueLabel = Gui.makeLabel("Population Limit", MaxSize.NULL, null);
 		
+		addConditionButton = Gui.makeButton("Add Field", null,
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						addCondition();
+					}
+				});
+		addConditionButton.setEnabled(false);
+		
 		conListPanel = makeConditionListPanel();
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = 3;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(3, 3, 3, 3);
 		lowerPanel.add(conHeader, c);
 
@@ -347,19 +357,25 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
-		c.insets = new Insets(3, 3, 3, 3);
+		c.insets = new Insets(15, 3, 3, 3);
 		lowerPanel.add(agentTypeLabel, c);
 
 		c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 2;
+		c.insets = new Insets(15, 3, 3, 3);
+		lowerPanel.add(valueLabel, c);
+		
+		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 2;
-		c.insets = new Insets(3, 3, 3, 3);
-		lowerPanel.add(valueLabel, c);
+		c.insets = new Insets(15, 3, 3, 3);
+		lowerPanel.add(addConditionButton, c);
 		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 3;
-		c.insets = new Insets(3, 3, 3, 3);
+		c.insets = new Insets(8, 3, 3, 3);
 		this.add(conListPanel, c);
 
 		lowerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -369,16 +385,6 @@ public class SetupScreen extends Screen {
 
 	private JPanel makeConditionListPanel() {
 		JPanel conListPanel = Gui.makePanel((BoxLayoutAxis)null, null, null);
-
-		addConditionButton = Gui.makeButton("Add Field", null,
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						addCondition();
-					}
-				});
-
-		conListPanel.add(addConditionButton);
 		
 		return conListPanel;
 	}
