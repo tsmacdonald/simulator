@@ -168,6 +168,9 @@ public final class Gui {
 	
 	private static JMenuBar makeMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setOpaque(true);
+		menuBar.setForeground(Color.white);
+		menuBar.setBackground(Color.darkGray);
 
 		JMenu fileMenu = makeFileMenu();
 		//JMenu editMenu = makeEditMenu(sm);
