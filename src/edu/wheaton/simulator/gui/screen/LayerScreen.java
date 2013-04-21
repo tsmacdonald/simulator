@@ -3,6 +3,7 @@ package edu.wheaton.simulator.gui.screen;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -41,10 +42,10 @@ public class LayerScreen extends Screen {
 		super(guiManager);
 		entities = new String[0];
 		
-		JLabel agents = new JLabel("Agents", SwingConstants.CENTER);
+		JLabel agents = new JLabel("Agents");
 		agentComboBox = Gui.makeComboBox(null, new MaxSize(200, 50));
 
-		JLabel layers = new JLabel("Fields", SwingConstants.CENTER);
+		JLabel layers = new JLabel("Fields");
 		layerComboBox = Gui.makeComboBox(null, new MaxSize(200, 50));
 
 		final JColorChooser colorTool = Gui.makeColorChooser();
@@ -67,18 +68,53 @@ public class LayerScreen extends Screen {
 					}
 				});
 
-		layerPanelAgents = Gui.makePanel(BoxLayoutAxis.LINE_AXIS, null, null);
-		layerPanelAgents.add(agents);
-		layerPanelAgents.add(agentComboBox);
+		layerPanelAgents = Gui.makePanel(new GridBagLayout(), null, null);
+		
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.insets = new Insets(5,5,5,5);
+		layerPanelAgents.add(agents,c);
+		
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 0;
+		c.insets = new Insets(5,5,5,5);
+		layerPanelAgents.add(agentComboBox,c);
 
-		layerPanelLayers = Gui.makePanel(BoxLayoutAxis.LINE_AXIS, null, null);
-		layerPanelLayers.add(layers);
-		layerPanelLayers.add(layerComboBox);
+		layerPanelLayers = Gui.makePanel(new GridBagLayout(), null, null);
+		
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.insets = new Insets(5,5,5,5);
+		layerPanelLayers.add(layers,c);
+		
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 0;
+		c.insets = new Insets(5,5,5,5);
+		layerPanelLayers.add(layerComboBox,c);
 
-		JPanel layerPanelButtons = Gui.makePanel(BoxLayoutAxis.LINE_AXIS,
-				null, null);
-		layerPanelButtons.add(apply);
-		layerPanelButtons.add(clear);
+		JPanel layerPanelButtons = Gui.makePanel(new GridBagLayout(),null, null);
+		
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.insets = new Insets(5,5,5,5);
+		layerPanelButtons.add(apply,c);
+		
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 0;
+		c.insets = new Insets(5,5,5,5);
+		layerPanelButtons.add(clear,c);
 
 		JPanel colorPanel = Gui.makeColorChooserPanel(colorTool);
 
@@ -88,25 +124,31 @@ public class LayerScreen extends Screen {
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridy = 0;
+		c.insets = new Insets(5,5,5,5);
 		upperLayerPanel.add(layerPanelAgents, c);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridy = 1;
+		c.insets = new Insets(5,5,5,5);
 		upperLayerPanel.add(layerPanelLayers, c);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridy = 2;
+		c.insets = new Insets(5,5,5,5);
 		upperLayerPanel.add(layerPanelButtons, c);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridy = 3;
+		c.insets = new Insets(10,10,10,10);
 		upperLayerPanel.add(colorPanel, c);
 		upperLayerPanel.setAlignmentX(LEFT_ALIGNMENT);
 		
-		this.add(upperLayerPanel);
+		c = new GridBagConstraints();
+		c.insets = new Insets(10,10,10,10);
+		this.add(upperLayerPanel,c);
 	}
 
 	@Override
