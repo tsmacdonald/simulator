@@ -666,7 +666,7 @@ public class EditEntityScreen extends Screen {
 				if (sendFieldInfo()) {
 					c1.next(cards);
 					nextButton.setEnabled(false);
-					nextButton.setVisible(false);
+					//nextButton.setVisible(false);
 					finishButton.setEnabled(true);
 					//finishButton.setVisible(true);
 					currentCard = "Triggers";
