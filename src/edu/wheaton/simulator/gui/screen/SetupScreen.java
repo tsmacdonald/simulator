@@ -90,9 +90,12 @@ public class SetupScreen extends Screen {
 		c.gridy = 0;
 		mainPanel.add(upperPanel,c);
 
+		c = new GridBagConstraints();
 		c.gridy = 1;
+		c.insets = new Insets(15,50,50,15);
 		mainPanel.add(lowerPanel,c);
 
+		c = new GridBagConstraints();
 		c.gridy = 2;
 		mainPanel.add(Gui.makePanel(bottomButtons,addConditionButton),c);
 		
@@ -325,7 +328,10 @@ public class SetupScreen extends Screen {
 		
 		conListPanel = makeConditionListPanel();
 		scrollPane = new JScrollPane(conListPanel,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setPreferredSize(new PrefSize(200,300));
+		JPanel scrollPaneWrapper = new JPanel();
+		scrollPaneWrapper.add(scrollPane);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 1;
@@ -371,7 +377,7 @@ public class SetupScreen extends Screen {
 		c.insets = new Insets(8, 3, 3, 3);
 		c.anchor = GridBagConstraints.LINE_START;
 		c.fill = GridBagConstraints.NONE;
-		lowerPanel.add(scrollPane,c);
+		lowerPanel.add(scrollPaneWrapper,c);
 
 		validate();
 		return lowerPanel;
