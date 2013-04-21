@@ -73,6 +73,14 @@ public class SetupScreen extends Screen {
 		JPanel lowerPanel = makeLowerPanel();
 		lowerPanel.setMinimumSize(new MinSize(398,300));
 		
+		addConditionButton = Gui.makeButton("Add Field", null,
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						addCondition();
+					}
+				});
+		
 		JPanel bottomButtons = Gui.makePanel(
 				Gui.makeButton("Revert", null, new ActionListener() {
 					@Override
@@ -81,7 +89,7 @@ public class SetupScreen extends Screen {
 					}
 				}), makeConfirmButton());
 		
-		JPanel mainPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, null, null);
+		JPanel mainPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, null, (Component[])null);
 		
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -101,11 +109,13 @@ public class SetupScreen extends Screen {
 		c.gridy = 8;
 		mainPanel.add(bottomButtons, c);
 		
-		JScrollPane scrollPane = new JScrollPane(mainPanel);
-		scrollPane.setMinimumSize(new MinSize(300,400));
-		scrollPane.setMaximumSize(new MaxSize(300,400));
+		c = new GridBagConstraints();
+		c.anchor = GridBagConstraints.LINE_END;
+		c.gridx =0;
+		c.gridy = 8;
+		mainPanel.add(addConditionButton,c);
 		
-		this.add(scrollPane);
+		this.add(mainPanel);
 		
 		this.validate();
 	}
@@ -333,16 +343,9 @@ public class SetupScreen extends Screen {
 		JLabel agentTypeLabel = Gui.makeLabel("Agent Type", MaxSize.NULL, null);
 		JLabel valueLabel = Gui.makeLabel("Population Limit", MaxSize.NULL, null);
 		
-		addConditionButton = Gui.makeButton("Add Field", null,
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						addCondition();
-					}
-				});
-		addConditionButton.setEnabled(false);
-		
 		conListPanel = makeConditionListPanel();
+		JScrollPane scrollPane = new JScrollPane(conListPanel,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 1;
@@ -378,16 +381,10 @@ public class SetupScreen extends Screen {
 		lowerPanel.add(valueLabel, c);
 		
 		c = new GridBagConstraints();
-		c.gridx = 2;
-		c.gridy = 2;
-		c.insets = new Insets(15, 3, 3, 3);
-		lowerPanel.add(addConditionButton, c);
-		
-		c = new GridBagConstraints();
 		c.gridx = 1;
-		c.gridy = 3;
+		c.gridy = 2;
 		c.insets = new Insets(8, 3, 3, 3);
-		this.add(conListPanel, c);
+		lowerPanel.add(scrollPane,c);
 
 		validate();
 		return lowerPanel;
