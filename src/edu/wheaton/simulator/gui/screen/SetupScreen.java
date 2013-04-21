@@ -329,8 +329,8 @@ public class SetupScreen extends Screen {
 		conListPanel = makeConditionListPanel();
 		scrollPane = new JScrollPane(conListPanel,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setPreferredSize(new PrefSize(200,300));
-		JPanel scrollPaneWrapper = new JPanel();
+		scrollPane.setPreferredSize(new PrefSize(550,300));
+		JPanel scrollPaneWrapper = Gui.makePanel(BoxLayoutAxis.PAGE_AXIS,MaxSize.NULL,null,(Component[])null);
 		scrollPaneWrapper.add(scrollPane);
 
 		GridBagConstraints c = new GridBagConstraints();
@@ -359,14 +359,14 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
-		c.insets = new Insets(15, 3, 3, 3);
+		c.insets = new Insets(15, 10, 3, 3);
 		c.anchor = c.CENTER;
 		lowerPanel.add(agentTypeLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 2;
-		c.insets = new Insets(15, 35, 3, 3);
+		c.insets = new Insets(15, 50, 3, 3);
 		c.anchor = c.CENTER;
 		lowerPanel.add(valueLabel, c);
 		
