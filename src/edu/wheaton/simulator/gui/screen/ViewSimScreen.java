@@ -52,8 +52,6 @@ public class ViewSimScreen extends Screen {
 
 	private final JTabbedPane tabs;
 
-	private boolean randomSpawn;
-
 	public ViewSimScreen(final SimulatorFacade gm) {
 		super(gm);
 		setSpawn(false);
@@ -88,9 +86,9 @@ public class ViewSimScreen extends Screen {
 		gm.getGridPanel().addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				int standardSize = Math.min(gm.getGridPanel().getWidth()
-						/ gm.getGridWidth(), gm.getGridPanel().getHeight()
-						/ gm.getGridHeight());
+				int standardSize = Math.min(
+						gm.getGridPanel().getWidth() / gm.getGridWidth(),
+						gm.getGridPanel().getHeight() / gm.getGridHeight());
 				int x = me.getX() / standardSize;
 				int y = me.getY() / standardSize;
 				if (canSpawn) {
@@ -158,19 +156,10 @@ public class ViewSimScreen extends Screen {
 		// TODO most of these will become tabs, adding temporarily for
 		// navigation purposes
 		ScreenManager sm = getScreenManager();
-		JToggleButton random = new JToggleButton("Random Spawning");
-		random.addChangeListener(new ChangeListener() {
-
-			@Override
-			public void stateChanged(ChangeEvent ce) {
-				randomSpawn = !randomSpawn;
-			}
-
-		});
 		JPanel buttonPanel = Gui.makePanel((LayoutManager) null, new MaxSize(
 				500, 50), PrefSize.NULL, makeStartButton(), Gui.makeButton(
-						"Statistics", null,
-						new GeneralButtonListener("Statistics", sm)), random);
+				"Statistics", null,
+				new GeneralButtonListener("Statistics", sm)));
 		return buttonPanel;
 	}
 
