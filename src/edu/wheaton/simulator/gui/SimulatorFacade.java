@@ -216,7 +216,7 @@ public class SimulatorFacade {
 		File file = null;
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			file = simChooser.getSelectedFile();
-			simulator.loadFromFile(file);
+			simulator.loadFromFile(file, gpo);
 			Gui.getScreenManager().load(
 					(Gui.getScreenManager().getScreen("View Simulation")));
 		}

@@ -495,7 +495,6 @@ public class Simulator {
 	 */
 	public void load(String name, int width, int height, SimulationEnder se) {
 		simulation = new Simulation(name, width, height, se);
-		simulation.notifyObservers();
 	}
 	
 	/**
@@ -503,7 +502,7 @@ public class Simulator {
 	 * 
 	 * @param file
 	 */
-	public void loadFromFile(File file){
+	public void loadFromFile(File file, GridObserver obs){
 		Loader l = new Loader();
 		l.loadSimulation(file);
 		try{
@@ -512,6 +511,8 @@ public class Simulator {
 			System.out.println("No grid has been loaded yet!"); 
 			e.printStackTrace();
 		}
+		addGridObserver(obs);
+		simulation.notifyObservers();
 	}
 	
 	/**
@@ -527,7 +528,6 @@ public class Simulator {
 		simulation = new Simulation(name, grid, se);
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
-		simulation.notifyObservers();
 	}
 	
 	/**
