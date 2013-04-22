@@ -340,7 +340,7 @@ public class Trigger implements Comparable<Trigger> {
 			if (behavior.charAt(behavior.length()-1)==(' ')){
 				behavior= behavior.substring(0, behavior.length()-1);
 			}
-//			behavior = behavior.replace("  ", " ");
+			behavior = behavior.replace("  ", " ");
 			behaviorString = behavior;
 			System.out.println("condition: " + conditionString + " | behavior: "+ behaviorString);
 		}
