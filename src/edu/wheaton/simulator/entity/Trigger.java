@@ -308,7 +308,7 @@ public class Trigger implements Comparable<Trigger> {
 			if (t == null){
 				return;
 			}
-			if (t.getCondtions()== null || t.getBehavior() == null)
+			if (t.conditionExpression == null || t.behaviorExpression == null)
 				return;
 			String condition = t.getConditions().toString();
 			String behavior = t.getBehavior().toString();
@@ -417,9 +417,6 @@ public class Trigger implements Comparable<Trigger> {
 				conditionalValues.add(convertCamelCaseToNormal(s));
 				converter.put(convertCamelCaseToNormal(s), s);
 			}
-			/**
-			 * TODO Need to figure out how the user inputs the parameters.
-			 */
 		}
 
 		/**
@@ -547,7 +544,6 @@ public class Trigger implements Comparable<Trigger> {
 				return true;
 			}
 			catch (Exception e){
-//				System.out.println("Invalid trigger");
 				throw e;
 			}
 		}
