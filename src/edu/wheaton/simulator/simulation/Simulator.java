@@ -546,7 +546,21 @@ public class Simulator {
 	 * @param file that points to directory where prototype files are located
 	 */
 	public void loadPrototypesFromFile(File directory) {
-		
+		// NOTE only look for .agt files
+		Loader l = new Loader();
+		File[] protoFiles;
+		if (directory.isDirectory()) {
+			protoFiles = directory.listFiles();
+			System.out.println("Number of files in directory: " + protoFiles.length); // TODO Delete
+			for (File file : protoFiles) {
+				if (file.getName().contains(".agt")) {
+					System.out.println(file.getName()); // TODO Delete
+					Prototype.addPrototype(l.loadPrototype(file));
+					System.out.println(file.getName() + " loaded."); // TODO Delete
+				}
+				else continue;
+			}
+		}
 	}
 
 	/**
