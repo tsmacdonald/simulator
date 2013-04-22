@@ -117,6 +117,8 @@
 					</ul>
 				If you find you've made a mistake when making the trigger conditional expression, simply click the "delete conditional" button. That will remove the last value added.</p>
 					
+				<p>Caveat: Anything which is a text value (as opposed to a numerical value), such as a field's name, should be surrounded by '. 'weight' not weight.</p>
+					
 				<p>Then: The "then" part of an "if..., then..." clause. This is the outcome or consequence of the condition expression evaluating to true. We've included a list of behaviors that the user can choose, such as "die," "moveRandom," and "setFieldOfOther." Note that any behavior that takes an argument (for example, setFieldOfOther takes two arguments, one for the name of the field, and one for the new value) can include an expression in that argument (See "If" above for a summary of valid expressions). For example, if you wanted to increment the weight of a fox that just ate a rabbit, you could say something like set_field("weight", weight + 1). As with "If," we've included a list of behavior functions:
 					<ul>
 						<li>clone_prototype: Makes a new agent from the prototype--this ensures that the new agent will have all default values</li>
