@@ -326,19 +326,6 @@ public class Simulator {
 		new ConwaysDeadBeing().initSampleAgent();
 		new ConwaysAliveBeing().initSampleAgent();
 
-		// Place dead beings in Grid with some that are alive
-		for (int x = 0; x < simulationGrid().getWidth(); x++)
-			for (int y = 0; y < simulationGrid().getHeight(); y++) {
-				if (x == simulationGrid().getWidth() / 2) {
-					simulationGrid().addAgent(
-							Prototype.getPrototype("aliveBeing").createAgent(simulationGrid()),
-							x, y);
-				} else {
-					simulationGrid().addAgent(
-							Prototype.getPrototype("deadBeing").createAgent(simulationGrid()),
-							x, y);
-				}
-			}
 		simulation.notifyDisplayObservers();
 	}
 
