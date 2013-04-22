@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.ScreenManager;
@@ -37,7 +38,7 @@ public class StatisticsScreen extends Screen {
 	private static final int FIELDS_DISPLAY = 0; 
 	private static final int TRIGGERS_DISPLAY = 1; 
 	private static final int NO_TRIGGERS_OR_FIELDS = 2; 
-	private static int FIELDS_TRIGGERS_DISPLAY_STATE = NO_TRIGGERS_OR_FIELDS;
+	private static int stateFieldsTriggers = NO_TRIGGERS_OR_FIELDS;
 	
 	private JLabel fieldsTriggersLabel;
 	private JComboBox analysisList;
@@ -154,9 +155,10 @@ public class StatisticsScreen extends Screen {
 
 	private void displayFieldsTriggersListAndLabel() { 
 		fieldsTriggersList.setVisible(false);
+		int selectedIndex = fieldsTriggersList.getSelectedIndex();
 		String agentTypeName;
 		Prototype selectedType;
-		switch (FIELDS_TRIGGERS_DISPLAY_STATE) {
+		switch (stateFieldsTriggers) {
 		default:
 		case NO_TRIGGERS_OR_FIELDS: 
 			fieldsTriggersLabel.setText("");
@@ -197,14 +199,14 @@ public class StatisticsScreen extends Screen {
 		String selectedDisplayType = (String) analysisList.getSelectedItem();
 		if (selectedDisplayType != null && 
 				selectedDisplayType.equals(ANALYSIS_AVG_FIELD_VALUE_STR)) { 
-			FIELDS_TRIGGERS_DISPLAY_STATE = FIELDS_DISPLAY;
+			stateFieldsTriggers = FIELDS_DISPLAY;
 			displayFieldsTriggersListAndLabel();
 		} else if (selectedDisplayType != null && 
 				selectedDisplayType.equals(ANALYSIS_TRIGGER_FIRES)){ 
-			FIELDS_TRIGGERS_DISPLAY_STATE = TRIGGERS_DISPLAY;
+			stateFieldsTriggers = TRIGGERS_DISPLAY;
 			displayFieldsTriggersListAndLabel();
 		} else {
-			FIELDS_TRIGGERS_DISPLAY_STATE = NO_TRIGGERS_OR_FIELDS;
+			stateFieldsTriggers = NO_TRIGGERS_OR_FIELDS;
 			displayFieldsTriggersListAndLabel();
 		}
 		makeGridPanelPaint();
@@ -217,7 +219,7 @@ public class StatisticsScreen extends Screen {
 	}
 
 	private void onFieldOrTriggerSelected() { 
-		if (FIELDS_TRIGGERS_DISPLAY_STATE != NO_TRIGGERS_OR_FIELDS)
+		if (stateFieldsTriggers != NO_TRIGGERS_OR_FIELDS)
 			makeGridPanelPaint();
 	}
 
@@ -258,10 +260,10 @@ public class StatisticsScreen extends Screen {
 		for (String name : gm.getPrototypeNames()) { 
 			typeList.addItem(name);
 		}
-		FIELDS_TRIGGERS_DISPLAY_STATE = FIELDS_DISPLAY;
+		stateFieldsTriggers = FIELDS_DISPLAY;
+		analysisList.addItem(ANALYSIS_POP_OVER_TIME_STR);
 		analysisList.addItem(ANALYSIS_AVG_FIELD_VALUE_STR);
 		analysisList.addItem(ANALYSIS_AVG_LIFESPAN_STR);
-		analysisList.addItem(ANALYSIS_POP_OVER_TIME_STR);
 		analysisList.addItem(ANALYSIS_TRIGGER_FIRES);
 	}
 
@@ -289,30 +291,30 @@ public class StatisticsScreen extends Screen {
 			}
 			
 			private void paintTriggers(Graphics g, int width, int height) {
-//				double[] fires = getGuiManager().getStatManager()
-//						.getTriggerExecutionsFor(
-//								(String) typeList.getSelectedItem(),
-//								(String) fieldsTriggersList.getSelectedItem());
-//				if (fires.length < 1)
-//					return; 
-//
-//				int[] extremes = getHighLowIndex(fires);
-//				double max = fires[extremes[0]];
-//				double min = 0;
-//
-//				g.setColor(Color.BLACK);
-//				g.fillRect(0, 0, width, height);
-//				int lastX = 0; 
-//				int lastY = getAppropriateY(fires[0], max, min, height);
-//
-//				g.setColor(Color.GREEN);
-//				for (int index = 1; index < fires.length; index++) { 
-//					int currentX = getAppropriateX(index, fires.length-1, width);
-//					int currentY = getAppropriateY(fires[index], max, min, height);
-//					g.drawLine(lastX, lastY, currentX, currentY);
-//					lastX = currentX;
-//					lastY = currentY;
-//				}
+				double[] fires = getGuiManager().getStatManager()
+						.getTriggerExecutionsFor(
+								(String) typeList.getSelectedItem(),
+								(String) fieldsTriggersList.getSelectedItem());
+				if (fires.length < 1)
+					return; 
+
+				int[] extremes = getHighLowIndex(fires);
+				double max = fires[extremes[0]];
+				double min = 0;
+
+				g.setColor(Color.BLACK);
+				g.fillRect(0, 0, width, height);
+				int lastX = 0; 
+				int lastY = getAppropriateY(fires[0], max, min, height);
+
+				g.setColor(Color.GREEN);
+				for (int index = 1; index < fires.length; index++) { 
+					int currentX = getAppropriateX(index, fires.length-1, width);
+					int currentY = getAppropriateY(fires[index], max, min, height);
+					g.drawLine(lastX, lastY, currentX, currentY);
+					lastX = currentX;
+					lastY = currentY;
+				}
 			}
 
 			private void paintPop(Graphics g, int width, int height) { 
@@ -323,16 +325,6 @@ public class StatisticsScreen extends Screen {
 				g.setColor(Color.BLACK);
 				g.fillRect(0, 0, width, height);
 
-				g.setColor(Color.WHITE);
-				g.drawString("Time", width - (width / 13), height - (height / 48));
-				g.drawString("Population", (width / 35), (height / 28));
-				
-				g.setColor(Color.RED);
-				int increment = width / 10; 
-				for (int i = increment; i < width; i += increment) 
-					g.drawLine(i, height - 1, i, height - 10);
-				
-				
 				int[] extremes = getHighLowIndex(pops);
 				double max = pops[extremes[0]];
 				double min = 0;
@@ -348,6 +340,22 @@ public class StatisticsScreen extends Screen {
 					lastX = currentX;
 					lastY = currentY;
 				}
+				paintAxis(g, pops.length, min, max, width, height, "Population Size");
+			}
+			
+			private void paintAxis(Graphics g, int numIncrements, double minY, double maxY, int width, int height, String yAxis) { 
+				g.setColor(Color.PINK);
+				for (double currentStep = numIncrements / 5.0; currentStep < numIncrements; currentStep += numIncrements / 5.0) { 
+					int xCor = getAppropriateX(currentStep, numIncrements, width);
+					g.drawString(((int)Math.ceil(currentStep)) + "", xCor, height - 5);
+				}
+				for (double i = minY + ((maxY - minY) / 5.0); i < maxY; i += (maxY - minY) / 5.0) { 
+					int yCor = getAppropriateY(i, maxY, minY, height);
+					g.drawString(((int)Math.ceil(i)) + "", 3, yCor);
+				}
+				g.setColor(Color.WHITE);
+				g.drawString("Time", width - (int) Math.ceil(width / 10.0), height - (int) Math.ceil(height / 40.0));
+				g.drawString(yAxis, (int) Math.ceil((width / 30.0)), (int) Math.ceil((height / 20.0)));
 			}
 
 			private void paintField(Graphics g, int width, int height) { 
@@ -361,12 +369,13 @@ public class StatisticsScreen extends Screen {
 				double maxYValue = avgValues[extremes[0]];
 				double minYValue = avgValues[extremes[1]];
 				
+				g.setColor(Color.BLACK);
+				g.fillRect(0, 0, width, height);
 				int zeroY = getAppropriateY(0, maxYValue, minYValue, height);
 				g.setColor(Color.WHITE);
 				g.drawLine(0, zeroY, width, zeroY);
 				
-				g.setColor(Color.BLACK);
-				g.fillRect(0, 0, width, height);
+				
 				g.setColor(Color.RED);
 				int lastX = 0; 
 				int lastY = getAppropriateY(avgValues[0], maxYValue, minYValue, height);
@@ -377,6 +386,7 @@ public class StatisticsScreen extends Screen {
 					lastX = currentX;
 					lastY = currentY;
 				}
+				paintAxis(g, avgValues.length, minYValue, maxYValue, width, height, "Average Field Value");
 			}
 			
 			private void paintLife(Graphics g, int width, int height) { 
