@@ -131,38 +131,38 @@ public class SetupScreen extends Screen {
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
-		c.insets = new Insets(3, -30, 3, 3);
+		c.insets = new Insets(-90, -30, 3, 3);
 		this.add(nameLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = 3;
-		c.insets = new Insets(3, -208, 3, 3);
+		c.insets = new Insets(-90, -208, 3, 3);
 		this.add(nameField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 1;
-		c.insets = new Insets(3, -30, 3, 3);
+		c.insets = new Insets(-30, -30, 3, 3);
 		this.add(widthLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
-		c.insets = new Insets(3, -220, 3, 3);
+		c.insets = new Insets(-30, -220, 3, 3);
 		this.add(widthField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 1;
-		c.insets = new Insets(3, -160, 3, 3);
+		c.insets = new Insets(-30, -160, 3, 3);
 		this.add(yLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 3;
 		c.gridy = 1;
-		c.insets = new Insets(3, -240, 3, 3);
+		c.insets = new Insets(-30, -240, 3, 3);
 		this.add(heightField, c);
 
 		c = new GridBagConstraints();
@@ -188,46 +188,41 @@ public class SetupScreen extends Screen {
 		c.gridy = 3;
 		c.insets = new Insets(3, -200, 3, 3);
 		this.add(updateBox, c);
-	
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 4;
-		c.insets = new Insets(3, 0, 3, 0);
-		this.add(conHeader, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
-		c.gridy = 5;
+		c.gridy = 4;
 		c.insets = new Insets(3, -60, 3, 3);
 		this.add(timeLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
-		c.gridy = 5;
+		c.gridy = 4;
 		c.insets = new Insets(3, -100, 3, 3);
 		this.add(timeField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
-		c.gridy = 6;
+		c.gridy = 5;
 		c.insets = new Insets(15, -90, 0, 0);
 		this.add(agentTypeLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
-		c.gridy = 6;
+		c.gridy = 5;
 		c.insets = new Insets(15, -70, 0, 3);
 		this.add(valueLabel, c);
 		
 		c = new GridBagConstraints();
 		c.gridx = 0;
-		c.gridy = 7;
+		c.gridy = 6;
 		c.gridwidth = 4;
 		c.insets = new Insets(2, 0, 0, 0);
 		this.add(scrollPaneWrapper,c);
 		
 		c = new GridBagConstraints();
 		c.gridy = 8;
+		c.insets = new Insets(-11,0,0,0);
 		this.add(Gui.makePanel(bottomButtons),c);
 		
 		validate();
