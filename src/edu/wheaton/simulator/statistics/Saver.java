@@ -72,12 +72,13 @@ public class Saver {
 
 		//Make a folder, create the file
 		try {
-			
-			if (newFile.exists()) {
-				newFile.createNewFile();
-				System.out.println("File created!");
-				System.out.println("File path: " + newFile.getAbsolutePath());
-			}
+			File simDirectory = new File("simulations");
+			simDirectory.mkdirs();
+			System.out.println(simDirectory.getAbsolutePath());
+			newFile = new File(simDirectory.getAbsolutePath() + File.separator + newFile.getName());
+			newFile.createNewFile();
+			System.out.println("File created!");
+			System.out.println("File path: " + newFile.getAbsolutePath());
 
 			FileWriter writer = new FileWriter(newFile.getAbsolutePath(), false);
 			writer.write(sb.toString());
@@ -88,7 +89,7 @@ public class Saver {
 		}
 
 		//Debugging: What just got saved to file?
-		System.out.println("The following text was just saved to SimulationState.txt: \n" + sb);
+		System.out.println("The following text was just saved to " + newFile.getName() + ": \n" + sb);
 
 	}
 
@@ -101,15 +102,19 @@ public class Saver {
 		PrototypeSnapshot protoSnap = SnapshotFactory.makePrototypeSnapshot(proto);
 		sb.append(protoSnap.serialize()); 
 
-		String filename = proto.getName() + ".txt"; 
-
 		//Make a folder, create the file
+		File newFile = null;
 		try {
-			String mySubFolder = "prototypes";
-			File newFile = new File(mySubFolder + "/" + filename);
+			File protoDirectory = new File("prototypes");
+			protoDirectory.mkdirs();
+			System.out.println(protoDirectory.getAbsolutePath());
+
+
+			if (protoDirectory.exists()) 
+				newFile = new File(protoDirectory.getAbsolutePath() + File.separator + proto.getName());
+			newFile.createNewFile();
 
 			if (newFile.exists()) {
-				newFile.createNewFile();
 				System.out.println("File created!");
 				System.out.println("File path: " + newFile.getAbsolutePath());
 			}
@@ -123,6 +128,6 @@ public class Saver {
 		}
 
 		//Debugging: What just got saved to file?
-		System.out.println("The following text was just saved to " + filename + ": \n" + sb);
+		System.out.println("The following text was just saved to " + newFile.getName() + ": \n" + sb);
 	}
 }
