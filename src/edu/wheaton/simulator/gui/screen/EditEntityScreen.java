@@ -111,8 +111,6 @@ public class EditEntityScreen extends Screen {
 		removedTriggers = new HashSet<Integer>();
 
 		nameField = new JTextField(25);
-		//nameField.setPreferredSize(new Dimension(400, 40));
-		//nameField.setMinimumSize(new Dimension(200, 40));
 
 		colorTool = Gui.makeColorChooser();
 
@@ -161,14 +159,9 @@ public class EditEntityScreen extends Screen {
 		});
 
 		final IconGridPanel iconPanel = new IconGridPanel(gm);
-		iconPanel.setPreferredSize(new Dimension(500, 500));
-		//iconPanel.setAlignmentX(RIGHT_ALIGNMENT);
 		initIconDesignObject(iconPanel);
 
 		JPanel colorPanel = Gui.makeColorChooserPanel(colorTool);
-		Dimension maxSize = colorPanel.getMaximumSize();
-		maxSize.height += 50;
-		colorPanel.setMaximumSize(maxSize);
 
 		colorTool.getSelectionModel().addChangeListener( new ChangeListener(){
 
@@ -188,7 +181,7 @@ public class EditEntityScreen extends Screen {
 		c.gridwidth = 4;
 		generalPanel.add(
 				Gui.makeLabel("General Info",
-						new PrefSize(300,80),
+						PrefSize.NULL,
 						HorizontalAlignment.CENTER),c);
 
 		c = new GridBagConstraints();
@@ -197,14 +190,13 @@ public class EditEntityScreen extends Screen {
 		c.gridy = 1;
 		c.gridwidth = 1;
 		generalPanel.add(
-				new JLabel("Agent Name: ",SwingConstants.RIGHT),c);
+				new JLabel("Agent Name: "),c);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
 		c.gridy = 1;
 		c.gridwidth = 1;
-		c.ipadx = 250;
 		generalPanel.add(nameField, c);
 
 		c = new GridBagConstraints();
@@ -220,8 +212,6 @@ public class EditEntityScreen extends Screen {
 		c.weighty = 1.0;
 		c.gridx = 2;
 		c.gridy = 2;
-		c.ipadx = 500;
-		c.ipady = 500;
 		c.gridwidth = 2;
 		generalPanel.add(iconPanel, c);
 
@@ -254,11 +244,9 @@ public class EditEntityScreen extends Screen {
 		triggerListPanel.add(triggerSubPanels.get(0));
 		triggerListPanel.add(addTriggerButton);
 		triggerListPanel.add(Box.createVerticalGlue());
-		triggerListPanel.setPreferredSize(new Dimension(750, 350));
 
 		cards.add(generalPanel, "General");
 		cards.add(makeFieldMainPanel(fieldListPanel), "Fields");
-		//cards.add(makeTriggerMainPanel(triggerListPanel), "Triggers");
 		triggerScreen = new TriggerScreen(gm);
 		cards.add(triggerScreen, "Triggers");
 
@@ -306,14 +294,11 @@ public class EditEntityScreen extends Screen {
 		JPanel triggerLabelsPanel = Gui.makePanel(BoxLayoutAxis.X_AXIS,
 				MaxSize.NULL, PrefSize.NULL);
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
-		triggerLabelsPanel.add(Gui.makeLabel("Trigger Name", new PrefSize(130,
-				30), HorizontalAlignment.LEFT));
-		triggerLabelsPanel.add(Gui.makeLabel("Trigger Priority", new PrefSize(
-				180, 30), null));
+		triggerLabelsPanel.add(Gui.makeLabel("Trigger Name", PrefSize.NULL, HorizontalAlignment.LEFT));
+		triggerLabelsPanel.add(Gui.makeLabel("Trigger Priority", PrefSize.NULL, null));
 		triggerLabelsPanel.add(Gui.makeLabel("Trigger Condition",
-				new PrefSize(300, 30), null));
-		triggerLabelsPanel.add(Gui.makeLabel("Trigger Result", new PrefSize(
-				300, 30), null));
+				PrefSize.NULL, null));
+		triggerLabelsPanel.add(Gui.makeLabel("Trigger Result", PrefSize.NULL, null));
 		triggerLabelsPanel.add(Box.createHorizontalGlue());
 		triggerLabelsPanel.setAlignmentX(CENTER_ALIGNMENT);
 
@@ -324,8 +309,7 @@ public class EditEntityScreen extends Screen {
 
 		JPanel triggerMainPanel = Gui.makePanel(new BorderLayout(),
 				MaxSize.NULL, PrefSize.NULL);
-		triggerMainPanel.add(Gui.makeLabel("Trigger Info", new PrefSize(300,
-				100), HorizontalAlignment.CENTER), BorderLayout.NORTH);
+		triggerMainPanel.add(Gui.makeLabel("Trigger Info", PrefSize.NULL, HorizontalAlignment.CENTER), BorderLayout.NORTH);
 		triggerMainPanel.add(triggerBodyPanel, BorderLayout.CENTER);
 		return triggerMainPanel;
 	}
@@ -338,7 +322,7 @@ public class EditEntityScreen extends Screen {
 		constraint.gridy = 0;
 		constraint.gridwidth = 2;
 		fieldMainPanel.add(
-				Gui.makeLabel("Field Info",new PrefSize(300,100),HorizontalAlignment.CENTER), 
+				Gui.makeLabel("Field Info",PrefSize.NULL,HorizontalAlignment.CENTER), 
 				constraint);
 
 		constraint = new GridBagConstraints();
@@ -346,14 +330,13 @@ public class EditEntityScreen extends Screen {
 		constraint.gridy = 1;
 		constraint.gridwidth = 1;
 
-		JLabel fieldNameLabel = Gui.makeLabel("Field Name", new PrefSize(350,
-				30), HorizontalAlignment.LEFT);
+		JLabel fieldNameLabel = Gui.makeLabel("Field Name", PrefSize.NULL, HorizontalAlignment.LEFT);
 		fieldNameLabel.setAlignmentX(LEFT_ALIGNMENT);
 		fieldMainPanel.add(fieldNameLabel, constraint);
 
 		constraint.gridx = 1;
 		JLabel fieldValueLabel = Gui.makeLabel("Field Initial Value",
-				new PrefSize(350, 30), HorizontalAlignment.LEFT);
+				PrefSize.NULL, HorizontalAlignment.LEFT);
 		fieldValueLabel.setAlignmentX(LEFT_ALIGNMENT);
 		fieldMainPanel.add(fieldValueLabel, constraint);
 
@@ -551,10 +534,10 @@ public class EditEntityScreen extends Screen {
 	private void addField() {
 
 
-		JTextField newName = Gui.makeTextField(null,25,new MaxSize(300,40),null);
+		JTextField newName = Gui.makeTextField(null,25,MaxSize.NULL,null);
 		fieldNames.add(newName);
 
-		JTextField newValue = Gui.makeTextField(null,25,new MaxSize(300,40),null);
+		JTextField newValue = Gui.makeTextField(null,25,MaxSize.NULL,null);
 		fieldValues.add(newValue);
 
 		JButton newButton = Gui.makeButton("Delete",null,
@@ -577,17 +560,17 @@ public class EditEntityScreen extends Screen {
 	}
 
 	private void addTrigger() {
-		JTextField newName = Gui.makeTextField(null, 25, new MaxSize(200, 40),
+		JTextField newName = Gui.makeTextField(null, 25, MaxSize.NULL,
 				null);
 		triggerNames.add(newName);
 
-		JTextField newPriority = Gui.makeTextField(null,15,new MaxSize(150,40),null);
+		JTextField newPriority = Gui.makeTextField(null,15,MaxSize.NULL,null);
 		triggerPriorities.add(newPriority);
 
-		JTextField newCondition = Gui.makeTextField(null,50,new MaxSize(300,40),null);
+		JTextField newCondition = Gui.makeTextField(null,50,MaxSize.NULL,null);
 		triggerConditions.add(newCondition);
 
-		JTextField newResult = Gui.makeTextField(null,50,new MaxSize(300,40),null);
+		JTextField newResult = Gui.makeTextField(null,50,MaxSize.NULL,null);
 		triggerResults.add(newResult);
 
 		JButton newButton = Gui.makeButton("Delete",null,
