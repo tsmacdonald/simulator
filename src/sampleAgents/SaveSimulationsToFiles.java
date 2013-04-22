@@ -15,9 +15,11 @@ import edu.wheaton.simulator.simulation.end.SimulationEnder;
 public class SaveSimulationsToFiles {
 	
 	public static void main(String[] args){
-		Simulator.getInstance().load("Rock Paper Scissors", 15, 15, new SimulationEnder());
-		Simulator.getInstance().initRockPaperScissors();
-		Simulator.getInstance().saveToFile(new File("simulations/RockPaperScissors.txt"), new SimulationEnder());
+		for(int version = 1; version <= 3; version ++){
+			Simulator.getInstance().load("Rock Paper Scissors", 15, 15, new SimulationEnder());
+			Simulator.getInstance().initRockPaperScissors(version);
+			Simulator.getInstance().saveToFile(new File("simulations/RockPaperScissors.txt"), new SimulationEnder());
+		}
 		
 		Simulator.getInstance().load("Conway's Game of Life", 15, 15, new SimulationEnder());
 		Simulator.getInstance().initGameOfLife();

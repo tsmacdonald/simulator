@@ -1,0 +1,72 @@
+15
+15
+PrototypeSnapshot
+rightTurner
+-16777216
+127127127127127127127127
+FieldSnapshot~xNextDirection~0
+FieldSnapshot~yNextDirection~1
+FieldSnapshot~temp~0
+Trigger~move~1~isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~move(this.x + this.xNextDirection, this.y + this.yNextDirection)
+Trigger~turn~1~!isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~ setField('temp', this.xNextDirection) || setField('xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setField('yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+PrototypeSnapshot
+bouncer
+-65536
+127127127127127127127127
+FieldSnapshot~xNextDirection~0
+FieldSnapshot~yNextDirection~1
+Trigger~move~1~isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~move(this.x + this.xNextDirection, this.y + this.yNextDirection)
+Trigger~bounce~1~!isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~setField('xNextDirection', -1 * this.xNextDirection) ||setField('yNextDirection', -1 * this.yNextDirection)
+PrototypeSnapshot
+killer
+-256
+127127127127127127127127
+FieldSnapshot~xNextDirection~0
+FieldSnapshot~yNextDirection~1
+FieldSnapshot~temp~0
+Trigger~kill~1~TRUE~kill(this.x + 1, this.y +1)
+Trigger~kill~1~TRUE~kill(this.x + 1, this.y -1)
+Trigger~move~1~isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~move('this', this.x + this.xNextDirection, this.y + this.yNextDirection)
+Trigger~kill~1~TRUE~kill(this.x - 1, this.y)
+Trigger~kill~1~TRUE~kill(this.x - 1, this.y -1)
+Trigger~kill~1~TRUE~kill(this.x, this.y -1)
+Trigger~kill~1~TRUE~kill(this.x + 1, this.y)
+Trigger~bounce~1~!isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~setField('this', 'xNextDirection', -1 * this.xNextDirection) ||setField('this', 'yNextDirection', -1 * this.yNextDirection)
+Trigger~kill~1~TRUE~kill(this.x, this.y +1)
+Trigger~kill~1~TRUE~kill(this.x - 1, this.y +1)
+PrototypeSnapshot
+multiplier
+-16776961
+127127127127127127127127
+FieldSnapshot~age~0
+Trigger~clone8~1~isSlotOpen(this.x - 1, this.y + 1)~clone(this.x - 1, this.y + 1)
+Trigger~clone6~1~isSlotOpen(this.x - 1, this.y - 1)~clone(this.x - 1, this.y - 1)
+Trigger~clone2~1~isSlotOpen(this.x + 1, this.y + 1)~clone(this.x + 1, this.y + 1)
+Trigger~clone4~1~isSlotOpen(this.x + 1, this.y - 1)~clone(this.x + 1, this.y - 1)
+Trigger~die~1~this.age > 5~die()
+Trigger~clone5~1~isSlotOpen(this.x, this.y - 1)~clone(this.x, this.y - 1)
+Trigger~clone3~1~isSlotOpen(this.x + 1, this.y)~clone(this.x + 1, this.y)
+Trigger~clone1~1~isSlotOpen(this.x, this.y + 1)~clone(this.x, this.y + 1)
+Trigger~updateAge~1~true~setField('age', this.age + 1)
+Trigger~clone7~1~isSlotOpen(this.x - 1, this.y)~clone(this.x - 1, this.y)
+PrototypeSnapshot
+confuser
+-16711936
+127127127127127127127127
+FieldSnapshot~xNextDirection~0
+FieldSnapshot~yNextDirection~1
+FieldSnapshot~temp~0
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x - 1, this.y +1, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x - 1, this.y +1, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x, this.y -1, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x, this.y -1, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x - 1, this.y, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x -1, this.y, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x + 1, this.y +1, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x + 1, this.y +1, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x - 1, this.y -1, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x - 1, this.y -1, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~bounce~1~!isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~setField( 'xNextDirection', -1 * this.xNextDirection) ||setField( 'yNextDirection', -1 * this.yNextDirection)
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x + 1, this.y -1, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x + 1, this.y -1, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x, this.y +1, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x, this.y +1, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x + 1, this.y, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x + 1, this.y, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~move~1~isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~move(this.x + this.xNextDirection, this.y + this.yNextDirection)
+GlobalVariablesGLOBAL~height~15
+GLOBAL~width~15
+EndConditions
+0
