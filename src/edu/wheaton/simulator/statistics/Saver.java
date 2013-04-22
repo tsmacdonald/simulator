@@ -80,7 +80,12 @@ public class Saver {
 		 * it needs them, no need to call methods to create them.
 		 */
 		try {
-			if (newFile.exists()) {
+			String suffix = ".sim";
+			
+			if(!newFile.getAbsolutePath().endsWith(suffix))
+			    newFile = new File(newFile + suffix);
+			
+			if (!newFile.exists()) {
 				newFile.createNewFile();
 				System.out.println("File created!");
 				System.out.println("File path: " + newFile.getAbsolutePath());
@@ -115,9 +120,15 @@ public class Saver {
 			File protoDirectory = new File("prototypes");
 			protoDirectory.mkdirs();
 			System.out.println(protoDirectory.getAbsolutePath());
+			
+			String suffix = ".agt";
 
 			if (protoDirectory.exists()) 
 				newFile = new File(protoDirectory.getAbsolutePath() + File.separator + proto.getName());
+			
+			if(!newFile.getAbsolutePath().endsWith(suffix))
+			    newFile = new File(newFile + suffix);
+			
 			newFile.createNewFile();
 
 			if (newFile.exists()) {
