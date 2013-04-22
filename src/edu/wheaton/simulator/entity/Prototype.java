@@ -148,6 +148,26 @@ public class Prototype extends GridEntity {
 	}
 
 	/**
+	 * Provides all of the string trigger names that the prototype with the
+	 * given name contains.
+	 * 
+	 * @param prototypeName
+	 * @return Immutable set of trigger names
+	 */
+	public static ImmutableSet<String> getTriggerNames(String prototypeName) {
+		ImmutableSet.Builder<String> toReturn = new ImmutableSet.Builder<String>();
+		for (String currentName : prototypes.keySet()) {
+			Prototype currentPrototype = prototypes.get(currentName);
+			if (currentPrototype.getName().equals(prototypeName)) {
+				for (Trigger currentTrigger : currentPrototype.triggers)
+					toReturn.add(currentTrigger.getName());
+				return toReturn.build();
+			}
+		}
+		return toReturn.build();
+	}
+
+	/**
 	 * Changes the name of a prototype without resetting its children.
 	 * 
 	 * @param oldName
@@ -171,7 +191,8 @@ public class Prototype extends GridEntity {
 		// copy all fields
 		clone.getFieldMap().putAll(this.getFieldMap());
 
-		// copying all triggers is implicitly done in the Agent constructor, so no need here.
+		// copying all triggers is implicitly done in the Agent constructor, so
+		// no need here.
 
 		children.add(clone.getID());
 		return clone;
@@ -187,14 +208,14 @@ public class Prototype extends GridEntity {
 		Collections.sort(triggers);
 	}
 
-	public void replaceTrigger(String name, Trigger trigger){
-		for (Trigger t : triggers){
+	public void replaceTrigger(String name, Trigger trigger) {
+		for (Trigger t : triggers) {
 			if (t.getName().equals(name))
 				triggers.remove(t);
 		}
 		triggers.add(trigger);
 	}
-	
+
 	/**
 	 * Removes a trigger with the given priority
 	 * 
