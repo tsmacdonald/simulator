@@ -394,33 +394,41 @@ public class EditTriggerScreen extends Screen {
 	private void populateConditionals(){
 		StringTokenizer conditionalTokenizer = new StringTokenizer(builder.getConditionString(), " ");
 		ImmutableList<String> conditionalValues = builder.conditionalValues();
+		Boolean isInList = false;
 		while(conditionalTokenizer.hasMoreTokens()){
+			isInList = false;
 			String token = conditionalTokenizer.nextToken();
 			System.out.print(token + " ");
 			for(int i = 0; i < conditionalValues.size(); i++)
 				if(token.equals(conditionalValues.get(i))){
 					addConditionalBox(token);
-					return;
+					isInList = true;
+					break;
 				}
-			addConditionalText(token);
-			System.out.println();
+			if(!isInList)
+				addConditionalText(token);
 		}
+		System.out.println();
 	}
 
 	private void populateBehaviors(){
 		StringTokenizer behaviorTokenizer = new StringTokenizer(builder.getBehaviorString(), " ");
 		ImmutableList<String> behaviorValues = builder.behavioralValues();
+		Boolean isInList = false;
 		while(behaviorTokenizer.hasMoreTokens()){
+			isInList = false;
 			String token = behaviorTokenizer.nextToken();
 			System.out.print(token + " ");
 			for(int i = 0; i < behaviorValues.size(); i++)
 				if(token.equals(behaviorValues.get(i))){
-					addConditionalBox(token);
-					return;
+					addBehaviorBox(token);
+					isInList = true;
+					break;
 				}
-			addConditionalText(token);
-			System.out.println();
+			if(!isInList)
+				addBehaviorText(token);
 		}
+		System.out.println();
 	}
 
 	private class AddConditionalBoxListener implements ActionListener {
@@ -477,7 +485,7 @@ public class EditTriggerScreen extends Screen {
 		selectedTrigger = t;
 		nameField.setText(selectedTrigger.getName());
 		prioritySpinner.setValue(selectedTrigger.getPriority());
-		if(t != null){
+		if(b != null){
 			populateConditionals();
 			populateBehaviors();
 		}
