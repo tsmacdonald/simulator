@@ -36,12 +36,9 @@ public class Saver {
 	 * @param height The height of the grid
 	 * @param simEnder The class that handles simulation ending conditions
 	 */
-	public void saveSimulation(String filename, Set<Agent> agents, ImmutableSet<Prototype> prototypes, 
+	public void saveSimulation(File newFile, Set<Agent> agents, ImmutableSet<Prototype> prototypes, 
 			Map<String, String> globalFields, int width, int height, SimulationEnder simEnder){		
 		StringBuilder sb = new StringBuilder(); 
-
-		//Name the file, first
-		filename = filename + ".txt";
 
 		//Create AgentSnapshots  
 		HashSet<AgentSnapshot> agentSnaps = new HashSet<AgentSnapshot>(); 
@@ -75,9 +72,6 @@ public class Saver {
 
 		//Make a folder, create the file
 		try {
-			String mySubFolder = "simulations";
-			
-			File newFile = new File(mySubFolder + "/" + filename);
 			
 			if (newFile.exists()) {
 				newFile.createNewFile();
