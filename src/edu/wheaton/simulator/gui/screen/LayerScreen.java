@@ -193,6 +193,9 @@ public class LayerScreen extends Screen {
 			layerPanelLayers.remove(1);
 			layerPanelLayers.add(layerComboBox);
 		}
+		else{
+			layerComboBox.removeAllItems();
+		}
 		agentComboBox.setMaximumSize(new Dimension(200, 50));
 		layerPanelAgents.remove(1);
 		layerPanelAgents.add(agentComboBox);
