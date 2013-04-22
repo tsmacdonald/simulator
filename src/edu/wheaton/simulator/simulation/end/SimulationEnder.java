@@ -252,7 +252,7 @@ public class SimulationEnder {
 			for (String name : popLimits.keySet())
 				if (Prototype.getPrototype(name).childPopulation() >= popLimits.get(name)){
 					endMessage = "The "+ name +" population limit has been reached.";
-					return true;
+					return false;
 				}
 			return false;
 		}
