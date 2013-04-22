@@ -71,9 +71,9 @@ public class GridPanel extends JPanel {
 						byte val = new Byte("0000001");
 						if ((icon[a] & (val << b)) > 0) {
 							g.fillRect(
-									Math.round((squareSize * x + 1) + (6 - b)
+									Math.round((squareSize * x + 1) + (a)
 											* iconSize),
-											Math.round((squareSize * y + 1) + (a)
+											Math.round((squareSize * y + 1) + (6 - b)
 													* iconSize), Math.round(iconSize),
 													Math.round(iconSize));
 
