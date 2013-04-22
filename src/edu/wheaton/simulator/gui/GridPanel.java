@@ -15,9 +15,17 @@ public class GridPanel extends JPanel {
 
 	private SimulatorFacade gm;
 
-	private int width;
+	private int panelWidth;
 
-	private int height;
+	private int panelHeight;
+
+	private int gridWidth;
+
+	private int gridHeight;
+
+	private float squareWidth;
+
+	private float squareHeight;
 
 	private Set<AgentAppearance> grid;
 
@@ -28,56 +36,51 @@ public class GridPanel extends JPanel {
 
 	@Override
 	public void paint(Graphics g) {
-		width = this.getWidth();
-		height = this.getHeight();
+		panelWidth = this.getWidth();
+		panelHeight = this.getHeight();
 
-		int gridWidth = gm.getGridWidth();
-		int gridHeight = gm.getGridHeight();
+		gridWidth = gm.getGridWidth();
+		gridHeight = gm.getGridHeight();
 
-		int pixelWidth = width / gridWidth;
-		int pixelHeight = height / gridHeight;
+		squareWidth = panelWidth / gridWidth;
+		squareHeight = panelHeight / gridHeight;
+
+		System.out.println("squareWidth: " + squareWidth);
+		System.out.println("squareHeight: " + squareHeight);
 
 		clearAgents(g);
-		if(grid != null){
+		if (grid != null)
 			agentPaint(g);
-		}
-		g.setColor(Color.BLACK);
-		int squareSize = Math.min(pixelWidth, pixelHeight);
-		for (int i = 0; i < gridWidth; i++)
-			for (int j = 0; j < gridHeight; j++)
-				g.drawRect(squareSize * i, squareSize * j, 
-						squareSize, squareSize);
+		paintLines(g);
 	}
 
-	public void agentPaint(Graphics g){
+	public void agentPaint(Graphics g) {
+		float squareSize = Math.min(squareWidth, squareHeight);
 
-		width = this.getWidth();
-		height = this.getHeight();
-		int gridWidth = gm.getGridWidth();
-		int gridHeight = gm.getGridHeight();
-		int pixelWidth = width / gridWidth;
-		int pixelHeight = height / gridHeight;
-		int squareSize = Math.min(pixelWidth, pixelHeight);
-
-		for(AgentAppearance agent : grid){
+		for (AgentAppearance agent : grid) {
 			int x = agent.getX();
 			int y = agent.getY();
 			g.setColor(agent.getColor());
-			if(squareSize < 9){
-				g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), 
-						squareSize, squareSize);
-			}
 
-			int iconSize = squareSize/7;
-			for (int a = 0; a < 7; a+=1) {
-				for (int b = 0; b <  7; b+=1) {
-					byte[] icon = agent.getDesign();
-					byte val = new Byte("0000001");
-					if((icon[a]&(val<<b)) > 0){
-						g.fillRect((squareSize * x + 1) + (6-b)*iconSize,
-								(squareSize * y + 1) + (a)*iconSize, 
-								iconSize, iconSize);
+			if (squareSize < 9) {
+				g.fillRect(Math.round(squareSize * x + (x + 1)),
+						Math.round(squareSize * y + (y + 1)),
+						Math.round(squareSize), Math.round(squareSize));
+			} else {
+				float iconSize = squareSize / 7;
+				for (int a = 0; a < 7; a++) {
+					for (int b = 0; b < 7; b++) {
+						byte[] icon = agent.getDesign();
+						byte val = new Byte("0000001");
+						if ((icon[a] & (val << b)) > 0) {
+							g.fillRect(
+									Math.round((squareSize * x + 1) + (6 - b)
+											* iconSize),
+											Math.round((squareSize * y + 1) + (a)
+													* iconSize), Math.round(iconSize),
+													Math.round(iconSize));
 
+						}
 					}
 				}
 			}
@@ -85,25 +88,26 @@ public class GridPanel extends JPanel {
 	}
 
 	public void clearAgents(Graphics g) {
-		width = this.getWidth();
-		height = this.getHeight();
-
-		int gridWidth = gm.getGridWidth();
-		int gridHeight = gm.getGridHeight();
-
-		int pixelWidth = width / gridWidth;
-		int pixelHeight = height / gridHeight;
-
-		int squareSize = Math.min(pixelWidth, pixelHeight) - 1;
-
+		float squareSize = Math.min(squareWidth, squareHeight) - 1;
 		g.setColor(Color.WHITE);
 
 		for (int x = 0; x < gridWidth; x++)
 			for (int y = 0; y < gridHeight; y++)
-				g.fillRect(squareSize * x + (x + 1), squareSize * y + (y + 1), squareSize, squareSize);
+				g.fillRect(Math.round(squareSize * x + (x + 1)),
+						Math.round(squareSize * y + (y + 1)),
+						Math.round(squareSize), Math.round(squareSize));
 	}
 
-	public void setAgents(Set<AgentAppearance> grid){
+	public void paintLines(Graphics g) { 
+		g.setColor(Color.BLACK); 
+		float squareSize = Math.min(squareWidth, squareHeight); 
+		for (int i = 0; i < gridWidth; i++) 
+			for (int j = 0; j < gridHeight; j++)
+				g.drawRect(Math.round(squareSize * i), Math.round(squareSize * j),
+						Math.round(squareSize), Math.round(squareSize)); 
+	}
+
+	public void setAgents(Set<AgentAppearance> grid) {
 		this.grid = grid;
 	}
 }
