@@ -12,11 +12,13 @@ package edu.wheaton.simulator.gui.screen;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -162,10 +164,12 @@ public class EntityScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 5;
-		this.add(Gui.makeLabel("Agents", new PrefSize(300, 100),
-				HorizontalAlignment.CENTER), c);
+		c.insets = new Insets(5,0,10,0);
+		JLabel header = Gui.makeLabel("Agents", PrefSize.NULL,HorizontalAlignment.CENTER);
+		this.add(header, c);
 
 		c.gridy = 1;
+		c.insets = new Insets(0,0,0,0);
 		this.add(entityList, c);
 	}
 

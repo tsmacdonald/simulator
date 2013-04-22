@@ -2,6 +2,8 @@
  * GridObserver.java
  * 
  * Interface for grid observers
+ * 
+ * @author Agent Team
  */
 
 package edu.wheaton.simulator.datastructure;

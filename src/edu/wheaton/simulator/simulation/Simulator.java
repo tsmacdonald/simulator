@@ -1,4 +1,3 @@
-
 /**
  * Simulator.java
  * 

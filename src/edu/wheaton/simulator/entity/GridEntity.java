@@ -1,9 +1,9 @@
 /**
- * Agent.java
+ * GridEntity.java
  *
- * Agents model actors in the simulation's Grid.
+ * Models entities that are in the grid. GridEntitys have triggers and a design.
  * 
- * @author Daniel Davenport, Grant Hensel, Elliot Penson, and Simon Swenson
+ * @author Agent Team
  * Wheaton College, CSCI 335, Spring 2013
  */
 

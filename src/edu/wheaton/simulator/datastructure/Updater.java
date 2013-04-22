@@ -3,6 +3,8 @@
  * 
  * The interface for the state pattern that allows for switching update
  * modes.
+ * 
+ * @author Agent Team
  */
 
 package edu.wheaton.simulator.datastructure;

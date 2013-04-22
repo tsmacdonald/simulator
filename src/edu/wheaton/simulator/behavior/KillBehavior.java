@@ -1,3 +1,9 @@
+/**
+ * KillBehavior.java
+ * 
+ * @author Agent Team
+ */
+
 package edu.wheaton.simulator.behavior;
 
 import net.sourceforge.jeval.EvaluationException;
@@ -16,6 +22,12 @@ public class KillBehavior extends AbstractBehavior {
 		return 2;
 	}
 
+	/**
+	 * Follows the form: kill(x, y). Places null at the given position in the grid.
+	 * 
+	 * @param args
+	 * @return
+	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {
 		Integer x = Double.valueOf(args[0]).intValue();

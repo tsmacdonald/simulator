@@ -1,0 +1,32 @@
+img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+h1, h2 {
+	text-align: center;
+}
+
+.center {
+	width: inherit;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.navbar {
+	position: fixed;
+	list-style-type: square;
+	font-size: 18px;
+}
+
+.boxed {
+	border: 2px solid black;
+	padding: 0px 4px 0px 12px;
+	width: 830px;
+	margin: auto;
+}
+
+.center-text {
+	text-align: center;
+}

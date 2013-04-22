@@ -2,6 +2,8 @@
  * PriorityUpdater.java
  * 
  * The class used for PriorityUpdate
+ * 
+ * @author Agent Team
  */
 
 package edu.wheaton.simulator.datastructure;

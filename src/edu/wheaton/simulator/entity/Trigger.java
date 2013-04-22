@@ -219,7 +219,7 @@ public class Trigger implements Comparable<Trigger> {
 	public int getPriority() {
 		return priority;
 	}
-	
+
 	@Override
 	public String toString(){
 		return name;
@@ -284,6 +284,8 @@ public class Trigger implements Comparable<Trigger> {
 			loadOperations();
 			loadBehaviorFunctions();
 			loadConditionalFunctions();
+			conditionString = "";
+			behaviorString = "";
 		}
 		
 		/**
@@ -303,6 +305,11 @@ public class Trigger implements Comparable<Trigger> {
 		 * @param t
 		 */
 		private void parseTrigger(Trigger t) {
+			if (t == null){
+				return;
+			}
+			if (t.conditionExpression == null || t.behaviorExpression == null)
+				return;
 			String condition = t.getConditions().toString();
 			String behavior = t.getBehavior().toString();
 			for (String s : converter.inverse().keySet()){
@@ -323,10 +330,18 @@ public class Trigger implements Comparable<Trigger> {
 			behaviorString = behavior;
 		}
 		
+		/**
+		 * get the string parsed behavior
+		 * @return
+		 */
 		public String getBehaviorString(){
 			return behaviorString;
 		}
 		
+		/**
+		 * get the string parsed condition.
+		 * @return
+		 */
 		public String getConditionString(){
 			return conditionString;
 		}
@@ -402,9 +417,6 @@ public class Trigger implements Comparable<Trigger> {
 				conditionalValues.add(convertCamelCaseToNormal(s));
 				converter.put(convertCamelCaseToNormal(s), s);
 			}
-			/**
-			 * TODO Need to figure out how the user inputs the parameters.
-			 */
 		}
 
 		/**
@@ -532,7 +544,6 @@ public class Trigger implements Comparable<Trigger> {
 				return true;
 			}
 			catch (Exception e){
-//				System.out.println("Invalid trigger");
 				throw e;
 			}
 		}

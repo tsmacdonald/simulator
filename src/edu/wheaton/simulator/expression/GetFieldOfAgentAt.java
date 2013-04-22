@@ -1,3 +1,9 @@
+/**
+ * GetFieldOfAgentAt.java
+ * 
+ * @author Agent Team
+ */
+
 package edu.wheaton.simulator.expression;
 
 import edu.wheaton.simulator.datastructure.Grid;
@@ -21,6 +27,12 @@ public class GetFieldOfAgentAt extends AbstractExpressionFunction {
 		return 2;
 	}
 	
+	/**
+	 * Takes the form: getFieldOfAgentAt(x, y, fieldName)
+	 * 
+	 * @param args
+	 * @return
+	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {
 		Double x = Double.valueOf(args[0]);

@@ -1,3 +1,11 @@
+/**
+ * Expression.java
+ * 
+ * Wrapper for JEval
+ * 
+ * @author Agent Team
+ */
+
 package edu.wheaton.simulator.expression;
 
 import java.util.HashMap;

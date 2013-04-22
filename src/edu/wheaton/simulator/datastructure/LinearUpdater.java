@@ -2,6 +2,8 @@
  * LinearUpdater.java
  * 
  * The class used for LinearUpdate
+ * 
+ * @author Agent Team
  */
 
 package edu.wheaton.simulator.datastructure;
