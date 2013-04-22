@@ -91,4 +91,19 @@ public class ConditionalSyntaxTest {
 		testGrid.updateEntities();
 		Assert.assertEquals("1.0", testGrid.getAgent(5, 5).getFieldValue("storedField"));
 	}
+	@Test
+	public void testGetGlobalField() throws SimulationPauseException, ElementAlreadyContainedException{
+		// create a field to store the value global field
+		proto.addField("storedField", "0");
+		testGrid.addAgent(proto.createAgent(testGrid), 5, 5);
+		// there is an agent at 5, 5
+		Assert.assertFalse(testGrid.emptyPos(5, 5));
+		
+		Expression getGlobalField = new Expression("getGlobalField('height') == 20");
+		Expression setStoredField = new Expression("setField('storedField', 1)");
+				
+		proto.addTrigger(new Trigger("isValidCoord", 1, getGlobalField, setStoredField));
+		testGrid.updateEntities();
+		Assert.assertEquals("1.0", testGrid.getAgent(5, 5).getFieldValue("storedField"));
+	}
 }
