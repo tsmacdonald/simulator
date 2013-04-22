@@ -135,6 +135,7 @@ public class Expression {
 		this.importFunction(new CloneAgentAtPositionBehavior());
 		this.importFunction(new SetFieldOfAgentBehavior());
 		this.importFunction(new ClonePrototype());
+		this.importFunction(new GetGlobalField());
 
 		// make a hashmap of names and actual objects.
 		initializeFunctions();
@@ -159,8 +160,8 @@ public class Expression {
 		behaviorFunctions.put("clonePrototype", new ClonePrototype());
 		conditionFunctions.put("getFieldOfAgent", new GetFieldOfAgentAt());
 		conditionFunctions.put("isSlotOpen", new IsSlotOpen());
-		conditionFunctions.put("isValidCoord", new IsValidCoord());
-
+		conditionFunctions.put("isValidCoord", new IsValidCoord());	
+		conditionFunctions.put("getGlobalField", new GetGlobalField());	
 	}
 
 	/**

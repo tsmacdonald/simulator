@@ -7,6 +7,7 @@ import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
+import edu.wheaton.simulator.simulation.Simulator;
 
 /**
  * Fills in all the triggers and fields for a paper in Rock Paper Scissors demo
