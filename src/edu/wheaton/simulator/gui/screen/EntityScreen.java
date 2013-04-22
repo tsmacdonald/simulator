@@ -42,15 +42,15 @@ public class EntityScreen extends Screen {
 	private JButton delete;
 
 	private JButton edit;
-	
+
 	private JButton save;
-	
+
 	private JButton clear;
-	
+
 	private JButton fill;
 
 	private JButton random;
-	
+
 	public EntityScreen(final SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
@@ -77,57 +77,63 @@ public class EntityScreen extends Screen {
 		edit.setEnabled(false);
 		JButton load = Gui.makeButton("Load", null,  
 				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						//TODO load agents
-					}
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO load agents
+			}
 		});
-		
+
 		JButton importButton = Gui.makeButton("Import", null, 
 				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						gm.importAgent();
-					}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gm.importAgent();
+			}
 		});
 		save = Gui.makeButton("Save Agent", null, 
 				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						gm.saveAgent((String)entityList.getSelectedValue());
-					}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gm.saveAgent((String)entityList.getSelectedValue());
+			}
 		});
-		
+
 		clear = Gui.makeButton("Clear Agents", null,
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gm.clearGrid();
+				if(((ViewSimScreen)Gui.getScreenManager().getScreen("View Simulation")).getSpawn()){
+					gm.clearGrid();
+				}
 			}
 		});
-		
+
 		fill = Gui.makeButton("Fill Grid", null,
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String agentName = getList().getSelectedValue().toString();
-				if (agentName != null) {
-					gm.fillGrid(agentName);
+				if(((ViewSimScreen)Gui.getScreenManager().getScreen("View Simulation")).getSpawn()){
+					if (agentName != null) {
+						gm.fillGrid(agentName);
+					}
 				}
 			}
 		});
-		
+
 		random = Gui.makeButton("Random Spawn", null,
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String agentName = getList().getSelectedValue().toString();
-				if (agentName != null) {
-					gm.addAgentRandom(agentName);
+				if(((ViewSimScreen)Gui.getScreenManager().getScreen("View Simulation")).getSpawn()){
+					if (agentName != null) {
+						gm.addAgentRandom(agentName);
+					}
 				}
 			}
 		});
-		
+
 		entityList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -145,7 +151,7 @@ public class EntityScreen extends Screen {
 		JScrollPane scrollPane = new JScrollPane(entityList,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setMinimumSize(new MinSize(300,305));
 		scrollPane.setPreferredSize(new PrefSize(300,305));
-		
+
 		GridBagConstraints c = new GridBagConstraints();
 
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -158,26 +164,26 @@ public class EntityScreen extends Screen {
 
 		c.gridx = 2;
 		this.add(delete, c);
-		
+
 		c.gridx = 3;
 		this.add(clear,c);
-		
+
 		c.gridx = 4;
 		this.add(fill,c);
-		
+
 		c.gridx = 0;
 		c.gridy = 3;
 		this.add(load, c);
-		
+
 		c.gridx = 1;
 		this.add(importButton, c);
-		
+
 		c.gridx = 2;
 		this.add(save, c);
-		
+
 		c.gridx = 4;
 		this.add(random, c);
-		
+
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 5;
