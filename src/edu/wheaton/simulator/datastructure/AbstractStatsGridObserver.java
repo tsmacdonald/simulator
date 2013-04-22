@@ -10,6 +10,8 @@ package edu.wheaton.simulator.datastructure;
 
 import java.util.Set;
 
+import edu.wheaton.simulator.simulation.end.SimulationEnder;
+
 public abstract class AbstractStatsGridObserver implements GridObserver {
 
 	/**
@@ -20,9 +22,11 @@ public abstract class AbstractStatsGridObserver implements GridObserver {
 	 */
 	@Override
 	public abstract void update(Grid grid);
-
+	
 	@Override
-	public void update(Set<AgentAppearance> agents) {
-	}
+	public void update(Set<AgentAppearance> agents) { }
+	
+	@Override
+	public void update(SimulationEnder ender) { }
 
 }
