@@ -33,7 +33,7 @@ public class ConwayFinishListener implements ActionListener {
 		}
 
 		Screen upload = Gui.getScreenManager().getScreen("View Simulation");
-		((ViewSimScreen)upload).initTabs();
+		((ViewSimScreen)upload).init();
 		gm.initGameOfLife();
 		gm.setStepLimit(1000);
 		gm.setStarted(false);
