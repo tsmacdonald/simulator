@@ -339,7 +339,7 @@ public class SetupScreen extends Screen {
 	}
 
 	private static JPanel makeConditionListPanel() {
-		JPanel conListPanel = Gui.makePanel(new GridBagLayout(), null, null);
+		JPanel conListPanel = Gui.makePanel(BoxLayoutAxis.PAGE_AXIS, null, null);
 		
 		return conListPanel;
 	}
