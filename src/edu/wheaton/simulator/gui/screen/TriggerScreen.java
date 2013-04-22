@@ -1,6 +1,5 @@
 package edu.wheaton.simulator.gui.screen;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -85,11 +84,12 @@ public class TriggerScreen extends Screen {
 	}
 
 	/**
-	 * Adds the JList in a scrollpane to the view
+	 * Adds the JList in a JScrollPane to the view
 	 * @param constraints
 	 */
 	private void addTriggerList(GridBagConstraints constraints) {
 		triggers = new JList();
+		triggers.setToolTipText("The list of triggers");
 		listScrollView.setViewportView(triggers);
 		triggers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		triggers.addListSelectionListener(new ListSelectionListener() {
@@ -167,6 +167,7 @@ public class TriggerScreen extends Screen {
 	private void addAddButton(GridBagConstraints constraints){
 		addButton = new JButton("Add Trigger");
 		addButton.addActionListener(new AddTriggerListener());
+		addButton.setToolTipText("Adds a blank trigger to the prototype");
 		constraints.gridx = 0;
 		constraints.gridy = 2;
 		constraints.gridheight = 1;
@@ -183,6 +184,7 @@ public class TriggerScreen extends Screen {
 	private void addDeleteButton(GridBagConstraints constraints) {
 		deleteButton = new JButton("Delete Trigger");
 		deleteButton.addActionListener(new DeleteTriggerListener());
+		deleteButton.setToolTipText("Deletes the selected trigger");
 		constraints.gridx = 1;
 		constraints.gridy = 2;
 		constraints.gridheight = 1;
@@ -200,6 +202,7 @@ public class TriggerScreen extends Screen {
 	private void addSaveButton(GridBagConstraints constraints) {
 		saveButton = new JButton("Save Current Trigger");
 		saveButton.addActionListener(new SaveListener());
+		saveButton.setToolTipText("Saves the changes to the selected trigger");
 		constraints.anchor = GridBagConstraints.BASELINE_TRAILING;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.gridx = 0;

@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,8 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import edu.wheaton.simulator.entity.Prototype;
-import edu.wheaton.simulator.gui.Gui;
-import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorFacade;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 import edu.wheaton.simulator.statistics.StatsObserver;
