@@ -126,9 +126,10 @@ public class Simulation {
 				while (!isPaused.get()) {
 					try {
 						updateEntities();
-						notifyObservers();
 						if (layerRunning.get())
 							setLayerExtremes();
+						notifyDisplayObservers();
+						notifyStatsObservers();
 						if(sleepPeriod > 0)
 							Thread.sleep(sleepPeriod);
 					} catch (SimulationPauseException e) {
@@ -193,6 +194,7 @@ public class Simulation {
 		if (ender.evaluate(grid)) {
 			isPaused.set(true);
 			isStopped.set(true);
+			notifyEndObservers();
 		}
 	}
 	
@@ -258,12 +260,24 @@ public class Simulation {
 	}
 
 	/**
-	 * Notifies all the observers following this simulation's grid
-	 * 
-	 * @param layerRunning
+	 * Notifies all of the GUI observers
 	 */
-	public void notifyObservers() {
-		grid.notifyObservers(layerRunning.get());
+	public void notifyDisplayObservers() {
+		grid.notifyDisplayObservers(layerRunning.get());
+	}
+	
+	/**
+	 * Notifies all of the stats observers
+	 */
+	public void notifyStatsObservers() {
+		grid.notifyStatsObservers();
+	}
+	
+	/**
+	 * Updates all of the observers watching for the end of the simulation
+	 */
+	public void notifyEndObservers() {
+		grid.notifyEndObservers(ender);
 	}
 
 	/**

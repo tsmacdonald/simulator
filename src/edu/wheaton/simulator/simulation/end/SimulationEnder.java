@@ -36,6 +36,11 @@ public class SimulationEnder {
 	 * Stores the various kinds of conditions.
 	 */
 	private EndCondition[] conditions;
+	
+	/**
+	 * Store which end condition ended it
+	 */
+	private EndCondition ENDED_SIMULTATION;
 
 	/**
 	 * Constructor.
@@ -75,8 +80,10 @@ public class SimulationEnder {
 	 */
 	public boolean evaluate(Grid grid) {
 		for (EndCondition condition : conditions)
-			if (condition.evaluate(grid.getStep(), grid))
+			if (condition.evaluate(grid.getStep(), grid)){
+				ENDED_SIMULTATION = condition;
 				return true;
+			}
 		return false;
 	}
 
@@ -113,6 +120,13 @@ public class SimulationEnder {
 		((AgentPopulationCondition) conditions[POPULATION_CONDITIONS])
 				.removePopLimit(name);
 	}
+	
+	/**
+	 * Return a string displaying which condition ended the simulation
+	 */
+	public String whatHappened(){
+		return ENDED_SIMULTATION.whatHappened();
+	}
 
 	/**
 	 * Determines if the simulation has run out of time.
@@ -125,6 +139,11 @@ public class SimulationEnder {
 		 * The total number of steps the Simulation is permitted to run.
 		 */
 		private int maxSteps;
+		
+		/**
+		 * End condition string
+		 */
+		private final String endMessage = "The simulation has run out of steps.";
 
 		/**
 		 * @param maxSteps
@@ -139,6 +158,11 @@ public class SimulationEnder {
 		public boolean evaluate(int step, Grid grid) {
 			return step >= maxSteps;
 		}
+		
+		@Override
+		public String whatHappened(){
+			return endMessage;
+		}
 	}
 
 	/**
@@ -147,6 +171,12 @@ public class SimulationEnder {
 	 * @author daniel.gill
 	 */
 	private final class NoAgentsCondition implements EndCondition {
+		
+		/**
+		 * End condition string
+		 */
+		private final String endMessage = "The simulation has run out of agents.";
+		
 		@Override
 		public boolean evaluate(int step, Grid grid) {
 			for (Agent a : grid) {
@@ -154,6 +184,11 @@ public class SimulationEnder {
 					return false;
 			}
 			return true;
+		}
+		
+		@Override
+		public String whatHappened(){
+			return endMessage;
 		}
 	}
 
@@ -170,6 +205,11 @@ public class SimulationEnder {
 		 * limits.
 		 */
 		private HashMap<String, Integer> popLimits;
+		
+		/**
+		 * End condition string
+		 */
+		private String endMessage;
 
 		/**
 		 * Constructor.
@@ -210,10 +250,16 @@ public class SimulationEnder {
 		@Override
 		public boolean evaluate(int step, Grid grid) {
 			for (String name : popLimits.keySet())
-				if (Prototype.getPrototype(name).childPopulation() >= popLimits
-						.get(name))
+				if (Prototype.getPrototype(name).childPopulation() >= popLimits.get(name)){
+					endMessage = "The "+ name +" population limit has been reached.";
 					return true;
+				}
 			return false;
+		}
+		
+		@Override
+		public String whatHappened(){
+			return endMessage;
 		}
 	}
 	

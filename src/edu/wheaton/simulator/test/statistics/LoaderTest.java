@@ -15,6 +15,8 @@ import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.simulation.Simulator;
+import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.Loader;
 import edu.wheaton.simulator.statistics.TriggerSnapshot;
 
@@ -63,7 +65,7 @@ public class LoaderTest {
 	public void testLoadPrototype() throws FileNotFoundException{
 		Loader l = new Loader(); 
 		Prototype proto = null; 
-		File loadFile = new File("prototypes/Prototype 1"); 
+		File loadFile = new File("prototypes/Prototype 1.agt"); 
 		
 		//Print loadFile contents for debugging 
 		System.out.println("\nLoad File Contents for testLoadPrototype:"); 
@@ -93,5 +95,14 @@ public class LoaderTest {
 		Assert.assertNotNull(proto); 
 		Assert.assertEquals("Prototype 2", proto.getName()); 
 		s.close();
+	}
+	
+	@Test
+	public void testLoadAllPrototypes() throws FileNotFoundException {
+		File protoDirectory = new File("prototypes");
+		System.out.println("\nNumber of files in directory: " + protoDirectory.list().length);
+	
+		Simulator.getInstance().load("TestSim", 20, 20, new SimulationEnder());
+		Simulator.getInstance().loadPrototypesFromDirectory(protoDirectory);
 	}
 }
