@@ -12,6 +12,7 @@ package edu.wheaton.simulator.simulation;
 import java.awt.Color;
 import java.io.File;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -141,7 +142,7 @@ public class Simulator {
 	 * 
 	 * @return
 	 */
-	public static Set<String> prototypeNames() {
+	public static List<String> prototypeNames() {
 		return Prototype.prototypeNames();
 	}
 

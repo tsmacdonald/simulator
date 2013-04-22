@@ -15,6 +15,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -203,7 +204,7 @@ public class EntityScreen extends Screen {
 	public void load() {
 		reset();
 		delete.setEnabled(getGuiManager().hasStarted() ? false : true);
-		Set<String> entities = gm.getPrototypeNames();
+		List<String> entities = gm.getPrototypeNames();
 		for (String s : entities)
 			entityList.addItem(s);
 		edit.setEnabled(false);
