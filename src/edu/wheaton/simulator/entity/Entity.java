@@ -14,6 +14,9 @@ public class Entity {
 	 */
 	protected Map<String, String> fields;
 
+	/**
+	 * Instantiates an empty map of fields
+	 */
 	public Entity() {
 		fields = new HashMap<String, String>();
 	}
@@ -38,13 +41,21 @@ public class Entity {
 	 * 
 	 * @return returns the old field
 	 */
-	public Field updateField(String name, String value) throws NoSuchElementException {
+	public Field updateField(String name, String value)
+			throws NoSuchElementException {
 		name = formatFieldName(name);
 		assertHasField(name);
 		String oldvalue = putField(name, value);
 		return new Field(name, oldvalue);
 	}
 
+	/**
+	 * Adds the given field to this entity
+	 * 
+	 * @param name
+	 * @param value
+	 * @return
+	 */
 	private String putField(String name, String value) {
 		return fields.put(name.toString(), value.toString());
 	}
@@ -59,24 +70,51 @@ public class Entity {
 		return new Field(name, value);
 	}
 
+	/**
+	 * Provides a field object that represents the field with the given name.
+	 * 
+	 * @param name
+	 * @return
+	 */
 	public Field getField(String name) {
 		name = formatFieldName(name);
 		assertHasField(name);
 		return new Field(name.toString(), getFieldValue(name));
 	}
 
+	/**
+	 * Provides the actual value associated with the field that has the given
+	 * name.
+	 * 
+	 * @param name
+	 * @return
+	 */
 	public String getFieldValue(String name) {
 		name = formatFieldName(name);
 		assertHasField(name);
 		return fields.get(name.toString());
 	}
 
+	/**
+	 * Throws an NoSuchElementException if the Entity does not contain a field
+	 * with the given name.
+	 * 
+	 * @param name
+	 * @throws NoSuchElementException
+	 */
 	private void assertHasField(String name) throws NoSuchElementException {
-		if (!hasField(name)){
+		if (!hasField(name)) {
 			throw new NoSuchElementException();
 		}
 	}
 
+	/**
+	 * Throws an ElementAlreadyContainedException if the Entity contains a
+	 * field with the given name.
+	 * 
+	 * @param name
+	 * @throws ElementAlreadyContainedException
+	 */
 	private void assertNoSuchField(String name)
 			throws ElementAlreadyContainedException {
 		if (hasField(name))
@@ -103,8 +141,8 @@ public class Entity {
 	}
 
 	/**
-	 * Provides this Entity's custom field names and values. This method
-	 * will remove the default values that are created.
+	 * Provides this Entity's custom field names and values. This method will
+	 * remove the default values that are created.
 	 * 
 	 * @return String to String map
 	 */
