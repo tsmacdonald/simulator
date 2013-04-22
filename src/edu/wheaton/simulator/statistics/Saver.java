@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 
@@ -52,7 +53,10 @@ public class Saver {
 
 		//Save the Grid dimensions
 		sb.append(width + "\n"); 
-		sb.append(height + "\n");  
+		sb.append(height + "\n");
+		
+		//Save the Updater
+		sb.append(Simulator.getInstance().currentUpdater()); 
 
 		//Serialize and write all PrototypeSnapshots to file
 		for(PrototypeSnapshot proto : protoSnaps)

@@ -73,7 +73,7 @@ public class ViewSimScreen extends Screen {
 		tabs.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent ce) {
-				if (tabs.getSelectedComponent().toString() == "Agent")
+				if (tabs.getSelectedComponent().toString().equals("Agent"))
 					setSpawn(true);
 				else {
 					setSpawn(false);
@@ -91,6 +91,7 @@ public class ViewSimScreen extends Screen {
 		gm.getGridPanel().addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
+				System.out.println(canSpawn);
 				int standardSize = Math.min(
 						gm.getGridPanel().getWidth() / gm.getGridWidth(),
 						gm.getGridPanel().getHeight() / gm.getGridHeight());

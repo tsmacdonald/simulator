@@ -193,6 +193,10 @@ public class Grid extends Entity implements Iterable<Agent> {
 		updater = new AtomicUpdater(this);
 	}
 
+	/**
+	 * 
+	 * @return the current updater's name
+	 */
 	public String currentUpdater() {
 		return updater.toString();
 	}

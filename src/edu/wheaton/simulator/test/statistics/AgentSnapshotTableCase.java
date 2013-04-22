@@ -55,7 +55,7 @@ public class AgentSnapshotTableCase {
 			}
 			ids.add(agent.getID());
 			for(int s = 1; s < 3; s++) {
-				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), s, prototype.getName(), null, 0, 0));
+				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), s, prototype.getName(), null, null, null, 0, 0));
 			}
 		}
 		table = null;

@@ -145,6 +145,8 @@ public class Trigger implements Comparable<Trigger> {
 		} catch (EvaluationException e) {
 			atomicConditionResult = false;
 			throw e;
+		} catch (Exception e) {
+			atomicConditionResult = false;
 		}
 	}
 
@@ -182,6 +184,8 @@ public class Trigger implements Comparable<Trigger> {
 			}
 		} catch (EvaluationException e) {
 			throw new EvaluationException("Behavior");
+		} catch (NullPointerException e) {
+			// No entity found
 		}
 		notifyObservers(a.getID(), t, step);
 	}
@@ -301,7 +305,7 @@ public class Trigger implements Comparable<Trigger> {
 		
 		/**
 		 * Converts a JEval formed trigger to something that be read by a human and makes sense.
-		 * 
+		 * So from this.weight > this.height to weight > height.
 		 * @param t
 		 */
 		private void parseTrigger(Trigger t) {
@@ -314,20 +318,30 @@ public class Trigger implements Comparable<Trigger> {
 			String behavior = t.getBehavior().toString();
 			for (String s : converter.inverse().keySet()){
 				if (condition.contains(s)){
-					condition = condition.replace(s, converter.inverse().get(s)+ " ");
+					if (functions.containsKey(s))
+						condition = condition.replace(s+"(", converter.inverse().get(s)+ " ( ");
+					else
+						condition = condition.replace(s, converter.inverse().get(s)+ " ");
 				}
 				if (behavior.contains(s)){
-					behavior = behavior.replace(s, converter.inverse().get(s)+" ");
+					if (functions.containsKey(s))
+						condition = condition.replace(s+"(", converter.inverse().get(s)+ " ( ");
+					else
+						condition = condition.replace(s, converter.inverse().get(s)+ " ");
+					behavior = behavior.replace(s, converter.inverse().get(s) + " ");
 				}
 			}
 			if (condition.charAt(condition.length()-1)==(' ')){
 				condition= condition.substring(0, condition.length()-1);
 			}
+			condition = condition.replace("  ", " ");
 			conditionString = condition;
 			if (behavior.charAt(behavior.length()-1)==(' ')){
 				behavior= behavior.substring(0, behavior.length()-1);
 			}
+			behavior = behavior.replace("  ", " ");
 			behaviorString = behavior;
+			System.out.println("condition: " + conditionString + " | behavior: "+ behaviorString);
 		}
 		
 		/**
@@ -343,6 +357,7 @@ public class Trigger implements Comparable<Trigger> {
 		 * @return
 		 */
 		public String getConditionString(){
+			System.out.println(conditionString);
 			return conditionString;
 		}
 		

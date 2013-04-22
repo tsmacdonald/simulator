@@ -36,25 +36,25 @@ public class ConwaysAliveBeing extends SampleAgent{
 				}
 				
 				// Set up conditionals
-				Expression isAlive = new Expression("this.alive == 1");
+				Expression isAlive = new Expression("this.alive==1");
 				Expression neigh1 = new Expression(
-						"getFieldOfAgentAt( this.x - 1 , this.y - 1 , 'alive' ) == 1");
+						"getFieldOfAgentAt(this.x-1 ,this.y-1 ,'alive')==1");
 				Expression neigh2 = new Expression(
-						"getFieldOfAgentAt(this.x, this.y-1, 'alive') == 1");
+						"getFieldOfAgentAt(this.x,this.y-1 ,'alive')==1");
 				Expression neigh3 = new Expression(
-						"getFieldOfAgentAt(this.x+1, this.y-1, 'alive') == 1");
+						"getFieldOfAgentAt(this.x+1 ,this.y-1 ,'alive')==1");
 				Expression neigh4 = new Expression(
-						"getFieldOfAgentAt(this.x-1, this.y, 'alive') == 1");
+						"getFieldOfAgentAt(this.x-1 ,this.y, 'alive')==1");
 				Expression neigh5 = new Expression(
-						"getFieldOfAgentAt(this.x+1, this.y, 'alive') == 1");
+						"getFieldOfAgentAt(this.x+1 ,this.y,'alive')==1");
 				Expression neigh6 = new Expression(
-						"getFieldOfAgentAt(this.x-1, this.y+1, 'alive') == 1");
+						"getFieldOfAgentAt(this.x-1 ,this.y+1 ,'alive') ==1");
 				Expression neigh7 = new Expression(
-						"getFieldOfAgentAt(this.x, this.y+1, 'alive') == 1");
+						"getFieldOfAgentAt(this.x,this.y+1 ,'alive')==1");
 				Expression neigh8 = new Expression(
-						"getFieldOfAgentAt(this.x+1, this.y+1, 'alive') == 1");
+						"getFieldOfAgentAt(this.x+1 ,this.y+1 ,'alive') == 1");
 				Expression dieCond = new Expression(
-						"(this.alive == 1) && (this.neighbors < 2 || this.neighbors > 3)");
+						"(this.alive == 1 ) && (this.neighbors < 2 || this.neighbors > 3 )");
 
 				// Set up behaviors
 				Expression incrementAge = new Expression(

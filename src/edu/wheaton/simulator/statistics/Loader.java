@@ -113,18 +113,35 @@ public class Loader {
 			//Instantiate the Grid
 			int width = Integer.parseInt(reader.readLine()); 
 			int height = Integer.parseInt(reader.readLine()); 
-			grid = new Grid(width, height); 
+			grid = new Grid(width, height);  
+			
+			//Set the updater
+			String updater = reader.readLine(); 
+			if(updater.equals("Linear")) 
+				grid.setLinearUpdater();
+			else if(updater.equals("Priority"))
+				grid.setPriorityUpdater(0, 100); 
+			else if(updater.equals("Atomic"))
+				grid.setAtomicUpdater(); 				
 
 			String readLine = reader.readLine();
 			while (readLine != null && !readLine.equals("")) {
 				if(readLine.equals("AgentSnapshot")){
 					//Find the appropriate prototype
 					String prototypeName = reader.readLine();
-
-					Prototype parent = getPrototype(prototypeName);  
+					Prototype parent = getPrototype(prototypeName);
+					
+					//Read in the color and design
+					String colorString = reader.readLine(); 
+					String[] colorToks = colorString.split("~"); 
+					
+					Color color = new Color(Integer.parseInt(colorToks[0]), 
+							Integer.parseInt(colorToks[1]), Integer.parseInt(colorToks[2]));
+					byte[] design = createByteArray(reader.readLine());
 
 					//Create the Agent
-					Agent agent = new Agent(grid, parent);
+					Agent agent = new Agent(grid, parent, color, design);
+					System.out.println(agent.getColor()); 
 
 					//Get the Agent's position on the Grid
 					int xpos = Integer.parseInt(reader.readLine()); 
@@ -168,6 +185,7 @@ public class Loader {
 					//Parse the required prototype data
 					String name = reader.readLine();
 					
+					//Read in the color and design
 					String colorString = reader.readLine(); 
 					String[] colorToks = colorString.split("~"); 
 					
