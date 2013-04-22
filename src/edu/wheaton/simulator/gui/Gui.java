@@ -162,7 +162,7 @@ public final class Gui {
 	
 	public static JMenu makeMenu(String name){
 		JMenu menu = new JMenu(name);
-		//menu.setOpaque(true);
+		menu.setOpaque(true);
 		menu.setForeground(Color.white);
 		//menu.setBackground(Color.darkGray);
 		menu.setBorderPainted(false);
@@ -176,7 +176,7 @@ public final class Gui {
 	public static JMenuItem makeMenuItem(String name, ActionListener al){
 		JMenuItem menuItem = new JMenuItem(name);
 		menuItem.addActionListener(al);
-		menuItem.setOpaque(true);
+		//menuItem.setOpaque(true);
 		menuItem.setBackground(Color.gray);
 		menuItem.setForeground(Color.white);
 		return menuItem;
