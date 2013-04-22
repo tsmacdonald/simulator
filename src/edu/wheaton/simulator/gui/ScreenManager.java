@@ -54,12 +54,8 @@ public class ScreenManager {
 		display.setVisible(true);
 	}
 	
-	private static void loadScreen(Screen s){
-		s.load();
-	}
-	
 	public void load(Screen s){
-		loadScreen(s);
+		s.load();
 		update(s);
 	}
 	

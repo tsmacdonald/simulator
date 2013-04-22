@@ -78,7 +78,7 @@ public class EntityScreen extends Screen {
 		JButton load = Gui.makeButton("Load", null,  
 				new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent ae) {
 				//TODO load agents
 			}
 		});
@@ -86,14 +86,14 @@ public class EntityScreen extends Screen {
 		JButton importButton = Gui.makeButton("Import", null, 
 				new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent ae) {
 				gm.importAgent();
 			}
 		});
 		save = Gui.makeButton("Save Agent", null, 
 				new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent ae) {
 				gm.saveAgent((String)entityList.getSelectedValue());
 			}
 		});
@@ -101,7 +101,7 @@ public class EntityScreen extends Screen {
 		clear = Gui.makeButton("Clear Agents", null,
 				new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent ae) {
 				if(((ViewSimScreen)Gui.getScreenManager().getScreen("View Simulation")).getSpawn()){
 					gm.clearGrid();
 				}
@@ -111,7 +111,7 @@ public class EntityScreen extends Screen {
 		fill = Gui.makeButton("Fill Grid", null,
 				new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent ae) {
 				String agentName = getList().getSelectedValue().toString();
 				if(((ViewSimScreen)Gui.getScreenManager().getScreen("View Simulation")).getSpawn()){
 					if (agentName != null) {
@@ -124,7 +124,7 @@ public class EntityScreen extends Screen {
 		random = Gui.makeButton("Random Spawn", null,
 				new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent ae) {
 				String agentName = getList().getSelectedValue().toString();
 				if(((ViewSimScreen)Gui.getScreenManager().getScreen("View Simulation")).getSpawn()){
 					if (agentName != null) {
@@ -136,7 +136,7 @@ public class EntityScreen extends Screen {
 
 		entityList.addListSelectionListener(new ListSelectionListener() {
 			@Override
-			public void valueChanged(ListSelectionEvent e) {
+			public void valueChanged(ListSelectionEvent ae) {
 				edit.setEnabled(!gm.hasStarted());
 				delete.setEnabled(!gm.hasStarted());
 				save.setEnabled(!gm.isRunning());

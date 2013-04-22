@@ -178,11 +178,7 @@ public class Expression {
 		behaviorFunctions.put("moveRight", new MoveRightBehavior());
 		behaviorFunctions.put("moveLeft", new MoveLeftBehavior());
 		behaviorFunctions.put("moveDown", new MoveDownBehavior());
-		behaviorFunctions.put("moveUp", new MoveUpBehavior());
-		behaviorFunctions.put("isSlotOpen", new IsSlotOpen());
-		behaviorFunctions.put("isValidCoord", new IsValidCoord());
-		behaviorFunctions.put("getGlobalField", new GetGlobalField());
-		behaviorFunctions.put("getFieldOfAgentAt", new GetFieldOfAgentAt());
+		behaviorFunctions.put("moveUp", new MoveUpBehavior());	
 		conditionFunctions.put("getFieldOfAgentAt", new GetFieldOfAgentAt());
 		conditionFunctions.put("isSlotOpen", new IsSlotOpen());
 		conditionFunctions.put("isValidCoord", new IsValidCoord());	
