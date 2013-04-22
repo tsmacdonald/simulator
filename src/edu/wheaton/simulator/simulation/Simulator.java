@@ -539,6 +539,15 @@ public class Simulator {
 		Loader l = new Loader();
 		Prototype.addPrototype(l.loadPrototype(file));
 	}
+	
+	/**
+	 * Load all prototypes from all prototype files in the directory
+	 * 
+	 * @param file that points to directory where prototype files are located
+	 */
+	public void loadPrototypesFromFile(File directory) {
+		
+	}
 
 	/**
 	 * Saves a simulation to a given file.

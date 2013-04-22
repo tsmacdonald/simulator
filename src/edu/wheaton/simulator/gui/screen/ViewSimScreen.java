@@ -92,7 +92,7 @@ public class ViewSimScreen extends Screen {
 		gm.getGridPanel().addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				System.out.println(canSpawn);
+
 				int standardSize = Math.min(
 						gm.getGridPanel().getWidth() / gm.getGridWidth(),
 						gm.getGridPanel().getHeight() / gm.getGridHeight());
@@ -197,11 +197,15 @@ public class ViewSimScreen extends Screen {
 					getGuiManager().pause();
 					setSpawn(true);
 					b.setText("Resume");
-				} else if (gm.hasStarted() && gm.isRunning() == false) {
+					entitiesScreen.onSimulationPause();
+				} 
+
+				else if (gm.hasStarted() && gm.isRunning() == false) {
 					setSpawn(false);
 					gm.getGridPanel().repaint();
 					gm.start();
 					b.setText("Pause");
+					entitiesScreen.onSimulationResume();
 				}
 
 				else if (gm.hasStarted() == false) {
@@ -209,6 +213,7 @@ public class ViewSimScreen extends Screen {
 					gm.getGridPanel().repaint();
 					gm.start();
 					b.setText("Pause");
+					entitiesScreen.onSimulationResume();
 				}
 			}
 		});
