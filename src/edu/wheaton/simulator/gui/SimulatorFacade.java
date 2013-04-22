@@ -18,41 +18,18 @@ import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class SimulatorFacade {
 
-	private static SimulatorFacade gm;
-
-	private SimulationEnder se;
-	private StatisticsManager statMan;
-	private Simulator simulator;
-	private boolean simulationIsRunning;
-	private GridPanel gridPanel;
-	private GridPanelObserver gpo;
-	private boolean hasStarted;
-	private JFileChooser fc;
-
-	private SimulatorFacade() {
-		gridPanel = new GridPanel(this);
-		load("New Simulation",10, 10);
-		se = new SimulationEnder();
-		statMan = StatisticsManager.getInstance();
-
-		hasStarted = false;
-		gpo = new GridPanelObserver(gridPanel);
-		getSim().addGridObserver(gpo);
-		fc = new JFileChooser();
-	}
-
 	public static SimulatorFacade getInstance(){
 		if(gm==null)
 			gm = new SimulatorFacade();
 		return gm;
 	}
 
-	public GridPanel getGridPanel(){
-		return gridPanel;
-	}
-
 	public static Expression makeExpression(String str){
 		return new Expression(str);
+	}
+	
+	public GridPanel getGridPanel(){
+		return gridPanel;
 	}
 
 	public void load(String name,int x, int y) {
@@ -62,56 +39,44 @@ public class SimulatorFacade {
 
 	}
 
-	private Simulator getSim() {
-		return simulator;
-	}
-
 	public Field getGlobalField(String name){
-		return getSim().getGlobalField(name);
+		return simulator.getGlobalField(name);
 	}
 
 	public void addGlobalField(String name, String value){
-		getSim().addGlobalField(name, value);
+		simulator.addGlobalField(name, value);
 	}
 
 	public void removeGlobalField(String name){
-		getSim().removeGlobalField(name);
-	}
-
-	private SimulationEnder getEnder() {
-		return se;
+		simulator.removeGlobalField(name);
 	}
 
 	public void setStepLimit(int maxSteps){
-		getEnder().setStepLimit(maxSteps);
+		se.setStepLimit(maxSteps);
 	}
 
 	public Integer getStepLimit(){
-		return getEnder().getStepLimit();
+		return se.getStepLimit();
 	}
 
 	public void setPopLimit(String typeName, int maxPop){
-		getEnder().setPopLimit(typeName, maxPop);
+		se.setPopLimit(typeName, maxPop);
 	}
 
 	public ImmutableMap<String, Integer> getPopLimits(){
-		return getEnder().getPopLimits();
+		return se.getPopLimits();
 	}
 
 	public void removePopLimit(String typeName){
-		getEnder().removePopLimit(typeName);
-	}
-
-	private StatisticsManager getStatManager(){
-		return statMan;
+		se.removePopLimit(typeName);
 	}
 
 	public String getSimName(){
-		return getSim().getName();
+		return simulator.getName();
 	}
 
 	public void updateGuiManager(String nos, int width, int height){
-		getSim().setName(nos);
+		simulator.setName(nos);
 		resizeGrid(width, height);
 	}
 
@@ -132,19 +97,19 @@ public class SimulatorFacade {
 	}
 
 	public Integer getGridHeight(){
-		return getSim().getHeight();
+		return simulator.getHeight();
 	}
 
 	public void resizeGrid(int width,int height){
-		getSim().resizeGrid(width, height);
+		simulator.resizeGrid(width, height);
 	}
 
 	public Integer getGridWidth(){
-		return getSim().getWidth();
+		return simulator.getWidth();
 	}
 
 	public Agent getAgent(int x, int y){
-		return getSim().getAgent(x, y);
+		return simulator.getAgent(x, y);
 	}
 
 	public Set<String> getPrototypeNames(){
@@ -152,35 +117,35 @@ public class SimulatorFacade {
 	}
 
 	public void removeAgent(int x, int y){
-		getSim().removeAgent(x, y);
+		simulator.removeAgent(x, y);
 	}
 
 	public void initSampleAgents(){
-		getSim().initSamples();
+		simulator.initSamples();
 	}
 
 	public void initGameOfLife(){
-		getSim().initGameOfLife();
+		simulator.initGameOfLife();
 	}
 
 	public void initRockPaperScissors(){
-		getSim().initRockPaperScissors();
+		simulator.initRockPaperScissors();
 	}
 
 	public void setLinearUpdate(){
-		getSim().setLinearUpdate();
+		simulator.setLinearUpdate();
 	}
 
 	public void setAtomicUpdate(){
-		getSim().setAtomicUpdate();
+		simulator.setAtomicUpdate();
 	}
 
 	public void setPriorityUpdate(int a, int b){
-		getSim().setPriorityUpdate(a, b);
+		simulator.setPriorityUpdate(a, b);
 	}
 
 	public String getCurrentUpdater(){
-		return getSim().currentUpdater();
+		return simulator.currentUpdater();
 	}
 
 	public void pause(){
@@ -189,26 +154,26 @@ public class SimulatorFacade {
 	}
 
 	public void addAgent(String prototypeName, int x, int y){
-		getSim().addAgent(prototypeName, x, y);
+		simulator.addAgent(prototypeName, x, y);
 	}
 
 	public void addAgentRandom(String prototypeName){
-		getSim().addAgent(prototypeName);
+		simulator.addAgent(prototypeName);
 	}
 
 	public void clearGrid() {
-		getSim().clearAll();
+		simulator.clearAll();
 	}
 
 	public void fillGrid(String prototypeName) {
-		getSim().fillAll(prototypeName);
+		simulator.fillAll(prototypeName);
 	}
 
 	public void save() {
 		//how to deal with possibility of simulation name being different from selected file name?
 		int returnVal = fc.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			getSim().saveToFile(fc.getSelectedFile(), se);
+			simulator.saveToFile(fc.getSelectedFile(), se);
 		}
 		
 	}
@@ -218,7 +183,7 @@ public class SimulatorFacade {
 		File file = null;
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			file = fc.getSelectedFile();
-			getSim().loadFromFile(file);
+			simulator.loadFromFile(file);
 			
 		}
 	}
@@ -227,7 +192,7 @@ public class SimulatorFacade {
 		//how to deal with possibility of agent name being different from selected file name?
 		int returnVal = fc.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			getSim().savePrototypeToFile(Prototype.getPrototype(agentName));
+			simulator.savePrototypeToFile(Prototype.getPrototype(agentName));
 		}
 	}
 
@@ -237,7 +202,7 @@ public class SimulatorFacade {
 		File file = null;
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			file = fc.getSelectedFile();
-			getSim().loadPrototypeFromFile(file);
+			simulator.loadPrototypeFromFile(file);
 		}
 
 	}
@@ -249,44 +214,69 @@ public class SimulatorFacade {
 	}
 
 	public void setName(String name) {
-		getSim().setName(name);
+		simulator.setName(name);
 	}
 
 	public Integer getSleepPeriod() {
-		return getSim().getSleepPeriod();
+		return simulator.getSleepPeriod();
 	}
 
 	public void setSleepPeriod(int n) {
-		getSim().setSleepPeriod(n);
+		simulator.setSleepPeriod(n);
 	}
 
 	public Map<String, String> getGlobalFieldMap() {
-		return getSim().getGlobalFieldMap();
+		return simulator.getGlobalFieldMap();
 	}
 
 	public Prototype getPrototype(String string) {
-		getSim();
 		return Simulator.getPrototype(string);
 	}
 
 	public void displayLayer(String string, Color color) {
-		getSim().displayLayer(string, color);
+		simulator.displayLayer(string, color);
 	}
 
+	public void clearLayer(){
+		simulator.clearLayer();
+	}
+	
 	public void createPrototype(String text,Color color,
 			byte[] generateBytes) {
 		Simulator.createPrototype(text, color, generateBytes);
 	}
 
 	public int[] getPopVsTime(String selectedItem) {
-		return getStatManager().getPopVsTime(selectedItem);
+		return statMan.getPopVsTime(selectedItem);
 	}
 
 	public double[] getAvgFieldValue(String protName, String fieldName) {
-		return getStatManager().getAvgFieldValue(protName, fieldName);
+		return statMan.getAvgFieldValue(protName, fieldName);
 	}
 
 	public double getAvgLifespan(String protName) {
-		return getStatManager().getAvgLifespan(protName);
+		return statMan.getAvgLifespan(protName);
+	}
+	
+	private static SimulatorFacade gm;
+	private SimulationEnder se;
+	private StatisticsManager statMan;
+	private Simulator simulator;
+	private boolean simulationIsRunning;
+	private GridPanel gridPanel;
+	private GridPanelObserver gpo;
+	private boolean hasStarted;
+	private JFileChooser fc;
+
+	private SimulatorFacade() {
+		gridPanel = new GridPanel(this);
+		load("New Simulation",10, 10);
+		se = new SimulationEnder();
+		statMan = StatisticsManager.getInstance();
+
+		hasStarted = false;
+		gpo = new GridPanelObserver(gridPanel);
+		simulator.addGridObserver(gpo);
+		fc = new JFileChooser();
 	}
 }
