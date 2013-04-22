@@ -514,7 +514,7 @@ public class Simulator {
 	 *
 	 * @param filename
 	 */
-	public void saveToFile(String filename, SimulationEnder ender){
+	public void saveToFile(File file, SimulationEnder ender){
 		Saver s = new Saver();
 		Set<Agent> agents = new HashSet<Agent>();
 		Grid grid = simulationGrid();
@@ -522,7 +522,7 @@ public class Simulator {
 			if (agent != null)
 				agents.add(agent);
 
-		s.saveSimulation(filename, agents, Prototype.getPrototypes(),
+		s.saveSimulation(file, agents, Prototype.getPrototypes(),
 				getGlobalFieldMap(),
 				grid.getWidth(), grid.getHeight(), ender);
 	}
