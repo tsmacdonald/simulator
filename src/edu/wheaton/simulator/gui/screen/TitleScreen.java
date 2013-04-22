@@ -53,20 +53,20 @@ public class TitleScreen extends Screen {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// should bring up a dialog with names of simulations to load
+				SimulatorFacade.getInstance().load();
 			}
 		});
 		add(loadButton, c);
-		JButton importButton = new JButton("Import Simulation from file");
-		importButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				getGuiManager().load();
-			}
-		});
+//		JButton importButton = new JButton("Import Simulation from file");
+//		importButton.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent arg0) {
+//				getGuiManager().load();
+//			}
+//		});
 		loadButton.setPreferredSize(new Dimension(200, 70));
-		add(importButton, c);
+//		add(importButton, c);
 		this.setVisible(true);
 	}
 
