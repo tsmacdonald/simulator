@@ -36,10 +36,16 @@ public class Field {
 		this.value = value;
 	}
 
+	/**
+	 * Constructor. Parses a string representation of a field.
+	 * 
+	 * @param strRepresentation
+	 */
 	public Field(String strRepresentation) {
 		String[] params = strRepresentation.split(":");
 		if (!params[0].equals("Field")) {
-			System.out.println("Tried to parse a Field from string, but assert failed.");
+			System.out
+					.println("Tried to parse a Field from string, but assert failed.");
 			(new Exception()).printStackTrace();
 			System.exit(1);
 		}
@@ -58,8 +64,8 @@ public class Field {
 	}
 
 	/**
-	 * @return The string representation of this field. Note: easily parsed with
-	 *         toString().split(":")
+	 * @return The string representation of this field. Note: easily parsed
+	 *         with toString().split(":")
 	 */
 	@Override
 	public String toString() {

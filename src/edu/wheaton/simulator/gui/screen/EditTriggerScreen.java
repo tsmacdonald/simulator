@@ -271,7 +271,6 @@ public class EditTriggerScreen extends Screen {
 	}
 
 	private void addConditionalBox(String s){
-		System.out.println(s);
 		JComboBox toAdd = makeConditionalDropdown();
 		toAdd.setSelectedItem(s);
 		conditionals.add(toAdd);
@@ -297,9 +296,8 @@ public class EditTriggerScreen extends Screen {
 		behaviorLayout.validate();
 		numBehaviors++;
 	}
-	
+
 	private void addBehaviorBox(String s){
-		System.out.println(s);
 		JComboBox toAdd = makeBehaviorDropdown();
 		toAdd.setSelectedItem(s);
 		behaviors.add(toAdd);
@@ -327,7 +325,7 @@ public class EditTriggerScreen extends Screen {
 		conditionalLayout.validate();
 		numConditionals++;
 	}
-	
+
 	private void addConditionalText(String s){
 		JTextField toAdd = new JTextField(s);
 		toAdd.setPreferredSize(new Dimension(120, 20));
@@ -356,7 +354,7 @@ public class EditTriggerScreen extends Screen {
 		behaviorLayout.validate();
 		numBehaviors++;
 	}
-	
+
 	private void addBehaviorText(String s){
 		JTextField toAdd = new JTextField(s);
 		toAdd.setPreferredSize(new Dimension(120, 20));
@@ -398,12 +396,14 @@ public class EditTriggerScreen extends Screen {
 		ImmutableList<String> conditionalValues = builder.conditionalValues();
 		while(conditionalTokenizer.hasMoreTokens()){
 			String token = conditionalTokenizer.nextToken();
+			System.out.print(token + " ");
 			for(int i = 0; i < conditionalValues.size(); i++)
 				if(token.equals(conditionalValues.get(i))){
 					addConditionalBox(token);
 					return;
 				}
 			addConditionalText(token);
+			System.out.println();
 		}
 	}
 
@@ -412,12 +412,14 @@ public class EditTriggerScreen extends Screen {
 		ImmutableList<String> behaviorValues = builder.behavioralValues();
 		while(behaviorTokenizer.hasMoreTokens()){
 			String token = behaviorTokenizer.nextToken();
+			System.out.print(token + " ");
 			for(int i = 0; i < behaviorValues.size(); i++)
 				if(token.equals(behaviorValues.get(i))){
 					addConditionalBox(token);
 					return;
 				}
 			addConditionalText(token);
+			System.out.println();
 		}
 	}
 
@@ -475,8 +477,10 @@ public class EditTriggerScreen extends Screen {
 		selectedTrigger = t;
 		nameField.setText(selectedTrigger.getName());
 		prioritySpinner.setValue(selectedTrigger.getPriority());
-		populateConditionals();
-		populateBehaviors();
+		if(t != null){
+			populateConditionals();
+			populateBehaviors();
+		}
 		try{
 			if(builder.isValid())
 				isValidText.setText("Valid");
