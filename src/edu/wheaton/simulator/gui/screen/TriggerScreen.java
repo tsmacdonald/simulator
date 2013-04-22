@@ -14,13 +14,14 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class TriggerScreen extends Screen {
 
@@ -40,9 +41,13 @@ public class TriggerScreen extends Screen {
 	
 	private JButton addButton;
 	
+	private JButton deleteButton;
+	
 	private JButton saveButton;
 	
-	public TriggerScreen(SimulatorGuiManager sm) {
+	private int untitledCounter = 1;
+		
+	public TriggerScreen(SimulatorFacade sm) {
 		super(sm);
 		setLayout(new GridBagLayout());
 		addTriggerLabel(new GridBagConstraints());
@@ -50,15 +55,16 @@ public class TriggerScreen extends Screen {
 		addListLayout(new GridBagConstraints());
 		addTriggerList(new GridBagConstraints());
 		addAddButton(new GridBagConstraints());
+		addDeleteButton(new GridBagConstraints());
 		addSaveButton(new GridBagConstraints());
 	}
 
+
+
 	private void addTriggerList(GridBagConstraints constraints) {
 		triggers = new JList();
-		triggers.setLayoutOrientation(JList.VERTICAL_WRAP);
 		triggers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		triggers.addMouseListener(new MouseListener() {
-			
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				
@@ -66,8 +72,10 @@ public class TriggerScreen extends Screen {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(triggers.getSelectedIndex() > 0)
-					edit.load(new Trigger.Builder(agent), (Trigger)triggers.getSelectedValue());
+				if(triggers.getSelectedIndex() >= 0){
+					Trigger t = (Trigger) triggers.getSelectedValue();
+					edit.load(new Trigger.Builder(t, agent), t);
+				}
 			}
 
 			@Override
@@ -114,7 +122,7 @@ public class TriggerScreen extends Screen {
 		constraints.gridx = 0;
 		constraints.gridy = 1;
 		constraints.gridheight = 1;
-		constraints.gridwidth = 1;
+		constraints.gridwidth = 2;
 		constraints.ipadx = 200;
 		constraints.ipady = 425;
 		constraints.insets = new Insets(0, 0, 0, 50);
@@ -124,7 +132,7 @@ public class TriggerScreen extends Screen {
 
 	private void addEditLayout(GridBagConstraints constraints){
 		edit = new EditTriggerScreen(gm);
-		constraints.gridx = 1;
+		constraints.gridx = 2;
 		constraints.gridy = 1;
 		constraints.gridheight = 1;
 		constraints.gridwidth = 1;
@@ -142,14 +150,27 @@ public class TriggerScreen extends Screen {
 		add(addButton, constraints);
 	}
 	
-	private void addSaveButton(GridBagConstraints constraints) {
-		saveButton = new JButton("Save");
-		saveButton.addActionListener(new SaveListener());
-		constraints.anchor = GridBagConstraints.BASELINE_TRAILING;
-		constraints.gridx = 0;
-		constraints.gridy = 10;
+	private void addDeleteButton(GridBagConstraints constraints) {
+		deleteButton = new JButton("Delete Trigger");
+		deleteButton.addActionListener(new DeleteTriggerListener());
+		constraints.gridx = 1;
+		constraints.gridy = 2;
 		constraints.gridheight = 1;
 		constraints.gridwidth = 1;
+		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
+		add(deleteButton, constraints);
+	}
+	
+	private void addSaveButton(GridBagConstraints constraints) {
+		saveButton = new JButton("Save Current Trigger");
+		saveButton.addActionListener(new SaveListener());
+		constraints.anchor = GridBagConstraints.BASELINE_TRAILING;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.gridx = 0;
+		constraints.gridy = 3;
+		constraints.gridheight = 1;
+		constraints.gridwidth = 2;
+		constraints.insets = new Insets(0,  0,  0, 50);
 		add(saveButton, constraints);
 	}
 	
@@ -159,11 +180,26 @@ public class TriggerScreen extends Screen {
 		public void actionPerformed(ActionEvent e) {
 			// Sets default to 100 because that is the lowest possible priority and the 
 			// added trigger should appear at the end of the trigger list
-			Trigger t = new Trigger("Untitled", 100, null, null);
+			Trigger t = new Trigger("Untitled" + untitledCounter, 100, null, null);
 			edit.load(new Trigger.Builder(agent), t);
 			agent.addTrigger(t);
 			triggers.setSelectedIndex(triggers.getLastVisibleIndex());
 			load(agent);
+		}
+	}
+	
+	private class DeleteTriggerListener implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e){
+			Trigger toDelete = (Trigger)triggers.getSelectedValue();
+			if(toDelete != null){
+				agent.removeTrigger(triggers.getSelectedValue().toString());
+				validate();
+				repaint();
+			}
+			else
+				JOptionPane.showMessageDialog(null, "No trigger selected");
 		}
 	}
 	
@@ -173,9 +209,9 @@ public class TriggerScreen extends Screen {
 		public void actionPerformed(ActionEvent e) {
 			Trigger toAdd = edit.sendInfo();
 			if(toAdd != null){
-				agent.addTrigger(toAdd);
-				System.out.println("Agent: " + agent.getName() + " Trigger: " + toAdd + " SelectedValue: " + triggers.getSelectedValue());
+				agent.updateTrigger(triggers.getSelectedValue().toString(), toAdd);
 				validate();
+				repaint();
 			}
 			else
 				System.out.println("Invalid Trigger");
@@ -201,4 +237,5 @@ public class TriggerScreen extends Screen {
 	public Prototype sendInfo(){
 		return agent;
 	}
+	
 }

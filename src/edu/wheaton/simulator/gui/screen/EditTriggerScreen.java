@@ -8,19 +8,23 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
+import com.google.common.collect.ImmutableList;
+
 import edu.wheaton.simulator.entity.Trigger;
-import edu.wheaton.simulator.gui.SimulatorGuiManager;
+import edu.wheaton.simulator.gui.SimulatorFacade;
 
 /**
  * 
@@ -64,12 +68,12 @@ public class EditTriggerScreen extends Screen {
 	private JButton deleteConditionalButton;
 
 	private JButton deleteBehaviorButton;
-		
+
 	private JLabel isValidText;
-	
+
 	private Trigger selectedTrigger;
-		
-	public EditTriggerScreen(SimulatorGuiManager sm) {
+
+	public EditTriggerScreen(SimulatorFacade sm) {
 		super(sm);
 		conditionals = new ArrayList<JComponent>();
 		behaviors = new ArrayList<JComponent>();
@@ -97,11 +101,11 @@ public class EditTriggerScreen extends Screen {
 		constraints.fill = GridBagConstraints.BOTH;
 		add(name, constraints);
 	}
-	
+
 	private void addValidLabel(GridBagConstraints constraints){
 		isValidText = new JLabel("Invalid");
 		isValidText.setToolTipText("Tells whether or not the trigger created is valid" +
-								"\nUpdates when save button is pressed");
+				"\nUpdates when save button is pressed");
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.gridx = 0;
@@ -253,35 +257,59 @@ public class EditTriggerScreen extends Screen {
 	}	
 
 	private void addConditionalBox(){
-		try{
-			conditionals.add(makeConditionalDropdown());
-			GridBagConstraints constraints = new GridBagConstraints();
-			constraints.gridwidth = 1; 
-			constraints.gridheight = 1;
-			constraints.gridx = numConditionals % 5;
-			constraints.gridy = numConditionals / 5; 
-			conditionalLayout.add(conditionals.get(conditionals.size() - 1), constraints);	
-			conditionalLayout.validate();
-			numConditionals++;
-		}catch(Exception e){
+		if(selectedTrigger == null)
+			return;
+		conditionals.add(makeConditionalDropdown());
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridwidth = 1; 
+		constraints.gridheight = 1;
+		constraints.gridx = numConditionals % 5;
+		constraints.gridy = numConditionals / 5; 
+		conditionalLayout.add(conditionals.get(conditionals.size() - 1), constraints);	
+		conditionalLayout.validate();
+		numConditionals++;
+	}
 
-		}
-
+	private void addConditionalBox(String s){
+		System.out.println(s);
+		JComboBox toAdd = makeConditionalDropdown();
+		toAdd.setSelectedItem(s);
+		conditionals.add(toAdd);
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.gridx = numConditionals % 5;
+		constraints.gridy = numConditionals / 5;
+		conditionalLayout.add(conditionals.get(conditionals.size() - 1), constraints);
+		numConditionals++;
 	}
 
 	private void addBehaviorBox(){
-		try{
-			behaviors.add(makeBehaviorDropdown());
-			GridBagConstraints constraints = new GridBagConstraints();
-			constraints.gridwidth = 1; 
-			constraints.gridheight = 1;
-			constraints.gridx = numBehaviors % 5;
-			constraints.gridy = numBehaviors / 5;
-			behaviorLayout.add(behaviors.get(behaviors.size() - 1), constraints);
-			behaviorLayout.validate();
-			numBehaviors++;
-		}catch(Exception e){
-		}
+		if(selectedTrigger == null)
+			return;
+		behaviors.add(makeBehaviorDropdown());
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridwidth = 1; 
+		constraints.gridheight = 1;
+		constraints.gridx = numBehaviors % 5;
+		constraints.gridy = numBehaviors / 5;
+		behaviorLayout.add(behaviors.get(behaviors.size() - 1), constraints);
+		behaviorLayout.validate();
+		numBehaviors++;
+	}
+	
+	private void addBehaviorBox(String s){
+		System.out.println(s);
+		JComboBox toAdd = makeBehaviorDropdown();
+		toAdd.setSelectedItem(s);
+		behaviors.add(toAdd);
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.gridx = numBehaviors % 5;
+		constraints.gridy = numBehaviors / 5;
+		behaviorLayout.add(behaviors.get(behaviors.size() - 1), constraints);
+		numBehaviors++;
 	}
 
 	private void addConditionalText(){
@@ -299,6 +327,19 @@ public class EditTriggerScreen extends Screen {
 		conditionalLayout.validate();
 		numConditionals++;
 	}
+	
+	private void addConditionalText(String s){
+		JTextField toAdd = new JTextField(s);
+		toAdd.setPreferredSize(new Dimension(120, 20));
+		conditionals.add(toAdd);
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridwidth = 1; 
+		constraints.gridheight = 1;
+		constraints.gridx = numConditionals % 5;
+		constraints.gridy = numConditionals / 5;
+		conditionalLayout.add(conditionals.get(conditionals.size() - 1), constraints);
+		numConditionals++;
+	}
 
 	private void addBehaviorText(){
 		if(selectedTrigger == null)
@@ -313,6 +354,19 @@ public class EditTriggerScreen extends Screen {
 		constraints.gridy = numBehaviors / 5;
 		behaviorLayout.add(behaviors.get(behaviors.size() - 1), constraints);
 		behaviorLayout.validate();
+		numBehaviors++;
+	}
+	
+	private void addBehaviorText(String s){
+		JTextField toAdd = new JTextField(s);
+		toAdd.setPreferredSize(new Dimension(120, 20));
+		behaviors.add(toAdd);
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridwidth = 1; 
+		constraints.gridheight = 1;
+		constraints.gridx = numBehaviors % 5;
+		constraints.gridy = numBehaviors / 5;
+		behaviorLayout.add(conditionals.get(conditionals.size() - 1), constraints);
 		numBehaviors++;
 	}
 
@@ -336,6 +390,34 @@ public class EditTriggerScreen extends Screen {
 			behaviorLayout.validate();
 			repaint();
 		}catch(Exception e){
+		}
+	}
+
+	private void populateConditionals(){
+		StringTokenizer conditionalTokenizer = new StringTokenizer(builder.getConditionString(), " ");
+		ImmutableList<String> conditionalValues = builder.conditionalValues();
+		while(conditionalTokenizer.hasMoreTokens()){
+			String token = conditionalTokenizer.nextToken();
+			for(int i = 0; i < conditionalValues.size(); i++)
+				if(token.equals(conditionalValues.get(i))){
+					addConditionalBox(token);
+					return;
+				}
+			addConditionalText(token);
+		}
+	}
+
+	private void populateBehaviors(){
+		StringTokenizer behaviorTokenizer = new StringTokenizer(builder.getBehaviorString(), " ");
+		ImmutableList<String> behaviorValues = builder.behavioralValues();
+		while(behaviorTokenizer.hasMoreTokens()){
+			String token = behaviorTokenizer.nextToken();
+			for(int i = 0; i < behaviorValues.size(); i++)
+				if(token.equals(behaviorValues.get(i))){
+					addConditionalBox(token);
+					return;
+				}
+			addConditionalText(token);
 		}
 	}
 
@@ -393,15 +475,22 @@ public class EditTriggerScreen extends Screen {
 		selectedTrigger = t;
 		nameField.setText(selectedTrigger.getName());
 		prioritySpinner.setValue(selectedTrigger.getPriority());
-		if(builder.isValid())
-			isValidText.setText("Valid");
-		else
-			isValidText.setText("Invalid");
+		populateConditionals();
+		populateBehaviors();
+		try{
+			if(builder.isValid())
+				isValidText.setText("Valid");
+			else
+				isValidText.setText("Invalid");
+		}
+		catch(Exception e){
+		}
+		validate();
 	}
 
 	public void load(){
 	}
-	
+
 	public Trigger sendInfo(){
 		String expression = "";
 		for(int i = 0; i < conditionals.size(); i++){
@@ -431,9 +520,13 @@ public class EditTriggerScreen extends Screen {
 		builder.addBehavioral(expression);
 		builder.addName(nameField.getText());
 		builder.addPriority((Integer) prioritySpinner.getValue());
-		if(builder.isValid()){
-			isValidText.setText("Valid");
-			return builder.build();
+		try{
+			if(builder.isValid()){
+				isValidText.setText("Valid");
+				return builder.build();
+			}
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
 		isValidText.setText("Invalid");
 		return null;
