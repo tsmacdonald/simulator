@@ -18,15 +18,16 @@ public class SaveSimulationsToFiles {
 		for(int version = 1; version <= 3; version ++){
 			Simulator.getInstance().load("Rock Paper Scissors", 15, 15, new SimulationEnder());
 			Simulator.getInstance().initRockPaperScissors(version);
-			Simulator.getInstance().saveToFile(new File("simulations/RockPaperScissors.txt"), new SimulationEnder());
+			Simulator.getInstance().saveToFile(new File("simulations/RockPaperScissors"+version+".sim"), 
+					new SimulationEnder());
 		}
 		
 		Simulator.getInstance().load("Conway's Game of Life", 15, 15, new SimulationEnder());
 		Simulator.getInstance().initGameOfLife();
-		Simulator.getInstance().saveToFile(new File("simulations/ConwaysGameOfLife.txt"), new SimulationEnder());
+		Simulator.getInstance().saveToFile(new File("simulations/ConwaysGameOfLife.sim"), new SimulationEnder());
 		
 		Simulator.getInstance().load("Samples", 15, 15, new SimulationEnder());
 		Simulator.getInstance().initSamples();
-		Simulator.getInstance().saveToFile(new File("simulations/Samples.txt"), new SimulationEnder());
+		Simulator.getInstance().saveToFile(new File("simulations/Samples.sim"), new SimulationEnder());
 	}
 }

@@ -498,24 +498,6 @@ public class Simulator {
 	}
 	
 	/**
-	 * Replicates the simulation from the given file
-	 * 
-	 * @param file
-	 */
-	public void loadFromFile(File file, GridObserver obs){
-		Loader l = new Loader();
-		l.loadSimulation(file);
-		try{
-			load(l.getName(), l.getGrid(), l.getPrototypes(), l.getSimEnder());
-		}catch(Exception e){
-			System.out.println("No grid has been loaded yet!"); 
-			e.printStackTrace();
-		}
-		addGridObserver(obs);
-		simulation.notifyDisplayObservers();
-	}
-	
-	/**
 	 * Loads a simulation from a grid and prototypes
 	 * 
 	 * @param name
@@ -531,13 +513,39 @@ public class Simulator {
 	}
 	
 	/**
+	 * Replicates the simulation from the given file
+	 * 
+	 * @param file
+	 */
+	public void loadFromFile(File file, GridObserver obs) throws Exception {
+		Loader l = new Loader();
+		try {
+			l.loadSimulation(file);
+		} catch(Exception e) {
+			throw new Exception("Oh no! The load file was somehow corrupted! What oh what will we do?");
+		}
+		try {
+			load(l.getName(), l.getGrid(), l.getPrototypes(), l.getSimEnder());
+		} catch(Exception e){
+			System.out.println("No grid has been loaded yet!"); 
+			e.printStackTrace();
+		}
+		addGridObserver(obs);
+		simulation.notifyDisplayObservers();
+	}
+	
+	/**
 	 * Load a prototype from a file and add it to the simulation
 	 *
 	 * @param file
 	 */
-	public void loadPrototypeFromFile(File file){
+	public void loadPrototypeFromFile(File file) throws Exception {
 		Loader l = new Loader();
-		Prototype.addPrototype(l.loadPrototype(file));
+		try {
+			Prototype.addPrototype(l.loadPrototype(file));
+		} catch(Exception e){
+			throw new Exception("Oh no! The load file was somehow corrupted! What oh what will we do?");
+		}
 	}
 	
 	/**
@@ -564,7 +572,7 @@ public class Simulator {
 	 *
 	 * @param filename
 	 */
-	public void saveToFile(File file, SimulationEnder ender){
+	public void saveToFile(File file, SimulationEnder ender) {
 		Saver s = new Saver();
 		Set<Agent> agents = new HashSet<Agent>();
 		Grid grid = simulationGrid();
