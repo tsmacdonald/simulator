@@ -181,7 +181,6 @@ public class ViewSimScreen extends Screen {
 	}
 
 	public void setSpawn(boolean canSpawn) {
-		System.out.println(canSpawn);
 		this.canSpawn = canSpawn;
 	}
 
