@@ -442,6 +442,11 @@ public class Trigger implements Comparable<Trigger> {
 		 */
 		private void loadBehaviorFunctions() {
 			behavioralValues.add("--Functions--");
+			for (String s : Expression.getConditionFunction().keySet()) {
+				behavioralValues.add(convertCamelCaseToNormal(s));
+				converter.put(convertCamelCaseToNormal(s), s);
+			}
+			behavioralValues.add("--Behaviors--");
 			for (String s : Expression.getBehaviorFunction().keySet()){
 				behavioralValues.add(convertCamelCaseToNormal(s));
 				converter.put(convertCamelCaseToNormal(s), s);

@@ -18,7 +18,7 @@ import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class SimulatorFacade {
-	
+
 	private static SimulatorFacade gm;
 	private SimulationEnder se;
 	private StatisticsManager statMan;
@@ -31,7 +31,7 @@ public class SimulatorFacade {
 
 	private SimulatorFacade() {
 		gridPanel = new GridPanel(this);
-		load("New Simulation",10, 10);
+		load("New Simulation", 10, 10);
 		se = new SimulationEnder();
 		statMan = StatisticsManager.getInstance();
 
@@ -40,69 +40,69 @@ public class SimulatorFacade {
 		simulator.addGridObserver(gpo);
 		fc = new JFileChooser();
 	}
-	
-	public static SimulatorFacade getInstance(){
-		if(gm==null)
+
+	public static SimulatorFacade getInstance() {
+		if (gm == null)
 			gm = new SimulatorFacade();
 		return gm;
 	}
 
-	public static Expression makeExpression(String str){
+	public static Expression makeExpression(String str) {
 		return new Expression(str);
 	}
-	
-	public GridPanel getGridPanel(){
+
+	public GridPanel getGridPanel() {
 		return gridPanel;
 	}
 
-	public void load(String name,int x, int y) {
+	public void load(String name, int x, int y) {
 		simulator = Simulator.getInstance();
-		simulator.load(name, x,y,se);
+		simulator.load(name, x, y, se);
 		simulator.addGridObserver(gpo);
 
 	}
 
-	public Field getGlobalField(String name){
+	public Field getGlobalField(String name) {
 		return simulator.getGlobalField(name);
 	}
 
-	public void addGlobalField(String name, String value){
+	public void addGlobalField(String name, String value) {
 		simulator.addGlobalField(name, value);
 	}
 
-	public void removeGlobalField(String name){
+	public void removeGlobalField(String name) {
 		simulator.removeGlobalField(name);
 	}
 
-	public void setStepLimit(int maxSteps){
+	public void setStepLimit(int maxSteps) {
 		se.setStepLimit(maxSteps);
 	}
 
-	public Integer getStepLimit(){
+	public Integer getStepLimit() {
 		return se.getStepLimit();
 	}
 
-	public void setPopLimit(String typeName, int maxPop){
+	public void setPopLimit(String typeName, int maxPop) {
 		se.setPopLimit(typeName, maxPop);
 	}
 
-	public ImmutableMap<String, Integer> getPopLimits(){
+	public ImmutableMap<String, Integer> getPopLimits() {
 		return se.getPopLimits();
 	}
 
-	public void removePopLimit(String typeName){
+	public void removePopLimit(String typeName) {
 		se.removePopLimit(typeName);
 	}
 
-	public StatisticsManager getStatManager(){
+	public StatisticsManager getStatManager() {
 		return statMan;
 	}
 
-	public String getSimName(){
+	public String getSimName() {
 		return simulator.getName();
 	}
 
-	public void updateGuiManager(String nos, int width, int height){
+	public void updateGuiManager(String nos, int width, int height) {
 		simulator.setName(nos);
 		resizeGrid(width, height);
 	}
@@ -123,68 +123,68 @@ public class SimulatorFacade {
 		return hasStarted;
 	}
 
-	public Integer getGridHeight(){
+	public Integer getGridHeight() {
 		return simulator.getHeight();
 	}
 
-	public void resizeGrid(int width,int height){
+	public void resizeGrid(int width, int height) {
 		simulator.resizeGrid(width, height);
 	}
 
-	public Integer getGridWidth(){
+	public Integer getGridWidth() {
 		return simulator.getWidth();
 	}
 
-	public Agent getAgent(int x, int y){
+	public Agent getAgent(int x, int y) {
 		return simulator.getAgent(x, y);
 	}
 
-	public Set<String> getPrototypeNames(){
+	public Set<String> getPrototypeNames() {
 		return Simulator.prototypeNames();
 	}
 
-	public void removeAgent(int x, int y){
+	public void removeAgent(int x, int y) {
 		simulator.removeAgent(x, y);
 	}
 
-	public void initSampleAgents(){
+	public void initSampleAgents() {
 		simulator.initSamples();
 	}
 
-	public void initGameOfLife(){
+	public void initGameOfLife() {
 		simulator.initGameOfLife();
 	}
 
-	public void initRockPaperScissors(){
+	public void initRockPaperScissors() {
 		simulator.initRockPaperScissors();
 	}
 
-	public void setLinearUpdate(){
+	public void setLinearUpdate() {
 		simulator.setLinearUpdate();
 	}
 
-	public void setAtomicUpdate(){
+	public void setAtomicUpdate() {
 		simulator.setAtomicUpdate();
 	}
 
-	public void setPriorityUpdate(int a, int b){
+	public void setPriorityUpdate(int a, int b) {
 		simulator.setPriorityUpdate(a, b);
 	}
 
-	public String getCurrentUpdater(){
+	public String getCurrentUpdater() {
 		return simulator.currentUpdater();
 	}
 
-	public void pause(){
+	public void pause() {
 		setRunning(false);
 		simulator.pause();
 	}
 
-	public void addAgent(String prototypeName, int x, int y){
+	public void addAgent(String prototypeName, int x, int y) {
 		simulator.addAgent(prototypeName, x, y);
 	}
 
-	public void addAgentRandom(String prototypeName){
+	public void addAgentRandom(String prototypeName) {
 		simulator.addAgent(prototypeName);
 	}
 
@@ -197,12 +197,13 @@ public class SimulatorFacade {
 	}
 
 	public void save() {
-		//how to deal with possibility of simulation name being different from selected file name?
+		// how to deal with possibility of simulation name being different from
+		// selected file name?
 		int returnVal = fc.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			simulator.saveToFile(fc.getSelectedFile(), se);
 		}
-		
+
 	}
 
 	public void load() {
@@ -211,12 +212,14 @@ public class SimulatorFacade {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			file = fc.getSelectedFile();
 			simulator.loadFromFile(file);
-			
+			Gui.getScreenManager().load(
+					(Gui.getScreenManager().getScreen("View Simulation")));
 		}
 	}
 
 	public void saveAgent(String agentName) {
-		//how to deal with possibility of agent name being different from selected file name?
+		// how to deal with possibility of agent name being different from
+		// selected file name?
 		int returnVal = fc.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			simulator.savePrototypeToFile(Prototype.getPrototype(agentName));
@@ -224,7 +227,8 @@ public class SimulatorFacade {
 	}
 
 	public void importAgent() {
-		//TODO need different fc because different directories/file extensions?
+		// TODO need different fc because different directories/file
+		// extensions?
 		int returnVal = fc.showOpenDialog(null);
 		File file = null;
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -234,7 +238,7 @@ public class SimulatorFacade {
 
 	}
 
-	public void start(){
+	public void start() {
 		setRunning(true);
 		setStarted(true);
 		simulator.play();
@@ -264,12 +268,11 @@ public class SimulatorFacade {
 		simulator.displayLayer(fieldName, color);
 	}
 
-	public void clearLayer(){
+	public void clearLayer() {
 		simulator.clearLayer();
 	}
-	
-	public void createPrototype(String text,Color color,
-			byte[] generateBytes) {
+
+	public void createPrototype(String text, Color color, byte[] generateBytes) {
 		Simulator.createPrototype(text, color, generateBytes);
 	}
 
