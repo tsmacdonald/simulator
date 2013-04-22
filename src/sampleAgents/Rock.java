@@ -248,7 +248,6 @@ public class Rock extends SampleAgent{
 			rock.addTrigger(new Trigger("resetConflictFlags", 1,
 					new Expression("true"), resetEndTurnFlag));
 
-			Prototype.addPrototype(rock);
 			return rock;
 	}
 

@@ -112,10 +112,10 @@ public class StatisticsManager {
 	/**
 	 * Notify all observers of new available statistical information.
 	 */
-	private void notifyObservers() { 
-		for (StatsObserver obs : observers) 
-			obs.onNewStats();
-	}
+//	private void notifyObservers() { 
+//		for (StatsObserver obs : observers) 
+//			obs.onNewStats();
+//	}
 	
 	/**
 	 * Add a PrototypeSnapshot to the StatisticsManager. 

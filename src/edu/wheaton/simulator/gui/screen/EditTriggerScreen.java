@@ -176,6 +176,7 @@ public class EditTriggerScreen extends Screen {
 	 */
 	private void addNameField(GridBagConstraints constraints){
 		nameField = new JTextField();
+		nameField.setToolTipText("The name of the trigger");
 		constraints.gridheight = 1; 
 		constraints.gridwidth = 2; 
 		constraints.gridx = 0; 
@@ -191,6 +192,7 @@ public class EditTriggerScreen extends Screen {
 	 */
 	private void addSpinner(GridBagConstraints constraints) {
 		prioritySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1)); 
+		prioritySpinner.setToolTipText("The priority level of the trigger");
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
 		constraints.gridx = 2;

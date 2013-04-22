@@ -24,7 +24,7 @@ public class SaveSimulationsToFiles {
 		
 		Simulator.getInstance().load("Conway's Game of Life", 15, 15, new SimulationEnder());
 		Simulator.getInstance().initGameOfLife();
-		Simulator.getInstance().saveToFile(new File("simulations/ConwaysGameOfLife.sim"), new SimulationEnder());
+		Simulator.getInstance().saveToFile(new File("simulations/ConwaysGameOfLifeEmpty.sim"), new SimulationEnder());
 		
 		Simulator.getInstance().load("Samples", 15, 15, new SimulationEnder());
 		Simulator.getInstance().initSamples();

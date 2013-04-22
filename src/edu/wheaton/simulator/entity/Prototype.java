@@ -90,11 +90,18 @@ public class Prototype extends GridEntity {
 	 * Adds a Prototype to the HashMap
 	 * 
 	 * @param n
-	 * @param g
-	 * @param c
 	 */
 	public static void addPrototype(Prototype p) {
-		prototypes.put(p.getName(), p);
+		if(!prototypes.containsKey(p.getName())) {
+			prototypes.put(p.getName(), p);
+			return;
+		}
+		for(int i = 2; ; i++) {
+			if(!prototypes.containsKey(p.getName() + i)) {
+				prototypes.put(p.getName() + i, p);
+				return;
+			}
+		}
 	}
 
 	/**
@@ -116,6 +123,13 @@ public class Prototype extends GridEntity {
 	 */
 	public static Prototype removePrototype(String n) {
 		return prototypes.remove(n);
+	}
+
+	/**
+	 * Clears all the prototypes
+	 */
+	public static void clearPrototypes() {
+		prototypes.clear();
 	}
 	
 	/**

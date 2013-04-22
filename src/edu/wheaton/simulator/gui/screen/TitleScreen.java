@@ -20,9 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import edu.wheaton.simulator.gui.FileMenu;
-import edu.wheaton.simulator.gui.GeneralButtonListener;
 import edu.wheaton.simulator.gui.Gui;
-import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class TitleScreen extends Screen {
@@ -86,15 +84,15 @@ public class TitleScreen extends Screen {
 		//		add(importButton, c);
 		this.setVisible(true);
 	}
-
-	private JButton makeButton(String buttonName, String listenerName) {
-		PrefSize ps = new PrefSize(200, 70);
-		JButton button = Gui.makeButton(buttonName, ps,
-				new GeneralButtonListener(listenerName, getScreenManager()));
-		button.setAlignmentX(CENTER_ALIGNMENT);
-		button.setMinimumSize(ps);
-		return button;
-	}
+//
+//	private JButton makeButton(String buttonName, String listenerName) {
+//		PrefSize ps = new PrefSize(200, 70);
+//		JButton button = Gui.makeButton(buttonName, ps,
+//				new GeneralButtonListener(listenerName, getScreenManager()));
+//		button.setAlignmentX(CENTER_ALIGNMENT);
+//		button.setMinimumSize(ps);
+//		return button;
+//	}
 
 	@Override
 	public void load() { 

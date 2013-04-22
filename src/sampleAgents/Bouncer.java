@@ -53,7 +53,6 @@ public class Bouncer extends SampleAgent{
 		bouncer.addTrigger(new Trigger("bounce", 1, notFreeSpot, bounce));
 		bouncer.addTrigger(new Trigger("move", 1, freeSpot, move));
 		
-		Prototype.addPrototype(bouncer);
 		// save the prototype
 		//Simulator.getInstance().savePrototypeToFile(bouncer);
 		return bouncer;

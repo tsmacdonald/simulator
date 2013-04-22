@@ -176,11 +176,7 @@ public class EditEntityScreen extends Screen {
 		c.gridwidth = 2;
 		generalPanel.add(iconPanel, c);
 
-
 		addField();
-
-		// TODO make sure components line up
-
 		fieldSubPanels.get(0).setLayout(
 				new BoxLayout(fieldSubPanels.get(0), BoxLayout.X_AXIS));
 		fieldSubPanels.get(0).add(fieldNames.get(0));
@@ -320,11 +316,8 @@ public class EditEntityScreen extends Screen {
 		fieldListPanel.add(addFieldButton);
 		triggerScreen.reset();
 		previousButton.setEnabled(false);
-		//previousButton.setVisible(false);
 		nextButton.setEnabled(true);
-		//nextButton.setVisible(true);
 		finishButton.setEnabled(false);
-		//finishButton.setVisible(false);
 		
 		FileMenu fm = Gui.getFileMenu();
 		fm.setSaveSim(false);
@@ -370,7 +363,7 @@ public class EditEntityScreen extends Screen {
 			for (int i = 0; i < fieldNames.size(); i++) {
 				if (removedFields.contains(i)
 						&& (prototype.hasField(fieldNames.get(i).getText())))
-					prototype.removeField(fieldNames.get(i).toString());
+					prototype.removeField(fieldNames.get(i).getText());
 				else {
 					if (prototype.hasField(fieldNames.get(i).getText()))
 						prototype.updateField(fieldNames.get(i).getText(),
@@ -389,6 +382,7 @@ public class EditEntityScreen extends Screen {
 			toReturn = true;
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
+			e.printStackTrace();
 		}
 		return toReturn;
 	}

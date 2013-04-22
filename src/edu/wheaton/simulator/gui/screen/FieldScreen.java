@@ -27,7 +27,6 @@ import edu.wheaton.simulator.gui.GuiList;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.MinSize;
 import edu.wheaton.simulator.gui.PrefSize;
-import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class FieldScreen extends Screen {
@@ -65,7 +64,6 @@ public class FieldScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent ae){
 				FieldScreen.setEditing(false);
-				ScreenManager sm = getScreenManager();
 				JDialog dialogWindow = new JDialog();
 				Screen screen = new EditFieldScreen(gm,dialogWindow);
 				dialogWindow.add(screen);

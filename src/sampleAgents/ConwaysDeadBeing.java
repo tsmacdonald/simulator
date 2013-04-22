@@ -89,9 +89,6 @@ public class ConwaysDeadBeing extends SampleAgent{
 	deadBeing.addTrigger(new Trigger("checkNeigh8", 10, neigh8,
 			incrementNeighbors));
 	deadBeing.addTrigger(new Trigger("revive", 12, reviveCond, revive));
-
-	// Add the prototype to the static list of Prototypes
-	Prototype.addPrototype(deadBeing);
 	
 	return deadBeing;
 	}
