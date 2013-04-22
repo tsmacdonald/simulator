@@ -13,7 +13,7 @@ public class MoveUpBehavior extends AbstractBehavior {
 	 */
 	@Override
 	public String getName() {
-		return "moveRight";
+		return "moveUp";
 	}
 
 	@Override
