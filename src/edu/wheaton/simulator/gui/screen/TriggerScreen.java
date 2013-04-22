@@ -73,9 +73,7 @@ public class TriggerScreen extends Screen {
 				try{
 					if(triggers.getSelectedIndex() >= 0){
 						Trigger t = (Trigger) triggers.getSelectedValue();
-						System.out.println("Tha other stuff: " + t);
 						edit.load(new Trigger.Builder(t, prototype), t);
-						System.out.println("Tha other stuff: " + t);
 					}
 				}catch(Exception e){
 				}
@@ -233,7 +231,6 @@ public class TriggerScreen extends Screen {
 	public void load(Prototype p){
 		prototype = p;
 		triggers.setListData(prototype.getTriggers().toArray());
-		System.out.println("HAI");
 		validate();
 	}
 
