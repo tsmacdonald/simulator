@@ -16,12 +16,14 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.GuiList;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
+import edu.wheaton.simulator.gui.MinSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorFacade;
@@ -56,8 +58,15 @@ public class FieldScreen extends Screen {
 			public void actionPerformed(ActionEvent ae){
 				FieldScreen.setEditing(false);
 				ScreenManager sm = getScreenManager();
-				Screen screen = sm.getScreen("Edit Fields");
-				sm.load(screen);
+				JDialog dialogWindow = new JDialog();
+				Screen screen = new EditFieldScreen(gm,dialogWindow);
+				dialogWindow.add(screen);
+				screen.load();
+				//Screen screen = sm.getScreen("Edit Fields");
+				//sm.load(screen);
+				dialogWindow.setLocationRelativeTo(null);
+				dialogWindow.setMinimumSize(new MinSize(400,200));
+				dialogWindow.setVisible(true);
 			}
 		});
 		edit = Gui.makeButton("Edit",null,new ActionListener() {
@@ -65,9 +74,13 @@ public class FieldScreen extends Screen {
 			public void actionPerformed(ActionEvent ae) {
 				ScreenManager sm = getScreenManager();
 				FieldScreen.setEditing(true);
-				EditFieldScreen screen = (EditFieldScreen) sm.getScreen("Edit Fields");
+				JDialog dialogWindow = new JDialog();
+				EditFieldScreen screen = new EditFieldScreen(gm,dialogWindow);
+				dialogWindow.add(screen);
 				screen.load((String)fields.getSelectedValue());
-				sm.load(screen);
+				dialogWindow.setLocationRelativeTo(null);
+				dialogWindow.setMinimumSize(new MinSize(400,200));
+				dialogWindow.setVisible(true);
 			}
 		});
 		GridBagConstraints c = new GridBagConstraints();

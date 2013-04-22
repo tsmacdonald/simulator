@@ -12,10 +12,14 @@ package edu.wheaton.simulator.gui.screen;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,54 +38,75 @@ public class EditFieldScreen extends Screen {
 
 	private static final long serialVersionUID = 8001531208716520432L;
 
+	private JDialog parentWindow;
+	
 	private JTextField nameField;
 
 	private JTextField initValue;
 
 	private String prevName;
 
-	public EditFieldScreen(final SimulatorFacade gm) {
+	public EditFieldScreen(final SimulatorFacade gm, JDialog parentWindow) {
 		super(gm);
-		this.setLayout(new BorderLayout());
+		this.parentWindow = parentWindow;
+		this.setLayout(new GridBagLayout());
 		
-		nameField = Gui.makeTextField(null,40, new MaxSize(300,40),null);
-		JPanel panel1 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
-		panel1.add(Gui.makeLabel("Field Name: ",MaxSize.NULL,HorizontalAlignment.RIGHT));
-		panel1.add(nameField);
+		JLabel header = new JLabel("Edit Field");
 		
-		JPanel panel2 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
+		JLabel nameLabel = new JLabel("Field Name: ");
+		nameField = Gui.makeTextField(null,40, MaxSize.NULL,null);
 		
-		initValue = Gui.makeTextField(null,40,new MaxSize(300,40),null);
-		JPanel panel3 = Gui.makePanel(BoxLayoutAxis.X_AXIS,null,null);
-		panel3.add(new JLabel("Initial Value: ",SwingConstants.RIGHT));
-		panel3.add(initValue);
+		JLabel valueLabel = new JLabel("Initial Value: ");
+		initValue = Gui.makeTextField(null,40,MaxSize.NULL,null);
 		
-		Dimension size = new Dimension(0,15);
-		JPanel mainPanel = Gui.makePanel(BoxLayoutAxis.Y_AXIS,null,null);
-		mainPanel.add(panel1);
-		mainPanel.add(Box.createRigidArea(size));
-		mainPanel.add(panel2);
-		mainPanel.add(Box.createRigidArea(size));
-		mainPanel.add(panel3);
-		mainPanel.add(Box.createRigidArea(size));
-		
-		PrefSize prefSize = new PrefSize(120,60);
-		mainPanel.add(Gui.makePanel(
-			Gui.makeButton("Cancel",prefSize,
+		JButton cancel = Gui.makeButton("Cancel",PrefSize.NULL,
 				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						ScreenManager sm = getScreenManager();
-						sm.load(sm.getScreen("View Simulation")); 
-					} 
-				}),
-			Gui.makeButton("Finish",prefSize,
-				new FinishListener())));
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ScreenManager sm = getScreenManager();
+				sm.load(sm.getScreen("View Simulation")); 
+			} 
+		});
 		
-		this.add(Gui.makeLabel("Edit Field",new PrefSize(300, 150),HorizontalAlignment.CENTER), 
-			BorderLayout.NORTH);
+		JButton finish = Gui.makeButton("Finish",PrefSize.NULL,
+				new FinishListener());
 		
-		this.add(mainPanel, BorderLayout.CENTER);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridwidth = 3;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		this.add(header,c);
+		
+		c = new GridBagConstraints();
+		c.gridy = 1;
+		this.add(nameLabel,c);
+		
+		c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 1;
+		c.gridwidth = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		this.add(nameField,c);
+		
+		c = new GridBagConstraints();
+		c.gridy = 2;
+		this.add(valueLabel,c);
+		
+		c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 2;
+		c.gridwidth = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		this.add(initValue,c);
+		
+		c = new GridBagConstraints();
+		c.gridy = 3;
+		this.add(cancel,c);
+		
+		c = new GridBagConstraints();
+		c.gridx = 2;
+		c.gridy = 3;
+		this.add(finish,c);
 	}
 
 	public void reset() {
@@ -132,8 +157,9 @@ public class EditFieldScreen extends Screen {
 			if(toMove) {
 				ScreenManager sm = getScreenManager();
 				Screen viewSimScreen = sm.getScreen("View Simulation");
-				sm.load(viewSimScreen);
-				//TODO should not switch screens if the error message was shown.
+				viewSimScreen.load();
+				parentWindow.dispose();
+				//sm.load(viewSimScreen);
 			}
 		}
 	}
