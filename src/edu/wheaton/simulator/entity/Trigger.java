@@ -348,7 +348,6 @@ public class Trigger implements Comparable<Trigger> {
 			}
 			behavior = behavior.replace("  ", " ");
 			behaviorString = behavior;
-			System.out.println("condition: " + conditionString + " | behavior: "+ behaviorString);
 		}
 		
 		/**
@@ -364,7 +363,6 @@ public class Trigger implements Comparable<Trigger> {
 		 * @return
 		 */
 		public String getConditionString(){
-			System.out.println(conditionString);
 			return conditionString;
 		}
 		
@@ -538,6 +536,7 @@ public class Trigger implements Comparable<Trigger> {
 			if (condition.charAt(condition.length()-1)==(' ')){
 				condition= condition.substring(0, condition.length()-1);
 			}
+			condition = condition.replace(" ", "");
 			trigger.conditionExpression = (new Expression(condition));
 		}
 
@@ -557,6 +556,7 @@ public class Trigger implements Comparable<Trigger> {
 			if (behavior.charAt(behavior.length()-1)==(' ')){
 				behavior= behavior.substring(0, behavior.length()-1);
 			}
+			behavior = behavior.replace(" ", "");
 			trigger.behaviorExpression= (new Expression(behavior));
 		}
 		
@@ -630,12 +630,11 @@ public class Trigger implements Comparable<Trigger> {
 		 */
 		private String isValidHelper2(String s) throws Exception{
 			for (String f : functions.keySet()){
-				while (s.indexOf(f)!= -1){
+				while (s.indexOf(f)!= -1 && !Character.isUpperCase(s.charAt(s.indexOf(f)+f.length()))){
 					int index = s.indexOf(f);
 					String beginning = s.substring(0, index);
 					s= s.substring(index);
 					String test = isValidHelper2(s.substring(s.indexOf("(", index)));
-					System.out.println(test);
 					String[] numArgs = test.split(",");
 					if (numArgs.length != functions.get(f).numArgs()){
 						throw new Exception("The function: " + convertCamelCaseToNormal(functions.get(f).getName()) + 
