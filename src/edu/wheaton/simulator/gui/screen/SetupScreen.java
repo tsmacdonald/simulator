@@ -154,13 +154,13 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
-		c.insets = new Insets(0, -4, 0, 3);
+		c.insets = new Insets(0, -53, 0, 3);
 		this.add(widthField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 1;
-		c.insets = new Insets(0, 0, 0, 3);
+		c.insets = new Insets(0, -45, 0, 3);
 		this.add(yLabel, c);
 
 		c = new GridBagConstraints();
@@ -211,13 +211,13 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 5;
-		c.insets = new Insets(10, 0, 0, 0);
+		c.insets = new Insets(10, 30, 0, 0);
 		this.add(agentTypeLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 5;
-		c.insets = new Insets(10, 0, 0, 3);
+		c.insets = new Insets(10, 50, 0, 0);
 		this.add(valueLabel, c);
 		
 		c = new GridBagConstraints();
