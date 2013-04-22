@@ -360,14 +360,14 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
-		c.insets = new Insets(15, 40, 3, 3);
+		c.insets = new Insets(15, 40, 0, 3);
 		c.anchor = GridBagConstraints.CENTER;
 		lowerPanel.add(agentTypeLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 2;
-		c.insets = new Insets(15, 50, 3, 3);
+		c.insets = new Insets(15, 50, 0, 3);
 		c.anchor = GridBagConstraints.CENTER;
 		lowerPanel.add(valueLabel, c);
 		
@@ -375,7 +375,7 @@ public class SetupScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridwidth = 4;
-		c.insets = new Insets(8, 3, 3, 3);
+		c.insets = new Insets(2, 3, 0, 3);
 		c.anchor = GridBagConstraints.LINE_START;
 		c.fill = GridBagConstraints.NONE;
 		lowerPanel.add(scrollPaneWrapper,c);
