@@ -26,27 +26,27 @@ import edu.wheaton.simulator.gui.SimulatorFacade;
 public class TriggerScreen extends Screen {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private EditTriggerScreen edit;
-	
+
 	private JScrollPane listScrollView;
-	
+
 	private JPanel triggerListView;
-	
+
 	private JLabel triggerLabel;
-	
+
 	private Prototype agent;
-	
+
 	private JList triggers;
-	
+
 	private JButton addButton;
-	
+
 	private JButton deleteButton;
-	
+
 	private JButton saveButton;
-	
+
 	private int untitledCounter = 1;
-		
+
 	public TriggerScreen(SimulatorFacade sm) {
 		super(sm);
 		setLayout(new GridBagLayout());
@@ -67,30 +67,33 @@ public class TriggerScreen extends Screen {
 		triggers.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				
+
 			}
 
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(triggers.getSelectedIndex() >= 0){
-					Trigger t = (Trigger) triggers.getSelectedValue();
-					edit.load(new Trigger.Builder(t, agent), t);
+			public void mouseClicked(MouseEvent me) {
+				try{
+					if(triggers.getSelectedIndex() >= 0){
+						Trigger t = (Trigger) triggers.getSelectedValue();
+						edit.load(new Trigger.Builder(t, agent), t);
+					}
+				}catch(Exception e){
 				}
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				
+
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				
+
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				
+
 			}
 		});
 		triggers.setBorder(BorderFactory.createLineBorder(Color.magenta));
@@ -138,7 +141,7 @@ public class TriggerScreen extends Screen {
 		constraints.gridwidth = 1;
 		add(edit, constraints);
 	}
-	
+
 	private void addAddButton(GridBagConstraints constraints){
 		addButton = new JButton("Add Trigger");
 		addButton.addActionListener(new AddTriggerListener());
@@ -149,7 +152,7 @@ public class TriggerScreen extends Screen {
 		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
 		add(addButton, constraints);
 	}
-	
+
 	private void addDeleteButton(GridBagConstraints constraints) {
 		deleteButton = new JButton("Delete Trigger");
 		deleteButton.addActionListener(new DeleteTriggerListener());
@@ -160,7 +163,7 @@ public class TriggerScreen extends Screen {
 		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
 		add(deleteButton, constraints);
 	}
-	
+
 	private void addSaveButton(GridBagConstraints constraints) {
 		saveButton = new JButton("Save Current Trigger");
 		saveButton.addActionListener(new SaveListener());
@@ -173,7 +176,7 @@ public class TriggerScreen extends Screen {
 		constraints.insets = new Insets(0,  0,  0, 50);
 		add(saveButton, constraints);
 	}
-	
+
 	private class AddTriggerListener implements ActionListener{
 
 		@Override
@@ -187,43 +190,43 @@ public class TriggerScreen extends Screen {
 			load(agent);
 		}
 	}
-	
+
 	private class DeleteTriggerListener implements ActionListener{
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e){
 			Trigger toDelete = (Trigger)triggers.getSelectedValue();
 			if(toDelete != null){
 				agent.removeTrigger(triggers.getSelectedValue().toString());
-				validate();
-				repaint();
+				edit.reset();
+				load(agent);
 			}
 			else
 				JOptionPane.showMessageDialog(null, "No trigger selected");
 		}
 	}
-	
+
 	private class SaveListener implements ActionListener{
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Trigger toAdd = edit.sendInfo();
 			if(toAdd != null){
 				agent.updateTrigger(triggers.getSelectedValue().toString(), toAdd);
-				validate();
-				repaint();
+				TriggerScreen.this.load(agent);
+				edit.reset();
 			}
 			else
-				System.out.println("Invalid Trigger");
+				System.out.println("something");
 		}
 	}
-	
+
 	public void reset(){
 		edit.reset();
 		agent = null;
 		triggers.removeAll();
 	}
-	
+
 	public void load(Prototype p){
 		agent = p;
 		triggers.setListData(agent.getTriggers().toArray());
@@ -233,9 +236,8 @@ public class TriggerScreen extends Screen {
 	@Override
 	public void load() {
 	}
-	
+
 	public Prototype sendInfo(){
 		return agent;
 	}
-	
 }

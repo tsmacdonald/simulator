@@ -104,6 +104,7 @@ public class EditTriggerScreen extends Screen {
 
 	private void addValidLabel(GridBagConstraints constraints){
 		isValidText = new JLabel("Invalid");
+		isValidText.setBackground(Color.red);
 		isValidText.setToolTipText("Tells whether or not the trigger created is valid" +
 				"\nUpdates when save button is pressed");
 		constraints.gridwidth = 1;
@@ -485,17 +486,19 @@ public class EditTriggerScreen extends Screen {
 		selectedTrigger = t;
 		nameField.setText(selectedTrigger.getName());
 		prioritySpinner.setValue(selectedTrigger.getPriority());
-		if(b != null){
-			populateConditionals();
+		if(b.getBehaviorString() != null) 
 			populateBehaviors();
-		}
+		if(b.getConditionString() != null)
+			populateConditionals();
 		try{
-			if(builder.isValid())
+			if(builder.isValid()){
 				isValidText.setText("Valid");
-			else
-				isValidText.setText("Invalid");
+				isValidText.setBackground(Color.green);
+			}
 		}
 		catch(Exception e){
+			isValidText.setText("Invalid");
+			isValidText.setBackground(Color.red);
 		}
 		validate();
 	}
