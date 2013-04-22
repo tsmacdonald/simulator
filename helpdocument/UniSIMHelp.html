@@ -52,10 +52,11 @@
 				<p>Step delay: The time (in milliseconds) between each simulation step. This will determine how fast a simulation unfolds, both on screen and off.</p>
 
 				<p>Update type: In order to increase the options for users, we've added an update type, which determines how each iteration in the simulation is run. Different update methods are suited for different scenarios; it's up to the user to decide which to use.
-					* Linear: For each iteration, each grid agent will be looked at, one at a time, to determine which action it will perform, then the agent will do that action. Note that agents that get in line earlier could have an impact on what later agents do, because they could change the state of the grid.
-					* Atomic: For each iteration, each agent finds out what it will do, before any agent action is taken. Then, it take that action, after every agent has figured out what it will do. This fixes the issue with an agent at the front of the line modifying what a later agent will do, but it creates another problem: What if fish 1 has decided it wants to eat fish 2, and fish 2 has decided it wants to eat fish 1? Under this system, they will eat each other. This is obviously not a good update method if that situation could arise.
-					* Priority: A compromise of both atomic and linear, each agent finds out what it will do before any action is taken place, as in atomic updating. However, the order in which those actions will execute is based on <strong>trigger priority</strong> (see Triggers). This allows the user to cleverly avoid the problem in atomic updating <strong>in most situations</strong>.</p>
-
+					<ul>
+						<li>Linear: For each iteration, each grid agent will be looked at, one at a time, to determine which action it will perform, then the agent will do that action. Note that agents that get in line earlier could have an impact on what later agents do, because they could change the state of the grid.</li>
+						<li>Atomic: For each iteration, each agent finds out what it will do, before any agent action is taken. Then, it take that action, after every agent has figured out what it will do. This fixes the issue with an agent at the front of the line modifying what a later agent will do, but it creates another problem: What if fish 1 has decided it wants to eat fish 2, and fish 2 has decided it wants to eat fish 1? Under this system, they will eat each other. This is obviously not a good update method if that situation could arise.</li>
+						<li>Priority: A compromise of both atomic and linear, each agent finds out what it will do before any action is taken place, as in atomic updating. However, the order in which those actions will execute is based on <strong>trigger priority</strong> (see Triggers). This allows the user to cleverly avoid the problem in atomic updating <strong>in most situations</strong>.</li></p>
+					</ul>
 				<p>Time limit: The total number of steps to run the simulation before it is halted.</p>
 
 				<p><a id="agentcreation"></a></p>
@@ -95,14 +96,15 @@
 				<p>Priority: A simple integer value, which determines how all of the triggers for a specific agent are ordered. The first trigger with conditions that evaluate to true will fire, along with all triggers sharing the same priority (for example, if an agent had three triggers, call them T1, T2, and T3, with priority(T1) = priority(T2) = 3 and priority(T3) = 5, and if evaluate(T1) = evaluate(T3) = true, then, going down the list of triggers, T1 comes first, since it has a lower priority, and T1 and T2 would both fire, since they have the same priority).</p>
 
 				<p>Condition: Think of the "condition" as the "if" part of an "if..., then..." clause. If the condition expression evaluates to true, then the trigger will fire (assuming it has the lowest priority of all "true" triggers). Here, the user has liberty to choose between many different types of input. This also means that the user must be <strong>extra careful</strong> to avoid problems with expressions that don't make sense.
-					* Fields: The user can retrieve values of fields, both from the agent to which this trigger belongs and any other agent on the grid.
-					* Literals: The user can enter literal values, such as "100" or "27.3."
-					* Operations: The user can choose between any number of three kinds of operations:
-					* * Boolean -> Boolean Operations: Operations that take two true/false values and evaluate to a true/false expression (AND, OR, NOT).
-					* * Literal -> Boolean Operations: Operations which take literals, but evaluate to true/false (>, &lt;, >=, &lt;=, =, !=)
-					* * Literal -> Literal Operations: Take literals and evaluate to literals (+, -, *, /).
-					* Built-in functions: We've included a set of built-in functions to make the user's life easier.</p>
-
+					<ul>
+						<li>Fields: The user can retrieve values of fields, both from the agent to which this trigger belongs and any other agent on the grid.</li>
+						<li>Literals: The user can enter literal values, such as "100" or "27.3."</li>
+						<li>Operations: The user can choose between any number of three kinds of operations:</li>
+						<li>Boolean -> Boolean Operations: Operations that take two true/false values and evaluate to a true/false expression (AND, OR, NOT).</li>
+						<li>Literal -> Boolean Operations: Operations which take literals, but evaluate to true/false (>, &lt;, >=, &lt;=, =, !=)</li>
+						<li>Literal -> Literal Operations: Take literals and evaluate to literals (+, -, *, /).</li>
+						<li>Built-in functions: We've included a set of built-in functions to make the user's life easier.</li></p>
+					</ul>
 				<p>Behavior: Think of the "behavior" as the "then" part of an "if..., then..." clause. This is the outcome or consequence of the condition expression evaluating to true. We've included a list of behaviors that the user can choose, such as "die," "moveRandom," and "setFieldOfOther." Note that any behavior that takes an argument (for example, setFieldOfOther takes two arguments, one for the name of the field, and one for the new value) can include an expression in that argument. For example, if you wanted to increment the weight of a fox that just ate a rabbit, you could say something like setField("weight", this.weight + 1).</p>
 
 				<p><a id="layers"></a></p>
