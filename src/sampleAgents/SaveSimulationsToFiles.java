@@ -1,3 +1,10 @@
+/**
+ * SaveSampleSimulationsToFiles.java
+ * 
+ * Saves simulations Rock Paper Scissors, Conway's Game of Life and a blank simulation with several loaded sample agents.
+ * 
+ * @author Agent team
+ */
 package sampleAgents;
 
 import java.io.File;
