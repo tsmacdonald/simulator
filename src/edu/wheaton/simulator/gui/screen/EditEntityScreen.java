@@ -265,7 +265,7 @@ public class EditEntityScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (sendInfo()) {
-					Gui.getScreenManager().update(Gui.getScreenManager().getScreen("View Simulation"));
+					Gui.getScreenManager().load(Gui.getScreenManager().getScreen("View Simulation"));
 					reset();
 				}
 			}
@@ -286,7 +286,7 @@ public class EditEntityScreen extends Screen {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						ScreenManager sm = getScreenManager();
-						sm.update(sm.getScreen("View Simulation"));
+						sm.load(sm.getScreen("View Simulation"));
 						if (!editing)
 							Prototype.removePrototype(nameField.getText());
 						reset();

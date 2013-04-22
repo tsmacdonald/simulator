@@ -164,8 +164,7 @@ public class StatisticsScreen extends Screen {
 			public void actionPerformed(ActionEvent e) {
 				ScreenManager sm = Gui.getScreenManager();
 				Screen toDisplay = sm.getScreen("View Simulation");
-				ScreenManager.loadScreen(toDisplay);
-				sm.update(toDisplay);
+				sm.load(toDisplay);
 			}
 		});
 	}

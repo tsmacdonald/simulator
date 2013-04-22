@@ -29,7 +29,7 @@ public class Driver {
 				ScreenManager.init();
 				Gui.init();
 				ScreenManager sm = Gui.getScreenManager();
-				sm.update(sm.getScreen("Title"));
+				sm.load(sm.getScreen("Title"));
 			}
 		}));
 	}

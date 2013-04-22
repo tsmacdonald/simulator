@@ -72,7 +72,7 @@ public class EditFieldScreen extends Screen {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						ScreenManager sm = getScreenManager();
-						sm.update(sm.getScreen("View Simulation")); 
+						sm.load(sm.getScreen("View Simulation")); 
 					} 
 				}),
 			Gui.makeButton("Finish",prefSize,
@@ -132,8 +132,7 @@ public class EditFieldScreen extends Screen {
 			if(toMove) {
 				ScreenManager sm = getScreenManager();
 				Screen viewSimScreen = sm.getScreen("View Simulation");
-				viewSimScreen.load();
-				sm.update(viewSimScreen);
+				sm.load(viewSimScreen);
 				//TODO should not switch screens if the error message was shown.
 			}
 		}

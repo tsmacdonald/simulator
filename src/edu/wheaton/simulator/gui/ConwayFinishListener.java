@@ -35,8 +35,7 @@ public class ConwayFinishListener implements ActionListener {
 		gm.initGameOfLife();
 		gm.setStepLimit(1000);
 		gm.setStarted(false);
-		Gui.getScreenManager().update(upload);
-		ScreenManager.loadScreen(upload);
+		Gui.getScreenManager().load(upload);
 	}
 	public String getName(){
 		return name.getText();

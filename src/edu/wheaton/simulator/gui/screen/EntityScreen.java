@@ -220,9 +220,8 @@ public class EntityScreen extends Screen {
 			ScreenManager sm = getScreenManager();
 			EditEntityScreen screen = (EditEntityScreen) sm
 					.getScreen("Edit Entities");
-			screen.load();
+			sm.load(screen);
 			screen.setEditing(false);
-			sm.update(screen);
 		}
 	}
 
@@ -234,7 +233,7 @@ public class EntityScreen extends Screen {
 					.getScreen("Edit Entities");
 			screen.load((String) entityList.getSelectedValue());
 			screen.setEditing(true);
-			sm.update(screen);
+			sm.load(screen);
 		}
 	}
 }
