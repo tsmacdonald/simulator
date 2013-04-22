@@ -20,6 +20,7 @@ import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Entity;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
+import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 public class Grid extends Entity implements Iterable<Agent> {
 
@@ -273,11 +274,42 @@ public class Grid extends Entity implements Iterable<Agent> {
 	}
 
 	/**
-	 * Notifies all of the observers watching this grid
+	 * Notifies all of the GUI observers
+	 * 
+	 * @param layerRunning
 	 */
-	public void notifyObservers(boolean layerRunning) {
-		Grid copy = null;
+	public void notifyDisplayObservers(boolean layerRunning) {
 		Set<AgentAppearance> agentView = new HashSet<AgentAppearance>();
+
+		synchronized (this) {
+			for (Agent current : this) {
+				if (current != null) {
+					if (layerRunning)
+						try {
+							agentView.add(new AgentAppearance(current
+									.getLayerColor(), current.getDesign(), current
+									.getPosX(), current.getPosY()));
+						} catch (EvaluationException e) {
+							e.printStackTrace();
+						}
+					else
+						agentView.add(new AgentAppearance(current.getColor(),
+								current.getDesign(), current.getPosX(), current
+								.getPosY()));
+				}
+			}
+		}
+		
+		for (GridObserver current : observers) {
+			current.update(agentView);
+		}
+	}
+
+	/**
+	 * Notifies all of the stats observers
+	 */
+	public void notifyStatsObservers() {
+		Grid copy = null;
 
 		synchronized (this) {
 			copy = new Grid(getWidth(), getHeight());
@@ -294,26 +326,23 @@ public class Grid extends Entity implements Iterable<Agent> {
 				if (current != null) {
 					copy.addAgent(current.clone(), current.getPosX(),
 							current.getPosY());
-					if (layerRunning)
-						try {
-							agentView.add(new AgentAppearance(current
-									.getLayerColor(), current.getDesign(), current
-									.getPosX(), current.getPosY()));
-						} catch (EvaluationException e) {
-							e.printStackTrace();
-						}
-					else
-						agentView.add(new AgentAppearance(current.getColor(),
-								current.getDesign(), current.getPosX(), current
-								.getPosY()));
 				}
 			}
 
 			copy.step = this.step;
 		}
+
 		for (GridObserver current : observers) {
 			current.update(copy);
-			current.update(agentView);
+		}
+	}
+	
+	/**
+	 * Updates all of the observers watching for the end of the simulation
+	 */
+	public void notifyEndObservers(SimulationEnder ender) {
+		for (GridObserver current : observers) {
+			current.update(ender);
 		}
 	}
 
