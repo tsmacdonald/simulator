@@ -1,11 +1,11 @@
 <html>
 	<head>
-		<title>Universal Simulation Help Document</title>
+		<title>UniSIM Help Document</title>
 	</head>
 	<body>
-		<h1>Univeral Simulator Help Document</h1>
+		<img src="UniSIMLogo.png" alt="UniSIM Logo">
 		
-		<h3>Contents:</h3>
+		<p><a id="top"></a></p>
 		
 		<ul>
 		<li><a href="#intro">Introduction</a></li>
@@ -24,19 +24,23 @@
 		
 		<h1>Introduction</h1>
 		
-		<p>Welcome to the Universal Simulator. This program provides the user with a blank slate (a grid), and all the tools that he or she needs to populate that grid with "agents," which can be anything from a rabbit in a predator-prey simulation, to "alive" squares in Conway's Game of Life. In addition, the user can specify interactions between these objects, called "triggers," and the outcome of those interactions ("behaviors"). Ultimately, this provides the user with a sandbox to create almost any interaction possible for a grid-based system.</p>
+		<p>Welcome to UniSIM. This program provides the user with a blank slate (a grid), and all the tools that he or she needs to populate that grid with "agents," which can be anything from a rabbit in a predator-prey simulation, to "alive" squares in Conway's Game of Life. In addition, the user can specify interactions between these objects, called "triggers," and the outcome of those interactions ("behaviors"). Ultimately, this provides the user with a sandbox to create almost any interaction possible for a grid-based system.</p>
+		
+		<p><a href="#top">Back to top</a></p>
 		
 		<p><a id="beginsim"></a></p>
 		
 		<h1>Beginning a Simulation</h1>
 		
-		<p>When you start the simulation program, you have 2 choices. You can either start from scratch and create a new simulation, or you can load one of the pre-existing simulations from a file. When you start from scratch you need to specify a simulation name and the height and width values for the simulation grid. When loading a file, ensure that the format is correct for the Universal Simulator.</p>
+		<p>When you start the UniSIM, you have 2 choices. You can either start from scratch and create a new simulation, or you can load one of the pre-existing simulations from a file. When you start from scratch you need to specify a simulation name and the height and width values for the simulation grid. When loading a file, ensure that the format is correct for the Universal Simulator.</p>
 		
 		<p>There are a few files bundled with the program to give you an example of how to create a working simulation. These include "Conway's Game of Life" and "Rock Paper Scissors." If the user doesn't want to load one of these, that's fine; they can simply create a blank simulation to populate themselves.</p>
 		
+		<p><a href="#top">Back to top</a></p>
+		
 		<p><a id="general"></a></p>
 		
-		<h2>General</h2>
+		<h1>General</h1>
 		
 		<p>After the user has loaded or created a new simulation, they are presented with the main screen. The user can view the grid, and modify some general things about how the simulation runs.</p>
 		
@@ -53,11 +57,13 @@
 		
 		<p>Time limit: The total number of steps to run the simulation before it is halted.</p>
 		
+		<p><a href="#top">Back to top</a></p>
+		
 		<p><a id="agentcreation"></a></p>
 		
 		<h1>Agent Creation</h1>
 		
-		<p>Agents are the main actors in the grid, and as such, care must be taken when creating types of agents. Universal Simulator has a useful wizard for doing just that. Note that using this wizard creates an <strong>agent type</strong>, not an agent, so that the user can add any number of instances (agents) of this agent type to the grid. At any time, the user can modify any of the agent's values. Take heart, though, that modifying something could cause another part of the simulation to stop working. In this case, the simulation will notify the user of the offending change.</p>
+		<p>Agents are the main actors in the grid, and as such, care must be taken when creating types of agents. UniSIM has a useful wizard for doing just that. Note that using this wizard creates an <strong>agent type</strong>, not an agent, so that the user can add any number of instances (agents) of this agent type to the grid. At any time, the user can modify any of the agent's values. Take heart, though, that modifying something could cause another part of the simulation to stop working. In this case, the simulation will notify the user of the offending change.</p>
 		
 		<p>On the first screen, there are three main options for the user:</p>
 		
@@ -66,6 +72,8 @@
 		<p>Icon: Here, the user can select different pixels of the Agent's icon to display. This creates a unique, user changeable way to identify the agent on the grid.</p>
 		
 		<p>Color: The user can choose the base color for this agent.</p>
+		
+		<p><a href="#top">Back to top</a></p>
 		
 		<p><a id="fields"></a></p>
 		
@@ -76,6 +84,8 @@
 		<p>Field Name: The identifier for this field. It's important for triggers, as they need a way to identify agents' different fields.</p>
 		
 		<p>Initial Value: The default, starting value for each agent created of this type. Note that any kind of value may be used here (such as "hello" or "5"), but it is up to the user to ensure that these are used appropriately (adding 2 to hello obviously doesn't make much sense). This is important, since triggers can have complex, user-defined expressions, which won't be able to evaluate properly in the case that the user has incorrect field values. The simulation will notify the user if an expression like this cannot be evaluated, so that the user can correct the issue.</p>
+		
+		<p><a href="#top">Back to top</a></p>
 		
 		<p><a id="triggers"></a></p>
 		
@@ -98,11 +108,15 @@
 		
 		<p>Behavior: Think of the "behavior" as the "then" part of an "if..., then..." clause. This is the outcome or consequence of the condition expression evaluating to true. We've included a list of behaviors that the user can choose, such as "die," "moveRandom," and "setFieldOfOther." Note that any behavior that takes an argument (for example, setFieldOfOther takes two arguments, one for the name of the field, and one for the new value) can include an expression in that argument. For example, if you wanted to increment the weight of a fox that just ate a rabbit, you could say something like setField("weight", this.weight + 1).</p>
 		
+		<p><a href="#top">Back to top</a></p>
+		
 		<p><a id="layers"></a></p>
 		
 		<h1>Layers</h1>
 		
 		<p>Layers provide the user with the opportunity to see the simulation unfold from many different angles. The user can simply select a specific agent, and a field from that agent, and the display will change to take on a "graded" appearance determined by values of that field in each specific grid spot. The layer color can be determined by the user For example, if I wanted to view the grid based on the "age" field of a "fox," every slot without a fox would be black, whereas every slot with a fox would be graded in color based off of how much that fox weighs. Suppose that there are only two foxes in the grid. Call them F1 and F2. If weight(F1) = 10 and weight(F2) = 25, F2's grid spot would be the color chosen, whereas F1's grid spot would be about 2:3, color to black.</p>
+		
+		<p><a href="#top">Back to top</a></p>
 		
 		<p><a id="globalfields"></a></p>
 		
@@ -110,10 +124,14 @@
 		
 		<p>Global fields act very much like agent fields. The global fields list is a place where the user should add any field like "humidity" or "gravity" that's applicable to every grid space in the simulation grid. </p>
 		
+		<p><a href="#top">Back to top</a></p>
+		
 		<p><a id="stats"></a></p>
 		
 		<h1>Statistics</h1>
 		
 		<p>Statistics are accessible from the main screen with the "Statistics" button. Users can view statistics about the average field value of a type of agent, the average lifespan of a type of agent, and the population of a particular type of agent over time.</p>
+		
+		<p><a href="#top">Back to top</a></p>
 	</body>
 </html>
