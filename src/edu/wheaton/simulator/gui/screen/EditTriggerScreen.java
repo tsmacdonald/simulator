@@ -8,7 +8,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -35,35 +34,70 @@ public class EditTriggerScreen extends Screen {
 
 	private static final long serialVersionUID = 3261558461232576081L;
 
+	/**
+	 * Button that adds JComboBox to conditionalLayout
+	 */
 	private JButton addConditionalBox;
 
+	/**
+	 * Button that adds JTextField to conditionalLayout
+	 */
 	private JButton addConditionalText;
 
+	/**
+	 * Button that adds JComboBox to behaviorLayout
+	 */
 	private JButton addBehaviorBox;
 
+	/**
+	 * Button that adds JTextField to behaviorLayout
+	 */
 	private JButton addBehaviorText;
 
+	/**
+	 * Contains the name of the trigger
+	 */
 	private JTextField nameField;
 
+	/**
+	 * Contains the priority level of the trigger
+	 */
 	private JSpinner prioritySpinner;
 
+	/**
+	 * Holds a list of all parts of the conditional expression
+	 */
 	private ArrayList<JComponent> conditionals;
 
+	/**
+	 * Holds a list of all parts of the behavior expression
+	 */
 	private ArrayList<JComponent> behaviors;
 
+	/**
+	 * Adds scrolling capability to the conditionalLayout
+	 */
 	private JScrollPane conditionalScrollLayout;
 
+	/**
+	 * Holds the graphical representation of the conditional expression
+	 */
 	private JPanel conditionalLayout;
 
+	/**
+	 * Adds scrolling capability to the behaviorLayout
+	 */
 	private JScrollPane behaviorScrollLayout;
 
+	/**
+	 * Holds the graphical representation of the behavior expression
+	 */
 	private JPanel behaviorLayout;
 
+	/**
+	 * Object that builds a trigger from the user-generated expression
+	 */
 	private Trigger.Builder builder;
-
-	private int numConditionals = 0;
-
-	private int numBehaviors = 0;
 
 	private JButton deleteConditionalButton;
 
@@ -264,11 +298,10 @@ public class EditTriggerScreen extends Screen {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
-		constraints.gridx = numConditionals % 5;
-		constraints.gridy = numConditionals / 5; 
+		constraints.gridx = (conditionals.size() - 1) % 5;
+		constraints.gridy = (conditionals.size() - 1)/ 5; 
 		conditionalLayout.add(conditionals.get(conditionals.size() - 1), constraints);	
 		conditionalLayout.validate();
-		numConditionals++;
 	}
 
 	private void addConditionalBox(String s){
@@ -278,10 +311,9 @@ public class EditTriggerScreen extends Screen {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.gridx = numConditionals % 5;
-		constraints.gridy = numConditionals / 5;
+		constraints.gridx = (conditionals.size() - 1) % 5;
+		constraints.gridy = (conditionals.size() - 1) / 5;
 		conditionalLayout.add(conditionals.get(conditionals.size() - 1), constraints);
-		numConditionals++;
 	}
 
 	private void addBehaviorBox(){
@@ -291,11 +323,10 @@ public class EditTriggerScreen extends Screen {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
-		constraints.gridx = numBehaviors % 5;
-		constraints.gridy = numBehaviors / 5;
+		constraints.gridx = (behaviors.size() - 1) % 5;
+		constraints.gridy = (behaviors.size() - 1) / 5;
 		behaviorLayout.add(behaviors.get(behaviors.size() - 1), constraints);
 		behaviorLayout.validate();
-		numBehaviors++;
 	}
 
 	private void addBehaviorBox(String s){
@@ -305,10 +336,9 @@ public class EditTriggerScreen extends Screen {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.gridx = numBehaviors % 5;
-		constraints.gridy = numBehaviors / 5;
+		constraints.gridx = (behaviors.size() - 1) % 5;
+		constraints.gridy = (behaviors.size() - 1) / 5;
 		behaviorLayout.add(behaviors.get(behaviors.size() - 1), constraints);
-		numBehaviors++;
 	}
 
 	private void addConditionalText(){
@@ -320,11 +350,10 @@ public class EditTriggerScreen extends Screen {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
-		constraints.gridx = numConditionals % 5;
-		constraints.gridy = numConditionals / 5;
+		constraints.gridx = (conditionals.size() - 1) % 5;
+		constraints.gridy = (conditionals.size() - 1) / 5;
 		conditionalLayout.add(conditionals.get(conditionals.size() - 1), constraints);
 		conditionalLayout.validate();
-		numConditionals++;
 	}
 
 	private void addConditionalText(String s){
@@ -334,10 +363,9 @@ public class EditTriggerScreen extends Screen {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
-		constraints.gridx = numConditionals % 5;
-		constraints.gridy = numConditionals / 5;
+		constraints.gridx = (conditionals.size() - 1) % 5;
+		constraints.gridy = (conditionals.size() - 1) / 5;
 		conditionalLayout.add(conditionals.get(conditionals.size() - 1), constraints);
-		numConditionals++;
 	}
 
 	private void addBehaviorText(){
@@ -349,11 +377,10 @@ public class EditTriggerScreen extends Screen {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
-		constraints.gridx = numBehaviors % 5;
-		constraints.gridy = numBehaviors / 5;
+		constraints.gridx = (behaviors.size() - 1) % 5;
+		constraints.gridy = (behaviors.size() - 1) / 5;
 		behaviorLayout.add(behaviors.get(behaviors.size() - 1), constraints);
 		behaviorLayout.validate();
-		numBehaviors++;
 	}
 
 	private void addBehaviorText(String s){
@@ -363,69 +390,77 @@ public class EditTriggerScreen extends Screen {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
-		constraints.gridx = numBehaviors % 5;
-		constraints.gridy = numBehaviors / 5;
+		constraints.gridx = (behaviors.size() - 1) % 5;
+		constraints.gridy = (behaviors.size() - 1)/ 5;
 		behaviorLayout.add(conditionals.get(conditionals.size() - 1), constraints);
-		numBehaviors++;
 	}
 
 	private void deleteConditional(){
 		try{
-			conditionalLayout.remove(conditionals.size() - 1);
+			conditionalLayout.remove(conditionals.get(conditionals.size() - 1));
 			conditionals.remove(conditionals.size() - 1);
-			numConditionals--;
 			conditionalLayout.validate();
-			repaint();
+			conditionalLayout.repaint();
 		}catch(Exception e){
 		}
-
 	}
 
 	private void deleteBehavior(){
 		try{
-			behaviorLayout.remove(behaviors.size() - 1);
+			behaviorLayout.remove(behaviors.get(behaviors.size() - 1));
 			behaviors.remove(behaviors.size() - 1);
-			numBehaviors--;
 			behaviorLayout.validate();
-			repaint();
+			behaviorLayout.repaint();
 		}catch(Exception e){
 		}
 	}
 
 	private void populateConditionals(){
-		StringTokenizer conditionalTokenizer = new StringTokenizer(builder.getConditionString(), " ");
 		ImmutableList<String> conditionalValues = builder.conditionalValues();
-		Boolean isInList = false;
-		while(conditionalTokenizer.hasMoreTokens()){
-			isInList = false;
-			String token = conditionalTokenizer.nextToken();
-			for(int i = 0; i < conditionalValues.size(); i++)
-				if(token.equals(conditionalValues.get(i))){
-					addConditionalBox(token);
-					isInList = true;
-					break;
+		String[] conditionals = builder.getConditionString().split(" ");
+		for(String s: conditionals){
+			boolean isInList = false;
+			if(!s.equals("")){
+				for(int i = 0; i < conditionalValues.size(); i++){
+					if(s.equals(conditionalValues.get(i))){
+						addConditionalBox(s);
+						isInList = true;
+						break;
+					}
 				}
-			if(!isInList)
-				addConditionalText(token);
+				if(!isInList)
+					addConditionalText(s);
+			}
 		}
 	}
 
 	private void populateBehaviors(){
-		StringTokenizer behaviorTokenizer = new StringTokenizer(builder.getBehaviorString(), " ");
 		ImmutableList<String> behaviorValues = builder.behavioralValues();
-		Boolean isInList = false;
-		while(behaviorTokenizer.hasMoreTokens()){
-			isInList = false;
-			String token = behaviorTokenizer.nextToken();
-			for(int i = 0; i < behaviorValues.size(); i++)
-				if(token.equals(behaviorValues.get(i))){
-					addBehaviorBox(token);
-					isInList = true;
-					break;
+		String[] behaviors = builder.getBehaviorString().split(" ");
+		for(String s: behaviors){
+			boolean isInList = false;
+			if(!s.equals("")){
+				for(int i = 0; i < behaviorValues.size(); i++){
+					if(s.equals(behaviorValues.get(i))){
+						addBehaviorBox(s);
+						isInList = true;
+						break;
+					}
 				}
-			if(!isInList)
-				addBehaviorText(token);
+				if(!isInList)
+					addBehaviorText(s);
+			}
 		}
+		boolean isInList = false;
+		for(int i = 0; i < behaviorValues.size(); i++){
+			if(behaviors[behaviors.length - 1].equals(behaviorValues.get(i))){
+				addConditionalBox(behaviors[behaviors.length - 1]);
+				isInList = true;
+				break;
+			}	
+		}
+		if(!isInList)
+			addConditionalBox(behaviors[behaviors.length - 1]);
 	}
 
 	private class AddConditionalBoxListener implements ActionListener {
@@ -482,8 +517,8 @@ public class EditTriggerScreen extends Screen {
 		selectedTrigger = t;
 		nameField.setText(selectedTrigger.getName());
 		prioritySpinner.setValue(selectedTrigger.getPriority());
-		populateBehaviors();
 		populateConditionals();
+		populateBehaviors();
 		try{
 			if(builder.isValid()){
 				isValidText.setText("Valid");
@@ -544,8 +579,6 @@ public class EditTriggerScreen extends Screen {
 	public void reset() {
 		nameField.setText("");
 		prioritySpinner.setValue(0);
-		numConditionals = 0;
-		numBehaviors = 0;
 		conditionals = new ArrayList<JComponent>();
 		behaviors = new ArrayList<JComponent>();
 		conditionalLayout.removeAll();

@@ -38,7 +38,7 @@ public class ConwaysAliveBeing extends SampleAgent{
 				// Set up conditionals
 				Expression isAlive = new Expression("this.alive == 1");
 				Expression neigh1 = new Expression(
-						"getFieldOfAgentAt(this.x-1, this.y-1, 'alive') == 1");
+						"getFieldOfAgentAt ( this.x - 1 , this.y - 1 , 'alive' ) == 1");
 				Expression neigh2 = new Expression(
 						"getFieldOfAgentAt(this.x, this.y-1, 'alive') == 1");
 				Expression neigh3 = new Expression(
