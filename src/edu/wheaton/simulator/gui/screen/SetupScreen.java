@@ -107,7 +107,7 @@ public class SetupScreen extends Screen {
 		JLabel valueLabel = Gui.makeLabel("Population Limit", MaxSize.NULL, null);
 		
 		conListPanel = makeConditionListPanel();
-		conListPanel.setMinimumSize(new MinSize(400,300));
+		conListPanel.setMinimumSize(new MinSize(200,300));
 		scrollPane = new JScrollPane(conListPanel,
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setMinimumSize(new MinSize(550,300));
@@ -344,14 +344,20 @@ public class SetupScreen extends Screen {
 
 	private void addCondition() {
 		JComboBox newBox = Gui.makeComboBox(agentNames, MaxSize.NULL);
+		newBox.setMinimumSize(new MinSize(120,30));
+		newBox.setPreferredSize(new PrefSize(120,30));
 		agentTypes.add(newBox);
 
 		JTextField newValue = Gui.makeTextField(null, 25,
 				MaxSize.NULL, MinSize.NULL);
+		newValue.setMinimumSize(new MinSize(75,30));
+		newValue.setPreferredSize(new PrefSize(75,30));
 		values.add(newValue);
 
 		JButton newButton = Gui.makeButton("Delete", null,
 				new DeleteListener());
+		newButton.setMinimumSize(new MinSize(100,30));
+		newButton.setPreferredSize(new PrefSize(100,30));
 		deleteButtons.add(newButton);
 		newButton.setActionCommand(deleteButtons.indexOf(newButton) + "");
 		
@@ -360,19 +366,19 @@ public class SetupScreen extends Screen {
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
-		c.insets = new Insets(3, 0, 3, 0);
+		c.insets = new Insets(2, 0, 2, 0);
 		newPanel.add(newBox, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 0;
-		c.insets = new Insets(3, 0, 3, 0);
+		c.insets = new Insets(2, 0, 2, 0);
 		newPanel.add(newValue, c);
 		
 		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 0;
-		c.insets = new Insets(3, 0, 3, 0);
+		c.insets = new Insets(2, 0, 2, 0);
 		newPanel.add(newButton, c);
 		
 		subPanels.add(newPanel);
