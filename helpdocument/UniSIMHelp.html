@@ -90,25 +90,48 @@
 
 				<h2>Triggers</h2>
 
-				<p>Lastly, the user can add triggers to the agent. These determine how an agent will act, and are thus essential for the simulation.</p>
+				<p>Lastly, the user can add triggers to the agent. These determine how an agent will act, and are thus essential for the simulation. Simply click the "Add Trigger" button to add a new trigger to the list. You'll then be presented with our trigger builder interface.</p>
 
 				<p>Name: The name of the trigger to make.</p>
 
 				<p>Priority: A simple integer value, which determines how all of the triggers for a specific agent are ordered. The first trigger with conditions that evaluate to true will fire, along with all triggers sharing the same priority (for example, if an agent had three triggers, call them T1, T2, and T3, with priority(T1) = priority(T2) = 3 and priority(T3) = 5, and if evaluate(T1) = evaluate(T3) = true, then, going down the list of triggers, T1 comes first, since it has a lower priority, and T1 and T2 would both fire, since they have the same priority).</p>
 
-				<p>Condition: Think of the "condition" as the "if" part of an "if..., then..." clause. If the condition expression evaluates to true, then the trigger will fire (assuming it has the lowest priority of all "true" triggers). Here, the user has liberty to choose between many different types of input. This also means that the user must be <b>extra careful</b> to avoid problems with expressions that don't make sense.
+				<p>If: The "if" part of an "if..., then..." clause. If the condition expression evaluates to true, then the trigger will fire (assuming it has the lowest priority of all "true" triggers). Here, the user has liberty to choose between many different types of input. This also means that the user must be <b>extra careful</b> to avoid problems with expressions that don't make sense.
 					<ul>
-						<li>Fields: The user can retrieve values of fields, both from the agent to which this trigger belongs and any other agent on the grid.</li>
-						<li>Literals: The user can enter literal values, such as "100" or "27.3."</li>
-						<li>Operations: The user can choose between any number of three kinds of operations:</li>
+						<li>Fields: The user can retrieve values of fields from the agent to which this trigger belongs. This can be done using the "Add conditional" button.</li>
+						<li>Literals: The user can enter literal values, such as "100" or "27.3." This can be done by clicking the "Add Text" button.</li>
+						<li>Operations: The user can choose between any number of three kinds of operations, done using the "Add Conditional" button:</li>
 						<ul>
-							<li>Boolean -> Boolean Operations: Operations that take two true/false values and evaluate to a true/false expression (AND, OR, NOT).</li>
-							<li>Literal -> Boolean Operations: Operations which take literals, but evaluate to true/false (>, &lt;, >=, &lt;=, =, !=)</li>
-							<li>Literal -> Literal Operations: Take literals and evaluate to literals (+, -, *, /).</li>
+							<li>Boolean -> Boolean Operations: Operations that take two true/false values (on the left and right) and evaluate to a true/false expression (AND, OR, NOT).</li>
+							<li>Literal -> Boolean Operations: Operations which take literals (on the left and right), but evaluate to true/false (>, &lt;, >=, &lt;=, EQUALS, NOT_EQUALS)</li>
+							<li>Literal -> Literal Operations: Take literals (on the left and right) and evaluate to literals (+, -, *, /).</li>
 						</ul>
-						<li>Built-in functions: We've included a set of built-in functions to make the user's life easier.</li></p>
+						<li>Built-in functions: We've included a set of built-in functions to make the user's life easier.</li>
+						<ul>
+							<li>True: Simply evaulates to true, no matter the circumstances.</li>
+							<li>is_slot_open: Checks to see if the slot entered is empty of any agents. The formatting should be drop-down("is_slot_open") + drop-down("(") + x-value + drop-down(",") + y-value + drop-down(")"). This will produce something like "is_slot_open(x-value, y-value)" creating the valid syntax for a function call.</li>
+							<li>is_valid_coord: Checks to see if the coordinates entered are valid. The formatting should be drop-down("is_valid_coord") + drop-down("(") + x-coord + drop-down(",") + y-coord + drop-down(")").</li>
+							<li>get_global_field: Retreives a global field's value with the given name. It should be formatted as follows: drop-down("get_global_field") + drop-down("(") + field-name + drop-down(")").</li>
+							<li>get_field_of_agent_at: Retrieves the given field of an agent at the specified x, y coordinate, if it exists. It should be formatted as follows: drop-down("get_field_of_agent_at") + drop-down("(") + x-value + drop-down(",") + y-value + drop-down(",") + field-name + drop-down(")").</li>
+						</ul>
 					</ul>
-				<p>Behavior: Think of the "behavior" as the "then" part of an "if..., then..." clause. This is the outcome or consequence of the condition expression evaluating to true. We've included a list of behaviors that the user can choose, such as "die," "moveRandom," and "setFieldOfOther." Note that any behavior that takes an argument (for example, setFieldOfOther takes two arguments, one for the name of the field, and one for the new value) can include an expression in that argument. For example, if you wanted to increment the weight of a fox that just ate a rabbit, you could say something like setField("weight", this.weight + 1).</p>
+				If you find you've made a mistake when making the trigger conditional expression, simply click the "delete conditional" button. That will remove the last value added.</p>
+					
+				<p>Then: The "then" part of an "if..., then..." clause. This is the outcome or consequence of the condition expression evaluating to true. We've included a list of behaviors that the user can choose, such as "die," "moveRandom," and "setFieldOfOther." Note that any behavior that takes an argument (for example, setFieldOfOther takes two arguments, one for the name of the field, and one for the new value) can include an expression in that argument (See "If" above for a summary of valid expressions). For example, if you wanted to increment the weight of a fox that just ate a rabbit, you could say something like set_field("weight", weight + 1). As with "If," we've included a list of behavior functions:
+					<ul>
+						<li>clone_prototype: Makes a new agent from the prototype--this ensures that the new agent will have all default values</li>
+						<li>clone: Makes a new agent, copying this agent's field values.</li>
+						<li>move_left: Moves the agent left 1 slot, if possible.</li>
+						<li>move_right: Moves the agent right 1 slot, if possible.</li>
+						<li>move_up: Moves the agent up 1 slot, if possible.</li>
+						<li>move_down: Moves the agent down 1 slot, if possible.</li>
+						<li>kill: Kills the agent at the given grid slot, if it exists. It should be formatted as follows: drop-down("kill") + drop-down("(") + x-slot + drop-down(",") + y-slot + drop-down(")").</li>
+						<li>die: Causes this calling agent to die.</li>
+						<li>clone_agent_at_position: Clones the agent at the given grid slot, if possible. It should be formatted as follows: drop-down("clone_agent_at") + drop-down("(") + x-slot + drop-down(",") + y-slot + drop-down(")").</li>
+						<li>set_field_of_agent_at: Sets a field of the agent at the given grid slot, if possible. It should be formatted as follows: drop-down("set_field_of_agent_at") + drop-down("(") + x-slot + drop-down(",") + y-slot + drop-down(",") + field-name + drop-down(",") + new-field-value + drop-down(")")</li>
+						<li>set_field: Sets the field of this calling agent. It should be formatted as follows: drop-down("set_field") + drop-down("(") + field-name + drop-down(",") + new-field-value + drop-down(")").</li>
+					</ul>
+				Again, if you've found you made a mistake, simply click "delete behavior."</p>
 
 				<p><a id="layers"></a></p>
 
