@@ -115,7 +115,7 @@ public class SetupScreen extends Screen {
 					int newHeight = Integer.parseInt(widthField.getText());
 					int newTime = Integer.parseInt(timeField.getText());
 					int newDelay = Integer.parseInt(delayField.getText());
-					if (newWidth <= 0 || newHeight <= 0 || newTime <= 0 || newDelay <= 0)
+					if (newWidth <= 0 || newHeight <= 0 || newTime <= 0 || newDelay < 0)
 						throw new NumberFormatException();
 					if (newWidth < gm.getGridWidth()
 							|| newHeight < gm.getGridHeight()) {
@@ -167,7 +167,7 @@ public class SetupScreen extends Screen {
 				} catch (NumberFormatException excep) {
 					JOptionPane
 							.showMessageDialog(null,
-									"Width, Height, and Time fields must be integers greater than 0");
+									"Width and Height fields must be integers greater than 0. Time delay must not be less than 0.");
 				} catch (Exception excep) {
 					JOptionPane.showMessageDialog(null, excep.getMessage());
 				}

@@ -126,7 +126,8 @@ public class Simulation {
 						notifyObservers();
 						if (layerRunning.get())
 							setLayerExtremes();
-						Thread.sleep(sleepPeriod);
+						if(sleepPeriod > 0)
+							Thread.sleep(sleepPeriod);
 					} catch (SimulationPauseException e) {
 						isPaused.set(true);
 						System.err.println(e.getMessage());
