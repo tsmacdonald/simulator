@@ -335,10 +335,16 @@ public class Trigger implements Comparable<Trigger> {
 			if (condition.charAt(condition.length()-1)==(' ')){
 				condition= condition.substring(0, condition.length()-1);
 			}
+			if (condition.charAt(0)==' '){
+				condition = condition.substring(1);
+			}
 			condition = condition.replace("  ", " ");
 			conditionString = condition;
 			if (behavior.charAt(behavior.length()-1)==(' ')){
 				behavior= behavior.substring(0, behavior.length()-1);
+			}
+			if (behavior.charAt(0)== ' '){
+				behavior = behavior.substring(1);
 			}
 			behavior = behavior.replace("  ", " ");
 			behaviorString = behavior;
@@ -396,21 +402,21 @@ public class Trigger implements Comparable<Trigger> {
 			behavioralValues.add(",");
 
 		
-			converter.put("or", "||");
-			conditionalValues.add("or");
-			behavioralValues.add("or");
+			converter.put("OR", "||");
+			conditionalValues.add("OR");
+			behavioralValues.add("OR");
 
-			converter.put("and", "&&");
-			conditionalValues.add("and");
-			behavioralValues.add("and");
+			converter.put("AND", "&&");
+			conditionalValues.add("AND");
+			behavioralValues.add("AND");
 
-			converter.put("not_equals", "!=");
-			conditionalValues.add("not_equals");
-			behavioralValues.add("not_equals");
+			converter.put("NOT_EQUALS", "!=");
+			conditionalValues.add("NOT_EQUALS");
+			behavioralValues.add("NOT_EQUALS");
 
-			converter.put("equals", "==");
-			conditionalValues.add("equals");
-			behavioralValues.add("equals");
+			converter.put("EQUALS", "==");
+			conditionalValues.add("EQUALS");
+			behavioralValues.add("EQUALS");
 
 			converter.put(">", ">");
 			conditionalValues.add(">");
