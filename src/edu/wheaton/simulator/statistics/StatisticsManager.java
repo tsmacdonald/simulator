@@ -123,7 +123,6 @@ public class StatisticsManager {
 	 */
 	public static void addPrototypeSnapshot(PrototypeSnapshot snap) {
 		protoSnaps.put(snap.categoryName, snap);
-		//TODO: Save this prototype to a file
 	}
 
 	/**
