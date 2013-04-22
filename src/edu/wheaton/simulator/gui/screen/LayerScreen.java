@@ -55,7 +55,6 @@ public class LayerScreen extends Screen {
 					public void actionPerformed(ActionEvent ae) {
 						gm.displayLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
 						gm.getGridPanel().validate();
-						gm.getGridPanel().repaint();
 					}
 				});
 

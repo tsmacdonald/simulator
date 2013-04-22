@@ -61,7 +61,17 @@ public class EntityScreen extends Screen {
 			}
 		});
 		delete = Gui.makeButton("Delete", null, new DeleteListener());
-		edit = Gui.makeButton("Edit", null, new EditListener());
+		edit = Gui.makeButton("Edit", null, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ScreenManager sm = getScreenManager();
+				EditEntityScreen screen = (EditEntityScreen) sm
+						.getScreen("Edit Entities");
+				screen.setEditing(true);
+				sm.load(screen);
+				screen.load((String) entityList.getSelectedValue());
+			}
+		});
 		edit.setEnabled(false);
 		JButton load = Gui.makeButton("Load", null,  
 				new ActionListener() {
@@ -222,18 +232,6 @@ public class EntityScreen extends Screen {
 					.getScreen("Edit Entities");
 			sm.load(screen);
 			screen.setEditing(false);
-		}
-	}
-
-	class EditListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			ScreenManager sm = getScreenManager();
-			EditEntityScreen screen = (EditEntityScreen) sm
-					.getScreen("Edit Entities");
-			screen.load((String) entityList.getSelectedValue());
-			screen.setEditing(true);
-			sm.load(screen);
 		}
 	}
 }

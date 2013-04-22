@@ -20,7 +20,6 @@ public class GuiList extends JList {
 		setModel(listModel);
 		setBackground(Color.white);
 		setBorder(BorderFactory.createLineBorder(Color.black));
-		setPreferredSize(new Dimension(400, 500));
 		setFixedCellWidth(400);
 		setVisibleRowCount(20);
 		setLayoutOrientation(JList.VERTICAL_WRAP);
