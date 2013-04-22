@@ -276,7 +276,13 @@ public class Loader {
 
 			//Parse the required prototype data
 			String name = reader.readLine(); 
-			Color color = new Color(Integer.parseInt(reader.readLine()));
+			
+			//Read in the color and design
+			String colorString = reader.readLine(); 
+			String[] colorToks = colorString.split("~"); 
+			
+			Color color = new Color(Integer.parseInt(colorToks[0]), 
+					Integer.parseInt(colorToks[1]), Integer.parseInt(colorToks[2]));
 			byte[] design = createByteArray(reader.readLine());
 
 			//Create the prototype

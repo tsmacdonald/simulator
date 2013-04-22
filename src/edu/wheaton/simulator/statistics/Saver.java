@@ -116,7 +116,6 @@ public class Saver {
 			protoDirectory.mkdirs();
 			System.out.println(protoDirectory.getAbsolutePath());
 
-
 			if (protoDirectory.exists()) 
 				newFile = new File(protoDirectory.getAbsolutePath() + File.separator + proto.getName());
 			newFile.createNewFile();

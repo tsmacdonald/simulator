@@ -48,7 +48,7 @@ public class LoaderTest {
 	@Test
 	public void testLoadSimulation() throws Exception {
 		Loader l = new Loader();
-		l.loadSimulation(new File("simulations/SimulationState.txt"));
+		l.loadSimulation(new File("simulations/SimulationState2.txt"));
 		System.out.println("Loaded"); 
 		grid = l.getGrid(); 
 		prototypes = l.getPrototypes(); 
