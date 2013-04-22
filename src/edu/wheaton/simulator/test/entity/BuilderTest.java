@@ -45,7 +45,7 @@ public class BuilderTest {
 	
 	@Test
 	public void testConditionOperation(){
-		builder.addConditional("1 equals 1");
+		builder.addConditional("1 EQUALS 1");
 		trigger = builder.build();
 		System.out.println(trigger.getConditions() + "");
 		Assert.assertTrue(trigger.getConditions().toString().equals("1 == 1")); 
@@ -65,7 +65,6 @@ public class BuilderTest {
 		try {
 			Assert.assertTrue(builder.isValid() == java.lang.Boolean.TRUE);
 		} catch (Exception e) {
-			System.out.println("WHAT TEH HECK I HAVE AN EXCEPTION");
 			e.printStackTrace();
 		}
 	}
@@ -125,6 +124,7 @@ public class BuilderTest {
 	public void testParserWithoutFunctions(){
 		Trigger.Builder b = new Trigger.Builder(new Trigger("name", 1,
 				new Expression("this.health>this.weight"), new Expression("TRUE")), prototype);
+		System.out.println(b.getConditionString() + " | " + b.getBehaviorString());
 		Assert.assertTrue(b.getBehaviorString().equals("TRUE") && b.getConditionString().equals("health > weight"));
 	}
 }

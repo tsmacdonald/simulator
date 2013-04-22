@@ -79,7 +79,7 @@ public class Loader {
 	 * @return Simulation name
 	 * @throws Exception If no Simulation has been loaded yet
 	 */
-	public String getName() throws Exception{
+	public String getName() throws Exception {
 		if(simulationLoaded)
 			return name; 
 		throw new Exception("No simulation has been loaded"); 
@@ -90,24 +90,25 @@ public class Loader {
 	 * @return A SimulationEnder object
 	 * @throws Exception If no Simulation has been loaded yet
 	 */
-	public SimulationEnder getSimEnder() throws Exception{
+	public SimulationEnder getSimEnder() throws Exception {
 		if(simulationLoaded)
 			return simEnder; 
 		throw new Exception("No simulation has been loaded"); 
 	}
 
 	/**
-	 * Load the contents of a file. After this is done call getGrid(), getPrototypes(), getSimEnder() and getName() to retrieve the loaded information
+	 * Load the contents of a file. After this is done call getGrid(), getPrototypes(), getSimEnder() and 
+	 * getName() to retrieve the loaded information
 	 * Code based on http://stackoverflow.com/questions/15906640/
 	 * @param fileName The name of the file to load
 	 */
-	public void loadSimulation(File f){
+	public void loadSimulation(File f) throws Exception {
 		File file = f; 
 		BufferedReader reader = null;
 		name = f.getName();
 		this.prototypes = new HashSet<Prototype>(); 
-		
-		System.out.println(f.getAbsolutePath()); // TODO DEBUG
+
+		//System.out.println(f.getAbsolutePath()); // TODO DEBUG
 
 		try {
 			reader = new BufferedReader(new FileReader(file));
@@ -116,7 +117,7 @@ public class Loader {
 			int width = Integer.parseInt(reader.readLine()); 
 			int height = Integer.parseInt(reader.readLine()); 
 			grid = new Grid(width, height);  
-			
+
 			//Set the updater
 			String updater = reader.readLine(); 
 			if(updater.equals("Linear")) 
@@ -132,18 +133,18 @@ public class Loader {
 					//Find the appropriate prototype
 					String prototypeName = reader.readLine();
 					Prototype parent = getPrototype(prototypeName);
-					
+
 					//Read in the color and design
 					String colorString = reader.readLine(); 
 					String[] colorToks = colorString.split("~"); 
-					
+
 					Color color = new Color(Integer.parseInt(colorToks[0]), 
 							Integer.parseInt(colorToks[1]), Integer.parseInt(colorToks[2]));
 					byte[] design = createByteArray(reader.readLine());
 
 					//Create the Agent
 					Agent agent = new Agent(grid, parent, color, design);
-					System.out.println(agent.getColor()); 
+					//System.out.println(agent.getColor()); 
 
 					//Get the Agent's position on the Grid
 					int xpos = Integer.parseInt(reader.readLine()); 
@@ -163,7 +164,7 @@ public class Loader {
 						readLine = reader.readLine(); 
 					}
 
-					System.out.println("Adding Agent"); 
+					//System.out.println("Adding Agent"); 
 					grid.addAgent(agent, xpos, ypos); 
 				}
 
@@ -180,17 +181,17 @@ public class Loader {
 						readLine = reader.readLine(); 
 					}
 
-					System.out.println("Adding Grid Global"); 
+					//System.out.println("Adding Grid Global"); 
 				}
-				
+
 				else if(readLine.equals("PrototypeSnapshot")){
 					//Parse the required prototype data
 					String name = reader.readLine();
-					
+
 					//Read in the color and design
 					String colorString = reader.readLine(); 
 					String[] colorToks = colorString.split("~"); 
-					
+
 					Color color = new Color(Integer.parseInt(colorToks[0]), 
 							Integer.parseInt(colorToks[1]), Integer.parseInt(colorToks[2]));
 					byte[] design = createByteArray(reader.readLine());
@@ -219,7 +220,7 @@ public class Loader {
 						readLine = reader.readLine(); 
 					}
 
-					System.out.println("Adding Prototype"); 
+					//System.out.println("Adding Prototype"); 
 					prototypes.add(proto); 
 				}
 				else if(readLine.equals("EndConditions")){
@@ -234,25 +235,25 @@ public class Loader {
 						simEnder.setPopLimit(tokens[1], Integer.parseInt(tokens[2])); 						
 						readLine = reader.readLine(); 
 					}
-					System.out.println("Added SimulationEnder"); 
+					//System.out.println("Added SimulationEnder"); 
 				}
 				else{
 					readLine = reader.readLine(); 
 				}
 			}
-		}
-		catch (FileNotFoundException e) {
-			throw new RuntimeException("Could not find file: " + file.getAbsolutePath(), e);
-		}
-		catch (IOException e) {
-			throw new RuntimeException("Could not read file: " + file.getAbsolutePath(), e);
+		} catch (FileNotFoundException e) {
+			throw new Exception("Could not find file: " + file.getAbsolutePath());
+		} catch (IOException e) {
+			throw new Exception("Could not read file: " + file.getAbsolutePath());
+		} catch(Exception e){
+			throw new Exception("Oh no! The load file was somehow corrupted! What oh what will we do?");
 		} finally {
 			try {
 				assert(reader!=null);
 				reader.close();
 			}
 			catch (IOException e) {
-				throw new RuntimeException("Could not close stream", e);
+				throw new Exception("Could not close stream");
 			}
 		}
 		//Indicate that we are ready to use the getGrid(), getPrototypes() and getName() methods
@@ -278,11 +279,11 @@ public class Loader {
 
 			//Parse the required prototype data
 			String name = reader.readLine(); 
-			
+
 			//Read in the color and design
 			String colorString = reader.readLine(); 
 			String[] colorToks = colorString.split("~"); 
-			
+
 			Color color = new Color(Integer.parseInt(colorToks[0]), 
 					Integer.parseInt(colorToks[1]), Integer.parseInt(colorToks[2]));
 			byte[] design = createByteArray(reader.readLine());
@@ -311,14 +312,14 @@ public class Loader {
 				readLine = reader.readLine(); 
 			}
 
-			System.out.println("Loaded Prototype"); 
 		}
 		catch (FileNotFoundException e) {
 			throw new RuntimeException("Could not find file: " + file.getAbsolutePath(), e);
-		}
-		catch (IOException e) {
+		}catch (IOException e) {
 			throw new RuntimeException("Could not read file: " + file.getAbsolutePath(), e);
-		} finally {
+		}catch(Exception e){
+			throw new RuntimeException("Oh no! The load file was somehow corrupted! What oh what will we do?", e);
+		}finally {
 			try {
 				assert(reader!=null);
 				reader.close();
@@ -333,12 +334,12 @@ public class Loader {
 
 	/**
 	 * Create a byte array from a string
-	 * @param s String representing a byte array in the form "010111000"
+	 * @param s String representing a byte array in the form "127~127~127~127~127~127~127"
 	 * @return The create byte array
 	 */
 	private static byte[] createByteArray(String s){
 		String[] tokens = s.split("~");
-		
+
 		byte[] ret = new byte[tokens.length]; 
 
 		for(int i = 0; i < tokens.length; i++)

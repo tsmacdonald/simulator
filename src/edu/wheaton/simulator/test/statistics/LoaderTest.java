@@ -47,7 +47,7 @@ public class LoaderTest {
 		triggers.add(new TriggerSnapshot("trigger1", 1, "conditionExpression", "behaviorExpression"));
 	}
 	
-	//@Test
+	@Test
 	public void testLoadSimulation() throws Exception {
 		Loader l = new Loader();
 		l.loadSimulation(new File("simulations/SimulationState2"));
@@ -61,7 +61,7 @@ public class LoaderTest {
 		Assert.assertEquals("SimulationState2", name); 
 	}
 	
-	//@Test
+	@Test
 	public void testLoadPrototype() throws FileNotFoundException{
 		Loader l = new Loader(); 
 		Prototype proto = null; 
@@ -75,11 +75,11 @@ public class LoaderTest {
 		
 		proto = l.loadPrototype(loadFile);
 		Assert.assertNotNull(proto); 
-		Assert.assertEquals("Prototype 1.agt", proto.getName()); 
+		Assert.assertEquals("Prototype 1", proto.getName()); 
 		s.close();
 	}	
 	
-	//@Test
+	@Test
 	public void testLoadAnotherPrototype() throws FileNotFoundException{
 		Loader l = new Loader(); 
 		Prototype proto = null; 
@@ -95,11 +95,5 @@ public class LoaderTest {
 		Assert.assertNotNull(proto); 
 		Assert.assertEquals("Prototype 2", proto.getName()); 
 		s.close();
-	}
-	
-	@Test
-	public void testLoadAllPrototypes() throws FileNotFoundException {
-		Simulator.getInstance().load("TestSim", 20, 20, new SimulationEnder());
-		Simulator.getInstance().loadPrototypesFromFile(new File("prototypes"));
 	}
 }

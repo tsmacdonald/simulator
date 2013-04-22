@@ -165,7 +165,6 @@ public class Expression {
 		behaviorFunctions = new HashMap<String, AbstractExpressionFunction>();
 		conditionFunctions = new HashMap<String, AbstractExpressionFunction>();
 		behaviorFunctions.put("clone", new CloneBehavior());
-		behaviorFunctions.put("clonePrototype", new ClonePrototype());
 		behaviorFunctions.put("cloneAgentAtPosition",
 				new CloneAgentAtPositionBehavior());
 		behaviorFunctions.put("die", new DieBehavior());

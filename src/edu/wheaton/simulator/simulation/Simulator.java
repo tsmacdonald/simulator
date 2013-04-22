@@ -12,6 +12,7 @@ package edu.wheaton.simulator.simulation;
 import java.awt.Color;
 import java.io.File;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -137,18 +138,11 @@ public class Simulator {
 	}
 
 	/**
-	 * Resets the static list of prototypes
-	 */
-	public static void clearPrototypes() {
-		Prototype.clearPrototypes();
-	}
-
-	/**
 	 * Gets a Set of the prototype names
 	 * 
 	 * @return
 	 */
-	public static Set<String> prototypeNames() {
+	public static List<String> prototypeNames() {
 		return Prototype.prototypeNames();
 	}
 
@@ -204,7 +198,7 @@ public class Simulator {
 	public boolean addAgent(String prototypeName, int x, int y) {
 		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
 		boolean toReturn = simulationGrid().addAgent(toAdd, x, y);
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 		return toReturn;
 	}
 
@@ -220,7 +214,7 @@ public class Simulator {
 	public boolean addAgent(String prototypeName) {
 		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
 		boolean toReturn = simulationGrid().addAgent(toAdd);
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 		return toReturn;
 	}
 
@@ -233,7 +227,7 @@ public class Simulator {
 		for(int x = 0; x < getWidth(); x++) 
 			for(int y = 0; y < getHeight(); y++)
 				addAgent(prototypeName, x, y);
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 	
 	/**
@@ -245,7 +239,7 @@ public class Simulator {
 		for(int x = 0; x < getWidth(); x++) 
 			for(int y = 0; y < getHeight(); y++)
 				removeAgent(x, y);
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 	
 	/**
@@ -266,7 +260,7 @@ public class Simulator {
 	 */
 	public void removeAgent(int x, int y) {
 		simulationGrid().removeAgent(x, y);
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 
 	/**
@@ -300,7 +294,7 @@ public class Simulator {
 		Layer.getInstance().resetMinMax();
 		simulation.setLayerExtremes();
 		simulation.runLayer();
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 
 	/**
@@ -308,7 +302,7 @@ public class Simulator {
 	 */
 	public void clearLayer() {
 		simulation.stopLayer();
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 
 	/**
@@ -326,7 +320,6 @@ public class Simulator {
 	 * Sample simulation: Conway's Game of Life
 	 */
 	public void initGameOfLife() {
-		clearPrototypes();
 		simulationGrid().setPriorityUpdater(0, 50);
 
 		// add prototypes
@@ -346,7 +339,7 @@ public class Simulator {
 							x, y);
 				}
 			}
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 
 	/**
@@ -357,7 +350,7 @@ public class Simulator {
 		new Rock().initSampleAgent();
 		new Paper().initSampleAgent();
 		new Scissors().initSampleAgent();
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 	
 	/**
@@ -380,7 +373,7 @@ public class Simulator {
 		Scissors scissors = new Scissors();
 		scissors.setVersion(version);
 		scissors.initSampleAgent();
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 
 	/**
@@ -475,7 +468,7 @@ public class Simulator {
 	 */
 	public void resizeGrid(int width, int height) {
 		simulationGrid().resizeGrid(width, height);
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 
 	/**
@@ -495,23 +488,6 @@ public class Simulator {
 	 */
 	public void load(String name, int width, int height, SimulationEnder se) {
 		simulation = new Simulation(name, width, height, se);
-		simulation.notifyObservers();
-	}
-	
-	/**
-	 * Replicates the simulation from the given file
-	 * 
-	 * @param file
-	 */
-	public void loadFromFile(File file){
-		Loader l = new Loader();
-		l.loadSimulation(file);
-		try{
-			load(l.getName(), l.getGrid(), l.getPrototypes(), l.getSimEnder());
-		}catch(Exception e){
-			System.out.println("No grid has been loaded yet!"); 
-			e.printStackTrace();
-		}
 	}
 	
 	/**
@@ -527,7 +503,28 @@ public class Simulator {
 		simulation = new Simulation(name, grid, se);
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
-		simulation.notifyObservers();
+	}
+	
+	/**
+	 * Replicates the simulation from the given file
+	 * 
+	 * @param file
+	 */
+	public void loadFromFile(File file, GridObserver obs) throws Exception {
+		Loader l = new Loader();
+		try {
+			l.loadSimulation(file);
+		} catch(Exception e) {
+			throw new Exception("Oh no! The load file was somehow corrupted! What oh what will we do?");
+		}
+		try {
+			load(l.getName(), l.getGrid(), l.getPrototypes(), l.getSimEnder());
+		} catch(Exception e){
+			System.out.println("No grid has been loaded yet!"); 
+			e.printStackTrace();
+		}
+		addGridObserver(obs);
+		simulation.notifyDisplayObservers();
 	}
 	
 	/**
@@ -535,31 +532,12 @@ public class Simulator {
 	 *
 	 * @param file
 	 */
-	public void loadPrototypeFromFile(File file){
+	public void loadPrototypeFromFile(File file) throws Exception {
 		Loader l = new Loader();
-		Prototype.addPrototype(l.loadPrototype(file));
-	}
-	
-	/**
-	 * Load all prototypes from all prototype files in the directory
-	 * 
-	 * @param file that points to directory where prototype files are located
-	 */
-	public void loadPrototypesFromFile(File directory) {
-		// NOTE only look for .agt files
-		Loader l = new Loader();
-		File[] protoFiles;
-		if (directory.isDirectory()) {
-			protoFiles = directory.listFiles();
-			System.out.println("Number of files in directory: " + protoFiles.length); // TODO Delete
-			for (File file : protoFiles) {
-				if (file.getName().contains(".agt")) {
-					System.out.println(file.getName()); // TODO Delete
-					Prototype.addPrototype(l.loadPrototype(file));
-					System.out.println(file.getName() + " loaded."); // TODO Delete
-				}
-				else continue;
-			}
+		try {
+			Prototype.addPrototype(l.loadPrototype(file));
+		} catch(Exception e){
+			throw new Exception("Oh no! The load file was somehow corrupted! What oh what will we do?");
 		}
 	}
 
@@ -568,7 +546,7 @@ public class Simulator {
 	 *
 	 * @param filename
 	 */
-	public void saveToFile(File file, SimulationEnder ender){
+	public void saveToFile(File file, SimulationEnder ender) {
 		Saver s = new Saver();
 		Set<Agent> agents = new HashSet<Agent>();
 		Grid grid = simulationGrid();

@@ -10,6 +10,7 @@
 package edu.wheaton.simulator.simulation;
 
 import java.awt.Color;
+import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import net.sourceforge.jeval.EvaluationException;
@@ -20,6 +21,7 @@ import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
+import edu.wheaton.simulator.statistics.Loader;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class Simulation {
@@ -88,8 +90,8 @@ public class Simulation {
 		layerRunning.set(false);
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid);
+		loadPrototypesFromDirectory(new File("prototypes/"));
 		resetLayer();
-		Prototype.clearPrototypes();
 		AgentID.resetIDs();
 	}
 
@@ -111,8 +113,8 @@ public class Simulation {
 		layerRunning.set(false);
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid);
+		loadPrototypesFromDirectory(new File("prototypes/"));
 		resetLayer();
-		Prototype.clearPrototypes();
 		AgentID.resetIDs();
 	}
 	
@@ -126,9 +128,10 @@ public class Simulation {
 				while (!isPaused.get()) {
 					try {
 						updateEntities();
-						notifyObservers();
 						if (layerRunning.get())
 							setLayerExtremes();
+						notifyDisplayObservers();
+						notifyStatsObservers();
 						if(sleepPeriod > 0)
 							Thread.sleep(sleepPeriod);
 					} catch (SimulationPauseException e) {
@@ -193,6 +196,7 @@ public class Simulation {
 		if (ender.evaluate(grid)) {
 			isPaused.set(true);
 			isStopped.set(true);
+			notifyEndObservers();
 		}
 	}
 	
@@ -258,12 +262,43 @@ public class Simulation {
 	}
 
 	/**
-	 * Notifies all the observers following this simulation's grid
-	 * 
-	 * @param layerRunning
+	 * Notifies all of the GUI observers
 	 */
-	public void notifyObservers() {
-		grid.notifyObservers(layerRunning.get());
+	public void notifyDisplayObservers() {
+		grid.notifyDisplayObservers(layerRunning.get());
+	}
+	
+	/**
+	 * Notifies all of the stats observers
+	 */
+	public void notifyStatsObservers() {
+		grid.notifyStatsObservers();
+	}
+	
+	/**
+	 * Updates all of the observers watching for the end of the simulation
+	 */
+	public void notifyEndObservers() {
+		grid.notifyEndObservers(ender);
+	}
+	
+	/**
+	 * Load all prototypes from all prototype files in the directory
+	 * 
+	 * @param file that points to directory where prototype files are located
+	 */
+	private void loadPrototypesFromDirectory(File directory) {
+		Loader l = new Loader();
+		File[] protoFiles;
+		if (directory.isDirectory()) {
+			protoFiles = directory.listFiles();
+			for (File file : protoFiles) {
+				if (file.getName().contains(".agt")) {
+					Prototype.addPrototype(l.loadPrototype(file));
+				}
+				else continue;
+			}
+		}
 	}
 
 	/**

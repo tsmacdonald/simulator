@@ -37,6 +37,7 @@ import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorFacade;
+import edu.wheaton.simulator.simulation.Simulator;
 
 public class EditEntityScreen extends Screen {
 
@@ -201,6 +202,7 @@ public class EditEntityScreen extends Screen {
 			public void actionPerformed(ActionEvent e) {
 				if (sendInfo()) {
 					Gui.getScreenManager().load(Gui.getScreenManager().getScreen("View Simulation"));
+					gm.saveAgent((String)nameField.getText());
 					reset();
 				}
 			}
@@ -347,7 +349,7 @@ public class EditEntityScreen extends Screen {
 				prototype.setPrototypeName(prototype.getName(), nameField.getText());
 				prototype.setColor(colorTool.getColor());
 				prototype.setDesign(generateBytes());
-				Prototype.addPrototype(prototype);
+				Simulator.addPrototype(prototype);
 			}
 			toReturn = true;
 		} catch (Exception e) {

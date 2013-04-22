@@ -2,10 +2,12 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.Color;
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.google.common.collect.ImmutableMap;
@@ -145,7 +147,7 @@ public class SimulatorFacade {
 		return simulator.getAgent(x, y);
 	}
 
-	public Set<String> getPrototypeNames() {
+	public List<String> getPrototypeNames() {
 		return Simulator.prototypeNames();
 	}
 
@@ -216,7 +218,12 @@ public class SimulatorFacade {
 		File file = null;
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			file = simChooser.getSelectedFile();
-			simulator.loadFromFile(file);
+			try {
+				simulator.loadFromFile(file, gpo);
+			}
+			catch(Exception e) {
+				JOptionPane.showMessageDialog(null, "Corrupted file.");
+			}
 			Gui.getScreenManager().load(
 					(Gui.getScreenManager().getScreen("View Simulation")));
 		}
@@ -233,10 +240,14 @@ public class SimulatorFacade {
 		int returnVal = agentChooser.showOpenDialog(null);
 		File file = null;
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			file = agentChooser.getSelectedFile();
-			simulator.loadPrototypeFromFile(file);
+			try{
+				file = agentChooser.getSelectedFile();
+			}
+			catch(Exception e) {
+				JOptionPane.showMessageDialog(null, "Corrupted file.");
+				simulator.loadPrototypeFromFile(file);
+			}
 		}
-
 	}
 
 	public void start() {
