@@ -53,6 +53,7 @@ public class ViewSimScreen extends Screen {
 
 	public ViewSimScreen(final SimulatorFacade gm) {
 		super(gm);
+		this.setVisible(false);
 		setSpawn(false);
 		this.setLayout(new GridBagLayout());
 		((GridBagLayout) this.getLayout()).columnWeights = new double[] { 0, 1 };
@@ -189,12 +190,13 @@ public class ViewSimScreen extends Screen {
 
 	@Override
 	public void load() {
+		this.setVisible(false);
 		entitiesScreen.load();
 		layerScreen.load();
 		globalFieldScreen.load();
 		optionsScreen.load();
 		tabs.setSelectedComponent(optionsScreen);
 		validate();
-		getGuiManager().getGridPanel().repaint();
+		this.setVisible(true);
 	}
 }

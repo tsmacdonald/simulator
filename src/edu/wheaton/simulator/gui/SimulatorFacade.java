@@ -233,8 +233,8 @@ public class SimulatorFacade {
 		return Simulator.getPrototype(string);
 	}
 
-	public void displayLayer(String string, Color color) {
-		simulator.displayLayer(string, color);
+	public void displayLayer(String fieldName, Color color) {
+		simulator.displayLayer(fieldName, color);
 	}
 
 	public void clearLayer(){
