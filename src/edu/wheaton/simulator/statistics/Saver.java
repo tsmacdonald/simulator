@@ -76,18 +76,16 @@ public class Saver {
 		//Make a folder, create the file
 		try {
 			String mySubFolder = "simulations";
-			File newDir = new File(mySubFolder);
-			boolean success = newDir.mkdir();
-			if (success) {
-				newDir = new File(newDir, filename);
-				newDir.createNewFile();
-			}
-			if (newDir.exists()) {
+			
+			File newFile = new File(mySubFolder + "/" + filename);
+			
+			if (newFile.exists()) {
+				newFile.createNewFile();
 				System.out.println("File created!");
-				System.out.println("File path: " + newDir.getAbsolutePath());
+				System.out.println("File path: " + newFile.getAbsolutePath());
 			}
 
-			FileWriter writer = new FileWriter(newDir, false);
+			FileWriter writer = new FileWriter(newFile.getAbsolutePath(), false);
 			writer.write(sb.toString());
 			writer.close();
 		} catch (IOException e) {
@@ -114,18 +112,15 @@ public class Saver {
 		//Make a folder, create the file
 		try {
 			String mySubFolder = "prototypes";
-			File newDir = new File(mySubFolder);
-			boolean success = newDir.mkdir();
-			if (success) {
-				newDir = new File(newDir, filename);
-				newDir.createNewFile();
-			}
-			if (newDir.exists()) {
+			File newFile = new File(mySubFolder + "/" + filename);
+
+			if (newFile.exists()) {
+				newFile.createNewFile();
 				System.out.println("File created!");
-				System.out.println("File path: " + newDir.getAbsolutePath());
+				System.out.println("File path: " + newFile.getAbsolutePath());
 			}
 
-			BufferedWriter writer = new BufferedWriter(new FileWriter(newDir, false));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(newFile.getAbsolutePath(), false));
 			writer.write(sb.toString());
 			writer.close();
 		} catch (IOException e) {
