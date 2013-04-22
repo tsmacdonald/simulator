@@ -1,3 +1,7 @@
+body {
+	min-width: 1300px;
+}
+
 img {
 	display: block;
 	margin-left: auto;
@@ -8,6 +12,10 @@ h1, h2 {
 	text-align: center;
 }
 
+ul {
+	list-style-type: square;
+}
+
 .center {
 	width: inherit;
 	margin-left: auto;
@@ -15,9 +23,13 @@ h1, h2 {
 }
 
 .navbar {
-	position: fixed;
-	list-style-type: square;
 	font-size: 18px;
+}
+
+#nav {
+	float: left;
+	position: fixed;
+	top: 123px;
 }
 
 .boxed {
