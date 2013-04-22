@@ -143,8 +143,6 @@ public class EntityScreen extends Screen {
 				fill.setEnabled(!gm.isRunning());				
 			}
 		});
-		entityList.setMinimumSize(new MinSize(300,300));
-		entityList.setPreferredSize(new PrefSize(300,300));
 		JScrollPane scrollPane = new JScrollPane(entityList,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setMinimumSize(new MinSize(300,305));
 		scrollPane.setPreferredSize(new PrefSize(300,305));
