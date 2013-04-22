@@ -32,7 +32,7 @@ public class SimulationTest {
 		sim.setSleepPeriod(200);
 		Assert.assertEquals(200, sim.getSleepPeriod());
 		try {
-			sim.notifyObservers();
+			sim.notifyDisplayObservers();
 			sim.play();
 			sim.pause();
 			sim.resetLayer();

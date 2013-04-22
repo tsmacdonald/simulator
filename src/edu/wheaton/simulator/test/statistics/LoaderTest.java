@@ -96,13 +96,4 @@ public class LoaderTest {
 		Assert.assertEquals("Prototype 2", proto.getName()); 
 		s.close();
 	}
-	
-	@Test
-	public void testLoadAllPrototypes() throws FileNotFoundException {
-		File protoDirectory = new File("prototypes");
-		System.out.println("\nNumber of files in directory: " + protoDirectory.list().length);
-	
-		Simulator.getInstance().load("TestSim", 20, 20, new SimulationEnder());
-		Simulator.getInstance().loadPrototypesFromDirectory(protoDirectory);
-	}
 }

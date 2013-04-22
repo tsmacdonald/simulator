@@ -12,6 +12,7 @@ package edu.wheaton.simulator.simulation;
 import java.awt.Color;
 import java.io.File;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -137,18 +138,11 @@ public class Simulator {
 	}
 
 	/**
-	 * Resets the static list of prototypes
-	 */
-	public static void clearPrototypes() {
-		Prototype.clearPrototypes();
-	}
-
-	/**
 	 * Gets a Set of the prototype names
 	 * 
 	 * @return
 	 */
-	public static Set<String> prototypeNames() {
+	public static List<String> prototypeNames() {
 		return Prototype.prototypeNames();
 	}
 
@@ -326,7 +320,6 @@ public class Simulator {
 	 * Sample simulation: Conway's Game of Life
 	 */
 	public void initGameOfLife() {
-		clearPrototypes();
 		simulationGrid().setPriorityUpdater(0, 50);
 
 		// add prototypes
@@ -545,25 +538,6 @@ public class Simulator {
 			Prototype.addPrototype(l.loadPrototype(file));
 		} catch(Exception e){
 			throw new Exception("Oh no! The load file was somehow corrupted! What oh what will we do?");
-		}
-	}
-	
-	/**
-	 * Load all prototypes from all prototype files in the directory
-	 * 
-	 * @param file that points to directory where prototype files are located
-	 */
-	public void loadPrototypesFromDirectory(File directory) {
-		Loader l = new Loader();
-		File[] protoFiles;
-		if (directory.isDirectory()) {
-			protoFiles = directory.listFiles();
-			for (File file : protoFiles) {
-				if (file.getName().contains(".agt")) {
-					Prototype.addPrototype(l.loadPrototype(file));
-				}
-				else continue;
-			}
 		}
 	}
 

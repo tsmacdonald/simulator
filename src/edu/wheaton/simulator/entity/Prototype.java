@@ -16,9 +16,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 
 import edu.wheaton.simulator.datastructure.Grid;
 
@@ -117,21 +117,16 @@ public class Prototype extends GridEntity {
 	public static Prototype removePrototype(String n) {
 		return prototypes.remove(n);
 	}
-
-	/**
-	 * Removes a Prototype templates from the HashMap
-	 */
-	public static void clearPrototypes() {
-		prototypes.clear();
-	}
-
+	
 	/**
 	 * Gets a Set of the prototype names
 	 * 
 	 * @return
 	 */
-	public static Set<String> prototypeNames() {
-		return prototypes.keySet();
+	public static List<String> prototypeNames() {
+		List<String> keySet = Lists.newArrayList(prototypes.keySet());
+		Collections.sort(keySet);
+		return keySet;
 	}
 
 	/**

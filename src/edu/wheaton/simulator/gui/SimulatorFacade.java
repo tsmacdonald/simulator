@@ -2,6 +2,7 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.Color;
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -146,7 +147,7 @@ public class SimulatorFacade {
 		return simulator.getAgent(x, y);
 	}
 
-	public Set<String> getPrototypeNames() {
+	public List<String> getPrototypeNames() {
 		return Simulator.prototypeNames();
 	}
 

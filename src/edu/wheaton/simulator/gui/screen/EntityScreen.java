@@ -15,6 +15,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -143,8 +144,6 @@ public class EntityScreen extends Screen {
 				fill.setEnabled(!gm.isRunning());				
 			}
 		});
-		entityList.setMinimumSize(new MinSize(300,300));
-		entityList.setPreferredSize(new PrefSize(300,300));
 		JScrollPane scrollPane = new JScrollPane(entityList,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setMinimumSize(new MinSize(300,305));
 		scrollPane.setPreferredSize(new PrefSize(300,305));
@@ -205,7 +204,7 @@ public class EntityScreen extends Screen {
 	public void load() {
 		reset();
 		delete.setEnabled(getGuiManager().hasStarted() ? false : true);
-		Set<String> entities = gm.getPrototypeNames();
+		List<String> entities = gm.getPrototypeNames();
 		for (String s : entities)
 			entityList.addItem(s);
 		edit.setEnabled(false);
