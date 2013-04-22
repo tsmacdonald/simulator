@@ -22,17 +22,22 @@ import edu.wheaton.simulator.entity.Entity;
 public class Expression {
 
 	/**
-	 * All variables that JEval evaluates are first passed to an associated instance of
-	 * VariableResolver. If the 'VR' returns a null then the JEval 'Evaluator' will look for the
-	 * variable name in its internal map. This 'VR' implementation is solely for the purpose of enabling
-	 * a shorter Expression syntax: "#{this.x}" rather than something like "getField('this','x')" which would require
-	 * implementing a "getField" ExpressionFunction.
+	 * All variables that JEval evaluates are first passed to an associated
+	 * instance of VariableResolver. If the 'VR' returns a null then the JEval
+	 * 'Evaluator' will look for the variable name in its internal map. This
+	 * 'VR' implementation is solely for the purpose of enabling a shorter
+	 * Expression syntax: "#{this.x}" rather than something like
+	 * "getField('this','x')" which would require implementing a "getField"
+	 * ExpressionFunction.
 	 * 
 	 * @author bgarcia
-	 *
+	 * 
 	 */
 	protected class EntityFieldResolver implements VariableResolver {
 
+		/**
+		 * Keeps track of all the entities in the grid
+		 */
 		private Map<String, Entity> entityMap;
 
 		/**
@@ -50,11 +55,18 @@ public class Expression {
 			entityMap.putAll(resolver.entityMap);
 		}
 
+		/**
+		 * Given the name of an entity and a field (for example this.x), this
+		 * method provides the actual value of the field.
+		 * 
+		 * @param variableName
+		 * @return
+		 */
 		@Override
 		public String resolveVariable(String variableName)
 				throws FunctionException {
 
-			//splits with delimiter '.'
+			// splits with delimiter '.'
 			String[] args = variableName.split("\\x2e");
 
 			if (args.length != 2) {
@@ -66,13 +78,15 @@ public class Expression {
 
 			Entity target = getEntity(targetName);
 			if (target == null) {
-				throw new FunctionException("Target entity not found: " + targetName);
+				throw new FunctionException("Target entity not found: "
+						+ targetName);
 			}
 			try {
 				String toReturn = target.getFieldValue(fieldName);
 				return toReturn;
 			} catch (NoSuchElementException e) {
-				throw new FunctionException("Target field not found: " + fieldName);
+				throw new FunctionException("Target field not found: "
+						+ fieldName);
 			}
 		}
 
@@ -85,15 +99,15 @@ public class Expression {
 		}
 	}
 
-	//boolean constants
+	// boolean constants
 	public static final String TRUE = "1.0";
 	public static final String FALSE = "0.0";
-	
+
 	private Evaluator evaluator;
 	private EntityFieldResolver resolver;
 	private Object expr;
 	private String exprStr;
-	
+
 	private static HashMap<String, AbstractExpressionFunction> behaviorFunctions;
 	private static HashMap<String, AbstractExpressionFunction> conditionFunctions;
 
@@ -107,8 +121,9 @@ public class Expression {
 		evaluator = new Evaluator();
 		resolver = new EntityFieldResolver();
 		evaluator.setVariableResolver(resolver);
-		
-		//make all project-defined ExpressionFunction implementations recognizable by default
+
+		// make all project-defined ExpressionFunction implementations
+		// recognizable by default
 		this.importFunction(new CloneBehavior());
 		this.importFunction(new DieBehavior());
 		this.importFunction(new KillBehavior());
@@ -121,24 +136,30 @@ public class Expression {
 		this.importFunction(new SetFieldOfAgentBehavior());
 		this.importFunction(new ClonePrototype());
 
-		//make a hashmap of names and actual objects.
+		// make a hashmap of names and actual objects.
 		initializeFunctions();
 	}
-	
-	public static void initializeFunctions(){
+
+	/**
+	 * Helper method that adds all the behavior and conditional functions to
+	 * the HashMaps
+	 */
+	private static void initializeFunctions() {
 		behaviorFunctions = new HashMap<String, AbstractExpressionFunction>();
 		conditionFunctions = new HashMap<String, AbstractExpressionFunction>();
 		behaviorFunctions.put("clone", new CloneBehavior());
-		behaviorFunctions.put("cloneAgentAtPosition", new CloneAgentAtPositionBehavior());
+		behaviorFunctions.put("cloneAgentAtPosition",
+				new CloneAgentAtPositionBehavior());
 		behaviorFunctions.put("die", new DieBehavior());
 		behaviorFunctions.put("kill", new KillBehavior());
 		behaviorFunctions.put("move", new MoveBehavior());
 		behaviorFunctions.put("setField", new SetFieldBehavior());
-		behaviorFunctions.put("setFieldOfAgent", new SetFieldOfAgentBehavior());
-		behaviorFunctions.put("clonePrototype", new ClonePrototype());	
+		behaviorFunctions
+				.put("setFieldOfAgent", new SetFieldOfAgentBehavior());
+		behaviorFunctions.put("clonePrototype", new ClonePrototype());
 		conditionFunctions.put("getFieldOfAgent", new GetFieldOfAgentAt());
 		conditionFunctions.put("isSlotOpen", new IsSlotOpen());
-		conditionFunctions.put("isValidCoord", new IsValidCoord());	
+		conditionFunctions.put("isValidCoord", new IsValidCoord());
 
 	}
 
@@ -153,24 +174,24 @@ public class Expression {
 		evaluator.setVariableResolver(resolver);
 		setString(expr.expr);
 	}
-	
-	protected Expression(Evaluator eval, EntityFieldResolver res){
+
+	protected Expression(Evaluator eval, EntityFieldResolver res) {
 		this.evaluator = eval;
 		this.resolver = res;
 	}
-	
-	public static Map<String,AbstractExpressionFunction> getBehaviorFunction(){
+
+	public static Map<String, AbstractExpressionFunction> getBehaviorFunction() {
 		if (behaviorFunctions == null)
 			initializeFunctions();
 		return behaviorFunctions;
 	}
 
-	public static Map<String,AbstractExpressionFunction> getConditionFunction(){
+	public static Map<String, AbstractExpressionFunction> getConditionFunction() {
 		if (conditionFunctions == null)
 			initializeFunctions();
 		return conditionFunctions;
 	}
-	
+
 	/**
 	 * Returns a properly formatted variable reference.
 	 * 
@@ -182,38 +203,37 @@ public class Expression {
 	 * @param fieldName
 	 * @return
 	 */
-	private static String fGet(String variableName){
+	private static String fGet(String variableName) {
 		return "#{" + variableName + "}";
 	}
-	
+
 	/**
-	 * Returns a properly formatted string to be passed to an Expression method.
+	 * Returns a properly formatted string to be passed to an Expression
+	 * method.
 	 * 
-	 * "setField(" + fParams("this,x,8") + ")"
-	 *      ==
-	 * "setField('this','x',8)
+	 * "setField(" + fParams("this,x,8") + ")" == "setField('this','x',8)
 	 * 
 	 * @param params
 	 * @return
 	 */
-	public static String fParams(String params){
+	public static String fParams(String params) {
 		params = params.replaceAll(" ", "");
 		String[] paramList = params.split(",");
-		
-		for(int i=0; i<paramList.length; ++i){
+
+		for (int i = 0; i < paramList.length; ++i) {
 			paramList[i] = fParam(paramList[i]);
 		}
-		
+
 		String toReturn = "";
-		for(int i=0; i<paramList.length; ++i)
+		for (int i = 0; i < paramList.length; ++i)
 			toReturn += paramList[i] + ",";
-		
-		if(toReturn.isEmpty() == false)
-			toReturn = toReturn.substring(0,toReturn.length()-1);
-		
+
+		if (toReturn.isEmpty() == false)
+			toReturn = toReturn.substring(0, toReturn.length() - 1);
+
 		return toReturn;
 	}
-	
+
 	/**
 	 * Returns a properly formatted string value
 	 * 
@@ -222,54 +242,55 @@ public class Expression {
 	 * @param value
 	 * @return
 	 */
-	public static String correctStrVal(String value){
-		if(isStrVal(value))
+	public static String correctStrVal(String value) {
+		if (isStrVal(value))
 			return value;
 		return "'" + value + "'";
 	}
-	
+
 	/**
 	 * 
 	 * When a reference is passed to a function (ex: "setField('this','x',8)")
-	 * This method can be used within the example method SetFieldBehavior.execute(...) to
-	 * eliminate the single quotes surrounding the parameter, thus preventing someone from
-	 * accidentally requesting a field with the name "'x'" when they really meant "x".
+	 * This method can be used within the example method
+	 * SetFieldBehavior.execute(...) to eliminate the single quotes surrounding
+	 * the parameter, thus preventing someone from accidentally requesting a
+	 * field with the name "'x'" when they really meant "x".
 	 * 
 	 * @param entity
 	 * @param str
 	 * @return
 	 */
-	public static String correctNonStrVal(String str){
-		if(isStrVal(str))
-			return str.substring(1, str.length()-1);
+	public static String correctNonStrVal(String str) {
+		if (isStrVal(str))
+			return str.substring(1, str.length() - 1);
 		return str;
 	}
-	
-	private static boolean isStrVal(String str){
-		return str.charAt(0)=='\'' && str.charAt(str.length()-1)=='\'';
+
+	private static boolean isStrVal(String str) {
+		return str.charAt(0) == '\'' && str.charAt(str.length() - 1) == '\'';
 	}
-	
+
 	/**
-	 * Returns a properly formatted string to be passed to an Expression method.
+	 * Returns a properly formatted string to be passed to an Expression
+	 * method.
 	 * 
-	 * "setField(" + fParam("this") + "," + fParam("x") + "," + fParam("8") + ")"
-	 *      ==
-	 * "setField('this','x',8)
+	 * "setField(" + fParam("this") + "," + fParam("x") + "," + fParam("8") +
+	 * ")" == "setField('this','x',8)
 	 * 
 	 * @param name
 	 * @return
 	 */
-	private static String fParam(String param){
-		if(param.equalsIgnoreCase("true"))
+	private static String fParam(String param) {
+		if (param.equalsIgnoreCase("true"))
 			return TRUE;
-		else if(param.equalsIgnoreCase("false"))
+		else if (param.equalsIgnoreCase("false"))
 			return FALSE;
-		else{
-			try{
+		else {
+			try {
 				return Double.valueOf(param).toString();
-			} 
-			
-			catch(Exception e){
+			}
+
+			catch (Exception e) {
 				return correctStrVal(param);
 			}
 		}
@@ -302,7 +323,8 @@ public class Expression {
 	}
 
 	/**
-	 * Make an entity recognizable by this expression and all functions called within
+	 * Make an entity recognizable by this expression and all functions called
+	 * within
 	 * 
 	 * @Param aliasName The name used to refer to the Entity in the expression
 	 *        String ("this", "other", etc.)
@@ -312,7 +334,8 @@ public class Expression {
 	}
 
 	/**
-	 * Make an ExpressionFunction recognizable by this expression and all functions called within
+	 * Make an ExpressionFunction recognizable by this expression and all
+	 * functions called within
 	 */
 	public void importFunction(AbstractExpressionFunction function) {
 		evaluator.putFunction(function.toJEvalFunction());
@@ -340,11 +363,11 @@ public class Expression {
 	public void clearVariables() {
 		evaluator.clearVariables();
 	}
-	
+
 	/**
 	 * clear all entities added with 'importEntity'
 	 */
-	public void clearEntities(){
+	public void clearEntities() {
 		resolver.entityMap.clear();
 	}
 
@@ -357,7 +380,7 @@ public class Expression {
 
 	public Boolean evaluateBool() throws EvaluationException {
 		try {
-			return evaluator.getBooleanResult( exprStr );
+			return evaluator.getBooleanResult(exprStr);
 		} catch (EvaluationException e) {
 			System.err.println(e.getMessage());
 			throw e;
@@ -366,7 +389,7 @@ public class Expression {
 
 	public Double evaluateDouble() throws EvaluationException {
 		try {
-			return evaluator.getNumberResult( exprStr );
+			return evaluator.getNumberResult(exprStr);
 		} catch (EvaluationException e) {
 			System.err.println(e.getMessage());
 			throw e;
@@ -375,15 +398,15 @@ public class Expression {
 
 	public String evaluateString() throws EvaluationException {
 		try {
-			return evaluator.evaluate( exprStr );
+			return evaluator.evaluate(exprStr);
 		} catch (EvaluationException e) {
 			System.err.println(e.getMessage());
 			throw e;
 		}
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return expr.toString();
 	}
 
@@ -404,46 +427,54 @@ public class Expression {
 		Expression expr = new Expression(exprStr);
 		return expr.evaluateString();
 	}
-	
+
 	/**
 	 * Parses/formats the parameter according to expression syntax
 	 * 
 	 * This method is called before evaluating the expression.
 	 */
-	private static String formatExpr(Object expr){
+	private static String formatExpr(Object expr) {
 		String str = expr.toString();
-		
-		//format booleans
+
+		// format booleans
 		str = formatBools(str);
-		
+
 		String regexVariableRef = "\\b[_a-zA-Z][_a-zA-Z0-9]*(\\.[_a-zA-Z][_a-zA-Z0-9]*)?\\b(?![('])(?=([^']*'[^']*')*[^']*$)";
-		
-		//string with all matches replaced with '@'
+
+		// string with all matches replaced with '@'
 		String temp = str.replaceAll(regexVariableRef, "@");
-		
-		//list of all non-matching segments
+
+		// list of all non-matching segments
 		String[] nonMatchingSegs = temp.split("@");
-		
-		//construct string with all non-matches replaced with '@'
+
+		// construct string with all non-matches replaced with '@'
 		String temp2 = str;
-		for(String segment : nonMatchingSegs)
-			temp2 = Pattern.compile(segment,Pattern.LITERAL).matcher(temp2).replaceFirst("@");
-			//temp2 = temp2.replaceAll(segment, "@");
-		
-		//list of all matches
+		for (String segment : nonMatchingSegs)
+			temp2 = Pattern.compile(segment, Pattern.LITERAL).matcher(temp2)
+					.replaceFirst("@");
+		// temp2 = temp2.replaceAll(segment, "@");
+
+		// list of all matches
 		String[] matches = temp2.split("@");
-		
+
 		String toReturn = temp;
-		for(String match : matches){
-			if(match.length()>0){
+		for (String match : matches) {
+			if (match.length() > 0) {
 				toReturn = toReturn.replaceFirst("@", fGet(match));
 			}
 		}
 
 		return toReturn;
 	}
-	
-	private static String formatBools(String str){
+
+	/**
+	 * Uses regular expressions to replace all boolean values (no matter their
+	 * formatting) with actual, recognizable booleans.
+	 * 
+	 * @param str
+	 * @return
+	 */
+	private static String formatBools(String str) {
 		str = str.replaceAll("\\b[Tt][Rr][Uu][Ee]\\b", TRUE);
 		str = str.replaceAll("\\b[Ff][Aa][Ll][Ss][Ee]\\b", FALSE);
 		return str;

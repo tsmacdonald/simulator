@@ -31,12 +31,12 @@ public class ExpressionEvaluationTest {
 	 */
 	@Before
 	public void setUp() {
-		
+
 	}
 
 	@After
 	public void tearDown() {
-		
+
 	}
 
 	@Test
@@ -47,7 +47,7 @@ public class ExpressionEvaluationTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testSimpleBooleanEvaluation2() {
 		try {
@@ -65,6 +65,7 @@ public class ExpressionEvaluationTest {
 			e.printStackTrace();
 		}
 	}
+
 	@Test
 	public void testComplexBooleanEvaluation() {
 		try {
@@ -74,7 +75,7 @@ public class ExpressionEvaluationTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testDoubleEvaluation() {
 		Double result = 1.0;
@@ -98,9 +99,7 @@ public class ExpressionEvaluationTest {
 
 	@Test
 	public void testCompareVariables() {
-		Expression testExpression = new Expression(
-				"three < ten"
-				);
+		Expression testExpression = new Expression("three < ten");
 		testExpression.importVariable("three", "3");
 		testExpression.importVariable("ten", "10");
 		try {
@@ -109,7 +108,7 @@ public class ExpressionEvaluationTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testNonStaticTestEquals() {
 		Expression testExpression = new Expression("1==1");
@@ -119,11 +118,11 @@ public class ExpressionEvaluationTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testNonStaticTestEqualWithVar() {
-		//Expression testExpression = new Expression("#{one}==1");
-		Expression testExpression = new Expression( "one == 1" );
+		// Expression testExpression = new Expression("#{one}==1");
+		Expression testExpression = new Expression("one == 1");
 		testExpression.importVariable("one", "1");
 		try {
 			Assert.assertTrue(testExpression.evaluateBool());
@@ -143,8 +142,8 @@ public class ExpressionEvaluationTest {
 			e1.printStackTrace();
 		}
 
-		//Expression testExpression = new Expression("#{entity.name}");
-		Expression testExpression = new Expression( "entity.name" );
+		// Expression testExpression = new Expression("#{entity.name}");
+		Expression testExpression = new Expression("entity.name");
 		testExpression.importEntity("entity", entity);
 
 		try {
@@ -173,7 +172,7 @@ public class ExpressionEvaluationTest {
 		Assert.assertEquals(new Double(5.0),
 				distanceExpression.evaluateDouble());
 	}
-	
+
 	@Test
 	public void testRPSLogic() throws Exception {
 		Grid testGrid = new Grid(100, 100);
@@ -186,7 +185,7 @@ public class ExpressionEvaluationTest {
 		dir1.importEntity("this", testAgent1);
 		Assert.assertTrue(dir1.evaluateBool());
 	}
-	
+
 	@Test
 	public void testCustomFunctionExpression() throws Exception {
 		Entity xThis = new Entity();
@@ -209,8 +208,7 @@ public class ExpressionEvaluationTest {
 			public String getName() {
 				return "distance";
 			}
-		
-			
+
 			@Override
 			public int getResultType() {
 				return AbstractExpressionFunction.RESULT_TYPE_NUMERIC;
@@ -239,7 +237,7 @@ public class ExpressionEvaluationTest {
 		});
 
 		Expression expr = testExpression.clone();
-		
+
 		Assert.assertEquals(new Double(5.0), expr.evaluateDouble());
 	}
 }

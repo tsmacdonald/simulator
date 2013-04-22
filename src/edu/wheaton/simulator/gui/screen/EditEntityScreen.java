@@ -98,6 +98,8 @@ public class EditEntityScreen extends Screen {
 	private JButton finishButton;
 
 	private GridBagConstraints c;
+	
+	private TriggerScreen triggerScreen;
 
 	public EditEntityScreen(final SimulatorFacade gm) {
 		super(gm);
@@ -254,16 +256,16 @@ public class EditEntityScreen extends Screen {
 
 		cards.add(generalPanel, "General");
 		cards.add(makeFieldMainPanel(fieldListPanel), "Fields");
-		cards.add(makeTriggerMainPanel(triggerListPanel), "Triggers");
+		//cards.add(makeTriggerMainPanel(triggerListPanel), "Triggers");
+		triggerScreen = new TriggerScreen(gm);
+		cards.add(triggerScreen, "Triggers");
 
 		finishButton = Gui.makeButton("Finish",null,
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (sendInfo()) {
-					Screen update = Gui.getScreenManager().getScreen("View Simulation");
-					update.load();
-					Gui.getScreenManager().update(update);
+					Gui.getScreenManager().update(Gui.getScreenManager().getScreen("View Simulation"));
 					reset();
 				}
 			}
@@ -342,14 +344,14 @@ public class EditEntityScreen extends Screen {
 		constraint.gridy = 1;
 		constraint.gridwidth = 1;
 
-		JLabel fieldNameLabel = Gui.makeLabel("Field Name", new PrefSize(263,
+		JLabel fieldNameLabel = Gui.makeLabel("Field Name", new PrefSize(350,
 				30), HorizontalAlignment.LEFT);
 		fieldNameLabel.setAlignmentX(LEFT_ALIGNMENT);
 		fieldMainPanel.add(fieldNameLabel, constraint);
 
 		constraint.gridx = 1;
 		JLabel fieldValueLabel = Gui.makeLabel("Field Initial Value",
-				new PrefSize(263, 30), HorizontalAlignment.LEFT);
+				new PrefSize(350, 30), HorizontalAlignment.LEFT);
 		fieldValueLabel.setAlignmentX(LEFT_ALIGNMENT);
 		fieldMainPanel.add(fieldValueLabel, constraint);
 
@@ -426,6 +428,7 @@ public class EditEntityScreen extends Screen {
 		removedTriggers.clear();
 		triggerListPanel.removeAll();
 		triggerListPanel.add(addTriggerButton);
+		triggerScreen.reset();
 		previousButton.setEnabled(false);
 		//previousButton.setVisible(false);
 		nextButton.setEnabled(true);
@@ -448,7 +451,7 @@ public class EditEntityScreen extends Screen {
 			}
 			if (!editing) {
 				//TODO signature of create prototype needs to not take a grid
-				gm.createPrototype(nameField.getText(), colorTool.getColor(), generateBytes());
+				gm.createPrototype(nameField.getText(), null, colorTool.getColor(), generateBytes());
 				agent = gm.getPrototype(nameField.getText());
 			} else {
 				agent.setPrototypeName(agent.getName(), nameField.getText());
@@ -666,6 +669,7 @@ public class EditEntityScreen extends Screen {
 				}
 			} else if (currentCard == "Fields") {
 				if (sendFieldInfo()) {
+					triggerScreen.load(agent);
 					c1.next(cards);
 					nextButton.setEnabled(false);
 					//nextButton.setVisible(false);
@@ -683,15 +687,19 @@ public class EditEntityScreen extends Screen {
 		public void actionPerformed(ActionEvent e) {
 			CardLayout c1 = (CardLayout) cards.getLayout();
 			if (currentCard == "Fields") {
-				previousButton.setEnabled(false);
-				//previousButton.setVisible(false);
-				c1.previous(cards);
-				currentCard = "General";
+				if (sendFieldInfo()) {
+					previousButton.setEnabled(false);
+					//previousButton.setVisible(false);
+					c1.previous(cards);
+					currentCard = "General";
+				}
 			} else if (currentCard == "Triggers") {
-				c1.previous(cards);
-				nextButton.setEnabled(true);
-				//nextButton.setVisible(true);
-				currentCard = "Fields";
+				if (sendTriggerInfo()) {
+					c1.previous(cards);
+					nextButton.setEnabled(true);
+					//nextButton.setVisible(true);
+					currentCard = "Fields";
+				}
 			}
 			validate();
 		}
