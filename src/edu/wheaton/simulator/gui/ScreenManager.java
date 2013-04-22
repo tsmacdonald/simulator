@@ -52,7 +52,9 @@ public class ScreenManager {
 	}
 	 
 	private void update(Screen update) {
+		display.setVisible(false);
 		display.updateDisplay(update);
+		display.setVisible(true);
 	}
 	
 	private static void loadScreen(Screen s){
