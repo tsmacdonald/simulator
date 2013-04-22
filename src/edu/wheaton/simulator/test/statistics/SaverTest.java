@@ -16,6 +16,7 @@ import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.Saver;
 import edu.wheaton.simulator.statistics.TriggerSnapshot;
@@ -34,8 +35,12 @@ public class SaverTest {
 	
 	@Before
 	public void setUp() throws ElementAlreadyContainedException {
+		Simulator.getInstance().load("test", 10, 10, new SimulationEnder());
+		Simulator.getInstance().setAtomicUpdate(); 
+		
 		grid = new Grid(10, 10);
-		grid.addField("Depth", "100"); 
+		grid.addField("Depth", "100");
+		grid.setAtomicUpdater(); 
 		
 		prototypeOne = new Prototype("Prototype 1");
 		try {
@@ -86,6 +91,7 @@ public class SaverTest {
 		Set<Agent> agents = new HashSet<Agent>(); 
 		agents.add(agent); 
 		agents.add(agentOther);
+		grid.setLinearUpdater(); 
 		
 		// Creating a HashMap of PrototypeSnapshots
 		ImmutableSet.Builder<Prototype> builder = new ImmutableSet.Builder<Prototype>();

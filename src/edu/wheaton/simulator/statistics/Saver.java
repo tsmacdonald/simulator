@@ -56,7 +56,7 @@ public class Saver {
 		sb.append(height + "\n");
 		
 		//Save the Updater
-		sb.append(Simulator.getInstance().currentUpdater()); 
+		sb.append(Simulator.getInstance().currentUpdater() + "\n"); 
 
 		//Serialize and write all PrototypeSnapshots to file
 		for(PrototypeSnapshot proto : protoSnaps)

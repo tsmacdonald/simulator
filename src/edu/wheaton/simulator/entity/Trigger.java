@@ -305,7 +305,7 @@ public class Trigger implements Comparable<Trigger> {
 		
 		/**
 		 * Converts a JEval formed trigger to something that be read by a human and makes sense.
-		 * 
+		 * So from this.weight > this.height to weight > height.
 		 * @param t
 		 */
 		private void parseTrigger(Trigger t) {
@@ -318,20 +318,31 @@ public class Trigger implements Comparable<Trigger> {
 			String behavior = t.getBehavior().toString();
 			for (String s : converter.inverse().keySet()){
 				if (condition.contains(s)){
-					condition = condition.replace(s, converter.inverse().get(s)+ " ");
+					if (functions.containsKey(s)){
+						condition = condition.replace(s+"(", " " + converter.inverse().get(s)+ " ( ");
+					}
+					else
+						condition = condition.replace(s, " " + converter.inverse().get(s)+ " ");
 				}
 				if (behavior.contains(s)){
-					behavior = behavior.replace(s, converter.inverse().get(s)+" ");
+					if (functions.containsKey(s))
+						condition = condition.replace(s+"(", " " + converter.inverse().get(s)+ " ( ");
+					else
+						condition = condition.replace(s, converter.inverse().get(s)+ " ");
+					behavior = behavior.replace(s, " " + converter.inverse().get(s) + " ");
 				}
 			}
 			if (condition.charAt(condition.length()-1)==(' ')){
 				condition= condition.substring(0, condition.length()-1);
 			}
+			condition = condition.replace("  ", " ");
 			conditionString = condition;
 			if (behavior.charAt(behavior.length()-1)==(' ')){
 				behavior= behavior.substring(0, behavior.length()-1);
 			}
+			behavior = behavior.replace("  ", " ");
 			behaviorString = behavior;
+			System.out.println("condition: " + conditionString + " | behavior: "+ behaviorString);
 		}
 		
 		/**
@@ -347,6 +358,7 @@ public class Trigger implements Comparable<Trigger> {
 		 * @return
 		 */
 		public String getConditionString(){
+			System.out.println(conditionString);
 			return conditionString;
 		}
 		
@@ -384,21 +396,21 @@ public class Trigger implements Comparable<Trigger> {
 			behavioralValues.add(",");
 
 		
-			converter.put("OR", "||");
-			conditionalValues.add("OR");
-			behavioralValues.add("OR");
+			converter.put("or", "||");
+			conditionalValues.add("or");
+			behavioralValues.add("or");
 
-			converter.put("AND", "&&");
-			conditionalValues.add("AND");
-			behavioralValues.add("AND");
+			converter.put("and", "&&");
+			conditionalValues.add("and");
+			behavioralValues.add("and");
 
-			converter.put("NOT_EQUALS", "!=");
-			conditionalValues.add("NOT_EQUALS");
-			behavioralValues.add("NOT_EQUALS");
+			converter.put("not_equals", "!=");
+			conditionalValues.add("not_equals");
+			behavioralValues.add("not_equals");
 
-			converter.put("EQUALS", "==");
-			conditionalValues.add("EQUALS");
-			behavioralValues.add("EQUALS");
+			converter.put("equals", "==");
+			conditionalValues.add("equals");
+			behavioralValues.add("equals");
 
 			converter.put(">", ">");
 			conditionalValues.add(">");
@@ -408,6 +420,29 @@ public class Trigger implements Comparable<Trigger> {
 			conditionalValues.add("<");
 			behavioralValues.add("<");
 
+			converter.put("<=", "<=");
+			conditionalValues.add("<=");
+			behavioralValues.add("<=");
+
+			converter.put(">=", ">=");
+			conditionalValues.add(">=");
+			behavioralValues.add(">=");
+			
+			converter.put("+", "+");
+			conditionalValues.add("+");
+			behavioralValues.add("+");
+
+			converter.put("-", "-");
+			conditionalValues.add("-");
+			behavioralValues.add("-");
+			
+			converter.put("/", "/");
+			conditionalValues.add("<");
+			behavioralValues.add("<");
+			
+			converter.put("*", "*");
+			conditionalValues.add("*");
+			behavioralValues.add("*");
 		}
 
 		/**
@@ -431,6 +466,11 @@ public class Trigger implements Comparable<Trigger> {
 		 */
 		private void loadBehaviorFunctions() {
 			behavioralValues.add("--Functions--");
+			for (String s : Expression.getConditionFunction().keySet()) {
+				behavioralValues.add(convertCamelCaseToNormal(s));
+				converter.put(convertCamelCaseToNormal(s), s);
+			}
+			behavioralValues.add("--Behaviors--");
 			for (String s : Expression.getBehaviorFunction().keySet()){
 				behavioralValues.add(convertCamelCaseToNormal(s));
 				converter.put(convertCamelCaseToNormal(s), s);

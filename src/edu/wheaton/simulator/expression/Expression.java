@@ -165,6 +165,7 @@ public class Expression {
 		behaviorFunctions = new HashMap<String, AbstractExpressionFunction>();
 		conditionFunctions = new HashMap<String, AbstractExpressionFunction>();
 		behaviorFunctions.put("clone", new CloneBehavior());
+		behaviorFunctions.put("clonePrototype", new ClonePrototype());
 		behaviorFunctions.put("cloneAgentAtPosition",
 				new CloneAgentAtPositionBehavior());
 		behaviorFunctions.put("die", new DieBehavior());
@@ -177,10 +178,7 @@ public class Expression {
 		behaviorFunctions.put("moveRight", new MoveRightBehavior());
 		behaviorFunctions.put("moveLeft", new MoveLeftBehavior());
 		behaviorFunctions.put("moveDown", new MoveDownBehavior());
-		behaviorFunctions.put("moveUp", new MoveUpBehavior());
-		behaviorFunctions.put("isSlotOpen", new IsSlotOpen());
-		behaviorFunctions.put("isValidCoord", new IsValidCoord());
-		behaviorFunctions.put("getGlobalField", new GetGlobalField());	
+		behaviorFunctions.put("moveUp", new MoveUpBehavior());	
 		conditionFunctions.put("getFieldOfAgentAt", new GetFieldOfAgentAt());
 		conditionFunctions.put("isSlotOpen", new IsSlotOpen());
 		conditionFunctions.put("isValidCoord", new IsValidCoord());	
