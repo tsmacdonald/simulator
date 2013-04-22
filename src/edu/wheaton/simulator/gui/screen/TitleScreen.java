@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import edu.wheaton.simulator.gui.FileMenu;
 import edu.wheaton.simulator.gui.GeneralButtonListener;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.PrefSize;
@@ -79,5 +80,9 @@ public class TitleScreen extends Screen {
 	}
 
 	@Override
-	public void load() { }
+	public void load() { 
+		FileMenu fm = Gui.getFileMenu();
+		fm.setNewSim(true);
+		fm.setSaveSim(false);
+	}
 }

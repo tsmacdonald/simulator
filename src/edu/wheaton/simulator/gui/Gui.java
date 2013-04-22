@@ -47,6 +47,10 @@ public final class Gui {
 		return Display.getInstance();
 	}
 	
+	public static FileMenu getFileMenu(){
+		return ((MenuBar)Display.getInstance().getJMenuBar()).getFileMenu();
+	}
+	
 	public static ScreenManager getScreenManager(){
 		return ScreenManager.getInstance();
 	}

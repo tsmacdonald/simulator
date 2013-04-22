@@ -23,6 +23,8 @@ import javax.swing.SpinnerNumberModel;
 import com.google.common.collect.ImmutableList;
 
 import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.gui.FileMenu;
+import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.SimulatorFacade;
 
 /**
@@ -533,6 +535,8 @@ public class EditTriggerScreen extends Screen {
 	}
 
 	public void load(){
+		FileMenu fm = Gui.getFileMenu();
+		fm.setSaveSim(false);
 	}
 
 	public Trigger sendInfo(){

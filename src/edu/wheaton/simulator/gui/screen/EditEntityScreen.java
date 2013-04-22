@@ -29,6 +29,7 @@ import javax.swing.event.ChangeListener;
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.gui.BoxLayoutAxis;
+import edu.wheaton.simulator.gui.FileMenu;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.IconGridPanel;
@@ -221,6 +222,8 @@ public class EditEntityScreen extends Screen {
 					public void actionPerformed(ActionEvent e) {
 						ScreenManager sm = getScreenManager();
 						sm.load(sm.getScreen("View Simulation"));
+						FileMenu fm = Gui.getFileMenu();
+						fm.setSaveSim(true);
 						if (!editing)
 							Prototype.removePrototype(nameField.getText());
 						reset();
@@ -320,6 +323,9 @@ public class EditEntityScreen extends Screen {
 		//nextButton.setVisible(true);
 		finishButton.setEnabled(false);
 		//finishButton.setVisible(false);
+		
+		FileMenu fm = Gui.getFileMenu();
+		fm.setSaveSim(false);
 	}
 
 	public boolean sendInfo() {

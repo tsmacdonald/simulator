@@ -21,6 +21,8 @@ import javax.swing.ListSelectionModel;
 
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
+import edu.wheaton.simulator.gui.FileMenu;
+import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class TriggerScreen extends Screen {
@@ -229,6 +231,8 @@ public class TriggerScreen extends Screen {
 	}
 
 	public void load(Prototype p){
+		FileMenu fm = Gui.getFileMenu();
+		fm.setSaveSim(false);
 		prototype = p;
 		triggers.setListData(prototype.getTriggers().toArray());
 		validate();
@@ -236,6 +240,8 @@ public class TriggerScreen extends Screen {
 
 	@Override
 	public void load() {
+		FileMenu fm = Gui.getFileMenu();
+		fm.setSaveSim(false);
 	}
 
 	public Prototype sendInfo(){

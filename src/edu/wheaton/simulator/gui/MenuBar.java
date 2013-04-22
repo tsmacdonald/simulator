@@ -17,5 +17,9 @@ public class MenuBar extends JMenuBar {
 		add(fileMenu);
 		add(helpMenu);
 	}
+	
+	public FileMenu getFileMenu(){
+		return fileMenu;
+	}
 
 }

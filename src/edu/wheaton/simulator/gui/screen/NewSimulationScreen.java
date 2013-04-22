@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import edu.wheaton.simulator.gui.ConwayFinishListener;
+import edu.wheaton.simulator.gui.FileMenu;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.MaxSize;
@@ -105,6 +106,8 @@ public class NewSimulationScreen extends Screen {
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
+		FileMenu fm = Gui.getFileMenu();
+		fm.setNewSim(false);
+		fm.setSaveSim(false);
 	}
 }

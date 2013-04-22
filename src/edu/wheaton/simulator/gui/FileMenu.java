@@ -60,4 +60,12 @@ public class FileMenu extends JMenu {
 		add(loadSim);
 		add(exit);
 	}
+	
+	public void setNewSim(boolean enable){
+		newSim.setEnabled(enable);
+	}
+	
+	public void setSaveSim(boolean enable){
+		saveSim.setEnabled(enable);
+	}
 }

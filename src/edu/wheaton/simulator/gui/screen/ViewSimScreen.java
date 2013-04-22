@@ -28,6 +28,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.wheaton.simulator.gui.FileMenu;
 import edu.wheaton.simulator.gui.GeneralButtonListener;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.MaxSize;
@@ -211,6 +212,10 @@ public class ViewSimScreen extends Screen {
 
 	@Override
 	public void load() {
+		FileMenu fm = Gui.getFileMenu();
+		fm.setNewSim(true);
+		fm.setSaveSim(true);
+		
 		this.setVisible(false);
 		entitiesScreen.load();
 		layerScreen.load();
