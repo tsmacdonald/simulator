@@ -330,9 +330,11 @@ public class Loader {
 	 */
 	private static byte[] createByteArray(String s){
 		byte[] ret = new byte[s.length()]; 
+		
+		String[] tokens = s.split("~");
 
-		for(int i = 0; i < s.length(); i++)
-			ret[i] = (byte) s.charAt(i); 
+		for(int i = 0; i < tokens.length; i++)
+			ret[i] = (byte) Integer.parseInt(tokens[i]); 
 
 		return ret; 
 	}
