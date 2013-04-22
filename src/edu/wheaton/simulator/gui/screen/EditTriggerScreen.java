@@ -101,11 +101,15 @@ public class EditTriggerScreen extends Screen {
 	 */
 	private Trigger.Builder builder;
 
+	/**
+	 * Button that deletes components from the conditional expression
+	 */
 	private JButton deleteConditionalButton;
-
+	
+	/**
+	 * Button that deletes components from the behavior expression
+	 */
 	private JButton deleteBehaviorButton;
-
-	private JLabel isValidText;
 
 	private Trigger selectedTrigger;
 	
@@ -126,7 +130,6 @@ public class EditTriggerScreen extends Screen {
 		addBehaviorLayout(new GridBagConstraints());
 		addConditionalButtons(new GridBagConstraints());
 		addBehaviorButtons(new GridBagConstraints());
-		addValidLabel(new GridBagConstraints());
 	}
 
 	private void addNameLabel(GridBagConstraints constraints) {
@@ -138,19 +141,6 @@ public class EditTriggerScreen extends Screen {
 		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
 		constraints.fill = GridBagConstraints.BOTH;
 		add(name, constraints);
-	}
-
-	private void addValidLabel(GridBagConstraints constraints){
-		isValidText = new JLabel("Invalid");
-		isValidText.setBackground(Color.red);
-		isValidText.setToolTipText("Tells whether or not the trigger created is valid. " +
-				"Updates when save button is pressed");
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		constraints.gridx = 0;
-		constraints.gridy = 10;
-		constraints.anchor = GridBagConstraints.BASELINE_TRAILING;
-		add(isValidText, constraints);		
 	}
 
 	private void addPriorityLabel(GridBagConstraints constraints) {
@@ -324,7 +314,7 @@ public class EditTriggerScreen extends Screen {
 	private void addBehaviorBox(){
 		if(selectedTrigger == null)
 			return;
-		JComboBox toAdd = makeConditionalDropdown();
+		JComboBox toAdd = makeBehaviorDropdown();
 		behaviors.add(toAdd);
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridwidth = 1; 
@@ -515,18 +505,7 @@ public class EditTriggerScreen extends Screen {
 		prioritySpinner.setValue(selectedTrigger.getPriority());
 		populateConditionals();
 		populateBehaviors();
-		try{
-			if(builder.isValid()){
-				isValidText.setText("Valid");
-				isValidText.setBackground(Color.green);
-			}
-		}
-		catch(Exception e){
-			isValidText.setText("Invalid");
-			isValidText.setBackground(Color.red);
-		}
 		validate();
-		repaint();
 	}
 
 	@Override
@@ -565,14 +544,11 @@ public class EditTriggerScreen extends Screen {
 		builder.addName(nameField.getText());
 		builder.addPriority((Integer) prioritySpinner.getValue());
 		try{
-			if(builder.isValid()){
-				isValidText.setText("Valid");
+			if(builder.isValid())
 				return builder.build();
-			}
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
-		isValidText.setText("Invalid");
 		return null;
 	}
 
