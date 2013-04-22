@@ -13,6 +13,7 @@ import edu.wheaton.simulator.datastructure.AbstractGUIGridObserver;
 import edu.wheaton.simulator.datastructure.AgentAppearance;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 public class GridTest {
 
@@ -99,10 +100,13 @@ public class GridTest {
 			public void update(Set<AgentAppearance> agents) {
 				Assert.assertEquals(agents.size(), 2);
 			}
+
+			@Override
+			public void update(SimulationEnder ender) { }
 			
 		});
 		try {
-			grid.notifyObservers(false);
+			grid.notifyDisplayObservers(false);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
