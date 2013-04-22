@@ -187,6 +187,10 @@ public class ViewSimScreen extends Screen {
 		});
 		return b;
 	}
+	
+	public void initTabs(){
+		tabs.setSelectedComponent(optionsScreen);
+	}
 
 	@Override
 	public void load() {
@@ -195,7 +199,8 @@ public class ViewSimScreen extends Screen {
 		layerScreen.load();
 		globalFieldScreen.load();
 		optionsScreen.load();
-		tabs.setSelectedComponent(optionsScreen);
+		if(tabs.getSelectedComponent()==null)
+			initTabs();
 		validate();
 		this.setVisible(true);
 	}

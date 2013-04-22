@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 
 import edu.wheaton.simulator.gui.screen.Screen;
+import edu.wheaton.simulator.gui.screen.ViewSimScreen;
 
 public class ConwayFinishListener implements ActionListener {
 	
@@ -32,6 +33,7 @@ public class ConwayFinishListener implements ActionListener {
 		}
 
 		Screen upload = Gui.getScreenManager().getScreen("View Simulation");
+		((ViewSimScreen)upload).initTabs();
 		gm.initGameOfLife();
 		gm.setStepLimit(1000);
 		gm.setStarted(false);
