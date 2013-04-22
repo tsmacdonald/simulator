@@ -99,7 +99,7 @@ public class FieldScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 4;
-		c.insets = new Insets(5,0,10,0);
+		c.insets = new Insets(0,0,5,0);
 		this.add(
 			Gui.makeLabel("Global Fields",PrefSize.NULL,HorizontalAlignment.CENTER), 
 			c);

@@ -164,7 +164,7 @@ public final class Gui {
 		JMenu menu = new JMenu(name);
 		//menu.setOpaque(true);
 		menu.setForeground(Color.white);
-		menu.setBackground(Color.darkGray);
+		//menu.setBackground(Color.darkGray);
 		menu.setBorderPainted(false);
 		
 		menu.getPopupMenu().setBorder(

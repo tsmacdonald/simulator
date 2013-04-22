@@ -174,7 +174,7 @@ public class EntityScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 5;
-		c.insets = new Insets(5,0,10,0);
+		c.insets = new Insets(0,0,5,0);
 		JLabel header = Gui.makeLabel("Agents", PrefSize.NULL,HorizontalAlignment.CENTER);
 		this.add(header, c);
 

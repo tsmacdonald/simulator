@@ -63,7 +63,6 @@ public class ViewSimScreen extends Screen {
 		((GridBagLayout) this.getLayout()).columnWeights = new double[] { 0, 1 };
 
 		tabs = new JTabbedPane();
-		tabs.setMaximumSize(new Dimension(550, 550));
 		entitiesScreen = new EntityScreen(gm);
 		layerScreen = new LayerScreen(gm);
 		globalFieldScreen = new FieldScreen(gm);
