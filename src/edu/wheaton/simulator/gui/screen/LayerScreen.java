@@ -1,6 +1,5 @@
 package edu.wheaton.simulator.gui.screen;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -16,8 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.GuiConstants;
-import edu.wheaton.simulator.gui.MaxSize;
-import edu.wheaton.simulator.gui.MinSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.SimulatorFacade;
 
@@ -31,9 +28,9 @@ public class LayerScreen extends Screen {
 
 	private String[] entities;
 
-	private JPanel layerPanelAgents;
+	private JPanel agentsCBpanel;
 
-	private JPanel layerPanelLayers;
+	private JPanel fieldsCBpanel;
 	
 	private GridBagConstraints c;
 	
@@ -72,88 +69,62 @@ public class LayerScreen extends Screen {
 					}
 				});
 
-		layerPanelAgents = Gui.makePanel(new GridBagLayout(), null, null);
+		agentsCBpanel = new JPanel();
+		fieldsCBpanel = new JPanel();
 		
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.insets = new Insets(5,5,5,5);
-		layerPanelAgents.add(agents,c);
-		
-		c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 0;
-		c.gridwidth = 3;
-		c.insets = new Insets(5,5,5,5);
-		layerPanelAgents.add(agentComboBox,c);
-
-		layerPanelLayers = Gui.makePanel(new GridBagLayout(), null, null);
+		this.add(agents,c);
+		agentsCBpanel.add(agentComboBox);
 		
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
-		c.gridy = 0;
+		c.gridy = 1;
 		c.insets = new Insets(5,5,5,5);
-		layerPanelLayers.add(layers,c);
-		
-		c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 0;
-		c.gridwidth = 3;
-		c.insets = new Insets(5,5,5,5);
-		layerPanelLayers.add(layerComboBox,c);
-
-		JPanel layerPanelButtons = Gui.makePanel(new GridBagLayout(),null, null);
+		this.add(layers,c);
+		fieldsCBpanel.add(layerComboBox);
 		
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
-		c.gridy = 0;
+		c.gridy = 2;
 		c.insets = new Insets(5,5,5,5);
-		layerPanelButtons.add(apply,c);
+		this.add(apply,c);
 		
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
-		c.gridy = 0;
+		c.gridy = 2;
 		c.insets = new Insets(5,5,5,5);
-		layerPanelButtons.add(clear,c);
+		this.add(clear,c);
 
 		JPanel colorPanel = Gui.makeColorChooserPanel(colorTool);
 
-		JPanel upperLayerPanel = new JPanel();
-		upperLayerPanel.setLayout(new GridBagLayout());
-
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
 		c.gridy = 0;
 		c.insets = new Insets(5,5,5,5);
-		upperLayerPanel.add(layerPanelAgents, c);
+		this.add(agentsCBpanel, c);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
 		c.gridy = 1;
 		c.insets = new Insets(5,5,5,5);
-		upperLayerPanel.add(layerPanelLayers, c);
+		this.add(fieldsCBpanel, c);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridy = 2;
-		c.insets = new Insets(5,5,5,5);
-		upperLayerPanel.add(layerPanelButtons, c);
-
-		c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridy = 4;
+		c.gridy = 3;
 		c.insets = new Insets(10,10,10,10);
-		upperLayerPanel.add(colorPanel, c);
+		c.gridwidth = 4;
+		this.add(colorPanel, c);
 		
-		c = new GridBagConstraints();
-		c.insets = new Insets(30,10,10,10);
-		this.add(upperLayerPanel,c);
 		this.validate();
 	}
 
@@ -177,15 +148,9 @@ public class LayerScreen extends Screen {
 
 				layerComboBox = new JComboBox(fields);
 				layerComboBox.setMinimumSize(GuiConstants.minComboBoxSize);
-				layerPanelLayers.remove(1);
+				fieldsCBpanel.removeAll();
 				
-				c = new GridBagConstraints();
-				c.fill = GridBagConstraints.HORIZONTAL;
-				c.gridx = 1;
-				c.gridy = 0;
-				c.gridwidth = 3;
-				c.insets = new Insets(5,5,5,5);
-				layerPanelLayers.add(layerComboBox,c);
+				fieldsCBpanel.add(layerComboBox);
 				validate();
 				repaint();
 			}
@@ -202,28 +167,14 @@ public class LayerScreen extends Screen {
 
 			layerComboBox = new JComboBox(fields);
 			layerComboBox.setMinimumSize(GuiConstants.minComboBoxSize);
-			layerPanelLayers.remove(1);
-			
-			c = new GridBagConstraints();
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.gridx = 1;
-			c.gridy = 0;
-			c.gridwidth = 3;
-			c.insets = new Insets(5,5,5,5);
-			layerPanelLayers.add(layerComboBox,c);
+			fieldsCBpanel.removeAll();
+			fieldsCBpanel.add(layerComboBox);
 		}
 		else{
 			layerComboBox.removeAllItems();
 		}
-		layerPanelAgents.remove(1);
-		
-		c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 0;
-		c.gridwidth = 3;
-		c.insets = new Insets(5,5,5,5);
-		layerPanelAgents.add(agentComboBox,c);
+		agentsCBpanel.removeAll();
+		agentsCBpanel.add(agentComboBox);
 	}
 
 }
