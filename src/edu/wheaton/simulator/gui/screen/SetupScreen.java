@@ -69,7 +69,7 @@ public class SetupScreen extends Screen {
 		JLabel nameLabel = Gui.makeLabel("Name:",
 				new MinSize(50,30));
 		
-		nameField = Gui.makeTextField(gm.getSimName(), 15,
+		nameField = Gui.makeTextField(gm.getSimName(), 20,
 				null, new MinSize(75,30));
 		
 		JLabel widthLabel = Gui.makeLabel("Width:",
@@ -88,20 +88,19 @@ public class SetupScreen extends Screen {
 		
 		updateBox = Gui.makeComboBox(new String[] { "Linear", "Atomic",
 				"Priority" }, MaxSize.NULL);
-		updateBox.setMinimumSize(new MinSize(90,30));
+		updateBox.setMinimumSize(new MinSize(250,30));
+		updateBox.setPreferredSize(new PrefSize(250,30));
 		
 		//TODO working on adding step delay components
 		JLabel delayLabel = Gui.makeLabel("Step delay (ms):", MaxSize.NULL, null);
 		
-		delayField = Gui.makeTextField("1.0", 5, MaxSize.NULL,
+		delayField = Gui.makeTextField("1.0", 20, MaxSize.NULL,
 				new MinSize(100,30));
 
-		JLabel conHeader = Gui.makeLabel("Ending Conditions", MaxSize.NULL, null);
-		
 		JLabel timeLabel = Gui.makeLabel("Max steps:", MaxSize.NULL,
 				null);
 
-		timeField = Gui.makeTextField(null, 15, MaxSize.NULL,
+		timeField = Gui.makeTextField(null, 20, MaxSize.NULL,
 				new MinSize(60,30));
 
 		JLabel agentTypeLabel = Gui.makeLabel("Agent Type", MaxSize.NULL, null);
@@ -142,7 +141,7 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 0;
-		c.gridwidth = 2;
+		c.gridwidth = 3;
 		c.insets = new Insets(0, 0, 0, 3);
 		this.add(nameField, c);
 
@@ -155,7 +154,7 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
-		c.insets = new Insets(0, 0, 0, 3);
+		c.insets = new Insets(0, -4, 0, 3);
 		this.add(widthField, c);
 
 		c = new GridBagConstraints();
@@ -180,6 +179,7 @@ public class SetupScreen extends Screen {
 		c.gridx = 1;
 		c.gridy = 2;
 		c.insets = new Insets(0, 0, 0, 3);
+		c.gridwidth = 3;
 		this.add(delayField, c);
 		
 		c = new GridBagConstraints();
@@ -192,6 +192,7 @@ public class SetupScreen extends Screen {
 		c.gridx = 1;
 		c.gridy = 3;
 		c.insets = new Insets(0, 0, 0, 3);
+		c.gridwidth = 3;
 		this.add(updateBox, c);
 
 		c = new GridBagConstraints();
@@ -204,6 +205,7 @@ public class SetupScreen extends Screen {
 		c.gridx = 1;
 		c.gridy = 4;
 		c.insets = new Insets(0, 0, 0, 3);
+		c.gridwidth = 3;
 		this.add(timeField, c);
 
 		c = new GridBagConstraints();
