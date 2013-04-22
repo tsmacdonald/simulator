@@ -405,8 +405,9 @@ public class EditTriggerScreen extends Screen {
 					isInList = true;
 					break;
 				}
-			if(!isInList)
+			if(!isInList) {
 				addConditionalText(token);
+			}
 		}
 	}
 
@@ -482,8 +483,8 @@ public class EditTriggerScreen extends Screen {
 		selectedTrigger = t;
 		nameField.setText(selectedTrigger.getName());
 		prioritySpinner.setValue(selectedTrigger.getPriority());
-		populateBehaviors();
 		populateConditionals();
+		populateBehaviors();
 		try{
 			if(builder.isValid()){
 				isValidText.setText("Valid");
