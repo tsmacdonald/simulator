@@ -119,13 +119,6 @@ public class Prototype extends GridEntity {
 	}
 
 	/**
-	 * Removes a Prototype templates from the HashMap
-	 */
-	public static void clearPrototypes() {
-		prototypes.clear();
-	}
-
-	/**
 	 * Gets a Set of the prototype names
 	 * 
 	 * @return

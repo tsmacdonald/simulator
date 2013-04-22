@@ -137,13 +137,6 @@ public class Simulator {
 	}
 
 	/**
-	 * Resets the static list of prototypes
-	 */
-	public static void clearPrototypes() {
-		Prototype.clearPrototypes();
-	}
-
-	/**
 	 * Gets a Set of the prototype names
 	 * 
 	 * @return
@@ -326,7 +319,6 @@ public class Simulator {
 	 * Sample simulation: Conway's Game of Life
 	 */
 	public void initGameOfLife() {
-		clearPrototypes();
 		simulationGrid().setPriorityUpdater(0, 50);
 
 		// add prototypes
@@ -538,25 +530,6 @@ public class Simulator {
 	public void loadPrototypeFromFile(File file){
 		Loader l = new Loader();
 		Prototype.addPrototype(l.loadPrototype(file));
-	}
-	
-	/**
-	 * Load all prototypes from all prototype files in the directory
-	 * 
-	 * @param file that points to directory where prototype files are located
-	 */
-	public void loadPrototypesFromDirectory(File directory) {
-		Loader l = new Loader();
-		File[] protoFiles;
-		if (directory.isDirectory()) {
-			protoFiles = directory.listFiles();
-			for (File file : protoFiles) {
-				if (file.getName().contains(".agt")) {
-					Prototype.addPrototype(l.loadPrototype(file));
-				}
-				else continue;
-			}
-		}
 	}
 
 	/**
