@@ -83,7 +83,7 @@ public class SetupScreen extends Screen {
 					public void actionPerformed(ActionEvent e) {
 						load();
 					}
-				}), makeConfirmButton());
+				}), makeConfirmButton(),addConditionButton);
 		
 		JPanel mainPanel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, null, (Component[])null);
 		
@@ -93,12 +93,12 @@ public class SetupScreen extends Screen {
 
 		c = new GridBagConstraints();
 		c.gridy = 1;
-		c.insets = new Insets(15,50,50,15);
+		c.insets = new Insets(0,50,0,15);
 		mainPanel.add(lowerPanel,c);
 
 		c = new GridBagConstraints();
 		c.gridy = 2;
-		mainPanel.add(Gui.makePanel(bottomButtons,addConditionButton),c);
+		mainPanel.add(Gui.makePanel(bottomButtons),c);
 		
 		this.add(mainPanel);
 		validate();
@@ -360,7 +360,7 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
-		c.insets = new Insets(15, 10, 3, 3);
+		c.insets = new Insets(15, 40, 3, 3);
 		c.anchor = GridBagConstraints.CENTER;
 		lowerPanel.add(agentTypeLabel, c);
 
