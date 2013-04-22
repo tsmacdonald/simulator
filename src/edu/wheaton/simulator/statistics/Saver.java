@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableSet;
 
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
+import edu.wheaton.simulator.simulation.Simulator;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 
@@ -52,7 +53,10 @@ public class Saver {
 
 		//Save the Grid dimensions
 		sb.append(width + "\n"); 
-		sb.append(height + "\n");  
+		sb.append(height + "\n");
+		
+		//Save the Updater
+		sb.append(Simulator.getInstance().currentUpdater()); 
 
 		//Serialize and write all PrototypeSnapshots to file
 		for(PrototypeSnapshot proto : protoSnaps)
@@ -70,17 +74,20 @@ public class Saver {
 		//Save the Ending Conditions
 		sb.append(simEnder.serialize()); 
 
-		//Make a folder, create the file
+		/**
+		 * We are being passed a file with a location, no need to create another one or folders for
+		 * that matter. If you call new File() and pass an absolute path, it will create folders as
+		 * it needs them, no need to call methods to create them.
+		 */
 		try {
-			File simDirectory = new File("simulations");
-			simDirectory.mkdirs();
-			System.out.println(simDirectory.getAbsolutePath());
-			newFile = new File(simDirectory.getAbsolutePath() + File.separator + newFile.getName());
-			newFile.createNewFile();
-			System.out.println("File created!");
-			System.out.println("File path: " + newFile.getAbsolutePath());
+			if (newFile.exists()) {
+				newFile.createNewFile();
+				System.out.println("File created!");
+				System.out.println("File path: " + newFile.getAbsolutePath());
+			}
 
 			FileWriter writer = new FileWriter(newFile.getAbsolutePath(), false);
+
 			writer.write(sb.toString());
 			writer.close();
 		} catch (IOException e) {

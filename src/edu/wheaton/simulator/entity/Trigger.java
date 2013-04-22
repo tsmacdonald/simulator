@@ -145,6 +145,8 @@ public class Trigger implements Comparable<Trigger> {
 		} catch (EvaluationException e) {
 			atomicConditionResult = false;
 			throw e;
+		} catch (Exception e) {
+			atomicConditionResult = false;
 		}
 	}
 
@@ -182,6 +184,8 @@ public class Trigger implements Comparable<Trigger> {
 			}
 		} catch (EvaluationException e) {
 			throw new EvaluationException("Behavior");
+		} catch (NullPointerException e) {
+			// No entity found
 		}
 		notifyObservers(a.getID(), t, step);
 	}

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JFileChooser;
+
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.datastructure.Field;
@@ -17,7 +18,29 @@ import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
 public class SimulatorFacade {
+	
+	private static SimulatorFacade gm;
+	private SimulationEnder se;
+	private StatisticsManager statMan;
+	private Simulator simulator;
+	private boolean simulationIsRunning;
+	private GridPanel gridPanel;
+	private GridPanelObserver gpo;
+	private boolean hasStarted;
+	private JFileChooser fc;
 
+	private SimulatorFacade() {
+		gridPanel = new GridPanel(this);
+		load("New Simulation",10, 10);
+		se = new SimulationEnder();
+		statMan = StatisticsManager.getInstance();
+
+		hasStarted = false;
+		gpo = new GridPanelObserver(gridPanel);
+		simulator.addGridObserver(gpo);
+		fc = new JFileChooser();
+	}
+	
 	public static SimulatorFacade getInstance(){
 		if(gm==null)
 			gm = new SimulatorFacade();
@@ -261,26 +284,5 @@ public class SimulatorFacade {
 	public double getAvgLifespan(String protName) {
 		return statMan.getAvgLifespan(protName);
 	}
-	
-	private static SimulatorFacade gm;
-	private SimulationEnder se;
-	private StatisticsManager statMan;
-	private Simulator simulator;
-	private boolean simulationIsRunning;
-	private GridPanel gridPanel;
-	private GridPanelObserver gpo;
-	private boolean hasStarted;
-	private JFileChooser fc;
 
-	private SimulatorFacade() {
-		gridPanel = new GridPanel(this);
-		load("New Simulation",10, 10);
-		se = new SimulationEnder();
-		statMan = StatisticsManager.getInstance();
-
-		hasStarted = false;
-		gpo = new GridPanelObserver(gridPanel);
-		simulator.addGridObserver(gpo);
-		fc = new JFileChooser();
-	}
 }
