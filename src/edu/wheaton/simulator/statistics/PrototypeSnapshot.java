@@ -110,7 +110,7 @@ public class PrototypeSnapshot {
 		String ret = ""; 
 		
 		for(byte b : array)
-			ret += b; 
+			ret += b + "~"; 
 		
 		return ret; 
 	}
