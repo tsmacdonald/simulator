@@ -107,7 +107,10 @@ public class StatisticsManager {
 		observers.remove(observer);
 	}
 	
-	private void updateObservers() { 
+	/**
+	 * Notify all observers of new available statistical information.
+	 */
+	private void notifyObservers() { 
 		for (StatsObserver obs : observers) 
 			obs.onNewStats();
 	}
