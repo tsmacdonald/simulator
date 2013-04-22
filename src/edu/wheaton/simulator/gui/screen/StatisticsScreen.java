@@ -13,9 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import edu.wheaton.simulator.behavior.SetFieldBehavior;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.ScreenManager;

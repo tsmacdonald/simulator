@@ -3,10 +3,8 @@ package edu.wheaton.simulator.gui;
 import java.util.HashMap;
 
 import edu.wheaton.simulator.gui.screen.EditEntityScreen;
-import edu.wheaton.simulator.gui.screen.EditFieldScreen;
 import edu.wheaton.simulator.gui.screen.NewSimulationScreen;
 import edu.wheaton.simulator.gui.screen.Screen;
-import edu.wheaton.simulator.gui.screen.SetupScreen;
 import edu.wheaton.simulator.gui.screen.StatisticsScreen;
 import edu.wheaton.simulator.gui.screen.TitleScreen;
 import edu.wheaton.simulator.gui.screen.ViewSimScreen;

@@ -1,8 +1,6 @@
 package edu.wheaton.simulator.gui;
 
 import java.awt.Color;
-import java.awt.Dimension;
-
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;

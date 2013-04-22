@@ -534,6 +534,7 @@ public class EditTriggerScreen extends Screen {
 		validate();
 	}
 
+	@Override
 	public void load(){
 		FileMenu fm = Gui.getFileMenu();
 		fm.setSaveSim(false);

@@ -225,14 +225,14 @@ public class SetupScreen extends Screen {
 		c.gridy = 6;
 		c.gridwidth = 4;
 		c.insets = new Insets(2,0, 0, 0);
-		c.fill = c.HORIZONTAL;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		this.add(scrollPaneWrapper,c);
 		
 		c = new GridBagConstraints();
 		c.gridy = 8;
 		c.insets = new Insets(0,0,0,0);
 		c.gridwidth = 4;
-		c.fill = c.HORIZONTAL;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		this.add(Gui.makePanel(bottomButtons),c);
 		
 		validate();

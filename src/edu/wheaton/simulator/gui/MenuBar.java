@@ -1,6 +1,5 @@
 package edu.wheaton.simulator.gui;
 
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
 public class MenuBar extends JMenuBar {
