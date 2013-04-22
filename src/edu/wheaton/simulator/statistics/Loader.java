@@ -106,6 +106,8 @@ public class Loader {
 		BufferedReader reader = null;
 		name = f.getName();
 		this.prototypes = new HashSet<Prototype>(); 
+		
+		System.out.println(f.getAbsolutePath()); // TODO DEBUG
 
 		try {
 			reader = new BufferedReader(new FileReader(file));
