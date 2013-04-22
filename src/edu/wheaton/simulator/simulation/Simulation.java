@@ -18,6 +18,7 @@ import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.AgentID;
+import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
@@ -88,6 +89,7 @@ public class Simulation {
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid);
 		resetLayer();
+		Prototype.clearPrototypes();
 		AgentID.resetIDs();
 	}
 
@@ -110,6 +112,7 @@ public class Simulation {
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid);
 		resetLayer();
+		Prototype.clearPrototypes();
 		AgentID.resetIDs();
 	}
 	

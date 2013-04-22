@@ -495,7 +495,6 @@ public class Simulator {
 	 */
 	public void load(String name, int width, int height, SimulationEnder se) {
 		simulation = new Simulation(name, width, height, se);
-		clearPrototypes();
 		simulation.notifyObservers();
 	}
 	
@@ -528,7 +527,6 @@ public class Simulator {
 		simulation = new Simulation(name, grid, se);
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
-		clearPrototypes();
 		simulation.notifyObservers();
 	}
 	

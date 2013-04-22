@@ -23,6 +23,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 public final class Gui {
 	
@@ -30,6 +31,15 @@ public final class Gui {
 	}
 	
 	public static void init(){
+		try
+		{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
 		getDisplay().setJMenuBar(makeMenuBar());
 	}
 	
@@ -152,9 +162,10 @@ public final class Gui {
 	
 	public static JMenu makeMenu(String name){
 		JMenu menu = new JMenu(name);
-		menu.setOpaque(true);
+		//menu.setOpaque(true);
 		menu.setForeground(Color.white);
 		menu.setBackground(Color.darkGray);
+		menu.setBorderPainted(false);
 		
 		menu.getPopupMenu().setBorder(
 			BorderFactory.createLineBorder(Color.black));
