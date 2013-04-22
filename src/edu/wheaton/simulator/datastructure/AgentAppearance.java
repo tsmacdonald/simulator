@@ -2,6 +2,8 @@
  * AgentAppearance.java
  * 
  * Models the display of an Agent
+ * 
+ * @author Agent Team
  */
 
 package edu.wheaton.simulator.datastructure;

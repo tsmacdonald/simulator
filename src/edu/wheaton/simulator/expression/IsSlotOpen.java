@@ -1,3 +1,9 @@
+/**
+ * IsSlotOpen.java
+ * 
+ * @author Agent Team
+ */
+
 package edu.wheaton.simulator.expression;
 
 import net.sourceforge.jeval.EvaluationException;
@@ -19,6 +25,12 @@ public class IsSlotOpen extends AbstractExpressionFunction {
 		return 2;
 	}
 	
+	/**
+	 * Takes the form isSlotOpen(x, y). Returns true if the position is open.
+	 * 
+	 * @param args
+	 * @return
+	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {
 		Double x = Double.valueOf(args[0]);

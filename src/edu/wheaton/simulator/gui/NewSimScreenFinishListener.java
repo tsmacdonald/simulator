@@ -33,8 +33,7 @@ public class NewSimScreenFinishListener implements ActionListener {
 		}
 		Screen upload = Gui.getScreenManager().getScreen("View Simulation");
 		gm.setStarted(false);
-		Gui.getScreenManager().update(upload);
-		ScreenManager.loadScreen(upload);
+		Gui.getScreenManager().load(upload);
 	}
 	public String getName(){
 		return name.getText();

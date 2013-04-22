@@ -10,7 +10,7 @@
  * BRIGHTNESS is a percentage (from 0.0-1.0) of color luminance.
  *    - a lower percentage is darker
  * 
- * @author Elliot Penson
+ * @author Agent Team
  */
 
 package edu.wheaton.simulator.simulation;

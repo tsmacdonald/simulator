@@ -56,8 +56,7 @@ public class FieldScreen extends Screen {
 				FieldScreen.setEditing(false);
 				ScreenManager sm = getScreenManager();
 				Screen screen = sm.getScreen("Edit Fields");
-				screen.load();
-				sm.update(screen);
+				sm.load(screen);
 			}
 		});
 		edit = Gui.makeButton("Edit",null,new ActionListener() {
@@ -67,7 +66,7 @@ public class FieldScreen extends Screen {
 				FieldScreen.setEditing(true);
 				EditFieldScreen screen = (EditFieldScreen) sm.getScreen("Edit Fields");
 				screen.load((String)fields.getSelectedValue());
-				sm.update(screen);
+				sm.load(screen);
 			}
 		});
 		GridBagConstraints c = new GridBagConstraints();

@@ -35,7 +35,6 @@ public class ScreenManager {
 		putScreen("Edit Entities", new EditEntityScreen(gm));
 		putScreen("View Simulation", new ViewSimScreen(gm));
 		putScreen("Statistics", new StatisticsScreen(gm));
-		putScreen("Grid Setup", new SetupScreen(gm));
 	}
 	
 	public static ScreenManager getInstance(){
@@ -52,12 +51,17 @@ public class ScreenManager {
 		return screens.get(screenName);
 	}
 	 
-	public void update(Screen update) {
+	private void update(Screen update) {
 		display.updateDisplay(update);
 	}
 	
-	public static void loadScreen(Screen s){
+	private static void loadScreen(Screen s){
 		s.load();
+	}
+	
+	public void load(Screen s){
+		loadScreen(s);
+		update(s);
 	}
 	
 	public Display getDisplay(){

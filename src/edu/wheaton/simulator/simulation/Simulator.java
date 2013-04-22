@@ -1,4 +1,3 @@
-
 /**
  * Simulator.java
  * 
@@ -21,6 +20,7 @@ import sampleAgents.Bouncer;
 import sampleAgents.Confuser;
 import sampleAgents.ConwaysAliveBeing;
 import sampleAgents.ConwaysDeadBeing;
+import sampleAgents.Killer;
 import sampleAgents.Multiplier;
 import sampleAgents.Paper;
 import sampleAgents.RightTurner;
@@ -310,6 +310,7 @@ public class Simulator {
 		new Bouncer().initSampleAgent();
 		new RightTurner().initSampleAgent();
 		new Confuser().initSampleAgent();
+		new Killer().initSampleAgent();
 	}
 
 	/**

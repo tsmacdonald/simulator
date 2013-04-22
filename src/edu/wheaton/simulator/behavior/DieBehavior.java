@@ -1,3 +1,9 @@
+/**
+ * DieBehavior.java
+ * 
+ * @author Agent Team
+ */
+
 package edu.wheaton.simulator.behavior;
 
 import net.sourceforge.jeval.EvaluationException;

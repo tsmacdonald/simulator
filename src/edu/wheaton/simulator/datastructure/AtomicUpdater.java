@@ -2,6 +2,8 @@
  * AtomicUpdater
  * 
  * The class used for AtomicUpdate
+ * 
+ * @author Agent Team
  */
 
 package edu.wheaton.simulator.datastructure;

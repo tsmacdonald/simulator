@@ -2,6 +2,8 @@
  * AbstractStatsGridObserver.java
  * 
  * An observer that receives a grid
+ * 
+ * @author Agent Team
  */
 
 package edu.wheaton.simulator.datastructure;

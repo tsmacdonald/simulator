@@ -18,7 +18,6 @@ public class GeneralButtonListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e){
 		Screen toUpload = sm.getScreen(screenName);
-		sm.update(toUpload);
-		ScreenManager.loadScreen(toUpload);
+		sm.load(toUpload);
 	}
 }

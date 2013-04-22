@@ -2,6 +2,9 @@
  * AbstractGUIObserver.java
  * 
  * An observer that receives a set of AgentAppearances
+ * 
+ * 
+ * @author Agent Team
  */
 
 package edu.wheaton.simulator.datastructure;

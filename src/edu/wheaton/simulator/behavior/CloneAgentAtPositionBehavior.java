@@ -1,3 +1,9 @@
+/**
+ * CloneAgentAtPositionBehavior.java
+ * 
+ * @author Agent Team
+ */
+
 package edu.wheaton.simulator.behavior;
 
 import net.sourceforge.jeval.EvaluationException;
@@ -6,7 +12,7 @@ import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.expression.AbstractExpressionFunction;
 import edu.wheaton.simulator.expression.Expression;
 
-public class CloneAgentAtPositionBehavior extends AbstractExpressionFunction{
+public class CloneAgentAtPositionBehavior extends AbstractBehavior {
 
 	@Override
 	public String getName() {

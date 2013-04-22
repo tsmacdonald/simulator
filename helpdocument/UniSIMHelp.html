@@ -1,139 +1,133 @@
 <html>
 	<head>
 		<title>UniSIM Help Document</title>
+		<link href="stylesheet.css" media="all" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
-		<img src="UniSIMLogo.png" alt="UniSIM Logo">
-		
-		<p><a id="top"></a></p>
-		
-		<ul>
-		<li><a href="#intro">Introduction</a></li>
-		<li><a href="#beginsim">Beginning a Simulation</a></li>
-		<li><a href="#general">General</a></li>
-		<li><a href="#agentcreation">Agent Creation</a>
-		<ul><li><a href="#general">General</a></li>
-		<li><a href="#fields">Fields</a></li>
-		<li><a href="#triggers">Triggers</a></li></ul></li>
-		<li><a href="#layers">Layers</a></li>
-		<li><a href="#globalfields">Global Fields</a></li>
-		<li><a href="#stats">Statistics</a></li>
-		</ul>
-		
-		<p><a id="intro"></a></p>
-		
-		<h1>Introduction</h1>
-		
-		<p>Welcome to UniSIM. This program provides the user with a blank slate (a grid), and all the tools that he or she needs to populate that grid with "agents," which can be anything from a rabbit in a predator-prey simulation, to "alive" squares in Conway's Game of Life. In addition, the user can specify interactions between these objects, called "triggers," and the outcome of those interactions ("behaviors"). Ultimately, this provides the user with a sandbox to create almost any interaction possible for a grid-based system.</p>
-		
-		<p><a href="#top">Back to top</a></p>
-		
-		<p><a id="beginsim"></a></p>
-		
-		<h1>Beginning a Simulation</h1>
-		
-		<p>When you start the UniSIM, you have 2 choices. You can either start from scratch and create a new simulation, or you can load one of the pre-existing simulations from a file. When you start from scratch you need to specify a simulation name and the height and width values for the simulation grid. When loading a file, ensure that the format is correct for the Universal Simulator.</p>
-		
-		<p>There are a few files bundled with the program to give you an example of how to create a working simulation. These include "Conway's Game of Life" and "Rock Paper Scissors." If the user doesn't want to load one of these, that's fine; they can simply create a blank simulation to populate themselves.</p>
-		
-		<p><a href="#top">Back to top</a></p>
-		
-		<p><a id="general"></a></p>
-		
-		<h1>General</h1>
-		
-		<p>After the user has loaded or created a new simulation, they are presented with the main screen. The user can view the grid, and modify some general things about how the simulation runs.</p>
-		
-		<p>First of all, the user can modify the simulation name, the width of the grid, and the height of the grid. Note that changing the height and width will cause some "clipping" of agents which would be out of bounds in the new grid.</p>
-		
-		<p>The user can also change the step delay, the update type, and the time limit from this screen.</p>
-		
-		<p>Step delay: The time (in milliseconds) between each simulation step. This will determine how fast a simulation unfolds, both on screen and off.</p>
-		
-		<p>Update type: In order to increase the options for users, we've added an update type, which determines how each iteration in the simulation is run. Different update methods are suited for different scenarios; it's up to the user to decide which to use.
-		* Linear: For each iteration, each grid agent will be looked at, one at a time, to determine which action it will perform, then the agent will do that action. Note that agents that get in line earlier could have an impact on what later agents do, because they could change the state of the grid.
-		* Atomic: For each iteration, each agent finds out what it will do, before any agent action is taken. Then, it take that action, after every agent has figured out what it will do. This fixes the issue with an agent at the front of the line modifying what a later agent will do, but it creates another problem: What if fish 1 has decided it wants to eat fish 2, and fish 2 has decided it wants to eat fish 1? Under this system, they will eat each other. This is obviously not a good update method if that situation could arise.
-		* Priority: A compromise of both atomic and linear, each agent finds out what it will do before any action is taken place, as in atomic updating. However, the order in which those actions will execute is based on <strong>trigger priority</strong> (see Triggers). This allows the user to cleverly avoid the problem in atomic updating <strong>in most situations</strong>.</p>
-		
-		<p>Time limit: The total number of steps to run the simulation before it is halted.</p>
-		
-		<p><a href="#top">Back to top</a></p>
-		
-		<p><a id="agentcreation"></a></p>
-		
-		<h1>Agent Creation</h1>
-		
-		<p>Agents are the main actors in the grid, and as such, care must be taken when creating types of agents. UniSIM has a useful wizard for doing just that. Note that using this wizard creates an <strong>agent type</strong>, not an agent, so that the user can add any number of instances (agents) of this agent type to the grid. At any time, the user can modify any of the agent's values. Take heart, though, that modifying something could cause another part of the simulation to stop working. In this case, the simulation will notify the user of the offending change.</p>
-		
-		<p>On the first screen, there are three main options for the user:</p>
-		
-		<p>Agent Name: How this type of agent will be known. This is important later, with triggers (which decide how agents will interact with each other by name). The user should have a good knowledge of the agents' names that he or she has chosen.</p>
-		
-		<p>Icon: Here, the user can select different pixels of the Agent's icon to display. This creates a unique, user changeable way to identify the agent on the grid.</p>
-		
-		<p>Color: The user can choose the base color for this agent.</p>
-		
-		<p>Note that fields and triggers should be added to each <b>agent type</b> as well (see below). Once an <b>agent type</b> has been created, new instances of that agent can be added to the grid. To add an instance of an agent to the grid, the user can simply go to the "Agent" tab and select the agent type that he or she would like to add. Then, the user can click on the grid slot to add that agent at that position. Clicking on a slot with an existing agent will first delete that agent, then clicking again will add the chosen agent.</b>
-		
-		<p><a href="#top">Back to top</a></p>
-		
-		<p><a id="fields"></a></p>
-		
-		<h2>Fields</h2>
-		
-		<p>After visual effects are taken care of, some technical data must be collected on the next page. Here, the user can add fields to the agent, which are values that each agent of that agent type will hold. Examples include "weight" or "isPoisoned." And number of fields can be added. Simply click "Add Field" to add another row</p>
-		
-		<p>Field Name: The identifier for this field. It's important for triggers, as they need a way to identify agents' different fields.</p>
-		
-		<p>Initial Value: The default, starting value for each agent created of this type. Note that any kind of value may be used here (such as "hello" or "5"), but it is up to the user to ensure that these are used appropriately (adding 2 to hello obviously doesn't make much sense). This is important, since triggers can have complex, user-defined expressions, which won't be able to evaluate properly in the case that the user has incorrect field values. The simulation will notify the user if an expression like this cannot be evaluated, so that the user can correct the issue.</p>
-		
-		<p><a href="#top">Back to top</a></p>
-		
-		<p><a id="triggers"></a></p>
-		
-		<h2>Triggers</h2>
-		
-		<p>Lastly, the user can add triggers to the agent. These determine how an agent will act, and are thus essential for the simulation.</p>
-		
-		<p>Name: The name of the trigger to make.</p>
-		
-		<p>Priority: A simple integer value, which determines how all of the triggers for a specific agent are ordered. The first trigger with conditions that evaluate to true will fire, along with all triggers sharing the same priority (for example, if an agent had three triggers, call them T1, T2, and T3, with priority(T1) = priority(T2) = 3 and priority(T3) = 5, and if evaluate(T1) = evaluate(T3) = true, then, going down the list of triggers, T1 comes first, since it has a lower priority, and T1 and T2 would both fire, since they have the same priority).</p>
-		
-		<p>Condition: Think of the "condition" as the "if" part of an "if..., then..." clause. If the condition expression evaluates to true, then the trigger will fire (assuming it has the lowest priority of all "true" triggers). Here, the user has liberty to choose between many different types of input. This also means that the user must be <strong>extra careful</strong> to avoid problems with expressions that don't make sense.
-		* Fields: The user can retrieve values of fields, both from the agent to which this trigger belongs and any other agent on the grid.
-		* Literals: The user can enter literal values, such as "100" or "27.3."
-		* Operations: The user can choose between any number of three kinds of operations:
-		* * Boolean -> Boolean Operations: Operations that take two true/false values and evaluate to a true/false expression (AND, OR, NOT).
-		* * Literal -> Boolean Operations: Operations which take literals, but evaluate to true/false (>, &lt;, >=, &lt;=, =, !=)
-		* * Literal -> Literal Operations: Take literals and evaluate to literals (+, -, *, /).
-		* Built-in functions: We've included a set of built-in functions to make the user's life easier.</p>
-		
-		<p>Behavior: Think of the "behavior" as the "then" part of an "if..., then..." clause. This is the outcome or consequence of the condition expression evaluating to true. We've included a list of behaviors that the user can choose, such as "die," "moveRandom," and "setFieldOfOther." Note that any behavior that takes an argument (for example, setFieldOfOther takes two arguments, one for the name of the field, and one for the new value) can include an expression in that argument. For example, if you wanted to increment the weight of a fox that just ate a rabbit, you could say something like setField("weight", this.weight + 1).</p>
-		
-		<p><a href="#top">Back to top</a></p>
-		
-		<p><a id="layers"></a></p>
-		
-		<h1>Layers</h1>
-		
-		<p>Layers provide the user with the opportunity to see the simulation unfold from many different angles. The user can simply select a specific agent, and a field from that agent, and the display will change to take on a "graded" appearance determined by values of that field in each specific grid spot. The layer color can be determined by the user For example, if I wanted to view the grid based on the "age" field of a "fox," every slot without a fox would be black, whereas every slot with a fox would be graded in color based off of how much that fox weighs. Suppose that there are only two foxes in the grid. Call them F1 and F2. If weight(F1) = 10 and weight(F2) = 25, F2's grid spot would be the color chosen, whereas F1's grid spot would be about 2:3, color to black.</p>
-		
-		<p><a href="#top">Back to top</a></p>
-		
-		<p><a id="globalfields"></a></p>
-		
-		<h1>Global Fields</h1>
-		
-		<p>Global fields act very much like agent fields. The global fields list is a place where the user should add any field like "humidity" or "gravity" that's applicable to every grid space in the simulation grid. </p>
-		
-		<p><a href="#top">Back to top</a></p>
-		
-		<p><a id="stats"></a></p>
-		
-		<h1>Statistics</h1>
-		
-		<p>Statistics are accessible from the main screen with the "Statistics" button. Users can view statistics about the average field value of a type of agent, the average lifespan of a type of agent, and the population of a particular type of agent over time.</p>
-		
-		<p><a href="#top">Back to top</a></p>
+		<div class="center">
+			<img src="UniSIMLogo.png" alt="UniSIM Logo">
+
+			<p><a id="top"></a></p>
+
+			<ul class="navbar">
+				<li><a href="#intro">Introduction</a></li>
+				<li><a href="#beginsim">Beginning a Simulation</a></li>
+				<li><a href="#general">General</a></li>
+				<li><a href="#agentcreation">Agent Creation</a>
+				<ul>
+					<li><a href="#general">General</a></li>
+					<li><a href="#fields">Fields</a></li>
+					<li><a href="#triggers">Triggers</a></li>
+				</ul>
+				<li><a href="#layers">Layers</a></li>
+				<li><a href="#globalfields">Global Fields</a></li>
+				<li><a href="#stats">Statistics</a></li>
+			</ul>
+
+			<p><a id="intro"></a></p>
+
+			<div class="boxed">
+				<h1>Introduction</h1>
+					<p>Welcome to UniSIM. This program provides the user with a blank slate (a grid), and all the tools that he or she needs to populate that grid with "agents," which can be anything from a rabbit in a predator-prey simulation, to "alive" squares in Conway's Game of Life. In addition, the user can specify interactions between these objects, called "triggers," and the outcome of those interactions ("behaviors"). Ultimately, this provides the user with a sandbox to create almost any interaction possible for a grid-based system.
+					</p>
+
+				<p><a id="beginsim"></a></p>
+
+				<h1>Beginning a Simulation</h1>
+
+				<p>When you start the UniSIM, you have 2 choices. You can either start from scratch and create a new simulation, or you can load one of the pre-existing simulations from a file. When you start from scratch you need to specify a simulation name and the height and width values for the simulation grid. When loading a file, ensure that the format is correct for the Universal Simulator.</p>
+
+				<p>There are a few files bundled with the program to give you an example of how to create a working simulation. These include "Conway's Game of Life" and "Rock Paper Scissors." If the user doesn't want to load one of these, that's fine; they can simply create a blank simulation to populate themselves.</p>
+
+				<p><a id="general"></a></p>
+
+				<h1>General</h1>
+
+				<p>After the user has loaded or created a new simulation, they are presented with the main screen. The user can view the grid, and modify some general things about how the simulation runs.</p>
+
+				<p>First of all, the user can modify the simulation name, the width of the grid, and the height of the grid. Note that changing the height and width will cause some "clipping" of agents which would be out of bounds in the new grid.</p>
+
+				<p>The user can also change the step delay, the update type, and the time limit from this screen.</p>
+
+				<p>Step delay: The time (in milliseconds) between each simulation step. This will determine how fast a simulation unfolds, both on screen and off.</p>
+
+				<p>Update type: In order to increase the options for users, we've added an update type, which determines how each iteration in the simulation is run. Different update methods are suited for different scenarios; it's up to the user to decide which to use.
+					<ul>
+						<li>Linear: For each iteration, each grid agent will be looked at, one at a time, to determine which action it will perform, then the agent will do that action. Note that agents that get in line earlier could have an impact on what later agents do, because they could change the state of the grid.</li>
+						<li>Atomic: For each iteration, each agent finds out what it will do, before any agent action is taken. Then, it take that action, after every agent has figured out what it will do. This fixes the issue with an agent at the front of the line modifying what a later agent will do, but it creates another problem: What if fish 1 has decided it wants to eat fish 2, and fish 2 has decided it wants to eat fish 1? Under this system, they will eat each other. This is obviously not a good update method if that situation could arise.</li>
+						<li>Priority: A compromise of both atomic and linear, each agent finds out what it will do before any action is taken place, as in atomic updating. However, the order in which those actions will execute is based on <strong>trigger priority</strong> (see Triggers). This allows the user to cleverly avoid the problem in atomic updating <strong>in most situations</strong>.</li></p>
+					</ul>
+				<p>Time limit: The total number of steps to run the simulation before it is halted.</p>
+
+				<p><a id="agentcreation"></a></p>
+
+				<h1>Agent Creation</h1>
+
+				<p>Agents are the main actors in the grid, and as such, care must be taken when creating types of agents. UniSIM has a useful wizard for doing just that. Note that using this wizard creates an <strong>agent type</strong>, not an agent, so that the user can add any number of instances (agents) of this agent type to the grid. At any time, the user can modify any of the agent's values. Take heart, though, that modifying something could cause another part of the simulation to stop working. In this case, the simulation will notify the user of the offending change.</p>
+
+				<p>On the first screen, there are three main options for the user:</p>
+
+				<p>Agent Name: How this type of agent will be known. This is important later, with triggers (which decide how agents will interact with each other by name). The user should have a good knowledge of the agents' names that he or she has chosen.</p>
+
+				<p>Icon: Here, the user can select different pixels of the Agent's icon to display. This creates a unique, user changeable way to identify the agent on the grid.</p>
+
+				<p>Color: The user can choose the base color for this agent.</p>
+
+				<p>Note that fields and triggers should be added to each <b>agent type</b> as well (see below). Once an <b>agent type</b> has been created, new instances of that agent can be added to the grid. To add an instance of an agent to the grid, the user can simply go to the "Agent" tab and select the agent type that he or she would like to add. Then, the user can click on the grid slot to add that agent at that position. Clicking on a slot with an existing agent will first delete that agent, then clicking again will add the chosen agent.</b>
+
+				<p><a id="fields"></a></p>
+
+				<h2>Fields</h2>
+
+				<p>After visual effects are taken care of, some technical data must be collected on the next page. Here, the user can add fields to the agent, which are values that each agent of that agent type will hold. Examples include "weight" or "isPoisoned." And number of fields can be added. Simply click "Add Field" to add another row</p>
+
+				<p>Field Name: The identifier for this field. It's important for triggers, as they need a way to identify agents' different fields.</p>
+
+				<p>Initial Value: The default, starting value for each agent created of this type. Note that any kind of value may be used here (such as "hello" or "5"), but it is up to the user to ensure that these are used appropriately (adding 2 to hello obviously doesn't make much sense). This is important, since triggers can have complex, user-defined expressions, which won't be able to evaluate properly in the case that the user has incorrect field values. The simulation will notify the user if an expression like this cannot be evaluated, so that the user can correct the issue.</p>
+
+				<p><a id="triggers"></a></p>
+
+				<h2>Triggers</h2>
+
+				<p>Lastly, the user can add triggers to the agent. These determine how an agent will act, and are thus essential for the simulation.</p>
+
+				<p>Name: The name of the trigger to make.</p>
+
+				<p>Priority: A simple integer value, which determines how all of the triggers for a specific agent are ordered. The first trigger with conditions that evaluate to true will fire, along with all triggers sharing the same priority (for example, if an agent had three triggers, call them T1, T2, and T3, with priority(T1) = priority(T2) = 3 and priority(T3) = 5, and if evaluate(T1) = evaluate(T3) = true, then, going down the list of triggers, T1 comes first, since it has a lower priority, and T1 and T2 would both fire, since they have the same priority).</p>
+
+				<p>Condition: Think of the "condition" as the "if" part of an "if..., then..." clause. If the condition expression evaluates to true, then the trigger will fire (assuming it has the lowest priority of all "true" triggers). Here, the user has liberty to choose between many different types of input. This also means that the user must be <strong>extra careful</strong> to avoid problems with expressions that don't make sense.
+					<ul>
+						<li>Fields: The user can retrieve values of fields, both from the agent to which this trigger belongs and any other agent on the grid.</li>
+						<li>Literals: The user can enter literal values, such as "100" or "27.3."</li>
+						<li>Operations: The user can choose between any number of three kinds of operations:</li>
+						<li>Boolean -> Boolean Operations: Operations that take two true/false values and evaluate to a true/false expression (AND, OR, NOT).</li>
+						<li>Literal -> Boolean Operations: Operations which take literals, but evaluate to true/false (>, &lt;, >=, &lt;=, =, !=)</li>
+						<li>Literal -> Literal Operations: Take literals and evaluate to literals (+, -, *, /).</li>
+						<li>Built-in functions: We've included a set of built-in functions to make the user's life easier.</li></p>
+					</ul>
+				<p>Behavior: Think of the "behavior" as the "then" part of an "if..., then..." clause. This is the outcome or consequence of the condition expression evaluating to true. We've included a list of behaviors that the user can choose, such as "die," "moveRandom," and "setFieldOfOther." Note that any behavior that takes an argument (for example, setFieldOfOther takes two arguments, one for the name of the field, and one for the new value) can include an expression in that argument. For example, if you wanted to increment the weight of a fox that just ate a rabbit, you could say something like setField("weight", this.weight + 1).</p>
+
+				<p><a id="layers"></a></p>
+
+				<h1>Layers</h1>
+
+				<p>Layers provide the user with the opportunity to see the simulation unfold from many different angles. The user can simply select a specific agent, and a field from that agent, and the display will change to take on a "graded" appearance determined by values of that field in each specific grid spot. The layer color can be determined by the user For example, if I wanted to view the grid based on the "age" field of a "fox," every slot without a fox would be black, whereas every slot with a fox would be graded in color based off of how much that fox weighs. Suppose that there are only two foxes in the grid. Call them F1 and F2. If weight(F1) = 10 and weight(F2) = 25, F2's grid spot would be the color chosen, whereas F1's grid spot would be about 2:3, color to black.</p>
+
+				<p><a id="globalfields"></a></p>
+
+				<h1>Global Fields</h1>
+
+				<p>Global fields act very much like agent fields. The global fields list is a place where the user should add any field like "humidity" or "gravity" that's applicable to every grid space in the simulation grid. </p>
+
+				<p><a id="stats"></a></p>
+
+				<h1>Statistics</h1>
+
+				<p>Statistics are accessible from the main screen with the "Statistics" button. Users can view statistics about the average field value of a type of agent, the average lifespan of a type of agent, and the population of a particular type of agent over time.</p>
+
+				<p class="center-text"><a href="#top">Back to top</a></p>
+
+			</div>
+		</div>
 	</body>
 </html>
