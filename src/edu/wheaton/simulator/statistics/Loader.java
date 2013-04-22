@@ -204,7 +204,7 @@ public class Loader {
 					simEnder.setStepLimit(Integer.parseInt(readLine));
 
 					readLine = reader.readLine(); 
-					while(readLine.substring(0, 4).equals("POP")){
+					while(readLine != null && readLine.substring(0, 4).equals("POP")){
 						String[] tokens = readLine.split("~"); 
 						simEnder.setPopLimit(tokens[1], Integer.parseInt(tokens[2])); 						
 						readLine = reader.readLine(); 

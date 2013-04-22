@@ -206,11 +206,9 @@ public class SimulatorFacade {
 
 	public void save() {
 		//how to deal with possibility of simulation name being different from selected file name?
-		String fileName = "";
 		int returnVal = fc.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			fileName = fc.getSelectedFile().getName();
-			getSim().saveToFile(fileName, se);
+			getSim().saveToFile(fc.getSelectedFile(), se);
 		}
 		
 	}
@@ -221,6 +219,7 @@ public class SimulatorFacade {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			file = fc.getSelectedFile();
 			getSim().loadFromFile(file);
+			
 		}
 	}
 
