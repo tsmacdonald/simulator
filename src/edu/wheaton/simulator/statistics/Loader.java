@@ -316,10 +316,11 @@ public class Loader {
 		}
 		catch (FileNotFoundException e) {
 			throw new RuntimeException("Could not find file: " + file.getAbsolutePath(), e);
-		}
-		catch (IOException e) {
+		}catch (IOException e) {
 			throw new RuntimeException("Could not read file: " + file.getAbsolutePath(), e);
-		} finally {
+		}catch(Exception e){
+			throw new RuntimeException("Oh no! The load file was somehow corrupted! What oh what will we do?", e);
+		}finally {
 			try {
 				assert(reader!=null);
 				reader.close();
