@@ -291,7 +291,7 @@ public class Loader {
 			//Add the prototype's default fields
 			readLine = reader.readLine();
 			while(readLine != null && readLine.substring(0,  13).equals("FieldSnapshot")){
-				String[] tokens = readLine.split(" ");
+				String[] tokens = readLine.split("~");
 				try {
 					proto.addField(tokens[1], tokens[2]);
 				} catch (ElementAlreadyContainedException e) {
