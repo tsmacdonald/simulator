@@ -9,7 +9,6 @@ import javax.swing.JFileChooser;
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.datastructure.Field;
-import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.expression.Expression;
@@ -20,19 +19,17 @@ import edu.wheaton.simulator.statistics.StatisticsManager;
 public class SimulatorFacade {
 
 	private static SimulatorFacade gm;
-	
+
 	private SimulationEnder se;
 	private StatisticsManager statMan;
 	private Simulator simulator;
 	private boolean simulationIsRunning;
-	private boolean canSpawn;
 	private GridPanel gridPanel;
 	private GridPanelObserver gpo;
 	private boolean hasStarted;
 	private JFileChooser fc;
 
 	private SimulatorFacade() {
-		canSpawn = true;
 		gridPanel = new GridPanel(this);
 		load("New Simulation",10, 10);
 		se = new SimulationEnder();
@@ -43,7 +40,7 @@ public class SimulatorFacade {
 		getSim().addGridObserver(gpo);
 		fc = new JFileChooser();
 	}
-	
+
 	public static SimulatorFacade getInstance(){
 		if(gm==null)
 			gm = new SimulatorFacade();
@@ -53,7 +50,7 @@ public class SimulatorFacade {
 	public GridPanel getGridPanel(){
 		return gridPanel;
 	}
-	
+
 	public static Expression makeExpression(String str){
 		return new Expression(str);
 	}
@@ -153,7 +150,7 @@ public class SimulatorFacade {
 	public Set<String> getPrototypeNames(){
 		return Simulator.prototypeNames();
 	}
-	
+
 	public void removeAgent(int x, int y){
 		getSim().removeAgent(x, y);
 	}
@@ -188,43 +185,52 @@ public class SimulatorFacade {
 
 	public void pause(){
 		setRunning(false);
-		canSpawn = true;
 		simulator.pause();
 	}
 
-	public boolean canSpawn() {
-		return canSpawn;
+	public void addAgent(String prototypeName, int x, int y){
+		getSim().addAgent(prototypeName, x, y);
 	}
 
-	public boolean addAgent(String prototypeName, int x, int y){
-		return getSim().addAgent(prototypeName, x, y);
+	public void addAgentRandom(String prototypeName){
+		getSim().addAgent(prototypeName);
 	}
-	
+
 	public void clearGrid() {
 		getSim().clearAll();
 	}
-	
+
 	public void fillGrid(String prototypeName) {
 		getSim().fillAll(prototypeName);
 	}
-	
-	public void save(String fileName) {
-		getSim().saveToFile(fileName, se);
+
+	public void save() {
+		//how to deal with possibility of simulation name being different from selected file name?
+		int returnVal = fc.showSaveDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			getSim().saveToFile(fc.getSelectedFile(), se);
+		}
+		
 	}
-	
+
 	public void load() {
 		int returnVal = fc.showOpenDialog(null);
 		File file = null;
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			file = fc.getSelectedFile();
 			getSim().loadFromFile(file);
+			
 		}
 	}
-	
+
 	public void saveAgent(String agentName) {
-		getSim().savePrototypeToFile(Prototype.getPrototype(agentName));
+		//how to deal with possibility of agent name being different from selected file name?
+		int returnVal = fc.showSaveDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			getSim().savePrototypeToFile(Prototype.getPrototype(agentName));
+		}
 	}
-	
+
 	public void importAgent() {
 		//TODO need different fc because different directories/file extensions?
 		int returnVal = fc.showOpenDialog(null);
@@ -233,13 +239,12 @@ public class SimulatorFacade {
 			file = fc.getSelectedFile();
 			getSim().loadPrototypeFromFile(file);
 		}
-		
+
 	}
 
 	public void start(){
 		setRunning(true);
 		setStarted(true);
-		canSpawn = false;
 		simulator.play();
 	}
 
@@ -268,7 +273,7 @@ public class SimulatorFacade {
 		getSim().displayLayer(string, color);
 	}
 
-	public void createPrototype(String text, Grid grid, Color color,
+	public void createPrototype(String text,Color color,
 			byte[] generateBytes) {
 		Simulator.createPrototype(text, color, generateBytes);
 	}

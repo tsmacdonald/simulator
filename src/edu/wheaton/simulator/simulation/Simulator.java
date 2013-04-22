@@ -286,10 +286,11 @@ public class Simulator {
 	 *            values
 	 */
 	public void displayLayer(String fieldName, Color c) {
-		simulation.runLayer();
 		Layer.getInstance().setFieldName(fieldName);
 		Layer.getInstance().setColor(c);
 		Layer.getInstance().resetMinMax();
+		simulation.setLayerExtremes();
+		simulation.runLayer();
 		simulation.notifyObservers();
 	}
 
@@ -441,6 +442,7 @@ public class Simulator {
 	 */
 	public void resizeGrid(int width, int height) {
 		simulationGrid().resizeGrid(width, height);
+		simulation.notifyObservers();
 	}
 
 	/**
@@ -512,7 +514,7 @@ public class Simulator {
 	 *
 	 * @param filename
 	 */
-	public void saveToFile(String filename, SimulationEnder ender){
+	public void saveToFile(File file, SimulationEnder ender){
 		Saver s = new Saver();
 		Set<Agent> agents = new HashSet<Agent>();
 		Grid grid = simulationGrid();
@@ -520,7 +522,7 @@ public class Simulator {
 			if (agent != null)
 				agents.add(agent);
 
-		s.saveSimulation(filename, agents, Prototype.getPrototypes(),
+		s.saveSimulation(file, agents, Prototype.getPrototypes(),
 				getGlobalFieldMap(),
 				grid.getWidth(), grid.getHeight(), ender);
 	}

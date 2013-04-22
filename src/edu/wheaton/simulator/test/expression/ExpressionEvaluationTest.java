@@ -31,12 +31,12 @@ public class ExpressionEvaluationTest {
 	 */
 	@Before
 	public void setUp() {
-		//TODO ExpressionEvaluationTest.setUp() is empty
+		
 	}
 
 	@After
 	public void tearDown() {
-		//TODO ExpressionEvaluationTest.tearDown() is empty
+		
 	}
 
 	@Test
@@ -177,24 +177,13 @@ public class ExpressionEvaluationTest {
 	@Test
 	public void testRPSLogic() throws Exception {
 		Grid testGrid = new Grid(100, 100);
-//		ExpressionEvaluator xMoveRight = new Expression("move('this', #{this.x} + 1, #{this.y})");
-//		ExpressionEvaluator yMoveUp = new Expression("move('this', #{this.x}, #{this.y} + 1)");		
-//		ExpressionEvaluator xMoveLeft = new Expression("move('this', #{this.x} - 1, #{this.y})");		
-//		ExpressionEvaluator yMoveDown = new Expression("move('this', #{this.x}, #{this.y} - 1)");
 		Expression dir1 = new Expression("this.direction==1");
 		Prototype testPrototype = new Prototype("name");
 		testPrototype.addField("type", "'test'");
 		testPrototype.addField("direction", "1");
-//		Trigger testTrigger = new Trigger("moveRight", 1, dir1, xMoveRight);
-//		testPrototype.addTrigger(testTrigger);
 		Agent testAgent1 = testPrototype.createAgent(testGrid);
-//		Agent testAgent2 = testPrototype.clonePrototype();
 		testGrid.addAgent(testAgent1, 0, 0);
-//		testGrid.addAgent(testAgent2, 1, 0);
-//		ExpressionEvaluator condition = dir1.clone();
 		dir1.importEntity("this", testAgent1);
-//		condition.importFunction(new IsSlotOpen());
-//		boolean testBool = condition.evaluateBool();
 		Assert.assertTrue(dir1.evaluateBool());
 	}
 	
@@ -253,34 +242,4 @@ public class ExpressionEvaluationTest {
 		
 		Assert.assertEquals(new Double(5.0), expr.evaluateDouble());
 	}
-	
-//	@Test
-//	public void testSetFieldBehavior() throws Exception {
-//		Entity entity = new Entity();
-//		entity.addField("money", "8");
-//
-//		final Expression testExpression = new Expression(
-//				"setField('entity','money',10)");
-//		
-//		testExpression.importEntity("entity", entity);
-//		
-//		testExpression.evaluateBool();
-//		
-//		Assert.assertEquals(new Double(10.0), entity.getField("money").getDoubleValue());  
-//	}
-//	
-//	@Test
-//	public void testFormatFunctionParams() throws Exception {
-//		Entity entity = new Entity();
-//		entity.addField("money", "8");
-//
-//		final Expression testExpression = new Expression(
-//				"setField(" + Expression.fParams("entity,money,10") + ")");
-//		
-//		testExpression.importEntity("entity", entity);
-//		
-//		testExpression.evaluateBool();
-//		
-//		Assert.assertEquals(new Double(10.0), entity.getField("money").getDoubleValue());  
-//	}
 }

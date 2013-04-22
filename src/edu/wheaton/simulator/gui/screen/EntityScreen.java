@@ -45,6 +45,8 @@ public class EntityScreen extends Screen {
 	
 	private JButton fill;
 
+	private JButton random;
+	
 	public EntityScreen(final SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
@@ -78,8 +80,7 @@ public class EntityScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						String fileName = JOptionPane.showInputDialog("Please enter file name: ");
-						gm.saveAgent(fileName);
+						gm.saveAgent((String)entityList.getSelectedValue());
 					}
 		});
 		
@@ -98,6 +99,17 @@ public class EntityScreen extends Screen {
 				String agentName = getList().getSelectedValue().toString();
 				if (agentName != null) {
 					gm.fillGrid(agentName);
+				}
+			}
+		});
+		
+		random = Gui.makeButton("Random Spawn", null,
+				new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String agentName = getList().getSelectedValue().toString();
+				if (agentName != null) {
+					gm.addAgentRandom(agentName);
 				}
 			}
 		});
@@ -143,7 +155,10 @@ public class EntityScreen extends Screen {
 		
 		c.gridx = 2;
 		this.add(save, c);
-
+		
+		c.gridx = 4;
+		this.add(random, c);
+		
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 5;

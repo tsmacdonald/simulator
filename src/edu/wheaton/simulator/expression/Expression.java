@@ -35,15 +35,15 @@ public class Expression {
 
 		private Map<String, Entity> entityMap;
 
-		/*
-		 * default constructor
+		/**
+		 * Default constructor
 		 */
 		protected EntityFieldResolver() {
 			entityMap = new HashMap<String, Entity>();
 		}
 
-		/*
-		 * copy constructor
+		/**
+		 * Constructor for copying
 		 */
 		protected EntityFieldResolver(EntityFieldResolver resolver) {
 			entityMap = new HashMap<String, Entity>();

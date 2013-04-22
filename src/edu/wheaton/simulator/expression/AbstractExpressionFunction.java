@@ -11,14 +11,16 @@ import edu.wheaton.simulator.entity.Entity;
 
 public abstract class AbstractExpressionFunction {
 
-	// RETURN_TYPE_NUMERIC and RETURN_TYPE_BOOL are supposed to have the same
-	// value.
-	// The distinction here is for clarity.
+	/**
+	 * RETURN_TYPE_NUMERIC and RETURN_TYPE_BOOL are supposed to have the same
+	 * value.
+	 * The distinction here is for clarity.
+	 */
 	public static final int RESULT_TYPE_NUMERIC = FunctionConstants.FUNCTION_RESULT_TYPE_NUMERIC;
 	public static final int RESULT_TYPE_BOOL = FunctionConstants.FUNCTION_RESULT_TYPE_NUMERIC;
 	public static final int RESULT_TYPE_STRING = FunctionConstants.FUNCTION_RESULT_TYPE_STRING;
 	
-	/*
+	/**
 	 * A wrapper constructed from a JEval Evaluator instance that is not known until the point at which the
 	 * function is called by JEval. For now it is null.
 	 */

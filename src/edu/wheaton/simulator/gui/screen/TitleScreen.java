@@ -15,9 +15,9 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 import edu.wheaton.simulator.gui.GeneralButtonListener;
 import edu.wheaton.simulator.gui.Gui;
@@ -31,15 +31,16 @@ public class TitleScreen extends Screen {
 	public TitleScreen(SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
+		
+		try {
+			ImageIcon icon = new ImageIcon(getClass().getResource("/images/UniSIMLogo.png"), "Logo");
+			JLabel picLabel = new JLabel(icon);
+			add(picLabel);
+		} catch(IllegalArgumentException e) {
+			System.err.println("Couldn't find file!");
+		}
 
 		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipady = 50;
-		c.gridx = 0;
-		c.gridy = 0;
-		add(new JLabel("Welcome to the Simulator!", SwingConstants.CENTER), c);
-
-		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = GridBagConstraints.RELATIVE;

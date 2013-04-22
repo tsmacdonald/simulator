@@ -36,12 +36,9 @@ public class Saver {
 	 * @param height The height of the grid
 	 * @param simEnder The class that handles simulation ending conditions
 	 */
-	public void saveSimulation(String filename, Set<Agent> agents, ImmutableSet<Prototype> prototypes, 
+	public void saveSimulation(File newFile, Set<Agent> agents, ImmutableSet<Prototype> prototypes, 
 			Map<String, String> globalFields, int width, int height, SimulationEnder simEnder){		
 		StringBuilder sb = new StringBuilder(); 
-
-		//Name the file, first
-		filename = filename + ".txt";
 
 		//Create AgentSnapshots  
 		HashSet<AgentSnapshot> agentSnaps = new HashSet<AgentSnapshot>(); 
@@ -75,19 +72,14 @@ public class Saver {
 
 		//Make a folder, create the file
 		try {
-			String mySubFolder = "simulations";
-			File newDir = new File(mySubFolder);
-			boolean success = newDir.mkdir();
-			if (success) {
-				newDir = new File(newDir, filename);
-				newDir.createNewFile();
-			}
-			if (newDir.exists()) {
+			
+			if (newFile.exists()) {
+				newFile.createNewFile();
 				System.out.println("File created!");
-				System.out.println("File path: " + newDir.getAbsolutePath());
+				System.out.println("File path: " + newFile.getAbsolutePath());
 			}
 
-			FileWriter writer = new FileWriter(newDir, false);
+			FileWriter writer = new FileWriter(newFile.getAbsolutePath(), false);
 			writer.write(sb.toString());
 			writer.close();
 		} catch (IOException e) {
@@ -114,18 +106,15 @@ public class Saver {
 		//Make a folder, create the file
 		try {
 			String mySubFolder = "prototypes";
-			File newDir = new File(mySubFolder);
-			boolean success = newDir.mkdir();
-			if (success) {
-				newDir = new File(newDir, filename);
-				newDir.createNewFile();
-			}
-			if (newDir.exists()) {
+			File newFile = new File(mySubFolder + "/" + filename);
+
+			if (newFile.exists()) {
+				newFile.createNewFile();
 				System.out.println("File created!");
-				System.out.println("File path: " + newDir.getAbsolutePath());
+				System.out.println("File path: " + newFile.getAbsolutePath());
 			}
 
-			BufferedWriter writer = new BufferedWriter(new FileWriter(newDir, false));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(newFile.getAbsolutePath(), false));
 			writer.write(sb.toString());
 			writer.close();
 		} catch (IOException e) {

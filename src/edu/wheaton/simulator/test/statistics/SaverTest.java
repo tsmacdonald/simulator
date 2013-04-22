@@ -1,5 +1,6 @@
 package edu.wheaton.simulator.test.statistics;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,24 +38,24 @@ public class SaverTest {
 		grid.addField("Depth", "100"); 
 		
 		prototypeOne = new Prototype("Prototype 1");
-		agent = prototypeOne.createAgent(grid);
 		try {
-			agent.addField("Pig", "Tom");
-			agent.addField("Monkey", "Olly");
-			agent.addField("Cat", "Joomba");
+			prototypeOne.addField("Pig", "Tom");
+			prototypeOne.addField("Monkey", "Olly");
+			prototypeOne.addField("Cat", "Joomba");
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
+		agent = prototypeOne.createAgent(grid);
 		
 		prototypeTwo = new Prototype("Prototype 2");
-		agentOther = prototypeTwo.createAgent(grid);
 		try {
-			agentOther.addField("Crayfish", "Paul");
-			agentOther.addField("Meerkat", "Timon");
-			agentOther.addField("Person", "John Charles");
+			prototypeTwo.addField("Crayfish", "Paul");
+			prototypeTwo.addField("Meerkat", "Timon");
+			prototypeTwo.addField("Person", "John Charles");
 		} catch (ElementAlreadyContainedException e) {
 			e.printStackTrace();
 		}
+		agentOther = prototypeTwo.createAgent(grid);
 		
 		step = new Integer(23);
 		
@@ -80,7 +81,7 @@ public class SaverTest {
 	}
 
 	@Test
-	public void testsaveSimulation() {
+	public void testSaveSimulation() {
 		//Create a Set of Agents				
 		Set<Agent> agents = new HashSet<Agent>(); 
 		agents.add(agent); 
@@ -93,7 +94,7 @@ public class SaverTest {
 		ImmutableSet<Prototype> prototypes = builder.build(); 
 		
 		Saver s = new Saver();
-		s.saveSimulation("SimulationState", agents, prototypes, grid.getCustomFieldMap(), 
+		s.saveSimulation(new File("SimulationState2"), agents, prototypes, grid.getCustomFieldMap(), 
 				grid.getWidth(), grid.getHeight(), simEnder); 
 	}
 	

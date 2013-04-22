@@ -42,4 +42,8 @@ public class AgentID implements Comparable<AgentID> {
 	public boolean equals(AgentID o) {
 		return this.getInt().equals(o.getInt());
 	}
+	
+	public static void resetIDs() {
+		nextID = 0;
+	}
 }

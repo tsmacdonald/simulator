@@ -188,6 +188,7 @@ public class StatisticsScreen extends Screen {
 		});
 	}
 	
+	//TODO fix this warning
 	private void setFieldListener(JComboBox fieldBox) {
 		fieldBox.addActionListener(new ActionListener() {
 			@Override

@@ -9,6 +9,7 @@
 
 package edu.wheaton.simulator.simulation;
 
+import java.awt.Color;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import net.sourceforge.jeval.EvaluationException;
@@ -16,6 +17,7 @@ import net.sourceforge.jeval.EvaluationException;
 import edu.wheaton.simulator.datastructure.Field;
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.Agent;
+import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 
@@ -85,6 +87,8 @@ public class Simulation {
 		layerRunning.set(false);
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid);
+		resetLayer();
+		AgentID.resetIDs();
 	}
 
 	/**
@@ -105,12 +109,14 @@ public class Simulation {
 		layerRunning.set(false);
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid);
+		resetLayer();
+		AgentID.resetIDs();
 	}
 	
 	/**
 	 * Runs the simulation by updating all the entities
 	 */
-	public final Thread mainThread = new Thread(new Runnable() {
+	private final Thread mainThread = new Thread(new Runnable() {
 		@Override
 		public void run() {
 			while (!isStopped.get()) {
@@ -227,7 +233,7 @@ public class Simulation {
 	 * 
 	 * @throws EvaluationException
 	 */
-	private void setLayerExtremes() {
+	public void setLayerExtremes() {
 		Layer.getInstance().resetMinMax();
 		for (Agent current : grid) {
 			if (current != null) {
@@ -236,6 +242,15 @@ public class Simulation {
 				Layer.getInstance().setExtremes(currentField);
 			}
 		}
+	}
+	
+	/**
+	 * Clears settings in the Layer singleton
+	 */
+	public void resetLayer() {
+		Layer.getInstance().setFieldName("");
+		Layer.getInstance().setColor(Color.WHITE);
+		Layer.getInstance().resetMinMax();
 	}
 
 	/**
