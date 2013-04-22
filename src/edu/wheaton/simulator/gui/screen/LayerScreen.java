@@ -161,16 +161,14 @@ public class LayerScreen extends Screen {
 			public void itemStateChanged(ItemEvent e) {
 				// To ensure type safety with the "String" combo box, we need
 				// to convert the objects to strings.
-				Object[] tempObjList = gm
+				String[] fields = new String[0];
+				fields = gm
 						.getPrototype(
 								agentComboBox.getSelectedItem().toString())
-						.getCustomFieldMap().keySet().toArray();
-				String[] tempStringList = new String[tempObjList.length];
-				for (int i = 0; i < tempObjList.length; i++) {
-					tempStringList[i] = tempObjList[i].toString();
-				}
+						.getCustomFieldMap().keySet().toArray(fields);
+				
 
-				layerComboBox = new JComboBox(tempStringList);
+				layerComboBox = new JComboBox(fields);
 				layerComboBox.setMaximumSize(new Dimension(200, 50));
 				layerPanelLayers.remove(1);
 				layerPanelLayers.add(layerComboBox);
