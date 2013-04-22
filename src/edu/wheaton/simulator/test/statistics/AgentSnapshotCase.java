@@ -9,6 +9,8 @@ package edu.wheaton.simulator.test.statistics;
  * 25 Mar 2013
  */
 
+import java.awt.Color;
+
 import junit.framework.Assert;
 
 import org.junit.After;
@@ -69,7 +71,7 @@ public class AgentSnapshotCase {
 	public void agentSnapshotTest() {
 		AgentSnapshot agentSnap = new AgentSnapshot(agent.getID(),
 				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step,
-				prototype.getName(), null, null, null, 0, 0);
+				prototype.getName(), new Color(10, 10, 10), null, null, 0, 0);
 		Assert.assertNotNull("AgentSnapshot not created.", agentSnap);
 	}
 	
@@ -80,10 +82,10 @@ public class AgentSnapshotCase {
 	public void serializeTest(){
 		AgentSnapshot agentSnap = new AgentSnapshot(agent.getID(),
 				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step,
-				prototype.getName(), null, null, null, 0, 0);
+				prototype.getName(), new Color(10, 10, 10), null, null, 0, 0);
 		
-		String expected = "AgentSnapshot\ntester\n0\n0\nFieldSnapshot Cat Joomba\nFieldSnapshot " +
-				"Pig Tom\nFieldSnapshot Monkey Olly"; 
+		String expected = "AgentSnapshot\ntester\n10~10~10\n\n0\n0\nFieldSnapshot~Cat~Joomba\nFieldSnapshot~" +
+				"Pig~Tom\nFieldSnapshot~Monkey~Olly"; 
 		System.out.println(agentSnap.serialize()); 
 		
 		Assert.assertEquals(expected, agentSnap.serialize()); 	
@@ -103,8 +105,8 @@ public class AgentSnapshotCase {
 		}
 		AgentSnapshot gSnap = SnapshotFactory.makeGlobalVarSnapshot(grid, gType, step);
 		
-		String expected = "AgentSnapshot\nGRID\n0\n0\nFieldSnapshot name akon" +
-				"\nFieldSnapshot owner chris"; 
+		String expected = "AgentSnapshot\nGRID\n0~0~0\n\n0\n0\nFieldSnapshot~name~akon" +
+				"\nFieldSnapshot~owner~chris"; 
 		System.out.println(gSnap.serialize());
 		
 		org.junit.Assert.assertEquals(expected, gSnap.serialize());
