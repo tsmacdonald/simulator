@@ -227,7 +227,7 @@ public class StatisticsManager {
 		// index for toReturn
 		int i = 0;
 
-		// list of totals of each step
+		// list of totals at each step
 		double found = 0;
 
 		for (int step : steps) {

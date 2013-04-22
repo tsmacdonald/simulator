@@ -29,6 +29,7 @@ import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.entity.Trigger.Builder;
+import edu.wheaton.simulator.simulation.SimulationPauseException;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;
 import edu.wheaton.simulator.statistics.Recorder;
@@ -219,51 +220,70 @@ public class StatisticsManagerTest {
 
 	@Test
 	public void testGetTriggerExecutionsFor() {
+		Grid grid = new Grid(10, 10);
 		ArrayList<AgentSnapshot> snaps = new ArrayList<AgentSnapshot>();
 		HashSet<AgentID> ids = new HashSet<AgentID>();
+		HashSet<Agent> agents = new HashSet<Agent>();
+		ArrayList<TriggerSnapshot> triggers = new ArrayList<TriggerSnapshot>();
 		String[] names = new String[] { "bear", "tom", "john", "piglet",
 				"reese" };
 
 		Builder builder = new Trigger.Builder(prototype);
-		builder.addBehavioral("behavior");
-		builder.addConditional("conditional");
+		builder.addBehavioral("true");
+		builder.addConditional("true");
 		builder.addName("trigger");
 		builder.addPriority(1);
 
 		Trigger trigger = builder.build();
 		
+		triggers.add(SnapshotFactory.makeTriggerSnapshot(trigger.getName(), 1, "true", "true"));
+		
 		/* create snapshots */
 		for (int i = 0; i < 5; i++) {
 			prototype.addTrigger(trigger);
-			Agent agent = prototype.createAgent(g);
 			try {
-				agent.addField("name", names[i]);
-				agent.addField("weight", "10");
+				prototype.addField("name", names[i]);
+				prototype.addField("weight", "10");
 			} catch (ElementAlreadyContainedException e) {
 				e.printStackTrace();
 			}
+			Agent agent = prototype.createAgent(g);
+			grid.addAgent(agent);
+			agents.add(agent);
 			ids.add(agent.getID());
-			for (int s = 1; s < 3; s++) {
-				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory
-						.makeFieldSnapshots(agent.getCustomFieldMap()), s,
-						protoSnap.categoryName, null, 0, 0));
-			}
+			snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory
+					.makeFieldSnapshots(agent.getCustomFieldMap()), 0,
+						protoSnap.categoryName, triggers, 0, 0));
 		}
 
+		try {
+			grid.updateEntities();
+		} catch (SimulationPauseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		/* create snapshots */
+		for (Agent agent : agents) {
+				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory
+						.makeFieldSnapshots(agent.getCustomFieldMap()), 1,
+						protoSnap.categoryName, triggers, 0, 0));
+		}
+		
 		/* fill table w/ snapshots */
 		for (AgentSnapshot snap : snaps) {
 			sm.addGridEntity(snap);
 		}
 
 		/* test method */
-		double[] avg = sm.getAvgFieldValue(protoSnap.categoryName, "weight");
+		double[] answer = sm.getTriggerExecutionsFor(protoSnap.categoryName, "trigger");
 
-		for (double i : avg)
+		for (double i : answer)
 			System.out.print((int) i + " ");
 
-		for (double i : avg) {
+		for (double i : answer) {
 			int a = (int) i;
-			org.junit.Assert.assertEquals(10, a);
+			org.junit.Assert.assertEquals(5, a);
 		}
 	}
 	
