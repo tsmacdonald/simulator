@@ -17,5 +17,11 @@ public interface EndCondition {
 	 * @return true/false
 	 */
 	public boolean evaluate(int step, Grid grid);
+	
+	/**
+	 * Display what kind of end condition it is
+	 * @return string
+	 */
+	public String whatHappened();
 
 }
