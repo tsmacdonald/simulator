@@ -10,6 +10,7 @@
 
 package edu.wheaton.simulator.gui.screen;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -20,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -127,29 +129,35 @@ public class ViewSimScreen extends Screen {
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridheight = 2;
+		c.gridheight = 1;
 		c.weightx = 0;
 		//c.insets = new Insets(5, 5, 5, 5);
 		this.add(tabs, c);
 
+		JPanel rightPanel = new JPanel(new GridBagLayout());
+		
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
-		c.gridx = 1;
+		c.gridx = 0;
 		c.gridy = 0;
 		c.ipadx = 600;
 		c.ipady = 600;
-		c.gridwidth = 2;
+		c.gridwidth = 1;
 		c.weighty = 1;
 		c.weightx = 1;
-		c.insets = new Insets(5, 5, 5, 5);
-		this.add(gm.getGridPanel(), c);
+		//c.insets = new Insets(5, 5, 5, 5);
+		rightPanel.add(gm.getGridPanel(), c);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
+		c.gridx = 0;
 		c.gridy = 1;
-		c.gridwidth = 2;
-		this.add(makeButtonPanel(), c);
+		c.gridwidth = 1;
+		rightPanel.add(makeButtonPanel(), c);
+		
+		c = new GridBagConstraints();
+		c.gridx = 1;
+		this.add(rightPanel,c);
 
 		this.setVisible(true);
 	}
@@ -159,8 +167,7 @@ public class ViewSimScreen extends Screen {
 		// navigation purposes
 		ScreenManager sm = getScreenManager();
 		startButton = makeStartButton();
-		JPanel buttonPanel = Gui.makePanel((LayoutManager) null, new MaxSize(
-				500, 50), PrefSize.NULL, startButton, Gui.makeButton(
+		JPanel buttonPanel = Gui.makePanel((LayoutManager) null, MaxSize.NULL, PrefSize.NULL, startButton, Gui.makeButton(
 				"Statistics", null,
 				new GeneralButtonListener("Statistics", sm)));
 		return buttonPanel;
