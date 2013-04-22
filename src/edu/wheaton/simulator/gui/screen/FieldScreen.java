@@ -62,8 +62,6 @@ public class FieldScreen extends Screen {
 				Screen screen = new EditFieldScreen(gm,dialogWindow);
 				dialogWindow.add(screen);
 				screen.load();
-				//Screen screen = sm.getScreen("Edit Fields");
-				//sm.load(screen);
 				dialogWindow.setLocationRelativeTo(null);
 				dialogWindow.setTitle("Edit Field");
 				dialogWindow.setMinimumSize(new MinSize(225,100));

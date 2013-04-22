@@ -40,7 +40,7 @@ public class EditFieldScreen extends Screen {
 
 	private static final long serialVersionUID = 8001531208716520432L;
 
-	private JDialog parentWindow;
+	private final JDialog parentWindow;
 	
 	private JTextField nameField;
 
@@ -48,12 +48,10 @@ public class EditFieldScreen extends Screen {
 
 	private String prevName;
 
-	public EditFieldScreen(final SimulatorFacade gm, JDialog parentWindow) {
+	public EditFieldScreen(final SimulatorFacade gm, final JDialog parentWindow) {
 		super(gm);
 		this.parentWindow = parentWindow;
 		this.setLayout(new GridBagLayout());
-		
-		JLabel header = new JLabel("Edit Field");
 		
 		JLabel nameLabel = new JLabel("Field Name: ");
 		nameField = Gui.makeTextField(null,40, MaxSize.NULL,null);
@@ -67,8 +65,7 @@ public class EditFieldScreen extends Screen {
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ScreenManager sm = getScreenManager();
-				sm.load(sm.getScreen("View Simulation")); 
+				parentWindow.dispose();
 			} 
 		});
 		
