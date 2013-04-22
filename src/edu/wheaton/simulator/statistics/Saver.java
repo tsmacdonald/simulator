@@ -75,9 +75,7 @@ public class Saver {
 
 		//Make a folder, create the file
 		try {
-			String mySubFolder = "simulations";
-			
-			File newFile = new File(mySubFolder + "/" + filename);
+			File newFile = new File(filename);
 			
 			if (newFile.exists()) {
 				newFile.createNewFile();

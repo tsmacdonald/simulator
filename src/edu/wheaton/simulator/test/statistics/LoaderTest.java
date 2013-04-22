@@ -48,7 +48,7 @@ public class LoaderTest {
 	@Test
 	public void testLoadSimulation() throws Exception {
 		Loader l = new Loader();
-		l.loadSimulation(new File("/homes/grant.hensel/Software Development/simulations/SimulationState.txt"));
+		l.loadSimulation(new File("simulations/SimulationState.txt"));
 		System.out.println("Loaded"); 
 		grid = l.getGrid(); 
 		prototypes = l.getPrototypes(); 
@@ -63,7 +63,7 @@ public class LoaderTest {
 	public void testLoadPrototype() throws FileNotFoundException{
 		Loader l = new Loader(); 
 		Prototype proto = null; 
-		File loadFile = new File("/homes/grant.hensel/Software Development/prototypes/Prototype 1.txt"); 
+		File loadFile = new File("prototypes/Prototype 1.txt"); 
 		
 		//Print loadFile contents for debugging 
 		System.out.println("\nLoad File Contents:"); 
