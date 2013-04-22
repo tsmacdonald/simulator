@@ -15,7 +15,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import edu.wheaton.simulator.gui.Gui;
+import edu.wheaton.simulator.gui.GuiConstants;
 import edu.wheaton.simulator.gui.MaxSize;
+import edu.wheaton.simulator.gui.MinSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.SimulatorFacade;
 
@@ -41,10 +43,12 @@ public class LayerScreen extends Screen {
 		entities = new String[0];
 		
 		JLabel agents = new JLabel("Agents");
-		agentComboBox = Gui.makeComboBox(null, new MaxSize(200, 50));
+		agentComboBox = Gui.makeComboBox(null, null);
+		agentComboBox.setMinimumSize(GuiConstants.minComboBoxSize);
 
 		JLabel layers = new JLabel("Fields");
-		layerComboBox = Gui.makeComboBox(null, new MaxSize(200, 50));
+		layerComboBox = Gui.makeComboBox(null, null);
+		layerComboBox.setMinimumSize(GuiConstants.minComboBoxSize);
 
 		final JColorChooser colorTool = Gui.makeColorChooser();
 
@@ -81,6 +85,7 @@ public class LayerScreen extends Screen {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 0;
+		c.gridwidth = 3;
 		c.insets = new Insets(5,5,5,5);
 		layerPanelAgents.add(agentComboBox,c);
 
@@ -97,6 +102,7 @@ public class LayerScreen extends Screen {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 0;
+		c.gridwidth = 3;
 		c.insets = new Insets(5,5,5,5);
 		layerPanelLayers.add(layerComboBox,c);
 
@@ -156,6 +162,7 @@ public class LayerScreen extends Screen {
 		entities = new String[0];
 		entities = gm.getPrototypeNames().toArray(entities);
 		agentComboBox = new JComboBox(entities);
+		agentComboBox.setMinimumSize(GuiConstants.minComboBoxSize);
 		agentComboBox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -169,9 +176,16 @@ public class LayerScreen extends Screen {
 				
 
 				layerComboBox = new JComboBox(fields);
-				layerComboBox.setMaximumSize(new Dimension(200, 50));
+				layerComboBox.setMinimumSize(GuiConstants.minComboBoxSize);
 				layerPanelLayers.remove(1);
-				layerPanelLayers.add(layerComboBox);
+				
+				c = new GridBagConstraints();
+				c.fill = GridBagConstraints.HORIZONTAL;
+				c.gridx = 1;
+				c.gridy = 0;
+				c.gridwidth = 3;
+				c.insets = new Insets(5,5,5,5);
+				layerPanelLayers.add(layerComboBox,c);
 				validate();
 				repaint();
 			}
@@ -180,25 +194,36 @@ public class LayerScreen extends Screen {
 
 			// To ensure type safety with the "String" combo box, we need to
 			// convert the objects to strings.
-			Object[] tempObjList = gm
-					.getPrototype(agentComboBox.getSelectedItem().toString())
-					.getCustomFieldMap().keySet().toArray();
-			String[] tempStringList = new String[tempObjList.length];
-			for (int i = 0; i < tempObjList.length; i++) {
-				tempStringList[i] = tempObjList[i].toString();
-			}
+			String[] fields = new String[0];
+			fields = gm
+					.getPrototype(
+							agentComboBox.getSelectedItem().toString())
+					.getCustomFieldMap().keySet().toArray(fields);
 
-			layerComboBox = new JComboBox(tempStringList);
-			layerComboBox.setMaximumSize(new Dimension(200, 50));
+			layerComboBox = new JComboBox(fields);
+			layerComboBox.setMinimumSize(GuiConstants.minComboBoxSize);
 			layerPanelLayers.remove(1);
-			layerPanelLayers.add(layerComboBox);
+			
+			c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridx = 1;
+			c.gridy = 0;
+			c.gridwidth = 3;
+			c.insets = new Insets(5,5,5,5);
+			layerPanelLayers.add(layerComboBox,c);
 		}
 		else{
 			layerComboBox.removeAllItems();
 		}
-		agentComboBox.setMaximumSize(new Dimension(200, 50));
 		layerPanelAgents.remove(1);
-		layerPanelAgents.add(agentComboBox);
+		
+		c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		c.insets = new Insets(5,5,5,5);
+		layerPanelAgents.add(agentComboBox,c);
 	}
 
 }
