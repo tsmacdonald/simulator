@@ -21,22 +21,22 @@ public class AgentSnapshot {
 	 * The unique id of the agent for this snapshot
 	 */
 	public final AgentID id;
-	
+
 	/**
 	 * The present prototype for the category of this Entity.
 	 */
 	public final String prototypeName;
-	
+
 	/**
 	 * The color the agents are displayed
 	 */
 	public final Color color; 
-	
+
 	/**
 	 * A bitmap of the design for displaying the agents 
 	 */
 	public final byte[] design;
-	
+
 	/**
 	 * The saved fields of this entity.
 	 */
@@ -46,17 +46,17 @@ public class AgentSnapshot {
 	 * The point in the simulation at which this snapshot was taken.
 	 */
 	public final Integer step;
-	
+
 	/**
 	 * A list of this Agent's BehaviorSnapshots
 	 */
 	public final ArrayList<TriggerSnapshot> triggers;
-	
+
 	/**
 	 * This Agent's xPosition
 	 */
 	public final int xpos; 
-	
+
 	/**
 	 * This Agent's yPosition
 	 */
@@ -66,13 +66,23 @@ public class AgentSnapshot {
 	 * Constructor
 	 * 
 	 * @param id
-	 *            The ID of the Agent associated with this snapshot.
+	 *          The ID of the Agent associated with this snapshot.
 	 * @param fieldsbehaviorList.add(behaveSnap)
-	 *            The current values of the fields of the Entity
+	 *          The current values of the fields of the Entity
 	 * @param step
-	 *            The step in the simulation associated with this snapshot.
-	 * @param prototype
-	 *            The prototype for this category of Agent.
+	 *          The step in the simulation associated with this snapshot.
+	 * @param prototypeName
+	 *          The prototype for this category of Agent.
+	 * @param color
+	 * 			The color of the agent
+	 * @param design
+	 * 			Bitmask of the agent's design
+	 * @param triggers
+	 * 			List of agent's triggers
+	 * @param x
+	 * 			Agent's x-coordinate
+	 * @param y 
+	 * 			Agent's y-coordinate           
 	 */
 	public AgentSnapshot(AgentID id, ImmutableMap<String, FieldSnapshot> fields,
 			Integer step, String prototypeName, Color color, byte[] design, 
@@ -106,24 +116,40 @@ public class AgentSnapshot {
 	public String serialize(){
 		String s = "AgentSnapshot";
 		s += "\n" + prototypeName;
-		s += "\n" + color.getRed() + "~" + color.getGreen() + "~" + color.getBlue(); 
+		
+		if(color != null)
+			s += "\n" + color.getRed() + "~" + color.getGreen() + "~" + color.getBlue();
+		else
+			s += "\n0~0~0"; 
+		
 		s += "\n" + displayByteArray(design); 
 		s += "\n" + xpos; 
 		s += "\n" + ypos; 
-		
+
 		for (Entry<String, FieldSnapshot> entry : fields.entrySet()) {
 			s += "\n" + entry.getValue().serialize();
 		}
-		
+
 		return s; 
 	}
-	
+
+	/**
+	 * Convert a byte[] to a string for serialization
+	 * @param array The byte array to save
+	 * @return A string representation of the provided byte array
+	 * 
+	 * Example format: 
+	 * "127~127~127~127~127~127~127"
+	 */
 	private static String displayByteArray(byte[] array){
 		String ret = ""; 
 		
+		if(array == null)
+			return ret; 
+
 		for(byte b : array)
 			ret += b + "~"; 
-		
+
 		return ret; 
 	}
 }

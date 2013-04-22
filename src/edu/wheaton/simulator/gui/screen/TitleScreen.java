@@ -32,7 +32,7 @@ public class TitleScreen extends Screen {
 	public TitleScreen(SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
-		
+
 		try {
 			ImageIcon icon = new ImageIcon(getClass().getResource("/images/UniSIMLogo.png"), "Logo");
 			JLabel picLabel = new JLabel(icon);
@@ -45,7 +45,24 @@ public class TitleScreen extends Screen {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = GridBagConstraints.RELATIVE;
-		add(makeButton("New Simulation", "New Simulation"), c);
+		//add(makeButton("New Simulation", "View Simulation"), c);
+		JButton newButton = new JButton("New Simulation"); 
+		newButton.setPreferredSize(new Dimension(200, 70));
+		newButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				getGuiManager().load("Untitled Simulation", 10, 10);
+				getGuiManager().updateGuiManager("Untitled Simulation", 10, 10);
+				getGuiManager().setStepLimit(1000);
+				Screen upload = Gui.getScreenManager().getScreen("View Simulation");
+				((ViewSimScreen)upload).init();
+				getGuiManager().setStarted(false);
+				Gui.getScreenManager().load(upload);
+			}
+
+		});
+		add(newButton, c);
 		// add(makeButton("Load a saved Simulation", "Load Existing"),c);
 		JButton loadButton = new JButton("Load a Saved Simulation");
 		loadButton.setPreferredSize(new Dimension(200, 70));
@@ -57,16 +74,16 @@ public class TitleScreen extends Screen {
 			}
 		});
 		add(loadButton, c);
-//		JButton importButton = new JButton("Import Simulation from file");
-//		importButton.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent arg0) {
-//				getGuiManager().load();
-//			}
-//		});
-//		loadButton.setPreferredSize(new Dimension(200, 70));
-//		add(importButton, c);
+		//		JButton importButton = new JButton("Import Simulation from file");
+		//		importButton.addActionListener(new ActionListener() {
+		//
+		//			@Override
+		//			public void actionPerformed(ActionEvent arg0) {
+		//				getGuiManager().load();
+		//			}
+		//		});
+		//		loadButton.setPreferredSize(new Dimension(200, 70));
+		//		add(importButton, c);
 		this.setVisible(true);
 	}
 

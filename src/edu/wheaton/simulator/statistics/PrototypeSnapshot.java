@@ -90,7 +90,12 @@ public class PrototypeSnapshot {
 	public String serialize(){
 		String s = "PrototypeSnapshot";
 		s += "\n" + categoryName; 
-		s += "\n" + color.getRed() + "~" + color.getGreen() + "~" + color.getBlue(); 
+
+		if(color != null)
+			s += "\n" + color.getRed() + "~" + color.getGreen() + "~" + color.getBlue();
+		else
+			s += "\n0~0~0"; 
+		
 		s += "\n" + displayByteArray(design); 
 		
 		//Serialize the defaultFields map
@@ -106,13 +111,23 @@ public class PrototypeSnapshot {
 		return s; 
 	}
 	
+	/**
+	 * Convert a byte[] to a string for serialization
+	 * @param array The byte array to save
+	 * @return A string representation of the provided byte array
+	 * 
+	 * Example format: 
+	 * "127~127~127~127~127~127~127"
+	 */
 	private static String displayByteArray(byte[] array){
 		String ret = ""; 
+		
+		if(array == null)
+			return ret; 
 		
 		for(byte b : array)
 			ret += b + "~"; 
 		
 		return ret; 
 	}
-
 }

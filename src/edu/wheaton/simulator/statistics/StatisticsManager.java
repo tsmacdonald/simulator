@@ -240,8 +240,7 @@ public class StatisticsManager {
 	 * @return An array in which indexes refer to the step in the simulation
 	 *         and the value refers to average field value at that time
 	 */
-	public double[] getTriggerExecutionsFor(String prototypeName,
-			String behavior) {
+	public double[] getTriggerExecutionsFor(String prototypeName, String behavior) {
 		// array of answers to return. size = all steps of table
 		double[] toReturn = new double[lastStep()];
 
@@ -255,8 +254,7 @@ public class StatisticsManager {
 		double found = 0;
 
 		for (int step : steps) {
-			ImmutableSet<AgentSnapshot> agents = getPopulationAtStep(
-					prototypeName, step);
+			ImmutableSet<AgentSnapshot> agents = getPopulationAtStep(prototypeName, step);
 
 			for (AgentSnapshot agent : agents) {
 				ArrayList<TriggerSnapshot> triggers = agent.triggers;
@@ -296,9 +294,8 @@ public class StatisticsManager {
 			Set<AgentSnapshot> stepData = getPopulationAtStep(prototypeName, i);
 
 			//Populate the list of unique Agent IDs for the Agents we're tracking
-			for(AgentSnapshot snap : stepData){
-				allIDs.add(snap.id); 
-			}
+			for(AgentSnapshot snap : stepData)
+				allIDs.add(snap.id);
 
 			//Populate the list of agent snapshots by step
 			agentsByStep.add(i, stepData);
@@ -333,17 +330,13 @@ public class StatisticsManager {
 	 * @throws NameNotFoundException
 	 *             the target Agent wasn't found
 	 */
-	private int getBirthStep(List<Set<AgentSnapshot>> agentsByStep,
-			AgentID target) {
-		for (int i = 0; i < lastStep(); i++){
-			for(AgentSnapshot s : agentsByStep.get(i)){
+	private int getBirthStep(List<Set<AgentSnapshot>> agentsByStep, AgentID target) {
+		for (int i = 0; i < lastStep(); i++)
+			for(AgentSnapshot s : agentsByStep.get(i))
 				if(s.id.equals(target))
 					return i;
-			}
-		}
 
-		throw new IllegalArgumentException(
-				"The target AgentID was not found");
+		throw new IllegalArgumentException("The target AgentID was not found");
 	}
 
 	/**
@@ -359,18 +352,13 @@ public class StatisticsManager {
 	 * @throws NameNotFoundException
 	 *             the target Agent wasn't found
 	 */
-	private static int getDeathStep(List<Set<AgentSnapshot>> agentsByStep,
-			AgentID target) {
-		for (int i = agentsByStep.size()-1; i >= 0; i--){
-			if (agentsByStep.get(i) != null){
-				for(AgentSnapshot s : agentsByStep.get(i)){
+	private static int getDeathStep(List<Set<AgentSnapshot>> agentsByStep, AgentID target) {
+		for (int i = agentsByStep.size()-1; i >= 0; i--)
+			if (agentsByStep.get(i) != null)
+				for(AgentSnapshot s : agentsByStep.get(i))
 					if(s.id.equals(target))
-						return i;
-				}
-			}	
-		}
+						return i;	
 
-		throw new IllegalArgumentException(
-				"The target AgentID was not found");
+		throw new IllegalArgumentException("The target AgentID was not found");
 	}
 }
