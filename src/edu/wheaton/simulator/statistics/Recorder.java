@@ -73,9 +73,10 @@ public class Recorder extends AbstractStatsGridObserver implements TriggerObserv
 						.makePrototypeSnapshot(prototype));
 
 			for (Agent agent : grid) {
-				if (agent != null)
+				if (agent != null) {
 					statManager.addGridEntity(SnapshotFactory.makeAgentSnapshot(
 							agent, triggers.get(agent.getID()), grid.getStep()));
+				}
 			}
 
 			if(gridPrototype == null) {
@@ -107,7 +108,6 @@ public class Recorder extends AbstractStatsGridObserver implements TriggerObserv
 	public void update(AgentID caller, Trigger trigger, int step) {
 		TriggerSnapshot triggerSnap = SnapshotFactory.makeTriggerSnapshot(
 				trigger.getName(), trigger.getPriority(), null, null);
-
 		if (triggers.containsKey(caller)) {
 			triggers.get(caller).add(triggerSnap);
 		} else {

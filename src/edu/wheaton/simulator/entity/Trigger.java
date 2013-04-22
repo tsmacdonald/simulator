@@ -145,6 +145,8 @@ public class Trigger implements Comparable<Trigger> {
 		} catch (EvaluationException e) {
 			atomicConditionResult = false;
 			throw e;
+		} catch (Exception e) {
+			atomicConditionResult = false;
 		}
 	}
 

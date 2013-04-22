@@ -113,7 +113,16 @@ public class Loader {
 			//Instantiate the Grid
 			int width = Integer.parseInt(reader.readLine()); 
 			int height = Integer.parseInt(reader.readLine()); 
-			grid = new Grid(width, height); 
+			grid = new Grid(width, height);  
+			
+			//Set the updater
+			String updater = reader.readLine(); 
+			if(updater.equals("Linear")) 
+				grid.setLinearUpdater();
+			else if(updater.equals("Priority"))
+				grid.setPriorityUpdater(0, 100); 
+			else if(updater.equals("Atomic"))
+				grid.setAtomicUpdater(); 				
 
 			String readLine = reader.readLine();
 			while (readLine != null && !readLine.equals("")) {
@@ -131,7 +140,8 @@ public class Loader {
 					byte[] design = createByteArray(reader.readLine());
 
 					//Create the Agent
-					Agent agent = new Agent(grid, parent, color, design); 
+					Agent agent = new Agent(grid, parent, color, design);
+					System.out.println(agent.getColor()); 
 
 					//Get the Agent's position on the Grid
 					int xpos = Integer.parseInt(reader.readLine()); 

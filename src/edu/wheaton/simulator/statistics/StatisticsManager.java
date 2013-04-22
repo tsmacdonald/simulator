@@ -236,7 +236,10 @@ public class StatisticsManager {
 
 			for (AgentSnapshot agent : agents) {
 				ArrayList<TriggerSnapshot> triggers = agent.triggers;
-
+				
+				if(triggers == null)
+					continue;
+				
 				for (TriggerSnapshot trigger : triggers)
 					if (trigger.triggerName.equals(behavior))
 						found++;
