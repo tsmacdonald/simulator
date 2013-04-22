@@ -35,7 +35,7 @@ public class TriggerScreen extends Screen {
 
 	private JLabel triggerLabel;
 
-	private Prototype agent;
+	private Prototype prototype;
 
 	private JList triggers;
 
@@ -59,8 +59,6 @@ public class TriggerScreen extends Screen {
 		addSaveButton(new GridBagConstraints());
 	}
 
-
-
 	private void addTriggerList(GridBagConstraints constraints) {
 		triggers = new JList();
 		triggers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -75,7 +73,7 @@ public class TriggerScreen extends Screen {
 				try{
 					if(triggers.getSelectedIndex() >= 0){
 						Trigger t = (Trigger) triggers.getSelectedValue();
-						edit.load(new Trigger.Builder(t, agent), t);
+						edit.load(new Trigger.Builder(t, prototype), t);
 					}
 				}catch(Exception e){
 				}
@@ -184,10 +182,10 @@ public class TriggerScreen extends Screen {
 			// Sets default to 100 because that is the lowest possible priority and the 
 			// added trigger should appear at the end of the trigger list
 			Trigger t = new Trigger("Untitled" + untitledCounter++, 100, null, null);
-			edit.load(new Trigger.Builder(agent), t);
-			agent.addTrigger(t);
+			edit.load(new Trigger.Builder(prototype), t);
+			prototype.addTrigger(t);
 			triggers.setSelectedIndex(triggers.getLastVisibleIndex());
-			load(agent);
+			load(prototype);
 		}
 	}
 
@@ -197,9 +195,12 @@ public class TriggerScreen extends Screen {
 		public void actionPerformed(ActionEvent e){
 			Trigger toDelete = (Trigger)triggers.getSelectedValue();
 			if(toDelete != null){
-				agent.removeTrigger(triggers.getSelectedValue().toString());
+				System.out.println(toDelete + ".");
+				prototype.removeTrigger(toDelete.toString());
 				edit.reset();
-				load(agent);
+				load(prototype);
+				for(Trigger t: prototype.getTriggers())
+					System.out.println(t);
 			}
 			else
 				JOptionPane.showMessageDialog(null, "No trigger selected");
@@ -211,9 +212,9 @@ public class TriggerScreen extends Screen {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Trigger toAdd = edit.sendInfo();
-			if(toAdd != null){
-				agent.updateTrigger(triggers.getSelectedValue().toString(), toAdd);
-				TriggerScreen.this.load(agent);
+			if(toAdd != null && triggers.getSelectedValue() != null){
+				prototype.updateTrigger(triggers.getSelectedValue().toString(), toAdd);
+				load(prototype);
 				edit.reset();
 			}
 			else
@@ -223,13 +224,14 @@ public class TriggerScreen extends Screen {
 
 	public void reset(){
 		edit.reset();
-		agent = null;
+		prototype = null;
 		triggers.removeAll();
 	}
 
 	public void load(Prototype p){
-		agent = p;
-		triggers.setListData(agent.getTriggers().toArray());
+		prototype = p;
+		triggers.setListData(prototype.getTriggers().toArray());
+		System.out.println("HAI");
 		validate();
 	}
 
@@ -238,6 +240,8 @@ public class TriggerScreen extends Screen {
 	}
 
 	public Prototype sendInfo(){
-		return agent;
+		for(Trigger t: prototype.getTriggers())
+			System.out.println(t);
+		return prototype;
 	}
 }

@@ -39,6 +39,7 @@ import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorFacade;
+import edu.wheaton.simulator.simulation.Simulator;
 
 public class EditEntityScreen extends Screen {
 
@@ -46,7 +47,7 @@ public class EditEntityScreen extends Screen {
 
 	private Boolean editing;
 
-	private Prototype agent;
+	private Prototype prototype;
 
 	private JPanel cards;
 
@@ -369,11 +370,11 @@ public class EditEntityScreen extends Screen {
 
 	public void load(String str) {
 		reset();
-		agent = gm.getPrototype(str);
-		nameField.setText(agent.getName());
-		colorTool.setColor(agent.getColor());
+		prototype = gm.getPrototype(str);
+		nameField.setText(prototype.getName());
+		colorTool.setColor(prototype.getColor());
 
-		byte[] designBytes = agent.getDesign();
+		byte[] designBytes = prototype.getDesign();
 		byte byter = Byte.parseByte("0000001", 2);
 
 		for (int i = 0; i < 7; i++) 
@@ -381,7 +382,7 @@ public class EditEntityScreen extends Screen {
 				if ((designBytes[i] & (byter << j)) != Byte.parseByte("0000000", 2))
 					buttons[i][6-j] = true;
 
-		Map<String, String> fields = agent.getCustomFieldMap();
+		Map<String, String> fields = prototype.getCustomFieldMap();
 		int i = 0;
 		for (String s : fields.keySet()) {
 			addField();
@@ -390,7 +391,7 @@ public class EditEntityScreen extends Screen {
 			i++;
 		}
 
-		List<Trigger> triggers = agent.getTriggers();
+		List<Trigger> triggers = prototype.getTriggers();
 		int j = 0;
 		for (Trigger t : triggers) {
 			addTrigger();
@@ -403,7 +404,7 @@ public class EditEntityScreen extends Screen {
 	}
 
 	public void reset() {
-		agent = null;
+		prototype = null;
 		currentCard = "General";
 		((CardLayout) cards.getLayout()).first(cards);
 		nameField.setText("");
@@ -440,8 +441,8 @@ public class EditEntityScreen extends Screen {
 
 	public boolean sendInfo() {
 		sendGeneralInfo();
-
-		return (sendFieldInfo() && sendTriggerInfo());
+		prototype = triggerScreen.sendInfo();
+		return sendFieldInfo();
 	}
 
 	public boolean sendGeneralInfo() {
@@ -451,14 +452,13 @@ public class EditEntityScreen extends Screen {
 				throw new Exception("Please enter an Agent name");
 			}
 			if (!editing) {
-				//TODO signature of create prototype needs to not take a grid
 				gm.createPrototype(nameField.getText(), colorTool.getColor(), generateBytes());
-				agent = gm.getPrototype(nameField.getText());
+				prototype = gm.getPrototype(nameField.getText());
 			} else {
-				agent.setPrototypeName(agent.getName(), nameField.getText());
-				agent.setColor(colorTool.getColor());
-				agent.setDesign(generateBytes());
-				Prototype.addPrototype(agent);
+				prototype.setPrototypeName(prototype.getName(), nameField.getText());
+				prototype.setColor(colorTool.getColor());
+				prototype.setDesign(generateBytes());
+				Prototype.addPrototype(prototype);
 			}
 			toReturn = true;
 		} catch (Exception e) {
@@ -478,16 +478,16 @@ public class EditEntityScreen extends Screen {
 
 			for (int i = 0; i < fieldNames.size(); i++) {
 				if (removedFields.contains(i)
-						&& (agent.hasField(fieldNames.get(i).getText())))
-					agent.removeField(fieldNames.get(i).toString());
+						&& (prototype.hasField(fieldNames.get(i).getText())))
+					prototype.removeField(fieldNames.get(i).toString());
 				else {
-					if (agent.hasField(fieldNames.get(i).getText()))
-						agent.updateField(fieldNames.get(i).getText(),
+					if (prototype.hasField(fieldNames.get(i).getText()))
+						prototype.updateField(fieldNames.get(i).getText(),
 								fieldValues.get(i).getText());
 					else {
 						try {
 							if (!removedFields.contains(i))
-								agent.addField(fieldNames.get(i).getText(),
+								prototype.addField(fieldNames.get(i).getText(),
 										fieldValues.get(i).getText());
 						} catch (ElementAlreadyContainedException e) {
 							e.printStackTrace();
@@ -518,14 +518,14 @@ public class EditEntityScreen extends Screen {
 
 			for (int i = 0; i < triggerNames.size(); i++) {
 				if (removedTriggers.contains(i)
-						&& (agent.hasTrigger(triggerNames.get(i).getText())))
-					agent.removeTrigger(triggerNames.get(i).getText());
+						&& (prototype.hasTrigger(triggerNames.get(i).getText())))
+					prototype.removeTrigger(triggerNames.get(i).getText());
 				else {
-					if (agent.hasTrigger(triggerNames.get(i).getText()))
-						agent.updateTrigger(triggerNames.get(i).getText(),
+					if (prototype.hasTrigger(triggerNames.get(i).getText()))
+						prototype.updateTrigger(triggerNames.get(i).getText(),
 								generateTrigger(i));
 					else
-						agent.addTrigger(generateTrigger(i));
+						prototype.addTrigger(generateTrigger(i));
 				}
 			}
 			toReturn = true;
@@ -670,7 +670,7 @@ public class EditEntityScreen extends Screen {
 				}
 			} else if (currentCard == "Fields") {
 				if (sendFieldInfo()) {
-					triggerScreen.load(agent);
+					triggerScreen.load(prototype);
 					c1.next(cards);
 					nextButton.setEnabled(false);
 					//nextButton.setVisible(false);
@@ -695,13 +695,12 @@ public class EditEntityScreen extends Screen {
 					currentCard = "General";
 				}
 			} else if (currentCard == "Triggers") {
-				if (sendTriggerInfo()) {
+					prototype = triggerScreen.sendInfo();
 					c1.previous(cards);
 					nextButton.setEnabled(true);
 					//nextButton.setVisible(true);
 					currentCard = "Fields";
 				}
-			}
 			validate();
 		}
 	}
