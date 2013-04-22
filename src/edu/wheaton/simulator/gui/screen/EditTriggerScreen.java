@@ -399,7 +399,6 @@ public class EditTriggerScreen extends Screen {
 		while(conditionalTokenizer.hasMoreTokens()){
 			isInList = false;
 			String token = conditionalTokenizer.nextToken();
-			System.out.print(token + " ");
 			for(int i = 0; i < conditionalValues.size(); i++)
 				if(token.equals(conditionalValues.get(i))){
 					addConditionalBox(token);
@@ -409,7 +408,6 @@ public class EditTriggerScreen extends Screen {
 			if(!isInList)
 				addConditionalText(token);
 		}
-		System.out.println();
 	}
 
 	private void populateBehaviors(){
@@ -419,7 +417,6 @@ public class EditTriggerScreen extends Screen {
 		while(behaviorTokenizer.hasMoreTokens()){
 			isInList = false;
 			String token = behaviorTokenizer.nextToken();
-			System.out.print(token + " ");
 			for(int i = 0; i < behaviorValues.size(); i++)
 				if(token.equals(behaviorValues.get(i))){
 					addBehaviorBox(token);
@@ -429,7 +426,6 @@ public class EditTriggerScreen extends Screen {
 			if(!isInList)
 				addBehaviorText(token);
 		}
-		System.out.println();
 	}
 
 	private class AddConditionalBoxListener implements ActionListener {
@@ -486,10 +482,8 @@ public class EditTriggerScreen extends Screen {
 		selectedTrigger = t;
 		nameField.setText(selectedTrigger.getName());
 		prioritySpinner.setValue(selectedTrigger.getPriority());
-		if(b.getBehaviorString() != null) 
-			populateBehaviors();
-		if(b.getConditionString() != null)
-			populateConditionals();
+		populateBehaviors();
+		populateConditionals();
 		try{
 			if(builder.isValid()){
 				isValidText.setText("Valid");
