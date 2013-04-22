@@ -22,7 +22,7 @@ public class MoveUpBehavior extends AbstractBehavior {
 	}
 
 	/**
-	 * Attempts to move the target Agent to the up by the number of squares
+	 * Attempts to move the target Agent up by the number of squares
 	 * input as the function's argument. If the spot is invalid/already full,
 	 * it does not move the Agent and returns false instead of true as the result.
 	 * arg1: number of spaces it moves to the right

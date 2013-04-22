@@ -79,6 +79,66 @@ public class BehaviorSyntaxTest {
 		}
 	
 	@Test
+	public void testMoveRightBehavior() throws SimulationPauseException {
+		// 6, 5 is open for an agent to move there
+		Assert.assertTrue(testGrid.emptyPos(6, 5));
+		Expression moveRight = new Expression("moveRight(1)");
+		Expression alwaysTrue = new Expression("1 < 2");
+		proto.addTrigger(new Trigger("moveRight", 1, alwaysTrue, moveRight));
+		testGrid.updateEntities();
+		Assert.assertTrue(testGrid.emptyPos(5, 5));
+		Assert.assertFalse(testGrid.emptyPos(6, 5));	
+		}
+	
+	@Test
+	public void testMoveUpBehavior() throws SimulationPauseException {
+		// 5, 6 is open for an agent to move there
+		Assert.assertTrue(testGrid.emptyPos(5, 6));
+		Expression moveUp = new Expression("moveUp(1)");
+		Expression alwaysTrue = new Expression("1 < 2");
+		proto.addTrigger(new Trigger("moveUp", 1, alwaysTrue, moveUp));
+		testGrid.updateEntities();
+		Assert.assertTrue(testGrid.emptyPos(5, 5));
+		Assert.assertFalse(testGrid.emptyPos(5, 6));	
+		}
+	
+	@Test
+	public void testMoveLeftBehavior() throws SimulationPauseException {
+		// 4, 5 is open for an agent to move there
+		Assert.assertTrue(testGrid.emptyPos(4, 5));
+		Expression moveLeft = new Expression("moveLeft(1)");
+		Expression alwaysTrue = new Expression("1 < 2");
+		proto.addTrigger(new Trigger("moveLeft", 1, alwaysTrue, moveLeft));
+		testGrid.updateEntities();
+		Assert.assertTrue(testGrid.emptyPos(5, 5));
+		Assert.assertFalse(testGrid.emptyPos(4, 5));	
+		}
+	
+	@Test
+	public void testMoveDownBehavior() throws SimulationPauseException {
+		// 5, 4 is open for an agent to move there
+		Assert.assertTrue(testGrid.emptyPos(5, 4));
+		Expression moveDown = new Expression("moveDown(1)");
+		Expression alwaysTrue = new Expression("1 < 2");
+		proto.addTrigger(new Trigger("moveDown", 1, alwaysTrue, moveDown));
+		testGrid.updateEntities();
+		Assert.assertTrue(testGrid.emptyPos(5, 5));
+		Assert.assertFalse(testGrid.emptyPos(5, 4));	
+		}
+	
+	@Test
+	public void testMoveRightMultipleBehavior() throws SimulationPauseException {
+		// 7, 5 is open for an agent to move there
+		Assert.assertTrue(testGrid.emptyPos(7, 5));
+		Expression moveRight = new Expression("moveRight(2)");
+		Expression alwaysTrue = new Expression("1 < 2");
+		proto.addTrigger(new Trigger("moveRight", 1, alwaysTrue, moveRight));
+		testGrid.updateEntities();
+		Assert.assertTrue(testGrid.emptyPos(5, 5));
+		Assert.assertFalse(testGrid.emptyPos(7, 5));	
+		}
+	
+	@Test
 	public void testSetFieldBehavior() throws SimulationPauseException {
 		// health starts at 100
 		Assert.assertEquals(testGrid.getAgent(5, 5).getFieldValue("health") + "", "100");
