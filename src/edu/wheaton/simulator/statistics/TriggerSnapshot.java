@@ -54,12 +54,6 @@ public class TriggerSnapshot {
 	/**
 	 * Produce a string serializing this object
 	 * @return a String containing all of the data in this snapshot
-	 * 
-	 * TODO
-	 * 
-	 * Format: (Stuff in parentheses is just notes - not actually there)
-	 * -----------------------------------------------------------------
-	 * TriggerSnapshot
 	 */
 	public String serialize(){
 		String ret = "Trigger";
