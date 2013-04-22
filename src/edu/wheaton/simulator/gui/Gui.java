@@ -2,11 +2,14 @@ package edu.wheaton.simulator.gui;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -242,11 +245,17 @@ public final class Gui {
 			}
 		}));
 		menu.add(Gui.makeMenuItem("Help Contents",new ActionListener(){
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(getDisplay(),
-						"Wheaton College. Software Development 2013.\n Help Contents",
-						"Help Contents",JOptionPane.PLAIN_MESSAGE);
+				String htmlFilePath = "helpdocument/UniSIMHelp.html";
+				File htmlFile = new File(htmlFilePath);
+				try {
+					Desktop.getDesktop().browse(htmlFile.toURI());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
 			}
 		}));
 
