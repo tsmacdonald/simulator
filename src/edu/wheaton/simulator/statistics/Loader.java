@@ -312,7 +312,6 @@ public class Loader {
 				readLine = reader.readLine(); 
 			}
 
-			System.out.println("Loaded Prototype"); 
 		}
 		catch (FileNotFoundException e) {
 			throw new RuntimeException("Could not find file: " + file.getAbsolutePath(), e);
@@ -335,7 +334,7 @@ public class Loader {
 
 	/**
 	 * Create a byte array from a string
-	 * @param s String representing a byte array in the form "010111000"
+	 * @param s String representing a byte array in the form "127~127~127~127~127~127~127"
 	 * @return The create byte array
 	 */
 	private static byte[] createByteArray(String s){

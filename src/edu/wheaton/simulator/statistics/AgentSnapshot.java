@@ -133,6 +133,14 @@ public class AgentSnapshot {
 		return s; 
 	}
 
+	/**
+	 * Convert a byte[] to a string for serialization
+	 * @param array The byte array to save
+	 * @return A string representation of the provided byte array
+	 * 
+	 * Example format: 
+	 * "127~127~127~127~127~127~127"
+	 */
 	private static String displayByteArray(byte[] array){
 		String ret = ""; 
 		

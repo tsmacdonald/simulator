@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.google.common.collect.ImmutableMap;
@@ -216,7 +217,12 @@ public class SimulatorFacade {
 		File file = null;
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			file = simChooser.getSelectedFile();
-			simulator.loadFromFile(file, gpo);
+			try {
+				simulator.loadFromFile(file, gpo);
+			}
+			catch(Exception e) {
+				JOptionPane.showMessageDialog(null, "Corrupted file.");
+			}
 			Gui.getScreenManager().load(
 					(Gui.getScreenManager().getScreen("View Simulation")));
 		}
@@ -233,10 +239,14 @@ public class SimulatorFacade {
 		int returnVal = agentChooser.showOpenDialog(null);
 		File file = null;
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			file = agentChooser.getSelectedFile();
-			simulator.loadPrototypeFromFile(file);
+			try{
+				file = agentChooser.getSelectedFile();
+			}
+			catch(Exception e) {
+				JOptionPane.showMessageDialog(null, "Corrupted file.");
+				simulator.loadPrototypeFromFile(file);
+			}
 		}
-
 	}
 
 	public void start() {
