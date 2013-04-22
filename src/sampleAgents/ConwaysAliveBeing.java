@@ -55,8 +55,6 @@ public class ConwaysAliveBeing extends SampleAgent{
 						"getFieldOfAgentAt(this.x+1, this.y+1, 'alive') == 1");
 				Expression dieCond = new Expression(
 						"(this.alive == 1) && (this.neighbors < 2 || this.neighbors > 3)");
-				Expression reviveCond = new Expression(
-						"(this.alive == 0) && (this.neighbors == 3)");
 
 				// Set up behaviors
 				Expression incrementAge = new Expression(
@@ -64,11 +62,7 @@ public class ConwaysAliveBeing extends SampleAgent{
 				Expression incrementNeighbors = new Expression(
 						"setField('neighbors', this.neighbors+1)");
 				Expression die = new Expression(
-						"setField('alive', 0) || setField('age', 0) || "
-								+ "setField('colorRed', 219) || setField('colorGreen', 219) || setField('colorBlue', 219)");
-				Expression revive = new Expression(
-						"setField('alive', 1) || setField('age', 1) || "
-								+ "setField('colorRed', 93) || setField('colorGreen', 198) || setField('colorBlue', 245)");
+						"clonePrototype(this.x, this.y, 'deadBeing')");
 				Expression resetNeighbors = new Expression(
 						"setField('neighbors', 0)");
 
@@ -94,7 +88,6 @@ public class ConwaysAliveBeing extends SampleAgent{
 				aliveBeing.addTrigger(new Trigger("checkNeigh8", 10, neigh8,
 						incrementNeighbors));
 				aliveBeing.addTrigger(new Trigger("die", 11, dieCond, die));
-				aliveBeing.addTrigger(new Trigger("revive", 12, reviveCond, revive));
 
 				// Add the prototype to the static list of Prototypes
 				Prototype.addPrototype(aliveBeing);

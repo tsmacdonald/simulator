@@ -144,7 +144,7 @@ public final class Gui {
 	}
 	
 	public static JPanel makeColorChooserPanel(JColorChooser cc){
-		JPanel panel = Gui.makePanel(new GridBagLayout(), new MaxSize(550,140), null);
+		JPanel panel = Gui.makePanel(new GridBagLayout(), MaxSize.NULL, null);
 		GridBagConstraints constraints = new GridBagConstraints();
 		panel.add(cc,constraints);
 		return panel;
