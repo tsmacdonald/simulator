@@ -69,4 +69,9 @@ public class GridTest {
 		grid.removeAgent(5, 5);
 		Assert.assertNull(grid.getAgent(5, 5));
 	}
+	
+	@Test
+	public void observerTest() {
+		
+	}
 }
