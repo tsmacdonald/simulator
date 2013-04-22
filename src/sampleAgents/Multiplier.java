@@ -23,7 +23,7 @@ public class Multiplier extends SampleAgent{
 
 	@Override
 	public Prototype initSampleAgent() {
-		Prototype multiplier = new Prototype(Color.BLUE, "Multiplier");
+		Prototype multiplier = new Prototype(Color.BLUE, "multiplier");
 		return initMultiplier(multiplier);
 	}
 	
@@ -31,8 +31,6 @@ public class Multiplier extends SampleAgent{
 	 * Creates a new multiplier (sample Prototype) and adds it to the static list of Prototypes.
 	 */
 	private static Prototype initMultiplier(Prototype multiplier) {
-		Simulator.getInstance().setAtomicUpdate();
-		
 		// Add fields
 		try {
 			multiplier.addField("age", 0 + "");
