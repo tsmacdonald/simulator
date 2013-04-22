@@ -47,6 +47,11 @@ public class StatisticsManager {
 	 * Prototype snapshots in the game.
 	 */
 	private static HashMap<String, PrototypeSnapshot> protoSnaps;
+	
+	/**
+	 * Observers keeping track of the program's statisitical analysis. 
+	 */
+	private static Set<StatsObserver> observers; 
 
 	/**
 	 * Private constructor to prevent wanton instantiation.
@@ -68,13 +73,6 @@ public class StatisticsManager {
 	}
 
 	/**
-	 * THIS IS FOR TESTING PURPOSES ONLY!!
-	 */
-	public static void removeInstance() {
-		instance = null;
-	}
-
-	/**
 	 * Initialize an observer for the grid and triggers and prepare prototypes for saving.
 	 */
 	public void initialize(Grid grid) {
@@ -93,6 +91,30 @@ public class StatisticsManager {
 		return table.getAllSteps().size();
 	}
 
+	/**
+	 * Keep a new observer notified of new updates.
+	 * @param newObserver The new observer. 
+	 */
+	public void addObserver(StatsObserver newObserver) { 
+		observers.add(newObserver);
+	}
+	
+	/**
+	 * Remove an observer from the pool of those kept notified. 
+	 * @param observer The observer to no longer be tracked. 
+	 */
+	public void removeObserver(StatsObserver observer) { 
+		observers.remove(observer);
+	}
+	
+	/**
+	 * Notify all observers of new available statistical information.
+	 */
+	private void notifyObservers() { 
+		for (StatsObserver obs : observers) 
+			obs.onNewStats();
+	}
+	
 	/**
 	 * Add a PrototypeSnapshot to the StatisticsManager. 
 	 * @param prototypeSnapshot The new prototype being recorded.
