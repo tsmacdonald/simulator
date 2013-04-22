@@ -7,23 +7,35 @@ import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
-import edu.wheaton.simulator.simulation.Simulator;
 
 /**
- * Fills in all the triggers and fields for a paper in Rock Paper Scissors demo
+ * Fills in all the triggers and fields for a paper in paper Paper paper demo
+ *
+ * Version 1 will resolve head to head conflicts
+ * Version 2 will resolve conflicts where one is facing an enemy
+ * Version 3 will resolve conflicts where there is an enemy in an adjacent space
+ * 
  * @author David Emmanuel Pederson
  *
  */
 public class Paper extends SampleAgent {
+	
+	static // set the version to either 1 or 2
+	int version = 2;
 
+	public void setVersion(int version){
+		if(version > 0 && version <= 3)
+		Paper.version = version;
+	}
+	
 	/**
-	 * Makes a paper with the id field of 1 which is important for rock-paper-scissors interaction
-	 * @param rock Empty prototype
+	 * Makes a paper with the id field of 1 which is important for paper-paper-paper interaction
+	 * @param paper Empty prototype
 	 * @return Paper prototype
 	 */
 	@Override
 	public Prototype initSampleAgent() {
-		Prototype paper = new Prototype("paper");
+		Prototype paper = new Prototype("paperV" + version);
 		return initPaper(paper);
 	}
 	
@@ -99,6 +111,74 @@ public class Paper extends SampleAgent {
 				"setField('conflictAhead',"
 						+ " getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'typeID') == (this.typeID + 2)%3)");
 		
+		// check if there is an enemy agent at each position around the agent
+		Expression setKill1 = new Expression(
+				"getFieldOfAgentAt(this.x + 1, this.y +1, 'typeID') == (this.typeID + 2)%3");
+		Expression setKill2 = new Expression(
+				"getFieldOfAgentAt(this.x + 1, this.y, 'typeID') == (this.typeID + 2)%3");
+		Expression setKill3 = new Expression(
+				"getFieldOfAgentAt(this.x + 1, this.y -1, 'typeID') == (this.typeID + 2)%3");
+		Expression setKill4 = new Expression(
+				"getFieldOfAgentAt(this.x, this.y +1, 'typeID') == (this.typeID + 2)%3");
+		Expression setKill5 = new Expression(
+				"getFieldOfAgentAt(this.x, this.y -1, 'typeID') == (this.typeID + 2)%3");
+		Expression setKill6 = new Expression(
+				"getFieldOfAgentAt(this.x - 1, this.y +1, 'typeID') == (this.typeID + 2)%3");
+		Expression setKill7 = new Expression(
+				"getFieldOfAgentAt(this.x - 1, this.y, 'typeID') == (this.typeID + 2)%3");
+		Expression setKill8 = new Expression(
+				"getFieldOfAgentAt(this.x - 1, this.y -1, 'typeID') == (this.typeID + 2)%3");
+		
+		// Kill all of the agents adjacent		
+		Expression kill1 = new Expression(
+				"kill(this.x + 1, this.y +1)"
+						+ "&& clone(this.x + 1, this.y +1)"
+						+ "&& setFieldOfAgent(this.x + 1, this.y +1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x + 1, this.y +1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
+		Expression kill2 = new Expression(
+				"kill(this.x + 1, this.y)"
+						+ "&& clone(this.x + 1, this.y)"
+						+ "&& setFieldOfAgent(this.x + 1, this.y, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x + 1, this.y, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
+		Expression kill3 = new Expression(
+				"kill(this.x + 1, this.y -1)"
+						+ "&& clone(this.x + 1, this.y -1)"
+						+ "&& setFieldOfAgent(this.x + 1, this.y -1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x + 1, this.y -1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
+		Expression kill4 = new Expression(
+				"kill(this.x, this.y +1)"
+						+ "&& clone(this.x, this.y +1)"
+						+ "&& setFieldOfAgent(this.x, this.y +1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x, this.y +1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
+		Expression kill5 = new Expression(
+				"kill(this.x, this.y -1)"
+						+ "&& clone(this.x, this.y -1)"
+						+ "&& setFieldOfAgent(this.x, this.y -1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x, this.y -1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
+		Expression kill6 = new Expression(
+				"kill(this.x - 1, this.y +1)"
+						+ "&& clone(this.x - 1, this.y +1)"
+						+ "&& setFieldOfAgent(this.x - 1, this.y +1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x - 1, this.y +1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
+		Expression kill7 = new Expression(
+				"kill(this.x - 1, this.y)"
+						+ "&& clone(this.x - 1, this.y)"
+						+ "&& setFieldOfAgent(this.x - 1, this.y, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x - 1, this.y, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
+		Expression kill8 = new Expression(
+				"kill(this.x - 1, this.y -1)"
+						+ "&& clone(this.x - 1, this.y -1)"
+						+ "&& setFieldOfAgent(this.x - 1, this.y -1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x - 1, this.y -1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
+		
 		// check the flag that is set when a conflict is ahead
 		Expression checkConflictAheadFlag = new Expression("this.endTurn != 1" +
 				" && this.conflictAhead");
@@ -131,10 +211,31 @@ public class Paper extends SampleAgent {
 				paper.addTrigger(new Trigger("incrementAge", 1, new Expression("TRUE"), incrAge));
 				paper.addTrigger(new Trigger("agentAhead", 1, isAgentAhead,
 						setAgentAhead));
-				paper.addTrigger(new Trigger("conflictAhead", 1,
+				
+				if(version == 1){
+					paper.addTrigger(new Trigger("conflictAhead", 1,
+							setHeadToHeadConflictFlag, setEnemyAheadConflictFlag));
+					paper.addTrigger(new Trigger("engageConflict", 1,
+							checkConflictAheadFlag, engageInConflict));
+				}
+				
+				if(version == 2){
+					paper.addTrigger(new Trigger("conflictAhead", 1,
 						checkAgentAheadFlag, setEnemyAheadConflictFlag));
-				paper.addTrigger(new Trigger("engageConflict", 1,
-						checkConflictAheadFlag, engageInConflict));
+					paper.addTrigger(new Trigger("engageConflict", 1,
+							checkConflictAheadFlag, engageInConflict));
+				}
+				if(version == 3){
+					paper.addTrigger(new Trigger("kill", 1, setKill1, kill1));
+					paper.addTrigger(new Trigger("kill", 1, setKill2, kill2));
+					paper.addTrigger(new Trigger("kill", 1, setKill3, kill3));
+					paper.addTrigger(new Trigger("kill", 1, setKill4, kill4));
+					paper.addTrigger(new Trigger("kill", 1, setKill5, kill5));
+					paper.addTrigger(new Trigger("kill", 1, setKill6, kill6));
+					paper.addTrigger(new Trigger("kill", 1, setKill7, kill7));
+					paper.addTrigger(new Trigger("kill", 1, setKill8, kill8));
+				}
+				
 				if(rotateDirection == 1)
 					paper.addTrigger(new Trigger("rotateCounterClockwise", 1,
 							notFreeSpot, rotateCounterClockwise));
