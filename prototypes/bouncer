@@ -1,7 +1,7 @@
 PrototypeSnapshot
 bouncer
--65536
-127127127127127127127127
+255~0~0
+127~127~127~127~127~127~127~127~
 FieldSnapshot~xNextDirection~0
 FieldSnapshot~yNextDirection~1
 Trigger~move~1~isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~move(this.x + this.xNextDirection, this.y + this.yNextDirection)
