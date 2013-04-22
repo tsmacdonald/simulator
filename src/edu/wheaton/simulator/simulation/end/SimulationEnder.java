@@ -156,7 +156,8 @@ public class SimulationEnder {
 
 		@Override
 		public boolean evaluate(int step, Grid grid) {
-			return step >= maxSteps;
+			return false;
+			//return step >= maxSteps;
 		}
 		
 		@Override
@@ -252,7 +253,7 @@ public class SimulationEnder {
 			for (String name : popLimits.keySet())
 				if (Prototype.getPrototype(name).childPopulation() >= popLimits.get(name)){
 					endMessage = "The "+ name +" population limit has been reached.";
-					return false;
+					return true;
 				}
 			return false;
 		}
