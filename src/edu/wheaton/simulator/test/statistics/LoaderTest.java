@@ -100,6 +100,6 @@ public class LoaderTest {
 	@Test
 	public void testLoadAllPrototypes() throws FileNotFoundException {
 		Simulator.getInstance().load("TestSim", 20, 20, new SimulationEnder());
-		Simulator.getInstance().loadPrototypesFromFile(new File("prototypes"));
+		Simulator.getInstance().loadPrototypesFromDirectory(new File("prototypes"));
 	}
 }
