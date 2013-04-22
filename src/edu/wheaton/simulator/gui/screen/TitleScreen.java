@@ -65,7 +65,7 @@ public class TitleScreen extends Screen {
 				getGuiManager().load();
 			}
 		});
-		loadButton.setPreferredSize(new Dimension(200, 70));
+		importButton.setPreferredSize(new Dimension(200, 70));
 		add(importButton, c);
 		this.setVisible(true);
 	}

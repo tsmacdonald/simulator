@@ -238,15 +238,15 @@ public class StatisticsManagerTest {
 		
 		triggers.add(SnapshotFactory.makeTriggerSnapshot(trigger.getName(), 1, "true", "true"));
 		
+		prototype.addTrigger(trigger);
 		/* create snapshots */
 		for (int i = 0; i < 5; i++) {
-			prototype.addTrigger(trigger);
-			try {
-				prototype.addField("name", names[i]);
-				prototype.addField("weight", "10");
-			} catch (ElementAlreadyContainedException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				prototype.addField("name", names[i]);
+//				prototype.addField("weight", "10");
+//			} catch (ElementAlreadyContainedException e) {
+//				e.printStackTrace();
+//			}
 			Agent agent = prototype.createAgent(g);
 			grid.addAgent(agent);
 			agents.add(agent);
@@ -256,12 +256,11 @@ public class StatisticsManagerTest {
 						protoSnap.categoryName, null, null,triggers, 0, 0));
 		}
 
-		try {
-			grid.updateEntities();
-		} catch (SimulationPauseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			grid.updateEntities();
+//		} catch (SimulationPauseException e) {
+//			e.printStackTrace();
+//		}
 
 		/* create snapshots */
 		for (Agent agent : agents) {
@@ -278,9 +277,11 @@ public class StatisticsManagerTest {
 		/* test method */
 		double[] answer = sm.getTriggerExecutionsFor(protoSnap.categoryName, "trigger");
 
+		System.out.println("\nExecutions");
 		for (double i : answer)
 			System.out.print((int) i + " ");
-
+		System.out.println("");
+		
 		for (double i : answer) {
 			int a = (int) i;
 			org.junit.Assert.assertEquals(5, a);

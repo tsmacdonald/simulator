@@ -131,7 +131,8 @@ public class EditEntityScreen extends Screen {
 			}
 
 		});
-
+		
+		JLabel agentName = Gui.makeLabel("Agent Name: ",PrefSize.NULL, HorizontalAlignment.RIGHT);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -149,8 +150,7 @@ public class EditEntityScreen extends Screen {
 		c.gridx = 1;
 		c.gridy = 1;
 		c.gridwidth = 1;
-		generalPanel.add(
-				new JLabel("Agent Name: "),c);
+		generalPanel.add(agentName, c);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
