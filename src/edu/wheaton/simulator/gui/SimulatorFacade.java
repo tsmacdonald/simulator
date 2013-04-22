@@ -41,10 +41,10 @@ public class SimulatorFacade {
 		hasStarted = false;
 		gpo = new GridPanelObserver(gridPanel);
 		simulator.addGridObserver(gpo);
-		simChooser = new JFileChooser();
-		simChooser.setFileFilter(new FileNameExtensionFilter("", "sim"));
-		agentChooser = new JFileChooser();
-		agentChooser.setFileFilter(new FileNameExtensionFilter("", "agt"));
+		simChooser = new JFileChooser(new File("simulations"));
+		simChooser.setFileFilter(new FileNameExtensionFilter("Simulation files (*.sim)", "sim"));
+		agentChooser = new JFileChooser(new File("prototypes"));
+		agentChooser.setFileFilter(new FileNameExtensionFilter("Agent files (*.agt)", "agt"));
 	}
 
 	public static SimulatorFacade getInstance() {
