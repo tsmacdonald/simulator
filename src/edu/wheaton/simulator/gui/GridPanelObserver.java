@@ -2,6 +2,8 @@ package edu.wheaton.simulator.gui;
 
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
 import edu.wheaton.simulator.datastructure.AbstractGUIGridObserver;
 import edu.wheaton.simulator.datastructure.AgentAppearance;
 import edu.wheaton.simulator.simulation.end.SimulationEnder;
@@ -24,5 +26,7 @@ public class GridPanelObserver extends AbstractGUIGridObserver{
 	public void update(SimulationEnder ender) {
 		// TODO GUI TEAM! This method will now be called as soon as
 		// the simulation ends due to an ending condition!
+		JOptionPane.showMessageDialog(null, ender.whatHappened());
+		
 	}
 }
