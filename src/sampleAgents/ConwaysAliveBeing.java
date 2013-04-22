@@ -88,9 +88,6 @@ public class ConwaysAliveBeing extends SampleAgent{
 				aliveBeing.addTrigger(new Trigger("checkNeigh8", 10, neigh8,
 						incrementNeighbors));
 				aliveBeing.addTrigger(new Trigger("die", 11, dieCond, die));
-
-				// Add the prototype to the static list of Prototypes
-				Prototype.addPrototype(aliveBeing);
 				
 				return aliveBeing;
 	}

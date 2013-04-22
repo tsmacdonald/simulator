@@ -75,8 +75,6 @@ public class Confuser extends SampleAgent {
 
 		confuser.addTrigger(new Trigger("bounce", 1, notFreeSpot, bounce));
 		confuser.addTrigger(new Trigger("move", 1, freeSpot, move));
-		
-		Prototype.addPrototype(confuser);
 
 		return confuser;
 	}

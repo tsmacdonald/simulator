@@ -246,7 +246,6 @@ public class Scissors extends SampleAgent{
 			scissors.addTrigger(new Trigger("resetConflictFlags", 1,
 					new Expression("true"), resetEndTurnFlag));
 
-			Prototype.addPrototype(scissors);
 			return scissors;
 	}
 }

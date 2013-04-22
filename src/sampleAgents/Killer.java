@@ -57,8 +57,6 @@ public class Killer extends SampleAgent{
 
 		killer.addTrigger(new Trigger("bounce", 1, notFreeSpot, bounce));
 		killer.addTrigger(new Trigger("move", 1, freeSpot, move));
-		
-		Prototype.addPrototype(killer);
 
 		return killer;
 	}

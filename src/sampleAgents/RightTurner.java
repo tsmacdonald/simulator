@@ -52,8 +52,6 @@ public class RightTurner extends SampleAgent{
 		
 		rightTurner.addTrigger(new Trigger("turn", 1, notFreeSpot, rotateClockwise));
 		rightTurner.addTrigger(new Trigger("move", 1, freeSpot, move));
-		
-		Prototype.addPrototype(rightTurner);
 
 		return rightTurner;
 	}

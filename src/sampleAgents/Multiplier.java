@@ -71,8 +71,6 @@ public class Multiplier extends SampleAgent{
 		multiplier.addTrigger(new Trigger("clone6", 1, emptyNeighbor6, cloneToEmpty6));
 		multiplier.addTrigger(new Trigger("clone7", 1, emptyNeighbor7, cloneToEmpty7));
 		multiplier.addTrigger(new Trigger("clone8", 1, emptyNeighbor8, cloneToEmpty8));
-		
-		Prototype.addPrototype(multiplier);
 
 		return multiplier;
 	}

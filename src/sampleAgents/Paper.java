@@ -249,7 +249,6 @@ public class Paper extends SampleAgent {
 			paper.addTrigger(new Trigger("resetConflictFlags", 1,
 					new Expression("true"), resetEndTurnFlag));
 
-			Prototype.addPrototype(paper);
 			return paper;
 	}
 }
