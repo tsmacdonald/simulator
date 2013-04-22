@@ -64,7 +64,7 @@ public class Grid extends Entity implements Iterable<Agent> {
 		// Initialize the ArrayLists.
 		grid = new Agent[width][height];
 
-		updater = new LinearUpdater(this);
+		updater = new AtomicUpdater(this);
 		observers = new HashSet<GridObserver>();
 		step = 0;
 	}

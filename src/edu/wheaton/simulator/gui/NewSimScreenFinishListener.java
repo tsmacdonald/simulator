@@ -33,7 +33,7 @@ public class NewSimScreenFinishListener implements ActionListener {
 			System.err.println("Invalid input passed to NewSimScreenFinishListener");
 		}
 		Screen upload = Gui.getScreenManager().getScreen("View Simulation");
-		((ViewSimScreen)upload).initTabs();
+		((ViewSimScreen)upload).init();
 		gm.setStarted(false);
 		Gui.getScreenManager().load(upload);
 	}

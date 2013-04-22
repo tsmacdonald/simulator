@@ -1,0 +1,8 @@
+PrototypeSnapshot
+bouncer
+-65536
+127127127127127127127127
+FieldSnapshot~xNextDirection~0
+FieldSnapshot~yNextDirection~1
+Trigger~move~1~isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~move(this.x + this.xNextDirection, this.y + this.yNextDirection)
+Trigger~bounce~1~!isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~setField('xNextDirection', -1 * this.xNextDirection) ||setField('yNextDirection', -1 * this.yNextDirection)

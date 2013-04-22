@@ -71,6 +71,10 @@ public class SimulatorFacade {
 		se.removePopLimit(typeName);
 	}
 
+	public StatisticsManager getStatManager(){
+		return statMan;
+	}
+
 	public String getSimName(){
 		return simulator.getName();
 	}

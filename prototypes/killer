@@ -1,0 +1,17 @@
+PrototypeSnapshot
+killer
+-256
+127127127127127127127127
+FieldSnapshot~xNextDirection~0
+FieldSnapshot~yNextDirection~1
+FieldSnapshot~temp~0
+Trigger~kill~1~TRUE~kill(this.x, this.y -1)
+Trigger~kill~1~TRUE~kill(this.x + 1, this.y +1)
+Trigger~bounce~1~!isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~setField('this', 'xNextDirection', -1 * this.xNextDirection) ||setField('this', 'yNextDirection', -1 * this.yNextDirection)
+Trigger~move~1~isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~move('this', this.x + this.xNextDirection, this.y + this.yNextDirection)
+Trigger~kill~1~TRUE~kill(this.x - 1, this.y +1)
+Trigger~kill~1~TRUE~kill(this.x - 1, this.y -1)
+Trigger~kill~1~TRUE~kill(this.x, this.y +1)
+Trigger~kill~1~TRUE~kill(this.x + 1, this.y)
+Trigger~kill~1~TRUE~kill(this.x - 1, this.y)
+Trigger~kill~1~TRUE~kill(this.x + 1, this.y -1)

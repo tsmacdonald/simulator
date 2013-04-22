@@ -7,23 +7,34 @@ import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
-import edu.wheaton.simulator.simulation.Simulator;
 
 /**
- * Fills in all the information for scissors in Rock Paper Scissors demo
+ * Fills in all the information for scissors in scissors Paper Scissors demo
+ * 
+ * Version 1 will resolve head to head conflicts
+ * Version 2 will resolve conflicts where one is facing an enemy
+ * Version 3 will resolve conflicts where there is an enemy in an adjacent space
+ * 
  * @author David Emmanuel Pederson
- *
  */
 public class Scissors extends SampleAgent{
 	
+	static // set the version to either 1 or 2
+	int version = 2;
+	
+	public void setVersion(int version){
+		if(version > 0 && version <= 3)
+		Scissors.version = version;
+	}
+	
 	/**
-	 * Makes scissors with the id field of 2 which is important for rock-paper-scissors interaction
-	 * @param rock Empty prototype
+	 * Makes scissors with the id field of 2 which is important for scissors-paper-scissors interaction
+	 * @param scissors Empty prototype
 	 * @return Scissors prototype
 	 */
 	@Override
 	public Prototype initSampleAgent() {
-		Prototype scissors = new Prototype("scissors");
+		Prototype scissors = new Prototype("scissorsV" + version);
 		return initScissors(scissors);
 	}
 	
@@ -88,12 +99,79 @@ public class Scissors extends SampleAgent{
 				"&& this.agentAhead == 1.0");
 
 		// collect information about conflict
-		//TODO fix this warning
 		Expression setHeadToHeadConflictFlag = new Expression(
 				"setField('conflictAhead',"
 						+ " getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'typeID') == (this.typeID + 2)%3"
 						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'xNextDirection') == - this.xNextDirection"
 						+ " && getFieldOfAgentAt(this.x + this.xNextDirection, this.y + this.yNextDirection, 'yNextDirection') == - this.yNextDirection)");
+		
+		// check if there is an enemy agent at each position around the agent
+		Expression setKill1 = new Expression(
+				"getFieldOfAgentAt(this.x + 1, this.y +1, 'typeID') == (this.typeID + 2)%3");
+		Expression setKill2 = new Expression(
+				"getFieldOfAgentAt(this.x + 1, this.y, 'typeID') == (this.typeID + 2)%3");
+		Expression setKill3 = new Expression(
+				"getFieldOfAgentAt(this.x + 1, this.y -1, 'typeID') == (this.typeID + 2)%3");
+		Expression setKill4 = new Expression(
+				"getFieldOfAgentAt(this.x, this.y +1, 'typeID') == (this.typeID + 2)%3");
+		Expression setKill5 = new Expression(
+				"getFieldOfAgentAt(this.x, this.y -1, 'typeID') == (this.typeID + 2)%3");
+		Expression setKill6 = new Expression(
+				"getFieldOfAgentAt(this.x - 1, this.y +1, 'typeID') == (this.typeID + 2)%3");
+		Expression setKill7 = new Expression(
+				"getFieldOfAgentAt(this.x - 1, this.y, 'typeID') == (this.typeID + 2)%3");
+		Expression setKill8 = new Expression(
+				"getFieldOfAgentAt(this.x - 1, this.y -1, 'typeID') == (this.typeID + 2)%3");
+		
+		// Kill all of the agents adjacent		
+		Expression kill1 = new Expression(
+				"kill(this.x + 1, this.y +1)"
+						+ "&& clone(this.x + 1, this.y +1)"
+						+ "&& setFieldOfAgent(this.x + 1, this.y +1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x + 1, this.y +1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
+		Expression kill2 = new Expression(
+				"kill(this.x + 1, this.y)"
+						+ "&& clone(this.x + 1, this.y)"
+						+ "&& setFieldOfAgent(this.x + 1, this.y, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x + 1, this.y, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
+		Expression kill3 = new Expression(
+				"kill(this.x + 1, this.y -1)"
+						+ "&& clone(this.x + 1, this.y -1)"
+						+ "&& setFieldOfAgent(this.x + 1, this.y -1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x + 1, this.y -1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
+		Expression kill4 = new Expression(
+				"kill(this.x, this.y +1)"
+						+ "&& clone(this.x, this.y +1)"
+						+ "&& setFieldOfAgent(this.x, this.y +1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x, this.y +1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
+		Expression kill5 = new Expression(
+				"kill(this.x, this.y -1)"
+						+ "&& clone(this.x, this.y -1)"
+						+ "&& setFieldOfAgent(this.x, this.y -1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x, this.y -1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
+		Expression kill6 = new Expression(
+				"kill(this.x - 1, this.y +1)"
+						+ "&& clone(this.x - 1, this.y +1)"
+						+ "&& setFieldOfAgent(this.x - 1, this.y +1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x - 1, this.y +1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
+		Expression kill7 = new Expression(
+				"kill(this.x - 1, this.y)"
+						+ "&& clone(this.x - 1, this.y)"
+						+ "&& setFieldOfAgent(this.x - 1, this.y, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x - 1, this.y, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
+		Expression kill8 = new Expression(
+				"kill(this.x - 1, this.y -1)"
+						+ "&& clone(this.x - 1, this.y -1)"
+						+ "&& setFieldOfAgent(this.x - 1, this.y -1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setFieldOfAgent(this.x - 1, this.y -1, 'xNextDirection', this.xNextDirection)"
+						+ "&& setField('endTurn', 1)");
 		
 		// collect information about one facing another conflict
 		Expression setEnemyAheadConflictFlag = new Expression(
@@ -131,10 +209,30 @@ public class Scissors extends SampleAgent{
 				scissors.addTrigger(new Trigger("incrementAge", 1, new Expression("TRUE"), incrAge));
 				scissors.addTrigger(new Trigger("agentAhead", 1, isAgentAhead,
 						setAgentAhead));
-				scissors.addTrigger(new Trigger("conflictAhead", 1,
+				
+				if(version == 1){
+					scissors.addTrigger(new Trigger("conflictAhead", 1,
+							setHeadToHeadConflictFlag, setEnemyAheadConflictFlag));
+					scissors.addTrigger(new Trigger("engageConflict", 1,
+							checkConflictAheadFlag, engageInConflict));
+				}
+				
+				if(version == 2){
+					scissors.addTrigger(new Trigger("conflictAhead", 1,
 						checkAgentAheadFlag, setEnemyAheadConflictFlag));
-				scissors.addTrigger(new Trigger("engageConflict", 1,
-						checkConflictAheadFlag, engageInConflict));
+					scissors.addTrigger(new Trigger("engageConflict", 1,
+							checkConflictAheadFlag, engageInConflict));
+				}
+				if(version == 3){
+					scissors.addTrigger(new Trigger("kill", 1, setKill1, kill1));
+					scissors.addTrigger(new Trigger("kill", 1, setKill2, kill2));
+					scissors.addTrigger(new Trigger("kill", 1, setKill3, kill3));
+					scissors.addTrigger(new Trigger("kill", 1, setKill4, kill4));
+					scissors.addTrigger(new Trigger("kill", 1, setKill5, kill5));
+					scissors.addTrigger(new Trigger("kill", 1, setKill6, kill6));
+					scissors.addTrigger(new Trigger("kill", 1, setKill7, kill7));
+					scissors.addTrigger(new Trigger("kill", 1, setKill8, kill8));
+				}
 				if(rotateDirection == 1)
 					scissors.addTrigger(new Trigger("rotateCounterClockwise", 1,
 							notFreeSpot, rotateCounterClockwise));
@@ -151,6 +249,4 @@ public class Scissors extends SampleAgent{
 			Prototype.addPrototype(scissors);
 			return scissors;
 	}
-
-
 }

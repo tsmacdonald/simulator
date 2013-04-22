@@ -50,6 +50,8 @@ public class ViewSimScreen extends Screen {
 	private final Screen optionsScreen;
 
 	private final JTabbedPane tabs;
+	
+	private JButton startButton;
 
 	public ViewSimScreen(final SimulatorFacade gm) {
 		super(gm);
@@ -156,8 +158,9 @@ public class ViewSimScreen extends Screen {
 		// TODO most of these will become tabs, adding temporarily for
 		// navigation purposes
 		ScreenManager sm = getScreenManager();
+		startButton = makeStartButton();
 		JPanel buttonPanel = Gui.makePanel((LayoutManager) null, new MaxSize(
-				500, 50), PrefSize.NULL, makeStartButton(), Gui.makeButton(
+				500, 50), PrefSize.NULL, startButton, Gui.makeButton(
 				"Statistics", null,
 				new GeneralButtonListener("Statistics", sm)));
 		return buttonPanel;
@@ -166,6 +169,11 @@ public class ViewSimScreen extends Screen {
 	public void setSpawn(boolean canSpawn) {
 		this.canSpawn = canSpawn;
 	}
+	
+	public void init(){
+		startButton.setText("Start");
+		initTabs();
+	}
 
 	private JButton makeStartButton() {
 		final JButton b = Gui.makeButton("Start", null, null);
@@ -173,11 +181,19 @@ public class ViewSimScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SimulatorFacade gm = getGuiManager();
-				if (b.getText().equals("Pause")) {
+				if(gm.isRunning()){
 					getGuiManager().pause();
 					canSpawn = true;
 					b.setText("Resume");
-				} else {
+				} 
+				else if(gm.hasStarted() && gm.isRunning()==false){
+					canSpawn = false;
+					gm.getGridPanel().repaint();
+					gm.start();
+					b.setText("Pause");
+				}
+				
+				else if (gm.hasStarted()==false){
 					canSpawn = false;
 					gm.getGridPanel().repaint();
 					gm.start();

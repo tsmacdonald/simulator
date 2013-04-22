@@ -6,7 +6,6 @@ import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.expression.Expression;
-import edu.wheaton.simulator.simulation.Simulator;
 /**
  * Bouncer is a prototype for an agent that will begin in one direction and when it reaches
  * any kind of obstacle, it will reveres that direction.

@@ -1,0 +1,17 @@
+PrototypeSnapshot
+confuser
+-16711936
+127127127127127127127127
+FieldSnapshot~xNextDirection~0
+FieldSnapshot~yNextDirection~1
+FieldSnapshot~temp~0
+Trigger~move~1~isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~move(this.x + this.xNextDirection, this.y + this.yNextDirection)
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x - 1, this.y +1, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x - 1, this.y +1, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~bounce~1~!isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~setField( 'xNextDirection', -1 * this.xNextDirection) ||setField( 'yNextDirection', -1 * this.yNextDirection)
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x, this.y -1, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x, this.y -1, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x - 1, this.y -1, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x - 1, this.y -1, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x + 1, this.y +1, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x + 1, this.y +1, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x, this.y +1, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x, this.y +1, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x + 1, this.y, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x + 1, this.y, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x - 1, this.y, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x -1, this.y, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~confuse~1~TRUE~setFieldOfAgent( this.x + 1, this.y -1, 'xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setFieldOfAgent( this.x + 1, this.y -1, 'yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
