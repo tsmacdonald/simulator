@@ -20,6 +20,8 @@ import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -141,7 +143,10 @@ public class EntityScreen extends Screen {
 		});
 		entityList.setMinimumSize(new MinSize(300,300));
 		entityList.setPreferredSize(new PrefSize(300,300));
-
+		JScrollPane scrollPane = new JScrollPane(entityList,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setMinimumSize(new MinSize(300,305));
+		scrollPane.setPreferredSize(new PrefSize(300,305));
+		
 		GridBagConstraints c = new GridBagConstraints();
 
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -183,7 +188,7 @@ public class EntityScreen extends Screen {
 
 		c.gridy = 1;
 		c.insets = new Insets(0,0,0,0);
-		this.add(entityList, c);
+		this.add(scrollPane, c);
 	}
 
 	public void reset() {

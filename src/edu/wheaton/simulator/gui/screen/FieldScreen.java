@@ -17,6 +17,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -53,6 +55,10 @@ public class FieldScreen extends Screen {
 		fields.addListSelectionListener(new ListListener());
 		fields.setMinimumSize(new MinSize(300,300));
 		fields.setPreferredSize(new PrefSize(300,300));
+		JScrollPane scrollPane = new JScrollPane(fields,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setMinimumSize(new MinSize(305,315));
+		scrollPane.setPreferredSize(new PrefSize(305,315));
+		
 		
 		delete = Gui.makeButton("Delete",null,new DeleteListener(fields));
 		add = Gui.makeButton("Add",null,new ActionListener() {
@@ -107,7 +113,7 @@ public class FieldScreen extends Screen {
 		
 		c.gridy = 1;
 		c.insets = new Insets(0,0,0,0);
-		this.add(fields, c);
+		this.add(scrollPane, c);
 	}
 
 	public void reset() {
