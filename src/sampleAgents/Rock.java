@@ -84,10 +84,6 @@ public class Rock extends SampleAgent{
 		Expression rotateCounterClockwise = new Expression(
 				" setField('temp', this.xNextDirection) || setField('xNextDirection', round(this.xNextDirection * cos(-PI/4) - this.yNextDirection * sin(-PI/4)))"
 						+ " || setField('yNextDirection', round(this.temp * sin(-PI/4) + this.yNextDirection * cos(-PI/4)))");
-
-		// turn 180 degrees
-		Expression bounce = new Expression("setField('xNextDirection', -1 * this.xNextDirection) ||" +
-				"setField('yNextDirection', -1 * this.yNextDirection)");
 		
 		// Check for agent ahead
 		Expression isAgentAhead = new Expression(
