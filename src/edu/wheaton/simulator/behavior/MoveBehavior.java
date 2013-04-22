@@ -30,9 +30,9 @@ public class MoveBehavior extends AbstractBehavior {
 	/**
 	 * Attempts to move the target Agent to the (x, y) position found by
 	 * evaluating the expressions. If the slot it attempts to move to is
-	 * already full, it throws an exception. It would be good if we could find
-	 * a way to allow the user to say what happens when a FullSlotException is
-	 * thrown.
+	 * already full, it returns false instead of true.
+	 * arg1: x position
+	 * arg2: y position
 	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {

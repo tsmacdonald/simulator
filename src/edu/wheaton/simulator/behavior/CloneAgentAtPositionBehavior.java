@@ -34,6 +34,7 @@ public class CloneAgentAtPositionBehavior extends AbstractBehavior {
 	 * this is basically a method cloneAgentAtPosition(int x, int y, int x2, int y2)
 	 * where the first coordinate is the coords of the agent to be clones
 	 * and the second one is the coords of where to put the new agent. 
+	 * Returns false if the location to which it would like to clone is unavailable.
 	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {

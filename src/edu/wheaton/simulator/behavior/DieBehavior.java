@@ -23,6 +23,9 @@ public class DieBehavior extends AbstractBehavior {
 		return 0;
 	}
 
+	/**
+	 * Makes the target Agent die().
+	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {
 		Agent target = resolveAgent("this");

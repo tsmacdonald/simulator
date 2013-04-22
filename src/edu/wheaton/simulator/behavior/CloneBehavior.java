@@ -35,9 +35,7 @@ public class CloneBehavior extends AbstractBehavior {
 
 	/**
 	 * Attempts to clone the target Agent into the slot at (x, y) in global If
-	 * (x, y) is already full, throws an Exception Similarly to Move, it would
-	 * be good if we can figure out how to give the user the ability to change
-	 * what happens as a result.
+	 * (x, y) is already full, returns false instead of true.
 	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {
