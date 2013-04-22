@@ -1,0 +1,9 @@
+PrototypeSnapshot
+rightTurner
+0~0~0
+127~127~127~127~127~127~127~127~
+FieldSnapshot~xNextDirection~0
+FieldSnapshot~yNextDirection~1
+FieldSnapshot~temp~0
+Trigger~turn~1~!isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~ setField('temp', this.xNextDirection) || setField('xNextDirection', round(this.xNextDirection * cos(PI/4) - this.yNextDirection * sin(PI/4))) || setField('yNextDirection', round(this.temp * sin(PI/4) + this.yNextDirection * cos(PI/4)))
+Trigger~move~1~isSlotOpen(this.x + this.xNextDirection, this.y + this.yNextDirection)~move(this.x + this.xNextDirection, this.y + this.yNextDirection)

@@ -8,17 +8,24 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorFacade;
+import edu.wheaton.simulator.statistics.StatisticsManager;
+import edu.wheaton.simulator.statistics.StatsObserver;
 
-public class StatisticsScreen extends Screen {
+public class StatisticsScreen extends JFrame implements StatsObserver {
 	/**
 	 * 
 	 */
@@ -37,22 +44,35 @@ public class StatisticsScreen extends Screen {
 	private static final int FIELDS_DISPLAY = 0; 
 	private static final int TRIGGERS_DISPLAY = 1; 
 	private static final int NO_TRIGGERS_OR_FIELDS = 2; 
-	private static int FIELDS_TRIGGERS_DISPLAY_STATE = NO_TRIGGERS_OR_FIELDS;
+	private static int stateFieldsTriggers = NO_TRIGGERS_OR_FIELDS;
 	
 	private JLabel fieldsTriggersLabel;
 	private JComboBox analysisList;
 	private JComboBox typeList;
 	private JComboBox fieldsTriggersList;
-	private JPanel gridPanel; 
-	private JButton backButton;
+	private JPanel graphPanel; 
+	
+	private StatisticsManager statManager; 
+	private SimulatorFacade simFac; 
 	
 	/**
 	 * Constructor. 
 	 * Make the screen. 
 	 * @param gm ScreenManager. 
 	 */
-	public StatisticsScreen(SimulatorFacade gm) {
-		super(gm);
+	public StatisticsScreen() {
+		super("Statistics");
+		statManager = StatisticsManager.getInstance();
+		simFac = SimulatorFacade.getInstance();
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentHidden(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				close();
+			}
+		});
+		
 		//Setup GridBagLayout & dimensions.
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
@@ -112,7 +132,7 @@ public class StatisticsScreen extends Screen {
 		gbc_fieldsTriggersList.anchor = GridBagConstraints.WEST;
 		add(fieldsTriggersList, gbc_fieldsTriggersList);
 		
-		gridPanel = getDisplayPanel();
+		graphPanel = getDisplayPanel();
 		GridBagConstraints gbc_gridPanel = new GridBagConstraints();
 		gbc_gridPanel.gridheight = 2;
 		gbc_gridPanel.gridwidth = 3;
@@ -120,18 +140,9 @@ public class StatisticsScreen extends Screen {
 		gbc_gridPanel.fill = GridBagConstraints.BOTH;
 		gbc_gridPanel.gridx = 1;
 		gbc_gridPanel.gridy = 3;
-		add(gridPanel, gbc_gridPanel);
-		gridPanel.setMinimumSize(new Dimension(400, 300));
-		gridPanel.setPreferredSize(new Dimension(600, 500));
-		
-		backButton = new JButton("Back");
-		GridBagConstraints gbc_backButton = new GridBagConstraints();
-		gbc_backButton.insets = new Insets(0, 0, 0, 5);
-		gbc_backButton.gridx = 3;
-		gbc_backButton.gridy = 5;
-		gbc_backButton.anchor = GridBagConstraints.NORTHEAST;
-		add(backButton, gbc_backButton);
-		setBackButtonListener(backButton);
+		add(graphPanel, gbc_gridPanel);
+		graphPanel.setMinimumSize(new Dimension(400, 300));
+		graphPanel.setPreferredSize(new Dimension(600, 500));
 		
 		setAnalysisListListener(analysisList);
 
@@ -154,9 +165,10 @@ public class StatisticsScreen extends Screen {
 
 	private void displayFieldsTriggersListAndLabel() { 
 		fieldsTriggersList.setVisible(false);
+		int selectedIndex = fieldsTriggersList.getSelectedIndex();
 		String agentTypeName;
 		Prototype selectedType;
-		switch (FIELDS_TRIGGERS_DISPLAY_STATE) {
+		switch (stateFieldsTriggers) {
 		default:
 		case NO_TRIGGERS_OR_FIELDS: 
 			fieldsTriggersLabel.setText("");
@@ -166,7 +178,7 @@ public class StatisticsScreen extends Screen {
 			fieldsTriggersList.setVisible(true);
 			fieldsTriggersList.removeAllItems();
 			agentTypeName = (String) typeList.getSelectedItem();
-			selectedType = getGuiManager().getPrototype(agentTypeName);
+			selectedType = simFac.getPrototype(agentTypeName);
 			if (selectedType != null)
 				for (String fieldName : selectedType.getCustomFieldMap().keySet())
 					fieldsTriggersList.addItem(fieldName);
@@ -180,6 +192,9 @@ public class StatisticsScreen extends Screen {
 				fieldsTriggersList.addItem(triggerName);
 			break; 
 		}
+		if (selectedIndex < 0 && fieldsTriggersList.getItemCount() >= 1)
+			selectedIndex = 0;
+		fieldsTriggersList.setSelectedIndex(selectedIndex);
 	}
 
 	/**
@@ -197,41 +212,34 @@ public class StatisticsScreen extends Screen {
 		String selectedDisplayType = (String) analysisList.getSelectedItem();
 		if (selectedDisplayType != null && 
 				selectedDisplayType.equals(ANALYSIS_AVG_FIELD_VALUE_STR)) { 
-			FIELDS_TRIGGERS_DISPLAY_STATE = FIELDS_DISPLAY;
+			stateFieldsTriggers = FIELDS_DISPLAY;
 			displayFieldsTriggersListAndLabel();
 		} else if (selectedDisplayType != null && 
 				selectedDisplayType.equals(ANALYSIS_TRIGGER_FIRES)){ 
-			FIELDS_TRIGGERS_DISPLAY_STATE = TRIGGERS_DISPLAY;
+			stateFieldsTriggers = TRIGGERS_DISPLAY;
 			displayFieldsTriggersListAndLabel();
 		} else {
-			FIELDS_TRIGGERS_DISPLAY_STATE = NO_TRIGGERS_OR_FIELDS;
+			stateFieldsTriggers = NO_TRIGGERS_OR_FIELDS;
 			displayFieldsTriggersListAndLabel();
 		}
 		makeGridPanelPaint();
 	}
 
 	private void makeGridPanelPaint() { 
-		Graphics g = gridPanel.getGraphics();
+		Graphics g = graphPanel.getGraphics();
 		if (g != null)
-			gridPanel.paint(g);
+			graphPanel.paint(g);
 	}
 
 	private void onFieldOrTriggerSelected() { 
-		if (FIELDS_TRIGGERS_DISPLAY_STATE != NO_TRIGGERS_OR_FIELDS)
+		if (stateFieldsTriggers != NO_TRIGGERS_OR_FIELDS)
 			makeGridPanelPaint();
 	}
 
-	private static void setBackButtonListener(JButton backButton) { 
-		backButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ScreenManager sm = Gui.getScreenManager();
-				Screen toDisplay = sm.getScreen("View Simulation");
-				sm.load(toDisplay);
-			}
-		});
+	private void close() { 
+		statManager.removeObserver(this);
+		dispose();
 	}
-//
 	private void setTypeListListener(JComboBox agentList) { 
 		agentList.addActionListener(new ActionListener() {
 			@Override
@@ -250,23 +258,31 @@ public class StatisticsScreen extends Screen {
 		});
 	}
 
-	@Override
-	public void load() {
+	public void display() {
+		statManager.addObserver(this);
 		typeList.removeAllItems();
 		analysisList.removeAllItems();
 		displayFieldsTriggersListAndLabel();
-		for (String name : gm.getPrototypeNames()) { 
+		for (String name : simFac.getPrototypeNames()) { 
 			typeList.addItem(name);
 		}
-		FIELDS_TRIGGERS_DISPLAY_STATE = FIELDS_DISPLAY;
+		stateFieldsTriggers = FIELDS_DISPLAY;
+		analysisList.addItem(ANALYSIS_POP_OVER_TIME_STR);
 		analysisList.addItem(ANALYSIS_AVG_FIELD_VALUE_STR);
 		analysisList.addItem(ANALYSIS_AVG_LIFESPAN_STR);
-		analysisList.addItem(ANALYSIS_POP_OVER_TIME_STR);
 		analysisList.addItem(ANALYSIS_TRIGGER_FIRES);
+		setPreferredSize(new Dimension(500, 400));
+		pack();
+		setVisible(true);
 	}
 
 	private JPanel getDisplayPanel() { 
 		return new JPanel() { 
+			
+			private final Color COLOR_GRAPH_LINE = Color.RED;
+			private final Color COLOR_NUMBER= Color.GREEN;
+			private final Color COLOR_AXIS_NAME = Color.WHITE;
+			private final Color COLOR_BACKGROUND = Color.BLACK;
 			
 			private static final long serialVersionUID = -4375342368896479163L;
 
@@ -289,50 +305,41 @@ public class StatisticsScreen extends Screen {
 			}
 			
 			private void paintTriggers(Graphics g, int width, int height) {
-//				double[] fires = getGuiManager().getStatManager()
-//						.getTriggerExecutionsFor(
-//								(String) typeList.getSelectedItem(),
-//								(String) fieldsTriggersList.getSelectedItem());
-//				if (fires.length < 1)
-//					return; 
-//
-//				int[] extremes = getHighLowIndex(fires);
-//				double max = fires[extremes[0]];
-//				double min = 0;
-//
-//				g.setColor(Color.BLACK);
-//				g.fillRect(0, 0, width, height);
-//				int lastX = 0; 
-//				int lastY = getAppropriateY(fires[0], max, min, height);
-//
-//				g.setColor(Color.GREEN);
-//				for (int index = 1; index < fires.length; index++) { 
-//					int currentX = getAppropriateX(index, fires.length-1, width);
-//					int currentY = getAppropriateY(fires[index], max, min, height);
-//					g.drawLine(lastX, lastY, currentX, currentY);
-//					lastX = currentX;
-//					lastY = currentY;
-//				}
+				double[] fires = statManager
+						.getTriggerExecutionsFor(
+								(String) typeList.getSelectedItem(),
+								(String) fieldsTriggersList.getSelectedItem());
+				if (fires.length < 1)
+					return; 
+
+				int[] extremes = getHighLowIndex(fires);
+				double max = fires[extremes[0]];
+				double min = 0;
+
+				g.setColor(COLOR_BACKGROUND);
+				g.fillRect(0, 0, width, height);
+				int lastX = 0; 
+				int lastY = getAppropriateY(fires[0], max, min, height);
+
+				g.setColor(COLOR_GRAPH_LINE);
+				for (int index = 1; index < fires.length; index++) { 
+					int currentX = getAppropriateX(index, fires.length-1, width);
+					int currentY = getAppropriateY(fires[index], max, min, height);
+					g.drawLine(lastX, lastY, currentX, currentY);
+					lastX = currentX;
+					lastY = currentY;
+				}
+				paintAxis(g, fires.length, min, max, width, height, "# Times Executed During Iteration");
 			}
 
 			private void paintPop(Graphics g, int width, int height) { 
-				int[] pops = gm.getPopVsTime((String) typeList.getSelectedItem());
+				int[] pops = simFac.getPopVsTime((String) typeList.getSelectedItem());
 				if (pops.length < 1)
 					return; 
 
-				g.setColor(Color.BLACK);
+				g.setColor(COLOR_BACKGROUND);
 				g.fillRect(0, 0, width, height);
 
-				g.setColor(Color.WHITE);
-				g.drawString("Time", width - (width / 13), height - (height / 48));
-				g.drawString("Population", (width / 35), (height / 28));
-				
-				g.setColor(Color.RED);
-				int increment = width / 10; 
-				for (int i = increment; i < width; i += increment) 
-					g.drawLine(i, height - 1, i, height - 10);
-				
-				
 				int[] extremes = getHighLowIndex(pops);
 				double max = pops[extremes[0]];
 				double min = 0;
@@ -340,7 +347,7 @@ public class StatisticsScreen extends Screen {
 				int lastX = 0; 
 				int lastY = getAppropriateY(pops[0], max, min, height);
 				
-				g.setColor(Color.GREEN);
+				g.setColor(COLOR_GRAPH_LINE);
 				for (int index = 1; index < pops.length; index++) { 
 					int currentX = getAppropriateX(index, pops.length-1, width);
 					int currentY = getAppropriateY(pops[index], max, min, height);
@@ -348,12 +355,28 @@ public class StatisticsScreen extends Screen {
 					lastX = currentX;
 					lastY = currentY;
 				}
+				paintAxis(g, pops.length, min, max, width, height, "Population Size");
+			}
+			
+			private void paintAxis(Graphics g, int numIncrements, double minY, double maxY, int width, int height, String yAxis) { 
+				g.setColor(COLOR_NUMBER);
+				for (double currentStep = numIncrements / 5.0; currentStep < numIncrements; currentStep += numIncrements / 5.0) { 
+					int xCor = getAppropriateX(currentStep, numIncrements, width);
+					g.drawString(((int)Math.ceil(currentStep)) + "", xCor, height - 5);
+				}
+				for (double i = minY + ((maxY - minY) / 5.0); i < maxY; i += (maxY - minY) / 5.0) { 
+					int yCor = getAppropriateY(i, maxY, minY, height);
+					g.drawString(((int)Math.ceil(i)) + "", 3, yCor);
+				}
+				g.setColor(COLOR_AXIS_NAME);
+				g.drawString("Time", width - (int) Math.ceil(width / 10.0), height - (int) Math.ceil(height / 40.0));
+				g.drawString(yAxis, (int) Math.ceil((width / 30.0)), (int) Math.ceil((height / 20.0)));
 			}
 
 			private void paintField(Graphics g, int width, int height) { 
 				String protName = (String) typeList.getSelectedItem();
 				String fieldName = (String) fieldsTriggersList.getSelectedItem();
-				double[] avgValues = gm.getAvgFieldValue(protName, fieldName);
+				double[] avgValues = simFac.getAvgFieldValue(protName, fieldName);
 				if (avgValues.length < 1)
 					return; 
 				
@@ -361,13 +384,14 @@ public class StatisticsScreen extends Screen {
 				double maxYValue = avgValues[extremes[0]];
 				double minYValue = avgValues[extremes[1]];
 				
+				g.setColor(COLOR_BACKGROUND);
+				g.fillRect(0, 0, width, height);
 				int zeroY = getAppropriateY(0, maxYValue, minYValue, height);
-				g.setColor(Color.WHITE);
+				g.setColor(COLOR_NUMBER);
 				g.drawLine(0, zeroY, width, zeroY);
 				
-				g.setColor(Color.BLACK);
-				g.fillRect(0, 0, width, height);
-				g.setColor(Color.RED);
+				
+				g.setColor(COLOR_GRAPH_LINE);
 				int lastX = 0; 
 				int lastY = getAppropriateY(avgValues[0], maxYValue, minYValue, height);
 				for (int index = 1; index < avgValues.length; index++) { 
@@ -377,14 +401,15 @@ public class StatisticsScreen extends Screen {
 					lastX = currentX;
 					lastY = currentY;
 				}
+				paintAxis(g, avgValues.length, minYValue, maxYValue, width, height, "Average Field Value");
 			}
 			
 			private void paintLife(Graphics g, int width, int height) { 
 				String protName = (String) typeList.getSelectedItem();
-				double avgLifespan = gm.getAvgLifespan(protName);
-				g.setColor(Color.BLACK);
+				double avgLifespan = simFac.getAvgLifespan(protName);
+				g.setColor(COLOR_BACKGROUND);
 				g.fillRect(0, 0, width, height);
-				g.setColor(Color.CYAN);
+				g.setColor(COLOR_NUMBER);
 				g.drawString("" + avgLifespan, width/2, height/2);
 			}
 
@@ -426,5 +451,15 @@ public class StatisticsScreen extends Screen {
 				return new int[] {maxIndex, minIndex}; 
 			}
 		};
+	}
+	
+	@Override
+	public void onNewStats() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				graphPanel.paint(graphPanel.getGraphics());
+			}
+		});
 	}
 }

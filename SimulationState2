@@ -4,35 +4,35 @@ Atomic
 PrototypeSnapshot
 Prototype 2
 0~0~0
-127127127127127127127127
+127~127~127~127~127~127~127~127~
 FieldSnapshot~Meerkat~Timon
 FieldSnapshot~Crayfish~Paul
 FieldSnapshot~Person~John Charles
 PrototypeSnapshot
 Prototype 1
 0~0~0
-127127127127127127127127
-FieldSnapshot~Cat~Joomba
-FieldSnapshot~Pig~Tom
-FieldSnapshot~Monkey~Olly
-AgentSnapshot
-Prototype 1
-0~0~0
-127127127127127127127127
--1
--1
+127~127~127~127~127~127~127~127~
 FieldSnapshot~Cat~Joomba
 FieldSnapshot~Pig~Tom
 FieldSnapshot~Monkey~Olly
 AgentSnapshot
 Prototype 2
 0~0~0
-127127127127127127127127
+127~127~127~127~127~127~127~127~
 -1
 -1
 FieldSnapshot~Meerkat~Timon
 FieldSnapshot~Crayfish~Paul
 FieldSnapshot~Person~John Charles
+AgentSnapshot
+Prototype 1
+0~0~0
+127~127~127~127~127~127~127~127~
+-1
+-1
+FieldSnapshot~Cat~Joomba
+FieldSnapshot~Pig~Tom
+FieldSnapshot~Monkey~Olly
 GlobalVariablesGLOBAL~Depth~100
 EndConditions
 20

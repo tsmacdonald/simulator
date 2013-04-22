@@ -10,6 +10,7 @@ import javax.naming.NameNotFoundException;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.AgentID;
@@ -47,6 +48,11 @@ public class StatisticsManager {
 	 * Prototype snapshots in the game.
 	 */
 	private static HashMap<String, PrototypeSnapshot> protoSnaps;
+	
+	/**
+	 * Observers keeping track of the program's statisitical analysis. 
+	 */
+	private static Set<StatsObserver> observers; 
 
 	/**
 	 * Private constructor to prevent wanton instantiation.
@@ -56,6 +62,7 @@ public class StatisticsManager {
 		gridObserver = new Recorder(this);
 		prototypes = null;
 		protoSnaps = new HashMap<String, PrototypeSnapshot>();
+		observers = Sets.newHashSet();
 	}
 
 	/**
@@ -65,13 +72,6 @@ public class StatisticsManager {
 		if(instance != null) 
 			return instance;
 		return instance = new StatisticsManager();
-	}
-
-	/**
-	 * THIS IS FOR TESTING PURPOSES ONLY!!
-	 */
-	public static void removeInstance() {
-		instance = null;
 	}
 
 	/**
@@ -93,6 +93,30 @@ public class StatisticsManager {
 		return table.getAllSteps().size();
 	}
 
+	/**
+	 * Keep a new observer notified of new updates.
+	 * @param newObserver The new observer. 
+	 */
+	public void addObserver(StatsObserver newObserver) { 
+		observers.add(newObserver);
+	}
+	
+	/**
+	 * Remove an observer from the pool of those kept notified. 
+	 * @param observer The observer to no longer be tracked. 
+	 */
+	public void removeObserver(StatsObserver observer) { 
+		observers.remove(observer);
+	}
+	
+	/**
+	 * Notify all observers of new available statistical information.
+	 */
+	private void notifyObservers() { 
+		for (StatsObserver obs : observers) 
+			obs.onNewStats();
+	}
+	
 	/**
 	 * Add a PrototypeSnapshot to the StatisticsManager. 
 	 * @param prototypeSnapshot The new prototype being recorded.

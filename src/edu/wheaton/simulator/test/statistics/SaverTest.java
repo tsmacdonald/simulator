@@ -32,16 +32,16 @@ public class SaverTest {
 	Integer step;
 	Set<TriggerSnapshot> triggers;
 	SimulationEnder simEnder; 
-	
+
 	@Before
 	public void setUp() throws ElementAlreadyContainedException {
 		Simulator.getInstance().load("test", 10, 10, new SimulationEnder());
 		Simulator.getInstance().setAtomicUpdate(); 
-		
+
 		grid = new Grid(10, 10);
 		grid.addField("Depth", "100");
 		grid.setAtomicUpdater(); 
-		
+
 		prototypeOne = new Prototype("Prototype 1");
 		try {
 			prototypeOne.addField("Pig", "Tom");
@@ -51,7 +51,7 @@ public class SaverTest {
 			e.printStackTrace();
 		}
 		agent = prototypeOne.createAgent(grid);
-		
+
 		prototypeTwo = new Prototype("Prototype 2");
 		try {
 			prototypeTwo.addField("Crayfish", "Paul");
@@ -61,15 +61,15 @@ public class SaverTest {
 			e.printStackTrace();
 		}
 		agentOther = prototypeTwo.createAgent(grid);
-		
+
 		step = new Integer(23);
-		
+
 		//Create the ending conditions
 		simEnder = new SimulationEnder(); 
 		simEnder.setPopLimit(prototypeOne.getName(), 100); 
 		simEnder.setPopLimit(prototypeTwo.getName(), 100); 
 		simEnder.setStepLimit(20); 
-		
+
 		//Create the list of TriggerSnapshots
 		triggers = new HashSet<TriggerSnapshot>();
 		triggers.add(new TriggerSnapshot("trigger1", 1, "conditionExpression", "behaviorExpression"));
@@ -92,18 +92,42 @@ public class SaverTest {
 		agents.add(agent); 
 		agents.add(agentOther);
 		grid.setLinearUpdater(); 
-		
+
 		// Creating a HashMap of PrototypeSnapshots
 		ImmutableSet.Builder<Prototype> builder = new ImmutableSet.Builder<Prototype>();
 		builder.add(prototypeOne);
 		builder.add(prototypeTwo); 
 		ImmutableSet<Prototype> prototypes = builder.build(); 
-		
+
 		Saver s = new Saver();
-		s.saveSimulation(new File("SimulationState2"), agents, prototypes, grid.getCustomFieldMap(), 
+		File testFile = new File("simulations/SimulationState2");
+		Assert.assertNotNull("testFile in testSaveSimulation does not exist", testFile);
+		s.saveSimulation(testFile, agents, prototypes, grid.getCustomFieldMap(), 
 				grid.getWidth(), grid.getHeight(), simEnder); 
 	}
-	
+
+	@Test
+	public void testSaveAnotherSimulation() {
+		//Create a Set of Agents				
+		Set<Agent> agents = new HashSet<Agent>(); 
+		agents.add(agent); 
+		agents.add(agentOther);
+		grid.setLinearUpdater(); 
+
+		// Creating a HashMap of PrototypeSnapshots
+		ImmutableSet.Builder<Prototype> builder = new ImmutableSet.Builder<Prototype>();
+		builder.add(prototypeOne);
+		builder.add(prototypeTwo); 
+		ImmutableSet<Prototype> prototypes = builder.build(); 
+
+		Saver s = new Saver();
+		File testFile = new File("SimulationState2");
+		Assert.assertNotNull("testFile in testSaveAnotherSimulation does not exist", testFile);
+		s.saveSimulation(testFile, agents, prototypes, grid.getCustomFieldMap(), 
+				grid.getWidth(), grid.getHeight(), simEnder); // The only change here is the path of the file.
+		
+	}
+
 	@Test
 	public void testSavePrototype(){
 		Saver s = new Saver();
@@ -111,7 +135,7 @@ public class SaverTest {
 		s.savePrototype(prototypeOne);
 		System.out.println(""); 
 		s.savePrototype(prototypeTwo); 
-		
+
 		//Check the terminal output
 		Assert.assertTrue(true);
 	}

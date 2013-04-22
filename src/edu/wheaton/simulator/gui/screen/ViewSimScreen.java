@@ -51,7 +51,7 @@ public class ViewSimScreen extends Screen {
 	private final Screen optionsScreen;
 
 	private final JTabbedPane tabs;
-	
+
 	private JButton startButton;
 
 	public ViewSimScreen(final SimulatorFacade gm) {
@@ -66,14 +66,15 @@ public class ViewSimScreen extends Screen {
 		layerScreen = new LayerScreen(gm);
 		globalFieldScreen = new FieldScreen(gm);
 		optionsScreen = new SetupScreen(gm);
-		tabs.addTab("Agent", entitiesScreen);
+		tabs.addTab("Agents", entitiesScreen);
 		tabs.addTab("Layers", layerScreen);
 		tabs.addTab("Global Fields", globalFieldScreen);
 		tabs.addTab("Options", optionsScreen);
+
 		tabs.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent ce) {
-				if (tabs.getSelectedComponent().toString().equals("Agent"))
+				if (tabs.getSelectedIndex() == 0)
 					setSpawn(true);
 				else {
 					setSpawn(false);
@@ -84,14 +85,14 @@ public class ViewSimScreen extends Screen {
 				optionsScreen.load();
 			}
 		});
-		tabs.setMinimumSize(new MinSize(600,577));
-		tabs.setPreferredSize(new PrefSize(600,577));
+		tabs.setMinimumSize(new MinSize(600, 577));
+		tabs.setPreferredSize(new PrefSize(600, 577));
 		tabs.validate();
 
 		gm.getGridPanel().addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				System.out.println(canSpawn);
+
 				int standardSize = Math.min(
 						gm.getGridPanel().getWidth() / gm.getGridWidth(),
 						gm.getGridPanel().getHeight() / gm.getGridHeight());
@@ -137,7 +138,7 @@ public class ViewSimScreen extends Screen {
 		this.add(tabs, c);
 
 		JPanel rightPanel = new JPanel(new GridBagLayout());
-		
+
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
@@ -152,10 +153,10 @@ public class ViewSimScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 1;
 		rightPanel.add(makeButtonPanel(), c);
-		
+
 		c = new GridBagConstraints();
 		c.gridx = 1;
-		this.add(rightPanel,c);
+		this.add(rightPanel, c);
 
 		this.setVisible(true);
 		this.validate();
@@ -166,21 +167,29 @@ public class ViewSimScreen extends Screen {
 		// navigation purposes
 		ScreenManager sm = getScreenManager();
 		startButton = makeStartButton();
-		JPanel buttonPanel = Gui.makePanel((LayoutManager) null, MaxSize.NULL, PrefSize.NULL, startButton, Gui.makeButton(
-				"Statistics", null,
-				new GeneralButtonListener("Statistics", sm)));
+		ActionListener statListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ScreenManager.getInstance().displayStatisticsWindow();
+			}
+		};
+		
+		JPanel buttonPanel = Gui.makePanel((LayoutManager) null, MaxSize.NULL,
+				PrefSize.NULL, startButton, Gui.makeButton("Statistics", null,
+						statListener));
 		return buttonPanel;
 	}
 
 	public void setSpawn(boolean canSpawn) {
+		System.out.println(canSpawn);
 		this.canSpawn = canSpawn;
 	}
-	
+
 	public boolean getSpawn() {
 		return canSpawn;
 	}
-	
-	public void init(){
+
+	public void init() {
 		startButton.setText("Start");
 		initTabs();
 	}
@@ -191,30 +200,34 @@ public class ViewSimScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SimulatorFacade gm = getGuiManager();
-				if(gm.isRunning()){
+				if (gm.isRunning()) {
 					getGuiManager().pause();
-					canSpawn = true;
+					setSpawn(true);
 					b.setText("Resume");
+					entitiesScreen.onSimulationPause();
 				} 
-				else if(gm.hasStarted() && gm.isRunning()==false){
-					canSpawn = false;
+
+				else if (gm.hasStarted() && gm.isRunning() == false) {
+					setSpawn(false);
 					gm.getGridPanel().repaint();
 					gm.start();
 					b.setText("Pause");
+					entitiesScreen.onSimulationResume();
 				}
-				
-				else if (gm.hasStarted()==false){
-					canSpawn = false;
+
+				else if (gm.hasStarted() == false) {
+					setSpawn(false);
 					gm.getGridPanel().repaint();
 					gm.start();
 					b.setText("Pause");
+					entitiesScreen.onSimulationResume();
 				}
 			}
 		});
 		return b;
 	}
-	
-	public void initTabs(){
+
+	public void initTabs() {
 		tabs.setSelectedComponent(optionsScreen);
 	}
 
@@ -223,13 +236,13 @@ public class ViewSimScreen extends Screen {
 		FileMenu fm = Gui.getFileMenu();
 		fm.setNewSim(true);
 		fm.setSaveSim(true);
-		
+
 		this.setVisible(false);
 		entitiesScreen.load();
 		layerScreen.load();
 		globalFieldScreen.load();
 		optionsScreen.load();
-		if(tabs.getSelectedComponent()==null)
+		if (tabs.getSelectedComponent() == null)
 			initTabs();
 		validate();
 		this.setVisible(true);

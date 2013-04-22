@@ -43,8 +43,6 @@ public class EntityScreen extends Screen {
 
 	private JButton edit;
 
-	private JButton save;
-
 	private JButton clear;
 
 	private JButton fill;
@@ -75,28 +73,29 @@ public class EntityScreen extends Screen {
 			}
 		});
 		edit.setEnabled(false);
-		JButton load = Gui.makeButton("Load", null,  
-				new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				//TODO load agents
-			}
-		});
-
-		JButton importButton = Gui.makeButton("Import", null, 
+		JButton load = Gui.makeButton("Import Agent", null,  
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				gm.importAgent();
 			}
 		});
-		save = Gui.makeButton("Save Agent", null, 
-				new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				gm.saveAgent((String)entityList.getSelectedValue());
-			}
-		});
+
+//		JButton importButton = Gui.makeButton("Import", null, 
+//				new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent ae) {
+//				
+//			}
+//		});
+		
+//		save = Gui.makeButton("Save Agent", null, 
+//				new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent ae) {
+//				gm.saveAgent((String)entityList.getSelectedValue());
+//			}
+//		});
 
 		clear = Gui.makeButton("Clear Agents", null,
 				new ActionListener() {
@@ -139,11 +138,8 @@ public class EntityScreen extends Screen {
 			public void valueChanged(ListSelectionEvent ae) {
 				edit.setEnabled(!gm.hasStarted());
 				delete.setEnabled(!gm.hasStarted());
-				save.setEnabled(!gm.isRunning());
 				clear.setEnabled(!gm.isRunning());
-				fill.setEnabled(!gm.isRunning());
-				((ViewSimScreen) Gui.getScreenManager().getScreen(
-						"View Simulation")).setSpawn(true);
+				fill.setEnabled(!gm.isRunning());				
 			}
 		});
 		entityList.setMinimumSize(new MinSize(300,300));
@@ -157,6 +153,7 @@ public class EntityScreen extends Screen {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
+		c.insets = new Insets(0, 0, 2, 0);
 		this.add(Gui.makeButton("Add", null, new AddListener()), c);
 
 		c.gridx = 1;
@@ -164,25 +161,28 @@ public class EntityScreen extends Screen {
 
 		c.gridx = 2;
 		this.add(delete, c);
-
+		
 		c.gridx = 3;
-		this.add(clear,c);
-
-		c.gridx = 4;
-		this.add(fill,c);
+		this.add(Gui.makeLabel("         ", PrefSize.NULL, null), c);
 
 		c.gridx = 0;
 		c.gridy = 3;
-		this.add(load, c);
+		this.add(fill, c);
+
+//		c.gridx = 1;
+//		this.add(importButton, c);
 
 		c.gridx = 1;
-		this.add(importButton, c);
+		this.add(clear, c);
 
 		c.gridx = 2;
-		this.add(save, c);
-
+		this.add(random,c);
+		
+		c.gridx = 3;
+		this.add(Gui.makeLabel("         ", PrefSize.NULL, null), c);
+		
 		c.gridx = 4;
-		this.add(random, c);
+		this.add(load, c);
 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -209,13 +209,26 @@ public class EntityScreen extends Screen {
 			entityList.addItem(s);
 		edit.setEnabled(false);
 		delete.setEnabled(false);
-		save.setEnabled(false);
 		entityList.setSelectedIndex(0);
 		validate();
 	}
 
 	public GuiList getList() {
 		return entityList;
+	}
+	
+	public void onSimulationResume(){
+		delete.setEnabled(false);
+		edit.setEnabled(false);
+		clear.setEnabled(false);
+		fill.setEnabled(false);
+		random.setEnabled(false);
+	}
+	
+	public void onSimulationPause(){
+		clear.setEnabled(true);
+		fill.setEnabled(true);
+		random.setEnabled(true);
 	}
 
 	class DeleteListener implements ActionListener {
@@ -228,7 +241,6 @@ public class EntityScreen extends Screen {
 			if (size == 0) {
 				delete.setEnabled(false);
 				edit.setEnabled(false);
-				save.setEnabled(false);
 			}
 			if (index == size)
 				index--;

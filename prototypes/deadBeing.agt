@@ -1,0 +1,18 @@
+PrototypeSnapshot
+deadBeing
+219~219~219
+127~127~127~127~127~127~127~127~
+FieldSnapshot~neighbors~0
+FieldSnapshot~age~0
+FieldSnapshot~alive~0
+Trigger~checkNeigh3~5~getFieldOfAgentAt(this.x+1, this.y-1, 'alive') == 1~setField('neighbors', this.neighbors+1)
+Trigger~checkNeigh2~4~getFieldOfAgentAt(this.x, this.y-1, 'alive') == 1~setField('neighbors', this.neighbors+1)
+Trigger~resetNeighbors~2~true~setField('neighbors', 0)
+Trigger~checkNeigh5~7~getFieldOfAgentAt(this.x+1, this.y, 'alive') == 1~setField('neighbors', this.neighbors+1)
+Trigger~checkNeigh7~9~getFieldOfAgentAt(this.x, this.y+1, 'alive') == 1~setField('neighbors', this.neighbors+1)
+Trigger~checkNeigh6~8~getFieldOfAgentAt(this.x-1, this.y+1, 'alive') == 1~setField('neighbors', this.neighbors+1)
+Trigger~revive~12~(this.alive == 0) && (this.neighbors == 3)~clonePrototype(this.x, this.y, 'aliveBeing')
+Trigger~checkNeigh1~3~getFieldOfAgentAt(this.x-1, this.y-1, 'alive') == 1~setField('neighbors', this.neighbors+1)
+Trigger~updateAge~1~this.alive == 1~setField('age', this.age+1)
+Trigger~checkNeigh8~10~getFieldOfAgentAt(this.x+1, this.y+1, 'alive') == 1~setField('neighbors', this.neighbors+1)
+Trigger~checkNeigh4~6~getFieldOfAgentAt(this.x-1, this.y, 'alive') == 1~setField('neighbors', this.neighbors+1)

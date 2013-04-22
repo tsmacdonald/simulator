@@ -539,6 +539,26 @@ public class Simulator {
 		Loader l = new Loader();
 		Prototype.addPrototype(l.loadPrototype(file));
 	}
+	
+	/**
+	 * Load all prototypes from all prototype files in the directory
+	 * 
+	 * @param file that points to directory where prototype files are located
+	 */
+	public void loadPrototypesFromDirectory(File directory) {
+		Loader l = new Loader();
+		File[] protoFiles;
+		if (directory.isDirectory()) {
+			protoFiles = directory.listFiles();
+			System.out.println("Number of files in directory: " + protoFiles.length); // TODO Delete
+			for (File file : protoFiles) {
+				if (file.getName().contains(".agt")) {
+					Prototype.addPrototype(l.loadPrototype(file));
+				}
+				else continue;
+			}
+		}
+	}
 
 	/**
 	 * Saves a simulation to a given file.

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -27,7 +28,8 @@ public class SimulatorFacade {
 	private GridPanel gridPanel;
 	private GridPanelObserver gpo;
 	private boolean hasStarted;
-	private JFileChooser fc;
+	private JFileChooser simChooser;
+	private JFileChooser agentChooser;
 
 	private SimulatorFacade() {
 		gridPanel = new GridPanel(this);
@@ -38,7 +40,10 @@ public class SimulatorFacade {
 		hasStarted = false;
 		gpo = new GridPanelObserver(gridPanel);
 		simulator.addGridObserver(gpo);
-		fc = new JFileChooser();
+		simChooser = new JFileChooser();
+		simChooser.setFileFilter(new FileNameExtensionFilter("", "sim"));
+		agentChooser = new JFileChooser();
+		agentChooser.setFileFilter(new FileNameExtensionFilter("", "agt"));
 	}
 
 	public static SimulatorFacade getInstance() {
@@ -57,7 +62,8 @@ public class SimulatorFacade {
 
 	public void load(String name, int x, int y) {
 		simulator = Simulator.getInstance();
-		simulator.load(name, x, y, se);
+		se = new SimulationEnder();
+		simulator.load(name, x,y,se);
 		simulator.addGridObserver(gpo);
 
 	}
@@ -197,20 +203,19 @@ public class SimulatorFacade {
 	}
 
 	public void save() {
-		// how to deal with possibility of simulation name being different from
-		// selected file name?
-		int returnVal = fc.showSaveDialog(null);
+		//how to deal with possibility of simulation name being different from selected file name?
+		int returnVal = simChooser.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			simulator.saveToFile(fc.getSelectedFile(), se);
+			simulator.saveToFile(simChooser.getSelectedFile(), se);
 		}
 
 	}
 
 	public void load() {
-		int returnVal = fc.showOpenDialog(null);
+		int returnVal = simChooser.showOpenDialog(null);
 		File file = null;
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			file = fc.getSelectedFile();
+			file = simChooser.getSelectedFile();
 			simulator.loadFromFile(file);
 			Gui.getScreenManager().load(
 					(Gui.getScreenManager().getScreen("View Simulation")));
@@ -218,21 +223,17 @@ public class SimulatorFacade {
 	}
 
 	public void saveAgent(String agentName) {
-		// how to deal with possibility of agent name being different from
-		// selected file name?
-		int returnVal = fc.showSaveDialog(null);
+		int returnVal = agentChooser.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			simulator.savePrototypeToFile(Prototype.getPrototype(agentName));
 		}
 	}
 
 	public void importAgent() {
-		// TODO need different fc because different directories/file
-		// extensions?
-		int returnVal = fc.showOpenDialog(null);
+		int returnVal = agentChooser.showOpenDialog(null);
 		File file = null;
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			file = fc.getSelectedFile();
+			file = agentChooser.getSelectedFile();
 			simulator.loadPrototypeFromFile(file);
 		}
 
