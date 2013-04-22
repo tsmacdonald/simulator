@@ -25,6 +25,7 @@ import sampleAgents.Multiplier;
 import sampleAgents.Paper;
 import sampleAgents.RightTurner;
 import sampleAgents.Rock;
+import sampleAgents.SampleAgent;
 import sampleAgents.Scissors;
 
 import edu.wheaton.simulator.datastructure.ElementAlreadyContainedException;
@@ -353,10 +354,33 @@ public class Simulator {
 	 * Sets up the rock paper and scissors sample units
 	 */
 	public void initRockPaperScissors() {
-		setPriorityUpdate(0, 60);
+		setLinearUpdate();
 		new Rock().initSampleAgent();
 		new Paper().initSampleAgent();
 		new Scissors().initSampleAgent();
+		simulation.notifyObservers();
+	}
+	
+	/**
+	 * Version 1 will resolve head to head conflicts
+	 * Version 2 will resolve conflicts where one is facing an enemy
+	 * Version 3 will resolve conflicts where there is an enemy in an adjacent space
+	 * 
+	 * @param version The version will decide how agents decide if there is a conflict
+	 */
+	public void initRockPaperScissors(int version){
+		setLinearUpdate();
+		Rock rock = new Rock();
+		rock.setVersion(version);
+		rock.initSampleAgent();
+		
+		Paper paper = new Paper();
+		paper.setVersion(version);
+		paper.initSampleAgent();
+		
+		Scissors scissors = new Scissors();
+		scissors.setVersion(version);
+		scissors.initSampleAgent();
 		simulation.notifyObservers();
 	}
 
