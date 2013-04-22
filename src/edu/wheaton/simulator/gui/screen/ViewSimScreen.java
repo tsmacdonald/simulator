@@ -12,6 +12,7 @@ package edu.wheaton.simulator.gui.screen;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -131,7 +132,7 @@ public class ViewSimScreen extends Screen {
 		c.gridy = 0;
 		c.gridheight = 1;
 		c.weightx = 0;
-		//c.insets = new Insets(5, 5, 5, 5);
+		c.insets = new Insets(5, 5, 5, 5);
 		this.add(tabs, c);
 
 		JPanel rightPanel = new JPanel(new GridBagLayout());
@@ -142,6 +143,7 @@ public class ViewSimScreen extends Screen {
 		c.gridy = 0;
 		c.ipadx = 600;
 		c.ipady = 600;
+		c.insets = new Insets(5, 5, 5, 5);
 		rightPanel.add(gm.getGridPanel(), c);
 
 		c = new GridBagConstraints();
@@ -171,6 +173,10 @@ public class ViewSimScreen extends Screen {
 
 	public void setSpawn(boolean canSpawn) {
 		this.canSpawn = canSpawn;
+	}
+	
+	public boolean getSpawn() {
+		return canSpawn;
 	}
 	
 	public void init(){
