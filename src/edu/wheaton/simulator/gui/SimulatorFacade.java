@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JFileChooser;
+
 import com.google.common.collect.ImmutableMap;
 
 import edu.wheaton.simulator.datastructure.Field;

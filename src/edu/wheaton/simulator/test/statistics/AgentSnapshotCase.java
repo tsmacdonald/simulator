@@ -69,7 +69,7 @@ public class AgentSnapshotCase {
 	public void agentSnapshotTest() {
 		AgentSnapshot agentSnap = new AgentSnapshot(agent.getID(),
 				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step,
-				prototype.getName(), null, 0, 0);
+				prototype.getName(), null, null, null, 0, 0);
 		Assert.assertNotNull("AgentSnapshot not created.", agentSnap);
 	}
 	
@@ -80,7 +80,7 @@ public class AgentSnapshotCase {
 	public void serializeTest(){
 		AgentSnapshot agentSnap = new AgentSnapshot(agent.getID(),
 				SnapshotFactory.makeFieldSnapshots(agent.getCustomFieldMap()), step,
-				prototype.getName(), null, 0, 0);
+				prototype.getName(), null, null, null, 0, 0);
 		
 		String expected = "AgentSnapshot\ntester\n0\n0\nFieldSnapshot Cat Joomba\nFieldSnapshot " +
 				"Pig Tom\nFieldSnapshot Monkey Olly"; 

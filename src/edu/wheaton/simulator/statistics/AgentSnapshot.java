@@ -1,5 +1,6 @@
 package edu.wheaton.simulator.statistics;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
@@ -25,6 +26,16 @@ public class AgentSnapshot {
 	 * The present prototype for the category of this Entity.
 	 */
 	public final String prototypeName;
+	
+	/**
+	 * The color the agents are displayed
+	 */
+	public final Color color; 
+	
+	/**
+	 * A bitmap of the design for displaying the agents 
+	 */
+	public final byte[] design;
 	
 	/**
 	 * The saved fields of this entity.
@@ -64,11 +75,14 @@ public class AgentSnapshot {
 	 *            The prototype for this category of Agent.
 	 */
 	public AgentSnapshot(AgentID id, ImmutableMap<String, FieldSnapshot> fields,
-			Integer step, String prototypeName, ArrayList<TriggerSnapshot> triggers, int x, int y) {
+			Integer step, String prototypeName, Color color, byte[] design, 
+			ArrayList<TriggerSnapshot> triggers, int x, int y) {
 		this.id = id;
 		this.step = step;
 		this.fields = fields;
 		this.prototypeName = prototypeName;
+		this.color = color; 
+		this.design = design; 
 		this.triggers = triggers;
 		this.xpos = x; 
 		this.ypos = y; 
@@ -82,6 +96,8 @@ public class AgentSnapshot {
 	 * -----------------------------------------------------------------
 	 * AgentSnapshot
 	 * Dog (prototypeName - a string)
+	 * Color (color)
+	 * Bitmask (design)
 	 * 2 (xPos)
 	 * 4 (yPos)
 	 * Fields: FieldSnapshot Name Value
@@ -90,6 +106,8 @@ public class AgentSnapshot {
 	public String serialize(){
 		String s = "AgentSnapshot";
 		s += "\n" + prototypeName;
+		s += "\n" + color.getRed() + "~" + color.getGreen() + "~" + color.getBlue(); 
+		s += "\n" + displayByteArray(design); 
 		s += "\n" + xpos; 
 		s += "\n" + ypos; 
 		
@@ -98,5 +116,14 @@ public class AgentSnapshot {
 		}
 		
 		return s; 
+	}
+	
+	private static String displayByteArray(byte[] array){
+		String ret = ""; 
+		
+		for(byte b : array)
+			ret += b; 
+		
+		return ret; 
 	}
 }
