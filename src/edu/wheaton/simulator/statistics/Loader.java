@@ -97,7 +97,8 @@ public class Loader {
 	}
 
 	/**
-	 * Load the contents of a file. After this is done call getGrid(), getPrototypes(), getSimEnder() and getName() to retrieve the loaded information
+	 * Load the contents of a file. After this is done call getGrid(), getPrototypes(), getSimEnder() and 
+	 * getName() to retrieve the loaded information
 	 * Code based on http://stackoverflow.com/questions/15906640/
 	 * @param fileName The name of the file to load
 	 */
@@ -107,7 +108,7 @@ public class Loader {
 		name = f.getName();
 		this.prototypes = new HashSet<Prototype>(); 
 		
-		System.out.println(f.getAbsolutePath()); // TODO DEBUG
+		//System.out.println(f.getAbsolutePath()); // TODO DEBUG
 
 		try {
 			reader = new BufferedReader(new FileReader(file));
@@ -143,7 +144,7 @@ public class Loader {
 
 					//Create the Agent
 					Agent agent = new Agent(grid, parent, color, design);
-					System.out.println(agent.getColor()); 
+					//System.out.println(agent.getColor()); 
 
 					//Get the Agent's position on the Grid
 					int xpos = Integer.parseInt(reader.readLine()); 
@@ -163,7 +164,7 @@ public class Loader {
 						readLine = reader.readLine(); 
 					}
 
-					System.out.println("Adding Agent"); 
+					//System.out.println("Adding Agent"); 
 					grid.addAgent(agent, xpos, ypos); 
 				}
 
@@ -180,7 +181,7 @@ public class Loader {
 						readLine = reader.readLine(); 
 					}
 
-					System.out.println("Adding Grid Global"); 
+					//System.out.println("Adding Grid Global"); 
 				}
 				
 				else if(readLine.equals("PrototypeSnapshot")){
@@ -219,7 +220,7 @@ public class Loader {
 						readLine = reader.readLine(); 
 					}
 
-					System.out.println("Adding Prototype"); 
+					//System.out.println("Adding Prototype"); 
 					prototypes.add(proto); 
 				}
 				else if(readLine.equals("EndConditions")){
@@ -234,7 +235,7 @@ public class Loader {
 						simEnder.setPopLimit(tokens[1], Integer.parseInt(tokens[2])); 						
 						readLine = reader.readLine(); 
 					}
-					System.out.println("Added SimulationEnder"); 
+					//System.out.println("Added SimulationEnder"); 
 				}
 				else{
 					readLine = reader.readLine(); 

@@ -119,7 +119,7 @@ public class Saver {
 		try {
 			File protoDirectory = new File("prototypes");
 			protoDirectory.mkdirs();
-			System.out.println(protoDirectory.getAbsolutePath());
+			//System.out.println(protoDirectory.getAbsolutePath());
 			
 			String suffix = ".agt";
 
