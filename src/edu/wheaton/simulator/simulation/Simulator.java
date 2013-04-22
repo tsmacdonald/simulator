@@ -116,6 +116,15 @@ public class Simulator {
 	public static void createPrototype(String n, Color c, byte[] d) {
 		Prototype.addPrototype(new Prototype(c, d, n));
 	}
+	
+	/**
+	 * Adds the given prototype to the list
+	 * 
+	 * @param p
+	 */
+	public static void addPrototype(Prototype p) {
+		Prototype.addPrototype(p);
+	}
 
 	/**
 	 * Returns the Prototype that corresponds to the given string.

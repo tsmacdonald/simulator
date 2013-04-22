@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 
 import edu.wheaton.simulator.gui.screen.Screen;
+import edu.wheaton.simulator.gui.screen.ViewSimScreen;
 	
 
 /**
@@ -37,6 +38,7 @@ public class RockPaperScissorsFinishListener implements ActionListener {
 				System.err.println("Invalid input passed to RockPaperScissorsListener");
 			}
 			Screen upload = Gui.getScreenManager().getScreen("View Simulation");
+			((ViewSimScreen)upload).initTabs();
 			gm.initRockPaperScissors();
 			gm.setStepLimit(1000);
 			gm.setStarted(false);

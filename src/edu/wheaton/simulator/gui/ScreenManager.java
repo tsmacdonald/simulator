@@ -31,7 +31,6 @@ public class ScreenManager {
 		SimulatorFacade gm = SimulatorFacade.getInstance();
 		putScreen("Title", new TitleScreen(gm));
 		putScreen("New Simulation", new NewSimulationScreen(gm));
-		putScreen("Edit Fields", new EditFieldScreen(gm));
 		putScreen("Edit Entities", new EditEntityScreen(gm));
 		putScreen("View Simulation", new ViewSimScreen(gm));
 		putScreen("Statistics", new StatisticsScreen(gm));
@@ -52,7 +51,9 @@ public class ScreenManager {
 	}
 	 
 	private void update(Screen update) {
+		display.setVisible(false);
 		display.updateDisplay(update);
+		display.setVisible(true);
 	}
 	
 	private static void loadScreen(Screen s){

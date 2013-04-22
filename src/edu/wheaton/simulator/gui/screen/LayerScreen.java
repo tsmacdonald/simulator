@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.GuiConstants;
 import edu.wheaton.simulator.gui.PrefSize;
+import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorFacade;
 
 public class LayerScreen extends Screen {
@@ -55,7 +56,6 @@ public class LayerScreen extends Screen {
 					public void actionPerformed(ActionEvent ae) {
 						gm.displayLayer(layerComboBox.getSelectedItem().toString(), colorTool.getColor());
 						gm.getGridPanel().validate();
-						gm.getGridPanel().repaint();
 					}
 				});
 
@@ -63,9 +63,9 @@ public class LayerScreen extends Screen {
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
-						//gm.getGridPanel().setLayers(true);
+						gm.clearLayer();
 						gm.getGridPanel().validate();
-						gm.getGridPanel().repaint();
+						ScreenManager.getInstance().getScreen("View Simulation").validate();
 					}
 				});
 

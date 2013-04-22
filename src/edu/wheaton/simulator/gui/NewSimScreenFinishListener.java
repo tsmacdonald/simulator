@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 
 import edu.wheaton.simulator.gui.screen.Screen;
+import edu.wheaton.simulator.gui.screen.ViewSimScreen;
 
 public class NewSimScreenFinishListener implements ActionListener {
 	
@@ -32,6 +33,7 @@ public class NewSimScreenFinishListener implements ActionListener {
 			System.err.println("Invalid input passed to NewSimScreenFinishListener");
 		}
 		Screen upload = Gui.getScreenManager().getScreen("View Simulation");
+		((ViewSimScreen)upload).initTabs();
 		gm.setStarted(false);
 		Gui.getScreenManager().load(upload);
 	}
