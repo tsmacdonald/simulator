@@ -34,8 +34,8 @@ public class Trigger implements Comparable<Trigger> {
 	/**
 	 * Determines when this trigger should be evaluated. Only affects the order
 	 * of triggers within its particular Agent in LinearUpdate. That is, the
-	 * order of importance in LinearUpdate for triggers is when the Owning
-	 * Agent is reached->the trigger's priority.
+	 * order of importance in LinearUpdate for triggers is when the Owning Agent
+	 * is reached->the trigger's priority.
 	 * 
 	 * In PriorityUpdate, priority supercedes Agent ordering, that is trigger's
 	 * priority->when the Owning Agent is reached.
@@ -149,8 +149,8 @@ public class Trigger implements Comparable<Trigger> {
 	}
 
 	/**
-	 * Checks atomicConditionResult to see whether or not the behavior should
-	 * be fired rather than evaluating the condition on the spot Vital for
+	 * Checks atomicConditionResult to see whether or not the behavior should be
+	 * fired rather than evaluating the condition on the spot Vital for
 	 * AtomicUpdate
 	 * 
 	 * @param xThis
@@ -164,6 +164,7 @@ public class Trigger implements Comparable<Trigger> {
 			fire(xThis, this, behavior, step);
 	}
 
+
 	/**
 	 * Fires the trigger. Will depend on the Behavior object for this trigger.
 	 * 
@@ -173,11 +174,11 @@ public class Trigger implements Comparable<Trigger> {
 	 * @param step
 	 * @throws EvaluationException
 	 */
-	private static void fire(Agent a, Trigger t, Expression behavior, int step)
-			throws EvaluationException {
+	private static void fire(Agent a, Trigger t, Expression behavior, int step) throws EvaluationException {
 		try {
 			if (behavior.evaluateBool() == false) {
-			} else {
+			}
+			else {
 			}
 		} catch (EvaluationException e) {
 			throw new EvaluationException("Behavior");
@@ -202,7 +203,7 @@ public class Trigger implements Comparable<Trigger> {
 			return -1;
 		}
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -210,7 +211,7 @@ public class Trigger implements Comparable<Trigger> {
 	public Expression getConditions() {
 		return conditionExpression;
 	}
-
+	
 	public Expression getBehavior() {
 		return behaviorExpression;
 	}
@@ -220,7 +221,7 @@ public class Trigger implements Comparable<Trigger> {
 	}
 
 	@Override
-	public String toString() {
+	public String toString(){
 		return name;
 	}
 
@@ -232,8 +233,8 @@ public class Trigger implements Comparable<Trigger> {
 		private Trigger trigger;
 
 		/**
-		 * HashMap of simple values to actual JEval appropriate input <name,
-		 * Jeval equivalent>
+		 * HashMap of simple values to actual JEval appropriate input
+		 * <name, Jeval equivalent>
 		 */
 		private HashBiMap<String, String> converter;
 
@@ -258,12 +259,12 @@ public class Trigger implements Comparable<Trigger> {
 		private Map<String, AbstractExpressionFunction> functions;
 
 		/**
-		 * Strings to give the gui so that they can edit it. Obtained from
-		 * parsing triggers into something that can be read by users.
+		 * Strings to give the gui so that they can edit it. Obtained from parsing
+		 * triggers into something that can be read by users.
 		 */
 		private String conditionString;
 		private String behaviorString;
-
+		
 		/**
 		 * Constructor for the trigger builder starting from scratch.
 		 * 
@@ -276,63 +277,75 @@ public class Trigger implements Comparable<Trigger> {
 			converter = HashBiMap.create();
 			conditionalValues = new ArrayList<String>();
 			behavioralValues = new ArrayList<String>();
-			functions = new HashMap<String, AbstractExpressionFunction>();
+			functions= new HashMap<String, AbstractExpressionFunction>();
 			functions.putAll(Expression.getBehaviorFunction());
 			functions.putAll(Expression.getConditionFunction());
 			loadFieldValues(p);
 			loadOperations();
 			loadBehaviorFunctions();
 			loadConditionalFunctions();
+			conditionString = "";
+			behaviorString = "";
 		}
-
+		
 		/**
 		 * Constructor for the trigger builder starting with a trigger
-		 * 
 		 * @param t
 		 * @param p
 		 */
-		public Builder(Trigger t, Prototype p) {
+		public Builder(Trigger t, Prototype p){
 			this(p);
 			parseTrigger(t);
 		}
 
+		
 		/**
-		 * Converts a JEval formed trigger to something that be read by a human
-		 * and makes sense.
+		 * Converts a JEval formed trigger to something that be read by a human and makes sense.
 		 * 
 		 * @param t
 		 */
 		private void parseTrigger(Trigger t) {
+			if (t == null){
+				return;
+			}
+			if (t.getCondtions()== null || t.getBehavior() == null)
+				return;
 			String condition = t.getConditions().toString();
 			String behavior = t.getBehavior().toString();
-			for (String s : converter.inverse().keySet()) {
-				if (condition.contains(s)) {
-					condition = condition.replace(s, converter.inverse()
-							.get(s) + " ");
+			for (String s : converter.inverse().keySet()){
+				if (condition.contains(s)){
+					condition = condition.replace(s, converter.inverse().get(s)+ " ");
 				}
-				if (behavior.contains(s)) {
-					behavior = behavior.replace(s, converter.inverse().get(s)
-							+ " ");
+				if (behavior.contains(s)){
+					behavior = behavior.replace(s, converter.inverse().get(s)+" ");
 				}
 			}
-			if (condition.charAt(condition.length() - 1) == (' ')) {
-				condition = condition.substring(0, condition.length() - 1);
+			if (condition.charAt(condition.length()-1)==(' ')){
+				condition= condition.substring(0, condition.length()-1);
 			}
 			conditionString = condition;
-			if (behavior.charAt(behavior.length() - 1) == (' ')) {
-				behavior = behavior.substring(0, behavior.length() - 1);
+			if (behavior.charAt(behavior.length()-1)==(' ')){
+				behavior= behavior.substring(0, behavior.length()-1);
 			}
 			behaviorString = behavior;
 		}
-
-		public String getBehaviorString() {
+		
+		/**
+		 * get the string parsed behavior
+		 * @return
+		 */
+		public String getBehaviorString(){
 			return behaviorString;
 		}
-
-		public String getConditionString() {
+		
+		/**
+		 * get the string parsed condition.
+		 * @return
+		 */
+		public String getConditionString(){
 			return conditionString;
 		}
-
+		
 		/**
 		 * Method to initialize conditionalValues and behaviorableValues
 		 */
@@ -354,7 +367,7 @@ public class Trigger implements Comparable<Trigger> {
 			conditionalValues.add("-- Operations --");
 			behavioralValues.add("-- Operations --");
 
-			converter.put("(", "(");
+			converter.put("(",  "(");
 			conditionalValues.add("(");
 			behavioralValues.add("(");
 
@@ -366,6 +379,7 @@ public class Trigger implements Comparable<Trigger> {
 			conditionalValues.add(",");
 			behavioralValues.add(",");
 
+		
 			converter.put("OR", "||");
 			conditionalValues.add("OR");
 			behavioralValues.add("OR");
@@ -399,7 +413,7 @@ public class Trigger implements Comparable<Trigger> {
 		private void loadConditionalFunctions() {
 			conditionalValues.add("--Functions--");
 			conditionalValues.add("True");
-			for (String s : Expression.getConditionFunction().keySet()) {
+			for (String s : Expression.getConditionFunction().keySet()){
 				conditionalValues.add(convertCamelCaseToNormal(s));
 				converter.put(convertCamelCaseToNormal(s), s);
 			}
@@ -416,7 +430,7 @@ public class Trigger implements Comparable<Trigger> {
 		 */
 		private void loadBehaviorFunctions() {
 			behavioralValues.add("--Functions--");
-			for (String s : Expression.getBehaviorFunction().keySet()) {
+			for (String s : Expression.getBehaviorFunction().keySet()){
 				behavioralValues.add(convertCamelCaseToNormal(s));
 				converter.put(convertCamelCaseToNormal(s), s);
 			}
@@ -424,7 +438,6 @@ public class Trigger implements Comparable<Trigger> {
 
 		/**
 		 * Sets the name of the Trigger
-		 * 
 		 * @param n
 		 */
 		public void addName(String n) {
@@ -475,8 +488,8 @@ public class Trigger implements Comparable<Trigger> {
 			for (String a : stringArray) {
 				condition += (findMatches(a) + " ");
 			}
-			if (condition.charAt(condition.length() - 1) == (' ')) {
-				condition = condition.substring(0, condition.length() - 1);
+			if (condition.charAt(condition.length()-1)==(' ')){
+				condition= condition.substring(0, condition.length()-1);
 			}
 			trigger.conditionExpression = (new Expression(condition));
 		}
@@ -492,18 +505,18 @@ public class Trigger implements Comparable<Trigger> {
 			String behavior = "";
 			String[] stringArray = b.split(" ");
 			for (String a : stringArray) {
-				behavior += (findMatches(a) + " ");
+				behavior += (findMatches(a)+" ");
 			}
-			if (behavior.charAt(behavior.length() - 1) == (' ')) {
-				behavior = behavior.substring(0, behavior.length() - 1);
+			if (behavior.charAt(behavior.length()-1)==(' ')){
+				behavior= behavior.substring(0, behavior.length()-1);
 			}
-			trigger.behaviorExpression = (new Expression(behavior));
+			trigger.behaviorExpression= (new Expression(behavior));
 		}
-
+		
 		/**
 		 * Provides the expression appropriate version of the inputed string.
-		 * If not are found, it just gives back the String so the user can
-		 * enter own input.
+		 * If not are found, it just gives back the String so the user can enter
+		 * own input.
 		 * 
 		 * @param s
 		 * @return
@@ -517,46 +530,42 @@ public class Trigger implements Comparable<Trigger> {
 		 * Whether or not the last conditional and behavioral are a valid
 		 * trigger
 		 * 
-		 * @return True if it works. Otherwise throws an exception telling what
-		 *         went wrong
+		 * @return True if it works. Otherwise throws an exception 
+		 * telling what went wrong
 		 */
-		public boolean isValid() throws Exception {
-			try {
-				if (trigger.priority < 0) {
+		public boolean isValid() throws Exception{
+			try{
+				if (trigger.priority < 0){
 					throw new Exception("Trigger priority cannot be negative");
 				}
 				if (trigger.conditionExpression == null)
 					throw new Exception("Trigger condition is blank");
 				if (trigger.behaviorExpression == null)
 					throw new Exception("Trigger behavior is blank");
-				new Expression(
-						isValidHelper(trigger.conditionExpression.toString()))
-						.evaluateBool();
-				new Expression(
-						isValidHelper(trigger.behaviorExpression.toString()))
-						.evaluateBool();
+				new Expression(isValidHelper(trigger.conditionExpression.toString())).evaluateBool();
+				new Expression(isValidHelper(trigger.behaviorExpression.toString())).evaluateBool();
 				return true;
-			} catch (Exception e) {
-				// System.out.println("Invalid trigger");
+			}
+			catch (Exception e){
+//				System.out.println("Invalid trigger");
 				throw e;
 			}
 		}
 
 		/**
-		 * Helper method for isValid method to change this.xxxx to the value of
-		 * xxxx in the prototype.
-		 * 
+		 * Helper method for isValid method to change this.xxxx to the value of xxxx 
+		 * in the prototype.
 		 * @param s
 		 * @return simplified expression that we can evaluate
 		 */
-		private String isValidHelper(String s) throws Exception {
-			while (s.indexOf("this.") != -1) {
+		private String isValidHelper(String s) throws Exception{
+			while(s.indexOf("this.") != -1){
 				int index = s.indexOf("this.");
 				String beginning = s.substring(0, index);
-				s = s.substring(index + 5);
+				s = s.substring(index+5);
 				Map<String, String> map = prototype.getFieldMap();
-				for (String a : map.keySet()) {
-					if (s.indexOf(a) == 0) {
+				for (String a : map.keySet()){
+					if (s.indexOf(a) == 0){
 						String value = map.get(a);
 						s = value + s.substring(a.length());
 						break;
@@ -566,43 +575,38 @@ public class Trigger implements Comparable<Trigger> {
 			}
 			return isValidHelper2(s);
 		}
-
+		
 		/**
-		 * Helper method for isValid method to check functions for correct
-		 * number of arguments and the
-		 * 
+		 * Helper method for isValid method to check functions for correct number of 
+		 * arguments and the 
 		 * @param s
 		 * @return simplified expression that we can evaluate
 		 */
-		private String isValidHelper2(String s) throws Exception {
-			for (String f : functions.keySet()) {
-				while (s.indexOf(f) != -1) {
+		private String isValidHelper2(String s) throws Exception{
+			for (String f : functions.keySet()){
+				while (s.indexOf(f)!= -1){
 					int index = s.indexOf(f);
 					String beginning = s.substring(0, index);
-					s = s.substring(index);
-					String test = isValidHelper2(s.substring(s.indexOf("(",
-							index)));
+					s= s.substring(index);
+					String test = isValidHelper2(s.substring(s.indexOf("(", index)));
 					System.out.println(test);
 					String[] numArgs = test.split(",");
-					if (numArgs.length != functions.get(f).numArgs()) {
-						throw new Exception("The function: "
-								+ convertCamelCaseToNormal(functions.get(f)
-										.getName())
-								+ ", has the wrong number of arguments");
+					if (numArgs.length != functions.get(f).numArgs()){
+						throw new Exception("The function: " + convertCamelCaseToNormal(functions.get(f).getName()) + 
+								", has the wrong number of arguments"); 
 					}
-					s = s.substring(s.indexOf(")") + 1);
-					s = beginning + functionType(f) + s;
+					s = s.substring(s.indexOf(")")+1);
+					s = beginning + functionType(f)+s;
 				}
 			}
 			return s;
 		}
+		
 
-		private String functionType(String name) {
-			switch (functions.get(name).getResultType()) {
-			case AbstractExpressionFunction.RESULT_TYPE_BOOL:
-				return "TRUE";
-			case AbstractExpressionFunction.RESULT_TYPE_STRING:
-				return "'string'";
+		private String functionType(String name){
+			switch (functions.get(name).getResultType()){
+			case AbstractExpressionFunction.RESULT_TYPE_BOOL: return "TRUE";
+			case AbstractExpressionFunction.RESULT_TYPE_STRING: return "'string'";
 			}
 			return null;
 		}
@@ -615,18 +619,17 @@ public class Trigger implements Comparable<Trigger> {
 		public Trigger build() {
 			return trigger;
 		}
-
+		
 		/**
 		 * converts thisIsCamelCase to this_is_camel_case.
-		 * 
 		 * @param s
 		 * @return
 		 */
-		private static String convertCamelCaseToNormal(String s) {
+		private static String convertCamelCaseToNormal(String s){
 			String toReturn = "";
-			for (int i = 0; i < s.length(); i++) {
+			for (int i = 0; i < s.length(); i++){
 				if (Character.isUpperCase(s.charAt(i)))
-					toReturn += "_" + Character.toLowerCase(s.charAt(i));
+					toReturn+= "_" + Character.toLowerCase(s.charAt(i));					
 				else
 					toReturn += s.charAt(i);
 			}
@@ -650,8 +653,7 @@ public class Trigger implements Comparable<Trigger> {
 	 * @param trigger
 	 * @param step
 	 */
-	public static void notifyObservers(AgentID caller, Trigger trigger,
-			int step) {
+	public static void notifyObservers(AgentID caller, Trigger trigger, int step) {
 		for (TriggerObserver current : observers)
 			current.update(caller, trigger, step);
 	}
