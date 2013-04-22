@@ -76,7 +76,7 @@ public class LayerScreen extends Screen {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.insets = new Insets(5,5,5,5);
+		c.insets = new Insets(2,5,2,5);
 		this.add(agents,c);
 		agentsCBpanel.add(agentComboBox);
 		
@@ -84,7 +84,7 @@ public class LayerScreen extends Screen {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 1;
-		c.insets = new Insets(5,5,5,5);
+		c.insets = new Insets(2,5,2,5);
 		this.add(layers,c);
 		fieldsCBpanel.add(layerComboBox);
 		
@@ -92,14 +92,14 @@ public class LayerScreen extends Screen {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
-		c.insets = new Insets(5,5,5,5);
+		c.insets = new Insets(2,5,2,5);
 		this.add(apply,c);
 		
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 2;
-		c.insets = new Insets(5,5,5,5);
+		c.insets = new Insets(2,5,2,5);
 		this.add(clear,c);
 
 		JPanel colorPanel = Gui.makeColorChooserPanel(colorTool);
@@ -108,14 +108,14 @@ public class LayerScreen extends Screen {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 0;
-		c.insets = new Insets(5,5,5,5);
+		c.insets = new Insets(2,5,2,5);
 		this.add(agentsCBpanel, c);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 1;
-		c.insets = new Insets(5,5,5,5);
+		c.insets = new Insets(2,5,2,5);
 		this.add(fieldsCBpanel, c);
 
 		c = new GridBagConstraints();
