@@ -180,7 +180,7 @@ public class TriggerScreen extends Screen {
 		public void actionPerformed(ActionEvent e) {
 			// Sets default to 100 because that is the lowest possible priority and the 
 			// added trigger should appear at the end of the trigger list
-			Trigger t = new Trigger("Untitled" + untitledCounter, 100, null, null);
+			Trigger t = new Trigger("Untitled" + untitledCounter++, 100, null, null);
 			edit.load(new Trigger.Builder(agent), t);
 			agent.addTrigger(t);
 			triggers.setSelectedIndex(triggers.getLastVisibleIndex());
