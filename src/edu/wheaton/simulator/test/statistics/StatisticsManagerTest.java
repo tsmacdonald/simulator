@@ -29,7 +29,6 @@ import edu.wheaton.simulator.entity.AgentID;
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
 import edu.wheaton.simulator.entity.Trigger.Builder;
-import edu.wheaton.simulator.simulation.SimulationPauseException;
 import edu.wheaton.simulator.statistics.AgentSnapshot;
 import edu.wheaton.simulator.statistics.PrototypeSnapshot;
 import edu.wheaton.simulator.statistics.Recorder;
@@ -333,9 +332,6 @@ public class StatisticsManagerTest {
 		recorder.update(g);
 	}
 	
-	
-	
-
 	/**
 	 * Calculate the average of the values in an int array
 	 * 

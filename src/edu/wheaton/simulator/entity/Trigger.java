@@ -318,17 +318,18 @@ public class Trigger implements Comparable<Trigger> {
 			String behavior = t.getBehavior().toString();
 			for (String s : converter.inverse().keySet()){
 				if (condition.contains(s)){
-					if (functions.containsKey(s))
-						condition = condition.replace(s+"(", converter.inverse().get(s)+ " ( ");
+					if (functions.containsKey(s)){
+						condition = condition.replace(s+"(", " " + converter.inverse().get(s)+ " ( ");
+					}
 					else
-						condition = condition.replace(s, converter.inverse().get(s)+ " ");
+						condition = condition.replace(s, " " + converter.inverse().get(s)+ " ");
 				}
 				if (behavior.contains(s)){
 					if (functions.containsKey(s))
-						condition = condition.replace(s+"(", converter.inverse().get(s)+ " ( ");
+						condition = condition.replace(s+"(", " " + converter.inverse().get(s)+ " ( ");
 					else
 						condition = condition.replace(s, converter.inverse().get(s)+ " ");
-					behavior = behavior.replace(s, converter.inverse().get(s) + " ");
+					behavior = behavior.replace(s, " " + converter.inverse().get(s) + " ");
 				}
 			}
 			if (condition.charAt(condition.length()-1)==(' ')){
@@ -395,21 +396,21 @@ public class Trigger implements Comparable<Trigger> {
 			behavioralValues.add(",");
 
 		
-			converter.put("OR", "||");
-			conditionalValues.add("OR");
-			behavioralValues.add("OR");
+			converter.put("or", "||");
+			conditionalValues.add("or");
+			behavioralValues.add("or");
 
-			converter.put("AND", "&&");
-			conditionalValues.add("AND");
-			behavioralValues.add("AND");
+			converter.put("and", "&&");
+			conditionalValues.add("and");
+			behavioralValues.add("and");
 
-			converter.put("NOT_EQUALS", "!=");
-			conditionalValues.add("NOT_EQUALS");
-			behavioralValues.add("NOT_EQUALS");
+			converter.put("not_equals", "!=");
+			conditionalValues.add("not_equals");
+			behavioralValues.add("not_equals");
 
-			converter.put("EQUALS", "==");
-			conditionalValues.add("EQUALS");
-			behavioralValues.add("EQUALS");
+			converter.put("equals", "==");
+			conditionalValues.add("equals");
+			behavioralValues.add("equals");
 
 			converter.put(">", ">");
 			conditionalValues.add(">");
@@ -419,6 +420,29 @@ public class Trigger implements Comparable<Trigger> {
 			conditionalValues.add("<");
 			behavioralValues.add("<");
 
+			converter.put("<=", "<=");
+			conditionalValues.add("<=");
+			behavioralValues.add("<=");
+
+			converter.put(">=", ">=");
+			conditionalValues.add(">=");
+			behavioralValues.add(">=");
+			
+			converter.put("+", "+");
+			conditionalValues.add("+");
+			behavioralValues.add("+");
+
+			converter.put("-", "-");
+			conditionalValues.add("-");
+			behavioralValues.add("-");
+			
+			converter.put("/", "/");
+			conditionalValues.add("<");
+			behavioralValues.add("<");
+			
+			converter.put("*", "*");
+			conditionalValues.add("*");
+			behavioralValues.add("*");
 		}
 
 		/**
@@ -442,6 +466,11 @@ public class Trigger implements Comparable<Trigger> {
 		 */
 		private void loadBehaviorFunctions() {
 			behavioralValues.add("--Functions--");
+			for (String s : Expression.getConditionFunction().keySet()) {
+				behavioralValues.add(convertCamelCaseToNormal(s));
+				converter.put(convertCamelCaseToNormal(s), s);
+			}
+			behavioralValues.add("--Behaviors--");
 			for (String s : Expression.getBehaviorFunction().keySet()){
 				behavioralValues.add(convertCamelCaseToNormal(s));
 				converter.put(convertCamelCaseToNormal(s), s);
