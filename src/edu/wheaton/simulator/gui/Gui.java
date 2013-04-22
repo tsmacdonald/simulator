@@ -40,7 +40,7 @@ public final class Gui {
 			e.printStackTrace();
 		}
 		
-		getDisplay().setJMenuBar(makeMenuBar());
+		getDisplay().setJMenuBar(new MenuBar());
 	}
 	
 	public static Display getDisplay(){
@@ -160,69 +160,10 @@ public final class Gui {
 		return panel;
 	}
 	
-	public static JMenu makeMenu(String name){
-		JMenu menu = new JMenu(name);
-		
-		menu.getPopupMenu().setBorder(
-			BorderFactory.createLineBorder(Color.black));
-		
-		return menu;
-	}
-	
 	public static JMenuItem makeMenuItem(String name, ActionListener al){
 		JMenuItem menuItem = new JMenuItem(name);
 		menuItem.addActionListener(al);
 		return menuItem;
-	}
-	
-	private static JMenuBar makeMenuBar() {
-		JMenuBar menuBar = new JMenuBar();
-
-		JMenu fileMenu = makeFileMenu();
-		//JMenu editMenu = makeEditMenu(sm);
-		JMenu helpMenu = makeHelpMenu();
-
-		menuBar.add(fileMenu);
-		//menuBar.add(editMenu);
-		menuBar.add(helpMenu);
-		return menuBar;
-	}
-
-	private static JMenu makeFileMenu() {
-		JMenu menu = Gui.makeMenu("File");
-
-		menu.add(Gui.makeMenuItem("New Simulation", 
-				new GeneralButtonListener("New Simulation",ScreenManager.getInstance())));
-
-		menu.add(Gui.makeMenuItem("Save Simulation", 
-				new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				//String fileName = JOptionPane.showInputDialog("Please enter file name: ");
-				SimulatorFacade.getInstance().save();
-			}
-
-		}
-				));
-
-		menu.add(Gui.makeMenuItem("Load Simulation", 
-				new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				SimulatorFacade.getInstance().load();
-			}
-		}
-				));
-
-		menu.add(Gui.makeMenuItem("Exit",new ActionListener(){ 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SimulatorFacade.getInstance().setRunning(false);
-				System.exit(0);
-			}
-		}));
-
-		return menu;
 	}
 
 //	private static JMenu makeEditMenu() {
@@ -233,33 +174,4 @@ public final class Gui {
 //
 //		return menu;
 //	}
-
-	private static JMenu makeHelpMenu() {
-		JMenu menu = Gui.makeMenu("Help");
-
-		menu.add(Gui.makeMenuItem("About",new ActionListener(){ 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(getDisplay(),
-						"Wheaton College. Software Development 2013.",
-						"About",JOptionPane.PLAIN_MESSAGE);
-			}
-		}));
-		menu.add(Gui.makeMenuItem("Help Contents",new ActionListener(){
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String htmlFilePath = "helpdocument/UniSIMHelp.html";
-				File htmlFile = new File(htmlFilePath);
-				try {
-					Desktop.getDesktop().browse(htmlFile.toURI());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}	
-			}
-		}));
-
-		return menu;
-	}
 }
