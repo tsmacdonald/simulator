@@ -25,13 +25,16 @@ public class ScreenManager {
 		sm.initInstance();
 	}
 	
+	public void displayStatisticsWindow() { 
+		new StatisticsScreen().display();
+	}
+	
 	private void initInstance(){
 		SimulatorFacade gm = SimulatorFacade.getInstance();
 		putScreen("Title", new TitleScreen(gm));
 		putScreen("New Simulation", new NewSimulationScreen(gm));
 		putScreen("Edit Entities", new EditEntityScreen(gm));
 		putScreen("View Simulation", new ViewSimScreen(gm));
-		putScreen("Statistics", new StatisticsScreen(gm));
 	}
 	
 	public static ScreenManager getInstance(){

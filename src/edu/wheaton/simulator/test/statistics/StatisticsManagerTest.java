@@ -100,15 +100,6 @@ public class StatisticsManagerTest {
 				children, makeTriggerSnapshots(), null, null);
 	}
 
-	/**
-	 * VERY IMPORTANT TO REMOVE INSTANCE OF STATISTICSMANAGER IN ORDER FOR
-	 * TESTS TO PASS
-	 */
-	@After
-	public void tearDown() {
-		StatisticsManager.removeInstance();
-	}
-
 	@Test
 	public void testStatisticsManager() {
 		Assert.assertNotNull("Constructor failed", sm);

@@ -8,9 +8,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -22,7 +25,7 @@ import edu.wheaton.simulator.gui.SimulatorFacade;
 import edu.wheaton.simulator.statistics.StatisticsManager;
 import edu.wheaton.simulator.statistics.StatsObserver;
 
-public class StatisticsScreen extends Screen implements StatsObserver {
+public class StatisticsScreen extends JFrame implements StatsObserver {
 	/**
 	 * 
 	 */
@@ -48,18 +51,28 @@ public class StatisticsScreen extends Screen implements StatsObserver {
 	private JComboBox typeList;
 	private JComboBox fieldsTriggersList;
 	private JPanel graphPanel; 
-	private JButton backButton;
 	
 	private StatisticsManager statManager; 
+	private SimulatorFacade simFac; 
 	
 	/**
 	 * Constructor. 
 	 * Make the screen. 
 	 * @param gm ScreenManager. 
 	 */
-	public StatisticsScreen(SimulatorFacade gm) {
-		super(gm);
-		statManager = getGuiManager().getStatManager();
+	public StatisticsScreen() {
+		super("Statistics");
+		statManager = StatisticsManager.getInstance();
+		simFac = SimulatorFacade.getInstance();
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentHidden(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				close();
+			}
+		});
+		
 		//Setup GridBagLayout & dimensions.
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
@@ -131,15 +144,6 @@ public class StatisticsScreen extends Screen implements StatsObserver {
 		graphPanel.setMinimumSize(new Dimension(400, 300));
 		graphPanel.setPreferredSize(new Dimension(600, 500));
 		
-		backButton = new JButton("Back");
-		GridBagConstraints gbc_backButton = new GridBagConstraints();
-		gbc_backButton.insets = new Insets(0, 0, 0, 5);
-		gbc_backButton.gridx = 3;
-		gbc_backButton.gridy = 5;
-		gbc_backButton.anchor = GridBagConstraints.NORTHEAST;
-		add(backButton, gbc_backButton);
-		setBackButtonListener(backButton);
-		
 		setAnalysisListListener(analysisList);
 
 		setTypeListListener(typeList);
@@ -174,7 +178,7 @@ public class StatisticsScreen extends Screen implements StatsObserver {
 			fieldsTriggersList.setVisible(true);
 			fieldsTriggersList.removeAllItems();
 			agentTypeName = (String) typeList.getSelectedItem();
-			selectedType = getGuiManager().getPrototype(agentTypeName);
+			selectedType = simFac.getPrototype(agentTypeName);
 			if (selectedType != null)
 				for (String fieldName : selectedType.getCustomFieldMap().keySet())
 					fieldsTriggersList.addItem(fieldName);
@@ -232,18 +236,10 @@ public class StatisticsScreen extends Screen implements StatsObserver {
 			makeGridPanelPaint();
 	}
 
-	private void setBackButtonListener(JButton backButton) { 
-		backButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ScreenManager sm = Gui.getScreenManager();
-				Screen toDisplay = sm.getScreen("View Simulation");
-				statManager.removeObserver(StatisticsScreen.this);
-				sm.load(toDisplay);
-			}
-		});
+	private void close() { 
+		statManager.removeObserver(this);
+		dispose();
 	}
-//
 	private void setTypeListListener(JComboBox agentList) { 
 		agentList.addActionListener(new ActionListener() {
 			@Override
@@ -262,13 +258,12 @@ public class StatisticsScreen extends Screen implements StatsObserver {
 		});
 	}
 
-	@Override
-	public void load() {
+	public void display() {
 		statManager.addObserver(this);
 		typeList.removeAllItems();
 		analysisList.removeAllItems();
 		displayFieldsTriggersListAndLabel();
-		for (String name : gm.getPrototypeNames()) { 
+		for (String name : simFac.getPrototypeNames()) { 
 			typeList.addItem(name);
 		}
 		stateFieldsTriggers = FIELDS_DISPLAY;
@@ -276,6 +271,9 @@ public class StatisticsScreen extends Screen implements StatsObserver {
 		analysisList.addItem(ANALYSIS_AVG_FIELD_VALUE_STR);
 		analysisList.addItem(ANALYSIS_AVG_LIFESPAN_STR);
 		analysisList.addItem(ANALYSIS_TRIGGER_FIRES);
+		setPreferredSize(new Dimension(500, 400));
+		pack();
+		setVisible(true);
 	}
 
 	private JPanel getDisplayPanel() { 
@@ -307,7 +305,7 @@ public class StatisticsScreen extends Screen implements StatsObserver {
 			}
 			
 			private void paintTriggers(Graphics g, int width, int height) {
-				double[] fires = getGuiManager().getStatManager()
+				double[] fires = statManager
 						.getTriggerExecutionsFor(
 								(String) typeList.getSelectedItem(),
 								(String) fieldsTriggersList.getSelectedItem());
@@ -335,7 +333,7 @@ public class StatisticsScreen extends Screen implements StatsObserver {
 			}
 
 			private void paintPop(Graphics g, int width, int height) { 
-				int[] pops = gm.getPopVsTime((String) typeList.getSelectedItem());
+				int[] pops = simFac.getPopVsTime((String) typeList.getSelectedItem());
 				if (pops.length < 1)
 					return; 
 
@@ -378,7 +376,7 @@ public class StatisticsScreen extends Screen implements StatsObserver {
 			private void paintField(Graphics g, int width, int height) { 
 				String protName = (String) typeList.getSelectedItem();
 				String fieldName = (String) fieldsTriggersList.getSelectedItem();
-				double[] avgValues = gm.getAvgFieldValue(protName, fieldName);
+				double[] avgValues = simFac.getAvgFieldValue(protName, fieldName);
 				if (avgValues.length < 1)
 					return; 
 				
@@ -408,7 +406,7 @@ public class StatisticsScreen extends Screen implements StatsObserver {
 			
 			private void paintLife(Graphics g, int width, int height) { 
 				String protName = (String) typeList.getSelectedItem();
-				double avgLifespan = gm.getAvgLifespan(protName);
+				double avgLifespan = simFac.getAvgLifespan(protName);
 				g.setColor(COLOR_BACKGROUND);
 				g.fillRect(0, 0, width, height);
 				g.setColor(COLOR_NUMBER);

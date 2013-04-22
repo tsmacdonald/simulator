@@ -61,7 +61,7 @@ public class TriggerScreen extends Screen {
 	 * Deletes a trigger from the prototype
 	 */
 	private JButton deleteButton;
-	
+
 	/**
 	 * Saves the changes to the currently selected trigger
 	 */
@@ -93,7 +93,7 @@ public class TriggerScreen extends Screen {
 		listScrollView.setViewportView(triggers);
 		triggers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		triggers.addListSelectionListener(new ListSelectionListener() {
-			
+
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
 				try{
@@ -102,7 +102,7 @@ public class TriggerScreen extends Screen {
 						edit.load(new Trigger.Builder(t,  prototype), t);
 					}
 				}catch(Exception e){
-					
+
 				}
 			}
 		});
@@ -173,6 +173,7 @@ public class TriggerScreen extends Screen {
 		constraints.gridy = 2;
 		constraints.gridheight = 1;
 		constraints.gridwidth = 1;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
 		add(addButton, constraints);
 	}
@@ -188,6 +189,8 @@ public class TriggerScreen extends Screen {
 		constraints.gridy = 2;
 		constraints.gridheight = 1;
 		constraints.gridwidth = 1;
+		constraints.insets = new Insets(0, 0, 0, 50);
+		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
 		add(deleteButton, constraints);
 	}
@@ -208,7 +211,7 @@ public class TriggerScreen extends Screen {
 		constraints.insets = new Insets(0,  0,  0, 50);
 		add(saveButton, constraints);
 	}
-	
+
 	/**
 	 * Listener that adds a trigger to the prototype when the add button is pressed
 	 */
@@ -251,14 +254,16 @@ public class TriggerScreen extends Screen {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Trigger toAdd = edit.sendInfo();
-			if(toAdd != null && triggers.getSelectedValue() != null){
-				prototype.updateTrigger(triggers.getSelectedValue().toString(), toAdd);
-				load(prototype);
-				edit.reset();
+			if(triggers.getSelectedValue() != null){
+				Trigger toAdd = edit.sendInfo();
+				if(toAdd != null){
+					prototype.updateTrigger(triggers.getSelectedValue().toString(), toAdd);
+					load(prototype);
+					edit.reset();
+				}
 			}
 			else
-				System.out.println("something");
+				JOptionPane.showMessageDialog(null, "You must select a trigger to save");
 		}
 	}
 
@@ -282,6 +287,7 @@ public class TriggerScreen extends Screen {
 		prototype = p;
 		triggers.setListData(prototype.getTriggers().toArray());
 		listScrollView.setViewportView(triggers);
+		listScrollView.updateUI();
 		validate();
 		repaint();
 	}
@@ -297,8 +303,6 @@ public class TriggerScreen extends Screen {
 	 * @return The prototype with the saved trigger changes
 	 */
 	public Prototype sendInfo(){
-		for(Trigger t: prototype.getTriggers())
-			System.out.println(t);
 		return prototype;
 	}
 }

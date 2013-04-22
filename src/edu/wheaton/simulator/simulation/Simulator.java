@@ -204,7 +204,7 @@ public class Simulator {
 	public boolean addAgent(String prototypeName, int x, int y) {
 		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
 		boolean toReturn = simulationGrid().addAgent(toAdd, x, y);
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 		return toReturn;
 	}
 
@@ -220,7 +220,7 @@ public class Simulator {
 	public boolean addAgent(String prototypeName) {
 		Agent toAdd = getPrototype(prototypeName).createAgent(simulationGrid());
 		boolean toReturn = simulationGrid().addAgent(toAdd);
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 		return toReturn;
 	}
 
@@ -233,7 +233,7 @@ public class Simulator {
 		for(int x = 0; x < getWidth(); x++) 
 			for(int y = 0; y < getHeight(); y++)
 				addAgent(prototypeName, x, y);
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 	
 	/**
@@ -245,7 +245,7 @@ public class Simulator {
 		for(int x = 0; x < getWidth(); x++) 
 			for(int y = 0; y < getHeight(); y++)
 				removeAgent(x, y);
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 	
 	/**
@@ -266,7 +266,7 @@ public class Simulator {
 	 */
 	public void removeAgent(int x, int y) {
 		simulationGrid().removeAgent(x, y);
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 
 	/**
@@ -300,7 +300,7 @@ public class Simulator {
 		Layer.getInstance().resetMinMax();
 		simulation.setLayerExtremes();
 		simulation.runLayer();
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 
 	/**
@@ -308,7 +308,7 @@ public class Simulator {
 	 */
 	public void clearLayer() {
 		simulation.stopLayer();
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 
 	/**
@@ -346,7 +346,7 @@ public class Simulator {
 							x, y);
 				}
 			}
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 
 	/**
@@ -357,7 +357,7 @@ public class Simulator {
 		new Rock().initSampleAgent();
 		new Paper().initSampleAgent();
 		new Scissors().initSampleAgent();
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 	
 	/**
@@ -380,7 +380,7 @@ public class Simulator {
 		Scissors scissors = new Scissors();
 		scissors.setVersion(version);
 		scissors.initSampleAgent();
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 
 	/**
@@ -475,7 +475,7 @@ public class Simulator {
 	 */
 	public void resizeGrid(int width, int height) {
 		simulationGrid().resizeGrid(width, height);
-		simulation.notifyObservers();
+		simulation.notifyDisplayObservers();
 	}
 
 	/**
@@ -495,7 +495,6 @@ public class Simulator {
 	 */
 	public void load(String name, int width, int height, SimulationEnder se) {
 		simulation = new Simulation(name, width, height, se);
-		simulation.notifyObservers();
 	}
 	
 	/**
@@ -503,7 +502,7 @@ public class Simulator {
 	 * 
 	 * @param file
 	 */
-	public void loadFromFile(File file){
+	public void loadFromFile(File file, GridObserver obs){
 		Loader l = new Loader();
 		l.loadSimulation(file);
 		try{
@@ -512,6 +511,8 @@ public class Simulator {
 			System.out.println("No grid has been loaded yet!"); 
 			e.printStackTrace();
 		}
+		addGridObserver(obs);
+		simulation.notifyDisplayObservers();
 	}
 	
 	/**
@@ -527,7 +528,6 @@ public class Simulator {
 		simulation = new Simulation(name, grid, se);
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
-		simulation.notifyObservers();
 	}
 	
 	/**
@@ -545,18 +545,14 @@ public class Simulator {
 	 * 
 	 * @param file that points to directory where prototype files are located
 	 */
-	public void loadPrototypesFromFile(File directory) {
-		// NOTE only look for .agt files
+	public void loadPrototypesFromDirectory(File directory) {
 		Loader l = new Loader();
 		File[] protoFiles;
 		if (directory.isDirectory()) {
 			protoFiles = directory.listFiles();
-			System.out.println("Number of files in directory: " + protoFiles.length); // TODO Delete
 			for (File file : protoFiles) {
 				if (file.getName().contains(".agt")) {
-					System.out.println(file.getName()); // TODO Delete
 					Prototype.addPrototype(l.loadPrototype(file));
-					System.out.println(file.getName() + " loaded."); // TODO Delete
 				}
 				else continue;
 			}

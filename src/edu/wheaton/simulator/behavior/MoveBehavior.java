@@ -39,7 +39,6 @@ public class MoveBehavior extends AbstractBehavior {
 		Agent target = resolveAgent("this");
 		int oldX = target.getPosX();
 		int oldY = target.getPosY();
-		
 		Integer x = Double.valueOf(args[0]).intValue();
 		Integer y = Double.valueOf(args[1]).intValue();
 		
