@@ -1,0 +1,15 @@
+PrototypeSnapshot
+multiplier
+-16776961
+127127127127127127127127
+FieldSnapshot~age~0
+Trigger~clone5~1~isSlotOpen(this.x, this.y - 1)~clone(this.x, this.y - 1)
+Trigger~clone1~1~isSlotOpen(this.x, this.y + 1)~clone(this.x, this.y + 1)
+Trigger~clone6~1~isSlotOpen(this.x - 1, this.y - 1)~clone(this.x - 1, this.y - 1)
+Trigger~clone7~1~isSlotOpen(this.x - 1, this.y)~clone(this.x - 1, this.y)
+Trigger~die~1~this.age > 5~die()
+Trigger~updateAge~1~true~setField('age', this.age + 1)
+Trigger~clone8~1~isSlotOpen(this.x - 1, this.y + 1)~clone(this.x - 1, this.y + 1)
+Trigger~clone2~1~isSlotOpen(this.x + 1, this.y + 1)~clone(this.x + 1, this.y + 1)
+Trigger~clone4~1~isSlotOpen(this.x + 1, this.y - 1)~clone(this.x + 1, this.y - 1)
+Trigger~clone3~1~isSlotOpen(this.x + 1, this.y)~clone(this.x + 1, this.y)
