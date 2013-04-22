@@ -14,6 +14,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -30,6 +31,7 @@ import edu.wheaton.simulator.gui.BoxLayoutAxis;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
 import edu.wheaton.simulator.gui.MaxSize;
+import edu.wheaton.simulator.gui.MinSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorFacade;
@@ -55,9 +57,11 @@ public class EditFieldScreen extends Screen {
 		
 		JLabel nameLabel = new JLabel("Field Name: ");
 		nameField = Gui.makeTextField(null,40, MaxSize.NULL,null);
+		nameField.setMinimumSize(new MinSize(100,30));
 		
 		JLabel valueLabel = new JLabel("Initial Value: ");
 		initValue = Gui.makeTextField(null,40,MaxSize.NULL,null);
+		initValue.setMinimumSize(new MinSize(100,30));
 		
 		JButton cancel = Gui.makeButton("Cancel",PrefSize.NULL,
 				new ActionListener() {
@@ -73,38 +77,38 @@ public class EditFieldScreen extends Screen {
 		
 		
 		GridBagConstraints c = new GridBagConstraints();
-		c.gridwidth = 3;
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.insets = new Insets(0,0,15,0);
 		this.add(header,c);
 		
 		c = new GridBagConstraints();
+		c.gridx = 0;
 		c.gridy = 1;
 		this.add(nameLabel,c);
 		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
-		c.gridwidth = 2;
-		c.fill = GridBagConstraints.HORIZONTAL;
 		this.add(nameField,c);
 		
 		c = new GridBagConstraints();
+		c.gridx = 0;
 		c.gridy = 2;
 		this.add(valueLabel,c);
 		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 2;
-		c.gridwidth = 2;
-		c.fill = GridBagConstraints.HORIZONTAL;
 		this.add(initValue,c);
 		
 		c = new GridBagConstraints();
+		c.gridx = 0;
 		c.gridy = 3;
 		this.add(cancel,c);
 		
 		c = new GridBagConstraints();
-		c.gridx = 2;
+		c.gridx = 1;
 		c.gridy = 3;
 		this.add(finish,c);
 	}
