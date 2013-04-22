@@ -1,5 +1,6 @@
 package edu.wheaton.simulator.gui.screen;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -8,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
@@ -37,7 +39,6 @@ public class LayerScreen extends Screen {
 	
 	public LayerScreen(SimulatorFacade guiManager) {
 		super(guiManager);
-		this.setLayout(new GridBagLayout());
 		entities = new String[0];
 		
 		JLabel agents = new JLabel("Agents");
@@ -71,13 +72,15 @@ public class LayerScreen extends Screen {
 
 		agentsCBpanel = new JPanel();
 		fieldsCBpanel = new JPanel();
+		JPanel colorPanel = Gui.makeColorChooserPanel(colorTool);
+		JPanel mainPanel = new JPanel(new GridBagLayout());
 		
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.insets = new Insets(2,5,2,5);
-		this.add(agents,c);
+		c.insets = new Insets(20,5,2,5);
+		mainPanel.add(agents,c);
 		agentsCBpanel.add(agentComboBox);
 		
 		c = new GridBagConstraints();
@@ -85,7 +88,7 @@ public class LayerScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 1;
 		c.insets = new Insets(2,5,2,5);
-		this.add(layers,c);
+		mainPanel.add(layers,c);
 		fieldsCBpanel.add(layerComboBox);
 		
 		c = new GridBagConstraints();
@@ -93,30 +96,29 @@ public class LayerScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 2;
 		c.insets = new Insets(2,5,2,5);
-		this.add(apply,c);
+		mainPanel.add(apply,c);
 		
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 2;
 		c.insets = new Insets(2,5,2,5);
-		this.add(clear,c);
+		mainPanel.add(clear,c);
 
-		JPanel colorPanel = Gui.makeColorChooserPanel(colorTool);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 0;
-		c.insets = new Insets(2,5,2,5);
-		this.add(agentsCBpanel, c);
+		c.insets = new Insets(20,5,2,5);
+		mainPanel.add(agentsCBpanel, c);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 1;
 		c.insets = new Insets(2,5,2,5);
-		this.add(fieldsCBpanel, c);
+		mainPanel.add(fieldsCBpanel, c);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -124,8 +126,9 @@ public class LayerScreen extends Screen {
 		c.insets = new Insets(10,10,10,10);
 		c.gridwidth = 4;
 		c.gridheight = 4;
-		this.add(colorPanel, c);
+		mainPanel.add(colorPanel, c);
 		
+		this.add(mainPanel);
 		this.validate();
 	}
 
