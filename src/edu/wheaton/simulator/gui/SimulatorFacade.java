@@ -242,10 +242,10 @@ public class SimulatorFacade {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try{
 				file = agentChooser.getSelectedFile();
+				simulator.loadPrototypeFromFile(file);
 			}
 			catch(Exception e) {
 				JOptionPane.showMessageDialog(null, "Corrupted file.");
-				simulator.loadPrototypeFromFile(file);
 			}
 		}
 	}

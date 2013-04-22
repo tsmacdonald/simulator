@@ -8,6 +8,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import edu.wheaton.simulator.gui.screen.Screen;
+import edu.wheaton.simulator.gui.screen.ViewSimScreen;
+
 public class FileMenu extends JMenu {
 
 	private static final long serialVersionUID = -2839513939759498799L;
@@ -24,7 +27,21 @@ public class FileMenu extends JMenu {
 				BorderFactory.createLineBorder(Color.black));
 
 		newSim = Gui.makeMenuItem("New Simulation", 
-				new GeneralButtonListener("New Simulation",ScreenManager.getInstance()));
+				new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						SimulatorFacade gm = SimulatorFacade.getInstance();
+						gm.load("Untitled Simulation", 10, 10);
+						gm.updateGuiManager("Untitled Simulation", 10, 10);
+						gm.setStepLimit(1000);
+						Screen upload = Gui.getScreenManager().getScreen("View Simulation");
+						((ViewSimScreen)upload).init();
+						gm.setStarted(false);
+						Gui.getScreenManager().load(upload);
+					}
+			
+		});
 
 		saveSim = Gui.makeMenuItem("Save Simulation", 
 				new ActionListener() {

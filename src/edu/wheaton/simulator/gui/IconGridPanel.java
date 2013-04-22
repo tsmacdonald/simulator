@@ -50,7 +50,7 @@ public class IconGridPanel extends GridPanel {
 				int y = me.getY();
 				int xIndex = x/squareSize;
 				int yIndex = y/squareSize;
-				if(xIndex > 0 && xIndex < 7 && yIndex > 0 && yIndex < 7){
+				if(xIndex > -1 && xIndex < 7 && yIndex > -1 && yIndex < 7){
 					icon[xIndex][yIndex] = !icon[xIndex][yIndex];
 				}
 				repaint();
