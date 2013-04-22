@@ -43,8 +43,6 @@ public class EntityScreen extends Screen {
 
 	private JButton edit;
 
-	private JButton save;
-
 	private JButton clear;
 
 	private JButton fill;
@@ -75,7 +73,7 @@ public class EntityScreen extends Screen {
 			}
 		});
 		edit.setEnabled(false);
-		JButton load = Gui.makeButton("Load", null,  
+		JButton load = Gui.makeButton("Import Agent", null,  
 				new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
@@ -91,13 +89,13 @@ public class EntityScreen extends Screen {
 //			}
 //		});
 		
-		save = Gui.makeButton("Save Agent", null, 
-				new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				gm.saveAgent((String)entityList.getSelectedValue());
-			}
-		});
+//		save = Gui.makeButton("Save Agent", null, 
+//				new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent ae) {
+//				gm.saveAgent((String)entityList.getSelectedValue());
+//			}
+//		});
 
 		clear = Gui.makeButton("Clear Agents", null,
 				new ActionListener() {
@@ -140,7 +138,6 @@ public class EntityScreen extends Screen {
 			public void valueChanged(ListSelectionEvent ae) {
 				edit.setEnabled(!gm.hasStarted());
 				delete.setEnabled(!gm.hasStarted());
-				save.setEnabled(!gm.isRunning());
 				clear.setEnabled(!gm.isRunning());
 				fill.setEnabled(!gm.isRunning());				
 			}
@@ -167,9 +164,6 @@ public class EntityScreen extends Screen {
 		
 		c.gridx = 3;
 		this.add(Gui.makeLabel("         ", PrefSize.NULL, null), c);
-
-		c.gridx = 4;
-		this.add(save,c);
 
 		c.gridx = 0;
 		c.gridy = 3;
@@ -215,13 +209,26 @@ public class EntityScreen extends Screen {
 			entityList.addItem(s);
 		edit.setEnabled(false);
 		delete.setEnabled(false);
-		save.setEnabled(false);
 		entityList.setSelectedIndex(0);
 		validate();
 	}
 
 	public GuiList getList() {
 		return entityList;
+	}
+	
+	public void onSimulationResume(){
+		delete.setEnabled(false);
+		edit.setEnabled(false);
+		clear.setEnabled(false);
+		fill.setEnabled(false);
+		random.setEnabled(false);
+	}
+	
+	public void onSimulationPause(){
+		clear.setEnabled(true);
+		fill.setEnabled(true);
+		random.setEnabled(true);
 	}
 
 	class DeleteListener implements ActionListener {
@@ -234,7 +241,6 @@ public class EntityScreen extends Screen {
 			if (size == 0) {
 				delete.setEnabled(false);
 				edit.setEnabled(false);
-				save.setEnabled(false);
 			}
 			if (index == size)
 				index--;
