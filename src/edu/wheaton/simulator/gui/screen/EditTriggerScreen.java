@@ -101,13 +101,19 @@ public class EditTriggerScreen extends Screen {
 	 */
 	private Trigger.Builder builder;
 
+	/**
+	 * Button that deletes components from the conditional expression
+	 */
 	private JButton deleteConditionalButton;
-
+	
+	/**
+	 * Button that deletes components from the behavior expression
+	 */
 	private JButton deleteBehaviorButton;
 
-	private JLabel isValidText;
-
 	private Trigger selectedTrigger;
+	
+	private final Dimension COMPONENT_SIZE = new Dimension(140, 30);
 
 	public EditTriggerScreen(SimulatorFacade sm) {
 		super(sm);
@@ -124,7 +130,6 @@ public class EditTriggerScreen extends Screen {
 		addBehaviorLayout(new GridBagConstraints());
 		addConditionalButtons(new GridBagConstraints());
 		addBehaviorButtons(new GridBagConstraints());
-		addValidLabel(new GridBagConstraints());
 	}
 
 	private void addNameLabel(GridBagConstraints constraints) {
@@ -136,19 +141,6 @@ public class EditTriggerScreen extends Screen {
 		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
 		constraints.fill = GridBagConstraints.BOTH;
 		add(name, constraints);
-	}
-
-	private void addValidLabel(GridBagConstraints constraints){
-		isValidText = new JLabel("Invalid");
-		isValidText.setBackground(Color.red);
-		isValidText.setToolTipText("Tells whether or not the trigger created is valid" +
-				"\nUpdates when save button is pressed");
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		constraints.gridx = 0;
-		constraints.gridy = 10;
-		constraints.anchor = GridBagConstraints.BASELINE_TRAILING;
-		add(isValidText, constraints);		
 	}
 
 	private void addPriorityLabel(GridBagConstraints constraints) {
@@ -205,8 +197,8 @@ public class EditTriggerScreen extends Screen {
 		constraints.gridheight = 3;
 		constraints.gridx = 0;
 		constraints.gridy = 3; 
-		constraints.ipadx = 600;
-		constraints.ipady = 150;
+		constraints.ipadx = COMPONENT_SIZE.width * 5;
+		constraints.ipady = COMPONENT_SIZE.height * 5;
 		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
 		constraints.fill = GridBagConstraints.BOTH;
 		conditionalLayout.setBackground(Color.white);
@@ -234,8 +226,8 @@ public class EditTriggerScreen extends Screen {
 		constraints.gridheight = 3;
 		constraints.gridx = 0;
 		constraints.gridy = 7; 
-		constraints.ipadx = 600;
-		constraints.ipady = 150;
+		constraints.ipadx = COMPONENT_SIZE.width * 5;
+		constraints.ipady = COMPONENT_SIZE.height * 5;
 		constraints.fill = GridBagConstraints.BOTH;
 		behaviorLayout.setBackground(Color.white);
 		add(behaviorScrollLayout, constraints);
@@ -283,26 +275,27 @@ public class EditTriggerScreen extends Screen {
 
 	private JComboBox makeConditionalDropdown(){
 		JComboBox toReturn = new JComboBox(builder.conditionalValues().toArray());
-		toReturn.setPreferredSize(new Dimension(120, 20));
+		toReturn.setPreferredSize(COMPONENT_SIZE);
 		return toReturn;
 	}
 
 	private JComboBox makeBehaviorDropdown(){
 		JComboBox toReturn = new JComboBox(builder.behavioralValues().toArray());
-		toReturn.setPreferredSize(new Dimension(120, 20));
+		toReturn.setPreferredSize(COMPONENT_SIZE);
 		return toReturn;
 	}	
 
 	private void addConditionalBox(){
 		if(selectedTrigger == null)
 			return;
-		conditionals.add(makeConditionalDropdown());
+		JComboBox toAdd = makeConditionalDropdown();
+		conditionals.add(toAdd);
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
 		constraints.gridx = (conditionals.size() - 1) % 5;
-		constraints.gridy = (conditionals.size() - 1)/ 5; 
-		conditionalLayout.add(conditionals.get(conditionals.size() - 1), constraints);	
+		constraints.gridy = (conditionals.size() - 1) / 5; 
+		conditionalLayout.add(toAdd, constraints);	
 		conditionalLayout.validate();
 	}
 
@@ -315,19 +308,20 @@ public class EditTriggerScreen extends Screen {
 		constraints.gridheight = 1;
 		constraints.gridx = (conditionals.size() - 1) % 5;
 		constraints.gridy = (conditionals.size() - 1) / 5;
-		conditionalLayout.add(conditionals.get(conditionals.size() - 1), constraints);
+		conditionalLayout.add(toAdd, constraints);
 	}
 
 	private void addBehaviorBox(){
 		if(selectedTrigger == null)
 			return;
-		behaviors.add(makeBehaviorDropdown());
+		JComboBox toAdd = makeBehaviorDropdown();
+		behaviors.add(toAdd);
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
 		constraints.gridx = (behaviors.size() - 1) % 5;
 		constraints.gridy = (behaviors.size() - 1) / 5;
-		behaviorLayout.add(behaviors.get(behaviors.size() - 1), constraints);
+		behaviorLayout.add(toAdd, constraints);
 		behaviorLayout.validate();
 	}
 
@@ -340,61 +334,61 @@ public class EditTriggerScreen extends Screen {
 		constraints.gridheight = 1;
 		constraints.gridx = (behaviors.size() - 1) % 5;
 		constraints.gridy = (behaviors.size() - 1) / 5;
-		behaviorLayout.add(behaviors.get(behaviors.size() - 1), constraints);
+		behaviorLayout.add(toAdd, constraints);
 	}
 
 	private void addConditionalText(){
 		if(selectedTrigger == null)
 			return;
 		JTextField toAdd = new JTextField();
-		toAdd.setPreferredSize(new Dimension(120, 20));
+		toAdd.setPreferredSize(COMPONENT_SIZE);
 		conditionals.add(toAdd);
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
 		constraints.gridx = (conditionals.size() - 1) % 5;
 		constraints.gridy = (conditionals.size() - 1) / 5;
-		conditionalLayout.add(conditionals.get(conditionals.size() - 1), constraints);
+		conditionalLayout.add(toAdd, constraints);
 		conditionalLayout.validate();
 	}
 
 	private void addConditionalText(String s){
 		JTextField toAdd = new JTextField(s);
-		toAdd.setPreferredSize(new Dimension(120, 20));
+		toAdd.setPreferredSize(COMPONENT_SIZE);
 		conditionals.add(toAdd);
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
 		constraints.gridx = (conditionals.size() - 1) % 5;
 		constraints.gridy = (conditionals.size() - 1) / 5;
-		conditionalLayout.add(conditionals.get(conditionals.size() - 1), constraints);
+		conditionalLayout.add(toAdd, constraints);
 	}
 
 	private void addBehaviorText(){
 		if(selectedTrigger == null)
 			return;
 		JTextField toAdd = new JTextField();
-		toAdd.setPreferredSize(new Dimension(120, 20));
+		toAdd.setPreferredSize(COMPONENT_SIZE);
 		behaviors.add(toAdd);
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
 		constraints.gridx = (behaviors.size() - 1) % 5;
 		constraints.gridy = (behaviors.size() - 1) / 5;
-		behaviorLayout.add(behaviors.get(behaviors.size() - 1), constraints);
+		behaviorLayout.add(toAdd, constraints);
 		behaviorLayout.validate();
 	}
 
 	private void addBehaviorText(String s){
 		JTextField toAdd = new JTextField(s);
-		toAdd.setPreferredSize(new Dimension(120, 20));
+		toAdd.setPreferredSize(COMPONENT_SIZE);
 		behaviors.add(toAdd);
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
 		constraints.gridx = (behaviors.size() - 1) % 5;
 		constraints.gridy = (behaviors.size() - 1)/ 5;
-		behaviorLayout.add(conditionals.get(conditionals.size() - 1), constraints);
+		behaviorLayout.add(toAdd, constraints);
 	}
 
 	private void deleteConditional(){
@@ -453,16 +447,6 @@ public class EditTriggerScreen extends Screen {
 					addBehaviorText(s);
 			}
 		}
-		boolean isInList = false;
-		for(int i = 0; i < behaviorValues.size(); i++){
-			if(behaviors[behaviors.length - 1].equals(behaviorValues.get(i))){
-				addConditionalBox(behaviors[behaviors.length - 1]);
-				isInList = true;
-				break;
-			}	
-		}
-		if(!isInList)
-			addConditionalBox(behaviors[behaviors.length - 1]);
 	}
 
 	private class AddConditionalBoxListener implements ActionListener {
@@ -521,16 +505,6 @@ public class EditTriggerScreen extends Screen {
 		prioritySpinner.setValue(selectedTrigger.getPriority());
 		populateConditionals();
 		populateBehaviors();
-		try{
-			if(builder.isValid()){
-				isValidText.setText("Valid");
-				isValidText.setBackground(Color.green);
-			}
-		}
-		catch(Exception e){
-			isValidText.setText("Invalid");
-			isValidText.setBackground(Color.red);
-		}
 		validate();
 	}
 
@@ -570,14 +544,11 @@ public class EditTriggerScreen extends Screen {
 		builder.addName(nameField.getText());
 		builder.addPriority((Integer) prioritySpinner.getValue());
 		try{
-			if(builder.isValid()){
-				isValidText.setText("Valid");
+			if(builder.isValid())
 				return builder.build();
-			}
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
-		isValidText.setText("Invalid");
 		return null;
 	}
 
