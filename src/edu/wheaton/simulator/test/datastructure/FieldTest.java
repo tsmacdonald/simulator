@@ -23,15 +23,7 @@ public class FieldTest {
 		
 		Assert.assertEquals(field.getName(), "name");
 		Assert.assertEquals(field.getValue(), "rabbit");
-//		
-////		try {
-////			field.getBoolValue();
-////			fail("We got a boolean value from a nonsensical string: " + field.getBoolValue());
-////		}
-////		catch (Exception e) {
-////			
-////		}
-//		
+
 		try {
 			field.getDoubleValue();
 			fail("We got a double value from a nonsensical string: " + field.getDoubleValue());
@@ -53,30 +45,13 @@ public class FieldTest {
 	public void testDouble() {
 		field = new Field("percentBodyWeight", "0.221");
 		
-		//no need to test string name and value (see testString)
-		
 		try {
-			field.getBoolValue();
-			fail("We got a boolean value from a nonsensical string: " + field.getBoolValue());
-		}
-		catch (Exception e) {
-			
-		}
-		
-		try {
-			field.getDoubleValue();
+			Assert.assertEquals(0.221 + "", field.getDoubleValue() + "");
 		}
 		catch (Exception e) {
 			fail("We could not obtain a double representation of the value: " + field.getDoubleValue());
 		}
 		
-		try {
-			field.getIntValue();
-			fail("We got an int value from a nonsensical string: " + field.getIntValue());
-		}
-		catch (Exception e) {
-			
-		}
 	}
 	
 	@Test
@@ -84,22 +59,7 @@ public class FieldTest {
 		field = new Field("xPos", "13");
 		
 		try {
-			field.getBoolValue();
-			fail("We got a boolean value from a nonsensical string: " + field.getBoolValue());
-		}
-		catch (Exception e) {
-			
-		}
-		
-		try {
-			field.getDoubleValue();
-		}
-		catch (Exception e) {
-			fail("We could not obtain a double representation of the value: " + field.getDoubleValue());
-		}
-		
-		try {
-			field.getIntValue();
+			Assert.assertEquals(13 + "", field.getIntValue() + "");
 		}
 		catch (Exception e) {
 			fail("We could not obtain an int representation of the value: " + field.getIntValue());
