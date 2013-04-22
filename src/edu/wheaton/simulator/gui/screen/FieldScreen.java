@@ -65,7 +65,8 @@ public class FieldScreen extends Screen {
 				//Screen screen = sm.getScreen("Edit Fields");
 				//sm.load(screen);
 				dialogWindow.setLocationRelativeTo(null);
-				dialogWindow.setMinimumSize(new MinSize(400,200));
+				dialogWindow.setTitle("Edit Field");
+				dialogWindow.setMinimumSize(new MinSize(225,100));
 				dialogWindow.setVisible(true);
 			}
 		});
@@ -79,7 +80,8 @@ public class FieldScreen extends Screen {
 				dialogWindow.add(screen);
 				screen.load((String)fields.getSelectedValue());
 				dialogWindow.setLocationRelativeTo(null);
-				dialogWindow.setMinimumSize(new MinSize(400,200));
+				dialogWindow.setTitle("Edit Field");
+				dialogWindow.setMinimumSize(new MinSize(225,100));
 				dialogWindow.setVisible(true);
 			}
 		});
