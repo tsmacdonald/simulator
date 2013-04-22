@@ -106,8 +106,6 @@ public class TriggerScreen extends Screen {
 				}
 			}
 		});
-		triggers.setLayoutOrientation(JList.VERTICAL);
-		triggers.setPreferredSize(new Dimension(200, 425));
 		constraints.gridx = 0;
 		constraints.gridy = 1;
 		constraints.gridheight = 1;
