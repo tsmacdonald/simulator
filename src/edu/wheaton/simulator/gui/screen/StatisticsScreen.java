@@ -1,3 +1,4 @@
+
 package edu.wheaton.simulator.gui.screen;
 
 import java.awt.Color;
