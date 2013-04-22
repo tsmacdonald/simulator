@@ -46,15 +46,15 @@ public class ClonePrototype extends AbstractBehavior{
 			Agent target = resolveAgent("this");
 			Grid grid = target.getGrid();
 			
+			Integer x = Double.valueOf(args[0]).intValue();
+			Integer y = Double.valueOf(args[1]).intValue();
+			
 			Prototype proto = Prototype.getPrototype(args[2].replaceAll("'", ""));
 			if(proto == null){
 				return Expression.FALSE;
 			}
-
-			Integer x = Double.valueOf(args[0]).intValue();
-			Integer y = Double.valueOf(args[0]).intValue();
-					
-			if(grid.isValidCoord(x, y) && grid.getAgent(x,y)==null){
+	
+			if(grid.isValidCoord(x, y)){
 				grid.addAgent(proto.createAgent(grid), x, y);
 				return Expression.TRUE;
 			}

@@ -45,9 +45,6 @@ public class GridPanel extends JPanel {
 		squareWidth = panelWidth / gridWidth;
 		squareHeight = panelHeight / gridHeight;
 
-		System.out.println("squareWidth: " + squareWidth);
-		System.out.println("squareHeight: " + squareHeight);
-
 		clearAgents(g);
 		if (grid != null)
 			agentPaint(g);
