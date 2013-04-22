@@ -12,6 +12,7 @@ package edu.wheaton.simulator.gui.screen;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -85,11 +86,13 @@ public class FieldScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 4;
+		c.insets = new Insets(5,0,10,0);
 		this.add(
-			Gui.makeLabel("Global Fields",new PrefSize(300, 100),HorizontalAlignment.CENTER), 
+			Gui.makeLabel("Global Fields",PrefSize.NULL,HorizontalAlignment.CENTER), 
 			c);
 		
 		c.gridy = 1;
+		c.insets = new Insets(0,0,0,0);
 		this.add(fields, c);
 	}
 
