@@ -63,7 +63,7 @@ public class FieldScreen extends Screen {
 				dialogWindow.add(screen);
 				screen.load();
 				dialogWindow.setLocationRelativeTo(null);
-				dialogWindow.setTitle("Edit Field");
+				dialogWindow.setTitle("New Field");
 				dialogWindow.setMinimumSize(new MinSize(225,100));
 				dialogWindow.setVisible(true);
 			}
