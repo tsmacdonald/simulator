@@ -120,11 +120,18 @@ public class Loader {
 				if(readLine.equals("AgentSnapshot")){
 					//Find the appropriate prototype
 					String prototypeName = reader.readLine();
-
-					Prototype parent = getPrototype(prototypeName);  
+					Prototype parent = getPrototype(prototypeName);
+					
+					//Read in the color and design
+					String colorString = reader.readLine(); 
+					String[] colorToks = colorString.split("~"); 
+					
+					Color color = new Color(Integer.parseInt(colorToks[0]), 
+							Integer.parseInt(colorToks[1]), Integer.parseInt(colorToks[2]));
+					byte[] design = createByteArray(reader.readLine());
 
 					//Create the Agent
-					Agent agent = new Agent(grid, parent);
+					Agent agent = new Agent(grid, parent, color, design); 
 
 					//Get the Agent's position on the Grid
 					int xpos = Integer.parseInt(reader.readLine()); 
@@ -166,8 +173,14 @@ public class Loader {
 				
 				else if(readLine.equals("PrototypeSnapshot")){
 					//Parse the required prototype data
-					String name = reader.readLine(); 
-					Color color = new Color(Integer.parseInt(reader.readLine()));
+					String name = reader.readLine();
+					
+					//Read in the color and design
+					String colorString = reader.readLine(); 
+					String[] colorToks = colorString.split("~"); 
+					
+					Color color = new Color(Integer.parseInt(colorToks[0]), 
+							Integer.parseInt(colorToks[1]), Integer.parseInt(colorToks[2]));
 					byte[] design = createByteArray(reader.readLine());
 
 					//Create the prototype
