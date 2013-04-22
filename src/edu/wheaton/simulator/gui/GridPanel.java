@@ -46,8 +46,9 @@ public class GridPanel extends JPanel {
 		squareHeight = panelHeight / gridHeight;
 
 		clearAgents(g);
-		if (grid != null)
+		if (grid != null) {
 			agentPaint(g);
+		}
 		paintLines(g);
 	}
 
