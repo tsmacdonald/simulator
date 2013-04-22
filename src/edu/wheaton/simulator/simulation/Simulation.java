@@ -113,7 +113,7 @@ public class Simulation {
 	/**
 	 * Runs the simulation by updating all the entities
 	 */
-	public final Thread mainThread = new Thread(new Runnable() {
+	private final Thread mainThread = new Thread(new Runnable() {
 		@Override
 		public void run() {
 			while (!isStopped.get()) {
