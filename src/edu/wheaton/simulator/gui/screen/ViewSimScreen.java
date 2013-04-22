@@ -167,9 +167,16 @@ public class ViewSimScreen extends Screen {
 		// navigation purposes
 		ScreenManager sm = getScreenManager();
 		startButton = makeStartButton();
+		ActionListener statListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ScreenManager.getInstance().displayStatisticsWindow();
+			}
+		};
+		
 		JPanel buttonPanel = Gui.makePanel((LayoutManager) null, MaxSize.NULL,
 				PrefSize.NULL, startButton, Gui.makeButton("Statistics", null,
-						new GeneralButtonListener("Statistics", sm)));
+						statListener));
 		return buttonPanel;
 	}
 

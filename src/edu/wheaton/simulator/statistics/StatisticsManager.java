@@ -10,6 +10,7 @@ import javax.naming.NameNotFoundException;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 
 import edu.wheaton.simulator.datastructure.Grid;
 import edu.wheaton.simulator.entity.AgentID;
@@ -61,6 +62,7 @@ public class StatisticsManager {
 		gridObserver = new Recorder(this);
 		prototypes = null;
 		protoSnaps = new HashMap<String, PrototypeSnapshot>();
+		observers = Sets.newHashSet();
 	}
 
 	/**
