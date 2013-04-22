@@ -111,8 +111,14 @@ public class EditTriggerScreen extends Screen {
 	 */
 	private JButton deleteBehaviorButton;
 
+	/**
+	 * The trigger selected in the TriggerScreen
+	 */
 	private Trigger selectedTrigger;
 	
+	/**
+	 * Size of the component cells
+	 */
 	private final Dimension COMPONENT_SIZE = new Dimension(140, 30);
 
 	public EditTriggerScreen(SimulatorFacade sm) {
@@ -130,8 +136,14 @@ public class EditTriggerScreen extends Screen {
 		addBehaviorLayout(new GridBagConstraints());
 		addConditionalButtons(new GridBagConstraints());
 		addBehaviorButtons(new GridBagConstraints());
+		validate();
+		repaint();
 	}
 
+	/**
+	 * Adds a label indicating where the name of the trigger is
+	 * @param constraints
+	 */
 	private void addNameLabel(GridBagConstraints constraints) {
 		JLabel name = new JLabel("Name:");
 		constraints.gridwidth = 1; 
@@ -143,6 +155,10 @@ public class EditTriggerScreen extends Screen {
 		add(name, constraints);
 	}
 
+	/**
+	 * Adds a label indicating that the spinner shows what the trigger priority is
+	 * @param constraints
+	 */
 	private void addPriorityLabel(GridBagConstraints constraints) {
 		JLabel name = new JLabel("Priority Level:");
 		constraints.gridwidth = 1; 
@@ -154,6 +170,10 @@ public class EditTriggerScreen extends Screen {
 		add(name, constraints);		
 	}
 
+	/**
+	 * Adds the text field where the name of the trigger is read
+	 * @param constraints
+	 */
 	private void addNameField(GridBagConstraints constraints){
 		nameField = new JTextField();
 		constraints.gridheight = 1; 
@@ -165,6 +185,10 @@ public class EditTriggerScreen extends Screen {
 		this.add(nameField, constraints);
 	}
 
+	/**
+	 * Adds a spinner that indicates the priority of trigger
+	 * @param constraints
+	 */
 	private void addSpinner(GridBagConstraints constraints) {
 		prioritySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1)); 
 		constraints.gridwidth = 1; 
@@ -176,18 +200,27 @@ public class EditTriggerScreen extends Screen {
 		add(prioritySpinner, constraints);
 	}
 
+	/**
+	 * Indicates what the conditionals layout is
+	 * @param constraints
+	 */
 	private void addIf(GridBagConstraints constraints) {
 		JLabel ifLabel = new JLabel("If:"); 
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
 		constraints.gridx = 0;
 		constraints.gridy = 2; 
-		constraints.insets = new Insets(10, 0, 0, 0);
+		constraints.ipadx = COMPONENT_SIZE.width;
+		constraints.ipady = COMPONENT_SIZE.height;
 		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
 		constraints.fill = GridBagConstraints.NONE;  
 		add(ifLabel, constraints);
 	}
 
+	/**
+	 * Adds the conditionals layout that displays the conditional expression
+	 * @param constraints
+	 */
 	private void addConditionsLayout(GridBagConstraints constraints) {
 		conditionalScrollLayout = new JScrollPane();
 		conditionalLayout = new JPanel();
@@ -205,18 +238,27 @@ public class EditTriggerScreen extends Screen {
 		add(conditionalScrollLayout, constraints);
 	}
 
+	/**
+	 * Adds a label that indicates what the behaviorLayout does
+	 * @param constraints
+	 */
 	private void addThen(GridBagConstraints constraints) {
 		JLabel thenLabel = new JLabel("Then:"); 
 		constraints.gridwidth = 1; 
 		constraints.gridheight = 1;
 		constraints.gridx = 0;
 		constraints.gridy = 6; 
-		constraints.insets = new Insets(10, 0, 0, 0);
+		constraints.ipadx = COMPONENT_SIZE.width;
+		constraints.ipady = COMPONENT_SIZE.height;
 		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
 		constraints.fill = GridBagConstraints.NONE;
 		add(thenLabel, constraints);
 	}
 
+	/**
+	 * Adds the layout that displays the behavior expression
+	 * @param constraints
+	 */
 	private void addBehaviorLayout(GridBagConstraints constraints) {
 		behaviorScrollLayout = new JScrollPane();
 		behaviorLayout = new JPanel();
@@ -233,6 +275,10 @@ public class EditTriggerScreen extends Screen {
 		add(behaviorScrollLayout, constraints);
 	}
 
+	/**
+	 * Adds the buttons that allow the user to interact with the conditional expression
+	 * @param constraints
+	 */
 	private void addConditionalButtons(GridBagConstraints constraints) {
 		addConditionalBox = new JButton("Add Conditional");
 		addConditionalText = new JButton("Add Text");
@@ -253,6 +299,10 @@ public class EditTriggerScreen extends Screen {
 		add(deleteConditionalButton, constraints);
 	}
 
+	/**
+	 * Adds the buttons that allow the user to interact with the behavior expression
+	 * @param constraints
+	 */
 	private void addBehaviorButtons(GridBagConstraints constraints){
 		addBehaviorBox = new JButton("Add Behavior");
 		addBehaviorText = new JButton("Add Text");
@@ -273,18 +323,29 @@ public class EditTriggerScreen extends Screen {
 		add(deleteBehaviorButton, constraints);
 	}
 
+	/**
+	 * Makes a JComboBox with the conditional values in it
+	 * @return the JComboBox
+	 */
 	private JComboBox makeConditionalDropdown(){
 		JComboBox toReturn = new JComboBox(builder.conditionalValues().toArray());
 		toReturn.setPreferredSize(COMPONENT_SIZE);
 		return toReturn;
 	}
 
+	/**
+	 * Makes a JComboBox with the behavior values in it
+	 * @return the JComboBox
+	 */
 	private JComboBox makeBehaviorDropdown(){
 		JComboBox toReturn = new JComboBox(builder.behavioralValues().toArray());
 		toReturn.setPreferredSize(COMPONENT_SIZE);
 		return toReturn;
 	}	
 
+	/**
+	 * Adds a conditional JComboBox to the layout with no value selected
+	 */
 	private void addConditionalBox(){
 		if(selectedTrigger == null)
 			return;
@@ -299,6 +360,10 @@ public class EditTriggerScreen extends Screen {
 		conditionalLayout.validate();
 	}
 
+	/**
+	 * Adds a JComboBox to the layout with a value selected
+	 * @param s, the value to be selected
+	 */
 	private void addConditionalBox(String s){
 		JComboBox toAdd = makeConditionalDropdown();
 		toAdd.setSelectedItem(s);
@@ -311,6 +376,9 @@ public class EditTriggerScreen extends Screen {
 		conditionalLayout.add(toAdd, constraints);
 	}
 
+	/**
+	 * Adds a behavior JComboBox to the layout with no value selected
+	 */
 	private void addBehaviorBox(){
 		if(selectedTrigger == null)
 			return;
@@ -325,6 +393,10 @@ public class EditTriggerScreen extends Screen {
 		behaviorLayout.validate();
 	}
 
+	/**
+	 * Adds a behavior JComboBox to the layout with a value selected
+	 * @param s, the value to be selected
+	 */
 	private void addBehaviorBox(String s){
 		JComboBox toAdd = makeBehaviorDropdown();
 		toAdd.setSelectedItem(s);
@@ -337,6 +409,9 @@ public class EditTriggerScreen extends Screen {
 		behaviorLayout.add(toAdd, constraints);
 	}
 
+	/**
+	 * Adds a JTextField to the conditional layout with the empty string
+	 */
 	private void addConditionalText(){
 		if(selectedTrigger == null)
 			return;
@@ -352,6 +427,10 @@ public class EditTriggerScreen extends Screen {
 		conditionalLayout.validate();
 	}
 
+	/**
+	 * Adds a JTextField to the conditional layout with the parameterized string as its content
+	 * @param s, the string to be displayed in the text field
+	 */
 	private void addConditionalText(String s){
 		JTextField toAdd = new JTextField(s);
 		toAdd.setPreferredSize(COMPONENT_SIZE);
@@ -364,6 +443,9 @@ public class EditTriggerScreen extends Screen {
 		conditionalLayout.add(toAdd, constraints);
 	}
 
+	/**
+	 * Adds a JTextField to the behavior layout with the empty string
+	 */
 	private void addBehaviorText(){
 		if(selectedTrigger == null)
 			return;
@@ -379,6 +461,10 @@ public class EditTriggerScreen extends Screen {
 		behaviorLayout.validate();
 	}
 
+	/**
+	 * Adds a JTextField to the behavior layout with the parameterized string as its content
+	 * @param s, the string to be displayed in the text field
+	 */
 	private void addBehaviorText(String s){
 		JTextField toAdd = new JTextField(s);
 		toAdd.setPreferredSize(COMPONENT_SIZE);
@@ -391,6 +477,9 @@ public class EditTriggerScreen extends Screen {
 		behaviorLayout.add(toAdd, constraints);
 	}
 
+	/**
+	 * Deletes a conditional component
+	 */
 	private void deleteConditional(){
 		try{
 			conditionalLayout.remove(conditionals.get(conditionals.size() - 1));
@@ -398,9 +487,13 @@ public class EditTriggerScreen extends Screen {
 			conditionalLayout.validate();
 			conditionalLayout.repaint();
 		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, "There is no conditional component to delete");
 		}
 	}
 
+	/**
+	 * Deletes a behavior component
+	 */
 	private void deleteBehavior(){
 		try{
 			behaviorLayout.remove(behaviors.get(behaviors.size() - 1));
@@ -408,9 +501,13 @@ public class EditTriggerScreen extends Screen {
 			behaviorLayout.validate();
 			behaviorLayout.repaint();
 		}catch(Exception e){
+			JOptionPane.showMessageDialog(null,  "There is no behavior component to delete");
 		}
 	}
 
+	/**
+	 * Populates the conditional layout with JComponents from the conditional list
+	 */
 	private void populateConditionals(){
 		ImmutableList<String> conditionalValues = builder.conditionalValues();
 		String[] conditionals = builder.getConditionString().split(" ");
@@ -430,6 +527,9 @@ public class EditTriggerScreen extends Screen {
 		}
 	}
 
+	/**
+	 * Populates the behavior layout with JComponenets from the behavior list
+	 */
 	private void populateBehaviors(){
 		ImmutableList<String> behaviorValues = builder.behavioralValues();
 		String[] behaviors = builder.getBehaviorString().split(" ");
@@ -449,6 +549,9 @@ public class EditTriggerScreen extends Screen {
 		}
 	}
 
+	/**
+	 * Adds a conditional JComboBox when its add button is clicked 
+	 */
 	private class AddConditionalBoxListener implements ActionListener {
 
 		@Override
@@ -457,6 +560,9 @@ public class EditTriggerScreen extends Screen {
 		}
 	}
 
+	/**
+	 * Adds a conditional text field when the add text button is clicked
+	 */
 	private class AddConditionalTextListener implements ActionListener {
 
 		@Override
@@ -465,6 +571,9 @@ public class EditTriggerScreen extends Screen {
 		}
 	}
 
+	/**
+	 * Adds a behavior JComboBox when its add button is clicked
+	 */
 	private class AddBehaviorBoxListener implements ActionListener {
 
 		@Override
@@ -473,6 +582,9 @@ public class EditTriggerScreen extends Screen {
 		}
 	}
 
+	/**
+	 * Adds a behavior text field when the add text button is clicked
+	 */
 	private class AddBehaviorTextListener implements ActionListener {
 
 		@Override
@@ -481,6 +593,9 @@ public class EditTriggerScreen extends Screen {
 		}
 	}
 
+	/**
+	 * Deletes the last conditional expression component
+	 */
 	private class DeleteConditionalListener implements ActionListener {
 
 		@Override
@@ -490,6 +605,9 @@ public class EditTriggerScreen extends Screen {
 
 	}
 
+	/**
+	 * Deletes the last behavior expression component
+	 */
 	private class DeleteBehaviorListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -497,6 +615,11 @@ public class EditTriggerScreen extends Screen {
 		}
 	}
 
+	/**
+	 * Loads the trigger information to be displayed
+	 * @param b, the trigger builder
+	 * @param t, the selected trigger
+	 */
 	public void load(Trigger.Builder b, Trigger t){
 		reset();
 		builder = b;
@@ -514,6 +637,10 @@ public class EditTriggerScreen extends Screen {
 		fm.setSaveSim(false);
 	}
 
+	/**
+	 * Passes the trigger with the modified values
+	 * @return The modified trigger
+	 */
 	public Trigger sendInfo(){
 		String expression = "";
 		for(int i = 0; i < conditionals.size(); i++){
@@ -552,6 +679,9 @@ public class EditTriggerScreen extends Screen {
 		return null;
 	}
 
+	/**
+	 * Clears all values from this screen object
+	 */
 	public void reset() {
 		nameField.setText("");
 		prioritySpinner.setValue(0);

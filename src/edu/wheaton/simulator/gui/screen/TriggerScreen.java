@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -18,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.entity.Trigger;
@@ -29,10 +29,18 @@ public class TriggerScreen extends Screen {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * The screen that allows the user to edit the selected trigger
+	 */
 	private EditTriggerScreen edit;
 
+	/**
+	 * Allows the trigger list to scroll
+	 */
 	private JScrollPane listScrollView;
 
+	/**
+	 */
 	private JPanel triggerListView;
 
 	private JLabel triggerLabel;
@@ -54,7 +62,7 @@ public class TriggerScreen extends Screen {
 		setLayout(new GridBagLayout());
 		addTriggerLabel(new GridBagConstraints());
 		addEditLayout(new GridBagConstraints());
-		addListLayout(new GridBagConstraints());
+//		addListLayout(new GridBagConstraints());
 		addTriggerList(new GridBagConstraints());
 		addAddButton(new GridBagConstraints());
 		addDeleteButton(new GridBagConstraints());
@@ -63,6 +71,8 @@ public class TriggerScreen extends Screen {
 
 	private void addTriggerList(GridBagConstraints constraints) {
 		triggers = new JList();
+		listScrollView = new JScrollPane(triggers, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		triggers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		triggers.addMouseListener(new MouseListener() {
 			@Override
@@ -96,15 +106,16 @@ public class TriggerScreen extends Screen {
 
 			}
 		});
-		triggers.setBorder(BorderFactory.createLineBorder(Color.magenta));
 		triggers.setLayoutOrientation(JList.VERTICAL);
 		triggers.setPreferredSize(new Dimension(200, 425));
-		constraints.fill = GridBagConstraints.BOTH;
 		constraints.gridx = 0;
-		constraints.gridy = 0;
+		constraints.gridy = 1;
 		constraints.gridheight = 1;
-		constraints.gridwidth = 1;
-		triggerListView.add(triggers, constraints);
+		constraints.gridwidth = 2;
+		constraints.ipadx = 200;
+		constraints.ipady = 425;
+		constraints.insets = new Insets(0, 0, 0, 50);
+		add(listScrollView, constraints);
 	}
 
 	private void addTriggerLabel(GridBagConstraints constraints) {
@@ -117,21 +128,19 @@ public class TriggerScreen extends Screen {
 		add(triggerLabel, constraints);		
 	}
 
-	private void addListLayout(GridBagConstraints constraints) {
-		listScrollView = new JScrollPane();
-		triggerListView = new JPanel();
-		listScrollView.getViewport().add(triggerListView);
-		triggerListView.setLayout(new GridBagLayout());
-		constraints.gridx = 0;
-		constraints.gridy = 1;
-		constraints.gridheight = 1;
-		constraints.gridwidth = 2;
-		constraints.ipadx = 200;
-		constraints.ipady = 425;
-		constraints.insets = new Insets(0, 0, 0, 50);
-		triggerListView.setBackground(Color.white);
-		add(listScrollView, constraints);
-	}
+//	private void addListLayout(GridBagConstraints constraints) {
+//		triggerListView = new JPanel();
+//		triggerListView.setLayout(new GridBagLayout());
+//		constraints.gridx = 0;
+//		constraints.gridy = 1;
+//		constraints.gridheight = 1;
+//		constraints.gridwidth = 2;
+//		constraints.ipadx = 200;
+//		constraints.ipady = 425;
+//		constraints.insets = new Insets(0, 0, 0, 50);
+//		triggerListView.setBackground(Color.white);
+//		add(triggerListView, constraints);
+//	}
 
 	private void addEditLayout(GridBagConstraints constraints){
 		edit = new EditTriggerScreen(gm);
@@ -201,8 +210,6 @@ public class TriggerScreen extends Screen {
 				prototype.removeTrigger(toDelete.toString());
 				edit.reset();
 				load(prototype);
-				for(Trigger t: prototype.getTriggers())
-					System.out.println(t);
 			}
 			else
 				JOptionPane.showMessageDialog(null, "No trigger selected");
@@ -236,6 +243,7 @@ public class TriggerScreen extends Screen {
 		prototype = p;
 		triggers.setListData(prototype.getTriggers().toArray());
 		validate();
+		repaint();
 	}
 
 	@Override
