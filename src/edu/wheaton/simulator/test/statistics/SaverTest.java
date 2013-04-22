@@ -1,5 +1,6 @@
 package edu.wheaton.simulator.test.statistics;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -93,7 +94,7 @@ public class SaverTest {
 		ImmutableSet<Prototype> prototypes = builder.build(); 
 		
 		Saver s = new Saver();
-		s.saveSimulation("SimulationState2", agents, prototypes, grid.getCustomFieldMap(), 
+		s.saveSimulation(new File("SimulationState2"), agents, prototypes, grid.getCustomFieldMap(), 
 				grid.getWidth(), grid.getHeight(), simEnder); 
 	}
 	
