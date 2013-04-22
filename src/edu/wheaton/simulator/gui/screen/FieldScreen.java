@@ -65,7 +65,7 @@ public class FieldScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent ae){
 				FieldScreen.setEditing(false);
-				ScreenManager sm = getScreenManager();
+				ScreenManager sm = getScreenManager(); //TODO fix this warning.
 				JDialog dialogWindow = new JDialog();
 				Screen screen = new EditFieldScreen(gm,dialogWindow);
 				dialogWindow.add(screen);

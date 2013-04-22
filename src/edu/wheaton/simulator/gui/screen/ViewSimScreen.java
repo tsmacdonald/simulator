@@ -26,7 +26,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.wheaton.simulator.gui.FileMenu;
-import edu.wheaton.simulator.gui.GeneralButtonListener;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.MaxSize;
 import edu.wheaton.simulator.gui.MinSize;
@@ -165,7 +164,7 @@ public class ViewSimScreen extends Screen {
 	private JPanel makeButtonPanel() {
 		// TODO most of these will become tabs, adding temporarily for
 		// navigation purposes
-		ScreenManager sm = getScreenManager();
+		ScreenManager sm = getScreenManager(); // TODO fix this warning.
 		startButton = makeStartButton();
 		ActionListener statListener = new ActionListener() {
 			@Override

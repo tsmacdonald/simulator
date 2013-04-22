@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -216,7 +215,7 @@ public class StatisticsManagerTest {
 		HashSet<Agent> agents = new HashSet<Agent>();
 		ArrayList<TriggerSnapshot> triggers = new ArrayList<TriggerSnapshot>();
 		String[] names = new String[] { "bear", "tom", "john", "piglet",
-				"reese" };
+				"reese" }; // TODO fix this warning
 
 		Builder builder = new Trigger.Builder(prototype);
 		builder.addBehavioral("true");
