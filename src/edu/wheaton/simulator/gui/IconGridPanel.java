@@ -12,7 +12,7 @@ public class IconGridPanel extends GridPanel {
 	private static final long serialVersionUID = 8466121263560126226L;
 
 	private ScreenManager sm;
-	
+
 	private int width;
 
 	private int height;
@@ -50,7 +50,9 @@ public class IconGridPanel extends GridPanel {
 				int y = me.getY();
 				int xIndex = x/squareSize;
 				int yIndex = y/squareSize;
-				icon[xIndex][yIndex] = !icon[xIndex][yIndex];
+				if(xIndex > 0 && xIndex < 7 && yIndex > 0 && yIndex < 7){
+					icon[xIndex][yIndex] = !icon[xIndex][yIndex];
+				}
 				repaint();
 			}
 
@@ -71,7 +73,7 @@ public class IconGridPanel extends GridPanel {
 
 	@Override
 	public void paint(Graphics g) {
-		
+
 		width = getWidth();
 		height = getHeight();
 		pixelWidth = width / gridDimension;
@@ -90,13 +92,13 @@ public class IconGridPanel extends GridPanel {
 
 	@Override
 	public void agentPaint(Graphics g){
-		
+
 		width = getWidth();
 		height = getHeight();
 		pixelWidth = width / gridDimension;
 		pixelHeight = height / gridDimension;
 		squareSize = Math.min(pixelWidth, pixelHeight);
-		
+
 		Color color = ((EditEntityScreen)sm.getScreen("Edit Entities")).getColor();
 		g.setColor(color);
 		for (int i = 0; i < gridDimension; i++) {
@@ -108,17 +110,17 @@ public class IconGridPanel extends GridPanel {
 			}
 		}
 	}
-		
+
 
 	@Override
 	public void clearAgents(Graphics g) {
-		
+
 		width = getWidth();
 		height = getHeight();
 		pixelWidth = width / gridDimension;
 		pixelHeight = height / gridDimension;
 		squareSize = Math.min(pixelWidth, pixelHeight);
-		
+
 		squareSize = Math.min(pixelWidth, pixelHeight) - 1;
 		g.setColor(Color.WHITE);
 		for (int x = 0; x < gridDimension; x++) {
@@ -127,7 +129,7 @@ public class IconGridPanel extends GridPanel {
 			}
 		}
 	}
-	
+
 	public void setIcon(boolean[][] icon){
 		this.icon = icon;
 	}
