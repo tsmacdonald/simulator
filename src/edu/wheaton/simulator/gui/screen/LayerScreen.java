@@ -123,6 +123,7 @@ public class LayerScreen extends Screen {
 		c.gridy = 3;
 		c.insets = new Insets(10,10,10,10);
 		c.gridwidth = 4;
+		c.gridheight = 4;
 		this.add(colorPanel, c);
 		
 		this.validate();

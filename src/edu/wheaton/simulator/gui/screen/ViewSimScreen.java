@@ -129,7 +129,7 @@ public class ViewSimScreen extends Screen {
 		c.gridy = 0;
 		c.gridheight = 2;
 		c.weightx = 0;
-		c.insets = new Insets(5, 5, 5, 5);
+		//c.insets = new Insets(5, 5, 5, 5);
 		this.add(tabs, c);
 
 		c = new GridBagConstraints();
