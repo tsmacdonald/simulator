@@ -24,7 +24,7 @@ public class GetFieldOfAgentAt extends AbstractExpressionFunction {
 
 	@Override
 	public Integer numArgs() {
-		return 2;
+		return 3;
 	}
 	
 	/**
