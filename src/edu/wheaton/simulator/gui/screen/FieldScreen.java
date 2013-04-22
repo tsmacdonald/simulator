@@ -51,6 +51,8 @@ public class FieldScreen extends Screen {
 		
 		fields = new GuiList();
 		fields.addListSelectionListener(new ListListener());
+		fields.setMinimumSize(new MinSize(300,300));
+		fields.setPreferredSize(new PrefSize(300,300));
 		
 		delete = Gui.makeButton("Delete",null,new DeleteListener(fields));
 		add = Gui.makeButton("Add",null,new ActionListener() {
@@ -71,7 +73,6 @@ public class FieldScreen extends Screen {
 		edit = Gui.makeButton("Edit",null,new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				ScreenManager sm = getScreenManager();
 				FieldScreen.setEditing(true);
 				JDialog dialogWindow = new JDialog();
 				EditFieldScreen screen = new EditFieldScreen(gm,dialogWindow);
@@ -99,7 +100,7 @@ public class FieldScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 4;
-		c.insets = new Insets(0,0,5,0);
+		c.insets = new Insets(0,0,15,0);
 		this.add(
 			Gui.makeLabel("Global Fields",PrefSize.NULL,HorizontalAlignment.CENTER), 
 			c);

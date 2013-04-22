@@ -27,6 +27,7 @@ import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.GuiList;
 import edu.wheaton.simulator.gui.HorizontalAlignment;
+import edu.wheaton.simulator.gui.MinSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorFacade;
@@ -138,6 +139,8 @@ public class EntityScreen extends Screen {
 						"View Simulation")).setSpawn(true);
 			}
 		});
+		entityList.setMinimumSize(new MinSize(300,300));
+		entityList.setPreferredSize(new PrefSize(300,300));
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -174,7 +177,7 @@ public class EntityScreen extends Screen {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 5;
-		c.insets = new Insets(0,0,5,0);
+		c.insets = new Insets(0,0,15,0);
 		JLabel header = Gui.makeLabel("Agents", PrefSize.NULL,HorizontalAlignment.CENTER);
 		this.add(header, c);
 

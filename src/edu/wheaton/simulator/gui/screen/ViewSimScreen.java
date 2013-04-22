@@ -87,8 +87,8 @@ public class ViewSimScreen extends Screen {
 				optionsScreen.load();
 			}
 		});
-		tabs.setMinimumSize(new MinSize(600,700));
-		tabs.setPreferredSize(new PrefSize(600,700));
+		tabs.setMinimumSize(new MinSize(600,577));
+		tabs.setPreferredSize(new PrefSize(600,577));
 		tabs.validate();
 
 		gm.getGridPanel().addMouseListener(new MouseListener() {

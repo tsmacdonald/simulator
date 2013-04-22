@@ -134,98 +134,98 @@ public class SetupScreen extends Screen {
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
-		c.insets = new Insets(-90, -30, 3, 3);
+		c.insets = new Insets(0, -30, 0, 3);
 		this.add(nameLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = 3;
-		c.insets = new Insets(-90, -208, 3, 3);
+		c.insets = new Insets(0, -208, 0, 3);
 		this.add(nameField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 1;
-		c.insets = new Insets(-30, -30, 3, 3);
+		c.insets = new Insets(0, -30, 0, 3);
 		this.add(widthLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
-		c.insets = new Insets(-30, -220, 3, 3);
+		c.insets = new Insets(0, -220, 0, 3);
 		this.add(widthField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 1;
-		c.insets = new Insets(-30, -160, 3, 3);
+		c.insets = new Insets(0, -160, 0, 3);
 		this.add(yLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 3;
 		c.gridy = 1;
-		c.insets = new Insets(-30, -240, 3, 3);
+		c.insets = new Insets(0, -240, 0, 3);
 		this.add(heightField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
-		c.insets = new Insets(3, -90, 3, 3);
+		c.insets = new Insets(0, -90, 0, 3);
 		this.add(delayLabel, c);
 		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 2;
-		c.insets = new Insets(3, -220, 3, 3);
+		c.insets = new Insets(0, -220, 0, 3);
 		this.add(delayField, c);
 		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 3;
-		c.insets = new Insets(3, -70, 3, 3);
+		c.insets = new Insets(0, -70, 0, 3);
 		this.add(updateLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 3;
-		c.insets = new Insets(3, -200, 3, 3);
+		c.insets = new Insets(0, -200, 0, 3);
 		this.add(updateBox, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 4;
-		c.insets = new Insets(3, -60, 3, 3);
+		c.insets = new Insets(0, -60, 0, 3);
 		this.add(timeLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 4;
-		c.insets = new Insets(3, -100, 3, 3);
+		c.insets = new Insets(0, -100, 0, 3);
 		this.add(timeField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 5;
-		c.insets = new Insets(15, -90, 0, 0);
+		c.insets = new Insets(10, -90, 0, 0);
 		this.add(agentTypeLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 5;
-		c.insets = new Insets(15, -70, 0, 3);
+		c.insets = new Insets(10, -70, 0, 3);
 		this.add(valueLabel, c);
 		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 6;
 		c.gridwidth = 4;
-		c.insets = new Insets(2, 0, 0, 0);
+		c.insets = new Insets(2,0, 0, 0);
 		this.add(scrollPaneWrapper,c);
 		
 		c = new GridBagConstraints();
 		c.gridy = 8;
-		c.insets = new Insets(-11,0,0,0);
+		c.insets = new Insets(0,0,0,0);
 		this.add(Gui.makePanel(bottomButtons),c);
 		
 		validate();
