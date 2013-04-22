@@ -13,13 +13,16 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import edu.wheaton.simulator.entity.Prototype;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorFacade;
+import edu.wheaton.simulator.statistics.StatisticsManager;
+import edu.wheaton.simulator.statistics.StatsObserver;
 
-public class StatisticsScreen extends Screen {
+public class StatisticsScreen extends Screen implements StatsObserver {
 	/**
 	 * 
 	 */
@@ -44,8 +47,10 @@ public class StatisticsScreen extends Screen {
 	private JComboBox analysisList;
 	private JComboBox typeList;
 	private JComboBox fieldsTriggersList;
-	private JPanel gridPanel; 
+	private JPanel graphPanel; 
 	private JButton backButton;
+	
+	private StatisticsManager statManager; 
 	
 	/**
 	 * Constructor. 
@@ -54,6 +59,7 @@ public class StatisticsScreen extends Screen {
 	 */
 	public StatisticsScreen(SimulatorFacade gm) {
 		super(gm);
+		statManager = getGuiManager().getStatManager();
 		//Setup GridBagLayout & dimensions.
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
@@ -113,7 +119,7 @@ public class StatisticsScreen extends Screen {
 		gbc_fieldsTriggersList.anchor = GridBagConstraints.WEST;
 		add(fieldsTriggersList, gbc_fieldsTriggersList);
 		
-		gridPanel = getDisplayPanel();
+		graphPanel = getDisplayPanel();
 		GridBagConstraints gbc_gridPanel = new GridBagConstraints();
 		gbc_gridPanel.gridheight = 2;
 		gbc_gridPanel.gridwidth = 3;
@@ -121,9 +127,9 @@ public class StatisticsScreen extends Screen {
 		gbc_gridPanel.fill = GridBagConstraints.BOTH;
 		gbc_gridPanel.gridx = 1;
 		gbc_gridPanel.gridy = 3;
-		add(gridPanel, gbc_gridPanel);
-		gridPanel.setMinimumSize(new Dimension(400, 300));
-		gridPanel.setPreferredSize(new Dimension(600, 500));
+		add(graphPanel, gbc_gridPanel);
+		graphPanel.setMinimumSize(new Dimension(400, 300));
+		graphPanel.setPreferredSize(new Dimension(600, 500));
 		
 		backButton = new JButton("Back");
 		GridBagConstraints gbc_backButton = new GridBagConstraints();
@@ -182,6 +188,9 @@ public class StatisticsScreen extends Screen {
 				fieldsTriggersList.addItem(triggerName);
 			break; 
 		}
+		if (selectedIndex < 0 && fieldsTriggersList.getItemCount() >= 1)
+			selectedIndex = 0;
+		fieldsTriggersList.setSelectedIndex(selectedIndex);
 	}
 
 	/**
@@ -213,9 +222,9 @@ public class StatisticsScreen extends Screen {
 	}
 
 	private void makeGridPanelPaint() { 
-		Graphics g = gridPanel.getGraphics();
+		Graphics g = graphPanel.getGraphics();
 		if (g != null)
-			gridPanel.paint(g);
+			graphPanel.paint(g);
 	}
 
 	private void onFieldOrTriggerSelected() { 
@@ -223,12 +232,13 @@ public class StatisticsScreen extends Screen {
 			makeGridPanelPaint();
 	}
 
-	private static void setBackButtonListener(JButton backButton) { 
+	private void setBackButtonListener(JButton backButton) { 
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ScreenManager sm = Gui.getScreenManager();
 				Screen toDisplay = sm.getScreen("View Simulation");
+				statManager.removeObserver(StatisticsScreen.this);
 				sm.load(toDisplay);
 			}
 		});
@@ -254,6 +264,7 @@ public class StatisticsScreen extends Screen {
 
 	@Override
 	public void load() {
+		statManager.addObserver(this);
 		typeList.removeAllItems();
 		analysisList.removeAllItems();
 		displayFieldsTriggersListAndLabel();
@@ -269,6 +280,11 @@ public class StatisticsScreen extends Screen {
 
 	private JPanel getDisplayPanel() { 
 		return new JPanel() { 
+			
+			private final Color COLOR_GRAPH_LINE = Color.RED;
+			private final Color COLOR_NUMBER= Color.GREEN;
+			private final Color COLOR_AXIS_NAME = Color.WHITE;
+			private final Color COLOR_BACKGROUND = Color.BLACK;
 			
 			private static final long serialVersionUID = -4375342368896479163L;
 
@@ -302,12 +318,12 @@ public class StatisticsScreen extends Screen {
 				double max = fires[extremes[0]];
 				double min = 0;
 
-				g.setColor(Color.BLACK);
+				g.setColor(COLOR_BACKGROUND);
 				g.fillRect(0, 0, width, height);
 				int lastX = 0; 
 				int lastY = getAppropriateY(fires[0], max, min, height);
 
-				g.setColor(Color.GREEN);
+				g.setColor(COLOR_GRAPH_LINE);
 				for (int index = 1; index < fires.length; index++) { 
 					int currentX = getAppropriateX(index, fires.length-1, width);
 					int currentY = getAppropriateY(fires[index], max, min, height);
@@ -315,6 +331,7 @@ public class StatisticsScreen extends Screen {
 					lastX = currentX;
 					lastY = currentY;
 				}
+				paintAxis(g, fires.length, min, max, width, height, "# Times Executed During Iteration");
 			}
 
 			private void paintPop(Graphics g, int width, int height) { 
@@ -322,7 +339,7 @@ public class StatisticsScreen extends Screen {
 				if (pops.length < 1)
 					return; 
 
-				g.setColor(Color.BLACK);
+				g.setColor(COLOR_BACKGROUND);
 				g.fillRect(0, 0, width, height);
 
 				int[] extremes = getHighLowIndex(pops);
@@ -332,7 +349,7 @@ public class StatisticsScreen extends Screen {
 				int lastX = 0; 
 				int lastY = getAppropriateY(pops[0], max, min, height);
 				
-				g.setColor(Color.GREEN);
+				g.setColor(COLOR_GRAPH_LINE);
 				for (int index = 1; index < pops.length; index++) { 
 					int currentX = getAppropriateX(index, pops.length-1, width);
 					int currentY = getAppropriateY(pops[index], max, min, height);
@@ -344,7 +361,7 @@ public class StatisticsScreen extends Screen {
 			}
 			
 			private void paintAxis(Graphics g, int numIncrements, double minY, double maxY, int width, int height, String yAxis) { 
-				g.setColor(Color.PINK);
+				g.setColor(COLOR_NUMBER);
 				for (double currentStep = numIncrements / 5.0; currentStep < numIncrements; currentStep += numIncrements / 5.0) { 
 					int xCor = getAppropriateX(currentStep, numIncrements, width);
 					g.drawString(((int)Math.ceil(currentStep)) + "", xCor, height - 5);
@@ -353,7 +370,7 @@ public class StatisticsScreen extends Screen {
 					int yCor = getAppropriateY(i, maxY, minY, height);
 					g.drawString(((int)Math.ceil(i)) + "", 3, yCor);
 				}
-				g.setColor(Color.WHITE);
+				g.setColor(COLOR_AXIS_NAME);
 				g.drawString("Time", width - (int) Math.ceil(width / 10.0), height - (int) Math.ceil(height / 40.0));
 				g.drawString(yAxis, (int) Math.ceil((width / 30.0)), (int) Math.ceil((height / 20.0)));
 			}
@@ -369,14 +386,14 @@ public class StatisticsScreen extends Screen {
 				double maxYValue = avgValues[extremes[0]];
 				double minYValue = avgValues[extremes[1]];
 				
-				g.setColor(Color.BLACK);
+				g.setColor(COLOR_BACKGROUND);
 				g.fillRect(0, 0, width, height);
 				int zeroY = getAppropriateY(0, maxYValue, minYValue, height);
-				g.setColor(Color.WHITE);
+				g.setColor(COLOR_NUMBER);
 				g.drawLine(0, zeroY, width, zeroY);
 				
 				
-				g.setColor(Color.RED);
+				g.setColor(COLOR_GRAPH_LINE);
 				int lastX = 0; 
 				int lastY = getAppropriateY(avgValues[0], maxYValue, minYValue, height);
 				for (int index = 1; index < avgValues.length; index++) { 
@@ -392,9 +409,9 @@ public class StatisticsScreen extends Screen {
 			private void paintLife(Graphics g, int width, int height) { 
 				String protName = (String) typeList.getSelectedItem();
 				double avgLifespan = gm.getAvgLifespan(protName);
-				g.setColor(Color.BLACK);
+				g.setColor(COLOR_BACKGROUND);
 				g.fillRect(0, 0, width, height);
-				g.setColor(Color.CYAN);
+				g.setColor(COLOR_NUMBER);
 				g.drawString("" + avgLifespan, width/2, height/2);
 			}
 
@@ -436,5 +453,15 @@ public class StatisticsScreen extends Screen {
 				return new int[] {maxIndex, minIndex}; 
 			}
 		};
+	}
+	
+	@Override
+	public void onNewStats() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				graphPanel.paint(graphPanel.getGraphics());
+			}
+		});
 	}
 }
