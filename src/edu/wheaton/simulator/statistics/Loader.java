@@ -311,7 +311,6 @@ public class Loader {
 				readLine = reader.readLine(); 
 			}
 
-			System.out.println("Loaded Prototype"); 
 		}
 		catch (FileNotFoundException e) {
 			throw new RuntimeException("Could not find file: " + file.getAbsolutePath(), e);
