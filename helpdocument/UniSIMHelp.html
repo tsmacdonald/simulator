@@ -100,9 +100,11 @@
 						<li>Fields: The user can retrieve values of fields, both from the agent to which this trigger belongs and any other agent on the grid.</li>
 						<li>Literals: The user can enter literal values, such as "100" or "27.3."</li>
 						<li>Operations: The user can choose between any number of three kinds of operations:</li>
-						<li>Boolean -> Boolean Operations: Operations that take two true/false values and evaluate to a true/false expression (AND, OR, NOT).</li>
-						<li>Literal -> Boolean Operations: Operations which take literals, but evaluate to true/false (>, &lt;, >=, &lt;=, =, !=)</li>
-						<li>Literal -> Literal Operations: Take literals and evaluate to literals (+, -, *, /).</li>
+						<ul>
+							<li>Boolean -> Boolean Operations: Operations that take two true/false values and evaluate to a true/false expression (AND, OR, NOT).</li>
+							<li>Literal -> Boolean Operations: Operations which take literals, but evaluate to true/false (>, &lt;, >=, &lt;=, =, !=)</li>
+							<li>Literal -> Literal Operations: Take literals and evaluate to literals (+, -, *, /).</li>
+						</ul>
 						<li>Built-in functions: We've included a set of built-in functions to make the user's life easier.</li></p>
 					</ul>
 				<p>Behavior: Think of the "behavior" as the "then" part of an "if..., then..." clause. This is the outcome or consequence of the condition expression evaluating to true. We've included a list of behaviors that the user can choose, such as "die," "moveRandom," and "setFieldOfOther." Note that any behavior that takes an argument (for example, setFieldOfOther takes two arguments, one for the name of the field, and one for the new value) can include an expression in that argument. For example, if you wanted to increment the weight of a fox that just ate a rabbit, you could say something like setField("weight", this.weight + 1).</p>
