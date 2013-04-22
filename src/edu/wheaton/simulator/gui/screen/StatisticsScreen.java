@@ -1,6 +1,7 @@
 
 package edu.wheaton.simulator.gui.screen;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -123,6 +124,8 @@ public class StatisticsScreen extends Screen {
 		gbc_gridPanel.gridx = 1;
 		gbc_gridPanel.gridy = 3;
 		add(gridPanel, gbc_gridPanel);
+		gridPanel.setMinimumSize(new Dimension(400, 300));
+		gridPanel.setPreferredSize(new Dimension(600, 500));
 		
 		backButton = new JButton("Back");
 		GridBagConstraints gbc_backButton = new GridBagConstraints();
@@ -211,7 +214,9 @@ public class StatisticsScreen extends Screen {
 	}
 
 	private void makeGridPanelPaint() { 
-		gridPanel.paint(gridPanel.getGraphics());
+		Graphics g = gridPanel.getGraphics();
+		if (g != null)
+			gridPanel.paint(g);
 	}
 
 	private void onFieldOrTriggerSelected() { 
@@ -287,30 +292,30 @@ public class StatisticsScreen extends Screen {
 			}
 			
 			private void paintTriggers(Graphics g, int width, int height) {
-				double[] fires = getGuiManager().getStatManager()
-						.getTriggerExecutionsFor(
-								(String) typeList.getSelectedItem(),
-								(String) fieldsTriggersList.getSelectedItem());
-				if (fires.length < 1)
-					return; 
-
-				int[] extremes = getHighLowIndex(fires);
-				double max = fires[extremes[0]];
-				double min = 0;
-
-				g.setColor(Color.BLACK);
-				g.fillRect(0, 0, width, height);
-				int lastX = 0; 
-				int lastY = getAppropriateY(fires[0], max, min, height);
-
-				g.setColor(Color.GREEN);
-				for (int index = 1; index < fires.length; index++) { 
-					int currentX = getAppropriateX(index, fires.length-1, width);
-					int currentY = getAppropriateY(fires[index], max, min, height);
-					g.drawLine(lastX, lastY, currentX, currentY);
-					lastX = currentX;
-					lastY = currentY;
-				}
+//				double[] fires = getGuiManager().getStatManager()
+//						.getTriggerExecutionsFor(
+//								(String) typeList.getSelectedItem(),
+//								(String) fieldsTriggersList.getSelectedItem());
+//				if (fires.length < 1)
+//					return; 
+//
+//				int[] extremes = getHighLowIndex(fires);
+//				double max = fires[extremes[0]];
+//				double min = 0;
+//
+//				g.setColor(Color.BLACK);
+//				g.fillRect(0, 0, width, height);
+//				int lastX = 0; 
+//				int lastY = getAppropriateY(fires[0], max, min, height);
+//
+//				g.setColor(Color.GREEN);
+//				for (int index = 1; index < fires.length; index++) { 
+//					int currentX = getAppropriateX(index, fires.length-1, width);
+//					int currentY = getAppropriateY(fires[index], max, min, height);
+//					g.drawLine(lastX, lastY, currentX, currentY);
+//					lastX = currentX;
+//					lastY = currentY;
+//				}
 			}
 
 			private void paintPop(Graphics g, int width, int height) { 
@@ -318,12 +323,23 @@ public class StatisticsScreen extends Screen {
 				if (pops.length < 1)
 					return; 
 
+				g.setColor(Color.BLACK);
+				g.fillRect(0, 0, width, height);
+
+				g.setColor(Color.WHITE);
+				g.drawString("Time", width - (width / 13), height - (height / 48));
+				g.drawString("Population", (width / 35), (height / 28));
+				
+				g.setColor(Color.RED);
+				int increment = width / 10; 
+				for (int i = increment; i < width; i += increment) 
+					g.drawLine(i, height - 1, i, height - 10);
+				
+				
 				int[] extremes = getHighLowIndex(pops);
 				double max = pops[extremes[0]];
 				double min = 0;
 
-				g.setColor(Color.BLACK);
-				g.fillRect(0, 0, width, height);
 				int lastX = 0; 
 				int lastY = getAppropriateY(pops[0], max, min, height);
 				
@@ -376,7 +392,7 @@ public class StatisticsScreen extends Screen {
 			}
 
 			private int getAppropriateY(double currentValue, double maxValue, double minValue, int height) { 
-				return (int)(height - ((currentValue - minValue)/(maxValue - minValue)) * height); 
+				return (int) (height - ((currentValue - minValue)/(maxValue - minValue)) * height); 
 			}
 			
 			private int getAppropriateX(double currentIndex, double maxIndex, double width) { 
