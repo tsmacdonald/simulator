@@ -90,7 +90,12 @@ public class PrototypeSnapshot {
 	public String serialize(){
 		String s = "PrototypeSnapshot";
 		s += "\n" + categoryName; 
-		s += "\n" + color.getRed() + "~" + color.getGreen() + "~" + color.getBlue(); 
+
+		if(color != null)
+			s += "\n" + color.getRed() + "~" + color.getGreen() + "~" + color.getBlue();
+		else
+			s += "\n0~0~0"; 
+		
 		s += "\n" + displayByteArray(design); 
 		
 		//Serialize the defaultFields map

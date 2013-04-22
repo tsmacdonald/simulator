@@ -78,6 +78,7 @@ public class EntityScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				gm.importAgent();
+				load();
 			}
 		});
 

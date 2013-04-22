@@ -80,9 +80,9 @@ public class PrototypeSnapshotCase {
 				SnapshotFactory.makeFieldSnapshots(fields), population,
 				children, triggers, new Color(10, 10, 10), design);
 		
-		String expected = "PrototypeSnapshot\ntesting\n-16119286\n0000000000\nFieldSnapshot Age 1";
-		expected += "\nFieldSnapshot Height 5\nFieldSnapshot Smell 4";
-		expected += "\nTrigger~trigger1~1~conditionExpression~behaviorExpression";
+		String expected = "PrototypeSnapshot\ntesting\n10~10~10\n0~0~0~0~0~0~0~0~0~0~" +
+				"\nFieldSnapshot~Age~1\nFieldSnapshot~Height~5\nFieldSnapshot~Smell~4\n" +
+				"Trigger~trigger1~1~conditionExpression~behaviorExpression"; 
 		System.out.println(protoSnap.serialize()); 
 		Assert.assertEquals(expected, protoSnap.serialize()); 	
 	}
