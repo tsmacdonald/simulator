@@ -147,7 +147,7 @@ public class StatisticsManagerTest {
 				sm.addGridEntity(new AgentSnapshot(agent.getID(),
 						SnapshotFactory.makeFieldSnapshots(agent
 								.getCustomFieldMap()), i,
-						protoSnap.categoryName, null, 0, 0));
+						protoSnap.categoryName, null, null, null, 0, 0));
 			}
 		}
 
@@ -197,7 +197,7 @@ public class StatisticsManagerTest {
 			for (int s = 1; s < 3; s++) {
 				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory
 						.makeFieldSnapshots(agent.getCustomFieldMap()), s,
-						protoSnap.categoryName, null, 0, 0));
+						protoSnap.categoryName, null, null, null, 0, 0));
 			}
 		}
 
@@ -253,7 +253,7 @@ public class StatisticsManagerTest {
 			ids.add(agent.getID());
 			snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory
 					.makeFieldSnapshots(agent.getCustomFieldMap()), 0,
-						protoSnap.categoryName, triggers, 0, 0));
+						protoSnap.categoryName, null, null,triggers, 0, 0));
 		}
 
 		try {
@@ -267,7 +267,7 @@ public class StatisticsManagerTest {
 		for (Agent agent : agents) {
 				snaps.add(new AgentSnapshot(agent.getID(), SnapshotFactory
 						.makeFieldSnapshots(agent.getCustomFieldMap()), 1,
-						protoSnap.categoryName, triggers, 0, 0));
+						protoSnap.categoryName, null, null, triggers, 0, 0));
 		}
 		
 		/* fill table w/ snapshots */
@@ -308,7 +308,7 @@ public class StatisticsManagerTest {
 			for (int step = 0; step <= lifespans.get(i); step++) {
 				snaps.add(new AgentSnapshot(ID, SnapshotFactory
 						.makeFieldSnapshots(agent.getCustomFieldMap()), step,
-						protoSnap.categoryName, null, 0, 0));
+						protoSnap.categoryName, null, null, null, 0, 0));
 			}
 		}
 
