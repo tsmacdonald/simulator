@@ -1,3 +1,9 @@
+/**
+ * SetFieldBehavior.java
+ * 
+ * @author Agent Team
+ */
+
 package edu.wheaton.simulator.behavior;
 
 import java.util.NoSuchElementException;
@@ -16,10 +22,10 @@ public class SetFieldBehavior extends AbstractBehavior {
 	@Override
 	public Integer numArgs() {
 		return 2;
-	}	
-	
+	}
+
 	/**
-	 * ex: setField('this','x',20)
+	 * Follows the form: setField(fieldName, newValue)
 	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {
@@ -27,10 +33,9 @@ public class SetFieldBehavior extends AbstractBehavior {
 		String fieldName = args[0].replaceAll("'", "");
 		String fieldValue = args[1];
 		try {
-			target.updateField(fieldName,fieldValue);
+			target.updateField(fieldName, fieldValue);
 			return Expression.TRUE;
-		}
-		catch (NoSuchElementException e) {
+		} catch (NoSuchElementException e) {
 			return Expression.FALSE;
 		}
 	}

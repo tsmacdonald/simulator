@@ -1,3 +1,9 @@
+/**
+ * SetFieldOfAgentBehavior.java
+ * 
+ * @author Agent Team
+ */
+
 package edu.wheaton.simulator.behavior;
 
 import java.util.NoSuchElementException;
@@ -25,6 +31,14 @@ public class SetFieldOfAgentBehavior extends AbstractExpressionFunction {
 		return 4;
 	}
 
+	/**
+	 * Follows the form: setFieldOfAgent(x, y, fieldName, newValue).
+	 * Effectively changes the value of the field for the agent at the given
+	 * position.
+	 * 
+	 * @param args
+	 * @return
+	 */
 	@Override
 	public String execute(String[] args) throws EvaluationException {
 		Agent target = resolveAgent("this");
@@ -32,19 +46,17 @@ public class SetFieldOfAgentBehavior extends AbstractExpressionFunction {
 		int y = Double.valueOf(args[1]).intValue();
 		String fieldName = args[2].replaceAll("'", "");
 		String newFieldValue = args[3];
-		
+
 		Grid grid = target.getGrid();
 		try {
-			if(grid.isValidCoord(x, y) && grid.getAgent(x,y)!=null){
+			if (grid.isValidCoord(x, y) && grid.getAgent(x, y) != null) {
 				grid.getAgent(x, y).updateField(fieldName, newFieldValue);
 				return Expression.TRUE;
 			}
 			return Expression.FALSE;
-		}
-		catch (NoSuchElementException e) {
+		} catch (NoSuchElementException e) {
 			return Expression.FALSE;
 		}
 	}
-	
 
 }

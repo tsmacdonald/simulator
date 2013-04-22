@@ -6,7 +6,6 @@
  * be changeable.
  * 
  * @author Agent Team
- * 
  */
 
 package edu.wheaton.simulator.datastructure;

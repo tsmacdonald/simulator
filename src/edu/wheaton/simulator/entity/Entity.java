@@ -1,3 +1,11 @@
+/**
+ * Entity.java
+ * 
+ * Class to represent a being with fields
+ * 
+ * @author Agent Team
+ */
+
 package edu.wheaton.simulator.entity;
 
 import java.util.HashMap;

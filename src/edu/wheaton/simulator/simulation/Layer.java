@@ -4,7 +4,7 @@
  * A singleton class to give a colored representation of a specific
  * field.
  *
- * @author Chris Anderson and Elliot Penson
+ * @author Agent Team
  */
 
 package edu.wheaton.simulator.simulation;

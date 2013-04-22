@@ -1,3 +1,9 @@
+/**
+ * CloneBehavior.java
+ * 
+ * @author Agent Team
+ */
+
 package edu.wheaton.simulator.behavior;
 
 import net.sourceforge.jeval.EvaluationException;
@@ -36,13 +42,13 @@ public class CloneBehavior extends AbstractBehavior {
 	@Override
 	public String execute(String[] args) throws EvaluationException {
 		Agent target = resolveAgent("this");
-		
+
 		Integer x = Double.valueOf(args[0]).intValue();
 		Integer y = Double.valueOf(args[1]).intValue();
-		
+
 		Grid grid = target.getGrid();
-		
-		if(grid.isValidCoord(x, y) && grid.getAgent(x,y)==null){
+
+		if (grid.isValidCoord(x, y) && grid.getAgent(x, y) == null) {
 			grid.addAgent(target.getPrototype().createAgent(grid), x, y);
 			return Expression.TRUE;
 		}

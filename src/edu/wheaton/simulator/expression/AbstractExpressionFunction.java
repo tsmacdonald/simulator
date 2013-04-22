@@ -1,3 +1,11 @@
+/**
+ * AbstractExpressionFunction.java
+ * 
+ * Abstract class for creation of conditional functions
+ * 
+ * @author Agent Team
+ */
+
 package edu.wheaton.simulator.expression;
 
 import net.sourceforge.jeval.EvaluationException;

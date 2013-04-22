@@ -2,6 +2,8 @@
  * TriggerObserver.java
  * 
  * Interface for trigger observers
+ * 
+ * @author Agent Team
  */
 
 package edu.wheaton.simulator.entity;
