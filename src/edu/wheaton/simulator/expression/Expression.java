@@ -23,6 +23,10 @@ import edu.wheaton.simulator.behavior.ClonePrototype;
 import edu.wheaton.simulator.behavior.DieBehavior;
 import edu.wheaton.simulator.behavior.KillBehavior;
 import edu.wheaton.simulator.behavior.MoveBehavior;
+import edu.wheaton.simulator.behavior.MoveDownBehavior;
+import edu.wheaton.simulator.behavior.MoveLeftBehavior;
+import edu.wheaton.simulator.behavior.MoveRightBehavior;
+import edu.wheaton.simulator.behavior.MoveUpBehavior;
 import edu.wheaton.simulator.behavior.SetFieldBehavior;
 import edu.wheaton.simulator.behavior.SetFieldOfAgentBehavior;
 import edu.wheaton.simulator.entity.Entity;
@@ -144,6 +148,10 @@ public class Expression {
 		this.importFunction(new SetFieldOfAgentBehavior());
 		this.importFunction(new ClonePrototype());
 		this.importFunction(new GetGlobalField());
+		this.importFunction(new MoveRightBehavior());
+		this.importFunction(new MoveLeftBehavior());
+		this.importFunction(new MoveUpBehavior());
+		this.importFunction(new MoveDownBehavior());
 
 		// make a hashmap of names and actual objects.
 		initializeFunctions();
