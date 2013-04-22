@@ -138,7 +138,7 @@ public class SetupScreen extends Screen {
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = 3;
-		c.insets = new Insets(3, -200, 3, 3);
+		c.insets = new Insets(3, -208, 3, 3);
 		this.add(nameField, c);
 
 		c = new GridBagConstraints();
@@ -150,19 +150,19 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
-		c.insets = new Insets(3, -270, 3, 3);
+		c.insets = new Insets(3, -220, 3, 3);
 		this.add(widthField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 1;
-		c.insets = new Insets(3, -260, 3, 3);
+		c.insets = new Insets(3, -160, 3, 3);
 		this.add(yLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 3;
 		c.gridy = 1;
-		c.insets = new Insets(3, -270, 3, 3);
+		c.insets = new Insets(3, -240, 3, 3);
 		this.add(heightField, c);
 
 		c = new GridBagConstraints();
@@ -174,7 +174,7 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 2;
-		c.insets = new Insets(3, -268, 3, 3);
+		c.insets = new Insets(3, -220, 3, 3);
 		this.add(delayField, c);
 		
 		c = new GridBagConstraints();
@@ -186,7 +186,7 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 3;
-		c.insets = new Insets(3, -250, 3, 3);
+		c.insets = new Insets(3, -200, 3, 3);
 		this.add(updateBox, c);
 	
 		c = new GridBagConstraints();
@@ -204,7 +204,7 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 5;
-		c.insets = new Insets(3, -150, 3, 3);
+		c.insets = new Insets(3, -100, 3, 3);
 		this.add(timeField, c);
 
 		c = new GridBagConstraints();
@@ -216,7 +216,7 @@ public class SetupScreen extends Screen {
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 6;
-		c.insets = new Insets(15, 30, 0, 3);
+		c.insets = new Insets(15, -70, 0, 3);
 		this.add(valueLabel, c);
 		
 		c = new GridBagConstraints();
