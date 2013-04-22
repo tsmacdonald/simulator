@@ -550,7 +550,6 @@ public class Simulator {
 		File[] protoFiles;
 		if (directory.isDirectory()) {
 			protoFiles = directory.listFiles();
-			System.out.println("Number of files in directory: " + protoFiles.length); // TODO Delete
 			for (File file : protoFiles) {
 				if (file.getName().contains(".agt")) {
 					Prototype.addPrototype(l.loadPrototype(file));
