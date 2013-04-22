@@ -54,6 +54,7 @@ public class SetupScreen extends Screen {
 	public SetupScreen(final SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
+		this.setMinimumSize(new MinSize(550,400));
 
 		agentNames = new String[0];
 
@@ -106,8 +107,10 @@ public class SetupScreen extends Screen {
 		JLabel valueLabel = Gui.makeLabel("Population Limit", MaxSize.NULL, null);
 		
 		conListPanel = makeConditionListPanel();
+		conListPanel.setMinimumSize(new MinSize(400,300));
 		scrollPane = new JScrollPane(conListPanel,
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setMinimumSize(new MinSize(550,300));
 		scrollPane.setPreferredSize(new PrefSize(550,300));
 		JPanel scrollPaneWrapper = Gui.makePanel((BoxLayoutAxis)null,MaxSize.NULL,null,(Component[])null);
 		scrollPaneWrapper.add(scrollPane);

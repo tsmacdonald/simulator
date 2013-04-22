@@ -32,6 +32,7 @@ import edu.wheaton.simulator.gui.FileMenu;
 import edu.wheaton.simulator.gui.GeneralButtonListener;
 import edu.wheaton.simulator.gui.Gui;
 import edu.wheaton.simulator.gui.MaxSize;
+import edu.wheaton.simulator.gui.MinSize;
 import edu.wheaton.simulator.gui.PrefSize;
 import edu.wheaton.simulator.gui.ScreenManager;
 import edu.wheaton.simulator.gui.SimulatorFacade;
@@ -86,6 +87,9 @@ public class ViewSimScreen extends Screen {
 				optionsScreen.load();
 			}
 		});
+		tabs.setMinimumSize(new MinSize(600,700));
+		tabs.setPreferredSize(new PrefSize(600,700));
+		tabs.validate();
 
 		gm.getGridPanel().addMouseListener(new MouseListener() {
 			@Override
@@ -155,6 +159,7 @@ public class ViewSimScreen extends Screen {
 		this.add(rightPanel,c);
 
 		this.setVisible(true);
+		this.validate();
 	}
 
 	private JPanel makeButtonPanel() {
