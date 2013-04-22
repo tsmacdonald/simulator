@@ -153,6 +153,7 @@ public class LayerScreen extends Screen {
 
 	@Override
 	public void load() {
+		entities = new String[0];
 		entities = gm.getPrototypeNames().toArray(entities);
 		agentComboBox = new JComboBox(entities);
 		agentComboBox.addItemListener(new ItemListener() {
