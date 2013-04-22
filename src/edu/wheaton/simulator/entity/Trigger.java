@@ -184,6 +184,8 @@ public class Trigger implements Comparable<Trigger> {
 			}
 		} catch (EvaluationException e) {
 			throw new EvaluationException("Behavior");
+		} catch (NullPointerException e) {
+			// No entity found
 		}
 		notifyObservers(a.getID(), t, step);
 	}
