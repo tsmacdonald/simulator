@@ -54,7 +54,8 @@ public class SetupScreen extends Screen {
 	public SetupScreen(final SimulatorFacade gm) {
 		super(gm);
 		this.setLayout(new GridBagLayout());
-		this.setMinimumSize(new MinSize(550,400));
+		this.setMinimumSize(new MinSize(410,400));
+		this.setPreferredSize(new PrefSize(410,400));
 
 		agentNames = new String[0];
 
@@ -68,7 +69,7 @@ public class SetupScreen extends Screen {
 		JLabel nameLabel = Gui.makeLabel("Name:",
 				new MinSize(50,30));
 		
-		nameField = Gui.makeTextField(gm.getSimName(), 25,
+		nameField = Gui.makeTextField(gm.getSimName(), 15,
 				null, new MinSize(75,30));
 		
 		JLabel widthLabel = Gui.makeLabel("Width:",
@@ -107,11 +108,12 @@ public class SetupScreen extends Screen {
 		JLabel valueLabel = Gui.makeLabel("Population Limit", MaxSize.NULL, null);
 		
 		conListPanel = makeConditionListPanel();
-		conListPanel.setMinimumSize(new MinSize(200,300));
+		conListPanel.setMinimumSize(new MinSize(250,300));
+		conListPanel.setPreferredSize(new PrefSize(250,300));
 		scrollPane = new JScrollPane(conListPanel,
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setMinimumSize(new MinSize(550,300));
-		scrollPane.setPreferredSize(new PrefSize(550,300));
+		scrollPane.setMinimumSize(new MinSize(400,300));
+		scrollPane.setPreferredSize(new PrefSize(400,300));
 		JPanel scrollPaneWrapper = Gui.makePanel((BoxLayoutAxis)null,MaxSize.NULL,null,(Component[])null);
 		scrollPaneWrapper.add(scrollPane);
 
@@ -134,86 +136,86 @@ public class SetupScreen extends Screen {
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
-		c.insets = new Insets(0, -30, 0, 3);
+		c.insets = new Insets(0, 0, 0, 3);
 		this.add(nameLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 0;
-		c.gridwidth = 3;
-		c.insets = new Insets(0, -208, 0, 3);
+		c.gridwidth = 2;
+		c.insets = new Insets(0, 0, 0, 3);
 		this.add(nameField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 1;
-		c.insets = new Insets(0, -30, 0, 3);
+		c.insets = new Insets(0, 0, 0, 3);
 		this.add(widthLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
-		c.insets = new Insets(0, -220, 0, 3);
+		c.insets = new Insets(0, 0, 0, 3);
 		this.add(widthField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 1;
-		c.insets = new Insets(0, -160, 0, 3);
+		c.insets = new Insets(0, 0, 0, 3);
 		this.add(yLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 3;
 		c.gridy = 1;
-		c.insets = new Insets(0, -240, 0, 3);
+		c.insets = new Insets(0, 0, 0, 3);
 		this.add(heightField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
-		c.insets = new Insets(0, -90, 0, 3);
+		c.insets = new Insets(0, 0, 0, 3);
 		this.add(delayLabel, c);
 		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 2;
-		c.insets = new Insets(0, -220, 0, 3);
+		c.insets = new Insets(0, 0, 0, 3);
 		this.add(delayField, c);
 		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 3;
-		c.insets = new Insets(0, -70, 0, 3);
+		c.insets = new Insets(0, 0, 0, 3);
 		this.add(updateLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 3;
-		c.insets = new Insets(0, -200, 0, 3);
+		c.insets = new Insets(0, 0, 0, 3);
 		this.add(updateBox, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 4;
-		c.insets = new Insets(0, -60, 0, 3);
+		c.insets = new Insets(0,0, 0, 3);
 		this.add(timeLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 4;
-		c.insets = new Insets(0, -100, 0, 3);
+		c.insets = new Insets(0, 0, 0, 3);
 		this.add(timeField, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 5;
-		c.insets = new Insets(10, -90, 0, 0);
+		c.insets = new Insets(10, 0, 0, 0);
 		this.add(agentTypeLabel, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 5;
-		c.insets = new Insets(10, -70, 0, 3);
+		c.insets = new Insets(10, 0, 0, 3);
 		this.add(valueLabel, c);
 		
 		c = new GridBagConstraints();
@@ -221,11 +223,14 @@ public class SetupScreen extends Screen {
 		c.gridy = 6;
 		c.gridwidth = 4;
 		c.insets = new Insets(2,0, 0, 0);
+		c.fill = c.HORIZONTAL;
 		this.add(scrollPaneWrapper,c);
 		
 		c = new GridBagConstraints();
 		c.gridy = 8;
 		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 4;
+		c.fill = c.HORIZONTAL;
 		this.add(Gui.makePanel(bottomButtons),c);
 		
 		validate();
@@ -344,42 +349,25 @@ public class SetupScreen extends Screen {
 
 	private void addCondition() {
 		JComboBox newBox = Gui.makeComboBox(agentNames, MaxSize.NULL);
-		newBox.setMinimumSize(new MinSize(120,30));
 		newBox.setPreferredSize(new PrefSize(120,30));
 		agentTypes.add(newBox);
 
-		JTextField newValue = Gui.makeTextField(null, 25,
+		JTextField newValue = Gui.makeTextField(null, 10,
 				MaxSize.NULL, MinSize.NULL);
-		newValue.setMinimumSize(new MinSize(75,30));
-		newValue.setPreferredSize(new PrefSize(75,30));
 		values.add(newValue);
 
 		JButton newButton = Gui.makeButton("Delete", null,
 				new DeleteListener());
-		newButton.setMinimumSize(new MinSize(100,30));
-		newButton.setPreferredSize(new PrefSize(100,30));
+		newButton.setMinimumSize(new MinSize(80,30));
+		newButton.setPreferredSize(new PrefSize(80,30));
 		deleteButtons.add(newButton);
 		newButton.setActionCommand(deleteButtons.indexOf(newButton) + "");
 		
-		JPanel newPanel = new JPanel(new GridBagLayout());
-		
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 0;
-		c.insets = new Insets(2, 0, 2, 0);
-		newPanel.add(newBox, c);
-
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 0;
-		c.insets = new Insets(2, 0, 2, 0);
-		newPanel.add(newValue, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 2;
-		c.gridy = 0;
-		c.insets = new Insets(2, 0, 2, 0);
-		newPanel.add(newButton, c);
+		JPanel newPanel = new JPanel();
+		newPanel.setPreferredSize(new PrefSize(250,30));
+		newPanel.add(newBox);
+		newPanel.add(newValue);
+		newPanel.add(newButton);
 		
 		subPanels.add(newPanel);
 		
