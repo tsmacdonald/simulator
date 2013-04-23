@@ -92,16 +92,7 @@ public class Prototype extends GridEntity {
 	 * @param n
 	 */
 	public static void addPrototype(Prototype p) {
-		if(!prototypes.containsKey(p.getName())) {
 			prototypes.put(p.getName(), p);
-			return;
-		}
-		for(int i = 2; ; i++) {
-			if(!prototypes.containsKey(p.getName() + i)) {
-				prototypes.put(p.getName() + i, p);
-				return;
-			}
-		}
 	}
 
 	/**

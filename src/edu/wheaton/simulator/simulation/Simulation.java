@@ -90,7 +90,6 @@ public class Simulation {
 		layerRunning.set(false);
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid);
-		Prototype.clearPrototypes();
 		loadPrototypesFromDirectory(new File("prototypes/"));
 		resetLayer();
 		AgentID.resetIDs();
@@ -114,7 +113,6 @@ public class Simulation {
 		layerRunning.set(false);
 		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid);
-		Prototype.clearPrototypes();
 		loadPrototypesFromDirectory(new File("prototypes/"));
 		resetLayer();
 		AgentID.resetIDs();
