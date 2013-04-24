@@ -17,6 +17,8 @@ import edu.wheaton.simulator.entity.Prototype;
  */
 public class SimulationEnder {
 
+	private static SimulationEnder se;
+	
 	/**
 	 * Index of the time limit condition.
 	 */
@@ -53,6 +55,12 @@ public class SimulationEnder {
 		conditions[NO_AGENTS_CONDITION] = counter;
 		conditions[POPULATION_CONDITIONS] = new AgentPopulationCondition();
 	}
+	
+	public static SimulationEnder getInstance() {
+		if (se == null)
+			se = new SimulationEnder();
+		return se;
+	}
 
 	/**
 	 * Set the time limit for the simulation.
@@ -61,7 +69,7 @@ public class SimulationEnder {
 	 *            Number of total iterations to be run until completion.
 	 */
 	public void setStepLimit(int maxSteps) {
-		((TimeCondition) conditions[TIME_CONDITION]).maxSteps = maxSteps;
+		((TimeCondition) conditions[TIME_CONDITION]).setMaxSteps(maxSteps);
 	}
 
 	/**
@@ -70,7 +78,7 @@ public class SimulationEnder {
 	 * @return The total amount of iterations the simulation is to run.
 	 */
 	public int getStepLimit() {
-		return ((TimeCondition) conditions[TIME_CONDITION]).maxSteps;
+		return ((TimeCondition) conditions[TIME_CONDITION]).getMaxSteps();
 	}
 
 	/**
@@ -156,13 +164,20 @@ public class SimulationEnder {
 
 		@Override
 		public boolean evaluate(int step, Grid grid) {
-			return false;
-			//return step >= maxSteps;
+			return step >= maxSteps;
 		}
 		
 		@Override
 		public String whatHappened(){
 			return endMessage;
+		}
+		
+		public void setMaxSteps(int maxSteps){
+			this.maxSteps = maxSteps;
+		}
+		
+		public int getMaxSteps(){
+			return maxSteps;
 		}
 	}
 

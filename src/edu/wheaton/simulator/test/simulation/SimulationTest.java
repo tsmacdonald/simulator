@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import edu.wheaton.simulator.simulation.Simulation;
 import edu.wheaton.simulator.simulation.SimulationPauseException;
-import edu.wheaton.simulator.simulation.end.SimulationEnder;
 
 public class SimulationTest {
 
@@ -17,7 +16,7 @@ public class SimulationTest {
 	
 	@Before
 	public void setUp() {
-		sim = new Simulation("SimTest", 16, 16, new SimulationEnder());
+		sim = new Simulation("SimTest", 16, 16);
 	}
 	
 	@After

@@ -226,8 +226,9 @@ public class Loader {
 				else if(readLine.equals("EndConditions")){
 					simEnder = new SimulationEnder(); 
 
-					readLine = reader.readLine(); 					
-					simEnder.setStepLimit(Integer.parseInt(readLine));
+					readLine = reader.readLine(); 	
+					int maxSteps = Integer.parseInt(readLine);
+					simEnder.setStepLimit(maxSteps);
 
 					readLine = reader.readLine(); 
 					while(readLine != null && readLine.substring(0, 4).equals("POP")){

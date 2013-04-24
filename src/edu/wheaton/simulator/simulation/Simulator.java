@@ -464,6 +464,8 @@ public class Simulator {
 	public void addGridObserver(GridObserver ob) {
 		simulationGrid().addObserver(ob);
 	}
+	
+	
 
 	/**
 	 * Creates a new simulation with a blank grid
@@ -474,7 +476,7 @@ public class Simulator {
 	 * @param se
 	 */
 	public void load(String name, int width, int height, SimulationEnder se) {
-		simulation = new Simulation(name, width, height, se);
+		simulation = new Simulation(name, width, height);
 	}
 	
 	/**
@@ -487,7 +489,7 @@ public class Simulator {
 	 */
 	private void load(String name, Grid grid, Set<Prototype> prototypes,
 			SimulationEnder se) {
-		simulation = new Simulation(name, grid, se);
+		simulation = new Simulation(name, grid);
 		for (Prototype current : prototypes)
 			Prototype.addPrototype(current);
 	}

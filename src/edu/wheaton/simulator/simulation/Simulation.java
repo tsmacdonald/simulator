@@ -65,10 +65,11 @@ public class Simulation {
 	 * Monitor for sync
 	 */
 	private static final Object lock = new Object();
-
+	
 	/**
-	 * Ending conditions for the loop
+	 * Ending conditions
 	 */
+	
 	private SimulationEnder ender;
 
 	/**
@@ -79,7 +80,7 @@ public class Simulation {
 	 * @param gridY
 	 * @param se
 	 */
-	public Simulation(String name, int gridX, int gridY, SimulationEnder ender) {
+	public Simulation(String name, int gridX, int gridY) {
 		this.name = name;
 		grid = new Grid(gridX, gridY);
 		isPaused = new AtomicBoolean(false);
@@ -88,8 +89,8 @@ public class Simulation {
 		layerRunning = new AtomicBoolean(false);
 		sleepPeriod = 500;
 		layerRunning.set(false);
-		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid);
+		ender = SimulationEnder.getInstance();
 		loadPrototypesFromDirectory(new File("prototypes/"));
 		resetLayer();
 		AgentID.resetIDs();
@@ -102,7 +103,7 @@ public class Simulation {
 	 * @param grid
 	 * @param se
 	 */
-	public Simulation(String name, Grid grid, SimulationEnder ender) {
+	public Simulation(String name, Grid grid) {
 		this.name = name;
 		this.grid = grid;
 		isPaused = new AtomicBoolean(false);
@@ -111,8 +112,8 @@ public class Simulation {
 		layerRunning = new AtomicBoolean(false);
 		sleepPeriod = 500;
 		layerRunning.set(false);
-		this.ender = ender;
 		StatisticsManager.getInstance().initialize(grid);
+		ender = SimulationEnder.getInstance();
 		loadPrototypesFromDirectory(new File("prototypes/"));
 		resetLayer();
 		AgentID.resetIDs();

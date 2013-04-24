@@ -35,7 +35,7 @@ public class SimulatorFacade {
 	private SimulatorFacade() {
 		gridPanel = new GridPanel(this);
 		load("New Simulation", 10, 10);
-		se = new SimulationEnder();
+		se = SimulationEnder.getInstance();
 		statMan = StatisticsManager.getInstance();
 
 		hasStarted = false;
@@ -63,8 +63,8 @@ public class SimulatorFacade {
 
 	public void load(String name, int x, int y) {
 		simulator = Simulator.getInstance();
-		se = new SimulationEnder();
-		simulator.load(name, x,y,se);
+		se = SimulationEnder.getInstance();
+		simulator.load(name, x, y, se);
 		simulator.addGridObserver(gpo);
 
 	}
