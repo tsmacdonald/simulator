@@ -288,7 +288,7 @@ public class Simulation {
 	 * 
 	 * @param file that points to directory where prototype files are located
 	 */
-	private void loadPrototypesFromDirectory(File directory) {
+	private static void loadPrototypesFromDirectory(File directory) {
 		Loader l = new Loader();
 		File[] protoFiles;
 		if (directory.isDirectory()) {

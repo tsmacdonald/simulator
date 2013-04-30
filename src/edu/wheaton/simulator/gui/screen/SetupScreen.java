@@ -322,9 +322,6 @@ public class SetupScreen extends Screen {
 		int stepLimit = gm.getStepLimit();
 		agentNames = gm.getPrototypeNames().toArray(agentNames);
 		timeField.setText(stepLimit + "");
-		// to prevent accidental starting simulation with time limit of 0
-		if (stepLimit <= 0)
-			timeField.setText(10 + "");
 
 		ImmutableMap<String, Integer> popLimits = gm.getPopLimits();
 
