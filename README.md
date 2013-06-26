@@ -1,40 +1,13 @@
-Phase 3
-============
-Software Development, Spring 2013, Phase 3
+# Universal Simulator
 
-IMPORTANT
-=========
-After pulling, open a terminal to your repository directory and execute the command:
-```sh setup-git-hooks.sh``` This will set up a git pre-commit hook that will prevent code that doesn't compile from being
-committed
+Created by Wheaton College's Spring 2013 Software Development class.
 
-GUI Team
-=========
-Daniel Davenport  
-Caleb Demoss  
-Brandon Garcia  
-Daniel Gill   
-Willy McHie   
-Ian Walling   
+##Description
 
-Agent Team
-=============
-Jonathan Barbalas   
-Emmanuel Pederson   
-Elliot Penson   
-Sean Power    
-Nathan Schleicher   
-Simon Swenson   
+...
 
-Statistics and Saving
-=====================
-Chris Anderson    
-Grant Hensel    
-Nico Lasta    
-Akonwi Ngoh   
+##Eclipse Details
 
-Eclipse Details
-===============
 To add the project to Eclipse:  
 File -> Import -> General -> Existing Projects into Workspace  
 Select the repository directory, then click "Finish"  
