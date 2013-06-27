@@ -1,7 +1,0 @@
-AgentSnapshot
-0
-Fields: Cat FieldSnapshot Cat Joomba
-Fields: Pig FieldSnapshot Pig Tom
-Fields: Monkey FieldSnapshot Monkey Olly
-23
-tester
